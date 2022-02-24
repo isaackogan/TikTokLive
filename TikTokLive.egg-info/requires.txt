@@ -1,4 +1,0 @@
-aiohttp
-protobuf3-to-dict
-protobuf
-pyee
