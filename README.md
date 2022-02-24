@@ -74,18 +74,21 @@ Example Options:
 
 ```python
 from TikTokLive import TikTokLiveClient
-from TikTokLive.types.events import CommentEvent, ConnectEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@oldskoldj",
-                                            **{
-                                                "process_initial_data": True,
-                                                "fetch_room_info_on_connect": True,
-                                                "enable_extended_gift_info": False,
-                                                "request_polling_interval_ms": 1000,
-                                                "client_params": {},
-                                                "request_headers": {}
-                                            }
-                                            )
+client: TikTokLiveClient = TikTokLiveClient(
+    unique_id="@oldskoldj", **(
+        {
+            "process_initial_data": True,
+            "fetch_room_info_on_connect": True,
+            "enable_extended_gift_info": False,
+            "request_polling_interval_ms": 1000,
+            "client_params": {},
+            "request_headers": {}
+        }
+    )
+)
+
+client.run()
 ```
 
 ## Methods
@@ -217,12 +220,13 @@ async def on_connect(event: UnknownEvent):
     print(event.as_dict, "<- This is my data as a dict!")
 ```
 
-## Authors
+## Contributors
 
 * **Isaac Kogan** - *Initial work* - [isaackogan](https://github.com/isaackogan)
 * **Zerody** - *Reverse-Engineering & README.md file* - [Zerody](https://github.com/zerodytrash/)
+* **David Teather** - *Issue Templates from TikTok-Api* - [davidteather](https://github.com/davidteather/)
 
-See also the list of [contributors](https://github.com/ChromegleApp/Chromegle/contributors) who participated in this project.
+See the full list of [contributors](https://github.com/ChromegleApp/Chromegle/contributors) who participated in this project.
 
 ## License
 
