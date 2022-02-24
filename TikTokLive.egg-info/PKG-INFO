@@ -1,3 +1,25 @@
+Metadata-Version: 2.1
+Name: TikTokLive
+Version: 1.0.0
+Summary: Unofficial TikTok Live Client
+Home-page: https://github.com/isaackogan/TikTok-Live-Connector
+Author: Isaac Kogan
+Author-email: info@isaackogan.com
+License: MIT
+Download-URL: https://github.com/isaackogan/TikTok-Live-Connector/tarball/master
+Keywords: tiktok,tiktok live,python3,api,unofficial
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 TikTok-Live-Connector
 ==================
 A python library to connect to and read events from TikTok's LIVE service
@@ -230,3 +252,5 @@ See the full list of [contributors](https://github.com/ChromegleApp/Chromegle/co
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+

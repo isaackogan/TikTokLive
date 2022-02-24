@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/isaackogan/TikTok-Live-Connector",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/davidteather/TikTok-Api/tarball/master",
+    download_url="https://github.com/isaackogan/TikTok-Live-Connector/tarball/master",
     keywords=["tiktok", "tiktok live", "python3", "api", "unofficial"],
     install_requires=["aiohttp", "protobuf3-to-dict", "protobuf", "pyee"],
     classifiers=[
