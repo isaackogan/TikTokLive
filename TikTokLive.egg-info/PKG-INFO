@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
 Name: TikTokLive
-Version: 1.0.0
-Summary: Unofficial TikTok Live Client
+Version: 0.1
+Summary: TikTok Live Connection Client (Unofficial)
 Home-page: https://github.com/isaackogan/TikTok-Live-Connector
 Author: Isaac Kogan
 Author-email: info@isaackogan.com
 License: MIT
-Download-URL: https://github.com/isaackogan/TikTok-Live-Connector/tarball/master
+Download-URL: https://github.com/isaackogan/TikTok-Live-Connector/releases/download/v1.0/isaackogan-TikTok-Live-Connector-35e6512.tar.gz
 Keywords: tiktok,tiktok live,python3,api,unofficial
 Platform: UNKNOWN
 Classifier: Development Status :: 3 - Alpha

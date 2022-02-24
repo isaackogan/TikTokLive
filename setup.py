@@ -6,17 +6,23 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="TikTokLive",
     packages=setuptools.find_packages(),
-    version="1.0.0",
+    version="0.0.1",
     license="MIT",
-    description="Unofficial TikTok Live Client",
+    description="TikTok Live Connection Client (Unofficial)",
     author="Isaac Kogan",
     author_email="info@isaackogan.com",
     url="https://github.com/isaackogan/TikTok-Live-Connector",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/isaackogan/TikTok-Live-Connector/tarball/master",
+    download_url="https://github.com/isaackogan/TikTok-Live-Connector/releases/download/v1.0/isaackogan-TikTok-Live-Connector-35e6512.tar.gz",
     keywords=["tiktok", "tiktok live", "python3", "api", "unofficial"],
-    install_requires=["aiohttp", "protobuf3-to-dict", "protobuf", "pyee"],
+    install_requires=[
+        "aiohttp",  # Make requests
+        "protobuf3-to-dict",  # Convert Protobuf to Dict
+        "protobuf",  # Decode Protobuf Messages
+        "pyee",  # Event Emitter
+        "dacite"  # Requests
+    ],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
