@@ -98,6 +98,16 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         return self.__connected
 
+    @property
+    def available_gifts(self) -> List[dict]:
+        """
+        Available gift information
+        :return: Gift info
+
+        """
+
+        return self.__available_gifts
+
     @classmethod
     def __get_event_loop(cls) -> AbstractEventLoop:
         """

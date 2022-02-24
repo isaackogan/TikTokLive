@@ -2,7 +2,7 @@ from TikTokLive import TikTokLiveClient
 from TikTokLive.types.events import CommentEvent, ConnectEvent
 
 # Instantiate the client with the user's username
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@curlydaddy101")
+client: TikTokLiveClient = TikTokLiveClient(unique_id="@oldskoldj")
 
 
 # Define how you want to handle specific events via decorator
@@ -17,7 +17,7 @@ async def on_comment(event: CommentEvent):
 
 
 # Define handling an event via "callback"
-client.add_listener("connect", on_connect)
+client.add_listener("comment", on_connect)
 
 if __name__ == '__main__':
     # Run the client and block the main thread

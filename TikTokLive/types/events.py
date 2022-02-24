@@ -41,7 +41,7 @@ class LikeEvent(AbstractEvent):
 
 @dataclass()
 class JoinEvent(AbstractEvent):
-    user: User
+    user: Optional[User]
     displayType: Optional[str]
     label: Optional[str]
 
