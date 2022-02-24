@@ -17,13 +17,13 @@ class AbstractEvent:
 
 
 @dataclass()
-class Connected(AbstractEvent):
+class ConnectEvent(AbstractEvent):
     name: str = "connect"
     pass
 
 
 @dataclass()
-class Disconnected(AbstractEvent):
+class DisconnectEvent(AbstractEvent):
     name: str = "disconnect"
     pass
 
@@ -50,11 +50,19 @@ class JoinEvent(AbstractEvent):
 
 @dataclass()
 class FollowEvent(AbstractEvent):
-    user: User
+    user: Optional[User]
     displayType: Optional[str]
     label: Optional[str]
 
     name: str = "follow"
+
+
+@dataclass()
+class ShareEvent(AbstractEvent):
+    user: Optional[User]
+    displayType: Optional[str]
+    label: Optional[str]
+    name: str = "share"
 
 
 @dataclass()
@@ -91,5 +99,6 @@ class GiftEvent(AbstractEvent):
 __events__ = {
     "pm_mt_msg_viewer": LikeEvent,
     "live_room_enter_toast": JoinEvent,
-    "pm_main_follow_message_viewer_2": FollowEvent
+    "pm_main_follow_message_viewer_2": FollowEvent,
+    "pm_mt_guidance_share": ShareEvent
 }

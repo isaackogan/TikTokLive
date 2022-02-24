@@ -10,7 +10,7 @@ from pyee import AsyncIOEventEmitter
 
 from TikTokLive.http import TikTokHTTPClient
 from .types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, events
-from .types.events import Connected, Disconnected, ViewerCountUpdateEvent, CommentEvent, UnknownEvent, LiveEndEvent, AbstractEvent, GiftEvent
+from .types.events import ConnectEvent, DisconnectEvent, ViewerCountUpdateEvent, CommentEvent, UnknownEvent, LiveEndEvent, AbstractEvent, GiftEvent
 from .utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
 
@@ -66,7 +66,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :return: Room's ID
 
         """
-        return self.room_id
+        return self.__room_id
 
     @property
     def room_info(self) -> Optional[dict]:
@@ -87,6 +87,16 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         """
 
         return self.__unique_id
+
+    @property
+    def connected(self) -> bool:
+        """
+        Whether the client is connected
+        :return: Result
+        
+        """
+
+        return self.__connected
 
     @classmethod
     def __get_event_loop(cls) -> AbstractEventLoop:
@@ -246,14 +256,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 webcast_message[key] = value
 
             schema: Type[AbstractEvent] = events.__events__.get(webcast_message["displayType"])
-            if schema is None:
-                logging.warning(event_dict, webcast_message.keys())
-                return None
-
-            # Create event
-            event: AbstractEvent = from_dict(schema, webcast_message)
-            event._as_dict = webcast_message
-            return event
+            if schema is not None:
+                # Create event
+                event: AbstractEvent = from_dict(schema, webcast_message)
+                event._as_dict = webcast_message
+                return event
 
         # Viewer update
         if webcast_message.get("viewerCount"):
@@ -324,7 +331,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             # Use request polling (Websockets not implemented)
             self.loop.create_task(self.__fetch_room_polling())
 
-            event: Connected = Connected()
+            event: ConnectEvent = ConnectEvent()
             self.emit(event.name, event)
 
             return self.__room_id
@@ -352,7 +359,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         if self.__connected:
             self.__set_unconnected()
 
-            event: Disconnected = Disconnected()
+            event: DisconnectEvent = DisconnectEvent()
             self.emit(event.name, event)
 
             return
