@@ -1,4 +1,4 @@
-TikTok-Live-Connector
+TikTokLive
 ==================
 A python library to connect to and read events from TikTok's LIVE service
 
