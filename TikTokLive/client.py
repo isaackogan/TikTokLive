@@ -138,6 +138,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                     "fetch_room_info_on_connect": True,
                     "enable_extended_gift_info": True,
                     "request_polling_interval_ms": 1000,
+                    "debug_event_enabled": False,
                     "client_params": {},
                     "request_headers": {}
                 },
@@ -257,12 +258,21 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :return:
 
         """
+        debug_enabled: Optional[bool] = self._options.get("debug_event_enabled")
 
         for message in webcast_response.get("messages", list()):
             response: Optional[AbstractEvent] = self.__parse_message(webcast_message=message)
 
             if isinstance(response, AbstractEvent):
                 self.emit(response.name, response)
+
+            # Debug event
+            if debug_enabled:
+                any_event: AbstractEvent = AbstractEvent()
+                any_event._as_dict = message
+                self.emit("debug_event", AbstractEvent)
+
+
 
     def __parse_message(self, webcast_message: dict) -> Optional[AbstractEvent]:
         event_dict: Optional[dict] = webcast_message.get("event")
