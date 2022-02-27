@@ -3,13 +3,13 @@ import json
 import logging
 import traceback
 from asyncio import AbstractEventLoop
-from typing import Optional, List, Type
+from typing import Optional, List, Type, Dict
 
 from dacite import from_dict
 from pyee import AsyncIOEventEmitter
 
 from TikTokLive.http import TikTokHTTPClient
-from .types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, events
+from .types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, events, ExtendedGift
 from .types.events import ConnectEvent, DisconnectEvent, ViewerCountUpdateEvent, CommentEvent, UnknownEvent, LiveEndEvent, AbstractEvent, GiftEvent
 from .utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
@@ -38,7 +38,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         self.__room_info: Optional[dict] = None
         self.__connecting: Optional[bool] = None
         self.__connected: Optional[bool] = None
-        self.__available_gifts: List[dict] = []
+        self.__available_gifts: Dict[int, ExtendedGift] = dict()
         self.__room_id: Optional[str] = None
         self.__viewer_count: Optional[int] = None
 
@@ -99,7 +99,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         return self.__connected
 
     @property
-    def available_gifts(self) -> List[dict]:
+    def available_gifts(self) -> Dict[int, ExtendedGift]:
         """
         Available gift information
         :return: Gift info
@@ -191,7 +191,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             logging.error(traceback.format_exc() + "\nFailed to retrieve room info from webcast api")
             return None
 
-    async def __fetch_available_gifts(self) -> Optional[List[dict]]:
+    async def __fetch_available_gifts(self) -> Optional[Dict[int, ExtendedGift]]:
         """
         Fetch available gifts from Webcast API
         :return: Gift info dict
@@ -200,7 +200,17 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         try:
             response = await self._http_client.get_json_object_from_webcast_api("gift/list/", self._client_params)
-            self.__available_gifts: List[dict] = response.get("gifts")
+            gifts: Optional[List] = response.get("gifts")
+
+            if isinstance(gifts, list):
+
+                for gift in gifts:
+                    try:
+                        _gift: ExtendedGift = from_dict(ExtendedGift, gift)
+                        self.__available_gifts[_gift.id] = _gift
+                    except:
+                        logging.error(traceback.format_exc() + "\nFailed to parse gift's extra info")
+
             return self.__available_gifts
         except:
             logging.error(traceback.format_exc() + "\nFailed to retrieve gifts from webcast api")
@@ -297,6 +307,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             del webcast_message["giftJson"]
             webcast_message["gift"] = json.loads(gift)
             event: GiftEvent = from_dict(GiftEvent, webcast_message)
+            event.gift.extended_gift = self.available_gifts.get(event.gift.gift_id)
             event._as_dict = webcast_message
             return event
 
@@ -398,7 +409,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # Fetch their info & return it
         return await self.__fetch_room_info()
 
-    async def retrieve_available_gifts(self) -> Optional[dict]:
+    async def retrieve_available_gifts(self) -> Optional[Dict[int, ExtendedGift]]:
         """
         Retrieve available gifts from Webcast API
         :return: None
@@ -406,3 +417,14 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         """
 
         return await self.__fetch_available_gifts()
+
+    def get_available_gifts(self) -> Dict[int, ExtendedGift]:
+        """
+        Get available gift information from cache (Alias to property)
+        :return: Gift info
+
+        """
+
+        return self.available_gifts
+
+
