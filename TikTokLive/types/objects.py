@@ -46,6 +46,30 @@ class User(AbstractObject):
 
 
 @dataclass()
+class GiftIcon(AbstractObject):
+    avg_color: Optional[str]
+    urls: Optional[List[str]]
+
+
+@dataclass()
+class ExtendedGift(AbstractObject):
+    id: Optional[int]
+    name: Optional[str]
+    type: Optional[int]
+    describe: Optional[str]
+    diamond_count: Optional[int]
+    duration: Optional[int]
+    event_name: Optional[str]
+    icon: Optional[GiftIcon]
+    notify: Optional[bool]
+    is_broadcast_gift: Optional[bool]
+    is_displayed_on_panel: Optional[bool]
+    is_effect_befview: Optional[bool]
+    is_random_gift: Optional[bool]
+    is_gray: Optional[bool]
+
+
+@dataclass()
 class Gift(AbstractObject):
     anchor_id: Optional[int]
     from_idc: Optional[str]
@@ -54,13 +78,10 @@ class Gift(AbstractObject):
     gift_type: Optional[int]
     log_id: Optional[str]
     msg_id: Optional[int]
-    profitapi_message_dur: Optional[int]
     repeat_count: Optional[int]
     repeat_end: Optional[int]
     room_id: Optional[int]
-    send_gift_profit_api_start_ms: Optional[int]
-    send_gift_profit_core_start_ms: Optional[int]
-    send_gift_req_start_ms: Optional[int]
-    send_gift_send_message_success_ms: Optional[int]
-    send_profitapi_dur: Optional[int]
     to_user_id: Optional[int]
+
+    # Extra Gift Info
+    extended_gift: Optional[ExtendedGift]
