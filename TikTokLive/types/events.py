@@ -96,6 +96,14 @@ class GiftEvent(AbstractEvent):
     name: str = "gift"
 
 
+@dataclass()
+class QuestionEvent(AbstractEvent):
+    questionText: Optional[str]
+    user: Optional[User]
+
+    name: str = "question"
+
+
 __events__ = {
     "pm_mt_msg_viewer": LikeEvent,
     "live_room_enter_toast": JoinEvent,

@@ -10,7 +10,7 @@ from pyee import AsyncIOEventEmitter
 
 from TikTokLive.http import TikTokHTTPClient
 from .types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, events, ExtendedGift
-from .types.events import ConnectEvent, DisconnectEvent, ViewerCountUpdateEvent, CommentEvent, UnknownEvent, LiveEndEvent, AbstractEvent, GiftEvent
+from .types.events import ConnectEvent, DisconnectEvent, ViewerCountUpdateEvent, CommentEvent, UnknownEvent, LiveEndEvent, AbstractEvent, GiftEvent, QuestionEvent
 from .utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
 
@@ -272,8 +272,6 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 any_event._as_dict = message
                 self.emit("debug_event", AbstractEvent)
 
-
-
     def __parse_message(self, webcast_message: dict) -> Optional[AbstractEvent]:
         event_dict: Optional[dict] = webcast_message.get("event")
 
@@ -319,6 +317,13 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             event: GiftEvent = from_dict(GiftEvent, webcast_message)
             event.gift.extended_gift = self.available_gifts.get(event.gift.gift_id)
             event._as_dict = webcast_message
+            return event
+
+        # Question Received
+        question: Optional[dict] = webcast_message.get("questionDetails")
+        if question:
+            event: QuestionEvent = from_dict(QuestionEvent, question)
+            event._as_dict = question
             return event
 
         # We haven't implemented deserialization for it yet, or it doesn't have a model
