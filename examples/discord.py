@@ -8,7 +8,7 @@ from TikTokLive import TikTokLiveClient
 from TikTokLive.types.events import CommentEvent, ConnectEvent
 
 # Instantiate the client with the user's username
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@oldskoldj")
+client: TikTokLiveClient = TikTokLiveClient(unique_id="@reillyedga")
 queue: List[dict] = []
 
 
@@ -39,7 +39,9 @@ if __name__ == '__main__':
     # Discord rate limits are pretty intense, so create 5 or 6 webhooks
     # in your desired channel & put them in a list to pick from randomly each time
     webhook_urls: List[str] = [
-        "https://discord.com/api/webhooks/940388860343509022/z5gy_hLo9F3CftV19E8NthuMDD8WQrnQyOlkcGXYh6qXWASXkJCuybdXHt5rceGSHxeE"
+        "https://discord.com/api/webhooks/946268165187440700/H6twuzSYNiG_i2hL2anIlzfe_5YwV9cCNlu2waNaOFv593v5ULolskSfa2GeWc2ILCDC",
+        "https://discord.com/api/webhooks/946268157713211422/anVZUmR5o27E6efkPhS0xzmlzhBc3cflghPh1koOQnFMAzZMZSREnrKd0QGIM0qE6032",
+        "https://discord.com/api/webhooks/946268190139355208/RdZES-aOVDfLa5fsOV4TYc4PfjkqCBBuUKoCCSSNwojTwgS4cToHevPgOT5YJ_gl9XLM"
     ]
     delay_per_message: int = 3
     client.run()

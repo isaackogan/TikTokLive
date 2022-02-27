@@ -136,7 +136,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 **{
                     "process_initial_data": True,
                     "fetch_room_info_on_connect": True,
-                    "enable_extended_gift_info": False,
+                    "enable_extended_gift_info": True,
                     "request_polling_interval_ms": 1000,
                     "client_params": {},
                     "request_headers": {}

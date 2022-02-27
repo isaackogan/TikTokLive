@@ -22,11 +22,27 @@ class ExtraAttributes(AbstractObject):
 
 @dataclass()
 class User(AbstractObject):
-    userId: int
-    uniqueId: str
-    nickname: str
-    profilePicture: Avatar
-    extraAttributes: ExtraAttributes
+    userId: Optional[int]
+    uniqueId: Optional[str]
+    nickname: Optional[str]
+    profilePicture: Optional[Avatar]
+    extraAttributes: Optional[ExtraAttributes]
+
+    @property
+    def is_following(self) -> bool:
+        return (
+            self.extraAttributes is not None
+            and self.extraAttributes.followRole is not None
+            and self.extraAttributes.followRole >= 1
+        )
+
+    @property
+    def is_friend(self) -> bool:
+        return (
+                self.extraAttributes is not None
+                and self.extraAttributes.followRole is not None
+                and self.extraAttributes.followRole >= 2
+        )
 
 
 @dataclass()
