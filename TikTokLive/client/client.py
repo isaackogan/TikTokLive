@@ -8,10 +8,10 @@ from typing import Optional, List, Type, Dict
 from dacite import from_dict
 from pyee import AsyncIOEventEmitter
 
-from TikTokLive.http import TikTokHTTPClient
-from .types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, events, ExtendedGift
-from .types.events import ConnectEvent, DisconnectEvent, ViewerCountUpdateEvent, CommentEvent, UnknownEvent, LiveEndEvent, AbstractEvent, GiftEvent, QuestionEvent
-from .utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
+from TikTokLive.client.http import TikTokHTTPClient
+from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, events, ExtendedGift
+from TikTokLive.types.events import ConnectEvent, DisconnectEvent, ViewerCountUpdateEvent, CommentEvent, UnknownEvent, LiveEndEvent, AbstractEvent, GiftEvent, QuestionEvent
+from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
 
 class TikTokLiveClient(AsyncIOEventEmitter):
