@@ -1,1 +1,1 @@
-from .client import TikTokLiveClient
+from .client.client import TikTokLiveClient

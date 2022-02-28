@@ -8,7 +8,8 @@ class AbstractEvent:
     name: str = "event"
     _as_dict: dict = dict()
 
-    def __init__(self):
+    def __init__(self, data: dict = dict()):
+        self._as_dict: dict = data
         self.__name = None
 
     @property
