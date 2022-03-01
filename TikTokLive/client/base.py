@@ -1,7 +1,6 @@
 import asyncio
 import logging
 import traceback
-from abc import ABC
 from asyncio import AbstractEventLoop
 from typing import Optional, List, Dict
 
@@ -12,7 +11,7 @@ from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, 
 from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
 
-class BaseClient(ABC):
+class BaseClient:
 
     def __init__(
             self,
@@ -25,7 +24,6 @@ class BaseClient(ABC):
             process_initial_data: bool = True,
             fetch_room_info_on_connect: bool = True,
             enable_extended_gift_info: bool = True
-
     ):
         # Get Event Loop
         if isinstance(loop, AbstractEventLoop):
@@ -138,20 +136,19 @@ class BaseClient(ABC):
         """
 
         webcast_response = await self._http.get_deserialized_object_from_webcast_api("im/fetch/", self._client_params, "WebcastResponse")
-        self._client_params["cursor"] = webcast_response.get("cursor")
+        _last_cursor, _next_cursor = self._client_params["cursor"], webcast_response.get("cursor")
 
-        if is_initial and not self._process_initial_data:
-            return
+        # Handle invalid cursor value
+        self._client_params["cursor"] = _last_cursor if _next_cursor == "0" else _next_cursor
+        await self._handle_webcast_messages(webcast_response)
 
-        await self.__handle_webcast_messages(webcast_response)
-
-    async def __handle_webcast_messages(self, webcast_response):
+    async def _handle_webcast_messages(self, webcast_response):
         """
         Handle the parsing of webcast messages
 
         """
 
-        raise NotImplementedError
+        return
 
     async def _connect(self) -> str:
         """

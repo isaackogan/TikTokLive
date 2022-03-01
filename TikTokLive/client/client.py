@@ -12,7 +12,7 @@ from ..types.events import AbstractEvent, ViewerCountUpdateEvent, CommentEvent, 
 class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
 
     def __init__(self, unique_id: str, debug: bool = False, **options):
-        self.debug_enabled: bool = False
+        self.debug_enabled: bool = debug
 
         BaseClient.__init__(self, unique_id, **options)
         AsyncIOEventEmitter.__init__(self, self.loop)
@@ -33,7 +33,7 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
             event: DisconnectEvent = DisconnectEvent()
             self.emit(event.name, event)
 
-    async def __handle_webcast_messages(self, webcast_response):
+    async def _handle_webcast_messages(self, webcast_response):
         """
         Handle webcast messages using event emitter
         :param webcast_response:
