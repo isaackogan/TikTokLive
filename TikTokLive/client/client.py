@@ -18,6 +18,11 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
         AsyncIOEventEmitter.__init__(self, self.loop)
 
     async def _connect(self) -> str:
+        """
+        Wrap connection in a connect event
+
+        """
+
         result: str = await super(TikTokLiveClient, self)._connect()
 
         if self.connected:
@@ -26,18 +31,22 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
 
         return result
 
-    def _disconnect(self):
+    def _disconnect(self) -> None:
+        """
+        Wrap disconnection in a disconnect event
+
+        """
+
         super(TikTokLiveClient, self)._disconnect()
 
         if not self.connected:
             event: DisconnectEvent = DisconnectEvent()
             self.emit(event.name, event)
 
-    async def _handle_webcast_messages(self, webcast_response):
+    async def _handle_webcast_messages(self, webcast_response: dict) -> None:
         """
-        Handle webcast messages using event emitter
-        :param webcast_response:
-        :return:
+        Handle webcast messages using an event emitter
+        :param webcast_response: The response
 
         """
 

@@ -137,18 +137,20 @@ class BaseClient:
 
         webcast_response = await self._http.get_deserialized_object_from_webcast_api("im/fetch/", self._client_params, "WebcastResponse")
         _last_cursor, _next_cursor = self._client_params["cursor"], webcast_response.get("cursor")
-
-        # Handle invalid cursor value
         self._client_params["cursor"] = _last_cursor if _next_cursor == "0" else _next_cursor
+
+        if is_initial and not self._process_initial_data:
+            return
+
         await self._handle_webcast_messages(webcast_response)
 
-    async def _handle_webcast_messages(self, webcast_response):
+    async def _handle_webcast_messages(self, webcast_response) -> None:
         """
         Handle the parsing of webcast messages
 
         """
 
-        return
+        raise NotImplementedError
 
     async def _connect(self) -> str:
         """
@@ -192,7 +194,7 @@ class BaseClient:
             self.__connecting = False
             raise FailedConnection()
 
-    def _disconnect(self):
+    def _disconnect(self) -> None:
         """
         Set unconnected status
         :return: None
