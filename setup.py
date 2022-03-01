@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="TikTokLive",
     packages=setuptools.find_packages(),
-    version="0.6.9",
+    version="0.7.0",
     license="MIT",
     description="TikTok Live Connection Client (Unofficial)",
     author="Isaac Kogan",
@@ -14,14 +14,14 @@ setuptools.setup(
     url="https://github.com/isaackogan/TikTok-Live-Connector",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/isaackogan/TikTok-Live-Connector/archive/refs/tags/v0.1.0.zip",
+    download_url="https://github.com/isaackogan/TikTokLive/archive/refs/tags/v0.7.0.zip",
     keywords=["tiktok", "tiktok live", "python3", "api", "unofficial"],
     install_requires=[
-        "aiohttp",  # Make requests
-        "protobuf3-to-dict",  # Convert Protobuf to Dict
-        "protobuf",  # Decode Protobuf Messages
-        "pyee",  # Event Emitter
-        "dacite"  # Requests
+        "aiohttp>=3.8",  # Make requests
+        "protobuf3-to-dict>=0.1.5",  # Convert Protobuf to Dict
+        "protobuf>=3.19.4",  # Decode Protobuf Messages
+        "pyee>=9.0.4",  # Event Emitter
+        "dacite>=1.6.0"  # Requests
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",

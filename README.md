@@ -105,7 +105,7 @@ A `TikTokLiveClient` object contains the following methods.
 | start                    | Connects to the live chat without blocking the main thread (async)                                                                                                       |
 | stop                     | Turns off the connection to the live chat.                                                                                                                               |
 | retrieve_room_info       | Gets the current room info from TikTok API                                                                                                                               |
-| retrieve_available_gifts | Gets a list of the available gifts for the room and their data                                                                                                           |
+| retrieve_available_gifts | Retrieves a list of the available gifts for the room and adds it to the `extended_gift` attribute of the `Gift` object on the `gift` event, when enabled.                |
 | add_listener             | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on()`) and takes two parameters, an event name and the payload, an AbstractEvent ||
 
 ## Events
