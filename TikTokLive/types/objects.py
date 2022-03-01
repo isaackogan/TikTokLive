@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Optional
 
 
@@ -17,7 +17,18 @@ class Avatar(AbstractObject):
 
 @dataclass()
 class ExtraAttributes(AbstractObject):
-    followRole: Optional[int]
+    followRole: Optional[int] = field(default_factory=lambda: 0)
+
+
+@dataclass()
+class Badge(AbstractObject):
+    type: Optional[str]
+    name: Optional[str]
+
+
+@dataclass()
+class BadgeContainer(AbstractObject):
+    badges: List[Badge] = field(default_factory=lambda: [])
 
 
 @dataclass()
@@ -26,23 +37,20 @@ class User(AbstractObject):
     uniqueId: Optional[str]
     nickname: Optional[str]
     profilePicture: Optional[Avatar]
-    extraAttributes: Optional[ExtraAttributes]
+    extraAttributes: ExtraAttributes = field(default_factory=lambda: ExtraAttributes())
+    badge: BadgeContainer = BadgeContainer()
 
     @property
     def is_following(self) -> bool:
-        return (
-            self.extraAttributes is not None
-            and self.extraAttributes.followRole is not None
-            and self.extraAttributes.followRole >= 1
-        )
+        return self.extraAttributes.followRole >= 1
 
     @property
     def is_friend(self) -> bool:
-        return (
-                self.extraAttributes is not None
-                and self.extraAttributes.followRole is not None
-                and self.extraAttributes.followRole >= 2
-        )
+        return self.extraAttributes.followRole >= 2
+
+    @property
+    def is_moderator(self) -> bool:
+        return any(badge.type == "pm_mt_moderator_im" for badge in self.badge.badges)
 
 
 @dataclass()
