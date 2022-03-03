@@ -161,7 +161,14 @@ Triggered every time a gift arrives. Extra information can be gleamed off the `a
 ```python
 @client.on("gift")
 async def on_gift(event: GiftEvent):
-    print("Someone sent a gift!")
+
+     # If it's type 1 and the streak is over
+    if event.gift.gift_type == 1 and event.gift.repeat_end == 1:
+        print(f"{event.user.uniqueId} sent {event.gift.repeat_count}x \"{event.gift.extended_gift.name}\"")
+
+    # It's not type 1, which means it can't have a streak & is automatically over
+    elif event.gift.gift_type != 1:
+        print(f"{event.user.uniqueId} sent \"{event.gift.extended_gift.name}\"")
 ```
 
 ### `follow`
