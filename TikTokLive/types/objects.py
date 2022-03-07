@@ -56,7 +56,9 @@ class User(AbstractObject):
 @dataclass()
 class GiftIcon(AbstractObject):
     avg_color: Optional[str]
-    urls: Optional[List[str]]
+    uri: Optional[str]
+    is_animated: Optional[bool]
+    url_list: Optional[List[str]]
 
 
 @dataclass()
@@ -69,6 +71,7 @@ class ExtendedGift(AbstractObject):
     duration: Optional[int]
     event_name: Optional[str]
     icon: Optional[GiftIcon]
+    image: Optional[GiftIcon]
     notify: Optional[bool]
     is_broadcast_gift: Optional[bool]
     is_displayed_on_panel: Optional[bool]
