@@ -22,6 +22,22 @@ This is **not** an official API. It's a reverse engineering and research project
 
 Join the support discord and DM ``fallen#9745`` for inquiries, help and suggestions. Feel free to make pull requests with missing/new features, fixes, etc.
 
+## Library Addons ($$$ Purchasable)
+
+Custom addons for this library are for sale for charity. **100 percent** of proceeds go to [UNICEF's Ukraine Humanitarian Crisis](https://secure.unicef.ca/page/98630/donate/1) fund.
+
+To purchase an addon, contact info@isaackogan.com with the item name. Setup troubleshooting will be provided, however hosting and setup of the applications is up to you and specific to your infrastructure.
+
+Payments via PayPal (preferred), BTC, or ETH. Delivery time varies. Items that have not been created yet before will take time to produce. You will be updated through e-mail about their progress as it is being made.
+Items that have been produced will be delivered within 12h of your payment being acknowledged.
+
+| Item                          | Price (USD)       | Description                                                                                                                                                                                                                                                                                                                                                                  |
+|-------------------------------|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Donation Sounds               | $2                | Play custom sound files (mp3/wav/etc.) when a user donates to your stream with specific gifts (Rose, Sunglasses, etc.)                                                                                                                                                                                                                                                       |
+| Text Command System           | $2                | Using the same style handling as this library, parse text messages into Amazon Echo styled commands you can handle with an assortment of response options including playing a wav or text-to-speech, or custom response.                                                                                                                                                     |
+| 24/7 Donation Leaderboard API | $20               | Track all gifts, 24/7, in an SQLITE database connected to an API allowing you to pull info such as top donators, recent donators, number of gifts, etc. with the click of a button. This is an application you can turn on in a VPS and leave on forever. All data is exposed via a REST Web API including a web-interface for the API and API tokens to prevent data leaks. |
+| Custom Option                 | Contact for Quote | See something not on here? Contact for a custom quote. Please not that we reserve the right to add your commission to this shop for others to purchase after it is done. The goal of this shop is to support charity, so more purchasable items, the better.                                                                                                                 |
+
 ## Getting started
 
 1. Install the module via pip
