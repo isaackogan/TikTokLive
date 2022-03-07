@@ -1,9 +1,11 @@
 import asyncio
 import logging
+import sys
 import traceback
 from asyncio import AbstractEventLoop
 from typing import Optional, List, Dict
 
+from aiohttp import ClientConnectorCertificateError
 from dacite import from_dict
 
 from TikTokLive.client.http import TikTokHTTPClient
@@ -190,9 +192,18 @@ class BaseClient:
 
             return self.__room_id
 
-        except:
+        except Exception as ex:
+            message: Optional[str] = None
+
+            if isinstance(ex, ClientConnectorCertificateError):
+                message = (
+                    "Your certificates might be out of date! Navigate to your base interpreter's "
+                    "directory and click on (execute) \"Install Certificates.command\".\nThis package is reading the interpreter path as "
+                    f"{sys.executable}, but if you are using a venv please navigate to your >> base << interpreter."
+                )
+
             self.__connecting = False
-            raise FailedConnection()
+            raise FailedConnection(message)
 
     def _disconnect(self) -> None:
         """
