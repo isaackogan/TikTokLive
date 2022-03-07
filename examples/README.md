@@ -8,6 +8,7 @@ Various examples implementing the TikTok Live Connector
 - [Discord Webhook](discord.py)
 - [Debug Mode](debug.py)
 - [Reading From GiftEvent](gifts.py)
+- [Using with Pygame](pygame.py)
 
 ### Contributing Examples
 
