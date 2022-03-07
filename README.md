@@ -22,7 +22,7 @@ This is **not** an official API. It's a reverse engineering and research project
 
 Join the support discord and DM ``fallen#9745`` for inquiries, help and suggestions. Feel free to make pull requests with missing/new features, fixes, etc.
 
-## Library Addons ($$$ Purchasable)
+## 💲 Library Addons 💲
 
 Custom addons for this library are for sale for charity. **100 percent** of proceeds go to [UNICEF's Ukraine Humanitarian Crisis](https://secure.unicef.ca/page/98630/donate/1) fund.
 
@@ -177,8 +177,7 @@ Triggered every time a gift arrives. Extra information can be gleamed off the `a
 ```python
 @client.on("gift")
 async def on_gift(event: GiftEvent):
-
-     # If it's type 1 and the streak is over
+    # If it's type 1 and the streak is over
     if event.gift.gift_type == 1 and event.gift.repeat_end == 1:
         print(f"{event.user.uniqueId} sent {event.gift.repeat_count}x \"{event.gift.extended_gift.name}\"")
 
