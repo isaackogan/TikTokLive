@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="TikTokLive",
     packages=setuptools.find_packages(),
-    version="0.7.0",
+    version="0.7.1",
     license="MIT",
     description="TikTok Live Connection Client (Unofficial)",
     author="Isaac Kogan",
