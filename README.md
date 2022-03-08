@@ -98,12 +98,29 @@ from TikTokLive import TikTokLiveClient
 client: TikTokLiveClient = TikTokLiveClient(
     unique_id="@oldskoldj", **(
         {
+            # Whether to process initial data (cached chats, etc.)
             "process_initial_data": True,
+
+            # Connect info (viewers, stream status, etc.)
             "fetch_room_info_on_connect": True,
-            "enable_extended_gift_info": False,
-            "request_polling_interval_ms": 1000,
+
+            # Whether to get extended gift info (Image URLs, etc.)
+            "enable_extended_gift_info": True,
+
+            # How frequently to poll Webcast API
+            "polling_interval_ms": 1000,
+
+            # Custom Client params
             "client_params": {},
-            "request_headers": {}
+
+            # Custom request headers
+            "headers": {},
+
+            # Custom timeout for Webcast API requests
+            "timeout_ms": 1000,
+
+            # Custom Asyncio event loop
+            "loop": None
         }
     )
 )

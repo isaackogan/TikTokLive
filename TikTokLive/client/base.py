@@ -21,7 +21,7 @@ class BaseClient:
             loop: Optional[AbstractEventLoop] = None,
             client_params: Optional[dict] = None,
             headers: Optional[dict] = None,
-            timeout_ms: int = 0,
+            timeout_ms: Optional[int] = None,
             polling_interval_ms: int = 1000,
             process_initial_data: bool = True,
             fetch_room_info_on_connect: bool = True,
