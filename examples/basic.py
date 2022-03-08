@@ -2,7 +2,7 @@ from TikTokLive import TikTokLiveClient
 from TikTokLive.types.events import CommentEvent, ConnectEvent
 
 # Instantiate the client with the user's username
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@procreate.offi_")
+client: TikTokLiveClient = TikTokLiveClient(unique_id="connxr_r")
 
 
 # Define how you want to handle specific events via decorator
