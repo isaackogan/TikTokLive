@@ -28,7 +28,7 @@ Custom addons for this library are for sale for charity. **100 percent** of proc
 
 To purchase an addon, contact info@isaackogan.com with the item name. Setup troubleshooting will be provided, however hosting and setup of the applications is up to you and specific to your infrastructure.
 
-Payments via PayPal (preferred), BTC, or ETH. Delivery time varies. Items that have not purchased before yet have to be made for the first time and will take time to produce. You will be updated through e-mail about their progress as it is being made.
+Payments via [GoFundMe Page](https://www.isaackogan.com/uadonate). Delivery time varies. Items that have not purchased before yet have to be made for the first time and will take time to produce. You will be updated through e-mail about their progress as it is being made.
 Items that have been produced will be delivered within 12h of your payment being acknowledged.
 
 | Item                          | Price (USD)       | Description                                                                                                                                                                                                                                                                                                                                                                  |
