@@ -3,7 +3,7 @@ TikTokLive
 A python library to connect to and read events from TikTok's LIVE service
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/isaac-kogan-5a45b9193/ )
-![Downloads](https://pepy.tech/badge/tiktoklive)
+ [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive)
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTok-Live-Connector)
 ![Forks](https://img.shields.io/github/forks/isaackogan/TikTok-Live-Connector)
 ![Stars](https://img.shields.io/github/stars/isaackogan/TikTok-Live-Connector)
