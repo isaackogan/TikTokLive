@@ -32,6 +32,8 @@ release = 'Version 0.7.5'
 extensions = [
 ]
 
+# https://samnicholls.net/2016/06/15/how-to-sphinx-readthedocs/
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
