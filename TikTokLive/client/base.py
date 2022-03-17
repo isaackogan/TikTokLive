@@ -357,7 +357,7 @@ class BaseClient:
     @property
     def available_gifts(self) -> Dict[int, ExtendedGift]:
         """
-        Available gift information
+        Available gift information for live room
 
         :return: Gift info
 

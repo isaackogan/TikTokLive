@@ -19,6 +19,13 @@ class AbstractEvent:
 
     @property
     def as_dict(self) -> dict:
+        """
+        Return a copy of the object as a dictionary
+
+        :return: A copy of the raw payload
+
+        """
+
         return self._as_dict
 
 
@@ -50,8 +57,14 @@ class LikeEvent(AbstractEvent):
     """
 
     user: Optional[User]
+    """The user that liked the stream"""
+
     likeCount: Optional[int]
+    """The number of likes they sent (I think?)"""
+
     totalLikeCount: Optional[int]
+    """The total number of likes on the stream"""
+
     displayType: Optional[str]
     label: Optional[str]
 
@@ -66,6 +79,8 @@ class JoinEvent(AbstractEvent):
     """
 
     user: Optional[User]
+    """The user that joined the stream"""
+
     displayType: Optional[str]
     label: Optional[str]
 
@@ -80,6 +95,8 @@ class FollowEvent(AbstractEvent):
     """
 
     user: Optional[User]
+    """The user that followed the streamer"""
+
     displayType: Optional[str]
     label: Optional[str]
 
@@ -94,6 +111,8 @@ class ShareEvent(AbstractEvent):
     """
 
     user: Optional[User]
+    """The user that shared the stream"""
+
     displayType: Optional[str]
     label: Optional[str]
     name: str = "share"
@@ -107,6 +126,8 @@ class ViewerCountUpdateEvent(AbstractEvent):
     """
 
     viewerCount: Optional[int]
+    """The number of people viewing the stream currently"""
+
     name: str = "viewer_count_update"
 
 
@@ -118,7 +139,11 @@ class CommentEvent(AbstractEvent):
     """
 
     user: Optional[User]
+    """The user that sent the comment"""
+
     comment: Optional[str]
+    """The UTF-8 text comment that was sent"""
+
     name: str = "comment"
 
 
@@ -150,7 +175,10 @@ class GiftEvent(AbstractEvent):
     """
 
     user: Optional[User]
+    """The user that sent the gift"""
+
     gift: Optional[Gift]
+    """Object containing gift data"""
 
     name: str = "gift"
 
@@ -161,9 +189,12 @@ class QuestionEvent(AbstractEvent):
     Event that fires when someone asks a Q&A question
     
     """
-    
+
     questionText: Optional[str]
+    """The question that was asked"""
+
     user: Optional[User]
+    """User who asked the question"""
 
     name: str = "question"
 

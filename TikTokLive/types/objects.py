@@ -47,7 +47,10 @@ class Badge(AbstractObject):
     """
 
     type: Optional[str]
+    """The type of badge"""
+
     name: Optional[str]
+    """The name for the badge"""
 
 
 @dataclass()
@@ -58,6 +61,7 @@ class BadgeContainer(AbstractObject):
     """
 
     badges: List[Badge] = field(default_factory=lambda: [])
+    """Badges for the user (e.g. moderator)"""
 
 
 @dataclass()
@@ -68,11 +72,22 @@ class User(AbstractObject):
     """
 
     userId: Optional[int]
+    """The user's user id"""
+
     uniqueId: Optional[str]
+    """The user's uniqueId (e.g @charlidamelio)"""
+
     nickname: Optional[str]
+    """The user's nickname (e.g Charlie d'Amelio)"""
+
     profilePicture: Optional[Avatar]
+    """An object containing avatar url information"""
+
     extraAttributes: ExtraAttributes = field(default_factory=lambda: ExtraAttributes())
+    """Extra attributes for the user such as if they are following the streamer"""
+
     badge: BadgeContainer = BadgeContainer()
+    """Badges for the user containing information such as if they are a stream moderator"""
 
     @property
     def is_following(self) -> bool:
@@ -110,22 +125,30 @@ class GiftIcon(AbstractObject):
     """
     avg_color: Optional[str]
     uri: Optional[str]
+
     is_animated: Optional[bool]
+    """Whether or not it is an animated icon"""
+
     url_list: Optional[List[str]]
+    """A list of URLs containing various sizes of the gift's icon"""
 
 
 @dataclass()
 class ExtendedGift(AbstractObject):
     """
     Extended gift data for a gift including a whole lotta extra properties.
-    
+
     """
 
-    "Test"
     id: Optional[int]
-    
+    """ The ID of the gift """
+
     name: Optional[str]
+    """ The name of the gift """
+
     type: Optional[int]
+    """The type of gift"""
+
     describe: Optional[str]
     diamond_count: Optional[int]
     duration: Optional[int]
@@ -147,17 +170,32 @@ class Gift(AbstractObject):
     
     """
 
-    anchor_id: Optional[int]
-    from_idc: Optional[str]
     from_user_id: Optional[int]
+    """TikTok ID of the user that sent the gift"""
+
+    to_user_id: Optional[int]
+    """TikTok ID of the user that received the gift (the streamer)"""
+
     gift_id: Optional[int]
+    """ID of the gift"""
+
     gift_type: Optional[int]
+    """The type of gift (type 1 are repeatable, other types are not)"""
+
+    repeat_count: Optional[int]
+    """The number of times the gift has repeated"""
+
+    room_id: Optional[int]
+    """The room ID that the gift was sent to"""
+
+    repeat_end: Optional[int]
+    """Values 1 or 0, dictates whether the gift repetition has ended, ONLY for Type 1"""
+
     log_id: Optional[str]
     msg_id: Optional[int]
-    repeat_count: Optional[int]
-    repeat_end: Optional[int]
-    room_id: Optional[int]
-    to_user_id: Optional[int]
+    anchor_id: Optional[int]
+    from_idc: Optional[str]
 
     # Extra Gift Info
     extended_gift: Optional[ExtendedGift]
+    """Extended gift including important data like the gift's image"""
