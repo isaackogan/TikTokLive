@@ -22,7 +22,7 @@ This is **not** an official API. It's a reverse engineering and research project
 
 Join the support discord and DM ``fallen#9745`` for inquiries, help and suggestions. Feel free to make pull requests with missing/new features, fixes, etc.
 
-## ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png) $$ Buy Library Addons $$ ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png)
+## ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png) 💲💲 Buy Library Addons 💲💲 ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png)
 
 Custom addons for this library are for sale for charity. **100 percent** of proceeds go to [UNICEF's Ukraine Humanitarian Crisis](https://secure.unicef.ca/page/98630/donate/1) fund.
 
