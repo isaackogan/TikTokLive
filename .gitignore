@@ -3,4 +3,3 @@ dist
 venv
 TikTokLive.egg-info
 requirements.txt
-.sphinx
