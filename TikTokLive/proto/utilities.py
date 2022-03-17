@@ -1,15 +1,18 @@
-
 from protobuf_to_dict import protobuf_to_dict
 
 from TikTokLive.proto import tiktok_schema_pb2 as tiktok_schema
 
 
-def serialize_message(proto_name, obj):
-    schema = getattr(tiktok_schema, proto_name)()
-    return schema.SerializeToString(obj)
+def deserialize_message(proto_name: str, obj: bytes) -> dict:
+    """
+    Deserialize a protobuf message into a dictionary
 
+    :param proto_name: The name of the message
+    :param obj: The protobuf object to deserialize
+    :return: The dictionary containing the deserialized message
 
-def deserialize_message(proto_name, obj) -> dict:
+    """
+
     schema = getattr(tiktok_schema, proto_name)
     webcast_data = schema()
     webcast_data.ParseFromString(obj)
@@ -17,9 +20,7 @@ def deserialize_message(proto_name, obj) -> dict:
     dict_data: dict = protobuf_to_dict(webcast_data)
 
     if proto_name == "WebcastResponse":
-
         for idx, message in enumerate(dict_data.get("messages", list())):
-
             if str(message.get("type")) not in [
                 "WebcastControlMessage",
                 "WebcastRoomUserSeqMessage",

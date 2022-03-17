@@ -10,8 +10,20 @@ from ..types.events import AbstractEvent, ViewerCountUpdateEvent, CommentEvent, 
 
 
 class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
+    """
+    TikTokLive Client responsible for emitting events asynchronously
+
+    """
 
     def __init__(self, unique_id: str, debug: bool = False, **options):
+        """
+
+        :param unique_id: The unique id of the creator to connect to
+        :param debug: Debug mode -> Add all events' raw payload to a "debug" event
+        :param options: Extra options from the BaseClient
+
+        """
+
         self.debug_enabled: bool = debug
 
         BaseClient.__init__(self, unique_id, **options)
@@ -81,7 +93,7 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
         if webcast_message.get("viewerCount"):
             event: ViewerCountUpdateEvent = from_dict(ViewerCountUpdateEvent, webcast_message)
             event._as_dict = webcast_message
-            self.__viewer_count = event.viewerCount
+            self._viewer_count = event.viewerCount
             return event
 
         # Comment

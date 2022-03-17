@@ -14,6 +14,10 @@ from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_
 
 
 class BaseClient:
+    """
+    Base client responsible for long polling to the TikTok Webcast API
+
+    """
 
     def __init__(
             self,
@@ -27,6 +31,20 @@ class BaseClient:
             fetch_room_info_on_connect: bool = True,
             enable_extended_gift_info: bool = True
     ):
+        """
+        Initialize the base client
+
+        :param unique_id: The unique id of the creator to connect to
+        :param loop: Optionally supply your own asyncio loop
+        :param client_params: Additional client parameters to include when making requests to the Webcast API
+        :param headers: Additional headers to include when making requests to the Webcast API
+        :param timeout_ms: The timeout (in ms) for requests made to the Webcast API
+        :param polling_interval_ms: The interval between requests made to the Webcast API
+        :param process_initial_data: Whether to process the initial data (including cached chats)
+        :param fetch_room_info_on_connect: Whether to fetch room info (check if everything is kosher) on connect
+        :param enable_extended_gift_info: Whether to retrieve extended gift info including its icon & other important things
+
+        """
         # Get Event Loop
         if isinstance(loop, AbstractEventLoop):
             self.loop: AbstractEventLoop = loop
@@ -42,7 +60,7 @@ class BaseClient:
         self.__room_info: Optional[dict] = None
         self.__available_gifts: Dict[int, ExtendedGift] = dict()
         self.__room_id: Optional[str] = None
-        self.__viewer_count: Optional[int] = None
+        self._viewer_count: Optional[int] = None
         self.__connecting: bool = False
         self.__connected: bool = False
 
@@ -75,6 +93,7 @@ class BaseClient:
     async def __fetch_room_info(self) -> Optional[dict]:
         """
         Fetch room information from Webcast API
+
         :return: Room info dict
 
         """
@@ -90,6 +109,7 @@ class BaseClient:
     async def __fetch_available_gifts(self) -> Optional[Dict[int, ExtendedGift]]:
         """
         Fetch available gifts from Webcast API
+
         :return: Gift info dict
 
         """
@@ -114,6 +134,7 @@ class BaseClient:
     async def __fetch_room_polling(self) -> None:
         """
         Main loop containing polling for the client
+
         :return: None
 
         """
@@ -132,6 +153,7 @@ class BaseClient:
     async def __fetch_room_data(self, is_initial: bool = False) -> None:
         """
         Fetch room data from the Webcast API and deserialize it
+
         :param is_initial: Is it the initial request to the API
         :return: None
 
@@ -148,7 +170,7 @@ class BaseClient:
 
     async def _handle_webcast_messages(self, webcast_response) -> None:
         """
-        Handle the parsing of webcast messages
+        Handle the parsing of webcast messages, meant to be overridden by superclass
 
         """
 
@@ -157,7 +179,9 @@ class BaseClient:
     async def _connect(self) -> str:
         """
         Connect to the Websocket API
-        :return:
+
+        :return: The room ID, if connection is successful
+
         """
 
         if self.__connecting:
@@ -208,6 +232,7 @@ class BaseClient:
     def _disconnect(self) -> None:
         """
         Set unconnected status
+
         :return: None
 
         """
@@ -221,6 +246,7 @@ class BaseClient:
     async def start(self) -> Optional[str]:
         """
         Start the client without blocking the main thread
+
         :return: Room ID that was connected to
 
         """
@@ -230,6 +256,7 @@ class BaseClient:
     async def stop(self) -> None:
         """
         Stop the client
+
         :return: None
 
         """
@@ -241,6 +268,7 @@ class BaseClient:
     def run(self) -> None:
         """
         Run client while blocking main thread
+
         :return: None
 
         """
@@ -251,6 +279,7 @@ class BaseClient:
     async def retrieve_room_info(self) -> Optional[dict]:
         """
         Method to retrieve room information
+
         :return: Dictionary containing all room info
 
         """
@@ -265,6 +294,7 @@ class BaseClient:
     async def retrieve_available_gifts(self) -> Optional[Dict[int, ExtendedGift]]:
         """
         Retrieve available gifts from Webcast API
+
         :return: None
 
         """
@@ -275,15 +305,17 @@ class BaseClient:
     def viewer_count(self) -> Optional[int]:
         """
         Return viewer count of user
+
         :return: Viewer count
 
         """
-        return self.__viewer_count
+        return self._viewer_count
 
     @property
     def room_id(self) -> Optional[int]:
         """
-        Room ID if connection successful
+        Room ID if the connection was successful
+
         :return: Room's ID
 
         """
@@ -292,7 +324,8 @@ class BaseClient:
     @property
     def room_info(self) -> Optional[dict]:
         """
-        Room info dict if connection successful
+        Room info dict if the connection was successful
+
         :return: Room Info Dict
 
         """
@@ -302,7 +335,8 @@ class BaseClient:
     @property
     def unique_id(self) -> str:
         """
-        Unique ID of creator
+        Unique ID of the streamer
+
         :return: Their unique ID
 
         """
@@ -313,6 +347,7 @@ class BaseClient:
     def connected(self) -> bool:
         """
         Whether the client is connected
+
         :return: Result
 
         """
@@ -323,6 +358,7 @@ class BaseClient:
     def available_gifts(self) -> Dict[int, ExtendedGift]:
         """
         Available gift information
+
         :return: Gift info
 
         """

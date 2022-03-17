@@ -5,6 +5,11 @@ from TikTokLive.types import User, Gift
 
 
 class AbstractEvent:
+    """
+    Abstract Event
+    
+    """
+
     name: str = "event"
     _as_dict: dict = dict()
 
@@ -19,18 +24,31 @@ class AbstractEvent:
 
 @dataclass()
 class ConnectEvent(AbstractEvent):
+    """
+    Event that fires when the client connect to a livestream
+    
+    """
+
     name: str = "connect"
-    pass
 
 
 @dataclass()
 class DisconnectEvent(AbstractEvent):
+    """
+    Event that fires when the client disconnects from a livestream
+    
+    """
+
     name: str = "disconnect"
-    pass
 
 
 @dataclass()
 class LikeEvent(AbstractEvent):
+    """
+    Event that fires when a user likes the livestream
+    
+    """
+
     user: Optional[User]
     likeCount: Optional[int]
     totalLikeCount: Optional[int]
@@ -42,6 +60,11 @@ class LikeEvent(AbstractEvent):
 
 @dataclass()
 class JoinEvent(AbstractEvent):
+    """
+    Event that fires when a user joins the livestream
+    
+    """
+
     user: Optional[User]
     displayType: Optional[str]
     label: Optional[str]
@@ -51,6 +74,11 @@ class JoinEvent(AbstractEvent):
 
 @dataclass()
 class FollowEvent(AbstractEvent):
+    """
+    Event that fires when a user follows the livestream
+    
+    """
+
     user: Optional[User]
     displayType: Optional[str]
     label: Optional[str]
@@ -60,6 +88,11 @@ class FollowEvent(AbstractEvent):
 
 @dataclass()
 class ShareEvent(AbstractEvent):
+    """
+    Event that fires when a user shares the livestream
+    
+    """
+
     user: Optional[User]
     displayType: Optional[str]
     label: Optional[str]
@@ -68,12 +101,22 @@ class ShareEvent(AbstractEvent):
 
 @dataclass()
 class ViewerCountUpdateEvent(AbstractEvent):
+    """
+    Event that fires when the viewer count for the livestream updates
+    
+    """
+
     viewerCount: Optional[int]
     name: str = "viewer_count_update"
 
 
 @dataclass()
 class CommentEvent(AbstractEvent):
+    """
+    Event that fires when someone comments on the livestream
+    
+    """
+
     user: Optional[User]
     comment: Optional[str]
     name: str = "comment"
@@ -81,16 +124,31 @@ class CommentEvent(AbstractEvent):
 
 @dataclass()
 class UnknownEvent(AbstractEvent):
+    """
+    Event that fires when an event is received that is not handled by other events in the library.
+    
+    """
+
     name: str = "unknown"
 
 
 @dataclass()
 class LiveEndEvent(AbstractEvent):
+    """
+    Event that fires when the livestream ends
+    
+    """
+
     name: str = "live_end"
 
 
 @dataclass()
 class GiftEvent(AbstractEvent):
+    """
+    Event that fires when a gift is received
+    
+    """
+
     user: Optional[User]
     gift: Optional[Gift]
 
@@ -99,6 +157,11 @@ class GiftEvent(AbstractEvent):
 
 @dataclass()
 class QuestionEvent(AbstractEvent):
+    """
+    Event that fires when someone asks a Q&A question
+    
+    """
+    
     questionText: Optional[str]
     user: Optional[User]
 

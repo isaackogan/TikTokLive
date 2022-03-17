@@ -8,7 +8,7 @@ from TikTokLive.proto.utilities import deserialize_message
 
 class TikTokHTTPClient:
     """
-    Client for making HTTP requests to TikTok's servers
+    Client for making HTTP requests to TikTok's Webcast API
 
     """
 
@@ -33,6 +33,7 @@ class TikTokHTTPClient:
     def __init__(self, headers: Optional[Dict[str, str]] = None, timeout_ms: Optional[int] = None) -> None:
         """
         Initialize TikTok HTTP Client
+
         :param headers: Custom Headers
         :param timeout_ms: Custom Polling Timeout
 
@@ -77,6 +78,7 @@ class TikTokHTTPClient:
     async def get_livestream_page_html(self, unique_id: str) -> str:
         """
         Get livestream page HTML given a unique id
+
         :param unique_id: Unique ID of the streamer
         :return: HTML string containing page data
         :raises: asyncio.TimeoutError

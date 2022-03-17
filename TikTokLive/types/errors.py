@@ -1,6 +1,6 @@
 class AlreadyConnecting(RuntimeError):
     """
-    Already connecting to live
+    Error that is raised when attempting to connect to a livestream whilst already attempting to connect.
 
     """
     pass
@@ -8,7 +8,7 @@ class AlreadyConnecting(RuntimeError):
 
 class AlreadyConnected(RuntimeError):
     """
-    Already connected to live
+    Error that is raised when attempting to connect to a livestream whilst already connected.
 
     """
     pass
@@ -16,7 +16,7 @@ class AlreadyConnected(RuntimeError):
 
 class LiveNotFound(RuntimeError):
     """
-    Live not found
+    Error that is raised when the livestream you are trying to connect to is offline/does-not-exist.
 
     """
     pass
@@ -24,7 +24,7 @@ class LiveNotFound(RuntimeError):
 
 class FailedConnection(RuntimeError):
     """
-    Failed to make connection
+    Error that is raised when the connection to a livestream fails (generic).
 
     """
     pass
