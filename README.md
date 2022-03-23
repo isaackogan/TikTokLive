@@ -25,6 +25,7 @@ Join the support discord and DM ``fallen#9745`` for inquiries, help and suggesti
 ## Video Tutorial
 
 The following is a video tutorial produced by [@Vyler](https://www.youtube.com/channel/UCh8JuEPtb0oBeVv2nt6Y96A) on YouTube that makes use of this API. Thank you to him for his hard work!
+Please note that this was not produced by [@isaackogan](https://github.com/isaackogan). All questions should be directed to Vyler!
 
 [![YouTube Tutorial](https://img.youtube.com/vi/gubvklbZFTU/0.jpg)](https://www.youtube.com/watch?v=gubvklbZFTU)
 
