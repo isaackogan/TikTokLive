@@ -62,7 +62,7 @@ from TikTokLive import TikTokLiveClient
 from TikTokLive.types.events import CommentEvent, ConnectEvent
 
 # Instantiate the client with the user's username
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@oldskoldj")
+client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
 
 
 # Define how you want to handle specific events via decorator
@@ -77,7 +77,7 @@ async def on_comment(event: CommentEvent):
 
 
 # Define handling an event via "callback"
-client.add_listener("comment", on_connect)
+client.add_listener("comment", on_comment)
 
 if __name__ == '__main__':
     # Run the client and block the main thread
@@ -129,7 +129,14 @@ client: TikTokLiveClient = TikTokLiveClient(
             "timeout_ms": 1000,
 
             # Custom Asyncio event loop
-            "loop": None
+            "loop": None,
+
+            # Whether to trust environment variables that provide proxies to be used in aiohttp requests
+            "trust_env": False,
+
+            # A ProxyContainer object for proxied requests,
+            "proxy_container": None
+
         }
     )
 )
@@ -149,6 +156,10 @@ A `TikTokLiveClient` object contains the following methods.
 | retrieve_room_info       | Gets the current room info from TikTok API                                                                                                                               |
 | retrieve_available_gifts | Retrieves a list of the available gifts for the room and adds it to the `extended_gift` attribute of the `Gift` object on the `gift` event, when enabled.                |
 | add_listener             | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on()`) and takes two parameters, an event name and the payload, an AbstractEvent ||
+| add_proxies              | Add proxies to the current list of proxies with a valid aiohttp proxy-url                                                                                                |
+| get_proxies              | Get the current list of proxies by proxy-url                                                                                                                             |
+| remove_proxies           | Remove proxies from the current list of proxies by proxy-url                                                                                                             |
+| set_proxies_enabled      | Set whether or not proxies are enabled (disabled by default)                                                                                                             |
 
 ## Events
 

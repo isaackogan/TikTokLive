@@ -5,10 +5,10 @@ import traceback
 from asyncio import AbstractEventLoop
 from typing import Optional, List, Dict
 
-from aiohttp import ClientConnectorCertificateError
 from dacite import from_dict
 
 from TikTokLive.client.http import TikTokHTTPClient
+from TikTokLive.client.proxy import ProxyContainer
 from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift
 from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
@@ -29,7 +29,9 @@ class BaseClient:
             polling_interval_ms: int = 1000,
             process_initial_data: bool = True,
             fetch_room_info_on_connect: bool = True,
-            enable_extended_gift_info: bool = True
+            enable_extended_gift_info: bool = True,
+            trust_env: bool = False,
+            proxy_container: Optional[ProxyContainer] = None,
     ):
         """
         Initialize the base client
@@ -43,8 +45,11 @@ class BaseClient:
         :param process_initial_data: Whether to process the initial data (including cached chats)
         :param fetch_room_info_on_connect: Whether to fetch room info (check if everything is kosher) on connect
         :param enable_extended_gift_info: Whether to retrieve extended gift info including its icon & other important things
+        :param trust_env: Whether to trust environment variables that provide proxies to be used in aiohttp requests
+        :param proxy_container: A proxy container that allows you to submit an unlimited # of proxies for rotation
 
         """
+
         # Get Event Loop
         if isinstance(loop, AbstractEventLoop):
             self.loop: AbstractEventLoop = loop
@@ -66,7 +71,7 @@ class BaseClient:
 
         # Protected Attributes
         self._client_params: dict = {**TikTokHTTPClient.DEFAULT_CLIENT_PARAMS, **(client_params if isinstance(client_params, dict) else dict())}
-        self._http: TikTokHTTPClient = TikTokHTTPClient(headers if headers is not None else dict(), timeout_ms=timeout_ms)
+        self._http: TikTokHTTPClient = TikTokHTTPClient(headers if headers is not None else dict(), timeout_ms=timeout_ms, proxy_container=proxy_container, trust_env=trust_env)
         self._polling_interval_ms: int = polling_interval_ms
         self._process_initial_data: bool = process_initial_data
         self._fetch_room_info_on_connect: bool = fetch_room_info_on_connect
@@ -213,18 +218,20 @@ class BaseClient:
 
             # Use request polling (Websockets not implemented)
             self.loop.create_task(self.__fetch_room_polling())
-
             return self.__room_id
 
         except Exception as ex:
-            message: Optional[str] = None
+            message: str
+            tb: str = traceback.format_exc()
 
-            if isinstance(ex, ClientConnectorCertificateError):
+            if "SSLCertVerificationError" in tb:
                 message = (
                     "Your certificates might be out of date! Navigate to your base interpreter's "
                     "directory and click on (execute) \"Install Certificates.command\".\nThis package is reading the interpreter path as "
                     f"{sys.executable}, but if you are using a venv please navigate to your >> base << interpreter."
                 )
+            else:
+                message = str(ex)
 
             self.__connecting = False
             raise FailedConnection(message)
@@ -300,6 +307,51 @@ class BaseClient:
         """
 
         return await self.__fetch_available_gifts()
+
+    async def set_proxies_enabled(self, enabled: bool) -> None:
+        """
+        Set whether to use proxies in requests
+
+        :param enabled: Whether proxies are enabled or not
+        :return: None
+
+        """
+
+        self._http.proxy_container.set_enabled(enabled)
+
+    async def add_proxies(self, *proxies: str) -> None:
+        """
+        Add proxies to the proxy container for request usage
+        
+        :param proxies: Proxies for usage
+        :return: None
+        
+        """
+
+        for proxy in proxies:
+            self._http.proxy_container.proxies.append(proxy)
+
+    async def remove_proxies(self, *proxies: str) -> None:
+        """
+        Remove proxies from the proxy container for request usage
+
+        :param proxies: Proxies to remove
+        :raises ValueError: Raises ValueError if proxy is not present
+        :return: None
+
+        """
+
+        for proxy in proxies:
+            self._http.proxy_container.proxies.remove(proxy)
+
+    async def get_proxies(self) -> List[str]:
+        """
+        Get a list of the current proxies in the proxy container being used for requests
+
+        :return: The proxies in the request container
+        """
+
+        return self._http.proxy_container.proxies
 
     @property
     def viewer_count(self) -> Optional[int]:

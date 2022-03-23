@@ -1,7 +1,7 @@
 from TikTokLive import TikTokLiveClient
 from TikTokLive.types.events import GiftEvent
 
-client = TikTokLiveClient("plowemusic")
+client = TikTokLiveClient("@tofy_love1")
 
 
 @client.on("gift")

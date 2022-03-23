@@ -3,6 +3,7 @@ from typing import Dict, Union, Optional
 
 import aiohttp as aiohttp
 
+from TikTokLive.client.proxy import ProxyContainer
 from TikTokLive.proto.utilities import deserialize_message
 
 
@@ -25,21 +26,25 @@ class TikTokHTTPClient:
     }
 
     DEFAULT_REQUEST_HEADERS: Dict[str, str] = {
-        "Connection": 'keep-alive', "'Cache-Control'": 'max-age=0', "Accept": 'text/html,application/json,application/protobuf',
-        "'User-Agent'": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36',
+        "Connection": 'keep-alive', "Cache-Control": 'max-age=0', "Accept": 'text/html,application/json,application/protobuf',
+        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36',
         "Referer": 'https://www.tiktok.com/', "Origin": 'https://www.tiktok.com', "Accept-Language": 'en-US,en;q=0.9', "Accept-Encoding": 'gzip, deflate',
     }
 
-    def __init__(self, headers: Optional[Dict[str, str]] = None, timeout_ms: Optional[int] = None) -> None:
+    def __init__(self, headers: Optional[Dict[str, str]] = None, timeout_ms: Optional[int] = None, proxy_container: Optional[ProxyContainer] = None, trust_env: bool = True) -> None:
         """
-        Initialize TikTok HTTP Client
+        Initialize HTTP client
 
-        :param headers: Custom Headers
-        :param timeout_ms: Custom Polling Timeout
+        :param headers: Headers to use to make HTTP requests
+        :param timeout_ms: Timeout for HTTP requests
+        :param proxy_container: Proxy container to hold proxies for request usage
+        :param trust_env: Whether to trust the environment when it comes to proxy usage
 
         """
 
         self.timeout: int = int((timeout_ms if isinstance(timeout_ms, int) else 10000) / 1000)
+        self.session: aiohttp.ClientSession = aiohttp.ClientSession(trust_env=trust_env)
+        self.proxy_container: ProxyContainer = proxy_container if proxy_container is not None else ProxyContainer(enabled=False)
         self.headers: Dict[str, str] = {
             **self.DEFAULT_REQUEST_HEADERS,
             **(headers if isinstance(headers, dict) else dict())
@@ -56,9 +61,9 @@ class TikTokHTTPClient:
 
         """
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(f"{url}?{urllib.parse.urlencode(params if params is not None else dict())}", timeout=self.timeout) as request:
-                return await request.read()
+        request_url: str = f"{url}?{urllib.parse.urlencode(params if params is not None else dict())}"
+        async with self.session.get(request_url, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
+            return await request.read()
 
     async def __aiohttp_get_json(self, url: str, params: dict) -> dict:
         """
@@ -71,9 +76,9 @@ class TikTokHTTPClient:
 
         """
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(f"{url}?{urllib.parse.urlencode(params if params is not None else dict())}", timeout=self.timeout) as request:
-                return await request.json()
+        request_url: str = f"{url}?{urllib.parse.urlencode(params if params is not None else dict())}"
+        async with self.session.get(request_url, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
+            return await request.json()
 
     async def get_livestream_page_html(self, unique_id: str) -> str:
         """

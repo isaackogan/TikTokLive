@@ -8,7 +8,7 @@ from TikTokLive import TikTokLiveClient
 from TikTokLive.types.events import CommentEvent, ConnectEvent
 
 # Instantiate the client with the user's username
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@reillyedga")
+client: TikTokLiveClient = TikTokLiveClient(unique_id="@tofy_love1")
 queue: List[dict] = []
 
 

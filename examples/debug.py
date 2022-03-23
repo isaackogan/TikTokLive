@@ -2,7 +2,7 @@ from TikTokLive import TikTokLiveClient
 from TikTokLive.types.events import AbstractEvent, GiftEvent
 
 # Instantiate the client with debug param as true
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@dailystreamzzz", debug=True)
+client: TikTokLiveClient = TikTokLiveClient(unique_id="@tofy_love1", debug=True)
 
 
 @client.on("gift")
