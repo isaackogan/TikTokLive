@@ -133,7 +133,7 @@ client: TikTokLiveClient = TikTokLiveClient(
             # Whether to trust environment variables that provide proxies to be used in aiohttp requests
             "trust_env": False,
 
-            # A ProxyContainer object for proxied requests,
+            # A ProxyContainer object for proxied requests
             "proxy_container": None
 
         }
