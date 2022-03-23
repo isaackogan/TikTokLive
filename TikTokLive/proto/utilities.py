@@ -1,3 +1,8 @@
+from typing import Type, Optional, Any
+
+from dacite import from_dict, Config
+from dacite.core import T
+from dacite.data import Data
 from protobuf_to_dict import protobuf_to_dict
 
 from TikTokLive.proto import tiktok_schema_pb2 as tiktok_schema
@@ -31,12 +36,35 @@ def deserialize_message(proto_name: str, obj: bytes) -> dict:
                 "WebcastLikeMessage",
                 "WebcastQuestionNewMessage",
                 "WebcastLinkMicBattle",
-                "WebcastLinkMicArmies"
+                "WebcastLinkMicArmies",
+                "WebcastHourlyRankMessage",
+                "WebcastInRoomBannerMessage",
+                "SystemMessage"
             ]:
                 continue
 
-            _schema = getattr(tiktok_schema, message.get("type"))()
+            _type = message.get("type")
+            _schema = getattr(tiktok_schema, _type)()
             _schema.ParseFromString(message.get("binary"))
-            dict_data["messages"][idx] = protobuf_to_dict(_schema)
+            _dict_data = protobuf_to_dict(_schema)
+            _dict_data["type"] = _type
+            dict_data["messages"][idx] = _dict_data
 
     return dict_data
+
+
+def from_dict_plus(data_class: Type[T], data: Data, config: Optional[Config] = None) -> Any:
+    """
+    Load a schema from a dict and set the _as_dict attribute automatically
+
+    :param data_class: Data class schema
+    :param data: Data to fit into data class
+    :param config: Config for dacite
+    :return: A dataclass containing type T
+
+    """
+
+    result = from_dict(data_class, data, config)
+    if isinstance(result, data_class):
+        result._as_dict = data
+    return result

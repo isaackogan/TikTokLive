@@ -5,6 +5,7 @@ from dacite import from_dict
 from pyee import AsyncIOEventEmitter
 
 from .base import BaseClient
+from ..proto.utilities import from_dict_plus
 from ..types import events
 from ..types.events import AbstractEvent, ViewerCountUpdateEvent, CommentEvent, LiveEndEvent, GiftEvent, QuestionEvent, UnknownEvent, ConnectEvent, DisconnectEvent
 
@@ -90,17 +91,19 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
                 return event
 
         # Viewer update
-        if webcast_message.get("viewerCount"):
-            event: ViewerCountUpdateEvent = from_dict(ViewerCountUpdateEvent, webcast_message)
-            event._as_dict = webcast_message
-            self._viewer_count = event.viewerCount
-            return event
+        if webcast_message["type"] == "WebcastRoomUserSeqMessage":
+            self._viewer_count = webcast_message["viewerCount"]
+            return from_dict_plus(
+                ViewerCountUpdateEvent,
+                webcast_message
+            )
 
         # Comment
-        if webcast_message.get("comment"):
-            event: CommentEvent = from_dict(CommentEvent, webcast_message)
-            event._as_dict = webcast_message
-            return event
+        if webcast_message["type"] == "WebcastChatMessage":
+            return from_dict_plus(
+                CommentEvent,
+                webcast_message
+            )
 
         # Live ended
         action: Optional[int] = webcast_message.get("action")
@@ -108,22 +111,21 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
             self._disconnect()
             return LiveEndEvent()
 
-        # Gift Received
-        gift: Optional[str] = webcast_message.get("giftJson")
-        if gift:
-            del webcast_message["giftJson"]
+        # Gift
+        if webcast_message["type"] == "WebcastGiftMessage":
+            gift: Optional[str] = webcast_message.get("giftJson")
             webcast_message["gift"] = json.loads(gift)
             event: GiftEvent = from_dict(GiftEvent, webcast_message)
             event.gift.extended_gift = self.available_gifts.get(event.gift.gift_id)
             event._as_dict = webcast_message
             return event
 
-        # Question Received
-        question: Optional[dict] = webcast_message.get("questionDetails")
-        if question:
-            event: QuestionEvent = from_dict(QuestionEvent, question)
-            event._as_dict = question
-            return event
+        # Question
+        if webcast_message["type"] == "WebcastQuestionNewMessage":
+            return from_dict_plus(
+                QuestionEvent,
+                webcast_message.get("questionDetails")
+            )
 
         # We haven't implemented deserialization for it yet, or it doesn't have a model
         event: UnknownEvent = UnknownEvent()
