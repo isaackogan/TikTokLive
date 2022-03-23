@@ -111,6 +111,13 @@
                                 <p>This is <strong>not</strong> an official API. It’s a reverse engineering and research project.</p>
                                 <p>Join the support discord and DM <code class="docutils literal notranslate"><span class="pre">fallen#9745</span></code> for inquiries, help and suggestions. Feel free to make pull
                                     requests with missing/new features, fixes, etc.</p>
+                                <section id="video-tutorial">
+                                    <h3>Video Tutorial<a class="headerlink" href="#video-tutorial" title="Permalink to this headline"></a></h3>
+                                    <p>The following is a video tutorial produced by <a class="reference external" href="https://www.youtube.com/channel/UCh8JuEPtb0oBeVv2nt6Y96A">&#64;Vyler</a> on YouTube that makes use
+                                        of this library. Thank him for his hard work! Note this was not produced by <a class="reference external" href="https://github.com/isaackogan">&#64;isaackogan</a>. All
+                                        video-related questions should be directed to Vyler!</p>
+                                    <p><a class="reference external" href="https://www.youtube.com/watch?v=gubvklbZFTU"><img alt="YouTube Tutorial" src="https://img.youtube.com/vi/gubvklbZFTU/0.jpg"/></a></p>
+                                </section>
                                 <section id="ukraine-buy-library-addons-ukraine">
                                     <h3><img alt="!Ukraine" src="https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png"/> 💲💲 Buy Library Addons 💲💲 <img alt="!Ukraine"
                                                                                                                                                                                    src="https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png"/><a
@@ -135,12 +142,12 @@
                                         <tbody>
                                         <tr class="row-even">
                                             <td><p>Donation Sounds</p></td>
-                                            <td><p>$2</p></td>
+                                            <td><p>$5 (Also includes Text Command System)</p></td>
                                             <td><p>Play custom sound files (mp3/wav/etc.) when a user donates to your stream with specific gifts (Rose, Sunglasses, etc.)</p></td>
                                         </tr>
                                         <tr class="row-odd">
                                             <td><p>Text Command System</p></td>
-                                            <td><p>$2</p></td>
+                                            <td><p>$5 (Also includes Donation Sounds)</p></td>
                                             <td><p>Using the same style handling as this library, parse text messages into Amazon Echo styled commands you can handle with an assortment of response options including
                                                 playing a wav or text-to-speech, or custom response.</p></td>
                                         </tr>
@@ -189,7 +196,7 @@
 
 <span class="c1"># Instantiate the client with the user&#39;s username</span>
 <span class="n">client</span><span class="p">:</span> <span class="n">TikTokLiveClient</span> <span class="o">=</span> <span class="n">TikTokLiveClient</span><span class="p">(</span><span class="n">unique_id</span><span
-                                                    class="o">=</span><span class="s2">&quot;@oldskoldj&quot;</span><span class="p">)</span>
+                                                    class="o">=</span><span class="s2">&quot;@isaackogz&quot;</span><span class="p">)</span>
 
 
 <span class="c1"># Define how you want to handle specific events via decorator</span>
@@ -209,7 +216,7 @@
 
 
 <span class="c1"># Define handling an event via &quot;callback&quot;</span>
-<span class="n">client</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="s2">&quot;comment&quot;</span><span class="p">,</span> <span class="n">on_connect</span><span
+<span class="n">client</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="s2">&quot;comment&quot;</span><span class="p">,</span> <span class="n">on_comment</span><span
                                                     class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
@@ -300,7 +307,14 @@
             <span class="s2">&quot;timeout_ms&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
 
             <span class="c1"># Custom Asyncio event loop</span>
-            <span class="s2">&quot;loop&quot;</span><span class="p">:</span> <span class="kc">None</span>
+            <span class="s2">&quot;loop&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+
+            <span class="c1"># Whether to trust environment variables that provide proxies to be used in aiohttp requests</span>
+            <span class="s2">&quot;trust_env&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+
+            <span class="c1"># A ProxyContainer object for proxied requests,</span>
+            <span class="s2">&quot;proxy_container&quot;</span><span class="p">:</span> <span class="kc">None</span>
+
         <span class="p">}</span>
     <span class="p">)</span>
 <span class="p">)</span>
@@ -347,6 +361,22 @@
                                             <td><p>add_listener</p></td>
                                             <td><p>Adds an <em>asynchronous</em> listener function (or, you can decorate a function with <code class="docutils literal notranslate"><span
                                                     class="pre">&#64;client.on()</span></code>) and takes two parameters, an event name and the payload, an AbstractEvent</p></td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td><p>add_proxies</p></td>
+                                            <td><p>Add proxies to the current list of proxies with a valid aiohttp proxy-url</p></td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td><p>get_proxies</p></td>
+                                            <td><p>Get the current list of proxies by proxy-url</p></td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td><p>remove_proxies</p></td>
+                                            <td><p>Remove proxies from the current list of proxies by proxy-url</p></td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td><p>set_proxies_enabled</p></td>
+                                            <td><p>Set whether or not proxies are enabled (disabled by default)</p></td>
                                         </tr>
                                         </tbody>
                                     </table>

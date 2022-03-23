@@ -50,6 +50,7 @@
                                             <li class="toctree-l4"><a class="reference internal" href="#module-TikTokLive.client.base">TikTokLive.client.base module</a></li>
                                             <li class="toctree-l4"><a class="reference internal" href="#module-TikTokLive.client.client">TikTokLive.client.client module</a></li>
                                             <li class="toctree-l4"><a class="reference internal" href="#module-TikTokLive.client.http">TikTokLive.client.http module</a></li>
+                                            <li class="toctree-l4"><a class="reference internal" href="#module-TikTokLive.client.proxy">TikTokLive.client.proxy module</a></li>
                                             <li class="toctree-l4"><a class="reference internal" href="#module-TikTokLive.client">Module contents</a></li>
                                         </ul>
                                     </li>
@@ -123,10 +124,38 @@
                                             class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span
                                             class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span
                                             class="pre">enable_extended_gift_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span
-                                            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span
-                                            class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.base.BaseClient" title="Permalink to this definition"></a></dt>
+                                            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span class="pre">trust_env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>,
+                                        <em class="sig-param"><span class="n"><span class="pre">proxy_container</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.client.proxy.ProxyContainer"
+                                                                                                                               title="TikTokLive.client.proxy.ProxyContainer"><span class="pre">TikTokLive.client.proxy.ProxyContainer</span></a><span
+                                                class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                                                class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.base.BaseClient"
+                                                                                                                                                  title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
                                         <p>Base client responsible for long polling to the TikTok Webcast API</p>
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.base.BaseClient.add_proxies">
+                                                <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_proxies</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">proxies</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span
+                                                    class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink"
+                                                                                                                                                                                                     href="#TikTokLive.client.base.BaseClient.add_proxies"
+                                                                                                                                                                                                     title="Permalink to this definition"></a>
+                                            </dt>
+                                            <dd><p>Add proxies to the proxy container for request usage</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters</dt>
+                                                    <dd class="field-odd"><p><strong>proxies</strong> – Proxies for usage</p>
+                                                    </dd>
+                                                    <dt class="field-even">Returns</dt>
+                                                    <dd class="field-even"><p>None</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
                                         <dl class="py property">
                                             <dt class="sig sig-object py" id="TikTokLive.client.base.BaseClient.available_gifts">
                                                 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">available_gifts</span></span><em
@@ -156,6 +185,45 @@
                                                 <dl class="field-list simple">
                                                     <dt class="field-odd">Returns</dt>
                                                     <dd class="field-odd"><p>Result</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.base.BaseClient.get_proxies">
+                                                <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_proxies</span></span><span
+                                                    class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a
+                                                    class="headerlink" href="#TikTokLive.client.base.BaseClient.get_proxies" title="Permalink to this definition"></a></dt>
+                                            <dd><p>Get a list of the current proxies in the proxy container being used for requests</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Returns</dt>
+                                                    <dd class="field-odd"><p>The proxies in the request container</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.base.BaseClient.remove_proxies">
+                                                <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_proxies</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">proxies</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span
+                                                    class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink"
+                                                                                                                                                                                                     href="#TikTokLive.client.base.BaseClient.remove_proxies"
+                                                                                                                                                                                                     title="Permalink to this definition"></a>
+                                            </dt>
+                                            <dd><p>Remove proxies from the proxy container for request usage</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters</dt>
+                                                    <dd class="field-odd"><p><strong>proxies</strong> – Proxies to remove</p>
+                                                    </dd>
+                                                    <dt class="field-even">Raises</dt>
+                                                    <dd class="field-even"><p><strong>ValueError</strong> – Raises ValueError if proxy is not present</p>
+                                                    </dd>
+                                                    <dt class="field-odd">Returns</dt>
+                                                    <dd class="field-odd"><p>None</p>
                                                     </dd>
                                                 </dl>
                                             </dd>
@@ -238,6 +306,25 @@
                                                 <dl class="field-list simple">
                                                     <dt class="field-odd">Returns</dt>
                                                     <dd class="field-odd"><p>None</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.base.BaseClient.set_proxies_enabled">
+                                                <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_proxies_enabled</span></span><span
+                                                    class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
+                                                    class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.base.BaseClient.set_proxies_enabled"
+                                                                                                                              title="Permalink to this definition"></a></dt>
+                                            <dd><p>Set whether to use proxies in requests</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters</dt>
+                                                    <dd class="field-odd"><p><strong>enabled</strong> – Whether proxies are enabled or not</p>
+                                                    </dd>
+                                                    <dt class="field-even">Returns</dt>
+                                                    <dd class="field-even"><p>None</p>
                                                     </dd>
                                                 </dl>
                                             </dd>
@@ -342,8 +429,16 @@
                                             class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em
                                             class="sig-param"><span class="n"><span class="pre">timeout_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
                                             class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span
-                                            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span
-                                            class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.http.TikTokHTTPClient" title="Permalink to this definition"></a></dt>
+                                            class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em
+                                            class="sig-param"><span class="n"><span class="pre">proxy_container</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                            class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.client.proxy.ProxyContainer"
+                                                                                                                           title="TikTokLive.client.proxy.ProxyContainer"><span class="pre">TikTokLive.client.proxy.ProxyContainer</span></a><span
+                                            class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span
+                                            class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trust_env</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                            class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                                                                                      href="#TikTokLive.client.http.TikTokHTTPClient"
+                                                                                                                                                                      title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
                                         <p>Client for making HTTP requests to TikTok’s Webcast API</p>
                                         <dl class="py attribute">
@@ -374,16 +469,14 @@
                                                 <span class="sig-name descname"><span class="pre">DEFAULT_REQUEST_HEADERS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span
                                                     class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
                                                     class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span
-                                                    class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{&quot;'Cache-Control'&quot;:</span> <span class="pre">'max-age=0',</span>
-                                                <span class="pre">&quot;'User-Agent'&quot;:</span> <span class="pre">'Mozilla/5.0</span> <span class="pre">(Windows</span> <span class="pre">NT</span> <span class="pre">10.0;</span>
-                                                <span class="pre">Win64;</span> <span class="pre">x64)</span> <span class="pre">AppleWebKit/537.36</span> <span class="pre">(KHTML,</span> <span class="pre">like</span>
-                                                <span class="pre">Gecko)</span> <span class="pre">Chrome/97.0.4692.99</span> <span class="pre">Safari/537.36',</span> <span class="pre">'Accept':</span> <span class="pre">'text/html,application/json,application/protobuf',</span>
+                                                    class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Accept':</span> <span class="pre">'text/html,application/json,application/protobuf',</span>
                                                 <span class="pre">'Accept-Encoding':</span> <span class="pre">'gzip,</span> <span class="pre">deflate',</span> <span class="pre">'Accept-Language':</span> <span
-                                                        class="pre">'en-US,en;q=0.9',</span> <span class="pre">'Connection':</span> <span class="pre">'keep-alive',</span> <span class="pre">'Origin':</span> <span
-                                                        class="pre">'https://www.tiktok.com',</span> <span class="pre">'Referer':</span> <span class="pre">'https://www.tiktok.com/'}</span></em><a class="headerlink"
-                                                                                                                                                                                                    href="#TikTokLive.client.http.TikTokHTTPClient.DEFAULT_REQUEST_HEADERS"
-                                                                                                                                                                                                    title="Permalink to this definition"></a>
-                                            </dt>
+                                                        class="pre">'en-US,en;q=0.9',</span> <span class="pre">'Cache-Control':</span> <span class="pre">'max-age=0',</span> <span class="pre">'Connection':</span> <span
+                                                        class="pre">'keep-alive',</span> <span class="pre">'Origin':</span> <span class="pre">'https://www.tiktok.com',</span> <span class="pre">'Referer':</span> <span
+                                                        class="pre">'https://www.tiktok.com/',</span> <span class="pre">'User-Agent':</span> <span class="pre">'Mozilla/5.0</span> <span class="pre">(Windows</span> <span
+                                                        class="pre">NT</span> <span class="pre">10.0;</span> <span class="pre">Win64;</span> <span class="pre">x64)</span> <span class="pre">AppleWebKit/537.36</span> <span
+                                                        class="pre">(KHTML,</span> <span class="pre">like</span> <span class="pre">Gecko)</span> <span class="pre">Chrome/97.0.4692.99</span> <span class="pre">Safari/537.36'}</span></em><a
+                                                    class="headerlink" href="#TikTokLive.client.http.TikTokHTTPClient.DEFAULT_REQUEST_HEADERS" title="Permalink to this definition"></a></dt>
                                             <dd></dd>
                                         </dl>
 
@@ -495,6 +588,145 @@
                                                     <dd class="field-odd"><p>asyncio.TimeoutError</p>
                                                     </dd>
                                                 </dl>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                            </section>
+                            <section id="module-TikTokLive.client.proxy">
+                                <span id="tiktoklive-client-proxy-module"></span>
+                                <h2>TikTokLive.client.proxy module<a class="headerlink" href="#module-TikTokLive.client.proxy" title="Permalink to this headline"></a></h2>
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="TikTokLive.client.proxy.ProxyContainer">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span
+                                            class="pre">TikTokLive.client.proxy.</span></span><span class="sig-name descname"><span class="pre">ProxyContainer</span></span><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">proxies</span></span><span class="p"><span class="pre">:</span></span><span
+                                            class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span
+                                            class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span
+                                            class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span
+                                            class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                                                                                                                       href="#TikTokLive.client.proxy.ProxyContainer"
+                                                                                                                                                                                                       title="Permalink to this definition"></a>
+                                    </dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+                                        <dl class="py property">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.proxy.ProxyContainer.count">
+                                                <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">count</span></span><em
+                                                    class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink"
+                                                                                                                                                                                  href="#TikTokLive.client.proxy.ProxyContainer.count"
+                                                                                                                                                                                  title="Permalink to this definition"></a>
+                                            </dt>
+                                            <dd><p>Get the current number of proxies in the container</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Returns</dt>
+                                                    <dd class="field-odd"><p>The current number of proxies</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.proxy.ProxyContainer.get">
+                                                <span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.proxy.ProxyContainer.get"
+                                                                                                                                            title="Permalink to this definition"></a></dt>
+                                            <dd><p>Fetch a proxy using one of the rotation settings defined in RotationSetting</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Returns</dt>
+                                                    <dd class="field-odd"><p>The HTTP/S proxy to return</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.proxy.ProxyContainer.set_enabled">
+                                                <span class="sig-name descname"><span class="pre">set_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                                    class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a
+                                                    class="headerlink" href="#TikTokLive.client.proxy.ProxyContainer.set_enabled" title="Permalink to this definition"></a></dt>
+                                            <dd><p>Set whether the system is enabled</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters</dt>
+                                                    <dd class="field-odd"><p><strong>enabled</strong> – Whether to pull a proxy on get()</p>
+                                                    </dd>
+                                                    <dt class="field-even">Returns</dt>
+                                                    <dd class="field-even"><p>None</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.proxy.ProxyContainer.set_pinned">
+                                                <span class="sig-name descname"><span class="pre">set_pinned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span
+                                                    class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span
+                                                    class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a
+                                                    class="headerlink" href="#TikTokLive.client.proxy.ProxyContainer.set_pinned" title="Permalink to this definition"></a></dt>
+                                            <dd><p>Set the proxy rotator to pinned mode in RotationSetting enum</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters</dt>
+                                                    <dd class="field-odd"><p><strong>index</strong> – Index to pin to</p>
+                                                    </dd>
+                                                    <dt class="field-even">Returns</dt>
+                                                    <dd class="field-even"><p>None</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.proxy.ProxyContainer.set_unpinned">
+                                                <span class="sig-name descname"><span class="pre">set_unpinned</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink"
+                                                                                                                                                                            href="#TikTokLive.client.proxy.ProxyContainer.set_unpinned"
+                                                                                                                                                                            title="Permalink to this definition"></a></dt>
+                                            <dd><p>Remove pinned status and return to whatever mode was set before set_pinned</p>
+                                                <p>:return:None</p>
+                                            </dd>
+                                        </dl>
+
+                                    </dd>
+                                </dl>
+
+                                <dl class="py class">
+                                    <dt class="sig sig-object py" id="TikTokLive.client.proxy.RotationSetting">
+                                        <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span
+                                            class="pre">TikTokLive.client.proxy.</span></span><span class="sig-name descname"><span class="pre">RotationSetting</span></span><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                                                                           href="#TikTokLive.client.proxy.RotationSetting"
+                                                                                                                                                           title="Permalink to this definition"></a></dt>
+                                    <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+                                        <p>Rotation settings for a proxy container</p>
+                                        <dl class="py attribute">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.proxy.RotationSetting.CONSECUTIVE">
+                                                <span class="sig-name descname"><span class="pre">CONSECUTIVE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#TikTokLive.client.proxy.RotationSetting.CONSECUTIVE" title="Permalink to this definition"></a>
+                                            </dt>
+                                            <dd><p>Rotate proxies consecutively, from proxy 0 -&gt; 1 -&gt; 2 -&gt; …etc.</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py attribute">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.proxy.RotationSetting.PINNED">
+                                                <span class="sig-name descname"><span class="pre">PINNED</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                                    class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span
+                                                    class="pre">3</span></em><a class="headerlink" href="#TikTokLive.client.proxy.RotationSetting.PINNED" title="Permalink to this definition"></a></dt>
+                                            <dd><p>Don’t rotate proxies at all, pin to a specific proxy index with set_pinned()</p>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py attribute">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.proxy.RotationSetting.RANDOM">
+                                                <span class="sig-name descname"><span class="pre">RANDOM</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
+                                                    class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span
+                                                    class="pre">2</span></em><a class="headerlink" href="#TikTokLive.client.proxy.RotationSetting.RANDOM" title="Permalink to this definition"></a></dt>
+                                            <dd><p>Rotate proxies randomly, from proxy 0 -&gt; 69 -&gt; 420 -&gt; 1 -&gt; …etc.</p>
                                             </dd>
                                         </dl>
 

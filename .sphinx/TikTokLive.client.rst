@@ -28,6 +28,14 @@ TikTokLive.client.http module
    :undoc-members:
    :show-inheritance:
 
+TikTokLive.client.proxy module
+------------------------------
+
+.. automodule:: TikTokLive.client.proxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
