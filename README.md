@@ -29,7 +29,7 @@ by [@isaackogan](https://github.com/isaackogan). All video-related questions sho
 
 [![YouTube Tutorial](https://img.youtube.com/vi/gubvklbZFTU/0.jpg)](https://www.youtube.com/watch?v=gubvklbZFTU)
 
-## ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png) 💲💲 Buy Library Addons 💲💲 ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png)
+## ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png) 💲💲 Buy Library Addons - Thermal Printer & More! 💲💲 ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png)
 
 Custom addons for this library are for sale for charity. **100 percent** of proceeds go to [UNICEF's Ukraine Humanitarian Crisis](https://secure.unicef.ca/page/98630/donate/1) fund.
 
