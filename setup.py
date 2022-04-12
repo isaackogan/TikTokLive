@@ -17,7 +17,7 @@ setuptools.setup(
     url="https://github.com/isaackogan/TikTokLive",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/isaackogan/TikTokLive/releases/tag/v0.8.0",
+    download_url="https://github.com/isaackogan/TikTokLive/releases/tag/v0.8.2",
     keywords=["tiktok", "tiktok live", "python3", "api", "unofficial"],
     install_requires=[
         "aiohttp>=3.8",  # Make requests
