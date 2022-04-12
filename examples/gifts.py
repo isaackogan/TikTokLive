@@ -1,7 +1,7 @@
 from TikTokLive import TikTokLiveClient
 from TikTokLive.types.events import GiftEvent
 
-client = TikTokLiveClient("@tofy_love1")
+client = TikTokLiveClient("@satisfyy.me")
 
 
 @client.on("gift")
@@ -16,12 +16,13 @@ async def on_gift(event: GiftEvent):
 
     """
 
-    # If it's type 1 and the streak is over
-    if event.gift.gift_type == 1 and event.gift.repeat_end == 1:
-        print(f"{event.user.uniqueId} sent {event.gift.repeat_count}x \"{event.gift.extended_gift.name}\"")
+    # Streakable gift & streak is over
+    if event.gift.streakable:
+        if not event.gift.streaking:
+            print(f"{event.user.uniqueId} sent {event.gift.repeat_count}x \"{event.gift.extended_gift.name}\"")
 
-    # It's not type 1, which means it can't have a streak & is automatically over
-    elif event.gift.gift_type != 1:
+    # Not streakable gift
+    else:
         print(f"{event.user.uniqueId} sent \"{event.gift.extended_gift.name}\"")
 
 

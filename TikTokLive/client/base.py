@@ -234,7 +234,6 @@ class BaseClient:
                 message = str(ex)
 
             self.__connecting = False
-            await self._http.session.close()
             raise FailedConnection(message)
 
     def _disconnect(self) -> None:

@@ -15,7 +15,7 @@ A python library to receive and decode livestream events such as comments and gi
 connects to the WebCast service using only a user's `unique_id` and allows you to join your livestream as well as that of other streamers. No credentials are required to use TikTok-Live-Connector.
 
 This library is a nearly 1:1 python implementation of the Javascript
-[TikTok-Livestream-Chat-Connector](https://github.com/zerodytrash/TikTok-Livestream-Chat-Connector)
+[TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Livestream-Chat-Connector)
 by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python.
 
 This is **not** an official API. It's a reverse engineering and research project.
@@ -43,6 +43,13 @@ and will take time to produce. You will be updated through e-mail about their pr
 GoFundMe donations are in **CAD** (Canadian Dollars), because I am a Canadian. The number you type into GoFundMe **MUST** be the value listed in CAD. If the item costs $5 USD, you must put $7 into the GoFundMe, as that
 is the Canadian conversion. If you under-pay, you **will be** asked to transfer the difference via PayPal.
 
+### Thermal Printing
+
+| Item       | Price (USD) | Price (CAD) | Description                                                                                                                                                                                                                                                                   |
+|------------|-------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Standard   | ~ $30       | CA$ 40      | Print events to a Thermal Printer. For example, printing a comment with the user's name, message, and profile picture. This is a HIGHLY advanced wrapper allowing you to print to a USB printer (must have ESCPOS) like it's nothing.                                         |
+| Setup Help | ~ $10       | CA$ 15      | Up to 45 minutes of 1-on-1 setup time. I will conference with you in a voice call on Discord and remotely control your PC via AnyDesk. I will install the software on the spot, with you. Must have a working phone with Discord, so I can see the printer in case I need to. |_
+
 ### Regular Items
 
 | Item                                      | Price (USD)              | Price (CAD)              | Description                                                                                                                                                                                                                                                      |
@@ -53,13 +60,6 @@ is the Canadian conversion. If you under-pay, you **will be** asked to transfer 
 | TikTok Chat to Twitch Chat Conversion Bot | ~ $8                     | CA$ 10                   | Send all TikTok chats to a Twitch channel's chat using a stream moderator/operator account on Twitch.                                                                                                                                                            |
 | Custom Option                             | Contact for a quote      | Contact for a quote      | See something not on here? Contact for a custom quote. Please not that we reserve the right to add your commission to this shop for others to purchase after it is done. The goal of this shop is to support charity, so the more purchasable items, the better. |
 | Donation                                  | Choose your contribution | Choose your contribution | Donate to the fund for the sake of it. Every dollar makes a difference.                                                                                                                                                                                          |
-
-### Thermal Printing
-
-| Item       | Price (USD) | Price (CAD) | Description                                                                                                                                                                                                                                                                   |
-|------------|-------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Standard   | ~ $30       | CA$ 40      | Print events to a Thermal Printer. For example, printing a comment with the user's name, message, and profile picture. This is a HIGHLY advanced wrapper allowing you to print to a USB printer (must have ESCPOS) like it's nothing.                                         |
-| Setup Help | ~ $10       | CA$ 15      | Up to 45 minutes of 1-on-1 setup time. I will conference with you in a voice call on Discord and remotely control your PC via AnyDesk. I will install the software on the spot, with you. Must have a working phone with Discord, so I can see the printer in case I need to. |
 
 ## Getting started
 
@@ -223,17 +223,31 @@ async def on_join(event: JoinEvent):
 ### `gift`
 
 Triggered every time a gift arrives. Extra information can be gleamed off the `available_gifts` client attribute.
-> **NOTE:** Users have the capability to send gifts in a streak. This increases the `data.gift.repeat_count` value until the user terminates the streak. During this time new gift events are triggered again and again with an increased `data.gift.repeat_count` value. It should be noted that after the end of the streak, another gift event is triggered, which signals the end of the streak via `data.gift.repeat_end`:`1`. This applies only to gifts with `data.gift.gift_type`:`1`. This means that even if the user sends a `gift_type`:`1` gift only once, you will receive the event twice. Once with `repeat_end`:`0` and once with `repeat_end`:`1`. Therefore, the event should be handled as follows:
+> **NOTE:** Users have the capability to send gifts in a streak. This increases the `data.gift.repeat_count` value until the user terminates the streak. During this time new gift events are triggered again and again with an increased `data.gift.repeat_count` value. It should be noted that after the end of the streak, another gift event is triggered, which signals the end of the streak via `data.gift.repeat_end`:`1`. This applies only to gifts with `data.gift.gift_type`:`1`. This means that even if the user sends a `gift_type`:`1` gift only once, you will receive the event twice. Once with `repeat_end`:`0` and once with `repeat_end`:`1`. Therefore, the event should be handled as follows in one of TWO ways:
 
 ```python
 @client.on("gift")
 async def on_gift(event: GiftEvent):
     # If it's type 1 and the streak is over
-    if event.gift.gift_type == 1 and event.gift.repeat_end == 1:
-        print(f"{event.user.uniqueId} sent {event.gift.repeat_count}x \"{event.gift.extended_gift.name}\"")
+    if event.gift.gift_type == 1:
+        if event.gift.repeat_end == 1:
+            print(f"{event.user.uniqueId} sent {event.gift.repeat_count}x \"{event.gift.extended_gift.name}\"")
 
     # It's not type 1, which means it can't have a streak & is automatically over
     elif event.gift.gift_type != 1:
+        print(f"{event.user.uniqueId} sent \"{event.gift.extended_gift.name}\"")
+```
+
+```python
+@client.on("gift")
+async def on_gift(event: GiftEvent):
+    # If it's type 1 and the streak is over
+    if event.gift.streakable:
+        if not event.gift.streaking:
+            print(f"{event.user.uniqueId} sent {event.gift.repeat_count}x \"{event.gift.extended_gift.name}\"")
+
+    # It's not type 1, which means it can't have a streak & is automatically over
+    else:
         print(f"{event.user.uniqueId} sent \"{event.gift.extended_gift.name}\"")
 ```
 

@@ -1,4 +1,3 @@
-import json
 from typing import Optional, Type
 
 from dacite import from_dict
@@ -29,7 +28,7 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
 
         BaseClient.__init__(self, unique_id, **options)
         AsyncIOEventEmitter.__init__(self, self.loop)
-
+            
     async def _connect(self) -> str:
         """
         Wrap connection in a connect event
@@ -92,7 +91,9 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
 
         # Viewer update
         if webcast_message["type"] == "WebcastRoomUserSeqMessage":
-            self._viewer_count = webcast_message["viewerCount"]
+            count: Optional[int] = webcast_message.get("viewerCount")
+            self._viewer_count = count if count is not None else self._viewer_count
+
             return from_dict_plus(
                 ViewerCountUpdateEvent,
                 webcast_message
@@ -111,12 +112,11 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
             self._disconnect()
             return LiveEndEvent()
 
-        # Gift
+        # Gift Handling
         if webcast_message["type"] == "WebcastGiftMessage":
-            gift: Optional[str] = webcast_message.get("giftJson")
-            webcast_message["gift"] = json.loads(gift)
+            webcast_message["gift"] = webcast_message
             event: GiftEvent = from_dict(GiftEvent, webcast_message)
-            event.gift.extended_gift = self.available_gifts.get(event.gift.gift_id)
+            event.gift.extended_gift = self.available_gifts.get(event.gift.giftId)
             event._as_dict = webcast_message
             return event
 

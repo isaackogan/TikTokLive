@@ -121,7 +121,7 @@ class User(AbstractObject):
 class GiftIcon(AbstractObject):
     """
     Icon data for a given gift (such as its image URL)
-    
+
     """
     avg_color: Optional[str]
     uri: Optional[str]
@@ -149,8 +149,10 @@ class ExtendedGift(AbstractObject):
     type: Optional[int]
     """The type of gift"""
 
-    describe: Optional[str]
     diamond_count: Optional[int]
+    """The currency (Diamond) value of the item"""
+
+    describe: Optional[str]
     duration: Optional[int]
     event_name: Optional[str]
     icon: Optional[GiftIcon]
@@ -164,38 +166,110 @@ class ExtendedGift(AbstractObject):
 
 
 @dataclass()
+class GiftDetailImage(AbstractObject):
+    """
+    Gift image
+    
+    """
+
+    giftPictureUrl: Optional[str]
+    """Icon URL for the Gift"""
+
+
+@dataclass()
+class GiftDetails(AbstractObject):
+    """
+    Details about a given gift 
+    
+    """
+
+    giftImage: Optional[GiftDetailImage]
+    """Image container for the Gift"""
+
+    describe: Optional[str]
+    """Describes the gift"""
+
+    giftType: Optional[int]
+    """The type of gift. Type 1 are repeatable, any other type are not."""
+
+    diamondCount: Optional[int]
+    """Diamond value of 1 of the gift"""
+
+    giftName: Optional[str]
+    """Name of the gift"""
+
+
+@dataclass()
 class Gift(AbstractObject):
     """
     Gift object containing information about a given gift
     
     """
 
-    from_user_id: Optional[int]
-    """TikTok ID of the user that sent the gift"""
+    giftId: Optional[int]
+    """The Internal TikTok ID of the gift"""
 
-    to_user_id: Optional[int]
-    """TikTok ID of the user that received the gift (the streamer)"""
+    repeatCount: Optional[int]
+    """Number of times the gift has repeated"""
 
-    gift_id: Optional[int]
-    """ID of the gift"""
+    repeatEnd: Optional[int]
+    """Whether or not the repetition is over"""
 
-    gift_type: Optional[int]
-    """The type of gift (type 1 are repeatable, other types are not)"""
+    giftDetails: Optional[GiftDetails]
+    """Additional details about the gift"""
 
-    repeat_count: Optional[int]
-    """The number of times the gift has repeated"""
-
-    room_id: Optional[int]
-    """The room ID that the gift was sent to"""
-
-    repeat_end: Optional[int]
-    """Values 1 or 0, dictates whether the gift repetition has ended, ONLY for Type 1"""
-
-    log_id: Optional[str]
-    msg_id: Optional[int]
-    anchor_id: Optional[int]
-    from_idc: Optional[str]
-
-    # Extra Gift Info
     extended_gift: Optional[ExtendedGift]
-    """Extended gift including important data like the gift's image"""
+    """Extended gift including extra data (not very important as of april 2022)"""
+
+    @property
+    def streakable(self) -> bool:
+        """
+        Whether a given gift can have a streak
+
+        :return: True if it is type 1, otherwise False
+        """
+
+        return self.giftDetails.giftType == 1
+
+    @property
+    def streaking(self) -> bool:
+        """
+        Whether the streak is over
+        
+        :return: True if currently streaking, False if not
+
+        """
+
+        return bool(self.repeatEnd)
+
+    @property
+    def repeat_count(self) -> int:
+        """
+        Alias for repeatCount for backwards compatibility
+
+        :return: repeatCount Value
+        """
+
+        return self.repeatCount
+
+    @property
+    def repeat_end(self) -> int:
+        """
+        Alias for repeatEnd for backwards compatibility
+
+        :return: repeatEnd Value
+
+        """
+
+        return self.repeatEnd
+
+    @property
+    def gift_type(self) -> int:
+        """
+        Alias for the giftDetails.giftType for backwards compatibility
+
+        :return: giftType Value
+
+        """
+
+        return self.giftDetails.giftType

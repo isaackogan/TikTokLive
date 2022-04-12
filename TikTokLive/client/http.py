@@ -1,7 +1,7 @@
 import urllib.parse
 from typing import Dict, Union, Optional
 
-import aiohttp as aiohttp
+from aiohttp import ClientSession
 
 from TikTokLive.client.proxy import ProxyContainer
 from TikTokLive.proto.utilities import deserialize_message
@@ -43,7 +43,6 @@ class TikTokHTTPClient:
         """
 
         self.timeout: int = int((timeout_ms if isinstance(timeout_ms, int) else 10000) / 1000)
-        self.session: aiohttp.ClientSession = aiohttp.ClientSession(trust_env=trust_env)
         self.proxy_container: ProxyContainer = proxy_container if proxy_container is not None else ProxyContainer(enabled=False)
         self.headers: Dict[str, str] = {
             **self.DEFAULT_REQUEST_HEADERS,
@@ -60,10 +59,11 @@ class TikTokHTTPClient:
         :raises: asyncio.TimeoutError
 
         """
-
         request_url: str = f"{url}?{urllib.parse.urlencode(params if params is not None else dict())}"
-        async with self.session.get(request_url, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
-            return await request.read()
+
+        async with ClientSession() as session:
+            async with session.get(request_url, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
+                return await request.read()
 
     async def __aiohttp_get_json(self, url: str, params: dict) -> dict:
         """
@@ -77,8 +77,10 @@ class TikTokHTTPClient:
         """
 
         request_url: str = f"{url}?{urllib.parse.urlencode(params if params is not None else dict())}"
-        async with self.session.get(request_url, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
-            return await request.json()
+
+        async with ClientSession() as session:
+            async with session.get(request_url, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
+                return await request.json()
 
     async def get_livestream_page_html(self, unique_id: str) -> str:
         """
