@@ -40,15 +40,6 @@ Items that have been paid for will be delivered on average within 3-4 hours, at 
 | Standard   | $35         | Print events to a Thermal Printer. For example, printing a comment with the user's name, message, and profile picture. This is a HIGHLY advanced wrapper allowing you to print to a USB printer (must have ESCPOS) like it's nothing. You can also use a Network or Serial printer, if they are ESCPOS, however these are not recommended as they tend to drop connections more frequently than USB.                                        |
 | Setup Help | $10         | Up to 45 minutes of 1-on-1 setup time. I will conference with you in a voice call on Discord and remotely control your PC via AnyDesk. I will install the software on the spot, with you. Must have a working phone with Discord, so I can see the printer in case I need to. |_
 
-
-### Sample Image
-
-Here's a sample of what it might look like. We also provided
-an additional image-processed profile picture when people send gifts!
-
-![Image](https://i.imgur.com/gAJGri6.png)
-
-
 ## Getting started
 
 
