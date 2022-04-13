@@ -23,7 +23,7 @@ This is **not** an official API. It's a reverse engineering and research project
 
 Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
-## 🖨 Thermal Printing 🖨 ️ 
+## 🖨 Thermal Printing (20+ SALES & COUNTING!) 🖨 ️ 
 
 A ready-to-go thermal printing program is for sale. To purchase it,
 join the [support discord](https://discord.gg/JwW8UwfUmC) and create a ticket, or e-mail `info@isaackogan.com`.
