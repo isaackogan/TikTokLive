@@ -23,7 +23,7 @@ This is **not** an official API. It's a reverse engineering and research project
 
 Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
-##🖨 Thermal Printing 🖨 ️ 
+## 🖨 Thermal Printing 🖨 ️ 
 
 A ready-to-go thermal printing program is for sale. To purchase it,
 join the [support discord](https://discord.gg/JwW8UwfUmC) and create a ticket, or e-mail `info@isaackogan.com`.
@@ -33,9 +33,6 @@ and specific to your infrastructure.
 
 Payments are available through PayPal/BTC/ETH and **are in USD.** Delivery time can vary.
 Items that have been paid for will be delivered on average within 3-4 hours, at maximum within 24 hours save for extenuating circumstances.
-
-GoFundMe donations are in **CAD** (Canadian Dollars), because I am a Canadian. The number you type into GoFundMe **MUST** be the value listed in CAD. If the item costs $5 USD, you must put $7 into the GoFundMe, as that
-is the Canadian conversion. If you under-pay, you **will be** asked to transfer the difference via PayPal.
 
 
 | Item       | Price (USD) | Description                                                                                                                                                                                                                                                                   |
