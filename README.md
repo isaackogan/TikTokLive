@@ -12,56 +12,42 @@ A python library to connect to and read events from TikTok's LIVE service
 <!-- [![Downloads](https://pepy.tech/badge/tiktoklive)](https://pepy.tech/project/tiktoklive) -->
 
 A python library to receive and decode livestream events such as comments and gifts in real-time from TikTok's LIVE service by connecting to TikTok's internal WebCast push service. This library includes a wrapper that
-connects to the WebCast service using only a user's `unique_id` and allows you to join your livestream as well as that of other streamers. No credentials are required to use TikTok-Live-Connector.
+connects to the WebCast service using only a user's `unique_id` and allows you to join your livestream as well as that of other streamers. No credentials are required to use TikTokLive.
 
-This library is a nearly 1:1 python implementation of the Javascript
+This library a Python implementation of the Javascript
 [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Livestream-Chat-Connector)
-by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python.
+by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python
+or require it for their specific dependancies.
 
 This is **not** an official API. It's a reverse engineering and research project.
 
-Join the support discord and DM ``fallen#9745`` for inquiries, help and suggestions. Feel free to make pull requests with missing/new features, fixes, etc.
+Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
-## Video Tutorial
+##🖨 Thermal Printing 🖨 ️ 
 
-The following is a video tutorial produced by [@Vyler](https://www.youtube.com/channel/UCh8JuEPtb0oBeVv2nt6Y96A) on YouTube that makes use of this library. Thank him for his hard work! Note this was not produced
-by [@isaackogan](https://github.com/isaackogan). All video-related questions should be directed to Vyler!
+A ready-to-go thermal printing program is for sale. To purchase it,
+join the [support discord](https://discord.gg/JwW8UwfUmC) and create a ticket, or e-mail `info@isaackogan.com`.
 
-[![YouTube Tutorial](https://img.youtube.com/vi/gubvklbZFTU/0.jpg)](https://www.youtube.com/watch?v=gubvklbZFTU)
+Setup troubleshooting will be provided (but ultimately), hosting and setup is up to you
+and specific to your infrastructure.
 
-## ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png) 💲💲 Buy Library Addons - Thermal Printer 🖨️ & More! 💲💲 ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png)
-
-Custom addons for this library are for sale for charity. **100 percent** of proceeds go to [UNICEF's Ukraine Humanitarian Crisis](https://secure.unicef.ca/page/98630/donate/1) fund.
-
-To purchase an addon, contact info@isaackogan.com with the item name. Setup troubleshooting will be provided, however hosting and setup of the applications is up to you and specific to your infrastructure.
-
-Payments via [GoFundMe page](https://www.isaackogan.com/uadonate) OR PayPal/BTC/ETH (will be sent to GoFundMe through me). Delivery time varies. Items that have not purchased before yet have to be made for the first time
-and will take time to produce. You will be updated through e-mail about their progress as it is being made. Items that have been produced will be delivered within 12h of your payment being acknowledged.
-
-### VERY IMPORTANT: CAD Currency Notice
+Payments are available through PayPal/BTC/ETH and **are in USD.** Delivery time can vary.
+Items that have been paid for will be delivered on average within 3-4 hours, at maximum within 24 hours save for extenuating circumstances.
 
 GoFundMe donations are in **CAD** (Canadian Dollars), because I am a Canadian. The number you type into GoFundMe **MUST** be the value listed in CAD. If the item costs $5 USD, you must put $7 into the GoFundMe, as that
 is the Canadian conversion. If you under-pay, you **will be** asked to transfer the difference via PayPal.
 
-### Thermal Printing 🖨️
 
-| Item       | Price (USD) | Price (CAD) | Description                                                                                                                                                                                                                                                                   |
-|------------|-------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Standard   | ~ $30       | CA$ 40      | Print events to a Thermal Printer. For example, printing a comment with the user's name, message, and profile picture. This is a HIGHLY advanced wrapper allowing you to print to a USB printer (must have ESCPOS) like it's nothing.                                         |
-| Setup Help | ~ $10       | CA$ 15      | Up to 45 minutes of 1-on-1 setup time. I will conference with you in a voice call on Discord and remotely control your PC via AnyDesk. I will install the software on the spot, with you. Must have a working phone with Discord, so I can see the printer in case I need to. |_
-
-### Regular Items 💃
-
-| Item                                      | Price (USD)              | Price (CAD)              | Description                                                                                                                                                                                                                                                      |
-|-------------------------------------------|--------------------------|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Donation Sounds                           | ~ $5                     | CA$ 7                    | Play custom sound files (mp3/wav/etc.) when a user donates to your stream with specific gifts (Rose, Sunglasses, etc.)                                                                                                                                           |
-| Text Command System                       | ~ $5                     | CA$ 7                    | Using the same style handling as this library, parse text messages into Amazon Echo styled commands you can handle with an assortment of response options including playing a wav or text-to-speech, or custom response.                                         |
-| Combined Text & Donation Sounds           | ~ $8                     | CA$ 10                   | Everything that "Donation Sounds" and "Text Command System" does, but combined into one singular program.                                                                                                                                                        |
-| TikTok Chat to Twitch Chat Conversion Bot | ~ $8                     | CA$ 10                   | Send all TikTok chats to a Twitch channel's chat using a stream moderator/operator account on Twitch.                                                                                                                                                            |
-| Custom Option                             | Contact for a quote      | Contact for a quote      | See something not on here? Contact for a custom quote. Please not that we reserve the right to add your commission to this shop for others to purchase after it is done. The goal of this shop is to support charity, so the more purchasable items, the better. |
-| Donation                                  | Choose your contribution | Choose your contribution | Donate to the fund for the sake of it. Every dollar makes a difference.                                                                                                                                                                                          |
+| Item       | Price (USD) | Description                                                                                                                                                                                                                                                                   |
+|------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Standard   | $35         | Print events to a Thermal Printer. For example, printing a comment with the user's name, message, and profile picture. This is a HIGHLY advanced wrapper allowing you to print to a USB printer (must have ESCPOS) like it's nothing. You can also use a Network or Serial printer, if they are ESCPOS, however these are not recommended as they tend to drop connections more frequently than USB.                                        |
+| Setup Help | $10         | Up to 45 minutes of 1-on-1 setup time. I will conference with you in a voice call on Discord and remotely control your PC via AnyDesk. I will install the software on the spot, with you. Must have a working phone with Discord, so I can see the printer in case I need to. |_
 
 ## Getting started
+
+
+The hyperlinked URL is a [Video Tutorial](https://img.youtube.com/vi/gubvklbZFTU/0.jpg) produced by [@Vyler](https://www.youtube.com/channel/UCh8JuEPtb0oBeVv2nt6Y96A) on YouTube
+that makes use of this library. You can also continue reading for a more up-to-date, maintained guide.
 
 1. Install the module via pip
 
