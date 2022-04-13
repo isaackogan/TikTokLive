@@ -32,7 +32,7 @@ Setup troubleshooting will be provided (but ultimately), hosting and setup is up
 and specific to your infrastructure.
 
 Payments are available through PayPal/BTC/ETH and **are in USD.** Delivery time can vary.
-Items that have been paid for will be delivered on average within 3-4 hours, at maximum within 24 hours save for extenuating circumstances.
+Items that have been paid for will be delivered on average within 3-4 hours, at maximum within 24 hours.
 
 
 | Item       | Price (USD) | Description                                                                                                                                                                                                                                                                   |
