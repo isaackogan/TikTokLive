@@ -29,7 +29,7 @@ by [@isaackogan](https://github.com/isaackogan). All video-related questions sho
 
 [![YouTube Tutorial](https://img.youtube.com/vi/gubvklbZFTU/0.jpg)](https://www.youtube.com/watch?v=gubvklbZFTU)
 
-## ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png) 💲💲 Buy Library Addons - Thermal Printer & More! 💲💲 ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png)
+## ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png) 💲💲 Buy Library Addons - Thermal Printer 🖨️ & More! 💲💲 ![!Ukraine](https://raw.githubusercontent.com/yammadev/flag-icons/master/png/UA%402x.png)
 
 Custom addons for this library are for sale for charity. **100 percent** of proceeds go to [UNICEF's Ukraine Humanitarian Crisis](https://secure.unicef.ca/page/98630/donate/1) fund.
 
@@ -43,14 +43,14 @@ and will take time to produce. You will be updated through e-mail about their pr
 GoFundMe donations are in **CAD** (Canadian Dollars), because I am a Canadian. The number you type into GoFundMe **MUST** be the value listed in CAD. If the item costs $5 USD, you must put $7 into the GoFundMe, as that
 is the Canadian conversion. If you under-pay, you **will be** asked to transfer the difference via PayPal.
 
-### Thermal Printing
+### Thermal Printing 🖨️
 
 | Item       | Price (USD) | Price (CAD) | Description                                                                                                                                                                                                                                                                   |
 |------------|-------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Standard   | ~ $30       | CA$ 40      | Print events to a Thermal Printer. For example, printing a comment with the user's name, message, and profile picture. This is a HIGHLY advanced wrapper allowing you to print to a USB printer (must have ESCPOS) like it's nothing.                                         |
 | Setup Help | ~ $10       | CA$ 15      | Up to 45 minutes of 1-on-1 setup time. I will conference with you in a voice call on Discord and remotely control your PC via AnyDesk. I will install the software on the spot, with you. Must have a working phone with Discord, so I can see the printer in case I need to. |_
 
-### Regular Items
+### Regular Items 💃
 
 | Item                                      | Price (USD)              | Price (CAD)              | Description                                                                                                                                                                                                                                                      |
 |-------------------------------------------|--------------------------|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
