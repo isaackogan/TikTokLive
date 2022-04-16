@@ -28,7 +28,7 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
 
         BaseClient.__init__(self, unique_id, **options)
         AsyncIOEventEmitter.__init__(self, self.loop)
-            
+
     async def _connect(self) -> str:
         """
         Wrap connection in a connect event

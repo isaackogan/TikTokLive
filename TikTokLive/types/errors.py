@@ -28,3 +28,30 @@ class FailedConnection(RuntimeError):
 
     """
     pass
+
+
+class InvalidSessionId(RuntimeError):
+    """
+    Error raised when a session ID is expired or missing
+
+    """
+
+    pass
+
+
+class ChatMessageSendFailure(RuntimeError):
+    """
+    Error raised when a TikTok chat message fails to send
+
+    """
+
+    pass
+
+
+class ChatMessageRepeat(ChatMessageSendFailure):
+    """
+    Error raised when someone repeats a chat message
+
+    """
+
+    pass

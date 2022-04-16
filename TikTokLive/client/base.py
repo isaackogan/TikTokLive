@@ -9,7 +9,7 @@ from dacite import from_dict
 
 from TikTokLive.client.http import TikTokHTTPClient
 from TikTokLive.client.proxy import ProxyContainer
-from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift
+from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift, InvalidSessionId, ChatMessageSendFailure, ChatMessageRepeat
 from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
 
@@ -32,6 +32,7 @@ class BaseClient:
             enable_extended_gift_info: bool = True,
             trust_env: bool = False,
             proxy_container: Optional[ProxyContainer] = None,
+            lang: Optional[str] = "en-US"
     ):
         """
         Initialize the base client
@@ -47,6 +48,7 @@ class BaseClient:
         :param enable_extended_gift_info: Whether to retrieve extended gift info including its icon & other important things
         :param trust_env: Whether to trust environment variables that provide proxies to be used in aiohttp requests
         :param proxy_container: A proxy container that allows you to submit an unlimited # of proxies for rotation
+        :param lang: Change the language. Payloads *will* be in English, but this will change stuff like the extended_gift Gift attribute to the desired language!
 
         """
 
@@ -68,6 +70,11 @@ class BaseClient:
         self._viewer_count: Optional[int] = None
         self.__connecting: bool = False
         self.__connected: bool = False
+        self.__session_id: Optional[str] = None
+
+        # Change Language
+        TikTokHTTPClient.DEFAULT_CLIENT_PARAMS["app_language"] = lang
+        TikTokHTTPClient.DEFAULT_CLIENT_PARAMS["webcast_language"] = lang
 
         # Protected Attributes
         self._client_params: dict = {**TikTokHTTPClient.DEFAULT_CLIENT_PARAMS, **(client_params if isinstance(client_params, dict) else dict())}
@@ -250,16 +257,6 @@ class BaseClient:
         self.__connected: Optional[bool] = False
         self._client_params["cursor"]: str = ""
 
-    async def start(self) -> Optional[str]:
-        """
-        Start the client without blocking the main thread
-
-        :return: Room ID that was connected to
-
-        """
-
-        return await self._connect()
-
     async def stop(self) -> None:
         """
         Stop the client
@@ -272,16 +269,72 @@ class BaseClient:
             self._disconnect()
             return
 
-    def run(self) -> None:
+    async def start(self, session_id: Optional[str] = None) -> Optional[str]:
+        """
+        Start the client without blocking the main thread
+
+        :return: Room ID that was connected to
+
+        """
+
+        self.__set_session_id(session_id)
+
+        return await self._connect()
+
+    def run(self, session_id: Optional[str] = None) -> None:
         """
         Run client while blocking main thread
 
         :return: None
 
         """
+        self.__set_session_id(session_id)
 
         self.loop.run_until_complete(self._connect())
         self.loop.run_forever()
+
+    def __set_session_id(self, session_id: Optional[str]) -> None:
+        """
+        Set the Session ID for authenticated requests
+
+        :param session_id: New session ID
+        :return: None
+
+        """
+
+        if session_id:
+            self.__session_id = session_id
+            self._http.cookies["sessionid"] = session_id
+
+    async def send_message(self, text: str, session_id: Optional[str] = None) -> Optional[str]:
+        """
+        Send a message to the TikTok Live Chat
+
+        :param text: The message you want to send to the chat
+        :param session_id: The Session ID (If you've already supplied one, you don't need to)
+        :return: None
+
+        """
+
+        self.__set_session_id(session_id)
+
+        if not self.__session_id:
+            raise InvalidSessionId("Missing Session ID. Please provide your current Session ID to use this feature.")
+
+        params: dict = {**self._client_params, "content": text}
+        response: dict = await self._http.post_json_to_webcast_api("room/chat/", params, None)
+        status_code: Optional[int] = response.get("status_code")
+        data: Optional[dict] = response.get("data")
+
+        if status_code == 0:
+            return data
+
+        raise {
+            20003: InvalidSessionId("Your Session ID has expired. Please provide a new one"),
+            50007: ChatMessageRepeat("You cannot send repeated chat messages!")
+        }.get(
+            status_code, ChatMessageSendFailure(f"TikTok responded with status code {status_code}: {data.get('message')}")
+        )
 
     async def retrieve_room_info(self) -> Optional[dict]:
         """

@@ -5,17 +5,18 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import List
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.types.events import CommentEvent, AbstractEvent
 from gtts import gTTS
 from playsound import playsound
+
+from TikTokLive import TikTokLiveClient
+from TikTokLive.types.events import CommentEvent
 
 
 @dataclass
 class Context:
     name: str
     args: List[str]
-    event: AbstractEvent
+    event: CommentEvent
 
 
 class TikTokLiveCommandClient(TikTokLiveClient):
@@ -88,7 +89,7 @@ class TikTokLiveCommandClient(TikTokLiveClient):
         self.loop.run_in_executor(ThreadPoolExecutor(), functools.partial(self.play_sound, _fp))
 
 
-client: TikTokLiveCommandClient = TikTokLiveCommandClient("@rexpair_ca")
+client: TikTokLiveCommandClient = TikTokLiveCommandClient("@amazingviddeos")
 
 
 @client.on("/speak")
@@ -110,5 +111,27 @@ async def on_cam_command(context: Context):
     await client.speak(text=message)
 
 
+@client.on("/ping")
+async def on_ping(context: Context):
+    """
+    When someone runs the /ping command, choose how to react
+
+    :param context: Context of the command
+    :return: None
+
+    """
+
+    reply: str = f"{context.event.user.uniqueId} Pong!"
+
+    print(f"The bot will respond in chat with \"{reply}\"")
+    await client.send_message(reply)
+
+
 if __name__ == '__main__':
-    client.run()
+    """
+    You can find your session ID in the cookies in your browser on TikTok.com
+    Put the session ID here to allow people to respond to commands!
+    
+    """
+
+    client.run(session_id="SESSION_ID_HERE")

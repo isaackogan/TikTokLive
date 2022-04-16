@@ -10,13 +10,9 @@ Various examples implementing the TikTok Live Connector.
 - [Reading From GiftEvent](gifts.py)
 - [Using with Pygame](pygame.py)
 - [Downloading Avatars](avatars.py)
-
-### Fully Fledged Addons
-
 - [Donation Sounds](DonationSounds)
-- [Chat Commands](TextCommandSystem)
-- [Sounds & Commands (Combined)](SoundsAndCommands)
-- [TikTok to Twitch Live Chat](TwitchLiveChat)
+- [Chat Bot & Commands](commands.py)
+- [TikTok to Twitch Live Chat](twitch.py)
 
 ### Contributing Examples
 

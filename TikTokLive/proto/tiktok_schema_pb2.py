@@ -13,7 +13,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
-    b'\n\x13tiktok_schema.proto\x12\x06TikTok\"\x8c\x01\n\x0fWebcastResponse\x12!\n\x08messages\x18\x01 \x03(\x0b\x32\x0f.TikTok.Message\x12\x0e\n\x06\x63ursor\x18\x02 \x01(\t\x12\x0e\n\x06\x61\x63kIds\x18\x05 \x01(\t\x12\'\n\x07wsParam\x18\x07 \x01(\x0b\x32\x16.TikTok.WebsocketParam\x12\r\n\x05wsUrl\x18\n \x01(\t\"\'\n\x07Message\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0e\n\x06\x62inary\x18\x02 \x01(\x0c\"-\n\x0eWebsocketParam\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"\'\n\x15WebcastControlMessage\x12\x0e\n\x06\x61\x63tion\x18\x02 \x01(\x05\"0\n\x19WebcastRoomUserSeqMessage\x12\x13\n\x0bviewerCount\x18\x03 \x01(\x05\"A\n\x12WebcastChatMessage\x12\x1a\n\x04user\x18\x02 \x01(\x0b\x32\x0c.TikTok.User\x12\x0f\n\x07\x63omment\x18\x03 \x01(\t\"^\n\x14WebcastMemberMessage\x12\x1a\n\x04user\x18\x02 \x01(\x0b\x32\x0c.TikTok.User\x12*\n\x05\x65vent\x18\x01 \x01(\x0b\x32\x1b.TikTok.WebcastMessageEvent\"\xa4\x01\n\x12WebcastGiftMessage\x12\x1a\n\x04user\x18\x07 \x01(\x0b\x32\x0c.TikTok.User\x12\x0e\n\x06giftId\x18\x02 \x01(\x05\x12\x13\n\x0brepeatCount\x18\x05 \x01(\x05\x12\x11\n\trepeatEnd\x18\t \x01(\x05\x12:\n\x0bgiftDetails\x18\x0f \x01(\x0b\x32%.TikTok.WebcastGiftMessageGiftDetails\"\xa3\x01\n\x1dWebcastGiftMessageGiftDetails\x12\x36\n\tgiftImage\x18\x01 \x01(\x0b\x32#.TikTok.WebcastGiftMessageGiftImage\x12\x10\n\x08giftName\x18\x10 \x01(\t\x12\x10\n\x08\x64\x65scribe\x18\x02 \x01(\t\x12\x10\n\x08giftType\x18\x0b \x01(\x05\x12\x14\n\x0c\x64iamondCount\x18\x0c \x01(\x05\"5\n\x1bWebcastGiftMessageGiftImage\x12\x16\n\x0egiftPictureUrl\x18\x01 \x01(\t\"N\n\x14WebcastLinkMicBattle\x12\x36\n\x0b\x62\x61ttleUsers\x18\n \x03(\x0b\x32!.TikTok.WebcastLinkMicBattleItems\"S\n\x19WebcastLinkMicBattleItems\x12\x36\n\x0b\x62\x61ttleGroup\x18\x02 \x01(\x0b\x32!.TikTok.WebcastLinkMicBattleGroup\";\n\x19WebcastLinkMicBattleGroup\x12\x1e\n\x04user\x18\x01 \x01(\x0b\x32\x10.TikTok.LinkUser\"d\n\x14WebcastLinkMicArmies\x12\x36\n\x0b\x62\x61ttleItems\x18\x03 \x03(\x0b\x32!.TikTok.WebcastLinkMicArmiesItems\x12\x14\n\x0c\x62\x61ttleStatus\x18\x07 \x01(\x05\"h\n\x19WebcastLinkMicArmiesItems\x12\x12\n\nhostUserId\x18\x01 \x01(\x04\x12\x37\n\x0c\x62\x61ttleGroups\x18\x02 \x03(\x0b\x32!.TikTok.WebcastLinkMicArmiesGroup\"H\n\x19WebcastLinkMicArmiesGroup\x12\x1b\n\x05users\x18\x01 \x03(\x0b\x32\x0c.TikTok.User\x12\x0e\n\x06points\x18\x02 \x01(\x05\"^\n\x14WebcastSocialMessage\x12\x1a\n\x04user\x18\x02 \x01(\x0b\x32\x0c.TikTok.User\x12*\n\x05\x65vent\x18\x01 \x01(\x0b\x32\x1b.TikTok.WebcastMessageEvent\"\x87\x01\n\x12WebcastLikeMessage\x12\x1a\n\x04user\x18\x05 \x01(\x0b\x32\x0c.TikTok.User\x12*\n\x05\x65vent\x18\x01 \x01(\x0b\x32\x1b.TikTok.WebcastMessageEvent\x12\x11\n\tlikeCount\x18\x02 \x01(\x05\x12\x16\n\x0etotalLikeCount\x18\x03 \x01(\x05\"M\n\x19WebcastQuestionNewMessage\x12\x30\n\x0fquestionDetails\x18\x02 \x01(\x0b\x32\x17.TikTok.QuestionDetails\"C\n\x0fQuestionDetails\x12\x14\n\x0cquestionText\x18\x02 \x01(\t\x12\x1a\n\x04user\x18\x05 \x01(\x0b\x32\x0c.TikTok.User\"O\n\x13WebcastMessageEvent\x12\x38\n\x0c\x65ventDetails\x18\x08 \x01(\x0b\x32\".TikTok.WebcastMessageEventDetails\"@\n\x1aWebcastMessageEventDetails\x12\x13\n\x0b\x64isplayType\x18\x01 \x01(\t\x12\r\n\x05label\x18\x02 \x01(\t\"\xcd\x01\n\x04User\x12\x0e\n\x06userId\x18\x01 \x01(\x04\x12\x10\n\x08nickname\x18\x03 \x01(\t\x12.\n\x0eprofilePicture\x18\t \x01(\x0b\x32\x16.TikTok.ProfilePicture\x12\x34\n\x0f\x65xtraAttributes\x18\x16 \x01(\x0b\x32\x1b.TikTok.UserExtraAttributes\x12+\n\x05\x62\x61\x64ge\x18@ \x01(\x0b\x32\x1c.TikTok.UserBadgesAttributes\x12\x10\n\x08uniqueId\x18& \x01(\t\"n\n\x08LinkUser\x12\x0e\n\x06userId\x18\x01 \x01(\x04\x12\x10\n\x08nickname\x18\x02 \x01(\t\x12.\n\x0eprofilePicture\x18\x03 \x01(\x0b\x32\x16.TikTok.ProfilePicture\x12\x10\n\x08uniqueId\x18\x04 \x01(\t\"\x1e\n\x0eProfilePicture\x12\x0c\n\x04urls\x18\x01 \x03(\t\")\n\x13UserExtraAttributes\x12\x12\n\nfollowRole\x18\x03 \x01(\x05\"9\n\x14UserBadgesAttributes\x12!\n\x06\x62\x61\x64ges\x18\x15 \x03(\x0b\x32\x11.TikTok.UserBadge\"\'\n\tUserBadge\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\"C\n\x17WebcastWebsocketMessage\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x0c\n\x04type\x18\x07 \x01(\t\x12\x0e\n\x06\x62inary\x18\x08 \x01(\x0c\"/\n\x13WebcastWebsocketAck\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x0c\n\x04type\x18\x07 \x01(\t\"V\n\x17WebcastLiveIntroMessage\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x1a\n\x04user\x18\x05 \x01(\x0b\x32\x0c.TikTok.User\"$\n\rSystemMessage\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\"*\n\x1aWebcastInRoomBannerMessage\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"&\n\x08RankItem\x12\x0e\n\x06\x63olour\x18\x01 \x01(\t\x12\n\n\x02id\x18\x04 \x01(\x04\"L\n\rWeeklyRanking\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\r\n\x05label\x18\x02 \x01(\t\x12\x1e\n\x04rank\x18\x03 \x01(\x0b\x32\x10.TikTok.RankItem\"8\n\rRankContainer\x12\'\n\x08rankings\x18\x04 \x01(\x0b\x32\x15.TikTok.WeeklyRanking\"?\n\x18WebcastHourlyRankMessage\x12#\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x15.TikTok.RankContainerb\x06proto3')
+    b'\n\x13tiktok_schema.proto\x12\x06TikTok\"\x8c\x01\n\x0fWebcastResponse\x12!\n\x08messages\x18\x01 \x03(\x0b\x32\x0f.TikTok.Message\x12\x0e\n\x06\x63ursor\x18\x02 \x01(\t\x12\x0e\n\x06\x61\x63kIds\x18\x05 \x01(\t\x12\'\n\x07wsParam\x18\x07 \x01(\x0b\x32\x16.TikTok.WebsocketParam\x12\r\n\x05wsUrl\x18\n \x01(\t\"\'\n\x07Message\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0e\n\x06\x62inary\x18\x02 \x01(\x0c\"-\n\x0eWebsocketParam\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"\'\n\x15WebcastControlMessage\x12\x0e\n\x06\x61\x63tion\x18\x02 \x01(\x05\"0\n\x19WebcastRoomUserSeqMessage\x12\x13\n\x0bviewerCount\x18\x03 \x01(\x05\"A\n\x12WebcastChatMessage\x12\x1a\n\x04user\x18\x02 \x01(\x0b\x32\x0c.TikTok.User\x12\x0f\n\x07\x63omment\x18\x03 \x01(\t\"^\n\x14WebcastMemberMessage\x12\x1a\n\x04user\x18\x02 \x01(\x0b\x32\x0c.TikTok.User\x12*\n\x05\x65vent\x18\x01 \x01(\x0b\x32\x1b.TikTok.WebcastMessageEvent\"\xdc\x01\n\x12WebcastGiftMessage\x12\x1a\n\x04user\x18\x07 \x01(\x0b\x32\x0c.TikTok.User\x12\x0e\n\x06giftId\x18\x02 \x01(\x05\x12\x13\n\x0brepeatCount\x18\x05 \x01(\x05\x12\x11\n\trepeatEnd\x18\t \x01(\x05\x12:\n\x0bgiftDetails\x18\x0f \x01(\x0b\x32%.TikTok.WebcastGiftMessageGiftDetails\x12\x36\n\tgiftExtra\x18\x17 \x01(\x0b\x32#.TikTok.WebcastGiftMessageGiftExtra\"H\n\x1bWebcastGiftMessageGiftExtra\x12\x11\n\ttimestamp\x18\x06 \x01(\x04\x12\x16\n\x0ereceiverUserId\x18\x08 \x01(\x04\"\xa3\x01\n\x1dWebcastGiftMessageGiftDetails\x12\x36\n\tgiftImage\x18\x01 \x01(\x0b\x32#.TikTok.WebcastGiftMessageGiftImage\x12\x10\n\x08giftName\x18\x10 \x01(\t\x12\x10\n\x08\x64\x65scribe\x18\x02 \x01(\t\x12\x10\n\x08giftType\x18\x0b \x01(\x05\x12\x14\n\x0c\x64iamondCount\x18\x0c \x01(\x05\"5\n\x1bWebcastGiftMessageGiftImage\x12\x16\n\x0egiftPictureUrl\x18\x01 \x01(\t\"N\n\x14WebcastLinkMicBattle\x12\x36\n\x0b\x62\x61ttleUsers\x18\n \x03(\x0b\x32!.TikTok.WebcastLinkMicBattleItems\"S\n\x19WebcastLinkMicBattleItems\x12\x36\n\x0b\x62\x61ttleGroup\x18\x02 \x01(\x0b\x32!.TikTok.WebcastLinkMicBattleGroup\";\n\x19WebcastLinkMicBattleGroup\x12\x1e\n\x04user\x18\x01 \x01(\x0b\x32\x10.TikTok.LinkUser\"d\n\x14WebcastLinkMicArmies\x12\x36\n\x0b\x62\x61ttleItems\x18\x03 \x03(\x0b\x32!.TikTok.WebcastLinkMicArmiesItems\x12\x14\n\x0c\x62\x61ttleStatus\x18\x07 \x01(\x05\"h\n\x19WebcastLinkMicArmiesItems\x12\x12\n\nhostUserId\x18\x01 \x01(\x04\x12\x37\n\x0c\x62\x61ttleGroups\x18\x02 \x03(\x0b\x32!.TikTok.WebcastLinkMicArmiesGroup\"H\n\x19WebcastLinkMicArmiesGroup\x12\x1b\n\x05users\x18\x01 \x03(\x0b\x32\x0c.TikTok.User\x12\x0e\n\x06points\x18\x02 \x01(\x05\"^\n\x14WebcastSocialMessage\x12\x1a\n\x04user\x18\x02 \x01(\x0b\x32\x0c.TikTok.User\x12*\n\x05\x65vent\x18\x01 \x01(\x0b\x32\x1b.TikTok.WebcastMessageEvent\"\x87\x01\n\x12WebcastLikeMessage\x12\x1a\n\x04user\x18\x05 \x01(\x0b\x32\x0c.TikTok.User\x12*\n\x05\x65vent\x18\x01 \x01(\x0b\x32\x1b.TikTok.WebcastMessageEvent\x12\x11\n\tlikeCount\x18\x02 \x01(\x05\x12\x16\n\x0etotalLikeCount\x18\x03 \x01(\x05\"M\n\x19WebcastQuestionNewMessage\x12\x30\n\x0fquestionDetails\x18\x02 \x01(\x0b\x32\x17.TikTok.QuestionDetails\"C\n\x0fQuestionDetails\x12\x14\n\x0cquestionText\x18\x02 \x01(\t\x12\x1a\n\x04user\x18\x05 \x01(\x0b\x32\x0c.TikTok.User\"O\n\x13WebcastMessageEvent\x12\x38\n\x0c\x65ventDetails\x18\x08 \x01(\x0b\x32\".TikTok.WebcastMessageEventDetails\"@\n\x1aWebcastMessageEventDetails\x12\x13\n\x0b\x64isplayType\x18\x01 \x01(\t\x12\r\n\x05label\x18\x02 \x01(\t\"\xcd\x01\n\x04User\x12\x0e\n\x06userId\x18\x01 \x01(\x04\x12\x10\n\x08nickname\x18\x03 \x01(\t\x12.\n\x0eprofilePicture\x18\t \x01(\x0b\x32\x16.TikTok.ProfilePicture\x12\x34\n\x0f\x65xtraAttributes\x18\x16 \x01(\x0b\x32\x1b.TikTok.UserExtraAttributes\x12+\n\x05\x62\x61\x64ge\x18@ \x01(\x0b\x32\x1c.TikTok.UserBadgesAttributes\x12\x10\n\x08uniqueId\x18& \x01(\t\"n\n\x08LinkUser\x12\x0e\n\x06userId\x18\x01 \x01(\x04\x12\x10\n\x08nickname\x18\x02 \x01(\t\x12.\n\x0eprofilePicture\x18\x03 \x01(\x0b\x32\x16.TikTok.ProfilePicture\x12\x10\n\x08uniqueId\x18\x04 \x01(\t\"\x1e\n\x0eProfilePicture\x12\x0c\n\x04urls\x18\x01 \x03(\t\")\n\x13UserExtraAttributes\x12\x12\n\nfollowRole\x18\x03 \x01(\x05\"9\n\x14UserBadgesAttributes\x12!\n\x06\x62\x61\x64ges\x18\x15 \x03(\x0b\x32\x11.TikTok.UserBadge\"\'\n\tUserBadge\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\"C\n\x17WebcastWebsocketMessage\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x0c\n\x04type\x18\x07 \x01(\t\x12\x0e\n\x06\x62inary\x18\x08 \x01(\x0c\"/\n\x13WebcastWebsocketAck\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x0c\n\x04type\x18\x07 \x01(\t\"V\n\x17WebcastLiveIntroMessage\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x1a\n\x04user\x18\x05 \x01(\x0b\x32\x0c.TikTok.User\"$\n\rSystemMessage\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\"*\n\x1aWebcastInRoomBannerMessage\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"&\n\x08RankItem\x12\x0e\n\x06\x63olour\x18\x01 \x01(\t\x12\n\n\x02id\x18\x04 \x01(\x04\"L\n\rWeeklyRanking\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\r\n\x05label\x18\x02 \x01(\t\x12\x1e\n\x04rank\x18\x03 \x01(\x0b\x32\x10.TikTok.RankItem\"8\n\rRankContainer\x12\'\n\x08rankings\x18\x04 \x01(\x0b\x32\x15.TikTok.WeeklyRanking\"?\n\x18WebcastHourlyRankMessage\x12#\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x15.TikTok.RankContainerb\x06proto3')
 
 _WEBCASTRESPONSE = DESCRIPTOR.message_types_by_name['WebcastResponse']
 _MESSAGE = DESCRIPTOR.message_types_by_name['Message']
@@ -23,6 +23,7 @@ _WEBCASTROOMUSERSEQMESSAGE = DESCRIPTOR.message_types_by_name['WebcastRoomUserSe
 _WEBCASTCHATMESSAGE = DESCRIPTOR.message_types_by_name['WebcastChatMessage']
 _WEBCASTMEMBERMESSAGE = DESCRIPTOR.message_types_by_name['WebcastMemberMessage']
 _WEBCASTGIFTMESSAGE = DESCRIPTOR.message_types_by_name['WebcastGiftMessage']
+_WEBCASTGIFTMESSAGEGIFTEXTRA = DESCRIPTOR.message_types_by_name['WebcastGiftMessageGiftExtra']
 _WEBCASTGIFTMESSAGEGIFTDETAILS = DESCRIPTOR.message_types_by_name['WebcastGiftMessageGiftDetails']
 _WEBCASTGIFTMESSAGEGIFTIMAGE = DESCRIPTOR.message_types_by_name['WebcastGiftMessageGiftImage']
 _WEBCASTLINKMICBATTLE = DESCRIPTOR.message_types_by_name['WebcastLinkMicBattle']
@@ -107,6 +108,13 @@ WebcastGiftMessage = _reflection.GeneratedProtocolMessageType('WebcastGiftMessag
     # @@protoc_insertion_point(class_scope:TikTok.WebcastGiftMessage)
 })
 _sym_db.RegisterMessage(WebcastGiftMessage)
+
+WebcastGiftMessageGiftExtra = _reflection.GeneratedProtocolMessageType('WebcastGiftMessageGiftExtra', (_message.Message,), {
+    'DESCRIPTOR': _WEBCASTGIFTMESSAGEGIFTEXTRA,
+    '__module__': 'tiktok_schema_pb2'
+    # @@protoc_insertion_point(class_scope:TikTok.WebcastGiftMessageGiftExtra)
+})
+_sym_db.RegisterMessage(WebcastGiftMessageGiftExtra)
 
 WebcastGiftMessageGiftDetails = _reflection.GeneratedProtocolMessageType('WebcastGiftMessageGiftDetails', (_message.Message,), {
     'DESCRIPTOR': _WEBCASTGIFTMESSAGEGIFTDETAILS,
@@ -311,8 +319,7 @@ WebcastHourlyRankMessage = _reflection.GeneratedProtocolMessageType('WebcastHour
 })
 _sym_db.RegisterMessage(WebcastHourlyRankMessage)
 
-# noinspection PyProtectedMember
-if not _descriptor._USE_C_DESCRIPTORS:
+if _descriptor._USE_C_DESCRIPTORS == False:
     DESCRIPTOR._options = None
     _WEBCASTRESPONSE._serialized_start = 32
     _WEBCASTRESPONSE._serialized_end = 172
@@ -329,63 +336,65 @@ if not _descriptor._USE_C_DESCRIPTORS:
     _WEBCASTMEMBERMESSAGE._serialized_start = 420
     _WEBCASTMEMBERMESSAGE._serialized_end = 514
     _WEBCASTGIFTMESSAGE._serialized_start = 517
-    _WEBCASTGIFTMESSAGE._serialized_end = 681
-    _WEBCASTGIFTMESSAGEGIFTDETAILS._serialized_start = 684
-    _WEBCASTGIFTMESSAGEGIFTDETAILS._serialized_end = 847
-    _WEBCASTGIFTMESSAGEGIFTIMAGE._serialized_start = 849
-    _WEBCASTGIFTMESSAGEGIFTIMAGE._serialized_end = 902
-    _WEBCASTLINKMICBATTLE._serialized_start = 904
-    _WEBCASTLINKMICBATTLE._serialized_end = 982
-    _WEBCASTLINKMICBATTLEITEMS._serialized_start = 984
-    _WEBCASTLINKMICBATTLEITEMS._serialized_end = 1067
-    _WEBCASTLINKMICBATTLEGROUP._serialized_start = 1069
-    _WEBCASTLINKMICBATTLEGROUP._serialized_end = 1128
-    _WEBCASTLINKMICARMIES._serialized_start = 1130
-    _WEBCASTLINKMICARMIES._serialized_end = 1230
-    _WEBCASTLINKMICARMIESITEMS._serialized_start = 1232
-    _WEBCASTLINKMICARMIESITEMS._serialized_end = 1336
-    _WEBCASTLINKMICARMIESGROUP._serialized_start = 1338
-    _WEBCASTLINKMICARMIESGROUP._serialized_end = 1410
-    _WEBCASTSOCIALMESSAGE._serialized_start = 1412
-    _WEBCASTSOCIALMESSAGE._serialized_end = 1506
-    _WEBCASTLIKEMESSAGE._serialized_start = 1509
-    _WEBCASTLIKEMESSAGE._serialized_end = 1644
-    _WEBCASTQUESTIONNEWMESSAGE._serialized_start = 1646
-    _WEBCASTQUESTIONNEWMESSAGE._serialized_end = 1723
-    _QUESTIONDETAILS._serialized_start = 1725
-    _QUESTIONDETAILS._serialized_end = 1792
-    _WEBCASTMESSAGEEVENT._serialized_start = 1794
-    _WEBCASTMESSAGEEVENT._serialized_end = 1873
-    _WEBCASTMESSAGEEVENTDETAILS._serialized_start = 1875
-    _WEBCASTMESSAGEEVENTDETAILS._serialized_end = 1939
-    _USER._serialized_start = 1942
-    _USER._serialized_end = 2147
-    _LINKUSER._serialized_start = 2149
-    _LINKUSER._serialized_end = 2259
-    _PROFILEPICTURE._serialized_start = 2261
-    _PROFILEPICTURE._serialized_end = 2291
-    _USEREXTRAATTRIBUTES._serialized_start = 2293
-    _USEREXTRAATTRIBUTES._serialized_end = 2334
-    _USERBADGESATTRIBUTES._serialized_start = 2336
-    _USERBADGESATTRIBUTES._serialized_end = 2393
-    _USERBADGE._serialized_start = 2395
-    _USERBADGE._serialized_end = 2434
-    _WEBCASTWEBSOCKETMESSAGE._serialized_start = 2436
-    _WEBCASTWEBSOCKETMESSAGE._serialized_end = 2503
-    _WEBCASTWEBSOCKETACK._serialized_start = 2505
-    _WEBCASTWEBSOCKETACK._serialized_end = 2552
-    _WEBCASTLIVEINTROMESSAGE._serialized_start = 2554
-    _WEBCASTLIVEINTROMESSAGE._serialized_end = 2640
-    _SYSTEMMESSAGE._serialized_start = 2642
-    _SYSTEMMESSAGE._serialized_end = 2678
-    _WEBCASTINROOMBANNERMESSAGE._serialized_start = 2680
-    _WEBCASTINROOMBANNERMESSAGE._serialized_end = 2722
-    _RANKITEM._serialized_start = 2724
-    _RANKITEM._serialized_end = 2762
-    _WEEKLYRANKING._serialized_start = 2764
-    _WEEKLYRANKING._serialized_end = 2840
-    _RANKCONTAINER._serialized_start = 2842
-    _RANKCONTAINER._serialized_end = 2898
-    _WEBCASTHOURLYRANKMESSAGE._serialized_start = 2900
-    _WEBCASTHOURLYRANKMESSAGE._serialized_end = 2963
+    _WEBCASTGIFTMESSAGE._serialized_end = 737
+    _WEBCASTGIFTMESSAGEGIFTEXTRA._serialized_start = 739
+    _WEBCASTGIFTMESSAGEGIFTEXTRA._serialized_end = 811
+    _WEBCASTGIFTMESSAGEGIFTDETAILS._serialized_start = 814
+    _WEBCASTGIFTMESSAGEGIFTDETAILS._serialized_end = 977
+    _WEBCASTGIFTMESSAGEGIFTIMAGE._serialized_start = 979
+    _WEBCASTGIFTMESSAGEGIFTIMAGE._serialized_end = 1032
+    _WEBCASTLINKMICBATTLE._serialized_start = 1034
+    _WEBCASTLINKMICBATTLE._serialized_end = 1112
+    _WEBCASTLINKMICBATTLEITEMS._serialized_start = 1114
+    _WEBCASTLINKMICBATTLEITEMS._serialized_end = 1197
+    _WEBCASTLINKMICBATTLEGROUP._serialized_start = 1199
+    _WEBCASTLINKMICBATTLEGROUP._serialized_end = 1258
+    _WEBCASTLINKMICARMIES._serialized_start = 1260
+    _WEBCASTLINKMICARMIES._serialized_end = 1360
+    _WEBCASTLINKMICARMIESITEMS._serialized_start = 1362
+    _WEBCASTLINKMICARMIESITEMS._serialized_end = 1466
+    _WEBCASTLINKMICARMIESGROUP._serialized_start = 1468
+    _WEBCASTLINKMICARMIESGROUP._serialized_end = 1540
+    _WEBCASTSOCIALMESSAGE._serialized_start = 1542
+    _WEBCASTSOCIALMESSAGE._serialized_end = 1636
+    _WEBCASTLIKEMESSAGE._serialized_start = 1639
+    _WEBCASTLIKEMESSAGE._serialized_end = 1774
+    _WEBCASTQUESTIONNEWMESSAGE._serialized_start = 1776
+    _WEBCASTQUESTIONNEWMESSAGE._serialized_end = 1853
+    _QUESTIONDETAILS._serialized_start = 1855
+    _QUESTIONDETAILS._serialized_end = 1922
+    _WEBCASTMESSAGEEVENT._serialized_start = 1924
+    _WEBCASTMESSAGEEVENT._serialized_end = 2003
+    _WEBCASTMESSAGEEVENTDETAILS._serialized_start = 2005
+    _WEBCASTMESSAGEEVENTDETAILS._serialized_end = 2069
+    _USER._serialized_start = 2072
+    _USER._serialized_end = 2277
+    _LINKUSER._serialized_start = 2279
+    _LINKUSER._serialized_end = 2389
+    _PROFILEPICTURE._serialized_start = 2391
+    _PROFILEPICTURE._serialized_end = 2421
+    _USEREXTRAATTRIBUTES._serialized_start = 2423
+    _USEREXTRAATTRIBUTES._serialized_end = 2464
+    _USERBADGESATTRIBUTES._serialized_start = 2466
+    _USERBADGESATTRIBUTES._serialized_end = 2523
+    _USERBADGE._serialized_start = 2525
+    _USERBADGE._serialized_end = 2564
+    _WEBCASTWEBSOCKETMESSAGE._serialized_start = 2566
+    _WEBCASTWEBSOCKETMESSAGE._serialized_end = 2633
+    _WEBCASTWEBSOCKETACK._serialized_start = 2635
+    _WEBCASTWEBSOCKETACK._serialized_end = 2682
+    _WEBCASTLIVEINTROMESSAGE._serialized_start = 2684
+    _WEBCASTLIVEINTROMESSAGE._serialized_end = 2770
+    _SYSTEMMESSAGE._serialized_start = 2772
+    _SYSTEMMESSAGE._serialized_end = 2808
+    _WEBCASTINROOMBANNERMESSAGE._serialized_start = 2810
+    _WEBCASTINROOMBANNERMESSAGE._serialized_end = 2852
+    _RANKITEM._serialized_start = 2854
+    _RANKITEM._serialized_end = 2892
+    _WEEKLYRANKING._serialized_start = 2894
+    _WEEKLYRANKING._serialized_end = 2970
+    _RANKCONTAINER._serialized_start = 2972
+    _RANKCONTAINER._serialized_end = 3028
+    _WEBCASTHOURLYRANKMESSAGE._serialized_start = 3030
+    _WEBCASTHOURLYRANKMESSAGE._serialized_end = 3093
 # @@protoc_insertion_point(module_scope)

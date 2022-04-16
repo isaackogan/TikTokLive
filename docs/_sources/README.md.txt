@@ -3,7 +3,7 @@
 1. Complete commands:
 
 ```shell
-cd .sphinx
+**cd .sphinx
 
 sphinx-apidoc --ext-autodoc --force -o  . ../TikTokLive ../TikTokLive/proto/tiktok_schema_pb2.py
 

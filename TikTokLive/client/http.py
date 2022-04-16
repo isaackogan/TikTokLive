@@ -18,11 +18,12 @@ class TikTokHTTPClient:
     TIKTOK_HTTP_ORIGIN: str = 'https://www.tiktok.com'
 
     DEFAULT_CLIENT_PARAMS: Dict[str, Union[int, bool, str]] = {
-        "aid": 1988, "app_language": 'en-US', "app_name": 'tiktok_web', "browser_language": 'en', "browser_name": 'Mozilla',
+        "aid": 1988, "app_name": 'tiktok_web', "browser_name": 'Mozilla',
         "browser_online": True, "browser_platform": 'Win32', "version_code": 180800,
         "browser_version": '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36',
         "cookie_enabled": True, "cursor": '', "device_platform": 'web', "did_rule": 3, "fetch_rule": 1, "identity": 'audience', "internal_ext": '',
         "last_rtt": 0, "live_id": 12, "resp_content_type": 'protobuf', "screen_height": 1152, "screen_width": 2048, "tz_name": 'Europe/Berlin',
+        "browser_language": "en", "priority_region": "US", "region": "US",
     }
 
     DEFAULT_REQUEST_HEADERS: Dict[str, str] = {
@@ -48,6 +49,7 @@ class TikTokHTTPClient:
             **self.DEFAULT_REQUEST_HEADERS,
             **(headers if isinstance(headers, dict) else dict())
         }
+        self.cookies: dict = dict()
 
     async def __aiohttp_get_bytes(self, url: str, params: dict = None) -> bytes:
         """
@@ -64,6 +66,24 @@ class TikTokHTTPClient:
         async with ClientSession() as session:
             async with session.get(request_url, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
                 return await request.read()
+
+    async def __aiohttp_post_json(self, url: str, params: dict, json: Optional[dict] = None) -> dict:
+        """
+        Post JSON given a URL with parameters
+
+        :param url: URL to request data from
+        :param params: Custom Parameters
+        :param json: JSON Payload as Dict
+        :return: JSON Result
+
+        :raises: asyncio.TimeoutError
+
+        """
+        request_url: str = f"{url}?{urllib.parse.urlencode(params if params is not None else dict())}"
+
+        async with ClientSession(cookies=self.cookies) as session:
+            async with session.post(request_url, data=json, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
+                return await request.json()
 
     async def __aiohttp_get_json(self, url: str, params: dict) -> dict:
         """
@@ -123,3 +143,17 @@ class TikTokHTTPClient:
 
         response: dict = await self.__aiohttp_get_json(self.TIKTOK_URL_WEBCAST + path, params)
         return response.get("data")
+
+    async def post_json_to_webcast_api(self, path: str, params: dict, json: Optional[dict] = None):
+        """
+        Post JSON to the Webcast API
+
+        :param path: Path to POST
+        :param params: URLEncoded Params
+        :param json: JSON Data
+        :return: Result
+
+        """
+
+        response: dict = await self.__aiohttp_post_json(self.TIKTOK_URL_WEBCAST + path, params, json)
+        return response

@@ -16,24 +16,19 @@ connects to the WebCast service using only a user's `unique_id` and allows you t
 
 This library a Python implementation of the Javascript
 [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Livestream-Chat-Connector)
-by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python
-or require it for their specific dependancies.
+by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python or require it for their specific dependancies.
 
 This is **not** an official API. It's a reverse engineering and research project.
 
 Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
-## 🖨 Thermal Printing (20+ SALES & COUNTING!) 🖨 ️ 
+## 🖨 Thermal Printing (20+ SALES & COUNTING!) 🖨 ️
 
-A ready-to-go thermal printing program is for sale. To purchase it,
-join the [support discord](https://discord.gg/JwW8UwfUmC) and create a ticket, or e-mail `info@isaackogan.com`.
+A ready-to-go thermal printing program is for sale. To purchase it, join the [support discord](https://discord.gg/JwW8UwfUmC) and create a ticket, or e-mail `info@isaackogan.com`.
 
-Setup troubleshooting will be provided (but ultimately), hosting and setup is up to you
-and specific to your infrastructure.
+Setup troubleshooting will be provided (but ultimately), hosting and setup is up to you and specific to your infrastructure.
 
-Payments are available through PayPal/BTC/ETH and **are in USD.** Delivery time can vary.
-Items that have been paid for will be delivered on average within 3-4 hours, at maximum within 24 hours.
-
+Payments are available through PayPal/BTC/ETH and **are in USD.** Delivery time can vary. Items that have been paid for will be delivered on average within 3-4 hours, at maximum within 24 hours.
 
 | Item       | Price (USD) | Description                                                                                                                                                                                                                                                                   |
 |------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -42,9 +37,8 @@ Items that have been paid for will be delivered on average within 3-4 hours, at 
 
 ## Getting started
 
-
-The hyperlinked URL is a [Video Tutorial](https://img.youtube.com/vi/gubvklbZFTU/0.jpg) produced by [@Vyler](https://www.youtube.com/channel/UCh8JuEPtb0oBeVv2nt6Y96A) on YouTube
-that makes use of this library. You can also continue reading for a more up-to-date, maintained guide.
+The hyperlinked URL is a [Video Tutorial](https://img.youtube.com/vi/gubvklbZFTU/0.jpg) produced by [@Vyler](https://www.youtube.com/channel/UCh8JuEPtb0oBeVv2nt6Y96A) on YouTube that makes use of this library. You can
+also continue reading for a more up-to-date, maintained guide.
 
 1. Install the module via pip
 
@@ -94,7 +88,7 @@ To create a new `TikTokLiveClient` object the following parameter is required. Y
 |------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | unique_id  | Yes      | The unique username of the broadcaster. You can find this name in the URL.<br>Example: `https://www.tiktok.com/@officialgeilegisela/live` => `officialgeilegisela`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | debug      | No       | Whether to fire the "debug" event for receiving raw data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| options    | No       | Here you can set the following optional connection properties. If you do not specify a value, the default value will be used.<br><br>`process_initial_data` (default: `true`) <br> Define if you want to process the initial data which includes old messages of the last seconds.<br><br>`fetch_room_info_on_connect` (default: `true`) <br> Define if you want to fetch all room information on start. If this option is enabled, the connection to offline rooms will be prevented. If enabled, the connect result contains the room info via the `room_info` attribute. You can also manually retrieve the room info (even in an unconnected state) using the `retrieve_room_info()` method.<br><br>`enable_extended_gift_info` (default: `false`) <br> Define if you want to receive extended information about gifts like gift name, cost and images which you can retrieve via the `available_gifts` attribute. <br><br>`polling_interval_ms` (default: `1000`) <br> Request polling interval.<br><br>`client_params` (default: `{}`) <br> Custom client params for Webcast API.<br><br>`headers` (default: `{}`) <br> Custom request headers passed to aiohttp.<br><br>`timeout_ms` (default: `1000`)<br>How long to wait before a request should fail<br><br>`loop` (default: `None`)<br>Optionally supply your own asyncio event loop for usage by the client. When set to None, the client pulls the current active loop or creates a new one. This option is mostly useful for people trying to nest asyncio. |
+| **options  | No       | Here you can set the following optional connection properties. If you do not specify a value, the default value will be used.<br><br>`process_initial_data` (default: `true`) <br> Define if you want to process the initial data which includes old messages of the last seconds.<br><br>`fetch_room_info_on_connect` (default: `true`) <br> Define if you want to fetch all room information on start. If this option is enabled, the connection to offline rooms will be prevented. If enabled, the connect result contains the room info via the `room_info` attribute. You can also manually retrieve the room info (even in an unconnected state) using the `retrieve_room_info()` method.<br><br>`enable_extended_gift_info` (default: `false`) <br> Define if you want to receive extended information about gifts like gift name, cost and images which you can retrieve via the `available_gifts` attribute. <br><br>`polling_interval_ms` (default: `1000`) <br> Request polling interval.<br><br>`client_params` (default: `{}`) <br> Custom client params for Webcast API.<br><br>`headers` (default: `{}`) <br> Custom request headers passed to aiohttp.<br><br>`timeout_ms` (default: `1000`)<br>How long to wait before a request should fail<br><br>`loop` (default: `None`)<br>Optionally supply your own asyncio event loop for usage by the client. When set to None, the client pulls the current active loop or creates a new one. This option is mostly useful for people trying to nest asyncio. |
 
 Example Options:
 
@@ -132,7 +126,10 @@ client: TikTokLiveClient = TikTokLiveClient(
             "trust_env": False,
 
             # A ProxyContainer object for proxied requests
-            "proxy_container": None
+            "proxy_container": None,
+
+            # Set the language for Webcast responses (Changes extended_gift's language)
+            "lang": "en-US"
 
         }
     )
