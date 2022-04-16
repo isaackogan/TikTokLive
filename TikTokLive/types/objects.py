@@ -201,8 +201,16 @@ class GiftDetails(AbstractObject):
 
 @dataclass()
 class GiftExtra:
+    """
+    Gift object containing information about the gift recipient
+
+    """
+
     timestamp: Optional[int]
+    """The time the gift was sent"""
+
     receiverUserId: Optional[int]
+    """The user that received the gift"""
 
 
 @dataclass()
