@@ -300,7 +300,7 @@ async def on_connect(event: UnknownEvent):
 
 ## Contributors
 
-* **Isaac Kogan** - *Initial work* - [isaackogan](https://github.com/isaackogan)
+* **Isaac Kogan** - *Initial work & primary maintainer* - [isaackogan](https://github.com/isaackogan)
 * **Zerody** - *Reverse-Engineering & README.md file* - [Zerody](https://github.com/zerodytrash/)
 * **David Teather** - *TikTokLive Introduction Tutorial* - [davidteather](https://github.com/davidteather)
 
