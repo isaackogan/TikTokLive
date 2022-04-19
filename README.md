@@ -15,14 +15,21 @@ A python library to receive and decode livestream events such as comments and gi
 connects to the WebCast service using only a user's `unique_id` and allows you to join your livestream as well as that of other streamers. No credentials are required to use TikTokLive.
 
 This library a Python implementation of the Javascript
-[TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Livestream-Chat-Connector)
+[TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
 by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python or require it for their specific dependancies.
 
 This is **not** an official API. It's a reverse engineering and research project.
 
 Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
-## 🖨 Thermal Printing (#1 Program Seller) 🖨 ️
+## Intro Tutorial
+
+I cannot recommend this tutorial enough for people trying to get started. It is succinct, informative and easy to understand, created by [David Teather](https://github.com/davidteather), the creator of the
+Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click the thumbnail to warp.
+
+[![David's Tutorial](https://i.imgur.com/0eNIQ9q.png)](https://www.youtube.com/watch?v=307ijmA3_lc)
+
+## 🖨 $$ Thermal Printing Addon $$ 🖨 ️
 
 A ready-to-go thermal printing program is for sale. To purchase it, join the [support discord](https://discord.gg/JwW8UwfUmC) and create a ticket, or e-mail `info@isaackogan.com`.
 
@@ -30,10 +37,10 @@ Setup troubleshooting will be provided (but ultimately), hosting and setup is up
 
 Payments are available through PayPal/BTC/ETH and **are in USD.** Delivery time can vary. Items that have been paid for will be delivered on average within 3-4 hours, at maximum within 24 hours.
 
-| Item       | Price (USD) | Description                                                                                                                                                                                                                                                                   |
-|------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Standard   | $35         | Print events to a Thermal Printer. For example, printing a comment with the user's name, message, and profile picture. This is a HIGHLY advanced wrapper allowing you to print to a USB printer (must have ESCPOS) like it's nothing. You can also use a Network or Serial printer, if they are ESCPOS, however these are not recommended as they tend to drop connections more frequently than USB.                                        |
-| Setup Help | $15         | Up to 1 hour of 1-on-1 setup time. I will conference with you in a voice call on Discord and remotely control your PC via AnyDesk. I will install the software on the spot, with you. Must have a working phone with Discord, so I can see the printer in case I need to. |_
+| Item       | Price (USD) | Description                                                                                                                                                                                                                                                                                                                                                                                          |
+|------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Standard   | $35         | Print events to a Thermal Printer. For example, printing a comment with the user's name, message, and profile picture. This is a HIGHLY advanced wrapper allowing you to print to a USB printer (must have ESCPOS) like it's nothing. You can also use a Network or Serial printer, if they are ESCPOS, however these are not recommended as they tend to drop connections more frequently than USB. |
+| Setup Help | $15         | Up to 1 hour of 1-on-1 setup time. I will conference with you in a voice call on Discord and remotely control your PC via AnyDesk. I will install the software on the spot, with you. Must have a working phone with Discord, so I can see the printer in case I need to.                                                                                                                            |_
 
 ## Getting started
 
@@ -295,6 +302,7 @@ async def on_connect(event: UnknownEvent):
 
 * **Isaac Kogan** - *Initial work* - [isaackogan](https://github.com/isaackogan)
 * **Zerody** - *Reverse-Engineering & README.md file* - [Zerody](https://github.com/zerodytrash/)
+* **David Teather** - *TikTokLive Introduction Tutorial* - [davidteather](https://github.com/davidteather)
 
 See the full list of [contributors](https://github.com/ChromegleApp/Chromegle/contributors) who participated in this project.
 
