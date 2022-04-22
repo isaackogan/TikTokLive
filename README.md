@@ -27,7 +27,7 @@ Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#suppor
 I cannot recommend this tutorial enough for people trying to get started. It is succinct, informative and easy to understand, created by [David Teather](https://github.com/davidteather), the creator of the
 Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click the thumbnail to warp.
 
-[![David's Tutorial](https://i.imgur.com/0eNIQ9q.png)](https://www.youtube.com/watch?v=307ijmA3_lc)
+[![David's Tutorial](https://i.imgur.com/o9Wswgz.png)](https://www.youtube.com/watch?v=307ijmA3_lc)
 
 ## 🖨 $$ Thermal Printing Addon $$ 🖨 ️
 
