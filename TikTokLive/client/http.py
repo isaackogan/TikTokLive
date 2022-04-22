@@ -67,6 +67,23 @@ class TikTokHTTPClient:
             async with session.get(request_url, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
                 return await request.read()
 
+    async def __aiohttp_get_json(self, url: str, params: dict) -> dict:
+        """
+        Get json (dict form) from a given URL with parameters
+
+        :param url: URL to request data from
+        :param params: Custom Parameters
+        :return: bytearray containing request data
+        :raises: asyncio.TimeoutError
+
+        """
+
+        request_url: str = f"{url}?{urllib.parse.urlencode(params if params is not None else dict())}"
+
+        async with ClientSession() as session:
+            async with session.get(request_url, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
+                return await request.json()
+
     async def __aiohttp_post_json(self, url: str, params: dict, json: Optional[dict] = None) -> dict:
         """
         Post JSON given a URL with parameters
@@ -83,23 +100,6 @@ class TikTokHTTPClient:
 
         async with ClientSession(cookies=self.cookies) as session:
             async with session.post(request_url, data=json, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
-                return await request.json()
-
-    async def __aiohttp_get_json(self, url: str, params: dict) -> dict:
-        """
-        Get json (dict form) from a given URL with parameters
-
-        :param url: URL to request data from
-        :param params: Custom Parameters
-        :return: bytearray containing request data
-        :raises: asyncio.TimeoutError
-
-        """
-
-        request_url: str = f"{url}?{urllib.parse.urlencode(params if params is not None else dict())}"
-
-        async with ClientSession() as session:
-            async with session.get(request_url, headers=self.headers, timeout=self.timeout, proxy=self.proxy_container.get()) as request:
                 return await request.json()
 
     async def get_livestream_page_html(self, unique_id: str) -> str:

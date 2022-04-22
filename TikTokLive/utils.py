@@ -1,18 +1,24 @@
+import json
+import re
+
+
 def get_room_id_from_main_page_html(main_page_html: str) -> str:
     """
     Get the room ID from the HTML of the creator's page.
     If this fails, you are probably blocked from TikTok. Use a VPN.
 
-    :return: Their room ID
+    :return: The client's Room ID
 
     """
+
     try:
-        return main_page_html.split("__room_id=")[1].split("\"/>")[0]
+        return re.search(r'room_id=([0-9]*)', main_page_html).group(0).split("=")[1]
     except:
         pass
 
     try:
-        return main_page_html.split('"roomId":"')[1].split('"}')[0]
+        c = r'{' + re.search(r'"roomId":"([0-9]*)"', main_page_html).group(0) + r'}'
+        return json.loads(c)['roomId']
     except:
         pass
 
