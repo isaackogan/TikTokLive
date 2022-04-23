@@ -44,9 +44,6 @@ Payments are available through PayPal/BTC/ETH and **are in USD.** Delivery time 
 
 ## Getting Started
 
-The hyperlinked URL is a [Video Tutorial](https://i.imgur.com/IOTkpvn.png) produced by [@Vyler](https://www.youtube.com/channel/UCh8JuEPtb0oBeVv2nt6Y96A) on YouTube that makes use of this library. You can also continue
-reading for a more up-to-date, maintained guide.
-
 1. Install the module via pip
 
 ```
