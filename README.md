@@ -51,16 +51,16 @@ That's why I developed an all-encompassing thermal printing program that does...
 #### Primary Features
 
 - Ready-to-go script included for non-programmers that has everything you need, already put together.
-- Print Messages
+- Print ANY Message
 - Print Profile Pictures, Gift Images, Custom Images
-- Text to Speech (perhaps when someone gifts?)
-- Play custom sounds (perhaps when someone gifts?)
-- Built in text-to-speech
+- FREE Text to Speech (perhaps when someone gifts?)
+- Play Sounds (perhaps when someone gifts?)
 - Support for ALL Serial, USB, and Network ESC-POS printers
 - Automatic, 1-click setup script
 - Support for MacOS, Windows, Linux
 - Video Setup Tutorial
 - Fully documented API
+- So streamlined that you can get a workable version in less than 5 lines of code.
 
 ### Additional Features
 
@@ -76,7 +76,7 @@ That's why I developed an all-encompassing thermal printing program that does...
 - Insert items at any index in the print queue
 - Custom errors built on top of the API describing what went wrong when it happens
 - Errors do not kill the script. Even if a part of a message breaks, the rest still prints!
-- Send messages to TikTok LIVE Chat (chat-bot)
+- Send messages to the TikTok LIVE Chat (chat-bot)
 - How-to example on basic usage (using formatting, text-to-speech, sounds, images, etc.)
 - How-to example on using gifts
 - How-to example on using commands
