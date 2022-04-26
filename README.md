@@ -126,7 +126,13 @@ async def on_comment(event: CommentEvent):
     )
 ```
 
-Seriously. You will not find anything higher level than this out there. This is insane.
+You will not find anything higher level than this out there. This is insane.
+
+### Visual Sample
+
+Here's a sample of what you can do with this library in less than 30 lines of code:
+
+![Sample GIF](https://i.gyazo.com/588713e5644380523caa722efdeb5242.gif)
 
 ## Intro Tutorial
 
