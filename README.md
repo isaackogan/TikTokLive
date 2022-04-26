@@ -22,12 +22,23 @@ This is **not** an official API. It's a reverse engineering and research project
 
 Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
-## Intro Tutorial
+## Table of Contents
 
-I cannot recommend this tutorial enough for people trying to get started. It is succinct, informative and easy to understand, created by [David Teather](https://github.com/davidteather), the creator of the
-Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click the thumbnail to warp.
+**Primary Information**
 
-[![David's Tutorial](https://i.imgur.com/IOTkpvn.png)](https://www.youtube.com/watch?v=307ijmA3_lc)
+- [Documentation](https://tiktoklive.isaackogan.com)
+- [Contributors](#contributors)
+- [License](#license)
+- [Thermal Printing](#-ad-thermal-printing-library-)
+
+**Resources & Guides**
+
+1. [David's Intro Tutorial](#intro-tutorial)
+2. [Getting Started](#getting-started)
+3. [Params & Options](#Params-&-Options)
+4. [Client Methods](#Methods)
+5. [TikTok Events](#Events)
+6. [Usage Examples](https://github.com/davidteather/TikTok-Api/tree/master/examples)
 
 ## 💲🖨 Ad: Thermal Printing Library 🖨💲
 
@@ -112,6 +123,13 @@ async def on_comment(event: CommentEvent):
 
     )
 ```
+
+## Intro Tutorial
+
+I cannot recommend this tutorial enough for people trying to get started. It is succinct, informative and easy to understand, created by [David Teather](https://github.com/davidteather), the creator of the
+Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click the thumbnail to warp.
+
+[![David's Tutorial](https://i.imgur.com/IOTkpvn.png)](https://www.youtube.com/watch?v=307ijmA3_lc)
 
 ## Getting Started
 
