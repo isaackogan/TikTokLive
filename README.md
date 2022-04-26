@@ -48,7 +48,7 @@ That's why I developed an all-encompassing thermal printing program that does...
 
 ### Feature List (20+ Features)
 
-- Support for **Serial**, **USB**, and **Network** printers
+- Support for **Serial**, **USB**, and **Network** ESC-POS printers
 - Automatic, 1-click setup script
 - Print ANY text to the printer
 - Print ANY image to the printer
@@ -71,21 +71,30 @@ That's why I developed an all-encompassing thermal printing program that does...
     - Errors do not kill the script. Even if a part of a message breaks, the rest still prints!
 - Send messages to TikTok LIVE Chat
     - Requires session ID, allows you to use this like a chat-bot
-- **FIVE** examples on how to use the library
+- **FIVE** working exemplars for how to use the library
     1. How-to on basic usage (using formatting, text-to-speech, sounds, images, etc.)
-    2. Fully streamlined version that prints custom font images & text with cute emojis that differ based on how expensive the gift is
-    3. How-to on using gifts
-    4. How-to on using commands
-    5. How-to on other features
+    2. How-to on using gifts
+    3. How-to on using commands
+    4. How-to on other features
+    5. **Advancedm Ready-To-Go Version** that prints custom font images & text with cute emojis that differ based on how expensive the gift is, text-to-speech, and more!
+
 - **FULLY** documented API (reStructuredText) for you to work with & discover how it all works
-- **VIDEO TUTORIAL** on getting started
+- **VIDEO TUTORIAL** to make it easy for you to get started
 
-### Purchase Details ($50 USD)
+### Purchase Details (Cost, Pricing Logic, etc.)
 
-Payments are available through PayPal/BTC/ETH and **are in USD.** Delivery time can vary. Items that have been paid for will be delivered on average within 30 minutes to 2 hours, at maximum within 24 hours.
+The cost is a flat $50 USD. That's insanely cheap.
 
-The cost is a flat $50. This script is the most advanced, most purchased one on the market (50+ Sales). You have the benefit of buying it from the creator of the TikTokLive library, meaning it is not only guaranteed to
-work, but to be of the highest possible quality you can find.
+This library is the most advanced, most purchased printer script on the market. Not only does it have an insane number of features, it was made by the person that _created_ the TikTokLive library.
+
+That gives you a benefit of ensuring that it is not only guaranteed to work, but guaranteed to be the best of the best you will possibly find.
+
+The price is set at what it is because of the ridiculous amount of time spent learning to program, creating the TikTokLive library, figuring out how to print on Windows, MacOS and Linux, creating guides, building the
+highly complex script itself, learning all the ways it can go wrong and fixing them, dealing with customer issues and so much more.
+
+Purchasing this script is an investment that you can make thousands of dollars off of. At this price-point, that's a hell of a deal.
+
+You are recommended to have basic Python knowledge to use this library.
 
 ### How to Purchase
 
@@ -95,18 +104,14 @@ Type the message "Printer Magic" in the ticket and I will immediately get you st
 
 ### Printer Library Example
 
-To show you how simple it is, here's an example:
+To show you just how advanced the library is, here's an example that prints text, a profile picture, plays a sound, and does text-to-speech in just 5 lines of code.
 
 ```py
 @client.on("comment")
 async def on_comment(event: CommentEvent):
-    """
-    If you want to send multiple printer commands in one go, the recommended way
-    to do it is through the queue method.
-
-    """
-
     client.queue(
+
+        # Divier Text
         PrinterText("-" * 20),
 
         # Speak the comment
@@ -123,6 +128,8 @@ async def on_comment(event: CommentEvent):
 
     )
 ```
+
+Seriously. You will not find anything higher level than this out there. This is insane.
 
 ## Intro Tutorial
 
