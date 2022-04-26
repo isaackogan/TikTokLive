@@ -105,7 +105,7 @@ You will not find anything higher level than this out there. This is insane. Her
 
 ![](https://github.com/isaackogan/TikTokLive/raw/master/.github/RESOURCES/printer.gif)
 
-To show you just how advanced the library is, here's an example that prints text, a profile picture, plays a sound, and does text-to-speech in just 5 lines of code.
+To show you just how advanced the library is, here we can print a profile picture, play a sound, and do text-to-speech... in just 5 lines of code.
 
 ```py
 @client.on("comment")
