@@ -22,7 +22,14 @@ This is **not** an official API. It's a reverse engineering and research project
 
 Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
-## 💲🖨 Thermal Printing Library 🖨💲
+## Intro Tutorial
+
+I cannot recommend this tutorial enough for people trying to get started. It is succinct, informative and easy to understand, created by [David Teather](https://github.com/davidteather), the creator of the
+Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click the thumbnail to warp.
+
+[![David's Tutorial](https://i.imgur.com/IOTkpvn.png)](https://www.youtube.com/watch?v=307ijmA3_lc)
+
+## 💲🖨 Ad: Thermal Printing Library 🖨💲
 
 Thermal printing is a very recent, very exciting trend on TikTok. It is also a very **complex** one. Not because the topic is difficult in and of itself, but because people want so many different things.
 
@@ -76,13 +83,6 @@ work, but to be of the highest possible quality you can find.
 To buy this library, create a ticket in the `#tickets` channel in https://discord.gg/H8m3c6jSF4.
 
 Type the message "Printer Magic" in the ticket and I will immediately get you started so that you can get to printing as fast as possible!
-
-## Intro Tutorial
-
-I cannot recommend this tutorial enough for people trying to get started. It is succinct, informative and easy to understand, created by [David Teather](https://github.com/davidteather), the creator of the
-Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click the thumbnail to warp.
-
-[![David's Tutorial](https://i.imgur.com/IOTkpvn.png)](https://www.youtube.com/watch?v=307ijmA3_lc)
 
 ## Getting Started
 
