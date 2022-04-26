@@ -82,6 +82,37 @@ To buy this library, create a ticket in the `#tickets` channel in https://discor
 
 Type the message "Printer Magic" in the ticket and I will immediately get you started so that you can get to printing as fast as possible!
 
+### Printer Library Example
+
+To show you how simple it is, here's an example:
+
+```py
+@client.on("comment")
+async def on_comment(event: CommentEvent):
+    """
+    If you want to send multiple printer commands in one go, the recommended way
+    to do it is through the queue method.
+
+    """
+
+    client.queue(
+        PrinterText("-" * 20),
+
+        # Speak the comment
+        VoiceText(event.user.uniqueId + " said " + event.comment),
+
+        # Print the comment to printer
+        PrinterText(event.user.uniqueId + " -> " + event.comment),
+
+        # Play a sound
+        SoundFile("enchanted.wav"),
+
+        # Download their avatar and print the image
+        PrinterImage(await TikTokMedia.user_image(event.user, circle=False))
+
+    )
+```
+
 ## Getting Started
 
 1. Install the module via pip
