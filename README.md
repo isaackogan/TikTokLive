@@ -50,7 +50,7 @@ That's why I developed an all-encompassing thermal printing program that does...
 
 #### Primary Features
 
-- Ready-to-go script included for non-programmers that has everything you need, already put together.
+- Ready-to-go script included for non-programmers that has everything you need, already put together
 - Print ANY Message
 - Print Profile Pictures, Gift Images, Custom Images
 - FREE Text to Speech (perhaps when someone gifts?)
@@ -60,7 +60,7 @@ That's why I developed an all-encompassing thermal printing program that does...
 - Support for MacOS, Windows, Linux
 - Video Setup Tutorial
 - Fully documented API
-- So streamlined that you can get a workable version in less than 5 lines of code.
+- Made to be easy to use for newbies
 
 ### Additional Features
 
