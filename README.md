@@ -22,25 +22,67 @@ This is **not** an official API. It's a reverse engineering and research project
 
 Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
+## 🖨 Thermal Printing Library 🖨 ️
+
+Thermal printing is a very recent, very exciting trend on TikTok. It is also a very **complex** one. Not because the topic is difficult in and of itself, but because people want so many different things.
+
+That's why I developed an all-encompassing thermal printing program that does... everything.
+
+There is even a **video tutorial** to help you get started.
+
+### Feature List (20+ Features)
+
+- Support for **Serial**, **USB**, and **Network** printers
+- Automatic, 1-click setup script
+- Print ANY text to the printer
+- Print ANY image to the printer
+- Play ANY sound on your PC
+- Play INSTANT text-to-speech messages
+- Download and print TikTok user avatars, gifts
+- Extremely high level API (There is zero need to touch anything low-level, I've got it covered)
+- 100% Asynchronous Programming
+- Advanced Formatting API
+    - Bold messages
+    - Left, Right, Center Adjust
+    - Newline characters parsed properly
+    - Print backwards (flip the input!)
+- Queue for printing
+    - Insert items at the start of the queue (priority)
+    - Insert items at the end of the queue
+    - Insert items at any index in the queue
+- Advanced error handling
+    - Custom errors built on top of the API describing what went wrong when it happens
+    - Errors do not kill the script. Even if a part of a message breaks, the rest still prints!
+- Send messages to TikTok LIVE Chat
+    - Requires session ID, allows you to use this like a chat-bot
+- **FIVE** examples on how to use the library
+    1. How-to on basic usage (using formatting, text-to-speech, sounds, images, etc.)
+    2. Fully streamlined version that prints custom font images & text with cute emojis that differ based on how expensive the gift is
+    3. How-to on using gifts
+    4. How-to on using commands
+    5. How-to on other features
+- **FULLY** documented API (reStructuredText) for you to work with & discover how it all works
+- **VIDEO TUTORIAL** on getting started
+
+### Purchase Details ($50 USD)
+
+Payments are available through PayPal/BTC/ETH and **are in USD.** Delivery time can vary. Items that have been paid for will be delivered on average within 30 minutes to 2 hours, at maximum within 24 hours.
+
+The cost is a flat $50. This script is the most advanced, most purchased one on the market (50+ Sales). You have the benefit of buying it from the creator of the TikTokLive library, meaning it is not only guaranteed to
+work, but to be of the highest possible quality you can find.
+
+### How to Purchase
+
+To buy this library, create a ticket in the `#tickets` channel in https://discord.gg/H8m3c6jSF4.
+
+Type the message "Printer Magic" in the ticket and I will immediately get you started so that you can get to printing as fast as possible!
+
 ## Intro Tutorial
 
 I cannot recommend this tutorial enough for people trying to get started. It is succinct, informative and easy to understand, created by [David Teather](https://github.com/davidteather), the creator of the
 Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click the thumbnail to warp.
 
 [![David's Tutorial](https://i.imgur.com/IOTkpvn.png)](https://www.youtube.com/watch?v=307ijmA3_lc)
-
-## 🖨 $$ Thermal Printing Addon $$ 🖨 ️
-
-A ready-to-go thermal printing program is for sale. To purchase it, join the [support discord](https://discord.gg/JwW8UwfUmC) and create a ticket, or e-mail `info@isaackogan.com`.
-
-Setup troubleshooting will be provided (but ultimately), hosting and setup is up to you and specific to your infrastructure.
-
-Payments are available through PayPal/BTC/ETH and **are in USD.** Delivery time can vary. Items that have been paid for will be delivered on average within 3-4 hours, at maximum within 24 hours.
-
-| Item       | Price (USD) | Description                                                                                                                                                                                                                                                                                                                                                                                          |
-|------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Standard   | $35         | Print events to a Thermal Printer. For example, printing a comment with the user's name, message, and profile picture. This is a HIGHLY advanced wrapper allowing you to print to a USB printer (must have ESCPOS) like it's nothing. You can also use a Network or Serial printer, if they are ESCPOS, however these are not recommended as they tend to drop connections more frequently than USB. |
-| Setup Help | $15         | Up to 1 hour of 1-on-1 setup time. I will conference with you in a voice call on Discord and remotely control your PC via AnyDesk. I will install the software on the spot, with you. Must have a working phone with Discord, so I can see the printer in case I need to.                                                                                                                            |_
 
 ## Getting Started
 
