@@ -101,11 +101,12 @@ Type the message "Printer Magic" in the ticket and I will immediately get you st
 
 ### Printer Library Example
 
-You will not find anything higher level than this out there. This is insane. Here's a sample of what you can do with this library in less than 30 lines of code:
+Here's a sample of what you can do with this library in less than 30 lines of code:
 
 ![](https://github.com/isaackogan/TikTokLive/raw/master/.github/RESOURCES/printer.gif)
 
-To show you just how advanced the library is, here we can print a profile picture, play a sound, and do text-to-speech... in just 5 lines of code.
+To show you just how advanced the library is, here we can print a profile picture, play a sound, and do text-to-speech... in just 5 lines of code. You will not find anything higher level than this out there. This is
+insane.
 
 ```py
 @client.on("comment")
