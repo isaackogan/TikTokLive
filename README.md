@@ -33,9 +33,7 @@ Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click t
 
 Thermal printing is a very recent, very exciting trend on TikTok. It is also a very **complex** one. Not because the topic is difficult in and of itself, but because people want so many different things.
 
-That's why I developed an all-encompassing thermal printing program that does... everything.
-
-There is even a **video tutorial** to help you get started.
+That's why I developed an all-encompassing thermal printing program that does... everything, including a comprehensive video tutorial on how to use it, made by me.
 
 ### Feature List (20+ Features)
 
