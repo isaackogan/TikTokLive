@@ -22,7 +22,7 @@ This is **not** an official API. It's a reverse engineering and research project
 
 Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
-## 🖨 Thermal Printing Library 🖨 ️
+## 💲🖨 Thermal Printing Library 🖨💲
 
 Thermal printing is a very recent, very exciting trend on TikTok. It is also a very **complex** one. Not because the topic is difficult in and of itself, but because people want so many different things.
 
