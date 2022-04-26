@@ -48,12 +48,19 @@ That's why I developed an all-encompassing thermal printing program that does...
 
 ### Feature List (20+ Features)
 
-- Support for **Serial**, **USB**, and **Network** ESC-POS printers
+#### Primary Features
+
+- Print Messages
+- Print Profile Pictures, Gift Images, Custom Images
+- Text to Speech (perhaps when someone gifts?)
+- Play custom sounds (perhaps when someone gifts?)
+- Built in text-to-speech
+- Support for ALL Serial, USB, and Network ESC-POS printers
 - Automatic, 1-click setup script
-- Print ANY text to the printer
-- Print ANY image to the printer
-- Play ANY sound on your PC
-- Play INSTANT text-to-speech messages
+- Support for MacOS, Windows, Linux
+
+### Additional Features
+
 - Download and print TikTok user avatars, gifts
 - Extremely high level API (There is zero need to touch anything low-level, I've got it covered)
 - 100% Asynchronous Programming
