@@ -50,6 +50,7 @@ That's why I developed an all-encompassing thermal printing program that does...
 
 #### Primary Features
 
+- Ready-to-go script included for non-programmers that has everything you need, already put together.
 - Print Messages
 - Print Profile Pictures, Gift Images, Custom Images
 - Text to Speech (perhaps when someone gifts?)
@@ -58,35 +59,28 @@ That's why I developed an all-encompassing thermal printing program that does...
 - Support for ALL Serial, USB, and Network ESC-POS printers
 - Automatic, 1-click setup script
 - Support for MacOS, Windows, Linux
+- Video Setup Tutorial
+- Fully documented API
 
 ### Additional Features
 
 - Download and print TikTok user avatars, gifts
 - Extremely high level API (There is zero need to touch anything low-level, I've got it covered)
 - 100% Asynchronous Programming
-- Advanced Formatting API
-    - Bold messages
-    - Left, Right, Center Adjust
-    - Newline characters parsed properly
-    - Print backwards (flip the input!)
-- Queue for printing
-    - Insert items at the start of the queue (priority)
-    - Insert items at the end of the queue
-    - Insert items at any index in the queue
-- Advanced error handling
-    - Custom errors built on top of the API describing what went wrong when it happens
-    - Errors do not kill the script. Even if a part of a message breaks, the rest still prints!
-- Send messages to TikTok LIVE Chat
-    - Requires session ID, allows you to use this like a chat-bot
-- FIVE working exemplars for how to use the library
-    - How-to on basic usage (using formatting, text-to-speech, sounds, images, etc.)
-    - How-to on using gifts
-    - How-to on using commands
-    - How-to on other features
-    - **Advancedm Ready-To-Go Version** that prints custom font images & text with cute emojis that differ based on how expensive the gift is, text-to-speech, and more!
-
-- **FULLY** documented API (reStructuredText) for you to work with & discover how it all works
-- **VIDEO TUTORIAL** to make it easy for you to get started
+- Bold messages
+- Left, Right, Center Adjust
+- Newline character support
+- Print backwards (flip the input!)
+- Insert items at the start of the print queue (priority)
+- Insert items at the end of the print queue
+- Insert items at any index in the print queue
+- Custom errors built on top of the API describing what went wrong when it happens
+- Errors do not kill the script. Even if a part of a message breaks, the rest still prints!
+- Send messages to TikTok LIVE Chat (chat-bot)
+- How-to example on basic usage (using formatting, text-to-speech, sounds, images, etc.)
+- How-to example on using gifts
+- How-to example on using commands
+- How-to example on other features
 
 ### Purchase Details (Cost, Pricing Logic, etc.)
 
