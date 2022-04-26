@@ -83,7 +83,7 @@ That's why I developed an all-encompassing thermal printing program that does...
 
 ### Purchase Details (Cost, Pricing Logic, etc.)
 
-The cost is a flat $50 USD. That's insanely cheap.
+The cost is a flat `$50 USD`. That's insanely cheap.
 
 This library is the most advanced, most purchased printer script on the market. Not only does it have an insane number of features, it was made by the person that _created_
 the TikTokLive library. That gives you a benefit of ensuring that it is not only guaranteed to work, but guaranteed to be the best of the best you will possibly find.
