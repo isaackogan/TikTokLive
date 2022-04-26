@@ -81,6 +81,24 @@ That's why I developed an all-encompassing thermal printing program that does...
 - **FULLY** documented API (reStructuredText) for you to work with & discover how it all works
 - **VIDEO TUTORIAL** to make it easy for you to get started
 
+### Purchase Details (Cost, Pricing Logic, etc.)
+
+The cost is a flat `$50 USD`. That's insanely cheap.
+
+This library is the most advanced, most purchased printer script on the market. Not only does it have an insane number of features, it was made by the person that _created_
+the TikTokLive library. That gives you a benefit of ensuring that it is not only guaranteed to work, but guaranteed to be the best of the best you will possibly find.
+
+The price is set at what it is because of the ridiculous amount of time spent learning to program, creating the TikTokLive library, figuring out how to print on Windows, MacOS and Linux, creating guides, building the
+highly complex script itself, learning all the ways it can go wrong and fixing them, dealing with customer issues and so much more.
+
+Purchasing this script is an investment that you can make thousands of dollars off of. At this price-point, that's a hell of a deal. You are recommended to have basic Python knowledge to use this library.
+
+### How to Purchase
+
+To buy this library, create a ticket in the `#tickets` channel in https://discord.gg/H8m3c6jSF4.
+
+Type the message "Printer Magic" in the ticket and I will immediately get you started so that you can get to printing as fast as possible!
+
 ### Printer Library Example
 
 Here's a sample of what you can do with this library in less than 30 lines of code:
@@ -111,24 +129,6 @@ async def on_comment(event: CommentEvent):
 
     )
 ```
-
-### Purchase Details (Cost, Pricing Logic, etc.)
-
-The cost is a flat `$50 USD`. That's insanely cheap.
-
-This library is the most advanced, most purchased printer script on the market. Not only does it have an insane number of features, it was made by the person that _created_
-the TikTokLive library. That gives you a benefit of ensuring that it is not only guaranteed to work, but guaranteed to be the best of the best you will possibly find.
-
-The price is set at what it is because of the ridiculous amount of time spent learning to program, creating the TikTokLive library, figuring out how to print on Windows, MacOS and Linux, creating guides, building the
-highly complex script itself, learning all the ways it can go wrong and fixing them, dealing with customer issues and so much more.
-
-Purchasing this script is an investment that you can make thousands of dollars off of. At this price-point, that's a hell of a deal. You are recommended to have basic Python knowledge to use this library.
-
-### How to Purchase
-
-To buy this library, create a ticket in the `#tickets` channel in https://discord.gg/H8m3c6jSF4.
-
-Type the message "Printer Magic" in the ticket and I will immediately get you started so that you can get to printing as fast as possible!
 
 ## Intro Tutorial
 
