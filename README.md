@@ -132,8 +132,7 @@ You will not find anything higher level than this out there. This is insane.
 
 Here's a sample of what you can do with this library in less than 30 lines of code:
 
-![](http://i.imgur.com/60bts.gif)
-![Sample GIF](https://i.gyazo.com/588713e5644380523caa722efdeb5242.gif)
+![](https://i.imgur.com/NVpEoEd.gif)
 
 ## Intro Tutorial
 
