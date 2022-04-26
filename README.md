@@ -78,12 +78,12 @@ That's why I developed an all-encompassing thermal printing program that does...
     - Errors do not kill the script. Even if a part of a message breaks, the rest still prints!
 - Send messages to TikTok LIVE Chat
     - Requires session ID, allows you to use this like a chat-bot
-- **FIVE** working exemplars for how to use the library
-    1. How-to on basic usage (using formatting, text-to-speech, sounds, images, etc.)
-    2. How-to on using gifts
-    3. How-to on using commands
-    4. How-to on other features
-    5. **Advancedm Ready-To-Go Version** that prints custom font images & text with cute emojis that differ based on how expensive the gift is, text-to-speech, and more!
+- FIVE working exemplars for how to use the library
+    - How-to on basic usage (using formatting, text-to-speech, sounds, images, etc.)
+    - How-to on using gifts
+    - How-to on using commands
+    - How-to on other features
+    - **Advancedm Ready-To-Go Version** that prints custom font images & text with cute emojis that differ based on how expensive the gift is, text-to-speech, and more!
 
 - **FULLY** documented API (reStructuredText) for you to work with & discover how it all works
 - **VIDEO TUTORIAL** to make it easy for you to get started
