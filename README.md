@@ -53,7 +53,7 @@ That's why I developed an all-encompassing thermal printing program that does...
 - Ready-to-go script included for non-programmers that has everything you need, already put together
 - Print ANY Message
 - Print Profile Pictures, Gift Images, Custom Images
-- FREE Text to Speech (perhaps when someone gifts?)
+- CUSTOM Text to Speech (perhaps when someone gifts?)
 - Play Sounds (perhaps when someone gifts?)
 - Support for ALL Serial, USB, and Network ESC-POS printers
 - Automatic, 1-click setup script
