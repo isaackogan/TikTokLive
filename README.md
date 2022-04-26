@@ -46,7 +46,9 @@ Thermal printing is a very recent, very exciting trend on TikTok. It is also a v
 
 That's why I developed an all-encompassing thermal printing program that does... everything, including a comprehensive video tutorial on how to use it, made by me.
 
-### Feature List (20+ Features)
+No subscription unlike many virtual printer services. One-time, life-time purchase. Can be installed in python via pip. Includes access to all future releases/updates to the project.
+
+### Feature List (30+ Features)
 
 #### Primary Features
 
@@ -56,11 +58,14 @@ That's why I developed an all-encompassing thermal printing program that does...
 - CUSTOM Text to Speech (perhaps when someone gifts?)
 - Play Sounds (perhaps when someone gifts?)
 - Support for ALL Serial, USB, and Network ESC-POS printers
-- Automatic, 1-click setup script
+- Automatic setup script
 - Support for MacOS, Windows, Linux
 - Video Setup Tutorial
 - Fully documented API
+- Quick-install with PIP
+- Access to future releases/updates
 - Made to be easy to use for newbies
+- Access to private discord chat for clients
 
 ### Additional Features
 
