@@ -59,9 +59,9 @@ Here's a sample of what you can do with this library in less than 30 lines of co
 
 First, read more about it on the [TikTokPrinter](https://github.com/isaackogan/TikTokPrinter) public GitHub page.
 
-To buy this library, create a ticket in the `#tickets` channel in https://discord.gg/H8m3c6jSF4.
+Then, to buy this library, create a ticket in the `#tickets` channel in https://discord.gg/H8m3c6jSF4.
 
-Type the message "Printer Magic" in the ticket and I will immediately get you started so that you can get to printing as fast as possible!
+Type the message "Printer Magic" in the ticket to get immediately started so that you can get to printing as fast as possible!
 
 ## Intro Tutorial
 
