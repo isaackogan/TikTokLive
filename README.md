@@ -57,7 +57,7 @@ Here's a sample of what you can do with this library in less than 30 lines of co
 
 ### How to Purchase
 
-First, read more about it on the [TikTokPrinter](https://github.com/isaackogan/TikTokPrinter) public GitHub repository page.
+First, read more about it on the [TikTokPrinter](https://github.com/isaackogan/TikTokPrinter) public GitHub page.
 
 To buy this library, create a ticket in the `#tickets` channel in https://discord.gg/H8m3c6jSF4.
 
