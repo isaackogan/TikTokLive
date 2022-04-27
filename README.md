@@ -44,7 +44,7 @@ Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#suppor
 
 Thermal printing is a very recent, very exciting trend on TikTok. It is also a very **complex** one. Not because the topic is difficult in and of itself, but because people want so many different things.
 
-That's why I developed an all-encompassing, multithreaded thermal printing program that does... everything, including a comprehensive video tutorial on how to use it, made by me.
+That's why I developed an all-encompassing, multithreaded thermal printing program that does... everything, including a comprehensive ~~video tutorial~~ (COMING SOON) on how to use it, made by me.
 
 No subscription unlike many virtual printer services. One-time, life-time purchase. Can be installed in python via pip. Includes access to all future releases/updates to the project.
 
@@ -60,7 +60,7 @@ No subscription unlike many virtual printer services. One-time, life-time purcha
 - Support for ALL Serial, USB, and Network ESC-POS printers
 - Automatic setup script
 - Support for MacOS, Windows, Linux
-- Video Setup Tutorial
+- ~~Video Setup Tutorial~~ (COMING SOON)
 - Fully documented API
 - Quick-install with PIP
 - Access to future releases/updates
