@@ -29,7 +29,7 @@ Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#suppor
 - [Documentation](https://tiktoklive.isaackogan.com)
 - [Contributors](#contributors)
 - [License](#license)
-- [Thermal Printing](#-ad-thermal-printing-library-)
+- [Thermal Printing](#-thermal-printing-library-)
 
 **Resources & Guides**
 
