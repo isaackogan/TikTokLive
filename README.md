@@ -40,7 +40,7 @@ Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#suppor
 5. [TikTok Events](#Events)
 6. [Usage Examples](https://github.com/davidteather/TikTok-Api/tree/master/examples)
 
-## 💲🖨 Ad: Thermal Printing Library 🖨💲
+## 💲🖨 Thermal Printing Library 🖨💲
 
 Thermal printing is a very recent, very exciting trend on TikTok. It is also a very **complex** one. Not because the topic is difficult in and of itself, but because people want so many different things.
 
