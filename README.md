@@ -42,13 +42,14 @@ Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#suppor
 
 ## 💲🖨 Thermal Printing Library 🖨💲
 
-Thermal printing is a very recent, very exciting trend on TikTok. It is also a very **complex** one. Not because the topic is difficult in and of itself, but because people want so many different things.
+Thermal printing is a very recent, very exciting trend on TikTok.
 
-That's why I developed an all-encompassing, multithreaded thermal printing program that does... everything, including a comprehensive video tutorial (coming soon) on how to use it, made by me.
+I developed an all-encompassing, multithreaded thermal printing program that does *everything*
+you could ever want with Thermal Printing.
 
-There is no subscription unlike virtual printer services. One-time, life-time purchase. Can be installed in python via pip. Includes access to all future releases/updates to the project.
+Print text, images, text-to-speech, play sounds, and much more. There is no subscription unlike virtual printer services. It's just a one-time, life-time purchase.
 
-Print text, images, text-to-speech, play sounds, and much more.
+It's so easy, it can be installed in **one** command through pip. It's not just a "one-off" purchase, either. As the project is updated, you will have access to **every new release** as new features are added.
 
 Here's a sample of what you can do with this library in less than 30 lines of code:
 
