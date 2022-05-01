@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="TikTokLive",
     packages=setuptools.find_packages(),
-    version="0.8.6",
+    version="0.8.9",
     license="MIT",
     description="TikTok Live Connection Client",
     author="Isaac Kogan",
@@ -17,7 +17,7 @@ setuptools.setup(
     url="https://github.com/isaackogan/TikTokLive",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/isaackogan/TikTokLive/releases/tag/v0.8.6",
+    download_url="https://github.com/isaackogan/TikTokLive/releases/tag/v0.8.9",
     keywords=["tiktok", "tiktok live", "python3", "api", "unofficial"],
     install_requires=[
         "aiohttp>=3.8",  # Make requests
