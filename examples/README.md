@@ -2,9 +2,16 @@ Examples
 ======
 Various examples implementing the TikTok Live Connector.
 
+### Thermal Printing
+
+Check out our in-house Thermal Printing library at https://github.com/isaackogan/TikTokPrinter.
+
+[![](https://github.com/isaackogan/TikTokLive/raw/master/.github/RESOURCES/printer.gif)](https://github.com/isaackogan/TikTokPrinter)
+
 ### Current Examples
 
 - [Basic Implementation](basic.py)
+- [Thermal Printer](https://github.com/isaackogan/TikTokPrinter)
 - [Discord Webhook](discord.py)
 - [Debug Mode](debug.py)
 - [Reading From GiftEvent](gifts.py)

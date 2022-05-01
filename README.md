@@ -45,7 +45,8 @@ Join the [support discord](https://discord.gg/JwW8UwfUmC) and visit the `#suppor
 Thermal printing is a very recent, very exciting trend on TikTok.
 
 I developed an all-encompassing, multithreaded thermal printing program that does *everything*
-you could ever want with Thermal Printing. It even has its own [YouTube Tutorial](https://www.youtube.com/watch?v=NeapS5Jn_oo) and comes with [pre-made examples](https://github.com/isaackogan/TikTokPrinter/tree/master/examples) if your coding ability isn't very strong!
+you could ever want with Thermal Printing. It even has its own [YouTube Tutorial](https://www.youtube.com/watch?v=NeapS5Jn_oo) and comes
+with [pre-made examples](https://github.com/isaackogan/TikTokPrinter/tree/master/examples) if your coding ability isn't very strong!
 
 Print text, images, text-to-speech, play sounds, and much more. There is no subscription unlike virtual printer services. It's just a one-time, life-time purchase.
 
@@ -53,7 +54,7 @@ It's so easy, it can be installed in **one** command through pip. It's not just 
 
 Here's a sample of what you can do with this library in less than 30 lines of code:
 
-![](https://github.com/isaackogan/TikTokLive/raw/master/.github/RESOURCES/printer.gif)
+[![](https://github.com/isaackogan/TikTokLive/raw/master/.github/RESOURCES/printer.gif)](https://github.com/isaackogan/TikTokPrinter)
 
 ### How to Purchase
 
