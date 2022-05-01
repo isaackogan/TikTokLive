@@ -3,8 +3,7 @@ Examples
 
 ### Thermal Printing
 
-We have a [Thermal Printing project](https://github.com/isaackogan/TikTokPrinter) for purchase. Check out the [YouTube Showcase & Tutorial](https://www.youtube.com/watch?v=NeapS5Jn_oo) to see the robust set of features
-included:
+We have a [Thermal Printing project](https://github.com/isaackogan/TikTokPrinter) for purchase. Check out the [YouTube Showcase & Tutorial](https://www.youtube.com/watch?v=NeapS5Jn_oo).
 
 ### Current Examples
 
