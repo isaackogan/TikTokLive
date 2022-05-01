@@ -4,8 +4,9 @@ Various examples implementing the TikTok Live Connector.
 
 ### Thermal Printing
 
-We have a Thermal Printing project for purchase https://github.com/isaackogan/TikTokPrinter. Check out the YouTube tutorial & showcase to see the robust set of features
-included: https://www.youtube.com/watch?v=NeapS5Jn_oo
+We have a Thermal Printing project for purchase https://github.com/isaackogan/TikTokPrinter.
+
+Check out the YouTube tutorial & showcase to see the robust set of features included: https://www.youtube.com/watch?v=NeapS5Jn_oo
 
 ### Current Examples
 
