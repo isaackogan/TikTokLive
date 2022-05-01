@@ -55,3 +55,33 @@ class ChatMessageRepeat(ChatMessageSendFailure):
     """
 
     pass
+
+
+class FailedHTTPRequest(RuntimeError):
+    """
+    Error raised whenever a request fails to HTTP [Generic]
+
+    """
+
+
+class FailedFetchRoomInfo(FailedHTTPRequest):
+    """
+    Error raised when failing to fetch room info
+
+    """
+
+
+class FailedRoomPolling(FailedHTTPRequest):
+    """
+    Error raised when room polling encounters an exception
+
+    """
+
+    pass
+
+
+class FailedFetchGifts(FailedHTTPRequest):
+    """
+    Error raised when fetching gifts encounters an exception
+
+    """

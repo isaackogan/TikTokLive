@@ -9,7 +9,8 @@ from dacite import from_dict
 
 from TikTokLive.client.http import TikTokHTTPClient
 from TikTokLive.client.proxy import ProxyContainer
-from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift, InvalidSessionId, ChatMessageSendFailure, ChatMessageRepeat
+from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift, InvalidSessionId, ChatMessageSendFailure, ChatMessageRepeat, FailedFetchRoomInfo, FailedFetchGifts, \
+    FailedRoomPolling
 from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
 
@@ -84,6 +85,18 @@ class BaseClient:
         self._fetch_room_info_on_connect: bool = fetch_room_info_on_connect
         self._enable_extended_gift_info: bool = enable_extended_gift_info
 
+    async def _on_error(self, original: Exception, append: Optional[Exception]) -> None:
+        """
+        Send errors to the _on_error handler for handling, appends a custom exception
+
+        :param original: The original Python exception
+        :param append: The specific exception
+        :return: None
+
+        """
+
+        raise NotImplementedError()
+
     async def __fetch_room_id(self) -> Optional[str]:
         """
         Fetch room ID of a given user
@@ -98,8 +111,8 @@ class BaseClient:
             self.__room_id = get_room_id_from_main_page_html(html)
             self._client_params["room_id"] = self.__room_id
             return self.__room_id
-        except:
-            logging.error(traceback.format_exc() + "\nFailed to retrieve room id from page source")
+        except Exception as ex:
+            await self._on_error(ex, FailedFetchRoomInfo("Failed to fetch room id from WebCast, see stacktrace for more info."))
             return None
 
     async def __fetch_room_info(self) -> Optional[dict]:
@@ -114,8 +127,8 @@ class BaseClient:
             response = await self._http.get_json_object_from_webcast_api("room/info/", self._client_params)
             self.__room_info = response
             return self.__room_info
-        except:
-            logging.error(traceback.format_exc() + "\nFailed to retrieve room info from webcast api")
+        except Exception as ex:
+            await self._on_error(ex, FailedFetchRoomInfo("Failed to fetch room info from WebCast, see stacktrace for more info."))
             return None
 
     async def __fetch_available_gifts(self) -> Optional[Dict[int, ExtendedGift]]:
@@ -139,8 +152,8 @@ class BaseClient:
                         logging.error(traceback.format_exc() + "\nFailed to parse gift's extra info")
 
             return self.__available_gifts
-        except:
-            logging.error(traceback.format_exc() + "\nFailed to retrieve gifts from webcast api")
+        except Exception as ex:
+            await self._on_error(ex, FailedFetchGifts("Failed to fetch gift data from WebCast, see stacktrace for more info."))
             return None
 
     async def __fetch_room_polling(self) -> None:
@@ -157,8 +170,8 @@ class BaseClient:
         while self.__is_polling_enabled:
             try:
                 await self.__fetch_room_data()
-            except:
-                logging.error(traceback.format_exc() + "\nError while fetching room data")
+            except Exception as ex:
+                await self._on_error(ex, FailedRoomPolling("Failed to retrieve events from WebCast, see stacktrace for more info."))
 
             await asyncio.sleep(polling_interval)
 
@@ -241,7 +254,7 @@ class BaseClient:
                 message = str(ex)
 
             self.__connecting = False
-            raise FailedConnection(message)
+            await self._on_error(ex, FailedConnection(message))
 
     def _disconnect(self) -> None:
         """
@@ -278,7 +291,6 @@ class BaseClient:
         """
 
         self.__set_session_id(session_id)
-
         return await self._connect()
 
     def run(self, session_id: Optional[str] = None) -> None:
@@ -329,12 +341,15 @@ class BaseClient:
         if status_code == 0:
             return data
 
-        raise {
-            20003: InvalidSessionId("Your Session ID has expired. Please provide a new one"),
-            50007: ChatMessageRepeat("You cannot send repeated chat messages!")
-        }.get(
-            status_code, ChatMessageSendFailure(f"TikTok responded with status code {status_code}: {data.get('message')}")
-        )
+        try:
+            raise {
+                20003: InvalidSessionId("Your Session ID has expired. Please provide a new one"),
+                50007: ChatMessageRepeat("You cannot send repeated chat messages!")
+            }.get(
+                status_code, ChatMessageSendFailure(f"TikTok responded with status code {status_code}: {data.get('message')}")
+            )
+        except Exception as ex:
+            await self._on_error(ex, None)
 
     async def retrieve_room_info(self) -> Optional[dict]:
         """

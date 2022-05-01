@@ -1,3 +1,5 @@
+import logging
+import traceback
 from typing import Optional, Type
 
 from dacite import from_dict
@@ -28,6 +30,53 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
 
         BaseClient.__init__(self, unique_id, **options)
         AsyncIOEventEmitter.__init__(self, self.loop)
+
+    async def _on_error(self, original: Exception, append: Optional[Exception]) -> None:
+        """
+        Send errors to the _on_error handler for handling, appends a custom exception
+
+        :param original: The original Python exception
+        :param append: The specific exception
+        :return: None
+
+        """
+
+        _exc = original
+
+        # If adding on to it
+        if append is not None:
+            try:
+                raise append from original
+            except Exception as ex:
+                _exc = ex
+
+        # If not connected, just raise it
+        if not self.connected:
+            raise _exc
+
+        # If connected, no handler
+        if len(self.listeners("error")) < 1:
+            self._log_error(_exc)
+            return
+
+            # If connected, has handler
+        self.emit("error", _exc)
+
+    @classmethod
+    def _log_error(cls, exception: Exception) -> None:
+        """
+        Log an error
+
+        :param exception: The exception
+        :return: None
+
+        """
+
+        try:
+            raise exception
+        except:
+            logging.error(traceback.format_exc())
+        return
 
     async def _connect(self) -> str:
         """

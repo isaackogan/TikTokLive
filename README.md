@@ -323,6 +323,28 @@ async def on_connect(event: UnknownEvent):
     print(event.as_dict, "<- This is my data as a dict!")
 ```
 
+### `error`
+
+Triggered when there is an error in the client or in error handlers.
+
+If this handler is not present in the code, an internal default handler will log errors in the console. If a handler is added, all error handling (including logging) is up to the individual.
+
+**Warning:** If you listen for the error event and do not log errors, you will not see when an error occurs.
+
+```python
+
+@client.on("error")
+async def on_connect(error: Exception):
+    # Handle the error
+    if isinstance(error, SomeRandomError):
+        print("Handle Some Error")
+        return
+
+    # Otherwise, log the error
+    client._log_error(error)
+
+```
+
 ## Contributors
 
 * **Isaac Kogan** - *Initial work & primary maintainer* - [isaackogan](https://github.com/isaackogan)
