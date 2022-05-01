@@ -1,6 +1,5 @@
 Examples
 ======
-Various examples implementing the TikTok Live Connector.
 
 ### Thermal Printing
 
