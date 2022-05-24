@@ -8,7 +8,7 @@ A python library to connect to and read events from TikTok's LIVE service
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTok-Live-Connector)
 ![Forks](https://img.shields.io/github/forks/isaackogan/TikTok-Live-Connector)
 ![Stars](https://img.shields.io/github/stars/isaackogan/TikTok-Live-Connector)
-[![Support Server](https://img.shields.io/discord/831349828578574346.svg?color=7289da&logo=discord&style=flat-square)](https://discord.gg/JwW8UwfUmC)
+[![Support Server](https://img.shields.io/discord/831349828578574346.svg?color=7289da&logo=discord&style=flat-square)](https://discord.gg/4Mbw58w5Qx)
 
 <!-- [![Downloads](https://pepy.tech/badge/tiktoklive)](https://pepy.tech/project/tiktoklive) -->
 
