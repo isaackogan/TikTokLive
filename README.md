@@ -17,7 +17,7 @@ connects to the WebCast service using only a user's `unique_id` and allows you t
 
 This library a Python implementation of the Javascript
 [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
-by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python or require it for their specific dependancies.
+by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python or require it for their specific project parameters.
 
 This is **not** an official API. It's a reverse engineering and research project.
 
