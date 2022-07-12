@@ -85,3 +85,33 @@ class FailedFetchGifts(FailedHTTPRequest):
     Error raised when fetching gifts encounters an exception
 
     """
+
+
+class DownloadStreamError(RuntimeError):
+    """
+    Error raised for anything relating to downloading streams
+
+    """
+
+    pass
+
+
+class AlreadyDownloadingStream(DownloadStreamError):
+    """
+    Error raised when already downloading a livestream and one attempts to start a second download
+
+    """
+
+
+class NotDownloadingStream(DownloadStreamError):
+    """
+    Error raised when trying to stop downloading a livestream you are not currently downloading
+
+    """
+
+
+class DownloadProcessNotFound(DownloadStreamError):
+    """
+    Error raised when stopping a download and the process is not found. Usually, you're stopping it before the process spawns
+
+    """
