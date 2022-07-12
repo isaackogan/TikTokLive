@@ -25,6 +25,7 @@ setuptools.setup(
         "protobuf>=3.19.4",  # Decode Protobuf Messages
         "pyee>=9.0.4",  # Event Emitter
         "dacite>=1.6.0"  # Requests
+        "ffmpy>=0.3.0"
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
