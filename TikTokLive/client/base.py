@@ -1,16 +1,21 @@
 import asyncio
 import logging
+import os
+import signal
 import sys
 import traceback
 from asyncio import AbstractEventLoop
-from typing import Optional, List, Dict
+from datetime import datetime
+from threading import Thread
+from typing import Optional, List, Dict, Set
 
 from dacite import from_dict
+from ffmpy import FFmpeg, FFRuntimeError
 
 from TikTokLive.client.http import TikTokHTTPClient
 from TikTokLive.client.proxy import ProxyContainer
 from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift, InvalidSessionId, ChatMessageSendFailure, ChatMessageRepeat, FailedFetchRoomInfo, FailedFetchGifts, \
-    FailedRoomPolling
+    FailedRoomPolling, FFmpegWrapper, AlreadyDownloadingStream, DownloadProcessNotFound, NotDownloadingStream
 from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
 
@@ -84,6 +89,7 @@ class BaseClient:
         self._process_initial_data: bool = process_initial_data
         self._fetch_room_info_on_connect: bool = fetch_room_info_on_connect
         self._enable_extended_gift_info: bool = enable_extended_gift_info
+        self._download: Optional[FFmpegWrapper] = None
 
     async def _on_error(self, original: Exception, append: Optional[Exception]) -> None:
         """
@@ -187,6 +193,9 @@ class BaseClient:
         webcast_response = await self._http.get_deserialized_object_from_webcast_api("im/fetch/", self._client_params, "WebcastResponse")
         _last_cursor, _next_cursor = self._client_params["cursor"], webcast_response.get("cursor")
         self._client_params["cursor"] = _last_cursor if _next_cursor == "0" else _next_cursor
+
+        if webcast_response.get("internalExt"):
+            self._client_params["internal_ext"] = webcast_response["internalExt"]
 
         if is_initial and not self._process_initial_data:
             return
@@ -484,3 +493,97 @@ class BaseClient:
         """
 
         return self.__available_gifts
+
+    def download(
+            self,
+            path: str,
+            duration: Optional[int] = None,
+            verbose: bool = True,
+            loglevel: str = "error",
+            global_options: Set[str] = set(),
+            inputs: Dict[str, str] = dict(),
+            outputs: Dict[str, str] = dict()
+    ) -> None:
+        """
+        Start downloading the user's livestream video for a given duration, NON-BLOCKING via Python Threading
+
+        :param loglevel: Set the FFmpeg log level
+        :param outputs: Pass custom params to FFmpeg outputs
+        :param inputs: Pass custom params to FFmpeg inputs
+        :param global_options: Pass custom params to FFmpeg global options
+        :param path: The path to download the livestream video to
+        :param duration: If duration is None or less than 1, download will go forever
+        :param verbose: Whether to log info about the download in console
+
+        :return: None
+        :raises: AlreadyDownloadingStream if already downloading and attempting to start a second download
+
+        """
+
+        # If already downloading stream at the moment
+        if self._download is not None:
+            raise AlreadyDownloadingStream()
+
+        # Set a runtime
+        runtime: Optional[str] = None
+        if duration is not None and duration >= 1:
+            runtime = f"-t {duration}"
+
+        # Function Running
+        def spool():
+            try:
+                self._download.ffmpeg.run()
+            except FFRuntimeError as ex:
+                if ex.exit_code and ex.exit_code != 255:
+                    self._download = None
+                    raise
+            self._download = None
+
+        # Create an FFmpeg wrapper
+        self._download = FFmpegWrapper(
+            ffmpeg=FFmpeg(
+                inputs={**{self.room_info["stream_url"]["hls_pull_url"]: None}, **inputs},
+                outputs={**{path: runtime}, **outputs},
+                global_options={"-y", f"-loglevel {loglevel}"}.union(global_options)
+            ),
+            thread=Thread(target=spool),
+            verbose=verbose,
+            path=path,
+            runtime=runtime
+        )
+
+        # Start the download
+        self._download.thread.start()
+        self._download.started_at = int(datetime.utcnow().timestamp())
+
+        # Give info about the started download
+        if self._download.verbose:
+            logging.warning(f"Started the download to path \"{path}\" for duration \"{'infinite' if runtime is None else duration} seconds\" on user @{self.unique_id}")
+
+    def stop_download(self) -> None:
+        """
+        Stop downloading a livestream if currently downloading
+
+        :return: None
+        :raises NotDownloadingStream: Raised if trying to stop when not downloading and
+        :raises DownloadProcessNotFound: Raised if stopping before the ffmpeg process has opened
+
+        """
+
+        # If attempting to stop a download when none is occurring
+        if self._download is None:
+            raise NotDownloadingStream("Not currently downloading the stream!")
+
+        # If attempting to stop a download before the process has opened
+        if self._download.ffmpeg.process is None:
+            raise DownloadProcessNotFound("Download process not found. You are likely stopping the download before the ffmpeg process has opened. Add a delay!")
+
+        # Kill the process
+        os.kill(self._download.ffmpeg.process.pid, signal.CTRL_BREAK_EVENT)
+
+        # Give info about the final product
+        if self._download.verbose:
+            logging.warning(
+                f"Stopped the download to path \"{self._download.path}\" on user @{self.unique_id} after "
+                f"\"{int(datetime.utcnow().timestamp()) - self._download.started_at} seconds\" of downloading"
+            )
