@@ -20,7 +20,7 @@ class TikTokHTTPClient:
     DEFAULT_CLIENT_PARAMS: Dict[str, Union[int, bool, str]] = {
         "aid": 1988, "app_name": 'tiktok_web', "browser_name": 'Mozilla',
         "browser_online": True, "browser_platform": 'Win32', "version_code": 180800,
-        "browser_version": '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36',
+        "browser_version": '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36',
         "cookie_enabled": True, "cursor": '', "device_platform": 'web', "did_rule": 3, "fetch_rule": 1, "identity": 'audience', "internal_ext": '',
         "last_rtt": 0, "live_id": 12, "resp_content_type": 'protobuf', "screen_height": 1152, "screen_width": 2048, "tz_name": 'Europe/Berlin',
         "browser_language": "en", "priority_region": "US", "region": "US",
@@ -28,7 +28,7 @@ class TikTokHTTPClient:
 
     DEFAULT_REQUEST_HEADERS: Dict[str, str] = {
         "Connection": 'keep-alive', "Cache-Control": 'max-age=0', "Accept": 'text/html,application/json,application/protobuf',
-        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36',
+        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36',
         "Referer": 'https://www.tiktok.com/', "Origin": 'https://www.tiktok.com', "Accept-Language": 'en-US,en;q=0.9', "Accept-Encoding": 'gzip, deflate',
     }
 
