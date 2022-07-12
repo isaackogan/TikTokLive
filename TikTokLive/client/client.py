@@ -1,6 +1,6 @@
 import logging
 import traceback
-from typing import Optional, Type
+from typing import Optional, Type, Callable
 
 from dacite import from_dict
 from pyee import AsyncIOEventEmitter
@@ -8,7 +8,8 @@ from pyee import AsyncIOEventEmitter
 from .base import BaseClient
 from ..proto.utilities import from_dict_plus
 from ..types import events
-from ..types.events import AbstractEvent, ViewerCountUpdateEvent, CommentEvent, LiveEndEvent, GiftEvent, QuestionEvent, UnknownEvent, ConnectEvent, DisconnectEvent
+from ..types.events import AbstractEvent, ViewerCountUpdateEvent, CommentEvent, LiveEndEvent, GiftEvent, QuestionEvent, UnknownEvent, ConnectEvent, DisconnectEvent, EmoteEvent, EnvelopeEvent, \
+    SubscribeEvent, WeeklyRankingEvent, MicBattleEvent, MicArmiesEvent
 
 
 class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
@@ -148,13 +149,6 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
                 webcast_message
             )
 
-        # Comment
-        if webcast_message["type"] == "WebcastChatMessage":
-            return from_dict_plus(
-                CommentEvent,
-                webcast_message
-            )
-
         # Live ended
         action: Optional[int] = webcast_message.get("action")
         if action is not None and action == 3:
@@ -169,14 +163,32 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
             event._as_dict = webcast_message
             return event
 
-        # Question
-        if webcast_message["type"] == "WebcastQuestionNewMessage":
+        # Subscriber
+        if webcast_message["type"] == "WebcastMemberMessage" and webcast_message.get("actionId") == 7:
             return from_dict_plus(
-                QuestionEvent,
-                webcast_message.get("questionDetails")
+                SubscribeEvent,
+                webcast_message
             )
 
-        # We haven't implemented deserialization for it yet, or it doesn't have a model
-        event: UnknownEvent = UnknownEvent()
-        event._as_dict = webcast_message
-        return event
+        # Envelope Event
+        if webcast_message["type"] == "WebcastEnvelopeMessage":
+            try:
+                webcast_message["treasureBoxUser"] = webcast_message["treasureBoxUser"]["user2"]["user3"][0]["user4"]["user"]
+            except:
+                webcast_message["treasureBoxUser"] = None
+
+            return from_dict_plus(
+                EnvelopeEvent,
+                webcast_message
+            )
+
+        standard: Optional[Callable] = {
+            "WebcastChatMessage": lambda: from_dict_plus(CommentEvent, webcast_message),  # Comment
+            "WebcastEmoteChatMessage": lambda: from_dict_plus(EmoteEvent, webcast_message),  # Emote
+            "WebcastQuestionNewMessage": lambda: from_dict_plus(QuestionEvent, webcast_message.get("questionDetails")),  # Q&A Question
+            "WebcastHourlyRankMessage": lambda: from_dict_plus(WeeklyRankingEvent, webcast_message),  # Hourly Ranking
+            "WebcastLinkMicBattle": lambda: from_dict_plus(MicBattleEvent, webcast_message),  # Mic Battle (Battle Start)
+            "WebcastLinkMicArmies": lambda: from_dict_plus(MicArmiesEvent, webcast_message),  # Mic Armies (Battle Update)
+        }.get(webcast_message["type"], lambda ev=UnknownEvent(): ev.set_as_dict(webcast_message))  # Unknown Event
+
+        return standard()

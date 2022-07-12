@@ -1,5 +1,9 @@
+import re
 from dataclasses import dataclass, field
+from threading import Thread
 from typing import List, Optional
+
+from ffmpy import FFmpeg
 
 
 class AbstractObject:
@@ -54,14 +58,42 @@ class Badge(AbstractObject):
 
 
 @dataclass()
+class ImageBadgeImage:
+    """
+    Image container with the URL of the user badge
+
+    """
+
+    url: Optional[str]
+    """The TikTok CDN Image URL for the badge"""
+
+
+@dataclass()
+class ImageBadge:
+    """"
+    Image Badge object containing an image badge for a TikTok User
+
+    """
+
+    displayType: Optional[int]
+    """The displayType of the badge"""
+
+    image: Optional[ImageBadgeImage]
+    """Container for the image badge"""
+
+
+@dataclass()
 class BadgeContainer(AbstractObject):
     """
     Badge container housing a list of user badges
 
     """
 
+    imageBadges: List[ImageBadge] = field(default_factory=lambda: [])
+    """A list of image badges the user has (e.g. Subscriber badge)"""
+
     badges: List[Badge] = field(default_factory=lambda: [])
-    """Badges for the user (e.g. moderator)"""
+    """A list of text badges the user has (e.g. Moderator/Friend badge)"""
 
 
 @dataclass()
@@ -86,7 +118,7 @@ class User(AbstractObject):
     extraAttributes: ExtraAttributes = field(default_factory=lambda: ExtraAttributes())
     """Extra attributes for the user such as if they are following the streamer"""
 
-    badge: BadgeContainer = BadgeContainer()
+    badges: List[BadgeContainer] = field(default_factory=lambda: [])
     """Badges for the user containing information such as if they are a stream moderator"""
 
     @property
@@ -107,6 +139,31 @@ class User(AbstractObject):
 
         return self.extraAttributes.followRole >= 2
 
+    def __contains_badge(self, name: str) -> bool:
+        """
+        Check if a given badge type is in the badge list
+
+        :param name: Name of the badge
+        :return: Whether it's there
+
+        """
+
+        for badge in self.badges:
+            for _badge in badge.badges:
+                if name in _badge.type:
+                    return True
+
+        return False
+
+    @property
+    def is_new_gifter(self) -> bool:
+        """
+        Whether they are a new gifter in the streamer's stream
+
+        """
+
+        return self.__contains_badge("live_ng")
+
     @property
     def is_moderator(self) -> bool:
         """
@@ -114,7 +171,31 @@ class User(AbstractObject):
 
         """
 
-        return any(badge.type == "pm_mt_moderator_im" for badge in self.badge.badges)
+        return self.__contains_badge("moderator")
+
+    @property
+    def is_subscriber(self) -> bool:
+        """
+        Whether they are a subscriber in the watched stream
+
+        """
+
+        return self.__contains_badge("/sub_")
+
+    @property
+    def top_gifter_rank(self) -> Optional[int]:
+        """
+        Their top gifter rank if they are a top gifter
+
+        """
+
+        for badge in self.badges:
+            for _badge in badge.imageBadges:
+                result = re.search(r'(?<=ranklist_top_gifter_)(\d+)(?=.png)', _badge.image.url)
+                if result is not None:
+                    return int(result.group())
+
+        return None
 
 
 @dataclass()
@@ -290,3 +371,204 @@ class Gift(AbstractObject):
         """
 
         return self.giftDetails.giftType
+
+
+@dataclass()
+class EmoteImage:
+    """
+    Container encapsulating the image URL for the Emote
+
+    """
+
+    imageUrl: Optional[str]
+    """TikTok CDN link to the given Emote for the streamer"""
+
+
+@dataclass()
+class Emote:
+    """
+    The Emote a user sent in the chat
+
+    """
+
+    emoteId: Optional[str]
+    """ID of the TikTok Emote"""
+
+    image: Optional[EmoteImage]
+    """Container encapsulating the image URL for the sent Emote"""
+
+
+@dataclass()
+class TreasureBoxData:
+    """
+    Information about the gifted treasure box
+
+    """
+
+    coins: Optional[int]
+    """Coins of the treasure box"""
+
+    canOpen: Optional[int]
+    """Whether the treasure box can be opened"""
+
+    timestamp: Optional[int]
+    """Timestamp for when the treasure box was sent"""
+
+
+@dataclass()
+class MemberMessageDetails:
+    """
+    Details about a given member message proto event
+
+    """
+
+    displayType: Optional[str]
+    """The displayType of the message corresponding to the type of member message"""
+
+    label: Optional[str]
+    """Display Label for the member message"""
+
+
+@dataclass()
+class RankItem:
+    """
+    Rank Item for the user ranking
+
+    """
+
+    colour: Optional[str]
+    """Colour that the rank corresponds to (for the UI)"""
+
+    id: Optional[int]
+    """The rank. If id=400, they are in the Top 400"""
+
+
+@dataclass()
+class WeeklyRanking:
+    """
+    Container with the weekly ranking data
+
+    """
+
+    type: Optional[str]
+    """Unknown"""
+
+    label: Optional[str]
+    """Label for the UI"""
+
+    rank: Optional[RankItem]
+    """The weekly ranking data"""
+
+
+@dataclass()
+class RankContainer:
+    """
+    Container encapsulating weekly ranking data
+
+    """
+
+    rankings: Optional[WeeklyRanking]
+
+
+@dataclass()
+class MemberMessage:
+    """
+    Container encapsulating the member message details
+
+    """
+
+    eventDetails: Optional[MemberMessageDetails]
+
+
+@dataclass()
+class LinkUser:
+    """
+    A user in a TikTok LinkMicBattle (TikTok Battle Events)
+
+    """
+
+    userId: Optional[int]
+    """userId of the user"""
+
+    nickname: Optional[str]
+    """User's Nickname"""
+
+    profilePicture: Optional[Avatar]
+    """User's Profile Picture"""
+
+    uniqueId: Optional[str]
+    """The uniqueId of the user"""
+
+
+@dataclass()
+class MicBattleGroup:
+    """
+    A container encapsulating LinkUser data for TikTok Battles
+
+    """
+
+    user: LinkUser
+    """The TikTok battle LinkUser"""
+
+
+@dataclass()
+class MicBattleUser:
+    """
+    A container encapsulating the LinkUser data for TikTok Battles
+
+    """
+    battleGroup: MicBattleGroup
+
+
+@dataclass()
+class MicArmiesGroup:
+    """
+    A group containing
+
+    """
+
+    points: Optional[int]
+    """The number of points the person has"""
+
+    users: List[User] = field(default_factory=lambda: [])
+    """(Presumably) the users involved in the battle"""
+
+
+@dataclass()
+class MicArmiesUser:
+    """
+    Information about the Mic Armies User
+
+    """
+
+    hostUserId: Optional[int]
+    """The user ID of the TikTok host"""
+
+    battleGroups: Optional[MicArmiesGroup]
+    """Information about the users involved in the battle"""
+
+
+@dataclass()
+class FFmpegWrapper:
+    """
+    A wrapper for the FFmpeg Stream Download utility in the TikTokLive Package
+
+    """
+
+    runtime: Optional[str]
+    """FFMpeg argument for how long to download for"""
+
+    thread: Thread
+    """The thread object in which a download is occuring"""
+
+    ffmpeg: FFmpeg
+    """The ffmpy FFmpeg object in which a subprocess is spawned to download"""
+
+    verbose: bool
+    """Whether to include logging messages about the status of the download"""
+
+    path: str
+    """The path to download the video to"""
+
+    started_at: int = -1
+    """The time at which the download began"""
