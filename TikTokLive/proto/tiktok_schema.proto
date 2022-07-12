@@ -5,8 +5,13 @@ package TikTok;
 message WebcastResponse {
   repeated Message messages = 1;
   string cursor = 2;
-  string ackIds = 5;
+  int32 fetchInterval = 3;
+  int64 serverTimestamp = 4;
+  string internalExt = 5;
+  int32 fetchType = 6; // ws (1) or polling (2)
   WebsocketParam wsParam = 7;
+  int32 heartbeatDuration = 8;
+  bool needAck = 9;
   string wsUrl = 10;
 }
 
@@ -38,6 +43,7 @@ message WebcastChatMessage {
 message WebcastMemberMessage {
   User user = 2;
   WebcastMessageEvent event = 1;
+  int32 actionId = 10;
 }
 
 message WebcastGiftMessage {
@@ -103,7 +109,6 @@ message WebcastLinkMicArmiesGroup {
 }
 
 
-
 // Follow & share event
 message WebcastSocialMessage {
   User user = 2;
@@ -143,8 +148,8 @@ message User {
   string nickname = 3;
   ProfilePicture profilePicture = 9;
   UserExtraAttributes extraAttributes = 22;
-  UserBadgesAttributes badge = 64;
   string uniqueId = 38;
+  repeated UserBadgesAttributes badges = 64;
 }
 
 message LinkUser {
@@ -164,6 +169,7 @@ message UserExtraAttributes {
 
 message UserBadgesAttributes {
   repeated UserBadge badges = 21;
+  repeated UserImageBadge imageBadges = 20;
 }
 
 message UserBadge {
@@ -218,3 +224,58 @@ message RankContainer {
 message WebcastHourlyRankMessage {
   RankContainer data = 2;
 }
+
+message UserImageBadge {
+  int32 displayType = 1;
+  UserImageBadgeImage image = 2;
+}
+
+message UserImageBadgeImage {
+  string url = 1;
+}
+
+message WebcastEmoteChatMessage {
+  User user = 2;
+  EmoteDetails emote = 3;
+}
+
+message EmoteDetails {
+  string emoteId = 1;
+  EmoteImage image = 2;
+}
+
+message EmoteImage {
+  string imageUrl = 1;
+}
+
+// Envelope (treasure boxes)
+// Taken from https://github.com/ThanoFish/TikTok-Live-Connector/blob/9b215b96792adfddfb638344b152fa9efa581b4c/src/proto/tiktokSchema.proto
+message WebcastEnvelopeMessage {
+  TreasureBoxData treasureBoxData = 2;
+  TreasureBoxUser treasureBoxUser = 1;
+}
+
+message TreasureBoxUser {
+  TreasureBoxUser2 user2 = 8;
+}
+
+message TreasureBoxUser2 {
+  repeated TreasureBoxUser3 user3 = 4;
+}
+
+message TreasureBoxUser3 {
+  TreasureBoxUser4 user4 = 21;
+}
+
+message TreasureBoxUser4 {
+  User user = 1;
+}
+
+message TreasureBoxData {
+  uint32 coins = 5;
+  uint32 canOpen = 6;
+  uint64 timestamp = 7;
+}
+
+// ==================================
+// Generic stuff
