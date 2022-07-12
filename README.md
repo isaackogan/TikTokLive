@@ -8,7 +8,7 @@ A python library to connect to and read events from TikTok's LIVE service
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTok-Live-Connector)
 ![Forks](https://img.shields.io/github/forks/isaackogan/TikTok-Live-Connector)
 ![Stars](https://img.shields.io/github/stars/isaackogan/TikTok-Live-Connector)
-[![Support Server](https://img.shields.io/discord/831349828578574346.svg?color=7289da&logo=discord&style=flat-square)](https://discord.gg/e2XwPNTBBr)
+[![Support Server](https://img.shields.io/discord/977648006063091742.svg?color=7289da&logo=discord&style=flat-square)](https://discord.gg/e2XwPNTBBr)
 
 <!-- [![Downloads](https://pepy.tech/badge/tiktoklive)](https://pepy.tech/project/tiktoklive) -->
 
@@ -17,7 +17,7 @@ connects to the WebCast service using only a user's `unique_id` and allows you t
 
 This library a Python implementation of the Javascript
 [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
-by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python or require it for their specific dependancies.
+by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python or require it for their specific project parameters.
 
 This is **not** an official API. It's a reverse engineering and research project.
 
