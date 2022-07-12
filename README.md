@@ -188,6 +188,8 @@ A `TikTokLiveClient` object contains the following methods.
 | get_proxies              | Get the current list of proxies by proxy-url                                                                                                                             |
 | remove_proxies           | Remove proxies from the current list of proxies by proxy-url                                                                                                             |
 | set_proxies_enabled      | Set whether or not proxies are enabled (disabled by default)                                                                                                             |
+| download                 | Start downloading the livestream video for a given duration or until stopped via the `stop_download` method                                                              |
+| stop_download            | Stop downloading the livestream video if currently downloading, otherwise throws an error                                                                                |
 
 ## Events
 
@@ -297,12 +299,82 @@ async def on_connect(event: ViewerCountUpdateEvent):
 
 ### `comment`
 
-Triggered every time someone comments on the live
+Triggered every time someone comments on the live.
 
 ```python
 @client.on("comment")
 async def on_connect(event: CommentEvent):
     print(f"{event.user.nickname} -> {event.comment}")
+```
+
+### `emote`
+
+Triggered when someone sends a subscription emote comment to the live chat.
+
+```python
+@client.on("emote")
+async def on_connect(event: EmoteEvent):
+    print(f"{event.user.nickname} -> {event.emote.image.imageUrl}")
+```
+
+### `envelope`
+
+Triggered when someone sends an envelope (treasure box) to the TikTok streamer.
+
+```python
+@client.on("envelope")
+async def on_connect(event: EnvelopeEvent):
+    print(f"{event.treasureBoxUser.uniqueId} -> {event.treasureBoxData}")
+```
+
+### `subscribe`
+
+Triggered when someone subscribes to the TikTok streamer.
+
+```python
+@client.on("subscribe")
+async def on_connect(event: SubscribeEvent):
+    print(f"{event.user.uniqueId} just subscribed to {client.unique_id}!")
+```
+
+### `weekly_ranking`
+
+Triggered when a weekly ranking update is sent out.
+
+```python
+@client.on("weekly_ranking")
+async def on_connect(event: WeeklyRankingEvent):
+    print(f"{client.unique_id} is in the top {event.data.rankings.rank.id} streamers!")
+```
+
+### `mic_battle`
+
+Triggered when a Mic Battle starts!
+
+```python
+@client.on("mic_battle")
+async def on_connect(event: MicBattleEvent):
+    print(f"A Mic battle has started between {', '.join([user.battleGroup.user.uniqueId for user in event.battleUsers])}")
+```
+
+### `mic_armies`
+
+Triggered when information is received about a mic battle's progress.
+
+```python
+@client.on("mic_armies")
+async def on_connect(event: MicArmiesEvent):
+    print(f"Mic battle data: {event.battleUsers}")
+```
+
+### `more_share`
+
+Triggered when more than 5 or 10 users join from a viewer's share link.
+
+```python
+@client.on("more_share")
+async def on_connect(event: MoreShareEvent):
+    print(f"More than {event.amount} users have joined from {user.uniqueId}'s share link!")
 ```
 
 ### `live_end`
@@ -317,7 +389,7 @@ async def on_connect(event: LiveEndEvent):
 
 ### `unknown`
 
-Triggered when an unknown event is received that is not yet handled by this client
+Triggered when an unknown event is received that is not yet handled by this client.
 
 ```python
 @client.on("live_end")
@@ -351,9 +423,10 @@ async def on_connect(error: Exception):
 
 * **Isaac Kogan** - *Initial work & primary maintainer* - [isaackogan](https://github.com/isaackogan)
 * **Zerody** - *Reverse-Engineering & README.md file* - [Zerody](https://github.com/zerodytrash/)
+* **Davincible** - *Reverse-Engineering Stream Downloads*  - [davincible](https://github.com/davincible)
 * **David Teather** - *TikTokLive Introduction Tutorial* - [davidteather](https://github.com/davidteather)
 
-See the full list of [contributors](https://github.com/ChromegleApp/Chromegle/contributors) who participated in this project.
+See also the full list of [contributors](https://github.com/ChromegleApp/Chromegle/contributors) who have participated in this project.
 
 ## License
 

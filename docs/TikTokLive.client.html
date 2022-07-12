@@ -195,6 +195,56 @@
                                         </dl>
 
                                         <dl class="py method">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.base.BaseClient.download">
+                                                <span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span
+                                                    class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span
+                                                    class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span
+                                                    class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span
+                                                    class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em
+                                                    class="sig-param"><span class="n"><span class="pre">loglevel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span
+                                                    class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                                                    class="pre">'error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_options</span></span><span class="p"><span
+                                                    class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span
+                                                    class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span
+                                                    class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span
+                                                    class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span
+                                                    class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span
+                                                    class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span
+                                                    class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
+                                                    class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span
+                                                    class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span>
+                                                <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink"
+                                                                                                                                                                                                       href="#TikTokLive.client.base.BaseClient.download"
+                                                                                                                                                                                                       title="Permalink to this definition"></a>
+                                            </dt>
+                                            <dd><p>Start downloading the user’s livestream video for a given duration, NON-BLOCKING via Python Threading</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Parameters</dt>
+                                                    <dd class="field-odd">
+                                                        <ul class="simple">
+                                                            <li><p><strong>loglevel</strong> – Set the FFmpeg log level</p></li>
+                                                            <li><p><strong>outputs</strong> – Pass custom params to FFmpeg outputs</p></li>
+                                                            <li><p><strong>inputs</strong> – Pass custom params to FFmpeg inputs</p></li>
+                                                            <li><p><strong>global_options</strong> – Pass custom params to FFmpeg global options</p></li>
+                                                            <li><p><strong>path</strong> – The path to download the livestream video to</p></li>
+                                                            <li><p><strong>duration</strong> – If duration is None or less than 1, download will go forever</p></li>
+                                                            <li><p><strong>verbose</strong> – Whether to log info about the download in console</p></li>
+                                                        </ul>
+                                                    </dd>
+                                                    <dt class="field-even">Returns</dt>
+                                                    <dd class="field-even"><p>None</p>
+                                                    </dd>
+                                                    <dt class="field-odd">Raises</dt>
+                                                    <dd class="field-odd"><p>AlreadyDownloadingStream if already downloading and attempting to start a second download</p>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
+                                        <dl class="py method">
                                             <dt class="sig sig-object py" id="TikTokLive.client.base.BaseClient.get_proxies">
                                                 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_proxies</span></span><span
                                                     class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span
@@ -398,6 +448,32 @@
                                             </dd>
                                         </dl>
 
+                                        <dl class="py method">
+                                            <dt class="sig sig-object py" id="TikTokLive.client.base.BaseClient.stop_download">
+                                                <span class="sig-name descname"><span class="pre">stop_download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span
+                                                    class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink"
+                                                                                                                                                                            href="#TikTokLive.client.base.BaseClient.stop_download"
+                                                                                                                                                                            title="Permalink to this definition"></a></dt>
+                                            <dd><p>Stop downloading a livestream if currently downloading</p>
+                                                <dl class="field-list simple">
+                                                    <dt class="field-odd">Returns</dt>
+                                                    <dd class="field-odd"><p>None</p>
+                                                    </dd>
+                                                    <dt class="field-even">Raises</dt>
+                                                    <dd class="field-even">
+                                                        <ul class="simple">
+                                                            <li><p><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.NotDownloadingStream"
+                                                                      title="TikTokLive.types.errors.NotDownloadingStream"><strong>NotDownloadingStream</strong></a> – Raised if trying to stop when not downloading and</p>
+                                                            </li>
+                                                            <li><p><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.DownloadProcessNotFound"
+                                                                      title="TikTokLive.types.errors.DownloadProcessNotFound"><strong>DownloadProcessNotFound</strong></a> – Raised if stopping before the ffmpeg process
+                                                                has opened</p></li>
+                                                        </ul>
+                                                    </dd>
+                                                </dl>
+                                            </dd>
+                                        </dl>
+
                                         <dl class="py property">
                                             <dt class="sig sig-object py" id="TikTokLive.client.base.BaseClient.unique_id">
                                                 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unique_id</span></span><em
@@ -492,7 +568,7 @@
                                                 <span class="pre">'Mozilla',</span> <span class="pre">'browser_online':</span> <span class="pre">True,</span> <span class="pre">'browser_platform':</span> <span
                                                         class="pre">'Win32',</span> <span class="pre">'browser_version':</span> <span class="pre">'5.0</span> <span class="pre">(Windows</span> <span class="pre">NT</span>
                                                 <span class="pre">10.0;</span> <span class="pre">Win64;</span> <span class="pre">x64)</span> <span class="pre">AppleWebKit/537.36</span> <span class="pre">(KHTML,</span>
-                                                <span class="pre">like</span> <span class="pre">Gecko)</span> <span class="pre">Chrome/97.0.4692.99</span> <span class="pre">Safari/537.36',</span> <span class="pre">'cookie_enabled':</span>
+                                                <span class="pre">like</span> <span class="pre">Gecko)</span> <span class="pre">Chrome/102.0.5005.63</span> <span class="pre">Safari/537.36',</span> <span class="pre">'cookie_enabled':</span>
                                                 <span class="pre">True,</span> <span class="pre">'cursor':</span> <span class="pre">'',</span> <span class="pre">'device_platform':</span> <span class="pre">'web',</span>
                                                 <span class="pre">'did_rule':</span> <span class="pre">3,</span> <span class="pre">'fetch_rule':</span> <span class="pre">1,</span> <span class="pre">'identity':</span>
                                                 <span class="pre">'audience',</span> <span class="pre">'internal_ext':</span> <span class="pre">'',</span> <span class="pre">'last_rtt':</span> <span class="pre">0,</span>
@@ -515,7 +591,7 @@
                                                         class="pre">'keep-alive',</span> <span class="pre">'Origin':</span> <span class="pre">'https://www.tiktok.com',</span> <span class="pre">'Referer':</span> <span
                                                         class="pre">'https://www.tiktok.com/',</span> <span class="pre">'User-Agent':</span> <span class="pre">'Mozilla/5.0</span> <span class="pre">(Windows</span> <span
                                                         class="pre">NT</span> <span class="pre">10.0;</span> <span class="pre">Win64;</span> <span class="pre">x64)</span> <span class="pre">AppleWebKit/537.36</span> <span
-                                                        class="pre">(KHTML,</span> <span class="pre">like</span> <span class="pre">Gecko)</span> <span class="pre">Chrome/97.0.4692.99</span> <span class="pre">Safari/537.36'}</span></em><a
+                                                        class="pre">(KHTML,</span> <span class="pre">like</span> <span class="pre">Gecko)</span> <span class="pre">Chrome/102.0.5005.63</span> <span class="pre">Safari/537.36'}</span></em><a
                                                     class="headerlink" href="#TikTokLive.client.http.TikTokHTTPClient.DEFAULT_REQUEST_HEADERS" title="Permalink to this definition"></a></dt>
                                             <dd></dd>
                                         </dl>

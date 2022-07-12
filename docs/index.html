@@ -94,10 +94,11 @@
                                 <p><a class="reference external" href="https://www.linkedin.com/in/isaac-kogan-5a45b9193/"><img alt="LinkedIn"
                                                                                                                                 src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white&amp;style=flat-square"/></a>
                                     <a class="reference external" href="http://hits.dwyl.com/isaackogan/TikTokLive"><img alt="HitCount" src="https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat"/></a>
+                                    <img alt="Downloads" src="https://pepy.tech/badge/tiktoklive"/>
                                     <img alt="Issues" src="https://img.shields.io/github/issues/isaackogan/TikTok-Live-Connector"/>
                                     <img alt="Forks" src="https://img.shields.io/github/forks/isaackogan/TikTok-Live-Connector"/>
                                     <img alt="Stars" src="https://img.shields.io/github/stars/isaackogan/TikTok-Live-Connector"/>
-                                    <a class="reference external" href="https://discord.gg/JwW8UwfUmC"><img alt="Support Server"
+                                    <a class="reference external" href="https://discord.gg/e2XwPNTBBr"><img alt="Support Server"
                                                                                                             src="https://img.shields.io/discord/831349828578574346.svg?color=7289da&amp;logo=discord&amp;style=flat-square"/></a>
                                 </p>
                                 <!-- [![Downloads](https://pepy.tech/badge/tiktoklive)](https://pepy.tech/project/tiktoklive) -->
@@ -110,7 +111,7 @@
                                     by <a class="reference external" href="https://github.com/zerodytrash/">&#64;zerodytrash</a> meant to serve as an alternative for users who feel more comfortable working in Python or
                                     require it for their specific dependancies.</p>
                                 <p>This is <strong>not</strong> an official API. It’s a reverse engineering and research project.</p>
-                                <p>Join the <a class="reference external" href="https://discord.gg/JwW8UwfUmC">support discord</a> and visit the <code class="docutils literal notranslate"><span
+                                <p>Join the <a class="reference external" href="https://discord.gg/e2XwPNTBBr">support discord</a> and visit the <code class="docutils literal notranslate"><span
                                         class="pre">#support</span></code> channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.</p>
                                 <section id="table-of-contents">
                                     <h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline"></a></h3>
@@ -135,17 +136,19 @@
                                     <h3>💲🖨 Thermal Printing Library 🖨💲<a class="headerlink" href="#thermal-printing-library" title="Permalink to this headline"></a></h3>
                                     <p>Thermal printing is a very recent, very exciting trend on TikTok.</p>
                                     <p>I developed an all-encompassing, multithreaded thermal printing program that does <em>everything</em>
-                                        you could ever want with Thermal Printing. It even has its own <a class="reference external" href="https://www.youtube.com/watch?v=NeapS5Jn_oo">YouTube Tutorial</a> and comes with
-                                        <a class="reference external" href="https://github.com/isaackogan/TikTokPrinter/tree/master/examples">pre-made examples</a> if your coding ability isn’t very strong!</p>
+                                        you could ever want with Thermal Printing. It even has its own <a class="reference external" href="https://www.youtube.com/watch?v=NeapS5Jn_oo">YouTube Tutorial</a> and comes
+                                        with <a class="reference external" href="https://github.com/isaackogan/TikTokPrinter/tree/master/examples">pre-made examples</a> if your coding ability isn’t very strong!</p>
                                     <p>Print text, images, text-to-speech, play sounds, and much more. There is no subscription unlike virtual printer services. It’s just a one-time, life-time purchase.</p>
                                     <p>It’s so easy, it can be installed in <strong>one</strong> command through pip. It’s not just a “one-off” purchase, either. As the project is updated, you will have access to
                                         <strong>every new release</strong> as new features are added.</p>
                                     <p>Here’s a sample of what you can do with this library in less than 30 lines of code:</p>
-                                    <p><img alt="" src="https://github.com/isaackogan/TikTokLive/raw/master/.github/RESOURCES/printer.gif"/></p>
+                                    <p><a class="reference external" href="https://github.com/isaackogan/TikTokPrinter"><img alt=""
+                                                                                                                             src="https://github.com/isaackogan/TikTokLive/raw/master/.github/RESOURCES/printer.gif"/></a>
+                                    </p>
                                     <section id="how-to-purchase">
                                         <h4>How to Purchase<a class="headerlink" href="#how-to-purchase" title="Permalink to this headline"></a></h4>
                                         <p>First, read more about it on the public <a class="reference external" href="https://github.com/isaackogan/TikTokPrinter">TikTokPrinter</a> GitHub page.</p>
-                                        <p>Then, to buy this library, create a ticket in the <code class="docutils literal notranslate"><span class="pre">#tickets</span></code> channel in https://discord.gg/H8m3c6jSF4.
+                                        <p>Then, to buy this library, create a ticket in the <code class="docutils literal notranslate"><span class="pre">#tickets</span></code> channel in https://discord.gg/4Mbw58w5Qx.
                                         </p>
                                         <p>Type “Printer Magic” in the ticket to get started with your purchase.</p>
                                     </section>
@@ -362,6 +365,15 @@
                                             <td><p>set_proxies_enabled</p></td>
                                             <td><p>Set whether or not proxies are enabled (disabled by default)</p></td>
                                         </tr>
+                                        <tr class="row-even">
+                                            <td><p>download</p></td>
+                                            <td><p>Start downloading the livestream video for a given duration or until stopped via the <code class="docutils literal notranslate"><span
+                                                    class="pre">stop_download</span></code> method</p></td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                            <td><p>stop_download</p></td>
+                                            <td><p>Stop downloading the livestream video if currently downloading, otherwise throws an error</p></td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </section>
@@ -537,7 +549,7 @@
                                     </section>
                                     <section id="comment">
                                         <h4><code class="docutils literal notranslate"><span class="pre">comment</span></code><a class="headerlink" href="#comment" title="Permalink to this headline"></a></h4>
-                                        <p>Triggered every time someone comments on the live</p>
+                                        <p>Triggered every time someone comments on the live.</p>
                                         <div class="highlight-python notranslate">
                                             <div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;comment&quot;</span><span
                                                     class="p">)</span>
@@ -546,6 +558,112 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span
                                                         class="n">user</span><span class="o">.</span><span class="n">nickname</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span
                                                         class="n">event</span><span class="o">.</span><span class="n">comment</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section id="emote">
+                                        <h4><code class="docutils literal notranslate"><span class="pre">emote</span></code><a class="headerlink" href="#emote" title="Permalink to this headline"></a></h4>
+                                        <p>Triggered when someone sends a subscription emote comment to the live chat.</p>
+                                        <div class="highlight-python notranslate">
+                                            <div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;emote&quot;</span><span
+                                                    class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">EmoteEvent</span><span
+                                                        class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span
+                                                        class="n">user</span><span class="o">.</span><span class="n">nickname</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span
+                                                        class="n">event</span><span class="o">.</span><span class="n">emote</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span
+                                                        class="n">imageUrl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section id="envelope">
+                                        <h4><code class="docutils literal notranslate"><span class="pre">envelope</span></code><a class="headerlink" href="#envelope" title="Permalink to this headline"></a></h4>
+                                        <p>Triggered when someone sends an envelope (treasure box) to the TikTok streamer.</p>
+                                        <div class="highlight-python notranslate">
+                                            <div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;envelope&quot;</span><span
+                                                    class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">EnvelopeEvent</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span
+                                                        class="n">treasureBoxUser</span><span class="o">.</span><span class="n">uniqueId</span><span class="si">}</span><span class="s2"> -&gt; </span><span
+                                                        class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">treasureBoxData</span><span class="si">}</span><span class="s2">&quot;</span><span
+                                                        class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section id="subscribe">
+                                        <h4><code class="docutils literal notranslate"><span class="pre">subscribe</span></code><a class="headerlink" href="#subscribe" title="Permalink to this headline"></a></h4>
+                                        <p>Triggered when someone subscribes to the TikTok streamer.</p>
+                                        <div class="highlight-python notranslate">
+                                            <div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;subscribe&quot;</span><span
+                                                    class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">SubscribeEvent</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span
+                                                        class="n">user</span><span class="o">.</span><span class="n">uniqueId</span><span class="si">}</span><span class="s2"> just subscribed to </span><span
+                                                        class="si">{</span><span class="n">client</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span
+                                                        class="s2">!&quot;</span><span class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section id="weekly-ranking">
+                                        <h4><code class="docutils literal notranslate"><span class="pre">weekly_ranking</span></code><a class="headerlink" href="#weekly-ranking" title="Permalink to this headline"></a>
+                                        </h4>
+                                        <p>Triggered when a weekly ranking update is sent out.</p>
+                                        <div class="highlight-python notranslate">
+                                            <div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;weekly_ranking&quot;</span><span
+                                                    class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">WeeklyRankingEvent</span><span
+                                                        class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">client</span><span class="o">.</span><span
+                                                        class="n">unique_id</span><span class="si">}</span><span class="s2"> is in the top </span><span class="si">{</span><span class="n">event</span><span
+                                                        class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">rankings</span><span class="o">.</span><span class="n">rank</span><span
+                                                        class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> streamers!&quot;</span><span class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section id="mic-battle">
+                                        <h4><code class="docutils literal notranslate"><span class="pre">mic_battle</span></code><a class="headerlink" href="#mic-battle" title="Permalink to this headline"></a></h4>
+                                        <p>Triggered when a Mic Battle starts!</p>
+                                        <div class="highlight-python notranslate">
+                                            <div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;mic_battle&quot;</span><span
+                                                    class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">MicBattleEvent</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A Mic battle has started between </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span
+                                                        class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">user</span><span class="o">.</span><span class="n">battleGroup</span><span
+                                                        class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">uniqueId</span> <span class="k">for</span> <span class="n">user</span> <span
+                                                        class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="n">battleUsers</span><span class="p">])</span><span class="si">}</span><span
+                                                        class="s2">&quot;</span><span class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section id="mic-armies">
+                                        <h4><code class="docutils literal notranslate"><span class="pre">mic_armies</span></code><a class="headerlink" href="#mic-armies" title="Permalink to this headline"></a></h4>
+                                        <p>Triggered when information is received about a mic battle’s progress.</p>
+                                        <div class="highlight-python notranslate">
+                                            <div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;mic_armies&quot;</span><span
+                                                    class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">MicArmiesEvent</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mic battle data: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span
+                                                        class="n">battleUsers</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section id="more-share">
+                                        <h4><code class="docutils literal notranslate"><span class="pre">more_share</span></code><a class="headerlink" href="#more-share" title="Permalink to this headline"></a></h4>
+                                        <p>Triggered when more than 5 or 10 users join from a viewer’s share link.</p>
+                                        <div class="highlight-python notranslate">
+                                            <div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;more_share&quot;</span><span
+                                                    class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">MoreShareEvent</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;More than </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">amount</span><span
+                                                        class="si">}</span><span class="s2"> users have joined from </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">uniqueId</span><span
+                                                        class="si">}</span><span class="s2">&#39;s share link!&quot;</span><span class="p">)</span>
 </pre>
                                             </div>
                                         </div>
@@ -565,7 +683,7 @@
                                     </section>
                                     <section id="unknown">
                                         <h4><code class="docutils literal notranslate"><span class="pre">unknown</span></code><a class="headerlink" href="#unknown" title="Permalink to this headline"></a></h4>
-                                        <p>Triggered when an unknown event is received that is not yet handled by this client</p>
+                                        <p>Triggered when an unknown event is received that is not yet handled by this client.</p>
                                         <div class="highlight-python notranslate">
                                             <div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;live_end&quot;</span><span
                                                     class="p">)</span>
@@ -606,9 +724,10 @@
                                     <ul class="simple">
                                         <li><p><strong>Isaac Kogan</strong> - <em>Initial work &amp; primary maintainer</em> - <a class="reference external" href="https://github.com/isaackogan">isaackogan</a></p></li>
                                         <li><p><strong>Zerody</strong> - <em>Reverse-Engineering &amp; README.md file</em> - <a class="reference external" href="https://github.com/zerodytrash/">Zerody</a></p></li>
+                                        <li><p><strong>Davincible</strong> - <em>Reverse-Engineering Stream Downloads</em> - <a class="reference external" href="https://github.com/davincible">davincible</a></p></li>
                                         <li><p><strong>David Teather</strong> - <em>TikTokLive Introduction Tutorial</em> - <a class="reference external" href="https://github.com/davidteather">davidteather</a></p></li>
                                     </ul>
-                                    <p>See the full list of <a class="reference external" href="https://github.com/ChromegleApp/Chromegle/contributors">contributors</a> who participated in this project.</p>
+                                    <p>See also the full list of <a class="reference external" href="https://github.com/ChromegleApp/Chromegle/contributors">contributors</a> who have participated in this project.</p>
                                 </section>
                                 <section id="license">
                                     <h3>License<a class="headerlink" href="#license" title="Permalink to this headline"></a></h3>
