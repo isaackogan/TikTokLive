@@ -392,7 +392,7 @@ async def on_connect(event: LiveEndEvent):
 Triggered when an unknown event is received that is not yet handled by this client.
 
 ```python
-@client.on("live_end")
+@client.on("unknown")
 async def on_connect(event: UnknownEvent):
     print(event.as_dict, "<- This is my data as a dict!")
 ```
