@@ -1,4 +1,4 @@
-TikTokLive
+TikTokLive (Note: Issue with connecting known, being worked on)
 ==================
 A python library to connect to and read events from TikTok's LIVE service
 
