@@ -10,6 +10,7 @@ A python library to connect to and read events from TikTok's LIVE service
 ![Stars](https://img.shields.io/github/stars/isaackogan/TikTok-Live-Connector)
 [![Support Server](https://img.shields.io/discord/977648006063091742.svg?color=7289da&logo=discord&style=flat-square)](https://discord.gg/e2XwPNTBBr)
 
+<script src="https://gist.github.com/isaackogan/c8c8db53a4a27e719fcffe2f38c26f92.js"></script>
 <!-- [![Downloads](https://pepy.tech/badge/tiktoklive)](https://pepy.tech/project/tiktoklive) -->
 
 A python library to receive and decode livestream events such as comments and gifts in real-time from TikTok's LIVE service by connecting to TikTok's internal WebCast push service. This library includes a wrapper that
