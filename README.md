@@ -1,19 +1,19 @@
-TikTokLive (Note: Issue with connecting known, being worked on)
+TikTokLive
 ==================
 A python library to connect to and read events from TikTok's LIVE service
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/isaac-kogan-5a45b9193/ )
 [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive)
-![Downloads](https://pepy.tech/badge/tiktoklive)
-![Issues](https://img.shields.io/github/issues/isaackogan/TikTok-Live-Connector)
-![Forks](https://img.shields.io/github/forks/isaackogan/TikTok-Live-Connector)
-![Stars](https://img.shields.io/github/stars/isaackogan/TikTok-Live-Connector)
+![Downloads](https://pepy.tech/badge/TikTokLive)
+![Issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
+![Forks](https://img.shields.io/github/forks/isaackogan/TikTokLive)
+![Stars](https://img.shields.io/github/stars/isaackogan/TikTokLive)
 [![Support Server](https://img.shields.io/discord/977648006063091742.svg?color=7289da&logo=discord&style=flat-square)](https://discord.gg/e2XwPNTBBr)
 
 <!-- [![Downloads](https://pepy.tech/badge/tiktoklive)](https://pepy.tech/project/tiktoklive) -->
 
-A python library to receive and decode livestream events such as comments and gifts in real-time from TikTok's LIVE service by connecting to TikTok's internal WebCast push service. This library includes a wrapper that
-connects to the WebCast service using only a user's `unique_id` and allows you to join your livestream as well as that of other streamers. No credentials are required to use TikTokLive.
+A python library to receive and decode livestream events such as comments and gifts in real-time from TikTok's LIVE service by connecting to TikTok's internal Webcast push service. This library includes a wrapper that
+connects to the Webcast service using only a user's `unique_id` and allows you to join your livestream as well as that of other streamers. No credentials are required to use TikTokLive.
 
 This library a Python implementation of the Javascript
 [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
@@ -27,45 +27,40 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 
 **Primary Information**
 
-- [Documentation](https://tiktoklive.isaackogan.com)
+- [Documentation](https://isaackogan.github.io/TikTokLive/)
 - [Contributors](#contributors)
 - [License](#license)
-- [Thermal Printing](#-thermal-printing-library-)
+- [Thermal Printing](#thermal-printing-library-for-sale-)
 
 **Resources & Guides**
 
-1. [David's Intro Tutorial](#intro-tutorial)
+1. [David's Intro Tutorial](#tiktoklive-intro-tutorial)
 2. [Getting Started](#getting-started)
 3. [Params & Options](#Params-&-Options)
 4. [Client Methods](#Methods)
-5. [TikTok Events](#Events)
-6. [Usage Examples](https://github.com/davidteather/TikTok-Api/tree/master/examples)
+5. [Client Attributes](#Attributes)
+6. [TikTok Events](#Events)
+7. [Usage Examples](https://github.com/davidteather/TikTok-Api/tree/master/examples)
 
-## 💲🖨 Thermal Printing Library 🖨💲
+## Thermal Printing Library for Sale 🖨
 
-Thermal printing is a very recent, very exciting trend on TikTok.
+Print text, images, text-to-speech, play sounds, and much more. It's just a one-time, life-time purchase, including future support and updates.
 
-I developed an all-encompassing, multithreaded thermal printing program that does *everything*
-you could ever want with Thermal Printing. It even has its own [YouTube Tutorial](https://www.youtube.com/watch?v=NeapS5Jn_oo) and comes
-with [pre-made examples](https://github.com/isaackogan/TikTokPrinter/tree/master/examples) if your coding ability isn't very strong!
+Install is easy, takes about 15 minutes. Plug your printer in, download the drivers, and run a command in terminal.
 
-Print text, images, text-to-speech, play sounds, and much more. There is no subscription unlike virtual printer services. It's just a one-time, life-time purchase.
-
-It's so easy, it can be installed in **one** command through pip. It's not just a "one-off" purchase, either. As the project is updated, you will have access to **every new release** as new features are added.
+As the project is updated, you will have access to **every new release** as new features are added.
 
 Here's a sample of what you can do with this library in less than 30 lines of code:
+It even has its own [YouTube Tutorial](https://www.youtube.com/watch?v=NeapS5Jn_oo) and comes with [pre-made examples](https://github.com/isaackogan/TikTokPrinter/tree/master/examples) if your coding ability isn't very
+strong!
 
 [![](https://github.com/isaackogan/TikTokLive/raw/master/.github/RESOURCES/printer.gif)](https://github.com/isaackogan/TikTokPrinter)
 
 ### How to Purchase
 
-First, read more about it on the public [TikTokPrinter](https://github.com/isaackogan/TikTokPrinter) GitHub page.
+To buy this library, create a ticket in the `#tickets` channel in https://discord.gg/4Mbw58w5Qx.
 
-Then, to buy this library, create a ticket in the `#tickets` channel in https://discord.gg/4Mbw58w5Qx.
-
-Type "Printer Magic" in the ticket to get started with your purchase.
-
-## Intro Tutorial
+## TikTokLive Intro Tutorial
 
 I cannot recommend this tutorial enough for people trying to get started. It is succinct, informative and easy to understand, created by [David Teather](https://github.com/davidteather), the creator of the
 Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click the thumbnail to warp.
@@ -132,17 +127,9 @@ from TikTokLive import TikTokLiveClient
 client: TikTokLiveClient = TikTokLiveClient(
     unique_id="@oldskoldj", **(
         {
-            # Whether to process initial data (cached chats, etc.)
-            "process_initial_data": True,
 
-            # Connect info (viewers, stream status, etc.)
-            "fetch_room_info_on_connect": True,
-
-            # Whether to get extended gift info (Image URLs, etc.)
-            "enable_extended_gift_info": True,
-
-            # How frequently to poll Webcast API
-            "polling_interval_ms": 1000,
+            # Custom Asyncio event loop
+            "loop": None,
 
             # Custom Client params
             "client_params": {},
@@ -153,23 +140,39 @@ client: TikTokLiveClient = TikTokLiveClient(
             # Custom timeout for Webcast API requests
             "timeout_ms": 1000,
 
-            # Custom Asyncio event loop
-            "loop": None,
+            # How frequently to poll Webcast API
+            "ping_interval_ms": 1000,
 
-            # Whether to trust environment variables that provide proxies to be used in aiohttp requests
+            # Whether to process initial data (cached chats, etc.)
+            "process_initial_data": True,
+
+            # Whether to get extended gift info (Image URLs, etc.)
+            "enable_extended_gift_info": True,
+
+            # Whether to trust environment variables that provide proxies to be used in http requests
             "trust_env": False,
 
-            # A ProxyContainer object for proxied requests
-            "proxy_container": None,
+            # A dict object for proxies requests
+            "proxies": {
+                "http://": "http://username:password@localhost:8030",
+                "https://": "http://420.69.420:8031",
+            },
 
             # Set the language for Webcast responses (Changes extended_gift's language)
-            "lang": "en-US"
+            "lang": "en-US",
+
+            # Connect info (viewers, stream status, etc.)
+            "fetch_room_info_on_connect": True,
+
+            # Whether to allow Websocket connections
+            "websocket_enabled": False
 
         }
     )
 )
 
-client.run()
+if __name__ == "__main__":
+    client.run()
 ```
 
 ## Methods
@@ -184,12 +187,22 @@ A `TikTokLiveClient` object contains the following methods.
 | retrieve_room_info       | Gets the current room info from TikTok API                                                                                                                               |
 | retrieve_available_gifts | Retrieves a list of the available gifts for the room and adds it to the `extended_gift` attribute of the `Gift` object on the `gift` event, when enabled.                |
 | add_listener             | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on()`) and takes two parameters, an event name and the payload, an AbstractEvent ||
-| add_proxies              | Add proxies to the current list of proxies with a valid aiohttp proxy-url                                                                                                |
-| get_proxies              | Get the current list of proxies by proxy-url                                                                                                                             |
-| remove_proxies           | Remove proxies from the current list of proxies by proxy-url                                                                                                             |
-| set_proxies_enabled      | Set whether or not proxies are enabled (disabled by default)                                                                                                             |
 | download                 | Start downloading the livestream video for a given duration or until stopped via the `stop_download` method                                                              |
 | stop_download            | Stop downloading the livestream video if currently downloading, otherwise throws an error                                                                                |
+| send_message             | Send a message to the TikTok LIVE chat using session cookies                                                                                                             |
+| set_proxies              | Set proxies to be used in HTTP requests (excludes the Websocket connection)                                                                                              |
+| get_proxies              | Get the current proxies being used for requests                                                                                                                          |
+
+## Attributes
+
+| Attribute Name  | Description                                                                             |
+|-----------------|-----------------------------------------------------------------------------------------|
+| viewer_count    | The number of people currently watching the livestream broadcast                        |
+| room_id         | The ID of the livestream room the client is currently connected to                      |
+| room_info       | Information about the given livestream room                                             |
+| unique_id       | The TikTok username of the person whose livestream the client is currently connected to |
+| connected       | Whether the client is currently connected to a livestream                               |
+| available_gifts | A dictionary containing K:V pairs of `Dict[int, ExtendedGift]`                          |                              |
 
 ## Events
 
@@ -399,11 +412,11 @@ async def on_connect(event: UnknownEvent):
 
 ### `error`
 
-Triggered when there is an error in the client or in error handlers.
+Triggered when there is an error in the client or error handlers.
 
 If this handler is not present in the code, an internal default handler will log errors in the console. If a handler is added, all error handling (including logging) is up to the individual.
 
-**Warning:** If you listen for the error event and do not log errors, you will not see when an error occurs.
+**Warning:** If you listen for the error event and do not log errors, you will not see when an error occurs. This is because listening to the error event causes the default one to be overriden/turned off.
 
 ```python
 
@@ -422,7 +435,7 @@ async def on_connect(error: Exception):
 ## Contributors
 
 * **Isaac Kogan** - *Initial work & primary maintainer* - [isaackogan](https://github.com/isaackogan)
-* **Zerody** - *Reverse-Engineering & README.md file* - [Zerody](https://github.com/zerodytrash/)
+* **Zerody** - *Reverse-Engineering & Support* - [Zerody](https://github.com/zerodytrash/)
 * **Davincible** - *Reverse-Engineering Stream Downloads*  - [davincible](https://github.com/davincible)
 * **David Teather** - *TikTokLive Introduction Tutorial* - [davidteather](https://github.com/davidteather)
 
