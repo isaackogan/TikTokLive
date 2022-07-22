@@ -30,6 +30,13 @@ class FailedConnection(RuntimeError):
     pass
 
 
+class InitialCursorMissing(FailedConnection):
+    """
+    Error that is raised when the initial cursor is missing
+
+    """
+    pass
+
 class InvalidSessionId(RuntimeError):
     """
     Error raised when a session ID is expired or missing
@@ -56,6 +63,13 @@ class ChatMessageRepeat(ChatMessageSendFailure):
 
     pass
 
+class WebsocketConnectionFailed(RuntimeError):
+    """
+    Raised when a connection to the TikTok Webcast websocket fails
+
+    """
+
+    pass
 
 class FailedHTTPRequest(RuntimeError):
     """

@@ -3,7 +3,6 @@ import traceback
 from typing import Optional, Type, Callable
 
 from dacite import from_dict
-from pyee import AsyncIOEventEmitter
 
 from .base import BaseClient
 from ..proto.utilities import from_dict_plus
@@ -12,7 +11,7 @@ from ..types.events import AbstractEvent, ViewerCountUpdateEvent, CommentEvent, 
     SubscribeEvent, WeeklyRankingEvent, MicBattleEvent, MicArmiesEvent
 
 
-class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
+class TikTokLiveClient(BaseClient):
     """
     TikTokLive Client responsible for emitting events asynchronously
 
@@ -20,6 +19,7 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
 
     def __init__(self, unique_id: str, debug: bool = False, **options):
         """
+        Initialize the BaseClient for TikTokLive Webcast tracking
 
         :param unique_id: The unique id of the creator to connect to
         :param debug: Debug mode -> Add all events' raw payload to a "debug" event
@@ -28,9 +28,7 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
         """
 
         self.debug_enabled: bool = debug
-
         BaseClient.__init__(self, unique_id, **options)
-        AsyncIOEventEmitter.__init__(self, self.loop)
 
     async def _on_error(self, original: Exception, append: Optional[Exception]) -> None:
         """
@@ -60,7 +58,7 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
             self._log_error(_exc)
             return
 
-            # If connected, has handler
+        # If connected, has handler
         self.emit("error", _exc)
 
     @classmethod
@@ -79,13 +77,13 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
             logging.error(traceback.format_exc())
         return
 
-    async def _connect(self) -> str:
+    async def _connect(self, session_id: str = None) -> str:
         """
         Wrap connection in a connect event
 
         """
 
-        result: str = await super(TikTokLiveClient, self)._connect()
+        result: str = await super(TikTokLiveClient, self)._connect(session_id=session_id)
 
         if self.connected:
             event: ConnectEvent = ConnectEvent()
@@ -122,6 +120,14 @@ class TikTokLiveClient(AsyncIOEventEmitter, BaseClient):
                 self.emit("debug", AbstractEvent(data=message))
 
     def __parse_message(self, webcast_message: dict) -> Optional[AbstractEvent]:
+        """
+        Parse a webcast message into an event and return to the caller
+
+        :param webcast_message: The message to parse
+        :return: The parsed object of base-type AbstractEvent
+
+        """
+
         event_dict: Optional[dict] = webcast_message.get("event")
 
         # It's a traditional event
