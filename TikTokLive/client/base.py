@@ -468,70 +468,6 @@ class BaseClient(AsyncIOEventEmitter):
 
         return self._http.proxies
 
-    @property
-    def viewer_count(self) -> Optional[int]:
-        """
-        Return viewer count of user
-
-        :return: Viewer count
-
-        """
-        return self._viewer_count
-
-    @property
-    def room_id(self) -> Optional[int]:
-        """
-        Room ID if the connection was successful
-
-        :return: Room's ID
-
-        """
-        return self.__room_id
-
-    @property
-    def room_info(self) -> Optional[dict]:
-        """
-        Room info dict if the connection was successful
-
-        :return: Room Info Dict
-
-        """
-
-        return self.__room_info
-
-    @property
-    def unique_id(self) -> str:
-        """
-        Unique ID of the streamer
-
-        :return: Their unique ID
-
-        """
-
-        return self.__unique_id
-
-    @property
-    def connected(self) -> bool:
-        """
-        Whether the client is connected
-
-        :return: Result
-
-        """
-
-        return self.__connected
-
-    @property
-    def available_gifts(self) -> Dict[int, ExtendedGift]:
-        """
-        Available gift information for live room
-
-        :return: Gift info
-
-        """
-
-        return self.__available_gifts
-
     def download(
             self,
             path: str,
@@ -625,3 +561,67 @@ class BaseClient(AsyncIOEventEmitter):
                 f"Stopped the download to path \"{self._download.path}\" on user @{self.unique_id} after "
                 f"\"{int(datetime.utcnow().timestamp()) - self._download.started_at} seconds\" of downloading"
             )
+            
+    @property
+    def viewer_count(self) -> Optional[int]:
+        """
+        Return viewer count of user
+
+        :return: Viewer count
+
+        """
+        return self._viewer_count
+
+    @property
+    def room_id(self) -> Optional[int]:
+        """
+        Room ID if the connection was successful
+
+        :return: Room's ID
+
+        """
+        return self.__room_id
+
+    @property
+    def room_info(self) -> Optional[dict]:
+        """
+        Room info dict if the connection was successful
+
+        :return: Room Info Dict
+
+        """
+
+        return self.__room_info
+
+    @property
+    def unique_id(self) -> str:
+        """
+        Unique ID of the streamer
+
+        :return: Their unique ID
+
+        """
+
+        return self.__unique_id
+
+    @property
+    def connected(self) -> bool:
+        """
+        Whether the client is connected
+
+        :return: Result
+
+        """
+
+        return self.__connected
+
+    @property
+    def available_gifts(self) -> Dict[int, ExtendedGift]:
+        """
+        Available gift information for live room
+
+        :return: Gift info
+
+        """
+
+        return self.__available_gifts
