@@ -69,7 +69,7 @@ class TikTokHTTPClient:
 
         # Get the signed URL
         response: httpx.Response = await self.client.get(
-            url=f"{config.TIKTOK_SIGN_API}webcast/sign_url?url={urllib.parse.quote(url)}",
+            url=f"{config.TIKTOK_SIGN_API}webcast/sign_url?client=ttlive-python&url={urllib.parse.quote(url)}",
             timeout=self.timeout
         )
 
