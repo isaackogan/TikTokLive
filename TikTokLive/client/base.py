@@ -98,7 +98,7 @@ class BaseClient(AsyncIOEventEmitter):
             trust_env=trust_env,
             params={**config.DEFAULT_CLIENT_PARAMS, **(client_params if isinstance(client_params, dict) else dict())}
         )
-        self._polling_interval_ms: int = ping_interval_ms
+        self._ping_interval_ms: int = ping_interval_ms
         self._process_initial_data: bool = process_initial_data
         self._enable_extended_gift_info: bool = enable_extended_gift_info
         self._fetch_room_info_on_connect: bool = fetch_room_info_on_connect
@@ -188,7 +188,7 @@ class BaseClient(AsyncIOEventEmitter):
         """
 
         self.__is_polling_enabled = True
-        polling_interval: int = int(self._polling_interval_ms / 1000)
+        polling_interval: float = self._ping_interval_ms / 1000
 
         while self.__is_polling_enabled:
             try:
@@ -247,7 +247,7 @@ class BaseClient(AsyncIOEventEmitter):
             ws_params={"imprp": webcast_response.get("wsParam").get("value")},
             headers=self._http.headers,
             loop=self.loop,
-            ping_interval_ms=self._polling_interval_ms
+            ping_interval_ms=self._ping_interval_ms
         )
 
         self.__is_ws_upgrade_done = await socket.connect()
