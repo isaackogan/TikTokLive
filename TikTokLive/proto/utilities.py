@@ -1,9 +1,8 @@
-from typing import Type, Optional, Any
-
 from dacite import from_dict, Config
 from dacite.core import T
 from dacite.data import Data
 from protobuf_to_dict import protobuf_to_dict
+from typing import Type, Optional, Any
 
 from TikTokLive.proto import tiktok_schema_pb2 as tiktok_schema
 
@@ -53,6 +52,20 @@ def deserialize_message(proto_name: str, obj: bytes) -> dict:
             dict_data["messages"][idx] = _dict_data
 
     return dict_data
+
+
+def deserialize_websocket_message(binary_message: bytes) -> dict:
+    """
+    Deserialize Websocket data. Websocket messages are in a container which contains additional data.
+    A message type 'msg' represents a normal WebcastResponse
+
+    :param binary_message: The binary to decode
+    :return: The resultant decoded python dictionary
+
+    """
+
+    decoded: dict = deserialize_message("WebcastWebsocketMessage", binary_message)
+    return {**decoded, **deserialize_message("WebcastResponse", decoded.get("binary"))} if decoded.get("type") == "msg" else dict()
 
 
 def from_dict_plus(data_class: Type[T], data: Data, config: Optional[Config] = None) -> Any:
