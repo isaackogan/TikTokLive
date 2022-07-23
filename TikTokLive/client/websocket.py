@@ -12,7 +12,8 @@ from websockets.exceptions import ConnectionClosed
 from websockets.legacy.client import WebSocketClientProtocol
 
 from TikTokLive.client.http import TikTokHTTPClient
-from TikTokLive.proto.utilities import deserialize_websocket_message
+from TikTokLive.proto.tiktok_schema_pb2 import WebcastWebsocketAck
+from TikTokLive.proto.utilities import deserialize_websocket_message, serialize_message
 
 if TYPE_CHECKING:
     from TikTokLive.client.base import BaseClient
@@ -95,10 +96,15 @@ class WebcastWebsocket:
             try:
                 # Get a response
                 response: Optional[bytes] = await self._connection.recv()
+                decoded: dict = deserialize_websocket_message(response)
 
-                # If valid, deserialize response and send back to client
-                if response:
-                    self.__client.emit("websocket", deserialize_websocket_message(response))
+                # Send Acknowledgement
+                if decoded.get("id", 0) > 0:
+                    await self.send_ack(decoded["id"])
+
+                # If valid, send off events to client
+                if decoded.get("messages"):
+                    self.__client.emit("websocket", decoded)
 
             except Exception as ex:
                 # If the connection closed, close the websocket
@@ -106,8 +112,21 @@ class WebcastWebsocket:
                     await self._connection.close()
                     self.__client.emit("error", ex)
 
+                logging.warning(traceback.format_exc())
+
             # Wait until the next ping time
             await asyncio.sleep(self._ping_interval)
+
+    async def send_ack(self, message_id: int) -> None:
+        message: WebcastWebsocketAck = serialize_message(
+            "WebcastWebsocketAck",
+            {
+                "type": "ack",
+                "id": message_id
+            }
+        )
+
+        await self._connection.send(message)
 
     async def is_open(self) -> bool:
         """
