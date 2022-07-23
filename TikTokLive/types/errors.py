@@ -37,6 +37,7 @@ class InitialCursorMissing(FailedConnection):
     """
     pass
 
+
 class InvalidSessionId(RuntimeError):
     """
     Error raised when a session ID is expired or missing
@@ -63,6 +64,7 @@ class ChatMessageRepeat(ChatMessageSendFailure):
 
     pass
 
+
 class WebsocketConnectionFailed(RuntimeError):
     """
     Raised when a connection to the TikTok Webcast websocket fails
@@ -70,6 +72,7 @@ class WebsocketConnectionFailed(RuntimeError):
     """
 
     pass
+
 
 class FailedHTTPRequest(RuntimeError):
     """
@@ -103,7 +106,7 @@ class FailedFetchGifts(FailedHTTPRequest):
 
 class DownloadStreamError(RuntimeError):
     """
-    Error raised for anything relating to downloading streams
+    Error raised broadly for anything relating to downloading streams
 
     """
 
