@@ -113,7 +113,7 @@ class FailedFetchGifts(FailedHTTPRequest):
 
 class DownloadStreamError(RuntimeError):
     """
-    Error raised for anything relating to downloading streams
+    Error raised broadly for anything relating to downloading streams
 
     """
 

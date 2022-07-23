@@ -12,4 +12,6 @@ sphinx-apidoc --ext-autodoc --force -o  . ../TikTokLive ../TikTokLive/proto/tikt
 
 3. Move generated sphinx `/sphinx/_build/html` folder to root, rename to "docs"
 4. Add `.nojekyll` file to new docs folder
-5. Add "CNAME" to new docs folder with value `tiktoklive.isaackogan.com`
+
+Alernatively: sphinx-apidoc --ext-autodoc --force -o "." "../TikTokLive" "../TikTokLive/proto/tiktok_schema_pb2.py" ; Remove-Item ".\_build" -Recurse ; .\make html ; Remove-Item -Path "..\docs" -Recurse ; Rename-Item "
+.\_build\html" "docs"; Move-Item -Path ".\_build\docs" -Destination "..\"
