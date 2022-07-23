@@ -9,7 +9,7 @@
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
-    <![endif]-->
+  <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
@@ -136,6 +136,23 @@ A message type ‘msg’ represents a normal WebcastResponse</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A dataclass containing type T</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="TikTokLive.proto.utilities.serialize_message">
+<span class="sig-prename descclassname"><span class="pre">TikTokLive.proto.utilities.</span></span><span class="sig-name descname"><span class="pre">serialize_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proto_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#TikTokLive.proto.utilities.serialize_message" title="Permalink to this definition"></a></dt>
+<dd><p>Serialize a message from a dict to a protobuf bytearray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>proto_name</strong> – The name of the protobuf message to serialize to</p></li>
+<li><p><strong>data</strong> – The data to use in serialization</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Bytearray containing the serialized protobuf message</p>
 </dd>
 </dl>
 </dd></dl>
