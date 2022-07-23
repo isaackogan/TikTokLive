@@ -38,7 +38,7 @@ class TikTokHTTPClient:
         self.params: dict = params if params else dict()
 
         self.trust_env: bool = trust_env
-        self.client = httpx.AsyncClient(trust_env=trust_env)
+        self.client = httpx.AsyncClient(trust_env=trust_env, proxies=proxies)
         self.__tokens: dict = {}
 
     @classmethod
