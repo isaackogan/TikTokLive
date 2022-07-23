@@ -37,6 +37,7 @@ class InitialCursorMissing(FailedConnection):
     """
     pass
 
+
 class InvalidSessionId(RuntimeError):
     """
     Error raised when a session ID is expired or missing
@@ -63,6 +64,7 @@ class ChatMessageRepeat(ChatMessageSendFailure):
 
     pass
 
+
 class WebsocketConnectionFailed(RuntimeError):
     """
     Raised when a connection to the TikTok Webcast websocket fails
@@ -70,6 +72,7 @@ class WebsocketConnectionFailed(RuntimeError):
     """
 
     pass
+
 
 class FailedHTTPRequest(RuntimeError):
     """
@@ -81,6 +84,13 @@ class FailedHTTPRequest(RuntimeError):
 class FailedFetchRoomInfo(FailedHTTPRequest):
     """
     Error raised when failing to fetch room info
+
+    """
+
+
+class FailedParseUserHTML(FailedFetchRoomInfo):
+    """
+    Error raised when failing to parse room html to retrieve the Room ID of the stream
 
     """
 

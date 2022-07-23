@@ -1,6 +1,8 @@
 import json
 import re
 
+from TikTokLive.types import FailedParseUserHTML
+
 
 def get_room_id_from_main_page_html(main_page_html: str) -> str:
     """
@@ -22,8 +24,8 @@ def get_room_id_from_main_page_html(main_page_html: str) -> str:
     except:
         pass
 
-    valid_response: bool = '"og:url"' in main_page_html
-    raise Exception("User might be offline" if valid_response else "Your IP or country might be blocked by TikTok.")
+    exception: str = "User might be offline" if '"og:url"' in main_page_html else "Your IP or country might be blocked by TikTok."
+    raise FailedParseUserHTML(exception)
 
 
 def validate_and_normalize_unique_id(unique_id: str) -> str:
