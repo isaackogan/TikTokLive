@@ -1,8 +1,11 @@
+import json
+from typing import Type, Optional, Any
+
 from dacite import from_dict, Config
 from dacite.core import T
 from dacite.data import Data
+from google.protobuf import json_format
 from protobuf_to_dict import protobuf_to_dict
-from typing import Type, Optional, Any
 
 from TikTokLive.proto import tiktok_schema_pb2 as tiktok_schema
 
@@ -83,3 +86,18 @@ def from_dict_plus(data_class: Type[T], data: Data, config: Optional[Config] = N
     if isinstance(result, data_class):
         result._as_dict = data
     return result
+
+
+def serialize_message(proto_name: str, data: dict) -> bytes:
+    """
+    Serialize a message from a dict to a protobuf bytearray
+    
+    :param proto_name: The name of the protobuf message to serialize to
+    :param data: The data to use in serialization
+    :return: Bytearray containing the serialized protobuf message
+    
+    """
+    
+    schema = getattr(tiktok_schema, proto_name)
+    webcast_data = schema()
+    return json_format.Parse(json.dumps(data), webcast_data).SerializeToString()
