@@ -28,18 +28,10 @@ TikTokLive.client.config module
    :undoc-members:
    :show-inheritance:
 
-TikTokLive.client.http module
------------------------------
+TikTokLive.client.httpx module
+------------------------------
 
-.. automodule:: TikTokLive.client.http
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-TikTokLive.client.websocket module
-----------------------------------
-
-.. automodule:: TikTokLive.client.websocket
+.. automodule:: TikTokLive.client.httpx
    :members:
    :undoc-members:
    :show-inheritance:
