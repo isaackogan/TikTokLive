@@ -33,6 +33,7 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 - [Contributors](#contributors)
 - [License](#license)
 - [Thermal Printing](#thermal-printing-library-for-sale-)
+- [Quickstart Examples](https://github.com/isaackogan/TikTokLive/tree/master/examples)
 
 **Resources & Guides**
 
@@ -42,7 +43,6 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 4. [Client Methods](#Methods)
 5. [Client Attributes](#Attributes)
 6. [TikTok Events](#Events)
-7. [Usage Examples](https://github.com/davidteather/TikTok-Api/tree/master/examples)
 
 ## Thermal Printing Library for Sale 🖨
 
