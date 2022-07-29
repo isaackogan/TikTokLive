@@ -21,6 +21,8 @@ by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternat
 
 This is **not** an official API. It's a reverse engineering and research project.
 
+> **UPDATE**:<br>Due to a change on the part of TikTok, versions prior **v4.3.0** are no longer functional. If you are using one of these versions, upgrade to the latest version using the `pip install TikTokLive --upgrade` command.
+
 Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
 ## Table of Contents
