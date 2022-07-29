@@ -12,18 +12,18 @@ A python library to connect to and read events from TikTok's LIVE service.
 
 <!-- [![Downloads](https://pepy.tech/badge/tiktoklive)](https://pepy.tech/project/tiktoklive) -->
 
-> **UPDATE**:<br>Due to a change on the part of TikTok, versions prior **v4.3.0** are no longer functional. If you are using one of these versions, upgrade to the latest version using the `pip install TikTokLive --upgrade` command.
-
 A python library to receive and decode livestream events such as comments and gifts in real-time from TikTok's LIVE service by connecting to TikTok's internal Webcast push service. This library includes a wrapper that
 connects to the Webcast service using only a user's `unique_id` and allows you to join your livestream as well as that of other streamers. No credentials are required to use TikTokLive.
 
-This library a Python implementation of the Javascript
+This library a Python implementation of the JavaScript
 [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
 by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python or require it for their specific project parameters.
 
+Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
+
 This is **not** an official API. It's a reverse engineering and research project.
 
-Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
+> **UPDATE**:<br>Due to a change on the part of TikTok, versions prior **v4.3.0** are no longer functional. If you are using one of these versions, upgrade to the latest version using the `pip install TikTokLive --upgrade` command.
 
 ## Table of Contents
 
