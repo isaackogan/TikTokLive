@@ -12,10 +12,13 @@ from typing import Optional, List, Dict, Set
 from dacite import from_dict
 from ffmpy import FFmpeg, FFRuntimeError
 from pyee import AsyncIOEventEmitter
+from tornado.httpclient import HTTPRequest
+from tornado.websocket import WebSocketClientConnection, websocket_connect, WebSocketClosedError
 
 from TikTokLive.client import config
-from TikTokLive.client.http import TikTokHTTPClient
-from TikTokLive.client.websocket import WebcastWebsocket
+from TikTokLive.client.httpx import TikTokHTTPClient
+from TikTokLive.proto.tiktok_schema_pb2 import WebcastWebsocketAck
+from TikTokLive.proto.utilities import deserialize_websocket_message, serialize_message
 from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift, InvalidSessionId, ChatMessageSendFailure, ChatMessageRepeat, FailedFetchRoomInfo, FailedFetchGifts, \
     FailedRoomPolling, FFmpegWrapper, AlreadyDownloadingStream, DownloadProcessNotFound, NotDownloadingStream, InitialCursorMissing
 from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
@@ -90,7 +93,6 @@ class BaseClient(AsyncIOEventEmitter):
         config.DEFAULT_CLIENT_PARAMS["webcast_language"] = lang
 
         # Protected Attributes
-
         self._http: TikTokHTTPClient = TikTokHTTPClient(
             headers=headers if headers is not None else dict(),
             timeout_ms=timeout_ms,
@@ -103,7 +105,6 @@ class BaseClient(AsyncIOEventEmitter):
         self._enable_extended_gift_info: bool = enable_extended_gift_info
         self._fetch_room_info_on_connect: bool = fetch_room_info_on_connect
         self._download: Optional[FFmpegWrapper] = None
-        self._socket: Optional[WebcastWebsocket] = None
 
         # Listeners
         self.add_listener("websocket", self._handle_webcast_messages)
@@ -230,7 +231,7 @@ class BaseClient(AsyncIOEventEmitter):
 
         await self._handle_webcast_messages(webcast_response)
 
-    async def __try_websocket_upgrade(self, webcast_response) -> WebcastWebsocket:
+    async def __try_websocket_upgrade(self, webcast_response) -> None:
         """
         Attempt to upgrade the connection to a websocket instead
 
@@ -239,20 +240,84 @@ class BaseClient(AsyncIOEventEmitter):
 
         """
 
-        socket: WebcastWebsocket = WebcastWebsocket(
-            client=self,
-            ws_url=webcast_response.get("wsUrl"),
-            cookies=self._http.client.cookies,
-            client_params=self._http.params,
-            ws_params={"imprp": webcast_response.get("wsParam").get("value")},
-            headers=self._http.headers,
-            loop=self.loop,
-            ping_interval_ms=self._ping_interval_ms
+        uri: str = self._http.update_url(
+            webcast_response.get("wsUrl"),
+            {**self._http.params, **{"imprp": webcast_response.get("wsParam").get("value")}}
         )
 
-        self.__is_ws_upgrade_done = await socket.connect()
-        self._socket = socket if self.__is_ws_upgrade_done else None
-        return self._socket
+        headers: dict = {
+            "Cookie": " ".join(f"{k}={v};" for k, v in self._http.client.cookies.items())
+        }
+
+        try:
+            connection: WebSocketClientConnection = await websocket_connect(
+                ping_interval=None,
+                subprotocols=["echo-protocol"],
+                url=HTTPRequest(
+                    url=uri,
+                    headers=headers
+                )
+            )
+        except:
+            logging.error(traceback.format_exc())
+            return
+
+        self.__is_ws_upgrade_done, self.__connected = True, True
+        self.loop.create_task(self.__ws_connection_loop(connection))
+
+    async def __ws_connection_loop(self, connection: WebSocketClientConnection) -> None:
+        """
+        Websocket connection loop responsible for polling the websocket connection at regular intervals
+
+        :param connection: Websocket connection object
+        :return: None
+
+        """
+
+        while self.__connected:
+            response = await connection.read_message()
+
+            # If None, socket is closed
+            if response is None:
+                self._disconnect()
+                return
+
+            # Deserialize
+            decoded: dict = deserialize_websocket_message(response)
+
+            # Send acknowledgement
+            if decoded.get("id", None):
+                try:
+                    await self.__send_ack(decoded["id"], connection)
+                except WebSocketClosedError:
+                    self._disconnect()
+
+            # Parse received message
+            if decoded.get("messages"):
+                await self._handle_webcast_messages(decoded)
+
+            # Wait for next run
+            await asyncio.sleep(0.5)
+
+    @classmethod
+    async def __send_ack(cls, message_id: int, connection: WebSocketClientConnection) -> None:
+        """
+        Send an acknowledgement to the server that the message was received
+
+        :param message_id: The message id to be acknowledged
+        :param connection: The websocket connection
+        :return: None
+
+        """
+        message: WebcastWebsocketAck = serialize_message(
+            "WebcastWebsocketAck",
+            {
+                "type": "ack",
+                "id": message_id
+            }
+        )
+
+        await connection.write_message(message, binary=True)
 
     async def _handle_webcast_messages(self, webcast_response) -> None:
         """
@@ -561,7 +626,7 @@ class BaseClient(AsyncIOEventEmitter):
                 f"Stopped the download to path \"{self._download.path}\" on user @{self.unique_id} after "
                 f"\"{int(datetime.utcnow().timestamp()) - self._download.started_at} seconds\" of downloading"
             )
-            
+
     @property
     def viewer_count(self) -> Optional[int]:
         """

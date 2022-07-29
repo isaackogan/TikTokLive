@@ -139,3 +139,10 @@ class DownloadProcessNotFound(DownloadStreamError):
     Error raised when stopping a download and the process is not found. Usually, you're stopping it before the process spawns
 
     """
+
+
+class SignatureRateLimitReached(FailedHTTPRequest):
+    """
+    When a user hits the signature rate limit
+
+    """
