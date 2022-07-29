@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How To Build &mdash; TikTokLive  documentation</title>
@@ -79,8 +79,9 @@ sphinx-apidoc --ext-autodoc --force -o  . ../TikTokLive ../TikTokLive/proto/tikt
 <ol class="arabic simple" start="3">
 <li><p>Move generated sphinx <code class="docutils literal notranslate"><span class="pre">/sphinx/_build/html</span></code> folder to root, rename to “docs”</p></li>
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">.nojekyll</span></code> file to new docs folder</p></li>
-<li><p>Add “CNAME” to new docs folder with value <code class="docutils literal notranslate"><span class="pre">tiktoklive.isaackogan.com</span></code></p></li>
 </ol>
+<p>Alernatively: sphinx-apidoc –ext-autodoc –force -o “.” “../TikTokLive” “../TikTokLive/proto/tiktok_schema_pb2.py” ; Remove-Item “._build” -Recurse ; .\make html ; Remove-Item -Path “..\docs” -Recurse ; Rename-Item “
+._build\html” “docs”; Move-Item -Path “._build\docs” -Destination “..”</p>
 </section>
 
 
