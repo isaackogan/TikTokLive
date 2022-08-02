@@ -91,13 +91,13 @@ class TikTokLiveClient(BaseClient):
 
         return result
 
-    def _disconnect(self) -> None:
+    def _disconnect(self, webcast_closed: bool = False) -> None:
         """
         Wrap disconnection in a disconnect event
 
         """
 
-        super(TikTokLiveClient, self)._disconnect()
+        super(TikTokLiveClient, self)._disconnect(webcast_closed=webcast_closed)
 
         if not self.connected:
             event: DisconnectEvent = DisconnectEvent()

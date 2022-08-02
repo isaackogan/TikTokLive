@@ -45,6 +45,7 @@ class BaseClient(AsyncIOEventEmitter):
             lang: Optional[str] = "en-US",
             fetch_room_info_on_connect: bool = True,
             websocket_enabled: bool = True,
+            websocket_timeout_ms: int = 15000
     ):
         """
         Initialize the base client
@@ -62,7 +63,7 @@ class BaseClient(AsyncIOEventEmitter):
         :param lang: Change the language. Payloads *will* be in English, but this will change stuff like the extended_gift Gift attribute to the desired language!
         :param fetch_room_info_on_connect: Whether to fetch room info on connect. If disabled, you might attempt to connect to a closed livestream
         :param websocket_enabled: Whether to use websockets or rely on purely long polling
-
+        :param websocket_timeout_ms: The amount of time to wait before the connection to the websocket times out
         """
         AsyncIOEventEmitter.__init__(self)
 
@@ -87,6 +88,7 @@ class BaseClient(AsyncIOEventEmitter):
         self.__session_id: Optional[str] = None
         self.__is_ws_upgrade_done: bool = False
         self.__websocket_enabled: bool = websocket_enabled
+        self.__websocket_timeout: int = int(websocket_timeout_ms / 1000)
 
         # Change Language
         config.DEFAULT_CLIENT_PARAMS["app_language"] = lang
@@ -252,6 +254,8 @@ class BaseClient(AsyncIOEventEmitter):
         try:
             connection: WebSocketClientConnection = await websocket_connect(
                 ping_interval=None,
+                connect_timeout=self.__websocket_timeout,
+                ping_timeout=self.__websocket_timeout,
                 subprotocols=["echo-protocol"],
                 url=HTTPRequest(
                     url=uri,
@@ -279,7 +283,7 @@ class BaseClient(AsyncIOEventEmitter):
 
             # If None, socket is closed
             if response is None:
-                self._disconnect()
+                self._disconnect(webcast_closed=True)
                 return
 
             # Deserialize
@@ -290,14 +294,11 @@ class BaseClient(AsyncIOEventEmitter):
                 try:
                     await self.__send_ack(decoded["id"], connection)
                 except WebSocketClosedError:
-                    self._disconnect()
+                    self._disconnect(webcast_closed=True)
 
             # Parse received message
             if decoded.get("messages"):
                 await self._handle_webcast_messages(decoded)
-
-            # Wait for next run
-            await asyncio.sleep(0.5)
 
     @classmethod
     async def __send_ack(cls, message_id: int, connection: WebSocketClientConnection) -> None:
@@ -394,7 +395,7 @@ class BaseClient(AsyncIOEventEmitter):
             self.__connecting = False
             await self._on_error(ex, FailedConnection(message))
 
-    def _disconnect(self) -> None:
+    def _disconnect(self, webcast_closed: bool = False) -> None:
         """
         Set unconnected status
 
@@ -408,7 +409,10 @@ class BaseClient(AsyncIOEventEmitter):
         self.__connected: Optional[bool] = False
         self._http.params["cursor"]: str = ""
 
-    async def stop(self) -> None:
+        if webcast_closed:
+            logging.error("Connection was lost to the Webcast Websocket Server. Restart the client connection to continue.")
+
+    def stop(self) -> None:
         """
         Stop the client safely
 
