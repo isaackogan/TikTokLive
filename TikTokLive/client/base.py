@@ -44,8 +44,7 @@ class BaseClient(AsyncIOEventEmitter):
             proxies: Optional[Dict[str, str]] = None,
             lang: Optional[str] = "en-US",
             fetch_room_info_on_connect: bool = True,
-            websocket_enabled: bool = True,
-            websocket_timeout_ms: int = 15000
+            websocket_enabled: bool = True
     ):
         """
         Initialize the base client
@@ -63,7 +62,6 @@ class BaseClient(AsyncIOEventEmitter):
         :param lang: Change the language. Payloads *will* be in English, but this will change stuff like the extended_gift Gift attribute to the desired language!
         :param fetch_room_info_on_connect: Whether to fetch room info on connect. If disabled, you might attempt to connect to a closed livestream
         :param websocket_enabled: Whether to use websockets or rely on purely long polling
-        :param websocket_timeout_ms: The amount of time to wait before the connection to the websocket times out
         """
         AsyncIOEventEmitter.__init__(self)
 
@@ -88,7 +86,6 @@ class BaseClient(AsyncIOEventEmitter):
         self.__session_id: Optional[str] = None
         self.__is_ws_upgrade_done: bool = False
         self.__websocket_enabled: bool = websocket_enabled
-        self.__websocket_timeout: int = int(websocket_timeout_ms / 1000)
 
         # Change Language
         config.DEFAULT_CLIENT_PARAMS["app_language"] = lang
@@ -254,8 +251,7 @@ class BaseClient(AsyncIOEventEmitter):
         try:
             connection: WebSocketClientConnection = await websocket_connect(
                 ping_interval=None,
-                connect_timeout=self.__websocket_timeout,
-                ping_timeout=self.__websocket_timeout,
+                ping_timeout=15,
                 subprotocols=["echo-protocol"],
                 url=HTTPRequest(
                     url=uri,
@@ -268,6 +264,7 @@ class BaseClient(AsyncIOEventEmitter):
 
         self.__is_ws_upgrade_done, self.__connected = True, True
         self.loop.create_task(self.__ws_connection_loop(connection))
+        self.loop.create_task(self.__send_pings(connection))
 
     async def __ws_connection_loop(self, connection: WebSocketClientConnection) -> None:
         """
@@ -299,6 +296,25 @@ class BaseClient(AsyncIOEventEmitter):
             # Parse received message
             if decoded.get("messages"):
                 await self._handle_webcast_messages(decoded)
+
+    async def __send_pings(self, connection: WebSocketClientConnection) -> None:
+        """
+        Send KeepAlive ping to Websocket every 10 seconds... like clockwork!
+
+        :param connection: Websocket connection object
+        :return: None
+
+        """
+
+        ping: bytes = bytes.fromhex("3A026862")
+
+        while self.__connected:
+            try:
+                await connection.write_message(ping, binary=True)
+            except WebSocketClosedError:
+                self._disconnect(webcast_closed=True)
+
+            await asyncio.sleep(10)
 
     @classmethod
     async def __send_ack(cls, message_id: int, connection: WebSocketClientConnection) -> None:
