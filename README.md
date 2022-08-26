@@ -23,7 +23,7 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 
 **NOTE:** This is **not** an official API. It's a reverse engineering and research project.
 
-> **UPDATE**:<br>Due to a change on the part of TikTok, versions prior to **v4.3.3** are no longer functional. If you are using one of the unsupported versions, upgrade to the latest version using the `pip install TikTokLive --upgrade` command.
+> **UPDATE**:<br>Due to a change on the part of TikTok, versions prior to **v4.3.3** are no longer functional. If you are using an unsupported version, upgrade to the latest version using the `pip install TikTokLive --upgrade` command.
 
 ## Table of Contents
 
