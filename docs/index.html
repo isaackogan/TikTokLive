@@ -193,7 +193,7 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
 </tr>
 <tr class="row-even"><td><p>**options</p></td>
 <td><p>No</p></td>
-<td><p>Here you can set the following optional connection properties. If you do not specify a value, the default value will be used.<br><br><code class="docutils literal notranslate"><span class="pre">process_initial_data</span></code> (default: <code class="docutils literal notranslate"><span class="pre">true</span></code>) <br> Define if you want to process the initial data which includes old messages of the last seconds.<br><br><code class="docutils literal notranslate"><span class="pre">fetch_room_info_on_connect</span></code> (default: <code class="docutils literal notranslate"><span class="pre">true</span></code>) <br> Define if you want to fetch all room information on start. If this option is enabled, the connection to offline rooms will be prevented. If enabled, the connect result contains the room info via the <code class="docutils literal notranslate"><span class="pre">room_info</span></code> attribute. You can also manually retrieve the room info (even in an unconnected state) using the <code class="docutils literal notranslate"><span class="pre">retrieve_room_info()</span></code> method.<br><br><code class="docutils literal notranslate"><span class="pre">enable_extended_gift_info</span></code> (default: <code class="docutils literal notranslate"><span class="pre">false</span></code>) <br> Define if you want to receive extended information about gifts like gift name, cost and images which you can retrieve via the <code class="docutils literal notranslate"><span class="pre">available_gifts</span></code> attribute. <br><br><code class="docutils literal notranslate"><span class="pre">polling_interval_ms</span></code> (default: <code class="docutils literal notranslate"><span class="pre">1000</span></code>) <br> Request polling interval.<br><br><code class="docutils literal notranslate"><span class="pre">client_params</span></code> (default: <code class="docutils literal notranslate"><span class="pre">{}</span></code>) <br> Custom client params for Webcast API.<br><br><code class="docutils literal notranslate"><span class="pre">headers</span></code> (default: <code class="docutils literal notranslate"><span class="pre">{}</span></code>) <br> Custom request headers passed to aiohttp.<br><br><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code> (default: <code class="docutils literal notranslate"><span class="pre">1000</span></code>)<br>How long to wait before a request should fail<br><br><code class="docutils literal notranslate"><span class="pre">loop</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br>Optionally supply your own asyncio event loop for usage by the client. When set to None, the client pulls the current active loop or creates a new one. This option is mostly useful for people trying to nest asyncio.</p></td>
+<td><p>Here you can set the following optional connection properties. If you do not specify a value, the default value will be used.<br><br><code class="docutils literal notranslate"><span class="pre">process_initial_data</span></code> (default: <code class="docutils literal notranslate"><span class="pre">true</span></code>) <br> Define if you want to process the initial data which includes old messages of the last seconds.<br><br><code class="docutils literal notranslate"><span class="pre">fetch_room_info_on_connect</span></code> (default: <code class="docutils literal notranslate"><span class="pre">true</span></code>) <br> Define if you want to fetch all room information on start. If this option is enabled, the connection to offline rooms will be prevented. If enabled, the connect result contains the room info via the <code class="docutils literal notranslate"><span class="pre">room_info</span></code> attribute. You can also manually retrieve the room info (even in an unconnected state) using the <code class="docutils literal notranslate"><span class="pre">retrieve_room_info()</span></code> method.<br><br><code class="docutils literal notranslate"><span class="pre">enable_extended_gift_info</span></code> (default: <code class="docutils literal notranslate"><span class="pre">false</span></code>) <br> Define if you want to receive extended information about gifts like gift name, cost and images which you can retrieve via the <code class="docutils literal notranslate"><span class="pre">available_gifts</span></code> attribute. <br><br><code class="docutils literal notranslate"><span class="pre">ping_interval_ms</span></code> (default: <code class="docutils literal notranslate"><span class="pre">1000</span></code>) <br> How frequently to make requests to the webcast API when long polling.<br><br><code class="docutils literal notranslate"><span class="pre">client_params</span></code> (default: <code class="docutils literal notranslate"><span class="pre">{}</span></code>) <br> Custom client params for Webcast API.<br><br><code class="docutils literal notranslate"><span class="pre">headers</span></code> (default: <code class="docutils literal notranslate"><span class="pre">{}</span></code>) <br> Custom request headers passed to aiohttp.<br><br><code class="docutils literal notranslate"><span class="pre">timeout_ms</span></code> (default: <code class="docutils literal notranslate"><span class="pre">1000</span></code>)<br>How long to wait before a request should fail<br><br><code class="docutils literal notranslate"><span class="pre">loop</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br>Optionally supply your own asyncio event loop for usage by the client. When set to None, the client pulls the current active loop or creates a new one. This option is mostly useful for people trying to nest asyncio.<br/><br/><code class="docutils literal notranslate"><span class="pre">trust_env</span></code> (default: <code class="docutils literal notranslate"><span class="pre">false</span></code>)<br/>Whether to trust environment variables that provide proxies in httpx requests<br/><br/><code class="docutils literal notranslate"><span class="pre">proxies</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br/>Enable proxied requests by turning on forwarding for the HTTPX “proxies” argument. Websocket connections will NOT be proxied<br/><br/><code class="docutils literal notranslate"><span class="pre">lang</span></code> (default: <code class="docutils literal notranslate"><span class="pre">en</span></code>)<br/>Change the language. Payloads <em>will</em> be in English, but front-end content will be in the desired language!<br/><br/><code class="docutils literal notranslate"><span class="pre">websocket_enabled</span></code> (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)<br/>Whether to use websockets or rely on purely long polling. You want to use websockets.<br/><br/><code class="docutils literal notranslate"><span class="pre">sign_api_key</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br/>Parameter to increase the amount of connections allowed to be made per minute via a Sign Server API key. If you need this, contact the project maintainer.</p></td>
 </tr>
 </tbody>
 </table>
@@ -216,7 +216,7 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
             <span class="c1"># Custom timeout for Webcast API requests</span>
             <span class="s2">&quot;timeout_ms&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
 
-            <span class="c1"># How frequently to poll Webcast API</span>
+            <span class="c1"># How frequently to make requests the webcast API when long polling</span>
             <span class="s2">&quot;ping_interval_ms&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
 
             <span class="c1"># Whether to process initial data (cached chats, etc.)</span>
@@ -241,7 +241,11 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
             <span class="s2">&quot;fetch_room_info_on_connect&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
 
             <span class="c1"># Whether to allow Websocket connections</span>
-            <span class="s2">&quot;websocket_enabled&quot;</span><span class="p">:</span> <span class="kc">False</span>
+            <span class="s2">&quot;websocket_enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+
+            <span class="c1"># Parameter to increase the amount of connections made per minute via a Sign Server API key.</span>
+            <span class="c1"># If you need this, contact the project maintainer.</span>
+            <span class="s2">&quot;sign_api_key&quot;</span><span class="p">:</span> <span class="kc">None</span>
 
         <span class="p">}</span>
     <span class="p">)</span>
@@ -292,9 +296,6 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
 <tr class="row-odd"><td><p>set_proxies</p></td>
 <td><p>Set proxies to be used in HTTP requests (excludes the Websocket connection)</p></td>
 </tr>
-<tr class="row-even"><td><p>get_proxies</p></td>
-<td><p>Get the current proxies being used for requests</p></td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -324,6 +325,9 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
 </tr>
 <tr class="row-odd"><td><p>available_gifts</p></td>
 <td><p>A dictionary containing K:V pairs of <code class="docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">ExtendedGift]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>proxies</p></td>
+<td><p>Get the current proxies being used for requests</p></td>
 </tr>
 </tbody>
 </table>
