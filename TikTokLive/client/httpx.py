@@ -7,7 +7,7 @@ import httpx
 
 from TikTokLive.client import config
 from TikTokLive.proto.utilities import deserialize_message
-from TikTokLive.types import SignatureRateLimitReached
+from TikTokLive.types import SignatureRateLimitReached, SignatureSigningError
 
 
 class TikTokHTTPClient:
@@ -84,17 +84,25 @@ class TikTokHTTPClient:
             timeout=self.timeout
         )
 
-        # Update client information
+        if response.status_code == 429:
+            raise SignatureRateLimitReached(
+                "You have hit the rate limit for starting connections. Try again later."
+            )
+
         try:
-            tokens: dict = response.json()
-            self.headers["User-Agent"] = tokens.get("User-Agent")
-            return tokens.get("signedUrl")
-        except JSONDecodeError as ex:
-            if "too many requests" in response.text.lower():
-                raise SignatureRateLimitReached(
-                    "You have hit the rate limit for starting connections. Please try again later."
-                )
-            raise ex
+            # Update client information
+            json_response: dict = response.json()
+            signed_url = json_response.get("signedUrl")
+
+            # If signed successfully
+            if signed_url:
+                self.headers["User-Agent"] = json_response.get("User-Agent")
+                return json_response.get("signedUrl")
+
+        except JSONDecodeError:
+            raise SignatureSigningError(
+                "Failed to parse the signed URL payload. Please contact the TikTokLive maintainer(s) about this issue."
+            )
 
     async def __httpx_get_bytes(self, url: str, params: dict = None, sign_url: bool = False) -> bytes:
         """
