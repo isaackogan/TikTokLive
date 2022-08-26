@@ -427,7 +427,7 @@ async def on_connect(error: Exception):
 * **Davincible** - *Reverse-Engineering Stream Downloads*  - [davincible](https://github.com/davincible)
 * **David Teather** - *TikTokLive Introduction Tutorial* - [davidteather](https://github.com/davidteather)
 
-See also the full list of [contributors](https://github.com/ChromegleApp/Chromegle/contributors) who have participated in this project.
+See also the full list of [contributors](https://github.com/isaackogan/TikTokLive/contributors) who have participated in this project.
 
 ## License
 
