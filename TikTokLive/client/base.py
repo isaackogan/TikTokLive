@@ -70,9 +70,9 @@ class BaseClient(AsyncIOEventEmitter):
             self.loop: AbstractEventLoop = loop
         else:
             try:
-                self.loop: AbstractEventLoop = asyncio.get_event_loop()
-            except RuntimeError:
                 self.loop: AbstractEventLoop = asyncio.get_running_loop()
+            except RuntimeError:
+                self.loop: AbstractEventLoop = asyncio.new_event_loop()
 
         # Private Attributes
         self.__unique_id: str = validate_and_normalize_unique_id(unique_id)
