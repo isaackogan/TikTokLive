@@ -127,7 +127,7 @@ class TikTokHTTPClient:
         response: httpx.Response = await self.client.get(await self.__get_signed_url(url) if sign_url else url, headers=self.headers, timeout=self.timeout)
         return response.read()
 
-    async def __aiohttp_get_json(self, url: str, params: dict, sign_url: bool = False) -> dict:
+    async def __httpx_get_json(self, url: str, params: dict, sign_url: bool = False) -> dict:
         """
         Get json (dict) from a given URL with parameters from the Webcast API
 
@@ -140,7 +140,7 @@ class TikTokHTTPClient:
 
         return json_parse.loads((await self.__httpx_get_bytes(url=url, params=params, sign_url=sign_url)).decode(encoding="utf-8"))
 
-    async def __aiohttp_post_json(self, url: str, params: dict, json: Optional[dict] = None, sign_url: bool = False) -> dict:
+    async def __httpx_post_json(self, url: str, params: dict, json: Optional[dict] = None, sign_url: bool = False) -> dict:
         """
         Post JSON given a URL with parameters
 
@@ -197,7 +197,7 @@ class TikTokHTTPClient:
 
         """
 
-        response: dict = await self.__aiohttp_get_json(config.TIKTOK_URL_WEBCAST + path, params)
+        response: dict = await self.__httpx_get_json(config.TIKTOK_URL_WEBCAST + path, params)
         return response.get("data")
 
     async def post_json_to_webcast_api(self, path: str, params: dict, json: Optional[dict] = None, sign_url: bool = False) -> dict:
@@ -213,5 +213,5 @@ class TikTokHTTPClient:
 
         """
 
-        response: dict = await self.__aiohttp_post_json(config.TIKTOK_URL_WEBCAST + path, params, json, sign_url=sign_url)
+        response: dict = await self.__httpx_post_json(config.TIKTOK_URL_WEBCAST + path, params, json, sign_url=sign_url)
         return response
