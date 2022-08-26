@@ -218,6 +218,13 @@
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.types.errors.SignatureSigningError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.errors.</span></span><span class="sig-name descname"><span class="pre">SignatureSigningError</span></span><a class="headerlink" href="#TikTokLive.types.errors.SignatureSigningError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.errors.FailedHTTPRequest" title="TikTokLive.types.errors.FailedHTTPRequest"><code class="xref py py-class docutils literal notranslate"><span class="pre">FailedHTTPRequest</span></code></a></p>
+<p>When the sign server fails to return a valid payload</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.types.errors.WebsocketConnectionFailed">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.errors.</span></span><span class="sig-name descname"><span class="pre">WebsocketConnectionFailed</span></span><a class="headerlink" href="#TikTokLive.types.errors.WebsocketConnectionFailed" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
@@ -627,25 +634,37 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.types.events.SubscribeEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">SubscribeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actionId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.MemberMessage" title="TikTokLive.types.objects.MemberMessage"><span class="pre">MemberMessage</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'subscribe'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.SubscribeEvent" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">SubscribeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exhibitionType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subscribeType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oldSubScribeStatus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subscribingStatus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'subscribe'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.SubscribeEvent" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
 <p>Event that fires when someone subscribes to the streamer</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.events.SubscribeEvent.actionId">
-<span class="sig-name descname"><span class="pre">actionId</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.SubscribeEvent.actionId" title="Permalink to this definition"></a></dt>
-<dd><p>The actionId of the MemberMessage corresponding to a sub (actionId=7)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.events.SubscribeEvent.event">
-<span class="sig-name descname"><span class="pre">event</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.MemberMessage" title="TikTokLive.types.objects.MemberMessage"><span class="pre">MemberMessage</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.SubscribeEvent.event" title="Permalink to this definition"></a></dt>
-<dd><p>The details of the MemberMessage resulting in a subscription</p>
+<dt class="sig sig-object py" id="TikTokLive.types.events.SubscribeEvent.exhibitionType">
+<span class="sig-name descname"><span class="pre">exhibitionType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.SubscribeEvent.exhibitionType" title="Permalink to this definition"></a></dt>
+<dd><p>Unknown</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.events.SubscribeEvent.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'subscribe'</span></em><a class="headerlink" href="#TikTokLive.types.events.SubscribeEvent.name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.events.SubscribeEvent.oldSubScribeStatus">
+<span class="sig-name descname"><span class="pre">oldSubScribeStatus</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.SubscribeEvent.oldSubScribeStatus" title="Permalink to this definition"></a></dt>
+<dd><p>Whether they were subscribed before</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.events.SubscribeEvent.subscribeType">
+<span class="sig-name descname"><span class="pre">subscribeType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.SubscribeEvent.subscribeType" title="Permalink to this definition"></a></dt>
+<dd><p>Unknown</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.events.SubscribeEvent.subscribingStatus">
+<span class="sig-name descname"><span class="pre">subscribingStatus</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.SubscribeEvent.subscribingStatus" title="Permalink to this definition"></a></dt>
+<dd><p>Whether they are subscribing now</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.events.SubscribeEvent.user">
