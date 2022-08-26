@@ -146,3 +146,10 @@ class SignatureRateLimitReached(FailedHTTPRequest):
     When a user hits the signature rate limit
 
     """
+
+
+class SignatureSigningError(FailedHTTPRequest):
+    """
+    When the sign server fails to return a valid payload
+
+    """
