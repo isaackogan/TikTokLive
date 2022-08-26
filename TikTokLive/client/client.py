@@ -169,13 +169,6 @@ class TikTokLiveClient(BaseClient):
             event._as_dict = webcast_message
             return event
 
-        # Subscriber
-        if webcast_message["type"] == "WebcastMemberMessage" and webcast_message.get("actionId") == 7:
-            return from_dict_plus(
-                SubscribeEvent,
-                webcast_message
-            )
-
         # Envelope Event
         if webcast_message["type"] == "WebcastEnvelopeMessage":
             try:
@@ -195,6 +188,7 @@ class TikTokLiveClient(BaseClient):
             "WebcastHourlyRankMessage": lambda: from_dict_plus(WeeklyRankingEvent, webcast_message),  # Hourly Ranking
             "WebcastLinkMicBattle": lambda: from_dict_plus(MicBattleEvent, webcast_message),  # Mic Battle (Battle Start)
             "WebcastLinkMicArmies": lambda: from_dict_plus(MicArmiesEvent, webcast_message),  # Mic Armies (Battle Update)
+            "WebcastSubNotifyMessage": lambda: from_dict_plus(SubscribeEvent, webcast_message)  # Subscribe Event
         }.get(webcast_message["type"], lambda ev=UnknownEvent(): ev.set_as_dict(webcast_message))  # Unknown Event
 
         return standard()

@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Optional, List
 
-from TikTokLive.types import User, Gift, Emote, TreasureBoxData, MemberMessage, RankContainer, MicBattleUser, MicArmiesUser
+from TikTokLive.types import User, Gift, Emote, TreasureBoxData, RankContainer, MicBattleUser, MicArmiesUser
 
 
 class AbstractEvent:
@@ -296,11 +296,17 @@ class SubscribeEvent(AbstractEvent):
     user: Optional[User]
     """The user that subscribed to the streamer"""
 
-    actionId: Optional[int]
-    """The actionId of the MemberMessage corresponding to a sub (actionId=7)"""
+    exhibitionType: Optional[int]
+    """Unknown"""
 
-    event: Optional[MemberMessage]
-    """The details of the MemberMessage resulting in a subscription"""
+    subscribeType: Optional[int]
+    """Unknown"""
+
+    oldSubScribeStatus: Optional[int]
+    """Whether they were subscribed before"""
+
+    subscribingStatus: Optional[int]
+    """Whether they are subscribing now"""
 
     name: str = "subscribe"
 
