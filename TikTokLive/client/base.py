@@ -44,7 +44,8 @@ class BaseClient(AsyncIOEventEmitter):
             proxies: Optional[Dict[str, str]] = None,
             lang: Optional[str] = "en-US",
             fetch_room_info_on_connect: bool = True,
-            websocket_enabled: bool = True
+            websocket_enabled: bool = True,
+            sign_api_key: Optional[str] = None
     ):
         """
         Initialize the base client
@@ -62,6 +63,7 @@ class BaseClient(AsyncIOEventEmitter):
         :param lang: Change the language. Payloads *will* be in English, but this will change stuff like the extended_gift Gift attribute to the desired language!
         :param fetch_room_info_on_connect: Whether to fetch room info on connect. If disabled, you might attempt to connect to a closed livestream
         :param websocket_enabled: Whether to use websockets or rely on purely long polling
+        :param sign_api_key: Parameter for increased sign access (higher rate limits). Contact project maintainer for API keys if you need bulk access
         """
         AsyncIOEventEmitter.__init__(self)
 
@@ -97,7 +99,8 @@ class BaseClient(AsyncIOEventEmitter):
             timeout_ms=timeout_ms,
             proxies=proxies,
             trust_env=trust_env,
-            params={**config.DEFAULT_CLIENT_PARAMS, **(client_params if isinstance(client_params, dict) else dict())}
+            params={**config.DEFAULT_CLIENT_PARAMS, **(client_params if isinstance(client_params, dict) else dict())},
+            sign_api_key=sign_api_key
         )
         self._ping_interval_ms: int = ping_interval_ms
         self._process_initial_data: bool = process_initial_data

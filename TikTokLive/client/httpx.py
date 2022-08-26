@@ -26,6 +26,7 @@ class TikTokHTTPClient:
             proxies: Optional[Dict[str, str]] = None,
             trust_env: bool = True,
             params: Optional[Dict[str, str]] = dict(),
+            sign_api_key: Optional[str] = None
     ):
         """
         Initialize HTTP client for TikTok-related requests
@@ -34,6 +35,7 @@ class TikTokHTTPClient:
         :param timeout_ms: Timeout for HTTP requests
         :param proxies: Enable proxied requests by turning on forwarding for the HTTPX "proxies" argument
         :param trust_env: Whether to trust the environment when it comes to proxy usage
+        :param sign_api_key: API key to increase rate limits on the sign server API for bulk usage of the library
 
         """
 
@@ -41,6 +43,7 @@ class TikTokHTTPClient:
         self.proxies: Optional[Dict[str, str]] = proxies
         self.headers: Dict[str, str] = {**config.DEFAULT_REQUEST_HEADERS, **(headers if isinstance(headers, dict) else dict())}
         self.params: dict = params if params else dict()
+        self.sign_api_key: Optional[str] = sign_api_key
 
         self.trust_env: bool = trust_env
         self.client = httpx.AsyncClient(trust_env=trust_env, proxies=proxies)
@@ -73,6 +76,9 @@ class TikTokHTTPClient:
 
         """
 
+        # Add API key to header if applicable
+        headers: Optional[dict] = {"Authorization": self.sign_api_key} if self.sign_api_key else ""
+
         # Get the signed URL
         response: httpx.Response = await self.client.get(
             url=(
@@ -80,7 +86,9 @@ class TikTokHTTPClient:
                 f"?client={TikTokHTTPClient._identity}"
                 f"&uuc={TikTokHTTPClient._uuc}"
                 f"&url={urllib.parse.quote(url)}"
+                f"&apiKey={self.sign_api_key}"
             ),
+            headers=headers,
             timeout=self.timeout
         )
 
