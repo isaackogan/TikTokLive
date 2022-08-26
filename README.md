@@ -44,24 +44,6 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 5. [Client Attributes](#Attributes)
 6. [TikTok Events](#Events)
 
-## Thermal Printing Library for Sale 🖨
-
-Print text, images, text-to-speech, play sounds, and much more. It's just a one-time, life-time purchase, including future support and updates.
-
-Install is easy, takes about 15 minutes. Plug your printer in, download the drivers, and run a command in terminal.
-
-As the project is updated, you will have access to **every new release** as new features are added.
-
-Here's a sample of what you can do with this library in less than 30 lines of code:
-It even has its own [YouTube Tutorial](https://www.youtube.com/watch?v=NeapS5Jn_oo) and comes with [pre-made examples](https://github.com/isaackogan/TikTokPrinter/tree/master/examples) if your coding ability isn't very
-strong!
-
-[![](https://github.com/isaackogan/TikTokLive/raw/master/.github/RESOURCES/printer.gif)](https://github.com/isaackogan/TikTokPrinter)
-
-### How to Purchase
-
-To buy this library, create a ticket in the `#tickets` channel in https://discord.gg/4Mbw58w5Qx.
-
 ## TikTokLive Intro Tutorial
 
 I cannot recommend this tutorial enough for people trying to get started. It is succinct, informative and easy to understand, created by [David Teather](https://github.com/davidteather), the creator of the
