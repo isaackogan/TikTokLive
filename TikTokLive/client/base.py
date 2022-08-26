@@ -63,7 +63,7 @@ class BaseClient(AsyncIOEventEmitter):
         :param lang: Change the language. Payloads *will* be in English, but this will change stuff like the extended_gift Gift attribute to the desired language!
         :param fetch_room_info_on_connect: Whether to fetch room info on connect. If disabled, you might attempt to connect to a closed livestream
         :param websocket_enabled: Whether to use websockets or rely on purely long polling
-        :param sign_api_key: Parameter for increased sign access (higher rate limits). Contact project maintainer for API keys if you need bulk access
+        :param sign_api_key: Parameter to increase the amount of connections allowed to be made per minute via a Sign Server API key. If you need this, contact the project maintainer.
         """
         AsyncIOEventEmitter.__init__(self)
 
@@ -535,27 +535,6 @@ class BaseClient(AsyncIOEventEmitter):
 
         return await self.__fetch_available_gifts()
 
-    async def set_proxies(self, proxies: Optional[Dict[str, str]]) -> None:
-        """
-        Set the proxies to be used by the HTTP client (Not Websockets)
-
-        :param proxies: The proxies to use in HTTP requests
-        :return: None
-
-        """
-
-        self._http.proxies = proxies
-
-    async def get_proxies(self) -> Optional[Dict[str, str]]:
-        """
-        Get the current proxies being used in HTTP requests
-
-        :return: The current proxies in use
-
-        """
-
-        return self._http.proxies
-
     def download(
             self,
             path: str,
@@ -649,6 +628,28 @@ class BaseClient(AsyncIOEventEmitter):
                 f"Stopped the download to path \"{self._download.path}\" on user @{self.unique_id} after "
                 f"\"{int(datetime.utcnow().timestamp()) - self._download.started_at} seconds\" of downloading"
             )
+
+    async def set_proxies(self, proxies: Optional[Dict[str, str]]) -> None:
+        """
+        Set the proxies to be used by the HTTP client (Not Websockets)
+
+        :param proxies: The proxies to use in HTTP requests
+        :return: None
+
+        """
+
+        self._http.proxies = proxies
+
+    @property
+    async def proxies(self) -> Optional[Dict[str, str]]:
+        """
+        Get the current proxies being used in HTTP requests
+
+        :return: The current proxies in use
+
+        """
+
+        return self._http.proxies
 
     @property
     def viewer_count(self) -> Optional[int]:
