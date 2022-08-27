@@ -32,7 +32,6 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 - [Documentation](https://isaackogan.github.io/TikTokLive/)
 - [Contributors](#contributors)
 - [License](#license)
-- [Thermal Printing](#thermal-printing-library-for-sale-)
 - [Quickstart Examples](https://github.com/isaackogan/TikTokLive/tree/master/examples)
 
 **Resources & Guides**
