@@ -25,6 +25,11 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 
 > **UPDATE:**<br>Due to a change on the part of TikTok, versions prior to **v4.3.3** are no longer functional. If you are using an unsupported version, upgrade to the latest version using the `pip install TikTokLive --upgrade` command.
 
+## Increased Access (API Keys)
+
+Need increased access to TikTok's servers? API keys can be acquired by contacting me on Discord.
+50% of proceeds go to https://www.thetrevorproject.org/.
+
 ## Table of Contents
 
 **Primary Information**
