@@ -25,6 +25,11 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 
 > **UPDATE:**<br>Due to a change on the part of TikTok, versions prior to **v4.3.3** are no longer functional. If you are using an unsupported version, upgrade to the latest version using the `pip install TikTokLive --upgrade` command.
 
+## Increased Access (API Keys)
+
+Need increased access to TikTok's servers? API keys can be acquired by contacting me on Discord.
+50% of proceeds go to https://www.thetrevorproject.org/.
+
 ## Table of Contents
 
 **Primary Information**
@@ -32,7 +37,6 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 - [Documentation](https://isaackogan.github.io/TikTokLive/)
 - [Contributors](#contributors)
 - [License](#license)
-- [Thermal Printing](#thermal-printing-library-for-sale-)
 - [Quickstart Examples](https://github.com/isaackogan/TikTokLive/tree/master/examples)
 
 **Resources & Guides**
@@ -427,7 +431,7 @@ async def on_connect(error: Exception):
 * **Davincible** - *Reverse-Engineering Stream Downloads*  - [davincible](https://github.com/davincible)
 * **David Teather** - *TikTokLive Introduction Tutorial* - [davidteather](https://github.com/davidteather)
 
-See also the full list of [contributors](https://github.com/ChromegleApp/Chromegle/contributors) who have participated in this project.
+See also the full list of [contributors](https://github.com/isaackogan/TikTokLive/contributors) who have participated in this project.
 
 ## License
 
