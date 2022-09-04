@@ -168,6 +168,7 @@ message UserExtraAttributes {
 }
 
 message UserBadgesAttributes {
+  int32 badgeSceneType = 3;
   repeated UserBadge badges = 21;
   repeated UserImageBadge imageBadges = 20;
 }

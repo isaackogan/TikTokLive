@@ -89,6 +89,9 @@ class BadgeContainer(AbstractObject):
 
     """
 
+    badgeSceneType: Optional[int]
+    """Their badge "level". For a subscriber, for example, this can be 3/7"""
+
     imageBadges: List[ImageBadge] = field(default_factory=lambda: [])
     """A list of image badges the user has (e.g. Subscriber badge)"""
 
@@ -180,7 +183,11 @@ class User(AbstractObject):
 
         """
 
-        return self.__contains_badge("/sub_")
+        for badge in self.badges:
+            if badge.badgeSceneType in [4, 7]:
+                return True
+
+        return False
 
     @property
     def top_gifter_rank(self) -> Optional[int]:
