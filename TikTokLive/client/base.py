@@ -577,13 +577,13 @@ class BaseClient(AsyncIOEventEmitter):
         quality: Optional[str]
         quality_video = quality
         url = json.loads(self.room_info['stream_url']['live_core_sdk_data']['pull_data']['stream_data'])
-        if quality == "sd":
+        if quality.lower() == "sd":
             quality = url['data']['sd']['main']['hls']
-        elif quality == "ld":
+        elif quality.lower() == "ld":
             quality = url['data']['ld']['main']['hls']
-        elif quality == "hd":
+        elif quality.lower() == "hd":
             quality = url['data']['hd']['main']['hls']
-        elif quality == "uhd":
+        elif quality.lower() == "uhd":
             quality = url['data']['uhd']['main']['hls']
         else:
             quality = url['data']['origin']['main']['hls']
