@@ -3,7 +3,7 @@ import asyncio
 from TikTokLive import TikTokLiveClient
 from TikTokLive.types.events import ConnectEvent
 
-client = TikTokLiveClient("@jamal_is_back12")
+client = TikTokLiveClient("@bifiana_star")
 
 
 @client.on("connect")
@@ -15,7 +15,8 @@ async def on_connect(_: ConnectEvent):
 
     client.download(
         path="stream.avi",  # File path to save the download to
-        duration=None  # Download FOREVER. Set to any integer above 1 to download for X seconds
+        duration=None,  # Download FOREVER. Set to any integer above 1 to download for X seconds
+        quality=None  # Select video quality. In this case, Ultra-High Definition
     )
 
     # Stop downloading after 10 seconds.
