@@ -1,3 +1,4 @@
+import enum
 import re
 from dataclasses import dataclass, field
 from threading import Thread
@@ -579,3 +580,25 @@ class FFmpegWrapper:
 
     started_at: int = -1
     """The time at which the download began"""
+
+
+class VideoQuality(enum.Enum):
+    """
+    Video quality selection for stream downloads
+
+    """
+
+    LD = "ld"
+    """Low definition (480p, vbrate-500,000)"""
+
+    SD = "sd"
+    """Standard definition (480p, vbrate-800,000)"""
+
+    HD = "hd"
+    """High definition (540p, vbrate-1,000,000)"""
+
+    UHD = "uhd"
+    """Ultra-high definition (720p, vbrate-1,000,000)"""
+
+    ORIGIN = "origin"
+    """Original definition (N/A, vbrate-N/A)"""

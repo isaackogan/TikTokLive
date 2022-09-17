@@ -20,8 +20,10 @@ from TikTokLive.client import config
 from TikTokLive.client.httpx import TikTokHTTPClient
 from TikTokLive.proto.tiktok_schema_pb2 import WebcastWebsocketAck
 from TikTokLive.proto.utilities import deserialize_websocket_message, serialize_message
-from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift, InvalidSessionId, ChatMessageSendFailure, ChatMessageRepeat, FailedFetchRoomInfo, FailedFetchGifts, \
-    FailedRoomPolling, FFmpegWrapper, AlreadyDownloadingStream, DownloadProcessNotFound, NotDownloadingStream, InitialCursorMissing
+from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift, \
+    InvalidSessionId, ChatMessageSendFailure, ChatMessageRepeat, FailedFetchRoomInfo, FailedFetchGifts, \
+    FailedRoomPolling, FFmpegWrapper, AlreadyDownloadingStream, DownloadProcessNotFound, NotDownloadingStream, \
+    InitialCursorMissing, VideoQuality
 from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
 
@@ -540,7 +542,7 @@ class BaseClient(AsyncIOEventEmitter):
             self,
             path: str,
             duration: Optional[int] = None,
-            quality: Optional[str] = None,
+            quality: Optional[VideoQuality] = None,
             verbose: bool = True,
             loglevel: str = "error",
             global_options: Set[str] = set(),
@@ -574,19 +576,11 @@ class BaseClient(AsyncIOEventEmitter):
             runtime = f"-t {duration}"
         
         # Set a quality
-        quality: Optional[str]
-        quality_video = quality
-        url = json.loads(self.room_info['stream_url']['live_core_sdk_data']['pull_data']['stream_data'])
-        if quality.lower() == "sd":
-            quality = url['data']['sd']['main']['hls']
-        elif quality.lower() == "ld":
-            quality = url['data']['ld']['main']['hls']
-        elif quality.lower() == "hd":
-            quality = url['data']['hd']['main']['hls']
-        elif quality.lower() == "uhd":
-            quality = url['data']['uhd']['main']['hls']
-        else:
-            quality = url['data']['origin']['main']['hls']
+        url: dict = json.loads(self.room_info['stream_url']['live_core_sdk_data']['pull_data']['stream_data'])
+        quality = quality if isinstance(quality, VideoQuality) else VideoQuality.ORIGIN
+
+        # Set the URL based on selected quality
+        url_param: str = url['data'][quality.value]['main']['hls']
 
         # Function Running
         def spool():
@@ -601,7 +595,7 @@ class BaseClient(AsyncIOEventEmitter):
         # Create an FFmpeg wrapper
         self._download = FFmpegWrapper(
             ffmpeg=FFmpeg(
-                inputs={**{quality: None}, **inputs},
+                inputs={**{url_param: None}, **inputs},
                 outputs={**{path: runtime}, **outputs},
                 global_options={"-y", f"-loglevel {loglevel}"}.union(global_options)
             ),
@@ -617,7 +611,7 @@ class BaseClient(AsyncIOEventEmitter):
 
         # Give info about the started download
         if self._download.verbose:
-            logging.warning(f"Started the download to path \"{path}\" for duration \"{'infinite' if runtime is None else duration} seconds\" on user @{self.unique_id} with quality video {'original' if quality_video is None else quality_video} ")
+            logging.warning(f"Started the download to path \"{path}\" for duration \"{'infinite' if runtime is None else duration} seconds\" on user @{self.unique_id} with \"{quality.name}\" video quality")
 
     def stop_download(self) -> None:
         """
