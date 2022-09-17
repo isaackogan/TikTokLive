@@ -4,6 +4,7 @@ import os
 import signal
 import sys
 import traceback
+import json
 from asyncio import AbstractEventLoop
 from datetime import datetime
 from threading import Thread
@@ -539,6 +540,7 @@ class BaseClient(AsyncIOEventEmitter):
             self,
             path: str,
             duration: Optional[int] = None,
+            quality: Optional[str] = None,
             verbose: bool = True,
             loglevel: str = "error",
             global_options: Set[str] = set(),
@@ -554,6 +556,7 @@ class BaseClient(AsyncIOEventEmitter):
         :param global_options: Pass custom params to FFmpeg global options
         :param path: The path to download the livestream video to
         :param duration: If duration is None or less than 1, download will go forever
+        :param quality: If quality is None, download quality will auto
         :param verbose: Whether to log info about the download in console
 
         :return: None
@@ -569,6 +572,21 @@ class BaseClient(AsyncIOEventEmitter):
         runtime: Optional[str] = None
         if duration is not None and duration >= 1:
             runtime = f"-t {duration}"
+        
+        # Set a quality
+        quality: Optional[str]
+        quality_video = quality
+        url = json.loads(self.room_info['stream_url']['live_core_sdk_data']['pull_data']['stream_data'])
+        if quality.lower() == "sd":
+            quality = url['data']['sd']['main']['hls']
+        elif quality.lower() == "ld":
+            quality = url['data']['ld']['main']['hls']
+        elif quality.lower() == "hd":
+            quality = url['data']['hd']['main']['hls']
+        elif quality.lower() == "uhd":
+            quality = url['data']['uhd']['main']['hls']
+        else:
+            quality = url['data']['origin']['main']['hls']
 
         # Function Running
         def spool():
@@ -583,7 +601,7 @@ class BaseClient(AsyncIOEventEmitter):
         # Create an FFmpeg wrapper
         self._download = FFmpegWrapper(
             ffmpeg=FFmpeg(
-                inputs={**{self.room_info["stream_url"]["hls_pull_url"]: None}, **inputs},
+                inputs={**{quality: None}, **inputs},
                 outputs={**{path: runtime}, **outputs},
                 global_options={"-y", f"-loglevel {loglevel}"}.union(global_options)
             ),
@@ -599,7 +617,7 @@ class BaseClient(AsyncIOEventEmitter):
 
         # Give info about the started download
         if self._download.verbose:
-            logging.warning(f"Started the download to path \"{path}\" for duration \"{'infinite' if runtime is None else duration} seconds\" on user @{self.unique_id}")
+            logging.warning(f"Started the download to path \"{path}\" for duration \"{'infinite' if runtime is None else duration} seconds\" on user @{self.unique_id} with quality video {'original' if quality_video is None else quality_video} ")
 
     def stop_download(self) -> None:
         """
