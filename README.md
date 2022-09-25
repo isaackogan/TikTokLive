@@ -28,7 +28,7 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 ## Increased Access (API Keys)
 
 Need increased access to TikTok's servers? API keys can be acquired by contacting me on Discord.
-50% of proceeds go to https://www.thetrevorproject.org/.
+50% of my share goes to https://www.thetrevorproject.org/.
 
 ## Table of Contents
 
