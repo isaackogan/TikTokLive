@@ -92,6 +92,9 @@ class TikTokHTTPClient:
             timeout=self.timeout
         )
 
+        # Delete the pre-existing ttwid cookie
+        self.client.cookies.delete("ttwid", ".tiktok.com")
+
         if response.status_code == 429:
             raise SignatureRateLimitReached(
                 "You have hit the rate limit for starting connections. Try again later."
