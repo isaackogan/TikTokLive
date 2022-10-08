@@ -122,9 +122,12 @@ client: TikTokLiveClient = TikTokLiveClient(
             # Custom Client params
             "client_params": {},
 
-            # Custom request headers
-            "headers": {},
-
+            # Custom request headers to include in HTTP Requests
+            "request_headers": {},
+            
+            # Custom websocket headers to include when connecting to the TikTok WebSocket
+            "websocket_headers": {},
+            
             # Custom timeout for Webcast API requests
             "timeout_ms": 1000,
 
@@ -181,20 +184,18 @@ A `TikTokLiveClient` object contains the following methods.
 | add_listener             | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on()`) and takes two parameters, an event name and the payload, an AbstractEvent ||
 | download                 | Start downloading the livestream video for a given duration or until stopped via the `stop_download` method                                                              |
 | stop_download            | Stop downloading the livestream video if currently downloading, otherwise throws an error                                                                                |
-| send_message             | Send a message to the TikTok LIVE chat using session cookies                                                                                                             |
-| set_proxies              | Set proxies to be used in HTTP requests (excludes the Websocket connection)                                                                                              |
 
 ## Attributes
 
-| Attribute Name  | Description                                                                             |
-|-----------------|-----------------------------------------------------------------------------------------|
-| viewer_count    | The number of people currently watching the livestream broadcast                        |
-| room_id         | The ID of the livestream room the client is currently connected to                      |
-| room_info       | Information about the given livestream room                                             |
-| unique_id       | The TikTok username of the person whose livestream the client is currently connected to |
-| connected       | Whether the client is currently connected to a livestream                               |
-| available_gifts | A dictionary containing K:V pairs of `Dict[int, ExtendedGift]`                          |                              |
-| proxies         | Get the current proxies being used for HTTP requests                                    |
+| Attribute Name  | Description                                                                                                                          |
+|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| viewer_count    | The number of people currently watching the livestream broadcast                                                                     |
+| room_id         | The ID of the livestream room the client is currently connected to                                                                   |
+| room_info       | Information about the given livestream room                                                                                          |
+| unique_id       | The TikTok username of the person whose livestream the client is currently connected to                                              |
+| connected       | Whether the client is currently connected to a livestream                                                                            |
+| available_gifts | A dictionary containing K:V pairs of `Dict[int, ExtendedGift]`                                                                       |                              |
+| proxies         | Get the current proxies being used for HTTP requests.<br/><br/>**Note:** To set the active proxies, set the value of this attribute. |
 
 ## Events
 
