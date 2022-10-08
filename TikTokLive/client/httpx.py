@@ -1,13 +1,12 @@
 import json as json_parse
 import urllib.parse
-from json import JSONDecodeError
 from typing import Dict, Optional
 
 import httpx
 
 from TikTokLive.client import config
 from TikTokLive.proto.utilities import deserialize_message
-from TikTokLive.types import SignatureRateLimitReached, SignatureSigningError
+from TikTokLive.types import SignatureRateLimitReached
 
 
 class TikTokHTTPClient:
@@ -43,7 +42,7 @@ class TikTokHTTPClient:
         self.proxies: Optional[Dict[str, str]] = proxies
         self.headers: Dict[str, str] = {**config.DEFAULT_REQUEST_HEADERS, **(headers if isinstance(headers, dict) else dict())}
         self.params: dict = params if params else dict()
-        self.sign_api_key: Optional[str] = sign_api_key
+        self.sign_api_key: str = sign_api_key if sign_api_key else ""
 
         self.trust_env: bool = trust_env
         self.client = httpx.AsyncClient(trust_env=trust_env, proxies=proxies)
@@ -66,71 +65,34 @@ class TikTokHTTPClient:
         parsed[4] = urllib.parse.urlencode(query)
         return urllib.parse.urlunparse(parsed)
 
-    async def __get_signed_url(self, url: str) -> str:
-        """
-        Sign a URL via external signing agent to authenticate against TikTok's Webcast API.
-        This is an API made *for* this library, NOT by TikTok.
-
-        :param url: The URL to sign
-        :return: The signed URL
-
-        """
-
-        # Add API key to header if applicable
-        headers: Optional[dict] = {"Authorization": self.sign_api_key} if self.sign_api_key else ""
-
-        # Get the signed URL
-        response: httpx.Response = await self.client.get(
-            url=(
-                f"{config.TIKTOK_SIGN_API}webcast/sign_url"
-                f"?client={TikTokHTTPClient._identity}"
-                f"&uuc={TikTokHTTPClient._uuc}"
-                f"&url={urllib.parse.quote(url)}"
-                f"&apiKey={self.sign_api_key}"
-            ),
-            headers=headers,
-            timeout=self.timeout
-        )
-
-        # Delete the pre-existing ttwid cookie
-        self.client.cookies.delete("ttwid", ".tiktok.com")
-
-        if response.status_code == 429:
-            raise SignatureRateLimitReached(
-                "You have hit the rate limit for starting connections. Try again later."
-            )
-
-        try:
-            # Update client information
-            json_response: dict = response.json()
-            signed_url = json_response.get("signedUrl")
-
-            # If signed successfully
-            if signed_url:
-                self.headers["User-Agent"] = json_response.get("User-Agent")
-                return json_response.get("signedUrl")
-
-        except JSONDecodeError:
-            raise SignatureSigningError(
-                "Failed to parse the signed URL payload. Please contact the TikTokLive maintainer(s) about this issue."
-            )
-
-    async def __httpx_get_bytes(self, url: str, params: dict = None, sign_url: bool = False) -> bytes:
+    async def __httpx_get_bytes(self, url: str, params: dict = None, sign_api: bool = False) -> bytes:
         """
         Get byte data from the Webcast API
         
         :param url: The URL to request
         :param params:  Parameters to include in the URL
-        :param sign_url: Whether to sign the URL (for authenticated endpoints)
         :return: The result of the request (a bytearray)
         :raises: httpx.TimeoutException
         """
 
         url: str = self.update_url(url, params if params else dict())
-        response: httpx.Response = await self.client.get(await self.__get_signed_url(url) if sign_url else url, headers=self.headers, timeout=self.timeout)
+        response: httpx.Response = await self.client.get(url, headers=self.headers, timeout=self.timeout)
+
+        # If requesting the sign api
+        if sign_api:
+            # Rate Limit
+            if response.status_code == 429:
+                raise SignatureRateLimitReached(
+                    "You have hit the rate limit for starting connections. Try again later."
+                )
+
+            # Set 'ttwid' when received as header
+            if response.headers.get("X-Set-TT-Cookie"):
+                self.client.cookies.set("ttwid", response.headers.get("X-Set-TT-Cookie").replace('ttwid=', ''), ".tiktok.com")
+
         return response.read()
 
-    async def __httpx_get_json(self, url: str, params: dict, sign_url: bool = False) -> dict:
+    async def __httpx_get_json(self, url: str, params: dict) -> dict:
         """
         Get json (dict) from a given URL with parameters from the Webcast API
 
@@ -141,23 +103,28 @@ class TikTokHTTPClient:
 
         """
 
-        return json_parse.loads((await self.__httpx_get_bytes(url=url, params=params, sign_url=sign_url)).decode(encoding="utf-8"))
+        return json_parse.loads((await self.__httpx_get_bytes(url=url, params=params)).decode(encoding="utf-8"))
 
-    async def __httpx_post_json(self, url: str, params: dict, json: Optional[dict] = None, sign_url: bool = False) -> dict:
+    async def __httpx_post_json(self, url: str, params: dict, json: Optional[dict] = None) -> dict:
         """
         Post JSON given a URL with parameters
 
         :param url: URL to request data from
         :param params: Custom Parameters
         :param json: JSON Payload as Dict
-        :param sign_url: Whether to sign the URL (for authenticated endpoints)
         :return: JSON Result
         :raises: httpx.TimeoutException
 
         """
 
         url: str = self.update_url(url, params if params else dict())
-        response: httpx.Response = await self.client.post(await self.__get_signed_url(url) if sign_url else url, data=json, headers=self.headers, timeout=self.timeout)
+        response: httpx.Response = await self.client.post(
+            url=url,
+            data=json,
+            headers=self.headers,
+            timeout=self.timeout
+        )
+
         return response.json()
 
     async def get_livestream_page_html(self, unique_id: str) -> str:
@@ -173,11 +140,10 @@ class TikTokHTTPClient:
         response: bytes = await self.__httpx_get_bytes(f"{config.TIKTOK_URL_WEB}@{unique_id}/live")
         return response.decode(encoding="utf-8")
 
-    async def get_deserialized_object_from_webcast_api(self, path: str, params: dict, schema: str, sign_url: bool = False) -> dict:
+    async def get_deserialized_object_from_signing_api(self, path: str, params: dict, schema: str) -> dict:
         """
         Retrieve and deserialize an object from the Webcast API
 
-        :param sign_url: Whether to sign the URL (if it's an authenticated request)
         :param path: Webcast path
         :param params: Parameters to encode into URL
         :param schema: Proto schema to decode from
@@ -186,7 +152,23 @@ class TikTokHTTPClient:
 
         """
 
-        response: bytes = await self.__httpx_get_bytes(config.TIKTOK_URL_WEBCAST + path, params, sign_url=sign_url)
+        params: dict = {**params, **{"client": TikTokHTTPClient._identity, "uuc": TikTokHTTPClient._uuc, "apiKey": self.sign_api_key}}
+        response: bytes = await self.__httpx_get_bytes(config.TIKTOK_SIGN_API + path, params, sign_api=True)
+        return deserialize_message(schema, response)
+
+    async def get_deserialized_object_from_webcast_api(self, path: str, params: dict, schema: str) -> dict:
+        """
+        Retrieve and deserialize an object from the Webcast API
+
+        :param path: Webcast path
+        :param params: Parameters to encode into URL
+        :param schema: Proto schema to decode from
+        :return: Deserialized data from API in dictionary format
+        :raises: httpx.TimeoutException
+
+        """
+
+        response: bytes = await self.__httpx_get_bytes(config.TIKTOK_URL_WEBCAST + path, params)
         return deserialize_message(schema, response)
 
     async def get_json_object_from_webcast_api(self, path: str, params: dict) -> dict:
@@ -203,11 +185,10 @@ class TikTokHTTPClient:
         response: dict = await self.__httpx_get_json(config.TIKTOK_URL_WEBCAST + path, params)
         return response.get("data")
 
-    async def post_json_to_webcast_api(self, path: str, params: dict, json: Optional[dict] = None, sign_url: bool = False) -> dict:
+    async def post_json_to_webcast_api(self, path: str, params: dict, json: Optional[dict] = None) -> dict:
         """
         Post JSON to the Webcast API
 
-        :param sign_url: Whether to sign the URL (if it's an authenticated request)
         :param path: Path to POST
         :param params: URLEncoded Params
         :param json: JSON Data
@@ -216,5 +197,5 @@ class TikTokHTTPClient:
 
         """
 
-        response: dict = await self.__httpx_post_json(config.TIKTOK_URL_WEBCAST + path, params, json, sign_url=sign_url)
+        response: dict = await self.__httpx_post_json(config.TIKTOK_URL_WEBCAST + path, params, json)
         return response
