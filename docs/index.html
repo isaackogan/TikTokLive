@@ -108,7 +108,7 @@ by <a class="reference external" href="https://github.com/zerodytrash/">&#64;zer
 <section id="increased-access-api-keys">
 <h3>Increased Access (API Keys)<a class="headerlink" href="#increased-access-api-keys" title="Permalink to this heading"></a></h3>
 <p>Need increased access to TikTok’s servers? API keys can be acquired by contacting me on Discord.
-50% of proceeds go to https://www.thetrevorproject.org/.</p>
+50% of my share of the proceeds goes to https://www.thetrevorproject.org/.</p>
 </section>
 <section id="table-of-contents">
 <h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading"></a></h3>
@@ -214,8 +214,11 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
             <span class="c1"># Custom Client params</span>
             <span class="s2">&quot;client_params&quot;</span><span class="p">:</span> <span class="p">{},</span>
 
-            <span class="c1"># Custom request headers</span>
-            <span class="s2">&quot;headers&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="c1"># Custom request headers to include in HTTP Requests</span>
+            <span class="s2">&quot;request_headers&quot;</span><span class="p">:</span> <span class="p">{},</span>
+
+            <span class="c1"># Custom websocket headers to include when connecting to the TikTok WebSocket</span>
+            <span class="s2">&quot;websocket_headers&quot;</span><span class="p">:</span> <span class="p">{},</span>
 
             <span class="c1"># Custom timeout for Webcast API requests</span>
             <span class="s2">&quot;timeout_ms&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
@@ -294,12 +297,6 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
 <tr class="row-odd"><td><p>stop_download</p></td>
 <td><p>Stop downloading the livestream video if currently downloading, otherwise throws an error</p></td>
 </tr>
-<tr class="row-even"><td><p>send_message</p></td>
-<td><p>Send a message to the TikTok LIVE chat using session cookies</p></td>
-</tr>
-<tr class="row-odd"><td><p>set_proxies</p></td>
-<td><p>Set proxies to be used in HTTP requests (excludes the Websocket connection)</p></td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -331,7 +328,7 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
 <td><p>A dictionary containing K:V pairs of <code class="docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">ExtendedGift]</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>proxies</p></td>
-<td><p>Get the current proxies being used for HTTP requests</p></td>
+<td><p>Get the current proxies being used for HTTP requests.<br/><br/><strong>Note:</strong> To set the active proxies, set the value of this attribute.</p></td>
 </tr>
 </tbody>
 </table>
