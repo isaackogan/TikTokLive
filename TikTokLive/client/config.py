@@ -21,7 +21,6 @@ DEFAULT_CLIENT_PARAMS: Dict[str, Union[int, bool, str]] = {
     "is_page_visible": True,
     "did_rule": 3,
     "fetch_rule": 1,
-    "identity": 'audience',
     "last_rtt": 0,
     "live_id": 12,
     "resp_content_type": 'protobuf',
