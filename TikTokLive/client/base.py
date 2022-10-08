@@ -1,10 +1,10 @@
 import asyncio
+import json
 import logging
 import os
 import signal
 import sys
 import traceback
-import json
 from asyncio import AbstractEventLoop
 from datetime import datetime
 from threading import Thread
@@ -21,7 +21,7 @@ from TikTokLive.client.httpx import TikTokHTTPClient
 from TikTokLive.proto.tiktok_schema_pb2 import WebcastWebsocketAck
 from TikTokLive.proto.utilities import deserialize_websocket_message, serialize_message
 from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift, \
-    InvalidSessionId, ChatMessageSendFailure, ChatMessageRepeat, FailedFetchRoomInfo, FailedFetchGifts, \
+    FailedFetchRoomInfo, FailedFetchGifts, \
     FailedRoomPolling, FFmpegWrapper, AlreadyDownloadingStream, DownloadProcessNotFound, NotDownloadingStream, \
     InitialCursorMissing, VideoQuality
 from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
@@ -38,7 +38,8 @@ class BaseClient(AsyncIOEventEmitter):
             unique_id: str,
             loop: Optional[AbstractEventLoop] = None,
             client_params: Optional[dict] = None,
-            headers: Optional[dict] = None,
+            request_headers: Optional[dict] = None,
+            websocket_headers: Optional[dict] = None,
             timeout_ms: Optional[int] = None,
             ping_interval_ms: int = 1000,
             process_initial_data: bool = True,
@@ -56,7 +57,7 @@ class BaseClient(AsyncIOEventEmitter):
         :param unique_id: The unique id of the creator to connect to
         :param loop: Optionally supply your own asyncio loop
         :param client_params: Additional client parameters to include when making requests to the Webcast API
-        :param headers: Additional headers to include when making requests to the Webcast API
+        :param request_headers: Additional headers to include when making requests to the Webcast API
         :param timeout_ms: The timeout (in ms) for requests made to the Webcast API
         :param ping_interval_ms: The interval between requests made to the Webcast API for both Websockets and Long Polling
         :param process_initial_data: Whether to process the initial data (including cached chats)
@@ -68,20 +69,12 @@ class BaseClient(AsyncIOEventEmitter):
         :param websocket_enabled: Whether to use websockets or rely on purely long polling
         :param sign_api_key: Parameter to increase the amount of connections allowed to be made per minute via a Sign Server API key. If you need this, contact the project maintainer.
         """
-        AsyncIOEventEmitter.__init__(self)
 
-        # Get Event Loop
-        if isinstance(loop, AbstractEventLoop):
-            self.loop: AbstractEventLoop = loop
-        else:
-            try:
-                self.loop: AbstractEventLoop = asyncio.get_running_loop()
-            except RuntimeError:
-                self.loop: AbstractEventLoop = asyncio.new_event_loop()
+        AsyncIOEventEmitter.__init__(self)
+        self.loop: AbstractEventLoop = self.__get_event_loop(loop=loop)
 
         # Private Attributes
         self.__unique_id: str = validate_and_normalize_unique_id(unique_id)
-        self.__discard_extra_events: Optional[bool] = None
         self.__room_info: Optional[dict] = None
         self.__available_gifts: Dict[int, ExtendedGift] = dict()
         self.__room_id: Optional[str] = None
@@ -91,28 +84,44 @@ class BaseClient(AsyncIOEventEmitter):
         self.__session_id: Optional[str] = None
         self.__is_ws_upgrade_done: bool = False
         self.__websocket_enabled: bool = websocket_enabled
+        self.__websocket_headers: Optional[dict] = websocket_headers if isinstance(websocket_headers, dict) else dict()
 
         # Change Language
         config.DEFAULT_CLIENT_PARAMS["app_language"] = lang
         config.DEFAULT_CLIENT_PARAMS["webcast_language"] = lang
 
         # Protected Attributes
+        self._ping_interval_ms: int = ping_interval_ms
+        self._process_initial_data: bool = process_initial_data
+        self._enable_extended_gift_info: bool = enable_extended_gift_info
+        self._fetch_room_info_on_connect: bool = fetch_room_info_on_connect
+        self._download: Optional[FFmpegWrapper] = None
         self._http: TikTokHTTPClient = TikTokHTTPClient(
-            headers=headers if headers is not None else dict(),
+            headers=request_headers if request_headers is not None else dict(),
             timeout_ms=timeout_ms,
             proxies=proxies,
             trust_env=trust_env,
             params={**config.DEFAULT_CLIENT_PARAMS, **(client_params if isinstance(client_params, dict) else dict())},
             sign_api_key=sign_api_key
         )
-        self._ping_interval_ms: int = ping_interval_ms
-        self._process_initial_data: bool = process_initial_data
-        self._enable_extended_gift_info: bool = enable_extended_gift_info
-        self._fetch_room_info_on_connect: bool = fetch_room_info_on_connect
-        self._download: Optional[FFmpegWrapper] = None
 
-        # Listeners
-        self.add_listener("websocket", self._handle_webcast_messages)
+    @classmethod
+    def __get_event_loop(cls, loop: Optional[AbstractEventLoop]) -> AbstractEventLoop:
+        """
+        Get event loop for constructor
+
+        :param loop: Loop object to validate
+        :return: A valid event loop
+
+        """
+
+        if isinstance(loop, AbstractEventLoop):
+            return loop
+        else:
+            try:
+                return asyncio.get_running_loop()
+            except RuntimeError:
+                return asyncio.new_event_loop()
 
     async def _on_error(self, original: Exception, append: Optional[Exception]) -> None:
         """
@@ -214,7 +223,13 @@ class BaseClient(AsyncIOEventEmitter):
         """
 
         # Fetch from polling api
-        webcast_response = await self._http.get_deserialized_object_from_webcast_api("im/fetch/", self._http.params, "WebcastResponse", is_initial)
+        webcast_response = await (
+            self._http.get_deserialized_object_from_signing_api("webcast/fetch/", self._http.params, "WebcastResponse")
+            if is_initial else
+            self._http.get_deserialized_object_from_signing_api("im/fetch/", self._http.params, "WebcastResponse")
+        )
+
+        # Cursor
         _last_cursor, _next_cursor = self._http.params["cursor"], webcast_response.get("cursor")
         self._http.params["cursor"] = _last_cursor if _next_cursor == "0" else _next_cursor
 
@@ -251,7 +266,8 @@ class BaseClient(AsyncIOEventEmitter):
         )
 
         headers: dict = {
-            "Cookie": " ".join(f"{k}={v};" for k, v in self._http.client.cookies.items())
+            **{"Cookie": " ".join(f"{k}={v};" for k, v in self._http.client.cookies.items())},
+            **self.__websocket_headers
         }
 
         try:
@@ -480,39 +496,6 @@ class BaseClient(AsyncIOEventEmitter):
             self.__session_id = session_id
             self._http.client.cookies.set("sessionid", session_id)
 
-    async def send_message(self, text: str, session_id: Optional[str] = None) -> Optional[str]:
-        """
-        Send a message to the TikTok Live Chat
-
-        :param text: The message you want to send to the chat
-        :param session_id: The Session ID (If you've already supplied one, you don't need to)
-        :return: The response from the webcast API
-
-        """
-
-        self.__set_session_id(session_id)
-
-        if not self.__session_id:
-            raise InvalidSessionId("Missing Session ID. Please provide your current Session ID to use this feature.")
-
-        params: dict = {**self._http.params, "content": text}
-        response: dict = await self._http.post_json_to_webcast_api("room/chat/", params, None, sign_url=False)
-        status_code: Optional[int] = response.get("status_code")
-        data: Optional[dict] = response.get("data")
-
-        if status_code == 0:
-            return data
-
-        try:
-            raise {
-                20003: InvalidSessionId("Your Session ID has expired. Please provide a new one"),
-                50007: ChatMessageRepeat("You cannot send repeated chat messages!")
-            }.get(
-                status_code, ChatMessageSendFailure(f"TikTok responded with status code {status_code}: {data.get('message')}")
-            )
-        except Exception as ex:
-            await self._on_error(ex, None)
-
     async def retrieve_room_info(self) -> Optional[dict]:
         """
         Method to retrieve room information
@@ -574,7 +557,7 @@ class BaseClient(AsyncIOEventEmitter):
         runtime: Optional[str] = None
         if duration is not None and duration >= 1:
             runtime = f"-t {duration}"
-        
+
         # Set a quality
         url: dict = json.loads(self.room_info['stream_url']['live_core_sdk_data']['pull_data']['stream_data'])
         quality = quality if isinstance(quality, VideoQuality) else VideoQuality.ORIGIN
@@ -641,34 +624,28 @@ class BaseClient(AsyncIOEventEmitter):
                 f"\"{int(datetime.utcnow().timestamp()) - self._download.started_at} seconds\" of downloading"
             )
 
-    async def set_proxies(self, proxies: Optional[Dict[str, str]]) -> None:
-        """
-        Set the proxies to be used by the HTTP client (Not Websockets)
-
-        :param proxies: The proxies to use in HTTP requests
-        :return: None
-
-        """
-
-        self._http.proxies = proxies
-
     @property
     async def proxies(self) -> Optional[Dict[str, str]]:
         """
         Get the current proxies being used in HTTP requests
 
-        :return: The current proxies in use
+        """
+        return self._http.proxies
+
+    @proxies.setter
+    async def proxies(self, proxies: Optional[Dict[str, str]]) -> None:
+        """
+        Set the proxies to be used by the HTTP client (Not Websockets)
+
+        :param proxies: The proxies to use in HTTP requests
 
         """
-
-        return self._http.proxies
+        self._http.proxies = proxies
 
     @property
     def viewer_count(self) -> Optional[int]:
         """
         Return viewer count of user
-
-        :return: Viewer count
 
         """
         return self._viewer_count
@@ -678,8 +655,6 @@ class BaseClient(AsyncIOEventEmitter):
         """
         Room ID if the connection was successful
 
-        :return: Room's ID
-
         """
         return self.__room_id
 
@@ -688,10 +663,7 @@ class BaseClient(AsyncIOEventEmitter):
         """
         Room info dict if the connection was successful
 
-        :return: Room Info Dict
-
         """
-
         return self.__room_info
 
     @property
@@ -699,18 +671,13 @@ class BaseClient(AsyncIOEventEmitter):
         """
         Unique ID of the streamer
 
-        :return: Their unique ID
-
         """
-
         return self.__unique_id
 
     @property
     def connected(self) -> bool:
         """
         Whether the client is connected
-
-        :return: Result
 
         """
 
@@ -720,8 +687,6 @@ class BaseClient(AsyncIOEventEmitter):
     def available_gifts(self) -> Dict[int, ExtendedGift]:
         """
         Available gift information for live room
-
-        :return: Gift info
 
         """
 
