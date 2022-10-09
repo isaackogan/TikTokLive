@@ -1,5 +1,6 @@
 import json as json_parse
 import urllib.parse
+from http.cookies import SimpleCookie
 from typing import Dict, Optional
 
 import httpx
@@ -86,11 +87,31 @@ class TikTokHTTPClient:
                     "You have hit the rate limit for starting connections. Try again later."
                 )
 
-            # Set 'ttwid' when received as header
-            if response.headers.get("X-Set-TT-Cookie"):
-                self.client.cookies.set("ttwid", response.headers.get("X-Set-TT-Cookie").replace('ttwid=', ''), ".tiktok.com")
+            self.__set_tt_cookies(response.headers.get("X-Set-TT-Cookie"))
 
         return response.read()
+
+    def __set_tt_cookies(self, cookies: Optional[str]) -> None:
+        """
+        Utility method to set TikTok.com cookies from a cookie string received from the Signing API
+
+        :param cookies: X-Set-TT-Cookie string
+        :return: None
+
+        """
+
+        # Make sure valid
+        if not cookies:
+            return
+
+        # Convert to key-value
+        cookie_jar: SimpleCookie = SimpleCookie()
+        cookie_jar.load(cookies)
+        cookies: Dict[str, str] = {key: value.value for key, value in cookie_jar.items()}
+
+        # Add key-value
+        for key, value in cookies.items():
+            self.client.cookies.set(key, value, ".tiktok.com")
 
     async def __httpx_get_json(self, url: str, params: dict) -> dict:
         """
