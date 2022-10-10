@@ -84,7 +84,10 @@ class TikTokHTTPClient:
             # Rate Limit
             if response.status_code == 429:
                 raise SignatureRateLimitReached(
-                    "You have hit the rate limit for starting connections. Try again later."
+                    response.headers.get("RateLimit-Reset"),
+                    response.headers.get("X-RateLimit-Reset"),
+                    "You have hit the rate limit for starting connections. Try again in %s seconds. "
+                    "Catch this error & access its attributes (retry_after, reset_time) for data on when you can request next."
                 )
 
             self.__set_tt_cookies(response.headers.get("X-Set-TT-Cookie"))
