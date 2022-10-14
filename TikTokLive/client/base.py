@@ -678,7 +678,7 @@ class BaseClient(AsyncIOEventEmitter):
         return self._http.proxies
 
     @proxies.setter
-    async def proxies(self, proxies: Optional[Dict[str, str]]) -> None:
+    def proxies(self, proxies: Optional[Dict[str, str]]) -> None:
         """
         Set the proxies to be used by the HTTP client (Not Websockets)
 
