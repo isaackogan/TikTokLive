@@ -18,6 +18,7 @@ We have a [Thermal Printing project](https://github.com/isaackogan/TikTokPrinter
 - [Chat Bot & Commands](commands.py)
 - [TikTok to Twitch Live Chat](twitch.py)
 - [Download Stream Video](download.py)
+- [Send Messages](message.py)
 
 ### Contributing Examples
 
