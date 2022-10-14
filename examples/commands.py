@@ -111,22 +111,6 @@ async def on_cam_command(context: Context):
     await client.speak(text=message)
 
 
-@client.on("/ping")
-async def on_ping(context: Context):
-    """
-    When someone runs the /ping command, choose how to react
-
-    :param context: Context of the command
-    :return: None
-
-    """
-
-    reply: str = f"{context.event.user.uniqueId} Pong!"
-
-    print(f"The bot will respond in chat with \"{reply}\"")
-    await client.send_message(reply)
-
-
 if __name__ == '__main__':
     """
     You can find your session ID in the cookies in your browser on TikTok.com

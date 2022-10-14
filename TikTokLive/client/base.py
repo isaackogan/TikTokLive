@@ -8,7 +8,7 @@ import traceback
 from asyncio import AbstractEventLoop
 from datetime import datetime
 from threading import Thread
-from typing import Optional, List, Dict, Set
+from typing import Optional, List, Dict, Set, Awaitable, Callable, Tuple
 
 from dacite import from_dict
 from ffmpy import FFmpeg, FFRuntimeError
@@ -23,7 +23,7 @@ from TikTokLive.proto.utilities import deserialize_websocket_message, serialize_
 from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, FailedConnection, ExtendedGift, \
     FailedFetchRoomInfo, FailedFetchGifts, \
     FailedRoomPolling, FFmpegWrapper, AlreadyDownloadingStream, DownloadProcessNotFound, NotDownloadingStream, \
-    InitialCursorMissing, VideoQuality
+    InitialCursorMissing, VideoQuality, InvalidSessionId, ChatMessageRepeat, ChatMessageSendFailure
 from TikTokLive.utils import validate_and_normalize_unique_id, get_room_id_from_main_page_html
 
 
@@ -493,7 +493,6 @@ class BaseClient(AsyncIOEventEmitter):
         """
 
         if session_id:
-            self.__session_id = session_id
             self._http.client.cookies.set("sessionid", session_id)
 
     async def retrieve_room_info(self) -> Optional[dict]:
@@ -595,6 +594,52 @@ class BaseClient(AsyncIOEventEmitter):
         # Give info about the started download
         if self._download.verbose:
             logging.warning(f"Started the download to path \"{path}\" for duration \"{'infinite' if runtime is None else duration} seconds\" on user @{self.unique_id} with \"{quality.name}\" video quality")
+
+    async def send_message(self, text: str, sign_url_fn: Callable[[str, str], Awaitable[Tuple[str, Dict[str, str]]]], session_id: Optional[str] = None) -> Optional[str]:
+        """
+        Send a message to the TikTok Live Chat.
+
+        Note that you will have to implement a sign_url_fn coroutine function
+        that will take two parameters, a STRING for the unsigned URL and a STRING for the sessionid.
+
+        This function MUST return a signed URL STRING and headers DICTIONARY to be used in the request.
+
+        :param sign_url_fn: Function that takes in two *args, URL (str) and SessionID (str) and returns two args, Signed URL (str) and Headers (dict)
+        :param text: The message you want to send to the chat
+        :param session_id: The Session ID (If you've already supplied one, you don't need to)
+        :return: The response from the webcast API
+        """
+
+        # Set session ID if given
+        self.__set_session_id(session_id)
+
+        # Check a session ID is provided
+        if not self._http.client.cookies.get("sessionid"):
+            raise InvalidSessionId("Missing Session ID. Please provide your current Session ID to use this feature.")
+
+        # Build a URL
+        params: dict = {**self._http.params, "content": text}
+        raw_url: str = self._http.update_url((config.TIKTOK_URL_WEBCAST + "room/chat/"), params if params else dict())
+
+        # Sign the URL
+        signed_url, headers = await sign_url_fn(raw_url, self._http.client.cookies.get("sessionid"))
+        response: dict = await self._http.post_json_to_url(signed_url, headers, None)
+
+        status_code: Optional[int] = response.get("status_code")
+        data: Optional[dict] = response.get("data")
+
+        if status_code == 0:
+            return data
+
+        try:
+            raise {
+                20003: InvalidSessionId("Your Session ID has expired. Please provide a new one"),
+                50007: ChatMessageRepeat("You cannot send repeated chat messages!")
+            }.get(
+                status_code, ChatMessageSendFailure(f"TikTok responded with status code {status_code}: {data.get('message')}")
+            )
+        except Exception as ex:
+            await self._on_error(ex, None)
 
     def stop_download(self) -> None:
         """

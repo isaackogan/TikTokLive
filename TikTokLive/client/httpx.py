@@ -223,3 +223,24 @@ class TikTokHTTPClient:
 
         response: dict = await self.__httpx_post_json(config.TIKTOK_URL_WEBCAST + path, params, json)
         return response
+
+    async def post_json_to_url(self, url: str, headers: dict, json: Optional[dict] = None) -> dict:
+        """
+        Post JSON given an already-defined URL, headers, and JSON
+
+        :param url: URL to request data from
+        :param headers: Custom Headers
+        :param json: JSON Payload as Dict
+        :return: JSON Result
+        :raises: httpx.TimeoutException
+
+        """
+
+        response: httpx.Response = await self.client.post(
+            url=url,
+            data=json,
+            headers=headers,
+            timeout=self.timeout
+        )
+
+        return response.json()
