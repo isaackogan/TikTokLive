@@ -670,7 +670,7 @@ class BaseClient(AsyncIOEventEmitter):
             )
 
     @property
-    async def proxies(self) -> Optional[Dict[str, str]]:
+    def proxies(self) -> Optional[Dict[str, str]]:
         """
         Get the current proxies being used in HTTP requests
 
