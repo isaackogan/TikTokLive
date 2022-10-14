@@ -26,8 +26,10 @@ async def sign_url(raw_url: str, session_id: str):
         f"&_signature={'MUST_GENERATE_ME'}"
     )
 
+    # You will need to supply your own headers
     headers: dict = {
-        "ttwid": "MUST_GENERATE_TTWID"
+        "Cookie": "ttwid=MUST_GENERATE_TTWID;",
+        **client._http.headers
     }
 
     return signed_url, headers
@@ -63,5 +65,5 @@ if __name__ == '__main__':
     An example showing you how you can send comments to your live
     
     """
-    
+
     client.run()
