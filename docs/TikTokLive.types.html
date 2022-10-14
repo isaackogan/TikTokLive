@@ -212,9 +212,21 @@
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.types.errors.SignatureRateLimitReached">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.errors.</span></span><span class="sig-name descname"><span class="pre">SignatureRateLimitReached</span></span><a class="headerlink" href="#TikTokLive.types.errors.SignatureRateLimitReached" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.errors.</span></span><span class="sig-name descname"><span class="pre">SignatureRateLimitReached</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retry_after</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.errors.SignatureRateLimitReached" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.errors.FailedHTTPRequest" title="TikTokLive.types.errors.FailedHTTPRequest"><code class="xref py py-class docutils literal notranslate"><span class="pre">FailedHTTPRequest</span></code></a></p>
 <p>When a user hits the signature rate limit</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.types.errors.SignatureRateLimitReached.reset_time">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reset_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#TikTokLive.types.errors.SignatureRateLimitReached.reset_time" title="Permalink to this definition"></a></dt>
+<dd><p>The unix timestamp for when the client can request again</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.types.errors.SignatureRateLimitReached.retry_after">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">retry_after</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#TikTokLive.types.errors.SignatureRateLimitReached.retry_after" title="Permalink to this definition"></a></dt>
+<dd><p>How long to wait until the next attempt</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py exception">
