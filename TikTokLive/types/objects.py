@@ -183,7 +183,12 @@ class User(AbstractObject):
         Whether they are a subscriber in the watched stream
 
         """
-
+        
+        # Sub badge name
+        if self.__contains_badge("/sub_"):
+            return True
+        
+        # Generic sub badge type
         for badge in self.badges:
             if badge.badgeSceneType in [4, 7]:
                 return True
