@@ -563,6 +563,8 @@ class BaseClient(AsyncIOEventEmitter):
 
         # Set the URL based on selected quality
         url_param: str = url['data'][quality.value]['main']['hls']
+        if len(url_param.strip()) == 0:
+            url_param: str = url['data'][quality.value]['main']['flv']
 
         # Function Running
         def spool():
