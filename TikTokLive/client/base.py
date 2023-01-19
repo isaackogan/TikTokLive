@@ -77,7 +77,7 @@ class BaseClient(AsyncIOEventEmitter):
         self.__unique_id: str = validate_and_normalize_unique_id(unique_id)
         self.__room_info: Optional[dict] = None
         self.__available_gifts: Dict[int, ExtendedGift] = dict()
-        self.__room_id: Optional[str] = None
+        self.__room_id: Optional[int] = None
         self._viewer_count: Optional[int] = None
         self.__connecting: bool = False
         self.__connected: bool = False
@@ -146,8 +146,8 @@ class BaseClient(AsyncIOEventEmitter):
 
         try:
             html: str = await self._http.get_livestream_page_html(self.__unique_id)
-            self.__room_id = get_room_id_from_main_page_html(html)
-            self._http.params["room_id"] = self.__room_id
+            self.__room_id = int(get_room_id_from_main_page_html(html))
+            self._http.params["room_id"] = str(self.__room_id)
             return self.__room_id
         except Exception as ex:
             await self._on_error(ex, FailedFetchRoomInfo("Failed to fetch room id from Webcast, see stacktrace for more info."))
