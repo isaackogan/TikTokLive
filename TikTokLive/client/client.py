@@ -28,6 +28,7 @@ class TikTokLiveClient(BaseClient):
         """
 
         self.debug_enabled: bool = debug
+        self._session_id: Optional[str] = None
         BaseClient.__init__(self, unique_id, **options)
 
     async def _on_error(self, original: Exception, append: Optional[Exception]) -> None:
@@ -77,19 +78,28 @@ class TikTokLiveClient(BaseClient):
             logging.error(traceback.format_exc())
         return
 
-    async def _connect(self, session_id: str = None) -> str:
+    async def _connect(self, session_id: str = None) -> int:
         """
         Wrap connection in a connect event
 
         """
 
-        result: str = await super(TikTokLiveClient, self)._connect(session_id=session_id)
+        self._session_id = session_id
+        room_id: int = await super(TikTokLiveClient, self)._connect(session_id=self._session_id)
 
         if self.connected:
             event: ConnectEvent = ConnectEvent()
             self.emit(event.name, event)
 
-        return result
+        return room_id
+
+    async def reconnect(self) -> int:
+        """
+        Add the ability to reconnect the client
+
+        """
+
+        return await self._connect(self._session_id)
 
     def _disconnect(self, webcast_closed: bool = False) -> None:
         """

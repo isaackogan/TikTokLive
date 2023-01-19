@@ -96,6 +96,7 @@ class BaseClient(AsyncIOEventEmitter):
         self._enable_extended_gift_info: bool = enable_extended_gift_info
         self._fetch_room_info_on_connect: bool = fetch_room_info_on_connect
         self._download: Optional[FFmpegWrapper] = None
+        self._first_connect: bool = True
         self._http: TikTokHTTPClient = TikTokHTTPClient(
             headers=request_headers if request_headers is not None else dict(),
             timeout_ms=timeout_ms,
@@ -135,7 +136,7 @@ class BaseClient(AsyncIOEventEmitter):
 
         raise NotImplementedError()
 
-    async def __fetch_room_id(self) -> Optional[str]:
+    async def __fetch_room_id(self) -> Optional[int]:
         """
         Fetch room ID of a given user
 
@@ -213,7 +214,7 @@ class BaseClient(AsyncIOEventEmitter):
 
             await asyncio.sleep(polling_interval)
 
-    async def __fetch_room_data(self, is_initial: bool = False) -> None:
+    async def __fetch_room_data(self, is_initial: bool = False, first_connect: bool = True) -> None:
         """
         Fetch room data from the Webcast API and deserialize it
 
@@ -249,7 +250,8 @@ class BaseClient(AsyncIOEventEmitter):
             if not self._process_initial_data:
                 return
 
-        await self._handle_webcast_messages(webcast_response)
+        if first_connect:
+            await self._handle_webcast_messages(webcast_response)
 
     async def __try_websocket_upgrade(self, webcast_response) -> None:
         """
@@ -366,7 +368,7 @@ class BaseClient(AsyncIOEventEmitter):
 
         raise NotImplementedError
 
-    async def _connect(self, session_id: str = None) -> str:
+    async def _connect(self, session_id: str = None) -> int:
         """
         Connect to the WebcastWebsocket API
 
@@ -399,7 +401,7 @@ class BaseClient(AsyncIOEventEmitter):
                 await self.__fetch_available_gifts()
 
             # Make initial request to Webcast Messaging
-            await self.__fetch_room_data(True)
+            await self.__fetch_room_data(True, first_connect=self._first_connect)
             self.__connected = True
 
             # If the websocket was not connected for whatever reason
@@ -415,6 +417,7 @@ class BaseClient(AsyncIOEventEmitter):
                         + "Long polling is not available: Try adding a sessionid as an argument in start() or run()"
                     )
 
+            self._first_connect = False
             return self.__room_id
 
         except Exception as ex:
