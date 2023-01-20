@@ -110,7 +110,7 @@ class TikTokLiveClient(BaseClient):
         super(TikTokLiveClient, self)._disconnect(webcast_closed=webcast_closed)
 
         if not self.connected:
-            event: DisconnectEvent = DisconnectEvent()
+            event: DisconnectEvent = DisconnectEvent(webcast_closed=webcast_closed)
             self.emit(event.name, event)
 
     async def _handle_webcast_messages(self, webcast_response: dict) -> None:
