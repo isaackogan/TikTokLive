@@ -180,6 +180,7 @@ A `TikTokLiveClient` object contains the following methods.
 | download                 | Start downloading the livestream video for a given duration or until stopped via the `stop_download` method                                                                                    |
 | stop_download            | Stop downloading the livestream video if currently downloading, otherwise throws an error                                                                                                      |
 | send_message             | Send a message to the chat. This is only partially implemented. See the [examples/message.py](https://github.com/isaackogan/TikTokLive/tree/master/examples/message.py) example for more info. |
+| reconnect                | Automatically reconnect to the Webcast server. Useful for accidental disconnects or lost Webcast connections.                                                                                  |
 
 ## Attributes
 
