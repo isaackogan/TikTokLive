@@ -9,16 +9,15 @@ We have a [Thermal Printing project](https://github.com/isaackogan/TikTokPrinter
     
 - [Basic Implementation](basic.py)
 - [Thermal Printer](https://github.com/isaackogan/TikTokPrinter)
-- [Discord Webhook](discord.py)
 - [Debug Mode](debug.py)
 - [Reading From GiftEvent](gifts.py)
 - [Using with Pygame](pygamex.py)
 - [Downloading Avatars](avatars.py)
 - [Donation Sounds](DonationSounds)
-- [Chat Bot & Commands](commands.py)
 - [TikTok to Twitch Live Chat](twitch.py)
 - [Download Stream Video](download.py)
 - [Send Messages](message.py)
+- [Auto Reconnect](reconnect.py)
 
 ### Contributing Examples
 
