@@ -451,7 +451,7 @@ class BaseClient(AsyncIOEventEmitter):
         self._http.params["cursor"]: str = ""
 
         if webcast_closed:
-            logging.error("Connection was lost to the Webcast Websocket Server. Restart the client connection to continue.")
+            logging.error("Connection was lost to the Webcast Websocket Server. Use await client.reconnect() to reconnect.")
 
     def stop(self) -> None:
         """
@@ -462,10 +462,10 @@ class BaseClient(AsyncIOEventEmitter):
         """
 
         if self.__connected:
-            self._disconnect()
+            self._disconnect(webcast_closed=False)
             return
 
-    async def start(self, session_id: Optional[str] = None) -> Optional[str]:
+    async def start(self, session_id: Optional[str] = None) -> Optional[int]:
         """
         Start the client without blocking the main thread
 
