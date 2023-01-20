@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TikTokLive package &mdash; TikTokLive  documentation</title>
@@ -16,6 +16,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -47,7 +48,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-TikTokLive.utils">TikTokLive.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-TikTokLive.utils">TikTokLive.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#TikTokLive.utils.get_room_id_from_main_page_html"><code class="docutils literal notranslate"><span class="pre">get_room_id_from_main_page_html()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#TikTokLive.utils.validate_and_normalize_unique_id"><code class="docutils literal notranslate"><span class="pre">validate_and_normalize_unique_id()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-TikTokLive">Module contents</a></li>
 </ul>
 </li>
@@ -66,8 +71,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>TikTokLive package</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">TikTokLive package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/TikTokLive.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -85,24 +90,404 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="TikTokLive.client.html">TikTokLive.client package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#module-TikTokLive.client.base">TikTokLive.client.base module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#module-TikTokLive.client.client">TikTokLive.client.client module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#module-TikTokLive.client.config">TikTokLive.client.config module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#module-TikTokLive.client.httpx">TikTokLive.client.httpx module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#module-TikTokLive.client.base">TikTokLive.client.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient"><code class="docutils literal notranslate"><span class="pre">BaseClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.available_gifts"><code class="docutils literal notranslate"><span class="pre">BaseClient.available_gifts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.connected"><code class="docutils literal notranslate"><span class="pre">BaseClient.connected</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.download"><code class="docutils literal notranslate"><span class="pre">BaseClient.download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.proxies"><code class="docutils literal notranslate"><span class="pre">BaseClient.proxies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.retrieve_available_gifts"><code class="docutils literal notranslate"><span class="pre">BaseClient.retrieve_available_gifts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.retrieve_room_info"><code class="docutils literal notranslate"><span class="pre">BaseClient.retrieve_room_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.room_id"><code class="docutils literal notranslate"><span class="pre">BaseClient.room_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.room_info"><code class="docutils literal notranslate"><span class="pre">BaseClient.room_info</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.run"><code class="docutils literal notranslate"><span class="pre">BaseClient.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.send_message"><code class="docutils literal notranslate"><span class="pre">BaseClient.send_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.start"><code class="docutils literal notranslate"><span class="pre">BaseClient.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.stop"><code class="docutils literal notranslate"><span class="pre">BaseClient.stop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.stop_download"><code class="docutils literal notranslate"><span class="pre">BaseClient.stop_download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.unique_id"><code class="docutils literal notranslate"><span class="pre">BaseClient.unique_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.base.BaseClient.viewer_count"><code class="docutils literal notranslate"><span class="pre">BaseClient.viewer_count</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#module-TikTokLive.client.client">TikTokLive.client.client module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.client.TikTokLiveClient"><code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.client.TikTokLiveClient.reconnect"><code class="docutils literal notranslate"><span class="pre">TikTokLiveClient.reconnect()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#module-TikTokLive.client.config">TikTokLive.client.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.config.DEFAULT_CLIENT_PARAMS"><code class="docutils literal notranslate"><span class="pre">DEFAULT_CLIENT_PARAMS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.config.DEFAULT_REQUEST_HEADERS"><code class="docutils literal notranslate"><span class="pre">DEFAULT_REQUEST_HEADERS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.config.TIKTOK_URL_WEB"><code class="docutils literal notranslate"><span class="pre">TIKTOK_URL_WEB</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.config.TIKTOK_URL_WEBCAST"><code class="docutils literal notranslate"><span class="pre">TIKTOK_URL_WEBCAST</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#module-TikTokLive.client.httpx">TikTokLive.client.httpx module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.httpx.TikTokHTTPClient"><code class="docutils literal notranslate"><span class="pre">TikTokHTTPClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.httpx.TikTokHTTPClient.get_deserialized_object_from_signing_api"><code class="docutils literal notranslate"><span class="pre">TikTokHTTPClient.get_deserialized_object_from_signing_api()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.httpx.TikTokHTTPClient.get_deserialized_object_from_webcast_api"><code class="docutils literal notranslate"><span class="pre">TikTokHTTPClient.get_deserialized_object_from_webcast_api()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.httpx.TikTokHTTPClient.get_json_object_from_webcast_api"><code class="docutils literal notranslate"><span class="pre">TikTokHTTPClient.get_json_object_from_webcast_api()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.httpx.TikTokHTTPClient.get_livestream_page_html"><code class="docutils literal notranslate"><span class="pre">TikTokHTTPClient.get_livestream_page_html()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.httpx.TikTokHTTPClient.post_json_to_url"><code class="docutils literal notranslate"><span class="pre">TikTokHTTPClient.post_json_to_url()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.httpx.TikTokHTTPClient.post_json_to_webcast_api"><code class="docutils literal notranslate"><span class="pre">TikTokHTTPClient.post_json_to_webcast_api()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.httpx.TikTokHTTPClient.update_url"><code class="docutils literal notranslate"><span class="pre">TikTokHTTPClient.update_url()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#module-TikTokLive.client">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="TikTokLive.proto.html">TikTokLive.proto package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.proto.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TikTokLive.proto.html#module-TikTokLive.proto.utilities">TikTokLive.proto.utilities module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.proto.html#module-TikTokLive.proto.utilities">TikTokLive.proto.utilities module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.utilities.deserialize_message"><code class="docutils literal notranslate"><span class="pre">deserialize_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.utilities.deserialize_websocket_message"><code class="docutils literal notranslate"><span class="pre">deserialize_websocket_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.utilities.from_dict_plus"><code class="docutils literal notranslate"><span class="pre">from_dict_plus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.utilities.serialize_message"><code class="docutils literal notranslate"><span class="pre">serialize_message()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.proto.html#module-TikTokLive.proto">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="TikTokLive.types.html">TikTokLive.types package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.types.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TikTokLive.types.html#module-TikTokLive.types.errors">TikTokLive.types.errors module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TikTokLive.types.html#module-TikTokLive.types.events">TikTokLive.types.events module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TikTokLive.types.html#module-TikTokLive.types.objects">TikTokLive.types.objects module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.types.html#module-TikTokLive.types.errors">TikTokLive.types.errors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.AlreadyConnected"><code class="docutils literal notranslate"><span class="pre">AlreadyConnected</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.AlreadyConnecting"><code class="docutils literal notranslate"><span class="pre">AlreadyConnecting</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.AlreadyDownloadingStream"><code class="docutils literal notranslate"><span class="pre">AlreadyDownloadingStream</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.ChatMessageRepeat"><code class="docutils literal notranslate"><span class="pre">ChatMessageRepeat</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.ChatMessageSendFailure"><code class="docutils literal notranslate"><span class="pre">ChatMessageSendFailure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.DownloadProcessNotFound"><code class="docutils literal notranslate"><span class="pre">DownloadProcessNotFound</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.DownloadStreamError"><code class="docutils literal notranslate"><span class="pre">DownloadStreamError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.FailedConnection"><code class="docutils literal notranslate"><span class="pre">FailedConnection</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.FailedFetchGifts"><code class="docutils literal notranslate"><span class="pre">FailedFetchGifts</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.FailedFetchRoomInfo"><code class="docutils literal notranslate"><span class="pre">FailedFetchRoomInfo</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.FailedHTTPRequest"><code class="docutils literal notranslate"><span class="pre">FailedHTTPRequest</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.FailedParseUserHTML"><code class="docutils literal notranslate"><span class="pre">FailedParseUserHTML</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.FailedRoomPolling"><code class="docutils literal notranslate"><span class="pre">FailedRoomPolling</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.InitialCursorMissing"><code class="docutils literal notranslate"><span class="pre">InitialCursorMissing</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.InvalidSessionId"><code class="docutils literal notranslate"><span class="pre">InvalidSessionId</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.LiveNotFound"><code class="docutils literal notranslate"><span class="pre">LiveNotFound</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.NotDownloadingStream"><code class="docutils literal notranslate"><span class="pre">NotDownloadingStream</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.SignatureRateLimitReached"><code class="docutils literal notranslate"><span class="pre">SignatureRateLimitReached</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.SignatureRateLimitReached.reset_time"><code class="docutils literal notranslate"><span class="pre">SignatureRateLimitReached.reset_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.SignatureRateLimitReached.retry_after"><code class="docutils literal notranslate"><span class="pre">SignatureRateLimitReached.retry_after</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.errors.WebsocketConnectionFailed"><code class="docutils literal notranslate"><span class="pre">WebsocketConnectionFailed</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.types.html#module-TikTokLive.types.events">TikTokLive.types.events module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.AbstractEvent"><code class="docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.AbstractEvent.as_dict"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.as_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.AbstractEvent.name"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.AbstractEvent.set_as_dict"><code class="docutils literal notranslate"><span class="pre">AbstractEvent.set_as_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.CommentEvent"><code class="docutils literal notranslate"><span class="pre">CommentEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.CommentEvent.comment"><code class="docutils literal notranslate"><span class="pre">CommentEvent.comment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.CommentEvent.name"><code class="docutils literal notranslate"><span class="pre">CommentEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.CommentEvent.user"><code class="docutils literal notranslate"><span class="pre">CommentEvent.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.ConnectEvent"><code class="docutils literal notranslate"><span class="pre">ConnectEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.ConnectEvent.name"><code class="docutils literal notranslate"><span class="pre">ConnectEvent.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.DisconnectEvent"><code class="docutils literal notranslate"><span class="pre">DisconnectEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.DisconnectEvent.name"><code class="docutils literal notranslate"><span class="pre">DisconnectEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.DisconnectEvent.webcast_closed"><code class="docutils literal notranslate"><span class="pre">DisconnectEvent.webcast_closed</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.EmoteEvent"><code class="docutils literal notranslate"><span class="pre">EmoteEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.EmoteEvent.emote"><code class="docutils literal notranslate"><span class="pre">EmoteEvent.emote</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.EmoteEvent.name"><code class="docutils literal notranslate"><span class="pre">EmoteEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.EmoteEvent.user"><code class="docutils literal notranslate"><span class="pre">EmoteEvent.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.EnvelopeEvent"><code class="docutils literal notranslate"><span class="pre">EnvelopeEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.EnvelopeEvent.name"><code class="docutils literal notranslate"><span class="pre">EnvelopeEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.EnvelopeEvent.treasureBoxData"><code class="docutils literal notranslate"><span class="pre">EnvelopeEvent.treasureBoxData</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.EnvelopeEvent.treasureBoxUser"><code class="docutils literal notranslate"><span class="pre">EnvelopeEvent.treasureBoxUser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.FollowEvent"><code class="docutils literal notranslate"><span class="pre">FollowEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.FollowEvent.displayType"><code class="docutils literal notranslate"><span class="pre">FollowEvent.displayType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.FollowEvent.label"><code class="docutils literal notranslate"><span class="pre">FollowEvent.label</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.FollowEvent.name"><code class="docutils literal notranslate"><span class="pre">FollowEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.FollowEvent.user"><code class="docutils literal notranslate"><span class="pre">FollowEvent.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.GiftEvent"><code class="docutils literal notranslate"><span class="pre">GiftEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.GiftEvent.gift"><code class="docutils literal notranslate"><span class="pre">GiftEvent.gift</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.GiftEvent.name"><code class="docutils literal notranslate"><span class="pre">GiftEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.GiftEvent.user"><code class="docutils literal notranslate"><span class="pre">GiftEvent.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.JoinEvent"><code class="docutils literal notranslate"><span class="pre">JoinEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.JoinEvent.displayType"><code class="docutils literal notranslate"><span class="pre">JoinEvent.displayType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.JoinEvent.label"><code class="docutils literal notranslate"><span class="pre">JoinEvent.label</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.JoinEvent.name"><code class="docutils literal notranslate"><span class="pre">JoinEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.JoinEvent.through_share"><code class="docutils literal notranslate"><span class="pre">JoinEvent.through_share</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.JoinEvent.user"><code class="docutils literal notranslate"><span class="pre">JoinEvent.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.LikeEvent"><code class="docutils literal notranslate"><span class="pre">LikeEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.LikeEvent.displayType"><code class="docutils literal notranslate"><span class="pre">LikeEvent.displayType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.LikeEvent.label"><code class="docutils literal notranslate"><span class="pre">LikeEvent.label</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.LikeEvent.likeCount"><code class="docutils literal notranslate"><span class="pre">LikeEvent.likeCount</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.LikeEvent.name"><code class="docutils literal notranslate"><span class="pre">LikeEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.LikeEvent.totalLikeCount"><code class="docutils literal notranslate"><span class="pre">LikeEvent.totalLikeCount</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.LikeEvent.user"><code class="docutils literal notranslate"><span class="pre">LikeEvent.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.LiveEndEvent"><code class="docutils literal notranslate"><span class="pre">LiveEndEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.LiveEndEvent.name"><code class="docutils literal notranslate"><span class="pre">LiveEndEvent.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.MicArmiesEvent"><code class="docutils literal notranslate"><span class="pre">MicArmiesEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.MicArmiesEvent.battleStatus"><code class="docutils literal notranslate"><span class="pre">MicArmiesEvent.battleStatus</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.MicArmiesEvent.battleUsers"><code class="docutils literal notranslate"><span class="pre">MicArmiesEvent.battleUsers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.MicArmiesEvent.name"><code class="docutils literal notranslate"><span class="pre">MicArmiesEvent.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.MicBattleEvent"><code class="docutils literal notranslate"><span class="pre">MicBattleEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.MicBattleEvent.battleUsers"><code class="docutils literal notranslate"><span class="pre">MicBattleEvent.battleUsers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.MicBattleEvent.name"><code class="docutils literal notranslate"><span class="pre">MicBattleEvent.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.MoreShareEvent"><code class="docutils literal notranslate"><span class="pre">MoreShareEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.MoreShareEvent.amount"><code class="docutils literal notranslate"><span class="pre">MoreShareEvent.amount</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.MoreShareEvent.name"><code class="docutils literal notranslate"><span class="pre">MoreShareEvent.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.QuestionEvent"><code class="docutils literal notranslate"><span class="pre">QuestionEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.QuestionEvent.name"><code class="docutils literal notranslate"><span class="pre">QuestionEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.QuestionEvent.questionText"><code class="docutils literal notranslate"><span class="pre">QuestionEvent.questionText</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.QuestionEvent.user"><code class="docutils literal notranslate"><span class="pre">QuestionEvent.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.ShareEvent"><code class="docutils literal notranslate"><span class="pre">ShareEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.ShareEvent.displayType"><code class="docutils literal notranslate"><span class="pre">ShareEvent.displayType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.ShareEvent.label"><code class="docutils literal notranslate"><span class="pre">ShareEvent.label</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.ShareEvent.name"><code class="docutils literal notranslate"><span class="pre">ShareEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.ShareEvent.user"><code class="docutils literal notranslate"><span class="pre">ShareEvent.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.SubscribeEvent"><code class="docutils literal notranslate"><span class="pre">SubscribeEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.SubscribeEvent.exhibitionType"><code class="docutils literal notranslate"><span class="pre">SubscribeEvent.exhibitionType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.SubscribeEvent.name"><code class="docutils literal notranslate"><span class="pre">SubscribeEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.SubscribeEvent.oldSubScribeStatus"><code class="docutils literal notranslate"><span class="pre">SubscribeEvent.oldSubScribeStatus</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.SubscribeEvent.subscribeType"><code class="docutils literal notranslate"><span class="pre">SubscribeEvent.subscribeType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.SubscribeEvent.subscribingStatus"><code class="docutils literal notranslate"><span class="pre">SubscribeEvent.subscribingStatus</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.SubscribeEvent.user"><code class="docutils literal notranslate"><span class="pre">SubscribeEvent.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.UnknownEvent"><code class="docutils literal notranslate"><span class="pre">UnknownEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.UnknownEvent.name"><code class="docutils literal notranslate"><span class="pre">UnknownEvent.name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.ViewerCountUpdateEvent"><code class="docutils literal notranslate"><span class="pre">ViewerCountUpdateEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.ViewerCountUpdateEvent.name"><code class="docutils literal notranslate"><span class="pre">ViewerCountUpdateEvent.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.ViewerCountUpdateEvent.viewerCount"><code class="docutils literal notranslate"><span class="pre">ViewerCountUpdateEvent.viewerCount</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.WeeklyRankingEvent"><code class="docutils literal notranslate"><span class="pre">WeeklyRankingEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.WeeklyRankingEvent.data"><code class="docutils literal notranslate"><span class="pre">WeeklyRankingEvent.data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.events.WeeklyRankingEvent.name"><code class="docutils literal notranslate"><span class="pre">WeeklyRankingEvent.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.types.html#module-TikTokLive.types.objects">TikTokLive.types.objects module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.AbstractObject"><code class="docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Avatar"><code class="docutils literal notranslate"><span class="pre">Avatar</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Avatar.avatar_url"><code class="docutils literal notranslate"><span class="pre">Avatar.avatar_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Avatar.urls"><code class="docutils literal notranslate"><span class="pre">Avatar.urls</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Badge"><code class="docutils literal notranslate"><span class="pre">Badge</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Badge.name"><code class="docutils literal notranslate"><span class="pre">Badge.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Badge.type"><code class="docutils literal notranslate"><span class="pre">Badge.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.BadgeContainer"><code class="docutils literal notranslate"><span class="pre">BadgeContainer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.BadgeContainer.badgeSceneType"><code class="docutils literal notranslate"><span class="pre">BadgeContainer.badgeSceneType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.BadgeContainer.badges"><code class="docutils literal notranslate"><span class="pre">BadgeContainer.badges</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.BadgeContainer.imageBadges"><code class="docutils literal notranslate"><span class="pre">BadgeContainer.imageBadges</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Emote"><code class="docutils literal notranslate"><span class="pre">Emote</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Emote.emoteId"><code class="docutils literal notranslate"><span class="pre">Emote.emoteId</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Emote.image"><code class="docutils literal notranslate"><span class="pre">Emote.image</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.EmoteImage"><code class="docutils literal notranslate"><span class="pre">EmoteImage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.EmoteImage.imageUrl"><code class="docutils literal notranslate"><span class="pre">EmoteImage.imageUrl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift"><code class="docutils literal notranslate"><span class="pre">ExtendedGift</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.describe"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.describe</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.diamond_count"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.diamond_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.duration"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.duration</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.event_name"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.event_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.icon"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.icon</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.id"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.image"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.image</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.is_broadcast_gift"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.is_broadcast_gift</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.is_displayed_on_panel"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.is_displayed_on_panel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.is_effect_befview"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.is_effect_befview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.is_gray"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.is_gray</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.is_random_gift"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.is_random_gift</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.name"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.notify"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.notify</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtendedGift.type"><code class="docutils literal notranslate"><span class="pre">ExtendedGift.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtraAttributes"><code class="docutils literal notranslate"><span class="pre">ExtraAttributes</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ExtraAttributes.followRole"><code class="docutils literal notranslate"><span class="pre">ExtraAttributes.followRole</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.FFmpegWrapper"><code class="docutils literal notranslate"><span class="pre">FFmpegWrapper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.FFmpegWrapper.ffmpeg"><code class="docutils literal notranslate"><span class="pre">FFmpegWrapper.ffmpeg</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.FFmpegWrapper.path"><code class="docutils literal notranslate"><span class="pre">FFmpegWrapper.path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.FFmpegWrapper.runtime"><code class="docutils literal notranslate"><span class="pre">FFmpegWrapper.runtime</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.FFmpegWrapper.started_at"><code class="docutils literal notranslate"><span class="pre">FFmpegWrapper.started_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.FFmpegWrapper.thread"><code class="docutils literal notranslate"><span class="pre">FFmpegWrapper.thread</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.FFmpegWrapper.verbose"><code class="docutils literal notranslate"><span class="pre">FFmpegWrapper.verbose</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift"><code class="docutils literal notranslate"><span class="pre">Gift</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.extended_gift"><code class="docutils literal notranslate"><span class="pre">Gift.extended_gift</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.giftDetails"><code class="docutils literal notranslate"><span class="pre">Gift.giftDetails</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.giftExtra"><code class="docutils literal notranslate"><span class="pre">Gift.giftExtra</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.giftId"><code class="docutils literal notranslate"><span class="pre">Gift.giftId</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.gift_type"><code class="docutils literal notranslate"><span class="pre">Gift.gift_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.repeatCount"><code class="docutils literal notranslate"><span class="pre">Gift.repeatCount</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.repeatEnd"><code class="docutils literal notranslate"><span class="pre">Gift.repeatEnd</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.repeat_count"><code class="docutils literal notranslate"><span class="pre">Gift.repeat_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.repeat_end"><code class="docutils literal notranslate"><span class="pre">Gift.repeat_end</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.streakable"><code class="docutils literal notranslate"><span class="pre">Gift.streakable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.Gift.streaking"><code class="docutils literal notranslate"><span class="pre">Gift.streaking</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftDetailImage"><code class="docutils literal notranslate"><span class="pre">GiftDetailImage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftDetailImage.giftPictureUrl"><code class="docutils literal notranslate"><span class="pre">GiftDetailImage.giftPictureUrl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftDetails"><code class="docutils literal notranslate"><span class="pre">GiftDetails</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftDetails.describe"><code class="docutils literal notranslate"><span class="pre">GiftDetails.describe</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftDetails.diamondCount"><code class="docutils literal notranslate"><span class="pre">GiftDetails.diamondCount</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftDetails.giftImage"><code class="docutils literal notranslate"><span class="pre">GiftDetails.giftImage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftDetails.giftName"><code class="docutils literal notranslate"><span class="pre">GiftDetails.giftName</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftDetails.giftType"><code class="docutils literal notranslate"><span class="pre">GiftDetails.giftType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftExtra"><code class="docutils literal notranslate"><span class="pre">GiftExtra</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftExtra.receiverUserId"><code class="docutils literal notranslate"><span class="pre">GiftExtra.receiverUserId</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftExtra.timestamp"><code class="docutils literal notranslate"><span class="pre">GiftExtra.timestamp</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftIcon"><code class="docutils literal notranslate"><span class="pre">GiftIcon</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftIcon.avg_color"><code class="docutils literal notranslate"><span class="pre">GiftIcon.avg_color</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftIcon.is_animated"><code class="docutils literal notranslate"><span class="pre">GiftIcon.is_animated</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftIcon.uri"><code class="docutils literal notranslate"><span class="pre">GiftIcon.uri</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.GiftIcon.url_list"><code class="docutils literal notranslate"><span class="pre">GiftIcon.url_list</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ImageBadge"><code class="docutils literal notranslate"><span class="pre">ImageBadge</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ImageBadge.displayType"><code class="docutils literal notranslate"><span class="pre">ImageBadge.displayType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ImageBadge.image"><code class="docutils literal notranslate"><span class="pre">ImageBadge.image</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ImageBadgeImage"><code class="docutils literal notranslate"><span class="pre">ImageBadgeImage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.ImageBadgeImage.url"><code class="docutils literal notranslate"><span class="pre">ImageBadgeImage.url</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.LinkUser"><code class="docutils literal notranslate"><span class="pre">LinkUser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.LinkUser.nickname"><code class="docutils literal notranslate"><span class="pre">LinkUser.nickname</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.LinkUser.profilePicture"><code class="docutils literal notranslate"><span class="pre">LinkUser.profilePicture</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.LinkUser.uniqueId"><code class="docutils literal notranslate"><span class="pre">LinkUser.uniqueId</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.LinkUser.userId"><code class="docutils literal notranslate"><span class="pre">LinkUser.userId</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MemberMessage"><code class="docutils literal notranslate"><span class="pre">MemberMessage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MemberMessage.eventDetails"><code class="docutils literal notranslate"><span class="pre">MemberMessage.eventDetails</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MemberMessageDetails"><code class="docutils literal notranslate"><span class="pre">MemberMessageDetails</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MemberMessageDetails.displayType"><code class="docutils literal notranslate"><span class="pre">MemberMessageDetails.displayType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MemberMessageDetails.label"><code class="docutils literal notranslate"><span class="pre">MemberMessageDetails.label</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MicArmiesGroup"><code class="docutils literal notranslate"><span class="pre">MicArmiesGroup</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MicArmiesGroup.points"><code class="docutils literal notranslate"><span class="pre">MicArmiesGroup.points</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MicArmiesGroup.users"><code class="docutils literal notranslate"><span class="pre">MicArmiesGroup.users</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MicArmiesUser"><code class="docutils literal notranslate"><span class="pre">MicArmiesUser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MicArmiesUser.battleGroups"><code class="docutils literal notranslate"><span class="pre">MicArmiesUser.battleGroups</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MicArmiesUser.hostUserId"><code class="docutils literal notranslate"><span class="pre">MicArmiesUser.hostUserId</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MicBattleGroup"><code class="docutils literal notranslate"><span class="pre">MicBattleGroup</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MicBattleGroup.user"><code class="docutils literal notranslate"><span class="pre">MicBattleGroup.user</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MicBattleUser"><code class="docutils literal notranslate"><span class="pre">MicBattleUser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.MicBattleUser.battleGroup"><code class="docutils literal notranslate"><span class="pre">MicBattleUser.battleGroup</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.RankContainer"><code class="docutils literal notranslate"><span class="pre">RankContainer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.RankContainer.rankings"><code class="docutils literal notranslate"><span class="pre">RankContainer.rankings</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.RankItem"><code class="docutils literal notranslate"><span class="pre">RankItem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.RankItem.colour"><code class="docutils literal notranslate"><span class="pre">RankItem.colour</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.RankItem.id"><code class="docutils literal notranslate"><span class="pre">RankItem.id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.TreasureBoxData"><code class="docutils literal notranslate"><span class="pre">TreasureBoxData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.TreasureBoxData.canOpen"><code class="docutils literal notranslate"><span class="pre">TreasureBoxData.canOpen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.TreasureBoxData.coins"><code class="docutils literal notranslate"><span class="pre">TreasureBoxData.coins</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.TreasureBoxData.timestamp"><code class="docutils literal notranslate"><span class="pre">TreasureBoxData.timestamp</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.badges"><code class="docutils literal notranslate"><span class="pre">User.badges</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.extraAttributes"><code class="docutils literal notranslate"><span class="pre">User.extraAttributes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.is_following"><code class="docutils literal notranslate"><span class="pre">User.is_following</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.is_friend"><code class="docutils literal notranslate"><span class="pre">User.is_friend</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.is_moderator"><code class="docutils literal notranslate"><span class="pre">User.is_moderator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.is_new_gifter"><code class="docutils literal notranslate"><span class="pre">User.is_new_gifter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.is_subscriber"><code class="docutils literal notranslate"><span class="pre">User.is_subscriber</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.nickname"><code class="docutils literal notranslate"><span class="pre">User.nickname</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.profilePicture"><code class="docutils literal notranslate"><span class="pre">User.profilePicture</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.top_gifter_rank"><code class="docutils literal notranslate"><span class="pre">User.top_gifter_rank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.uniqueId"><code class="docutils literal notranslate"><span class="pre">User.uniqueId</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.User.userId"><code class="docutils literal notranslate"><span class="pre">User.userId</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.VideoQuality"><code class="docutils literal notranslate"><span class="pre">VideoQuality</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.VideoQuality.HD"><code class="docutils literal notranslate"><span class="pre">VideoQuality.HD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.VideoQuality.LD"><code class="docutils literal notranslate"><span class="pre">VideoQuality.LD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.VideoQuality.ORIGIN"><code class="docutils literal notranslate"><span class="pre">VideoQuality.ORIGIN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.VideoQuality.SD"><code class="docutils literal notranslate"><span class="pre">VideoQuality.SD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.VideoQuality.UHD"><code class="docutils literal notranslate"><span class="pre">VideoQuality.UHD</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.WeeklyRanking"><code class="docutils literal notranslate"><span class="pre">WeeklyRanking</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.WeeklyRanking.label"><code class="docutils literal notranslate"><span class="pre">WeeklyRanking.label</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.WeeklyRanking.rank"><code class="docutils literal notranslate"><span class="pre">WeeklyRanking.rank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.types.html#TikTokLive.types.objects.WeeklyRanking.type"><code class="docutils literal notranslate"><span class="pre">WeeklyRanking.type</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.types.html#module-TikTokLive.types">Module contents</a></li>
 </ul>
 </li>
@@ -120,7 +505,7 @@
 <dd><p>Get the room ID from the HTML of the creator’s page.
 If this fails, you are probably blocked from TikTok. Use a VPN.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The client’s Room ID</p>
 </dd>
 </dl>
@@ -132,7 +517,7 @@ If this fails, you are probably blocked from TikTok. Use a VPN.</p>
 <dd><p>Take a host of unique_id formats and convert them into a “normalized” version.
 For example, “&#64;tiktoklive” -&gt; “tiktoklive”</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Normalized version of the unique_id</p>
 </dd>
 </dl>
