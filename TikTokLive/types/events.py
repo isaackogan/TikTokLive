@@ -58,6 +58,9 @@ class DisconnectEvent(AbstractEvent):
     
     """
 
+    webcast_closed: bool
+    """Whether the Webcast server closed the connection. If false, the client disconnected themselves."""
+
     name: str = "disconnect"
 
 
