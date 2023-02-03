@@ -88,7 +88,7 @@ if __name__ == '__main__':
     client.run()
 ```
 
-For more examples, [see the examples folder](https://github.com/isaackogan/TikTok-Live-Connector/tree/master/examples) provided in the tree.
+For more examples, [see the examples folder](https://github.com/isaackogan/TikTokLive/tree/master/examples) provided in the tree.
 
 ## Params & Options
 
