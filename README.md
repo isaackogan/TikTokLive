@@ -333,6 +333,7 @@ async def on_connect(event: EnvelopeEvent):
 ### `subscribe`
 
 Triggered when someone subscribes to the TikTok streamer.
+⚠️ **WARNING:** This only works when account credentials are provided to the client. Subscription events and information are hidden behind account authentication by TikTok.
 
 ```python
 @client.on("subscribe")
