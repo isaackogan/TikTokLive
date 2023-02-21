@@ -323,6 +323,21 @@ async def on_connect(event: LiveEndEvent):
     print(f"Livestream ended :(")
 ```
 
+
+### `intro_message`
+
+Triggered when an intro message is sent to the live room.
+An intro message is basically a pinned message at the top of chat when you join a room.
+
+This event only fires if "process_initial_data" is enabled and the streamer has an intro message configured.
+
+```python
+@client.on("intro_message")
+async def on_connect(event: IntroMessageEvent):
+    print(f"Message: {event.message}")
+```
+
+
 ### `unknown`
 
 Triggered when ANY unknown event is received that is not yet handled by this client.

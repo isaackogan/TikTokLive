@@ -454,6 +454,17 @@ payload parameter.</p>
 </pre></div>
 </div>
 </section>
+<section id="intro-message">
+<h4><code class="docutils literal notranslate"><span class="pre">intro_message</span></code><a class="headerlink" href="#intro-message" title="Permalink to this heading"></a></h4>
+<p>Triggered when an intro message is sent to the live room.
+An intro message is basically a pinned message at the top of chat when you join a room.</p>
+<p>This event only fires if “process_initial_data” is enabled and the streamer has an intro message configured.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;intro_message&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">IntroMessageEvent</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 <section id="unknown">
 <h4><code class="docutils literal notranslate"><span class="pre">unknown</span></code><a class="headerlink" href="#unknown" title="Permalink to this heading"></a></h4>
 <p>Triggered when ANY unknown event is received that is not yet handled by this client.</p>
