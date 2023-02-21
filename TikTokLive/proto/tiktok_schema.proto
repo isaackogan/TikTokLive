@@ -32,7 +32,7 @@ message WebcastControlMessage {
 
 // Statistics like viewer count
 message WebcastRoomUserSeqMessage {
-  int32 viewerCount = 3;
+  int32 viewer_count = 3;
 }
 
 message WebcastChatMessage {
@@ -43,38 +43,37 @@ message WebcastChatMessage {
 message WebcastMemberMessage {
   User user = 2;
   WebcastMessageEvent event = 1;
-  int32 actionId = 10;
+  int32 action_id = 10;
 }
 
 message WebcastGiftMessage {
   User user = 7;
 
   // New Data Structure since 04/2022
-  int32 giftId = 2;
+  int32 id = 2;
   int32 repeatCount = 5;
   int32 repeatEnd = 9;
-
-  WebcastGiftMessageGiftDetails giftDetails = 15;
-  WebcastGiftMessageGiftExtra giftExtra = 23;
+  WebcastGiftMessageGiftDetail detail = 15;
+  WebcastGiftMessageRecipient recipient = 23;
 
 }
 
 // Taken from https://github.com/Davincible/gotiktoklive/blob/da4630622bc586629a53faae64e8c53509af29de/proto/tiktok.proto#L57
-message WebcastGiftMessageGiftExtra {
+message WebcastGiftMessageRecipient {
   uint64 timestamp = 6;
-  uint64 receiverUserId = 8;
+  uint64 user_id = 8;
 }
 
-message WebcastGiftMessageGiftDetails {
-  WebcastGiftMessageGiftImage giftImage = 1;
-  string giftName = 16;
-  string describe = 2;
-  int32 giftType = 11;
-  int32 diamondCount = 12;
+message WebcastGiftMessageGiftDetail {
+  WebcastGiftMessageGiftImage image = 1;
+  string name = 16;
+  string description = 2;
+  int32 type = 11;
+  int32 diamond_count = 12;
 }
 
 message WebcastGiftMessageGiftImage {
-  string giftPictureUrl = 1;
+  string url = 1;
 }
 
 
@@ -119,8 +118,8 @@ message WebcastSocialMessage {
 message WebcastLikeMessage {
   User user = 5;
   WebcastMessageEvent event = 1;
-  int32 likeCount = 2;
-  int32 totalLikeCount = 3;
+  int32 likes = 2;
+  int32 total_likes = 3;
 }
 
 // New question event
@@ -129,51 +128,51 @@ message WebcastQuestionNewMessage {
 }
 
 message QuestionDetails {
-  string questionText = 2;
+  string question = 2;
   User user = 5;
 }
 
 message WebcastMessageEvent {
-  WebcastMessageEventDetails eventDetails = 8;
+  WebcastMessageEventDetails details = 8;
 }
 
 // Contains UI information
 message WebcastMessageEventDetails {
-  string displayType = 1;
+  string display_type = 1;
   string label = 2;
 }
 
 message User {
-  uint64 userId = 1;
+  uint64 user_id = 1;
   string nickname = 3;
-  ProfilePicture profilePicture = 9;
-  UserExtraAttributes extraAttributes = 22;
-  string uniqueId = 38;
+  ProfilePicture avatar = 9;
+  UserDetails details = 22;
+  string unique_id = 38;
   repeated UserBadgesAttributes badges = 64;
 }
 
 message LinkUser {
-  uint64 userId = 1;
+  uint64 user_id = 1;
   string nickname = 2;
-  ProfilePicture profilePicture = 3;
-  string uniqueId = 4;
+  ProfilePicture avatar = 3;
+  string unique_id = 4;
 }
 
 message ProfilePicture {
   repeated string urls = 1;
 }
 
-message UserExtraAttributes {
-  int32 followRole = 3;
+message UserDetails {
+  int32 follow_role = 3;
 }
 
 message UserBadgesAttributes {
-  int32 badgeSceneType = 3;
-  repeated UserBadge badges = 21;
-  repeated UserImageBadge imageBadges = 20;
+  int32 badge_scene_type = 3;
+  repeated UserTextBadge text_badges = 21;
+  repeated UserImageBadge image_badges = 20;
 }
 
-message UserBadge {
+message UserTextBadge {
   string type = 2;
   string name = 3;
 }
@@ -194,9 +193,9 @@ message WebcastWebsocketAck {
 
 // Source: Co-opted https://github.com/zerodytrash/TikTok-Livestream-Chat-Connector/issues/19#issuecomment-1074150342
 message WebcastLiveIntroMessage {
-  uint64 id = 2;
-  string description = 4;
-  User user = 5;
+  uint64 room_id = 2;
+  string message = 4;
+  User streamer = 5;
 }
 
 message SystemMessage {
@@ -207,27 +206,42 @@ message WebcastInRoomBannerMessage {
   string data = 2;
 }
 
-message RankItem {
+message ExtraRankData {
   string colour = 1;
   uint64 id = 4;
 }
 
+message RankData {
+  string rank = 11; // No, I have no idea why they made the rank a string
+}
+
+
 message WeeklyRanking {
   string type = 1;
   string label = 2;
-  RankItem rank = 3;
+  RankData data = 4;
+  ExtraRankData extra = 3;
 }
 
 message RankContainer {
+  WeeklyRanking rankings = 3;
+}
+
+
+message WebcastRankUpdateMessage {
+  RankContainer data = 2;
+}
+
+message HourlyRankContainer {
   WeeklyRanking rankings = 4;
 }
 
 message WebcastHourlyRankMessage {
-  RankContainer data = 2;
+  HourlyRankContainer data = 2;
 }
 
 message UserImageBadge {
-  int32 displayType = 1;
+  int32 display_type = 1;
   UserImageBadgeImage image = 2;
 }
 
@@ -246,7 +260,7 @@ message EmoteDetails {
 }
 
 message EmoteImage {
-  string imageUrl = 1;
+  string url = 1;
 }
 
 // Envelope (treasure boxes)
@@ -274,16 +288,11 @@ message TreasureBoxUser4 {
 
 message TreasureBoxData {
   uint32 coins = 5;
-  uint32 canOpen = 6;
+  uint32 openable = 6;
   uint64 timestamp = 7;
 }
 
-message WebcastSubNotifyMessage {
-  WebcastMessageEvent event = 1;
-  User user = 2;
-  int32 exhibitionType = 3;
-  int32 subMonth = 4;
-  int32 subscribeType = 5;
-  int32 oldSubscribeStatus = 6;
-  int32 subscribingStatus = 8;
+message RoomMessage {
+  string description = 2;
 }
+
