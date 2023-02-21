@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="TikTokLive",
     packages=setuptools.find_packages(),
-    version="4.5.2",
+    version="5.0.0",
     license="MIT",
     description="TikTok Live Connection Client",
     author="Isaac Kogan",
@@ -17,16 +17,16 @@ setuptools.setup(
     url="https://github.com/isaackogan/TikTokLive",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/isaackogan/TikTokLive/releases/tag/v4.5.2",
+    download_url="https://github.com/isaackogan/TikTokLive/releases/tag/v5.0.0",
     keywords=["tiktok", "tiktok live", "python3", "api", "unofficial"],
     install_requires=[
         "httpx>=0.23.0",  # Make requests
         "protobuf3-to-dict>=0.1.5",  # Convert Protobuf to Dict
         "protobuf>=3.19.4",  # Decode Protobuf Messages
-        "pyee>=9.0.4",  # Event Emitter
-        "dacite>=1.6.0",  # Requests
+        "pyee>=9.0.4",  # event Emitter
         "ffmpy>=0.3.0",  # Download streams
-        "tornado>=6.2"  # Connect to Webcast Websocket Server
+        "mashumaro>=3.5",  # JSON Deserialization
+        "websockets>=10.4"  # Connecting to websocket server
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
