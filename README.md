@@ -181,19 +181,19 @@ async def on_join(event: JoinEvent):
 ### `gift`
 
 Triggered every time a gift arrives. Extra information can be gleamed off the `available_gifts` client attribute.
-> **NOTE:** Users have the capability to send gifts in a streak. This increases the `data.gift.repeat_count` value until the user terminates the streak. During this time new gift events are triggered again and again with an increased `data.gift.repeat_count` value. It should be noted that after the end of the streak, another gift event is triggered, which signals the end of the streak via `data.gift.repeat_end`:`1`. This applies only to gifts with `data.gift.gift_type`:`1`. This means that even if the user sends a `gift_type`:`1` gift only once, you will receive the event twice. Once with `repeat_end`:`0` and once with `repeat_end`:`1`. Therefore, the event should be handled as follows in one of TWO ways:
+> **NOTE:** Users have the capability to send gifts in a streak. This increases the `event.gift.count` value until the user terminates the streak. During this time new gift events are triggered again and again with an increased `event.gift.count` value. It should be noted that after the end of the streak, another gift event is triggered, which signals the end of the streak via `event.gift.is_repeating`:`1`. This applies only to gifts with `event.gift.info.type`:`1`. This means that even if the user sends an `event.gift.info.type`:`1` gift only once, you may receive the event twice. Once with `event.gift.is_repeating`:`0` and once with `event.gift.is_repeating`:`1`. Therefore, the event should be handled as follows in one of TWO ways. These are the same, except the second is a 'higher level' implementation using TikTokLive API features:
 
 ```python
 @client.on("gift")
 async def on_gift(event: GiftEvent):
     # If it's type 1 and the streak is over
-    if event.gift.gift_type == 1:
-        if event.gift.repeat_end == 1:
+    if event.gift.info.type == 1:
+        if event.gift.is_repeating == 1:
             print(f"{event.user.unique_id} sent {event.gift.count}x \"{event.gift.info.name}\"")
 
     # It's not type 1, which means it can't have a streak & is automatically over
-    elif event.gift.gift_type != 1:
-        print(f"{event.user.uniqueId} sent \"{event.gift.extended_gift.name}\"")
+    elif event.gift.info.type != 1:
+        print(f"{event.user.unique_id} sent \"{event.gift.info.name}\"")
 ```
 
 ```python

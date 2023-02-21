@@ -11,7 +11,7 @@ from typing import Optional, List, Any, Dict, ClassVar
 
 from mashumaro import DataClassDictMixin, pass_through
 
-from TikTokLive.types import User, Gift, Emote, TreasureBoxData, ExtraRankData, LinkUser, BattleArmy, RankData
+from TikTokLive.types import User, Gift, Emote, TreasureBoxData, ExtraRankData, LinkUser, BattleArmy
 from TikTokLive.types.utilities import LiveEvent, alias
 
 
@@ -332,7 +332,15 @@ class WeeklyRankingEvent(AbstractEvent):
 
         """
 
-        return d.get('data', dict()).get('rankings', dict())  # Do a little flattening
+        ranks: Dict[str, Any] = d.get('data', dict()).get('rankings', dict())  # Do a little flattening
+
+        # Try to flatten rank data & convert to int
+        try:
+            ranks['rank'] = int(ranks.get('data', dict()).get('rank', None))
+        except:
+            pass
+
+        return ranks
 
     type: Optional[str] = None
     """Unknown"""
@@ -340,20 +348,19 @@ class WeeklyRankingEvent(AbstractEvent):
     label: Optional[str] = None
     """Internal TikTok Label"""
 
-    extra: Optional[ExtraRankData] = None
+    extra: Optional[ExtraRankData] = field(default_factory=lambda: ExtraRankData())
     """Extra data relating to the UI, presumably"""
 
-    data: Optional[RankData] = None
-    """The actual rank of the user"""
+    rank: Optional[int] = None
+    """The number for the user's TikTok ranking. If the rank is "None", the user is not in the top 99."""
 
     @property
-    def rank(self) -> Optional[int]:
+    def top_99(self) -> bool:
         """
-        The number for the user's TikTok ranking
-
+        Whether the user is in the top 99 of creators
         """
 
-        return self.data.rank
+        return self.rank is not None
 
 
 @LiveEvent("intro_message")
@@ -447,18 +454,36 @@ class MicBattleUpdateEvent(AbstractEvent):
             for battle_group in battle_item.get('battleGroups', list()):
                 battle_armies.append({
                     'host_user_id': battle_item.get('hostUserId'),
-                    'points': battle_group.get('points'),
-                    'participants': battle_group.get('users')
+                    'points': battle_group.get('points') or None,
+                    'participants': battle_group.get('users') or list()
                 })
 
         event_data['battle_armies'] = battle_armies
         return event_data
 
     battle_status: Optional[int] = None
-    """The status of the current Battle"""
+    """The status of the current Battle. If battle_status=1, the battle is ongoing. If it's 2, the battle has ended."""
 
     battle_armies: List[BattleArmy] = field(default_factory=lambda: [])
     """Information about the users engaged in the Mic Battle"""
+
+    @property
+    def in_battle(self) -> bool:
+        """
+        Whether the users are currently in battle
+
+        """
+
+        return self.battle_status == 1
+
+    @property
+    def battle_finished(self) -> bool:
+        """
+        Whether the battle is currently finished
+
+        """
+
+        return self.battle_status == 2
 
 
 @LiveEvent("unknown")

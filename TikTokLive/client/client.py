@@ -6,8 +6,8 @@ from pyee import AsyncIOEventEmitter
 
 from .base import WebcastPushConnection
 from ..types import FailedParseMessage
-from ..types.events import AbstractEvent, CommentEvent, ConnectEvent, DisconnectEvent, ViewerCountEvent, JoinEvent, LikeEvent, GiftEvent, FollowEvent, ShareEvent, WeeklyRankingEvent, QuestionEvent, LiveEndEvent, \
-    IntroMessageEvent, EmoteEvent, MicBattleStartEvent, MicBattleUpdateEvent, MoreShareEvent, UnknownEvent
+from ..types.events import AbstractEvent, CommentEvent, ConnectEvent, DisconnectEvent, ViewerCountEvent, JoinEvent, LikeEvent, GiftEvent, FollowEvent, ShareEvent, QuestionEvent, LiveEndEvent, \
+    IntroMessageEvent, EmoteEvent, MicBattleStartEvent, MicBattleUpdateEvent, MoreShareEvent, UnknownEvent, WeeklyRankingEvent
 
 
 class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
@@ -137,7 +137,7 @@ class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
 
         # Perform flattening (some events are highly nested)
         if "event" in webcast_message:
-            webcast_message = {**webcast_message["event"]["details"], **webcast_message}
+            webcast_message = {**webcast_message.get("event", dict()).get("details", dict()), **webcast_message}
             del webcast_message["event"]
 
         # Custom handler for livestream ending

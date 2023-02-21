@@ -53,7 +53,7 @@ message WebcastGiftMessage {
   int32 id = 2;
   int32 repeatCount = 5;
   int32 repeatEnd = 9;
-  WebcastGiftMessageGiftDetail detail = 15;
+  WebcastGiftMessageGiftDetail info = 15;
   WebcastGiftMessageRecipient recipient = 23;
 
 }
@@ -295,4 +295,3 @@ message TreasureBoxData {
 message RoomMessage {
   string description = 2;
 }
-

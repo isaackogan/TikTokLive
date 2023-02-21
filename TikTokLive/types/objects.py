@@ -149,7 +149,7 @@ class User(AbstractObject):
     user_id: Optional[int] = None
     """The user's Internal TikTok User ID"""
 
-    details: UserDetail = None
+    details: UserDetail = field(default_factory=lambda: UserDetail())
     """Extra attributes for the user such as if they are following the streamer"""
 
     badges: List[BadgeContainer] = field(default_factory=lambda: list())
@@ -421,24 +421,24 @@ class Gift(AbstractObject):
     is_repeating: Optional[int] = alias("repeatEnd", default=None)
     """Whether or not the repetition is over"""
 
-    info: Optional[GiftInfo] = None
+    info: Optional[GiftInfo] = field(default_factory=lambda: GiftInfo())
     """Details about the specific Gift sent"""
 
-    recipient: Optional[GiftRecipient] = None
+    recipient: Optional[GiftRecipient] = field(default_factory=lambda: GiftRecipient())
     """Who received the gift (for streams with multiple users)"""
 
     detailed: Optional[GiftDetailed] = field(metadata={"serialization_strategy": pass_through}, default=None)
     """If offered, allow a default gift"""
 
     @property
-    def streakable(self) -> bool:
+    def streakable(self) -> Optional[bool]:
         """
         Whether a given gift can have a streak
 
         :return: True if it is type 1, otherwise False
         """
 
-        return self.info.type == 1
+        return self.info.type == 1 if self.info.type is not None else None
 
     @property
     def streaking(self) -> bool:
@@ -515,17 +515,6 @@ class ExtraRankData(AbstractObject):
 
     id: Optional[int] = None
     """Some sort of internal ID, potentially related to rank"""
-
-
-@dataclass()
-class RankData(AbstractObject):
-    """
-    The specific rank number of the user
-
-    """
-
-    rank: Optional[str]
-    """The rank of the user"""
 
 
 @dataclass()
