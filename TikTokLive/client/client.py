@@ -1,35 +1,43 @@
 import logging
 import traceback
-from typing import Optional, Type, Callable
+from typing import Optional
 
-from dacite import from_dict
+from pyee import AsyncIOEventEmitter
 
-from .base import BaseClient
-from ..proto.utilities import from_dict_plus
-from ..types import events
-from ..types.events import AbstractEvent, ViewerCountUpdateEvent, CommentEvent, LiveEndEvent, GiftEvent, QuestionEvent, UnknownEvent, ConnectEvent, DisconnectEvent, EmoteEvent, EnvelopeEvent, \
-    SubscribeEvent, WeeklyRankingEvent, MicBattleEvent, MicArmiesEvent
+from .base import WebcastPushConnection
+from ..types import FailedParseMessage
+from ..types.events import AbstractEvent, CommentEvent, ConnectEvent, DisconnectEvent, ViewerCountEvent, JoinEvent, LikeEvent, GiftEvent, FollowEvent, ShareEvent, WeeklyRankingEvent, QuestionEvent, LiveEndEvent, \
+    IntroMessageEvent, EmoteEvent, MicBattleStartEvent, MicBattleUpdateEvent, MoreShareEvent, UnknownEvent
 
 
-class TikTokLiveClient(BaseClient):
+class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
     """
     TikTokLive Client responsible for emitting events asynchronously
 
     """
 
-    def __init__(self, unique_id: str, debug: bool = False, **options):
+    def __init__(self, unique_id: str, **options):
         """
-        Initialize the BaseClient for TikTokLive Webcast tracking
+        Initialize the WebcastPushConnection for TikTokLive Webcast tracking
 
         :param unique_id: The unique id of the creator to connect to
-        :param debug: Debug mode -> Add all events' raw payload to a "debug" event
-        :param options: Extra options from the BaseClient
+        :param options: Extra options from the WebcastPushConnection
 
         """
 
-        self.debug_enabled: bool = debug
-        self._session_id: Optional[str] = None
-        BaseClient.__init__(self, unique_id, **options)
+        AsyncIOEventEmitter.__init__(self)
+        WebcastPushConnection.__init__(self, unique_id, **options)
+
+        self.__viewer_count: Optional[int] = None
+        self.add_listener('viewer_count', self._on_viewer_count)
+
+    async def _on_viewer_count(self, event: ViewerCountEvent):
+        """
+        Set the viewer count when one is received via a viewer count update event
+        
+        """
+
+        self.__viewer_count = event.viewer_count or self.__viewer_count
 
     async def _on_error(self, original: Exception, append: Optional[Exception]) -> None:
         """
@@ -44,7 +52,7 @@ class TikTokLiveClient(BaseClient):
         _exc = original
 
         # If adding on to it
-        if append is not None:
+        if append:
             try:
                 raise append from original
             except Exception as ex:
@@ -54,12 +62,12 @@ class TikTokLiveClient(BaseClient):
         if not self.connected:
             raise _exc
 
-        # If connected, no handler
+        # If connected and there is no handler
         if len(self.listeners("error")) < 1:
             self._log_error(_exc)
             return
 
-        # If connected, has handler
+        # If connected and there IS an error handler
         self.emit("error", _exc)
 
     @classmethod
@@ -76,42 +84,26 @@ class TikTokLiveClient(BaseClient):
             raise exception
         except:
             logging.error(traceback.format_exc())
-        return
 
-    async def _connect(self, session_id: str = None) -> int:
+    async def _on_connect(self) -> None:
         """
-        Wrap connection in a connect event
+        Emit an event when we have connected
 
         """
-
-        self._session_id = session_id
-        room_id: int = await super(TikTokLiveClient, self)._connect(session_id=self._session_id)
 
         if self.connected:
             event: ConnectEvent = ConnectEvent()
-            self.emit(event.name, event)
+            self.emit("connect", event)
 
-        return room_id
-
-    async def reconnect(self) -> int:
-        """
-        Add the ability to reconnect the client
-
-        """
-
-        return await self._connect(self._session_id)
-
-    def _disconnect(self, webcast_closed: bool = False) -> None:
+    def _disconnect(self) -> None:
         """
         Wrap disconnection in a disconnect event
 
         """
 
-        super(TikTokLiveClient, self)._disconnect(webcast_closed=webcast_closed)
-
-        if not self.connected:
-            event: DisconnectEvent = DisconnectEvent(webcast_closed=webcast_closed)
-            self.emit(event.name, event)
+        super(TikTokLiveClient, self)._disconnect()
+        event: DisconnectEvent = DisconnectEvent()
+        self.emit("disconnect", event)
 
     async def _handle_webcast_messages(self, webcast_response: dict) -> None:
         """
@@ -120,16 +112,21 @@ class TikTokLiveClient(BaseClient):
 
         """
 
+        # Parse the Webcast messages into an event
+        # Messages for which protobuf has not been finished still show up here & are handled as UnknownEvent events
         for message in webcast_response.get("messages", list()):
-            response: Optional[AbstractEvent] = self.__parse_message(webcast_message=message)
+            # Once we disconnect, stop parsing events
+            if self.websocket is None:
+                break
 
-            if isinstance(response, AbstractEvent):
-                self.emit(response.name, response)
+            # Parse events & emit them
+            try:
+                event: AbstractEvent = self.__parse_webcast_message(message)
+                self.emit(event.name, event)
+            except Exception as ex:
+                await self._on_error(ex, FailedParseMessage("Failed parsing of a webcast message"))
 
-            if self.debug_enabled:
-                self.emit("debug", AbstractEvent(data=message))
-
-    def __parse_message(self, webcast_message: dict) -> Optional[AbstractEvent]:
+    def __parse_webcast_message(self, webcast_message: dict) -> Optional[AbstractEvent]:
         """
         Parse a webcast message into an event and return to the caller
 
@@ -138,67 +135,72 @@ class TikTokLiveClient(BaseClient):
 
         """
 
-        event_dict: Optional[dict] = webcast_message.get("event")
-
-        # It's a traditional event
-        if event_dict:
+        # Perform flattening (some events are highly nested)
+        if "event" in webcast_message:
+            webcast_message = {**webcast_message["event"]["details"], **webcast_message}
             del webcast_message["event"]
 
-            # Bring event details up to main
-            for key, value in event_dict["eventDetails"].items():
-                webcast_message[key] = value
-
-            schema: Type[AbstractEvent] = events.__events__.get(webcast_message["displayType"])
-            if schema is not None:
-                # Create event
-                event: AbstractEvent = from_dict(schema, webcast_message)
-                event._as_dict = webcast_message
+        # Custom handler for livestream ending
+        if webcast_message.get("type") == "WebcastControlMessage":
+            if webcast_message.get("action") == 3:
+                self._disconnect()
+                event: AbstractEvent = LiveEndEvent()
+                event.raw_data = webcast_message
                 return event
 
-        # Viewer update
-        if webcast_message["type"] == "WebcastRoomUserSeqMessage":
-            count: Optional[int] = webcast_message.get("viewerCount")
-            self._viewer_count = count if count is not None else self._viewer_count
+        # If "enable_extended_gift_info" is enabled, provide extra detail
+        if webcast_message.get("type") == "WebcastGiftMessage":
+            webcast_message: dict
+            webcast_message["detailed"] = self.available_gifts.get(webcast_message.get('id'))
 
-            return from_dict_plus(
-                ViewerCountUpdateEvent,
-                webcast_message
-            )
+        # For most events, we map the webcast message type
+        mapping: Optional[AbstractEvent] = (
+            {
+                "WebcastGiftMessage": GiftEvent,
+                "WebcastChatMessage": CommentEvent,
+                "WebcastRoomUserSeqMessage": ViewerCountEvent,
+                "WebcastMemberMessage": JoinEvent,
+                "WebcastLikeMessage": LikeEvent,
+                "WebcastRankUpdateMessage": WeeklyRankingEvent,
+                "WebcastHourlyRankMessage": WeeklyRankingEvent,
+                "WebcastQuestionNewMessage": QuestionEvent,
+                "WebcastLiveIntroMessage": IntroMessageEvent,
+                "WebcastEmoteChatMessage": EmoteEvent,
+                "WebcastLinkMicBattle": MicBattleStartEvent,
+                "WebcastLinkMicArmies": MicBattleUpdateEvent
 
-        # Live ended
-        action: Optional[int] = webcast_message.get("action")
-        if action is not None and action == 3:
-            self._disconnect()
-            return LiveEndEvent()
+            }.get(webcast_message.get('type'))
+        )
 
-        # Gift Handling
-        if webcast_message["type"] == "WebcastGiftMessage":
-            webcast_message["gift"] = webcast_message
-            event: GiftEvent = from_dict(GiftEvent, webcast_message)
-            event.gift.extended_gift = self.available_gifts.get(event.gift.giftId)
-            event._as_dict = webcast_message
-            return event
+        # Sometimes, we need to use the displayType attribute
+        mapping: Optional[AbstractEvent] = mapping or (
+            {
+                "pm_main_follow_message_viewer_2": FollowEvent,
+                "pm_mt_guidance_share": ShareEvent,
+                "pm_mt_guidance_viewer_5_share": MoreShareEvent,
+                "pm_mt_guidance_viewer_10_share": MoreShareEvent
+            }.get(webcast_message.get('display_type'))
+        )
 
-        # Envelope Event
-        if webcast_message["type"] == "WebcastEnvelopeMessage":
-            try:
-                webcast_message["treasureBoxUser"] = webcast_message["treasureBoxUser"]["user2"]["user3"][0]["user4"]["user"]
-            except:
-                webcast_message["treasureBoxUser"] = None
+        # Build the event from the webcast message
+        event: AbstractEvent = (
+            mapping.from_dict(webcast_message)
+            if mapping else
+            UnknownEvent.from_dict(webcast_message)
+        )
 
-            return from_dict_plus(
-                EnvelopeEvent,
-                webcast_message
-            )
+        # Set the raw data & return the event
+        event.raw_data = webcast_message
 
-        standard: Optional[Callable] = {
-            "WebcastChatMessage": lambda: from_dict_plus(CommentEvent, webcast_message),  # Comment
-            "WebcastEmoteChatMessage": lambda: from_dict_plus(EmoteEvent, webcast_message),  # Emote
-            "WebcastQuestionNewMessage": lambda: from_dict_plus(QuestionEvent, webcast_message.get("questionDetails")),  # Q&A Question
-            "WebcastHourlyRankMessage": lambda: from_dict_plus(WeeklyRankingEvent, webcast_message),  # Hourly Ranking
-            "WebcastLinkMicBattle": lambda: from_dict_plus(MicBattleEvent, webcast_message),  # Mic Battle (Battle Start)
-            "WebcastLinkMicArmies": lambda: from_dict_plus(MicArmiesEvent, webcast_message),  # Mic Armies (Battle Update)
-            "WebcastSubNotifyMessage": lambda: from_dict_plus(SubscribeEvent, webcast_message)  # Subscribe Event
-        }.get(webcast_message["type"], lambda ev=UnknownEvent(): ev.set_as_dict(webcast_message))  # Unknown Event
+        # noinspection PyProtectedMember
+        event._forward_client(self)
+        return event
 
-        return standard()
+    @property
+    def viewer_count(self) -> Optional[int]:
+        """
+        Return viewer count of user
+
+        """
+
+        return self.__viewer_count

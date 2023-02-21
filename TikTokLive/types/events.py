@@ -1,106 +1,108 @@
-from dataclasses import dataclass, field
-from typing import Optional, List
+from __future__ import annotations
 
-from TikTokLive.types import User, Gift, Emote, TreasureBoxData, RankContainer, MicBattleUser, MicArmiesUser
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from TikTokLive import TikTokLiveClient
+
+import base64
+from dataclasses import field
+from typing import Optional, List, Any, Dict, ClassVar
+
+from mashumaro import DataClassDictMixin, pass_through
+
+from TikTokLive.types import User, Gift, Emote, TreasureBoxData, ExtraRankData, LinkUser, BattleArmy, RankData
+from TikTokLive.types.utilities import LiveEvent, alias
 
 
-class AbstractEvent:
+class AbstractEvent(DataClassDictMixin):
     """
-    Abstract Event
-    
+    Abstract TikTok Live event from which to build on
+
     """
 
-    name: str = "event"
-    _as_dict: dict = dict()
+    name: ClassVar[str] = "event"
+    """The name of the TikTokLive event"""
 
-    def __init__(self, data: dict = dict()):
-        self._as_dict: dict = data
-        self.__name = None
-
-    def set_as_dict(self, data: dict):
+    def __init__(self):
         """
-        Set that _as_dict attribute
-
-        :param data: The data to set it to
-        :return: None
+        Never run, this method is for type hinting the raw_data attribute
 
         """
 
-        self._as_dict = data
-        return self
+        self.raw_data: Optional[dict] = dict()
+        """Raw event data as a dictionary in-case the dataclasses miss something"""
 
-    @property
-    def as_dict(self) -> dict:
+    def _forward_client(self, client: TikTokLiveClient):
         """
-        Return a copy of the object as a dictionary
-
-        :return: A copy of the raw payload
+        Forward the client to events where it is required
 
         """
 
-        return self._as_dict
+        if hasattr(self, "user") and isinstance(self.user, User):
+            self.user.avatar._client = client
+            for badge in self.user.badges:
+                for image_badge in badge.image_badges:
+                    image_badge._client = client
 
 
-@dataclass()
+@LiveEvent("connect")
 class ConnectEvent(AbstractEvent):
     """
     Event that fires when the client connect to a livestream
     
     """
 
-    name: str = "connect"
 
-
-@dataclass()
+@LiveEvent("disconnect")
 class DisconnectEvent(AbstractEvent):
     """
     Event that fires when the client disconnects from a livestream
     
     """
 
-    webcast_closed: bool
-    """Whether the Webcast server closed the connection. If false, the client disconnected themselves."""
 
-    name: str = "disconnect"
-
-
-@dataclass()
+@LiveEvent("like")
 class LikeEvent(AbstractEvent):
     """
     Event that fires when a user likes the livestream
     
     """
 
-    user: Optional[User]
+    user: Optional[User] = None
     """The user that liked the stream"""
 
-    likeCount: Optional[int]
-    """The number of likes they sent (I think?)"""
+    likes: Optional[int] = None
+    """The number of likes sent in the payload (Max: 15)"""
 
-    totalLikeCount: Optional[int]
-    """The total number of likes on the stream"""
+    total_likes: Optional[int] = None
+    """Total number of likes sent"""
 
-    displayType: Optional[str]
-    label: Optional[str]
+    display_type: Optional[str] = None
+    """Internal type"""
 
-    name: str = "like"
+    label: Optional[str] = None
+    """Internal TikTok label"""
 
 
-@dataclass()
+@LiveEvent("join")
 class JoinEvent(AbstractEvent):
     """
     Event that fires when a user joins the livestream
     
     """
 
-    user: Optional[User]
+    user: Optional[User] = None
     """The user that joined the stream"""
 
-    displayType: Optional[str]
+    display_type: Optional[str] = None
     """The type of event"""
 
-    label: Optional[str]
+    label: Optional[str] = None
     """Label for event in live chat"""
+
+    action_id: Optional[int] = None
+    """Internal action ID from TikTok"""
 
     @property
     def through_share(self) -> bool:
@@ -110,56 +112,50 @@ class JoinEvent(AbstractEvent):
         :return: Returns True if they joined through a share link
 
         """
-        return self.displayType == "pm_mt_join_message_other_viewer"
-
-    name: str = "join"
+        return self.type == "pm_mt_join_message_other_viewer"
 
 
-@dataclass()
+@LiveEvent("follow")
 class FollowEvent(AbstractEvent):
     """
     Event that fires when a user follows the livestream
     
     """
 
-    user: Optional[User]
+    user: Optional[User] = None
     """The user that followed the streamer"""
 
-    displayType: Optional[str]
-    label: Optional[str]
+    display_type: Optional[str] = None
+    """Internal TikTok display type"""
 
-    name: str = "follow"
+    label: Optional[str] = None
+    """Internal TikTok label"""
 
 
-@dataclass()
+@LiveEvent("share")
 class ShareEvent(AbstractEvent):
     """
     Event that fires when a user shares the livestream
-    
+
     """
 
-    user: Optional[User]
+    user: Optional[User] = None
     """The user that shared the stream"""
 
-    displayType: Optional[str]
-    """Type of event"""
+    display_type: Optional[str] = None
+    """Internal TikTok display type"""
 
-    label: Optional[str]
-    """Internal Webcast Label"""
-
-    name: str = "share"
+    label: Optional[str] = None
+    """Internal TikTok label"""
 
 
-@dataclass()
+@LiveEvent("more_share")
 class MoreShareEvent(ShareEvent):
     """
-    Event that fires when a user shared the livestream more than 5 users or more than 10 users
-
-    "user123 has shared to more than 10 people!"
+    Event that fires when a user shared the livestream to more than 5/10 users
+    e.g. "user123 has shared to more than 10 people!"
 
     """
-
-    name: str = "more_share"
 
     @property
     def amount(self) -> Optional[int]:
@@ -171,197 +167,349 @@ class MoreShareEvent(ShareEvent):
         """
 
         try:
-            return int(self.displayType.split("pm_mt_guidance_viewer_")[1].split("_share")[0])
+            return int(self.display_type.split("pm_mt_guidance_viewer_")[1].split("_share")[0])
         except IndexError:
-            pass
+            return None
 
 
-@dataclass()
-class ViewerCountUpdateEvent(AbstractEvent):
+@LiveEvent("viewer_count")
+class ViewerCountEvent(AbstractEvent):
     """
     Event that fires when the viewer count for the livestream updates
     
     """
 
-    viewerCount: Optional[int]
+    viewer_count: Optional[int] = None
     """The number of people viewing the stream currently"""
 
-    name: str = "viewer_count_update"
 
-
-@dataclass()
+@LiveEvent("comment")
 class CommentEvent(AbstractEvent):
     """
     Event that fires when someone comments on the livestream
     
     """
 
-    user: Optional[User]
+    user: Optional[User] = None
     """The user that sent the comment"""
 
-    comment: Optional[str]
+    comment: Optional[str] = None
     """The UTF-8 text comment that was sent"""
 
-    name: str = "comment"
 
-
-@dataclass()
-class UnknownEvent(AbstractEvent):
-    """
-    Event that fires when an event is received that is not handled by other events in the library.
-    
-    """
-
-    name: str = "unknown"
-
-
-@dataclass()
+@LiveEvent("live_end")
 class LiveEndEvent(AbstractEvent):
     """
     Event that fires when the livestream ends
     
     """
 
-    name: str = "live_end"
 
-
-@dataclass()
+@LiveEvent("gift")
 class GiftEvent(AbstractEvent):
     """
     Event that fires when a gift is received
     
     """
 
-    user: Optional[User]
+    user: Optional[User] = None
     """The user that sent the gift"""
 
-    gift: Optional[Gift]
+    gift: Optional[Gift] = None
     """Object containing gift data"""
 
-    name: str = "gift"
+    def _forward_client(self, client: TikTokLiveClient):
+        """
+        Forward the client to events where it is required
+
+        """
+
+        super()._forward_client(client)
+
+        if hasattr(self, "gift") and isinstance(self.gift, Gift):
+            if self.gift.info:
+                self.gift.info.image._client = client
+            if self.gift.detailed:
+                self.gift.detailed.icon._client = client
+
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        De-flatten the gift event (too much in the primary payload)
+
+        """
+
+        d["gift"] = d  # Move 'er up a bit
+        return d
 
 
-@dataclass()
+@LiveEvent("question")
 class QuestionEvent(AbstractEvent):
     """
     Event that fires when someone asks a Q&A question
     
     """
 
-    questionText: Optional[str]
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        Flatten the question event a bit
+
+        """
+
+        d = d.get("questionDetails")  # Get rid of empty container
+        return d
+
+    question: Optional[str] = None
     """The question that was asked"""
 
-    user: Optional[User]
+    user: Optional[User] = None
     """User who asked the question"""
 
-    name: str = "question"
 
-
-@dataclass()
+@LiveEvent("emote")
 class EmoteEvent(AbstractEvent):
     """
     Event that fires when someone sends a subscriber emote
     
     """
 
-    user: Optional[User]
+    def _forward_client(self, client: TikTokLiveClient):
+        """
+        Forward the client to events where it is required
+
+        """
+
+        super()._forward_client(client)
+
+        if hasattr(self, "emote") and isinstance(self.emote, Emote):
+            self.emote.image._client = client
+
+    user: Optional[User] = None
     """Person who sent the emote message"""
 
-    emote: Optional[Emote]
+    emote: Optional[Emote] = None
     """The emote the person sent"""
 
-    name: str = "emote"
 
-
-@dataclass()
+@LiveEvent("envelope")
 class EnvelopeEvent(AbstractEvent):
     """
-    Event that fire when someone sends an envelope
+    Event that fire when someone sends an envelope (treasure box)
     
     """
 
-    treasureBoxData: Optional[TreasureBoxData]
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        Get rid of an obscene amount of nesting in the envelope event
+
+        """
+
+        # holy crap
+        user_3: List[dict] = d.get("treasureBoxUser", dict()).get("user2", dict()).get("user3", list())
+        d["treasureBoxUser"] = (user_3[0].get('user4', dict()).get('user', None)) if len(user_3) > 0 else None
+        return d
+
+    treasure_box_data: Optional[TreasureBoxData] = alias('treasureBoxData')
     """Data about the enclosed Treasure Box in the envelope"""
 
-    treasureBoxUser: Optional[User]
+    treasure_box_user: Optional[User] = alias('treasureBoxUser')
     """Data about the user that sent the treasure box"""
 
-    name: str = "envelope"
 
-
-@dataclass()
-class SubscribeEvent(AbstractEvent):
-    """
-    Event that fires when someone subscribes to the streamer
-
-    """
-
-    user: Optional[User]
-    """The user that subscribed to the streamer"""
-
-    exhibitionType: Optional[int]
-    """Unknown"""
-
-    subscribeType: Optional[int]
-    """Unknown"""
-
-    oldSubScribeStatus: Optional[int]
-    """Whether they were subscribed before"""
-
-    subscribingStatus: Optional[int]
-    """Whether they are subscribing now"""
-
-    name: str = "subscribe"
-
-
-@dataclass()
+@LiveEvent("weekly_ranking")
 class WeeklyRankingEvent(AbstractEvent):
     """
     Event that fires when the weekly rankings are updated
 
     """
 
-    data: Optional[RankContainer]
-    """Weekly ranking data"""
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        Pre-process weekly ranking event
 
-    name: str = "weekly_ranking"
+        """
+
+        return d.get('data', dict()).get('rankings', dict())  # Do a little flattening
+
+    type: Optional[str] = None
+    """Unknown"""
+
+    label: Optional[str] = None
+    """Internal TikTok Label"""
+
+    extra: Optional[ExtraRankData] = None
+    """Extra data relating to the UI, presumably"""
+
+    data: Optional[RankData] = None
+    """The Top-100 rank of the user"""
+
+    @property
+    def rank(self) -> Optional[int]:
+        """
+        The number for the user's TikTok ranking
+
+        """
+
+        return self.data.rank
 
 
-@dataclass()
-class MicBattleEvent(AbstractEvent):
+@LiveEvent("intro_message")
+class IntroMessageEvent(AbstractEvent):
+    """
+    Event fires giving the current stream description when the stream is joined
+    Note: Only fires if "process_initial_data" is enabled and the streamer has an intro message configured
+
+    """
+
+    room_id: Optional[int] = None
+    """Room ID of the room we are in"""
+
+    message: Optional[str] = None
+    """The pinned intro message in the livestream"""
+
+    streamer: Optional[User] = None
+    """User payload of information about the streamer"""
+
+
+@LiveEvent("mic_battle_start")
+class MicBattleStartEvent(AbstractEvent):
     """
     Event that fires when a Mic Battle starts
 
     """
 
-    battleUsers: List[MicBattleUser] = field(default_factory=lambda: [])
+    def _forward_client(self, client: TikTokLiveClient):
+        """
+        Forward the client to events where it is required
+
+        """
+
+        if hasattr(self, "battle_users") and isinstance(self.battle_users, list):
+            for user in self.battle_users:
+                if isinstance(user, LinkUser):
+                    user.avatar._client = client
+
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        Re-structure messy TikTok structuring for battles
+
+        """
+
+        # Flatten the nested TikTok structures into just a list of LinkUsers
+        battle_users: List[LinkUser] = []
+        for user_data in d.get('battleUsers', list()):
+            try:
+                battle_users.append(user_data["battleGroup"]["user"])
+            except KeyError:
+                continue
+
+        return {'battle_users': battle_users}
+
+    battle_users: List[LinkUser] = field(default_factory=lambda: [])
     """Information about the users engaged in the Mic Battle"""
 
-    name: str = "mic_battle"
 
-
-@dataclass()
-class MicArmiesEvent(AbstractEvent):
+@LiveEvent("mic_battle_update")
+class MicBattleUpdateEvent(AbstractEvent):
     """
-    Event that fires during a Mic Battle to update its progress
+    Triggered every time a battle participant receives points.
+    Contains the current status of the battle and the army that supported the group.
 
     """
 
-    battleStatus: Optional[int]
+    def _forward_client(self, client: TikTokLiveClient):
+        """
+        Forward the client to events where it is required
+
+        """
+
+        if hasattr(self, "battle_armies") and isinstance(self.battle_armies, list):
+            for army in self.battle_armies:
+                for user in army.participants:
+                    if isinstance(user, User):
+                        user.avatar._client = client
+
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        This event needs to be entirely custom-handled because it's a mess on TikTok's end
+
+        """
+
+        event_data: dict = {'battle_status': d.get('battleStatus')}
+        battle_armies: list = []
+
+        for battle_item in d.get('battleItems', list()):
+            for battle_group in battle_item.get('battleGroups', list()):
+                battle_armies.append({
+                    'host_user_id': battle_item.get('hostUserId'),
+                    'points': battle_group.get('points'),
+                    'participants': battle_group.get('users')
+                })
+
+        event_data['battle_armies'] = battle_armies
+        return event_data
+
+    battle_status: Optional[int] = None
     """The status of the current Battle"""
 
-    battleUsers: List[MicArmiesUser] = field(default_factory=lambda: [])
+    battle_armies: List[BattleArmy] = field(default_factory=lambda: [])
     """Information about the users engaged in the Mic Battle"""
 
-    name: str = "mic_armies"
 
+@LiveEvent("unknown")
+class UnknownEvent(AbstractEvent):
+    """
+    Event that fires when an event is received that is missing a handler
 
-__events__ = {
-    "pm_mt_msg_viewer": LikeEvent,
-    "live_room_enter_toast": JoinEvent,
-    "pm_main_follow_message_viewer_2": FollowEvent,
-    "pm_mt_guidance_share": ShareEvent,
-    "pm_mt_join_message_other_viewer": JoinEvent,
-    "pm_mt_guidance_viewer_5_share": MoreShareEvent,
-    "pm_mt_guidance_viewer_10_share": MoreShareEvent
-}
+    """
+
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        Give *some* structure for unknown events. We're not savages, here.
+
+        """
+
+        # Shallow copy of the data
+        copy: Dict[Any, Any] = d.copy()
+
+        # Remove from the original (will be in the new payload)
+        for key in ["type", "binary"]:
+            try:
+                del d[key]
+            except KeyError:
+                pass
+
+        # Build the new format
+        return (
+            {
+                "type": copy.get("type"),
+                "binary": copy.get("binary"),
+                "data": d or None
+            }
+        )
+
+    type: Optional[str] = None
+    """The type of message. This is the message's "official" name provided by TikTok"""
+
+    binary: Optional[bytes] = field(metadata={"serialization_strategy": pass_through}, default=None)
+    """Binary of the message if provided. This is useful if there is NO protobuf definition yet"""
+
+    data: Optional[Dict[Any, Any]] = None
+    """Data contained within the event. This is useful if the protobuf has been decoded but an event object has not been made."""
+
+    @property
+    def base64(self):
+        """
+        Base64 version of message binary *if* binary is provided
+
+        Can be loaded into a decoder such as https://protobuf-decoder.netlify.app/.
+
+        """
+
+        return base64.b64encode(self.binary) if self.binary else None

@@ -1,9 +1,11 @@
 import json as json_parse
 import urllib.parse
+from asyncio import AbstractEventLoop
 from http.cookies import SimpleCookie
 from typing import Dict, Optional
 
 import httpx
+from httpx import Cookies
 
 from TikTokLive.client import config
 from TikTokLive.proto.utilities import deserialize_message
@@ -21,8 +23,9 @@ class TikTokHTTPClient:
 
     def __init__(
             self,
+            loop: AbstractEventLoop,
             headers: Optional[Dict[str, str]] = None,
-            timeout_ms: Optional[int] = None,
+            timeout: Optional[float] = None,
             proxies: Optional[Dict[str, str]] = None,
             trust_env: bool = True,
             params: Optional[Dict[str, str]] = dict(),
@@ -32,23 +35,30 @@ class TikTokHTTPClient:
         Initialize HTTP client for TikTok-related requests
 
         :param headers: Headers to use to make HTTP requests
-        :param timeout_ms: Timeout for HTTP requests
+        :param timeout: Timeout for HTTP requests
         :param proxies: Enable proxied requests by turning on forwarding for the HTTPX "proxies" argument
         :param trust_env: Whether to trust the environment when it comes to proxy usage
         :param sign_api_key: API key to increase rate limits on the sign server API for bulk usage of the library
 
         """
 
-        self.timeout: int = int((timeout_ms if isinstance(timeout_ms, int) else 10000) / 1000)
+        self.loop: AbstractEventLoop = loop
+        self.timeout: float = timeout or 10.0
         self.proxies: Optional[Dict[str, str]] = proxies
         self.headers: Dict[str, str] = {**config.DEFAULT_REQUEST_HEADERS, **(headers if isinstance(headers, dict) else dict())}
         self.params: dict = params if params else dict()
-        self.sign_api_key: str = sign_api_key if sign_api_key else ""
-
+        self.sign_api_key: str = sign_api_key or ""
         self.trust_env: bool = trust_env
-        self.client = httpx.AsyncClient(trust_env=trust_env, proxies=proxies)
-
+        self.cookies = Cookies()
         TikTokHTTPClient._uuc += 1
+
+    def __del__(self):
+        """
+        Internal utility method
+        
+        """
+
+        TikTokHTTPClient._uuc -= 1
 
     @classmethod
     def update_url(cls, url: str, params: dict) -> str:
@@ -76,8 +86,10 @@ class TikTokHTTPClient:
         :raises: httpx.TimeoutException
         """
 
-        url: str = self.update_url(url, params if params else dict())
-        response: httpx.Response = await self.client.get(url, headers=self.headers, timeout=self.timeout)
+        url: str = self.update_url(url, params or dict())
+
+        async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies) as client:
+            response: httpx.Response = await client.get(url, headers=self.headers, timeout=self.timeout)
 
         # If requesting the sign api
         if sign_api:
@@ -90,11 +102,11 @@ class TikTokHTTPClient:
                     "Catch this error & access its attributes (retry_after, reset_time) for data on when you can request next."
                 )
 
-            self.__set_tt_cookies(response.headers.get("X-Set-TT-Cookie"))
+            self.__set_tt_cookies(cookies=response.headers.get("X-Set-TT-Cookie"))
 
         return response.read()
 
-    def __set_tt_cookies(self, cookies: Optional[str]) -> None:
+    def __set_tt_cookies(self, cookies: str) -> None:
         """
         Utility method to set TikTok.com cookies from a cookie string received from the Signing API
 
@@ -103,18 +115,17 @@ class TikTokHTTPClient:
 
         """
 
-        # Make sure valid
+        # Must be valid
         if not cookies:
             return
 
-        # Convert to key-value
+        # Convert to k-v
         cookie_jar: SimpleCookie = SimpleCookie()
         cookie_jar.load(cookies)
         cookies: Dict[str, str] = {key: value.value for key, value in cookie_jar.items()}
 
-        # Add key-value
         for key, value in cookies.items():
-            self.client.cookies.set(key, value, ".tiktok.com")
+            self.cookies.set(key, value, ".tiktok.com")
 
     async def __httpx_get_json(self, url: str, params: dict) -> dict:
         """
@@ -141,15 +152,17 @@ class TikTokHTTPClient:
 
         """
 
-        url: str = self.update_url(url, params if params else dict())
-        response: httpx.Response = await self.client.post(
-            url=url,
-            data=json,
-            headers=self.headers,
-            timeout=self.timeout
-        )
+        url: str = self.update_url(url, params or dict())
 
-        return response.json()
+        async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies) as client:
+            response: httpx.Response = await client.post(
+                url=url,
+                data=json,
+                headers=self.headers,
+                timeout=self.timeout
+            )
+
+            return response.json()
 
     async def get_livestream_page_html(self, unique_id: str) -> str:
         """
@@ -195,6 +208,19 @@ class TikTokHTTPClient:
         response: bytes = await self.__httpx_get_bytes(config.TIKTOK_URL_WEBCAST + path, params)
         return deserialize_message(schema, response)
 
+    async def get_image_from_tiktok_api(self, url: str, params: dict) -> Optional[bytes]:
+        """
+        Retrieve an image resource from TikTok's API as bytes
+
+        :param url: URL of the image
+        :param params: Extra parameters
+        :return: Hopefully, the image, in bytes
+
+        """
+
+        response: bytes = await self.__httpx_get_bytes(url, params)
+        return response
+
     async def get_json_object_from_webcast_api(self, path: str, params: dict) -> dict:
         """
         Retrieve JSON formatted data from the Webcast API
@@ -236,11 +262,12 @@ class TikTokHTTPClient:
 
         """
 
-        response: httpx.Response = await self.client.post(
-            url=url,
-            data=json,
-            headers=headers,
-            timeout=self.timeout
-        )
+        async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies) as client:
+            response: httpx.Response = await client.post(
+                url=url,
+                data=json,
+                headers=headers,
+                timeout=self.timeout
+            )
 
-        return response.json()
+            return response.json()

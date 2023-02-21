@@ -1,13 +1,24 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from TikTokLive.client.client import TikTokLiveClient
+
 import enum
 import re
 from dataclasses import dataclass, field
 from threading import Thread
-from typing import List, Optional
+from typing import List, Optional, Any, Dict
 
 from ffmpy import FFmpeg
+from mashumaro import DataClassDictMixin, pass_through
+
+from TikTokLive.types import utilities
+from TikTokLive.types.utilities import alias
 
 
-class AbstractObject:
+class AbstractObject(DataClassDictMixin):
     """
     Abstract Object
 
@@ -23,64 +34,83 @@ class Avatar(AbstractObject):
 
     """
 
-    urls: List[str]
+    urls: List[str] = field(default_factory=lambda: [])
 
     @property
-    def avatar_url(self):
+    def url(self):
         """
-        The last (highest quality) avatar URL supplied
+        The last avatar URL supplied, if any are supplied
 
         """
-        return self.urls[-1]
+
+        if len(self.urls) > 0:
+            return self.urls[-1]
+
+    async def download(self) -> Optional[bytes]:
+        """
+        Download the GiftImage image
+        :return: Image as a bytestring
+
+        """
+
+        return await utilities.download(self.url, getattr(self, "_client"))
 
 
 @dataclass()
-class ExtraAttributes(AbstractObject):
+class UserDetail(AbstractObject):
     """
     Extra attributes on the User Object (e.g. following status)
 
     """
 
-    followRole: Optional[int] = field(default_factory=lambda: 0)
+    follow_role: Optional[int] = None
 
 
 @dataclass()
-class Badge(AbstractObject):
+class TextBadge(AbstractObject):
     """
     User badges (e.g moderator)
 
     """
 
-    type: Optional[str]
+    type: Optional[str] = None
     """The type of badge"""
 
-    name: Optional[str]
+    name: Optional[str] = None
     """The name for the badge"""
 
 
 @dataclass()
-class ImageBadgeImage:
-    """
-    Image container with the URL of the user badge
-
-    """
-
-    url: Optional[str]
-    """The TikTok CDN Image URL for the badge"""
-
-
-@dataclass()
-class ImageBadge:
+class ImageBadge(AbstractObject):
     """"
     Image Badge object containing an image badge for a TikTok User
 
     """
 
-    displayType: Optional[int]
-    """The displayType of the badge"""
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        Flatten it a bit to get just the image
 
-    image: Optional[ImageBadgeImage]
-    """Container for the image badge"""
+        """
+
+        d["url"] = d.get('image', dict()).get('url')
+        return d
+
+    async def download(self, client: TikTokLiveClient) -> Optional[bytes]:
+        """
+        Download the ImageBadge image
+        :return: Image as a bytestring
+
+        """
+
+        return await utilities.download(self.url, client)
+
+    url: Optional[str] = None
+    """The TikTok CDN Image URL for the badge"""
+
+    display_type: Optional[int] = None
+    """The display type of the badge"""
 
 
 @dataclass()
@@ -90,13 +120,13 @@ class BadgeContainer(AbstractObject):
 
     """
 
-    badgeSceneType: Optional[int]
+    badge_scene_type: Optional[int] = None
     """Their badge "level". For a subscriber, for example, this can be 3/7"""
 
-    imageBadges: List[ImageBadge] = field(default_factory=lambda: [])
+    image_badges: List[ImageBadge] = field(default_factory=lambda: [])
     """A list of image badges the user has (e.g. Subscriber badge)"""
 
-    badges: List[Badge] = field(default_factory=lambda: [])
+    text_badges: List[TextBadge] = field(default_factory=lambda: [])
     """A list of text badges the user has (e.g. Moderator/Friend badge)"""
 
 
@@ -107,22 +137,22 @@ class User(AbstractObject):
 
     """
 
-    userId: Optional[int]
-    """The user's user id"""
-
-    uniqueId: Optional[str]
-    """The user's uniqueId (e.g @charlidamelio)"""
-
-    nickname: Optional[str]
+    nickname: Optional[str] = None
     """The user's nickname (e.g Charlie d'Amelio)"""
 
-    profilePicture: Optional[Avatar]
+    avatar: Optional[Avatar] = field(default_factory=lambda: Avatar())
     """An object containing avatar url information"""
 
-    extraAttributes: ExtraAttributes = field(default_factory=lambda: ExtraAttributes())
+    unique_id: Optional[str] = None
+    """The user's uniqueId (e.g @charlidamelio)"""
+
+    user_id: Optional[int] = None
+    """The user's Internal TikTok User ID"""
+
+    details: UserDetail = None
     """Extra attributes for the user such as if they are following the streamer"""
 
-    badges: List[BadgeContainer] = field(default_factory=lambda: [])
+    badges: List[BadgeContainer] = field(default_factory=lambda: list())
     """Badges for the user containing information such as if they are a stream moderator"""
 
     @property
@@ -132,7 +162,7 @@ class User(AbstractObject):
 
         """
 
-        return self.extraAttributes.followRole >= 1
+        return self.details.follow_role >= 1
 
     @property
     def is_friend(self) -> bool:
@@ -141,20 +171,23 @@ class User(AbstractObject):
 
         """
 
-        return self.extraAttributes.followRole >= 2
+        return self.details.follow_role >= 2
 
     def __contains_badge(self, name: str) -> bool:
         """
         Check if a given badge type is in the badge list
 
-        :param name: Name of the badge
+        :param name: Name of the badge or URL
         :return: Whether it's there
 
         """
 
         for badge in self.badges:
-            for _badge in badge.badges:
-                if name in _badge.type:
+            for text_badge in badge.text_badges:
+                if name in text_badge.type or name in text_badge.name:
+                    return True
+            for image_badge in badge.image_badges:
+                if name in image_badge.url or name in image_badge.display_type:
                     return True
 
         return False
@@ -183,14 +216,14 @@ class User(AbstractObject):
         Whether they are a subscriber in the watched stream
 
         """
-        
+
         # Sub badge name
         if self.__contains_badge("/sub_"):
             return True
-        
+
         # Generic sub badge type
         for badge in self.badges:
-            if badge.badgeSceneType in [4, 7]:
+            if badge.badge_scene_type in [4, 7]:
                 return True
 
         return False
@@ -203,8 +236,8 @@ class User(AbstractObject):
         """
 
         for badge in self.badges:
-            for _badge in badge.imageBadges:
-                result = re.search(r'(?<=ranklist_top_gifter_)(\d+)(?=.png)', _badge.image.url)
+            for _badge in badge.image_badges:
+                result = re.search(r'(?<=ranklist_top_gifter_)(\d+)(?=.png)', _badge.url)
                 if result is not None:
                     return int(result.group())
 
@@ -217,94 +250,159 @@ class GiftIcon(AbstractObject):
     Icon data for a given gift (such as its image URL)
 
     """
-    avg_color: Optional[str]
-    uri: Optional[str]
 
-    is_animated: Optional[bool]
+    avg_color: Optional[str] = None
+    """Colour of the gift"""
+
+    uri: Optional[str] = None
+    """URI for the URL (the URL minus the https://cdn)"""
+
+    is_animated: Optional[bool] = None
     """Whether or not it is an animated icon"""
 
-    url_list: Optional[List[str]]
+    urls: Optional[List[str]] = alias("url_list")
     """A list of URLs containing various sizes of the gift's icon"""
 
+    @property
+    def url(self) -> Optional[str]:
+        """
+        Retrieve the highest quality URL offered
 
-@dataclass()
-class ExtendedGift(AbstractObject):
-    """
-    Extended gift data for a gift including a whole lotta extra properties.
+        """
 
-    """
+        if len(self.urls) > 0:
+            return self.urls[-1]
 
-    id: Optional[int]
-    """ The ID of the gift """
+    async def download(self) -> Optional[bytes]:
+        """
+        Download the GiftIcon image
+        :return: Image as a bytestring
 
-    name: Optional[str]
-    """ The name of the gift """
+        """
 
-    type: Optional[int]
-    """The type of gift"""
-
-    diamond_count: Optional[int]
-    """The currency (Diamond) value of the item"""
-
-    describe: Optional[str]
-    duration: Optional[int]
-    event_name: Optional[str]
-    icon: Optional[GiftIcon]
-    image: Optional[GiftIcon]
-    notify: Optional[bool]
-    is_broadcast_gift: Optional[bool]
-    is_displayed_on_panel: Optional[bool]
-    is_effect_befview: Optional[bool]
-    is_random_gift: Optional[bool]
-    is_gray: Optional[bool]
+        return await utilities.download(self.url, getattr(self, "_client"))
 
 
 @dataclass()
-class GiftDetailImage(AbstractObject):
+class GiftImage(AbstractObject):
     """
     Gift image
     
     """
 
-    giftPictureUrl: Optional[str]
+    url: Optional[str] = None
     """Icon URL for the Gift"""
+
+    async def download(self) -> Optional[bytes]:
+        """
+        Download the GiftImage image
+        :return: Image as a bytestring
+
+        """
+
+        return await utilities.download(self.url, getattr(self, "_client"))
 
 
 @dataclass()
-class GiftDetails(AbstractObject):
+class GiftInfo(AbstractObject):
     """
     Details about a given gift 
     
     """
 
-    giftImage: Optional[GiftDetailImage]
+    image: Optional[GiftImage] = field(default_factory=lambda: GiftImage())
     """Image container for the Gift"""
 
-    describe: Optional[str]
+    description: Optional[str] = None
     """Describes the gift"""
 
-    giftType: Optional[int]
+    type: Optional[int] = None
     """The type of gift. Type 1 are repeatable, any other type are not."""
 
-    diamondCount: Optional[int]
-    """Diamond value of 1 of the gift"""
+    diamond_count: Optional[int] = alias("diamondCount")
+    """Diamond value of x1 of the gift"""
 
-    giftName: Optional[str]
+    name: Optional[str] = alias("giftName")
     """Name of the gift"""
 
 
 @dataclass()
-class GiftExtra:
+class GiftRecipient(AbstractObject):
     """
     Gift object containing information about the gift recipient
 
     """
 
-    timestamp: Optional[int]
-    """The time the gift was sent"""
+    timestamp: Optional[int] = None
+    """The time the gift was received"""
 
-    receiverUserId: Optional[int]
-    """The user that received the gift"""
+    user_id: Optional[int] = None
+    """The user ID of the person that received the gift"""
+
+
+@dataclass()
+class GiftDetailed(AbstractObject):
+    """
+    A detailed version of the Gift object with extra information that may or may not be useful
+
+    """
+
+    id: Optional[bool] = None
+    """Internal TikTok Gift Id"""
+
+    combo: Optional[bool] = None
+    """Whether the gift can be combo'd"""
+
+    can_put_gift_in_box: Optional[bool] = None
+    """Whether the gift can be put into a treasure box"""
+
+    description: Optional[str] = alias("describe")
+    """Extra description for the gift"""
+
+    diamond_count: Optional[int] = None
+    """How much the gift is worth"""
+
+    duration: Optional[int] = None
+    """How long the gift lasts"""
+
+    for_link_mic: Optional[bool] = alias("for_linkmic")
+    """Whether the gift is for link mic events"""
+
+    icon: Optional[GiftIcon] = field(default_factory=lambda: GiftIcon())
+    """Image icon for the gift"""
+
+    is_box_gift: Optional[bool] = None
+    """Whether the gift is a box gift"""
+
+    is_broadcast_gift: Optional[bool] = None
+    """Whether the gift is a broadcast gift (usually YES since... this is TikTokLive)"""
+
+    name: Optional[str] = None
+    """The display name of the gift"""
+
+    notify: Optional[bool] = None
+    """Whether this gift gives a notification (presumably for expensive gifts)"""
+
+    type: Optional[int] = None
+    """The type of gift"""
+
+    primary_effect_id: Optional[int] = None
+    """Unknown purpose"""
+
+    event_name: Optional[str] = None
+    """Unknown purpose"""
+
+    is_displayed_on_panel: Optional[bool] = None
+    """Unknown purpose"""
+
+    is_random_gift: Optional[bool] = None
+    """Unknown purpose"""
+
+    is_gray: Optional[bool] = None
+    """Unknown purpose"""
+
+    gift_scene: Optional[int] = None
+    """Unknown purpose"""
 
 
 @dataclass()
@@ -314,23 +412,23 @@ class Gift(AbstractObject):
     
     """
 
-    giftId: Optional[int]
+    id: Optional[int] = None
     """The Internal TikTok ID of the gift"""
 
-    repeatCount: Optional[int]
+    count: Optional[int] = alias("repeatCount", default=None)
     """Number of times the gift has repeated"""
 
-    repeatEnd: Optional[int]
+    is_repeating: Optional[int] = alias("repeatEnd", default=None)
     """Whether or not the repetition is over"""
 
-    giftDetails: Optional[GiftDetails]
+    info: Optional[GiftInfo] = None
     """Details about the specific Gift sent"""
 
-    giftExtra: Optional[GiftExtra]
-    """Details like who the gift was sent to (multi-user streams)"""
+    recipient: Optional[GiftRecipient] = None
+    """Who received the gift (for streams with multiple users)"""
 
-    extended_gift: Optional[ExtendedGift]
-    """Extended gift including extra data (not very important as of april 2022)"""
+    detailed: Optional[GiftDetailed] = field(metadata={"serialization_strategy": pass_through}, default=None)
+    """If offered, allow a default gift"""
 
     @property
     def streakable(self) -> bool:
@@ -340,7 +438,7 @@ class Gift(AbstractObject):
         :return: True if it is type 1, otherwise False
         """
 
-        return self.giftDetails.giftType == 1
+        return self.info.type == 1
 
     @property
     def streaking(self) -> bool:
@@ -351,214 +449,131 @@ class Gift(AbstractObject):
 
         """
 
-        return bool(self.repeatEnd)
-
-    @property
-    def repeat_count(self) -> int:
-        """
-        Alias for repeatCount for backwards compatibility
-
-        :return: repeatCount Value
-        """
-
-        return self.repeatCount
-
-    @property
-    def repeat_end(self) -> int:
-        """
-        Alias for repeatEnd for backwards compatibility
-
-        :return: repeatEnd Value
-
-        """
-
-        return self.repeatEnd
-
-    @property
-    def gift_type(self) -> int:
-        """
-        Alias for the giftDetails.giftType for backwards compatibility
-
-        :return: giftType Value
-
-        """
-
-        return self.giftDetails.giftType
+        return bool(self.is_repeating)
 
 
 @dataclass()
-class EmoteImage:
+class EmoteImage(AbstractObject):
     """
     Container encapsulating the image URL for the Emote
 
     """
 
-    imageUrl: Optional[str]
+    url: Optional[str] = None
     """TikTok CDN link to the given Emote for the streamer"""
+
+    async def download(self) -> Optional[bytes]:
+        """
+        Download the EmoteImage image
+        :return: Image as a bytestring
+
+        """
+
+        return await utilities.download(self.url, getattr(self, "_client"))
 
 
 @dataclass()
-class Emote:
+class Emote(AbstractObject):
     """
     The Emote a user sent in the chat
 
     """
 
-    emoteId: Optional[str]
+    emoteId: Optional[str] = None
     """ID of the TikTok Emote"""
 
-    image: Optional[EmoteImage]
+    image: Optional[EmoteImage] = field(default_factory=lambda: EmoteImage())
     """Container encapsulating the image URL for the sent Emote"""
 
 
 @dataclass()
-class TreasureBoxData:
+class TreasureBoxData(AbstractObject):
     """
     Information about the gifted treasure box
 
     """
 
-    coins: Optional[int]
-    """Coins of the treasure box"""
+    coins: Optional[int] = None
+    """Number of coins enclosed in the treasure box"""
 
-    canOpen: Optional[int]
+    openable: Optional[int] = None
     """Whether the treasure box can be opened"""
 
-    timestamp: Optional[int]
+    timestamp: Optional[int] = None
     """Timestamp for when the treasure box was sent"""
 
 
 @dataclass()
-class MemberMessageDetails:
+class ExtraRankData(AbstractObject):
     """
-    Details about a given member message proto event
-
-    """
-
-    displayType: Optional[str]
-    """The displayType of the message corresponding to the type of member message"""
-
-    label: Optional[str]
-    """Display Label for the member message"""
-
-
-@dataclass()
-class RankItem:
-    """
-    Rank Item for the user ranking
+    Extra UI data related to the rank update
 
     """
 
-    colour: Optional[str]
+    colour: Optional[str] = None
     """Colour that the rank corresponds to (for the UI)"""
 
-    id: Optional[int]
-    """The rank. If id=400, they are in the Top 400"""
+    id: Optional[int] = None
+    """Some sort of internal ID, potentially related to rank"""
 
 
 @dataclass()
-class WeeklyRanking:
+class RankData(AbstractObject):
     """
-    Container with the weekly ranking data
+    The specific rank number of the user
 
     """
 
-    type: Optional[str]
-    """Unknown"""
-
-    label: Optional[str]
-    """Label for the UI"""
-
-    rank: Optional[RankItem]
-    """The weekly ranking data"""
+    rank: Optional[str]
+    """The rank of the user"""
 
 
 @dataclass()
-class RankContainer:
-    """
-    Container encapsulating weekly ranking data
-
-    """
-
-    rankings: Optional[WeeklyRanking]
-
-
-@dataclass()
-class MemberMessage:
-    """
-    Container encapsulating the member message details
-
-    """
-
-    eventDetails: Optional[MemberMessageDetails]
-
-
-@dataclass()
-class LinkUser:
+class LinkUser(AbstractObject):
     """
     A user in a TikTok LinkMicBattle (TikTok Battle Events)
 
     """
 
-    userId: Optional[int]
-    """userId of the user"""
+    user_id: Optional[int] = None
+    """Internal TikTok user id of the user"""
 
-    nickname: Optional[str]
+    nickname: Optional[str] = None
     """User's Nickname"""
 
-    profilePicture: Optional[Avatar]
+    avatar: Optional[Avatar] = field(default_factory=lambda: Avatar())
     """User's Profile Picture"""
 
-    uniqueId: Optional[str]
+    unique_id: Optional[str] = None
     """The uniqueId of the user"""
 
 
 @dataclass()
-class MicBattleGroup:
+class MicBattleGroup(AbstractObject):
     """
     A container encapsulating LinkUser data for TikTok Battles
 
     """
 
-    user: LinkUser
+    user: Optional[LinkUser] = None
     """The TikTok battle LinkUser"""
 
 
 @dataclass()
-class MicBattleUser:
-    """
-    A container encapsulating the LinkUser data for TikTok Battles
-
-    """
-    battleGroup: MicBattleGroup
-
-
-@dataclass()
-class MicArmiesGroup:
+class BattleArmy(AbstractObject):
     """
     A group containing
 
     """
 
-    points: Optional[int]
-    """The number of points the person has"""
+    host_user_id: Optional[int] = None
+    """The user ID of the host for this battle army"""
 
-    users: List[User] = field(default_factory=lambda: [])
-    """(Presumably) the users involved in the battle"""
+    points: Optional[int] = None
+    """The number of points the battle army has"""
 
-
-@dataclass()
-class MicArmiesUser:
-    """
-    Information about the Mic Armies User
-
-    """
-
-    hostUserId: Optional[int]
-    """The user ID of the TikTok host"""
-
-    battleGroups: Optional[MicArmiesGroup]
-    """Information about the users involved in the battle"""
+    participants: List[User] = field(default_factory=lambda: [])
+    """The users involved in the specific battle army"""
 
 
 @dataclass()

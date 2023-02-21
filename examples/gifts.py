@@ -7,7 +7,7 @@ client = TikTokLiveClient("@satisfyy.me")
 @client.on("gift")
 async def on_gift(event: GiftEvent):
     """
-    This is an example for the "gift" LiveEvent to show you how to read gift data properly.
+    This is an example for the "gift" event to show you how to read gift data properly.
 
     Important Note:
 
