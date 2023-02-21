@@ -26,8 +26,10 @@ async def on_connect(_: ConnectEvent):
 
 if __name__ == '__main__':
     """
-    NOTE: You must have ffmpeg installed on your machine for this program to run!
+    Note: "ffmpeg" MUST be installed on your machine to run this program
     
     """
 
+    # Run the client and block the main thread
+    # await client.start() to run non-blocking
     client.run()

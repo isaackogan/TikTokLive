@@ -3,9 +3,9 @@ import io
 from asyncio import AbstractEventLoop
 from typing import List, Optional
 
-import aiohttp
 import pygame
 from PIL import Image, ImageDraw, ImageFilter
+
 from TikTokLive import TikTokLiveClient
 from TikTokLive.types.events import CommentEvent
 
@@ -89,7 +89,7 @@ class DisplayCase:
         """
         Initialize a display case
         
-        :param loop: asyncio event loop
+        :param loop: asyncio LiveEvent loop
         :param height: Screen height
         :param width: Screen width
         
@@ -136,12 +136,14 @@ class DisplayCase:
         
         """
 
-        comment = self.queue.pop(0)
+        event = self.queue.pop(0)
+        comment = Comment(
+            author=event.user.unique_id,
+            text=event.comment,
+            image=(await event.user.avatar.download())
+        )
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(comment.user.profilePicture.avatar_url) as request:
-                c = Comment(author=comment.user.uniqueId, text=comment.comment, image=await request.read())
-                self.active.insert(0, c)
+        self.active.insert(0, comment)
 
     async def __screen_loop(self):
         """
@@ -180,29 +182,14 @@ class DisplayCase:
 
 if __name__ == '__main__':
     """
-    This module requires the following to run:
-    
-    - TikTokLive
-    - Pillow (PIL)
-    - pygame
+    This example requires the following ADDITIONAL packages to run:
+    => Pillow, Pygame
     
     """
 
-
-    async def on_comment(comment: CommentEvent):
-        """
-        Add to the display case queue on comment
-        :param comment: Comment event
-        :return: None
-
-        """
-
-        display.queue.append(comment)
-
-
     loop: AbstractEventLoop = asyncio.get_event_loop()
-    client: TikTokLiveClient = TikTokLiveClient("@oldskoldj", loop=loop)
-    client.add_listener("comment", on_comment)
+    client: TikTokLiveClient = TikTokLiveClient("@tomwhoasmr", loop=loop)
+    client.add_listener('comment', lambda event: display.queue.append(event))
     display: DisplayCase = DisplayCase(loop)
     loop.create_task(client.start())
     loop.run_until_complete(display.start())

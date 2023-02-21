@@ -7,7 +7,7 @@ client = TikTokLiveClient("@satisfyy.me")
 @client.on("gift")
 async def on_gift(event: GiftEvent):
     """
-    This is an example for the "gift" event to show you how to read gift data properly.
+    This is an example for the "gift" LiveEvent to show you how to read gift data properly.
 
     Important Note:
 
@@ -17,13 +17,15 @@ async def on_gift(event: GiftEvent):
     """
 
     # Streakable gift & streak is over
-    if event.gift.streakable:
-        if not event.gift.streaking:
-            print(f"{event.user.uniqueId} sent {event.gift.repeat_count}x \"{event.gift.extended_gift.name}\"")
+    if event.gift.streakable and not event.gift.streaking:
+        print(f"{event.user.unique_id} sent {event.gift.count}x \"{event.gift.info.name}\"")
 
-    # Not streakable gift
-    else:
-        print(f"{event.user.uniqueId} sent \"{event.gift.extended_gift.name}\"")
+    # Non-streakable gift
+    elif not event.gift.streakable:
+        print(f"{event.user.unique_id} sent \"{event.gift.info.name}\"")
 
 
-client.run()
+if __name__ == '__main__':
+    # Run the client and block the main thread
+    # await client.start() to run non-blocking
+    client.run()
