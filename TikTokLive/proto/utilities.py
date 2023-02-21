@@ -41,7 +41,7 @@ def deserialize_message(proto_name: str, obj: bytes) -> dict:
                 "WebcastEnvelopeMessage",
                 "WebcastLiveIntroMessage",
                 "RoomMessage",
-                "WebcastRankUpdateMessage",  # How is this different from hourly? Literally, I have no idea.
+                "WebcastRankUpdateMessage",
                 "WebcastHourlyRankMessage"
             ]:
                 continue
