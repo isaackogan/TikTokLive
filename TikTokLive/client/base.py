@@ -65,7 +65,7 @@ class WebcastPushConnection:
         """
 
         # Event loop. On connect, this will be filled if None
-        self.loop: Optional[AbstractEventLoop] = loop
+        self.loop: Optional[AbstractEventLoop] = self.__get_event_loop(loop)
 
         # Managed Attributes
         self.__room_info: Optional[dict] = None
@@ -124,7 +124,7 @@ class WebcastPushConnection:
 
         """
 
-        if isinstance(loop, AbstractEventLoop):
+        if isinstance(loop, AbstractEventLoop) and loop.is_running():
             return loop
         else:
             try:
