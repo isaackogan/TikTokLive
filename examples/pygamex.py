@@ -89,7 +89,7 @@ class DisplayCase:
         """
         Initialize a display case
         
-        :param loop: asyncio LiveEvent loop
+        :param loop: asyncio event loop
         :param height: Screen height
         :param width: Screen width
         
@@ -144,6 +144,7 @@ class DisplayCase:
         )
 
         self.active.insert(0, comment)
+        print("Comment Received:", self.active)
 
     async def __screen_loop(self):
         """
@@ -190,6 +191,7 @@ if __name__ == '__main__':
     loop: AbstractEventLoop = asyncio.get_event_loop()
     client: TikTokLiveClient = TikTokLiveClient("@tomwhoasmr", loop=loop)
     client.add_listener('comment', lambda event: display.queue.append(event))
+    client.add_listener('connect', lambda event: print('Connected!'))
     display: DisplayCase = DisplayCase(loop)
     loop.create_task(client.start())
     loop.run_until_complete(display.start())
