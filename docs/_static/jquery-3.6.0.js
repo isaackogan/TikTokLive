@@ -3439,7 +3439,7 @@
  *	options: an optional list of space-separated options that will change how
  *			the callback list behaves or a more traditional option object
  *
- * By default a callback list will act like an LiveEvent callback list and can be
+ * By default a callback list will act like an event callback list and can be
  * "fired" multiple times.
  *
  * Possible options:
@@ -4086,7 +4086,7 @@
         isReady: false,
 
         // A counter to track how many items to wait for before
-        // the ready LiveEvent fires. See #6781
+        // the ready event fires. See #6781
         readyWait: 1,
 
         // Handle when the DOM is ready
@@ -4100,7 +4100,7 @@
             // Remember that the DOM is ready
             jQuery.isReady = true;
 
-            // If a normal DOM Ready LiveEvent fired, decrement, and wait if need be
+            // If a normal DOM Ready event fired, decrement, and wait if need be
             if (wait !== true && --jQuery.readyWait > 0) {
                 return;
             }
@@ -4112,7 +4112,7 @@
 
     jQuery.ready.then = readyList.then;
 
-// The ready LiveEvent handler and self cleanup method
+// The ready event handler and self cleanup method
     function completed() {
         document.removeEventListener("DOMContentLoaded", completed);
         window.removeEventListener("load", completed);
@@ -4120,7 +4120,7 @@
     }
 
 // Catch cases where $(document).ready() is called
-// after the browser LiveEvent has already occurred.
+// after the browser event has already occurred.
 // Support: IE <=9 - 10 only
 // Older IE sometimes signals "interactive" too soon
     if (document.readyState === "complete" ||
@@ -4131,7 +4131,7 @@
 
     } else {
 
-        // Use the handy LiveEvent callback
+        // Use the handy event callback
         document.addEventListener("DOMContentLoaded", completed);
 
         // A fallback to window.onload, that will always work
@@ -5164,7 +5164,7 @@
             origFn = fn;
             fn = function (event) {
 
-                // Can use an empty set, since LiveEvent contains the info
+                // Can use an empty set, since event contains the info
                 jQuery().off(event);
                 return origFn.apply(this, arguments);
             };
@@ -5215,15 +5215,15 @@
                 handler.guid = jQuery.guid++;
             }
 
-            // Init the element's LiveEvent structure and main handler, if this is the first
+            // Init the element's event structure and main handler, if this is the first
             if (!(events = elemData.events)) {
                 events = elemData.events = Object.create(null);
             }
             if (!(eventHandle = elemData.handle)) {
                 eventHandle = elemData.handle = function (e) {
 
-                    // Discard the second LiveEvent of a jQuery.LiveEvent.trigger() and
-                    // when an LiveEvent is called after a page has unloaded
+                    // Discard the second event of a jQuery.event.trigger() and
+                    // when an event is called after a page has unloaded
                     return typeof jQuery !== "undefined" && jQuery.event.triggered !== e.type ?
                         jQuery.event.dispatch.apply(elem, arguments) : undefined;
                 };
@@ -5242,16 +5242,16 @@
                     continue;
                 }
 
-                // If LiveEvent changes its type, use the special LiveEvent handlers for the changed type
+                // If event changes its type, use the special event handlers for the changed type
                 special = jQuery.event.special[type] || {};
 
-                // If selector defined, determine special LiveEvent api type, otherwise given type
+                // If selector defined, determine special event api type, otherwise given type
                 type = (selector ? special.delegateType : special.bindType) || type;
 
                 // Update special based on newly reset type
                 special = jQuery.event.special[type] || {};
 
-                // handleObj is passed to all LiveEvent handlers
+                // handleObj is passed to all event handlers
                 handleObj = jQuery.extend({
                     type: type,
                     origType: origType,
@@ -5263,7 +5263,7 @@
                     namespace: namespaces.join(".")
                 }, handleObjIn);
 
-                // Init the LiveEvent handler queue if we're the first
+                // Init the event handler queue if we're the first
                 if (!(handlers = events[type])) {
                     handlers = events[type] = [];
                     handlers.delegateCount = 0;
@@ -5293,13 +5293,13 @@
                     handlers.push(handleObj);
                 }
 
-                // Keep track of which events have ever been used, for LiveEvent optimization
+                // Keep track of which events have ever been used, for event optimization
                 jQuery.event.global[type] = true;
             }
 
         },
 
-        // Detach an LiveEvent or set of events from an element
+        // Detach an event or set of events from an element
         remove: function (elem, types, handler, selector, mappedTypes) {
 
             var j, origCount, tmp,
@@ -5354,8 +5354,8 @@
                     }
                 }
 
-                // Remove generic LiveEvent handler if we removed something and no more handlers exist
-                // (avoids potential for endless recursion during removal of special LiveEvent handlers)
+                // Remove generic event handler if we removed something and no more handlers exist
+                // (avoids potential for endless recursion during removal of special event handlers)
                 if (origCount && !handlers.length) {
                     if (!special.teardown ||
                         special.teardown.call(elem, namespaces, elemData.handle) === false) {
@@ -5378,7 +5378,7 @@
             var i, j, ret, matched, handleObj, handlerQueue,
                 args = new Array(arguments.length),
 
-                // Make a writable jQuery.LiveEvent from the native LiveEvent object
+                // Make a writable jQuery.event from the native event object
                 event = jQuery.event.fix(nativeEvent),
 
                 handlers = (
@@ -5386,7 +5386,7 @@
                 )[event.type] || [],
                 special = jQuery.event.special[event.type] || {};
 
-            // Use the fix-ed jQuery.LiveEvent rather than the (read-only) native LiveEvent
+            // Use the fix-ed jQuery.event rather than the (read-only) native event
             args[0] = event;
 
             for (i = 1; i < arguments.length; i++) {
@@ -5412,8 +5412,8 @@
                 while ((handleObj = matched.handlers[j++]) &&
                 !event.isImmediatePropagationStopped()) {
 
-                    // If the LiveEvent is namespaced, then each handler is only invoked if it is
-                    // specially universal or its namespaces are a superset of the LiveEvent's.
+                    // If the event is namespaced, then each handler is only invoked if it is
+                    // specially universal or its namespaces are a superset of the event's.
                     if (!event.rnamespace || handleObj.namespace === false ||
                         event.rnamespace.test(handleObj.namespace)) {
 
@@ -5541,7 +5541,7 @@
             },
             click: {
 
-                // Utilize native LiveEvent to ensure correct state for checkable inputs
+                // Utilize native event to ensure correct state for checkable inputs
                 setup: function (data) {
 
                     // For mutual compressibility with _default, replace `this` access with a local var.
@@ -5572,12 +5572,12 @@
                         leverageNative(el, "click");
                     }
 
-                    // Return non-false to allow normal LiveEvent-path propagation
+                    // Return non-false to allow normal event-path propagation
                     return true;
                 },
 
                 // For cross-browser consistency, suppress native .click() on links
-                // Also prevent it if we're currently inside a leveraged native-LiveEvent stack
+                // Also prevent it if we're currently inside a leveraged native-event stack
                 _default: function (event) {
                     var target = event.target;
                     return rcheckableType.test(target.type) &&
@@ -5600,13 +5600,13 @@
         }
     };
 
-// Ensure the presence of an LiveEvent listener that handles manually-triggered
+// Ensure the presence of an event listener that handles manually-triggered
 // synthetic events by interrupting progress until reinvoked in response to
 // *native* events that it fires directly, ensuring that state changes have
 // already occurred before other listeners are invoked.
     function leverageNative(el, type, expectSync) {
 
-        // Missing expectSync indicates a trigger call, which must force setup through jQuery.LiveEvent.add
+        // Missing expectSync indicates a trigger call, which must force setup through jQuery.event.add
         if (!expectSync) {
             if (dataPriv.get(el, type) === undefined) {
                 jQuery.event.add(el, type, returnTrue);
@@ -5614,7 +5614,7 @@
             return;
         }
 
-        // Register the controller as a special universal handler for all LiveEvent namespaces
+        // Register the controller as a special universal handler for all event namespaces
         dataPriv.set(el, type, false);
         jQuery.event.add(el, type, {
             namespace: false,
@@ -5624,18 +5624,18 @@
 
                 if ((event.isTrigger & 1) && this[type]) {
 
-                    // Interrupt processing of the outer synthetic .trigger()ed LiveEvent
+                    // Interrupt processing of the outer synthetic .trigger()ed event
                     // Saved data should be false in such cases, but might be a leftover capture object
                     // from an async native handler (gh-4350)
                     if (!saved.length) {
 
-                        // Store arguments for use when handling the inner native LiveEvent
-                        // There will always be at least one argument (an LiveEvent object), so this array
+                        // Store arguments for use when handling the inner native event
+                        // There will always be at least one argument (an event object), so this array
                         // will not be confused with a leftover capture object.
                         saved = slice.call(arguments);
                         dataPriv.set(this, type, saved);
 
-                        // Trigger the native LiveEvent and capture its result
+                        // Trigger the native event and capture its result
                         // Support: IE <=9 - 11+
                         // focus() and blur() are asynchronous
                         notAsync = expectSync(this, type);
@@ -5648,7 +5648,7 @@
                         }
                         if (saved !== result) {
 
-                            // Cancel the outer synthetic LiveEvent
+                            // Cancel the outer synthetic event
                             event.stopImmediatePropagation();
                             event.preventDefault();
 
@@ -5660,9 +5660,9 @@
                             return result && result.value;
                         }
 
-                        // If this is an inner synthetic LiveEvent for an LiveEvent with a bubbling surrogate
+                        // If this is an inner synthetic event for an event with a bubbling surrogate
                         // (focus or blur), assume that the surrogate already propagated from triggering the
-                        // native LiveEvent and prevent that from happening again here.
+                        // native event and prevent that from happening again here.
                         // This technically gets the ordering wrong w.r.t. to `.trigger()` (in which the
                         // bubbling surrogate propagates *after* the non-bubbling base), but that seems
                         // less bad than duplication.
@@ -5670,8 +5670,8 @@
                         event.stopPropagation();
                     }
 
-                    // If this is a native LiveEvent triggered above, everything is now in order
-                    // Fire an inner synthetic LiveEvent with the original arguments
+                    // If this is a native event triggered above, everything is now in order
+                    // Fire an inner synthetic event with the original arguments
                 } else if (saved.length) {
 
                     // ...and capture the result
@@ -5685,7 +5685,7 @@
                         )
                     });
 
-                    // Abort handling of the native LiveEvent
+                    // Abort handling of the native event
                     event.stopImmediatePropagation();
                 }
             }
@@ -5707,7 +5707,7 @@
             return new jQuery.Event(src, props);
         }
 
-        // LiveEvent object
+        // event object
         if (src && src.type) {
             this.originalEvent = src;
             this.type = src.type;
@@ -5732,24 +5732,24 @@
             this.currentTarget = src.currentTarget;
             this.relatedTarget = src.relatedTarget;
 
-            // LiveEvent type
+            // event type
         } else {
             this.type = src;
         }
 
-        // Put explicitly provided properties onto the LiveEvent object
+        // Put explicitly provided properties onto the event object
         if (props) {
             jQuery.extend(this, props);
         }
 
-        // Create a timestamp if incoming LiveEvent doesn't have one
+        // Create a timestamp if incoming event doesn't have one
         this.timeStamp = src && src.timeStamp || Date.now();
 
         // Mark it as fixed
         this[jQuery.expando] = true;
     };
 
-// jQuery.LiveEvent is based on DOM3 Events as specified by the ECMAScript Language Binding
+// jQuery.event is based on DOM3 Events as specified by the ECMAScript Language Binding
 // https://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
     jQuery.Event.prototype = {
         constructor: jQuery.Event,
@@ -5789,7 +5789,7 @@
         }
     };
 
-// Includes all common LiveEvent props including KeyEvent and MouseEvent specific props
+// Includes all common event props including KeyEvent and MouseEvent specific props
     jQuery.each({
         altKey: true,
         bubbles: true,
@@ -5827,7 +5827,7 @@
     jQuery.each({focus: "focusin", blur: "focusout"}, function (type, delegateType) {
         jQuery.event.special[type] = {
 
-            // Utilize native LiveEvent if possible so blur/focus sequence is correct
+            // Utilize native event if possible so blur/focus sequence is correct
             setup: function () {
 
                 // Claim the first handler
@@ -5843,7 +5843,7 @@
                 // Force setup before trigger
                 leverageNative(this, type);
 
-                // Return non-false to allow normal LiveEvent-path propagation
+                // Return non-false to allow normal event-path propagation
                 return true;
             },
 
@@ -5857,8 +5857,8 @@
         };
     });
 
-// Create mouseenter/leave events using mouseover/out and LiveEvent-time checks
-// so that LiveEvent delegation works in jQuery.
+// Create mouseenter/leave events using mouseover/out and event-time checks
+// so that event delegation works in jQuery.
 // Do the same for pointerenter/pointerleave and pointerover/pointerout
 //
 // Support: Safari 7 only
@@ -5905,7 +5905,7 @@
             var handleObj, type;
             if (types && types.preventDefault && types.handleObj) {
 
-                // ( LiveEvent )  dispatched jQuery.LiveEvent
+                // ( event )  dispatched jQuery.event
                 handleObj = types.handleObj;
                 jQuery(types.delegateTarget).off(
                     handleObj.namespace ?
@@ -6197,7 +6197,7 @@
                                 if (special[type]) {
                                     jQuery.event.remove(elem, type);
 
-                                    // This is a shortcut to avoid jQuery.LiveEvent.remove's overhead
+                                    // This is a shortcut to avoid jQuery.event.remove's overhead
                                 } else {
                                     jQuery.removeEvent(elem, type, data.handle);
                                 }
@@ -8634,14 +8634,14 @@
 
             if (type.indexOf(".") > -1) {
 
-                // Namespaced trigger; create a regexp to match LiveEvent type in handle()
+                // Namespaced trigger; create a regexp to match event type in handle()
                 namespaces = type.split(".");
                 type = namespaces.shift();
                 namespaces.sort();
             }
             ontype = type.indexOf(":") < 0 && "on" + type;
 
-            // Caller can pass in a jQuery.LiveEvent object, Object, or just an LiveEvent type string
+            // Caller can pass in a jQuery.event object, Object, or just an event type string
             event = event[jQuery.expando] ?
                 event :
                 new jQuery.Event(type, typeof event === "object" && event);
@@ -8653,13 +8653,13 @@
                 new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") :
                 null;
 
-            // Clean up the LiveEvent in case it is being reused
+            // Clean up the event in case it is being reused
             event.result = undefined;
             if (!event.target) {
                 event.target = elem;
             }
 
-            // Clone any incoming data and prepend the LiveEvent, creating the handler arg list
+            // Clone any incoming data and prepend the event, creating the handler arg list
             data = data == null ?
                 [event] :
                 jQuery.makeArray(data, [event]);
@@ -8670,7 +8670,7 @@
                 return;
             }
 
-            // Determine LiveEvent propagation path in advance, per W3C events spec (#9951)
+            // Determine event propagation path in advance, per W3C events spec (#9951)
             // Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
             if (!onlyHandlers && !special.noBubble && !isWindow(elem)) {
 
@@ -8689,7 +8689,7 @@
                 }
             }
 
-            // Fire handlers on the LiveEvent path
+            // Fire handlers on the event path
             i = 0;
             while ((cur = eventPath[i++]) && !event.isPropagationStopped()) {
                 lastElement = cur;
@@ -8722,18 +8722,18 @@
                         special._default.apply(eventPath.pop(), data) === false) &&
                     acceptData(elem)) {
 
-                    // Call a native DOM method on the target with the same name as the LiveEvent.
+                    // Call a native DOM method on the target with the same name as the event.
                     // Don't do default actions on window, that's where global variables be (#6170)
                     if (ontype && isFunction(elem[type]) && !isWindow(elem)) {
 
-                        // Don't re-trigger an onFOO LiveEvent when we call its FOO() method
+                        // Don't re-trigger an onFOO event when we call its FOO() method
                         tmp = elem[ontype];
 
                         if (tmp) {
                             elem[ontype] = null;
                         }
 
-                        // Prevent re-triggering of the same LiveEvent, since we already bubbled it above
+                        // Prevent re-triggering of the same event, since we already bubbled it above
                         jQuery.event.triggered = type;
 
                         if (event.isPropagationStopped()) {
@@ -8758,7 +8758,7 @@
             return event.result;
         },
 
-        // Piggyback on a donor LiveEvent to simulate a different one
+        // Piggyback on a donor event to simulate a different one
         // Used only for `focus(in | out)` events
         simulate: function (type, elem, event) {
             var e = jQuery.extend(
@@ -9550,7 +9550,7 @@
             }
 
             // We can fire global events as of now if asked to
-            // Don't fire events if jQuery.LiveEvent is undefined in an AMD-usage scenario (#15118)
+            // Don't fire events if jQuery.event is undefined in an AMD-usage scenario (#15118)
             fireGlobals = jQuery.event && s.global;
 
             // Watch for a new set of requests
@@ -9653,7 +9653,7 @@
             } else {
                 jqXHR.readyState = 1;
 
-                // Send global LiveEvent
+                // Send global event
                 if (fireGlobals) {
                     globalEventContext.trigger("ajaxSend", [jqXHR, s]);
                 }
@@ -10299,7 +10299,7 @@
 
         if (!context) {
 
-            // Stop scripts or inline LiveEvent handlers from being executed immediately
+            // Stop scripts or inline event handlers from being executed immediately
             // by using document.implementation
             if (support.createHTMLDocument) {
                 context = document.implementation.createHTMLDocument("");
@@ -10712,7 +10712,7 @@
             "change select submit keydown keypress keyup contextmenu").split(" "),
         function (_i, name) {
 
-            // Handle LiveEvent binding
+            // Handle event binding
             jQuery.fn[name] = function (data, fn) {
                 return arguments.length > 0 ?
                     this.on(name, null, data, fn) :

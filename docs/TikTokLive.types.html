@@ -339,7 +339,7 @@
                                             class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.AbstractEvent" title="Permalink to this definition"></a>
                                     </dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-                                        <p>Abstract LiveEvent</p>
+                                        <p>Abstract event</p>
                                         <dl class="py property">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.AbstractEvent.as_dict">
                                                 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">as_dict</span></span><em
@@ -359,7 +359,7 @@
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.AbstractEvent.name">
                                                 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
-                                                    class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LiveEvent'</span></em><a
+                                                    class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'event'</span></em><a
                                                     class="headerlink" href="#TikTokLive.types.events.AbstractEvent.name" title="Permalink to this definition"></a></dt>
                                             <dd></dd>
                                         </dl>
@@ -399,7 +399,7 @@
                                                                                                                                                    title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when someone comments on the livestream</p>
+                                        <p>event that fires when someone comments on the livestream</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.CommentEvent.comment">
                                                 <span class="sig-name descname"><span class="pre">comment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -439,7 +439,7 @@
                                             class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.ConnectEvent" title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when the client connect to a livestream</p>
+                                        <p>event that fires when the client connect to a livestream</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.ConnectEvent.name">
                                                 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -462,7 +462,7 @@
                                                                                                                                                       title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when the client disconnects from a livestream</p>
+                                        <p>event that fires when the client disconnects from a livestream</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.DisconnectEvent.name">
                                                 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -501,7 +501,7 @@
                                     </dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when someone sends a subscriber emote</p>
+                                        <p>event that fires when someone sends a subscriber emote</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.EmoteEvent.emote">
                                                 <span class="sig-name descname"><span class="pre">emote</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -550,7 +550,7 @@
                                                                                                                                                                             title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fire when someone sends an envelope</p>
+                                        <p>event that fire when someone sends an envelope</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.EnvelopeEvent.name">
                                                 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -603,7 +603,7 @@
                                                                                                                                                   title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when a user follows the livestream</p>
+                                        <p>event that fires when a user follows the livestream</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.FollowEvent.displayType">
                                                 <span class="sig-name descname"><span class="pre">displayType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span
@@ -660,7 +660,7 @@
                                     </dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when a gift is received</p>
+                                        <p>event that fires when a gift is received</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.GiftEvent.gift">
                                                 <span class="sig-name descname"><span class="pre">gift</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -709,13 +709,13 @@
                                                                                                                                                 title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when a user joins the livestream</p>
+                                        <p>event that fires when a user joins the livestream</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.JoinEvent.displayType">
                                                 <span class="sig-name descname"><span class="pre">displayType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span
                                                     class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
                                                     class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.JoinEvent.displayType" title="Permalink to this definition"></a></dt>
-                                            <dd><p>The type of LiveEvent</p>
+                                            <dd><p>The type of event</p>
                                             </dd>
                                         </dl>
 
@@ -724,7 +724,7 @@
                                                 <span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
                                                     class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a
                                                     class="headerlink" href="#TikTokLive.types.events.JoinEvent.label" title="Permalink to this definition"></a></dt>
-                                            <dd><p>Label for LiveEvent in live chat</p>
+                                            <dd><p>Label for event in live chat</p>
                                             </dd>
                                         </dl>
 
@@ -787,7 +787,7 @@
                                                                                                                                                                         title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when a user likes the livestream</p>
+                                        <p>event that fires when a user likes the livestream</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.LikeEvent.displayType">
                                                 <span class="sig-name descname"><span class="pre">displayType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span
@@ -852,7 +852,7 @@
                                             class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.LiveEndEvent" title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when the livestream ends</p>
+                                        <p>event that fires when the livestream ends</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.LiveEndEvent.name">
                                                 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -873,7 +873,7 @@
                                             class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.MicArmiesEvent" title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires during a Mic Battle to update its progress</p>
+                                        <p>event that fires during a Mic Battle to update its progress</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.MicArmiesEvent.battleStatus">
                                                 <span class="sig-name descname"><span class="pre">battleStatus</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span
@@ -918,7 +918,7 @@
                                     </dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when a Mic Battle starts</p>
+                                        <p>event that fires when a Mic Battle starts</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.MicBattleEvent.battleUsers">
                                                 <span class="sig-name descname"><span class="pre">battleUsers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span
@@ -959,7 +959,7 @@
                                                                                                                                                       title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.ShareEvent" title="TikTokLive.types.events.ShareEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">ShareEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when a user shared the livestream more than 5 users or more than 10 users</p>
+                                        <p>event that fires when a user shared the livestream more than 5 users or more than 10 users</p>
                                         <p>“user123 has shared to more than 10 people!”</p>
                                         <dl class="py property">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.MoreShareEvent.amount">
@@ -1003,7 +1003,7 @@
                                                                                                                                                     title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when someone asks a Q&amp;A question</p>
+                                        <p>event that fires when someone asks a Q&amp;A question</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.QuestionEvent.name">
                                                 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -1051,13 +1051,13 @@
                                                                                                                                                  title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when a user shares the livestream</p>
+                                        <p>event that fires when a user shares the livestream</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.ShareEvent.displayType">
                                                 <span class="sig-name descname"><span class="pre">displayType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span
                                                     class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span
                                                     class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.ShareEvent.displayType" title="Permalink to this definition"></a></dt>
-                                            <dd><p>Type of LiveEvent</p>
+                                            <dd><p>Type of event</p>
                                             </dd>
                                         </dl>
 
@@ -1112,7 +1112,7 @@
                                             class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.SubscribeEvent" title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when someone subscribes to the streamer</p>
+                                        <p>event that fires when someone subscribes to the streamer</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.SubscribeEvent.exhibitionType">
                                                 <span class="sig-name descname"><span class="pre">exhibitionType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -1180,7 +1180,7 @@
                                             class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.UnknownEvent" title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when an LiveEvent is received that is not handled by other events in the library.</p>
+                                        <p>event that fires when an event is received that is not handled by other events in the library.</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.UnknownEvent.name">
                                                 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -1203,7 +1203,7 @@
                                             class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.ViewerCountUpdateEvent" title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when the viewer count for the livestream updates</p>
+                                        <p>event that fires when the viewer count for the livestream updates</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.ViewerCountUpdateEvent.name">
                                                 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -1237,7 +1237,7 @@
                                             class="headerlink" href="#TikTokLive.types.events.WeeklyRankingEvent" title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code
                                             class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-                                        <p>LiveEvent that fires when the weekly rankings are updated</p>
+                                        <p>event that fires when the weekly rankings are updated</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.events.WeeklyRankingEvent.data">
                                                 <span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span
@@ -2206,7 +2206,7 @@
                                             class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span
                                             class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.MemberMessageDetails" title="Permalink to this definition"></a></dt>
                                     <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-                                        <p>Details about a given member message proto LiveEvent</p>
+                                        <p>Details about a given member message proto event</p>
                                         <dl class="py attribute">
                                             <dt class="sig sig-object py" id="TikTokLive.types.objects.MemberMessageDetails.displayType">
                                                 <span class="sig-name descname"><span class="pre">displayType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span
