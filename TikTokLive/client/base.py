@@ -31,14 +31,14 @@ class WebcastPushConnection:
             self,
             unique_id: str,
             loop: Optional[AbstractEventLoop] = None,
-            client_params: Optional[dict] = None,
-            request_headers: Optional[dict] = None,
+            http_params: Optional[dict] = None,
+            http_headers: Optional[dict] = None,
             http_timeout: float = 10.0,
-            ws_ping_interval: float = 10.0,
             ws_timeout: float = 10.0,
+            ws_ping_interval: float = 10.0,
             ws_headers: Optional[dict] = None,
             process_initial_data: bool = True,
-            enable_extended_gift_info: bool = True,
+            enable_detailed_gifts: bool = False,
             trust_env: bool = False,
             proxies: Optional[Dict[str, str]] = None,
             lang: Optional[str] = "en-US",
@@ -48,18 +48,19 @@ class WebcastPushConnection:
         """
         Initialize the base client
 
-        :param unique_id: The unique id of the creator to connect to
-        :param loop: Optionally supply your own asyncio loop
-        :param client_params: Additional client parameters to include when making requests to the Webcast API
-        :param request_headers: Additional headers to include when making requests to the Webcast API
-        :param ws_timeout: The timeout for the websocket connection
-        :param ws_ping_interval: The interval between keepalive pings on the websocket connection
-        :param process_initial_data: Whether to process the initial data (including cached chats)
-        :param enable_extended_gift_info: Whether to retrieve extended gift info including its icon & other important things
-        :param trust_env: Whether to trust environment variables that provide proxies to be used in httpx requests
-        :param proxies: Enable proxied requests by turning on forwarding for the HTTPX "proxies" argument. Websocket connections will NOT be proxied
+        :param unique_id: The unique id of the creator to connect to.
+        :param loop: Optionally supply your own asyncio loop.
+        :param http_params: Additional HTTP client parameters to include when making requests to the Webcast API AND connecting to the websocket server.
+        :param http_timeout: How long to wait before considering an HTTP request in the http client timed out.
+        :param http_headers: Additional HTTP client headers to include when making requests to the Webcast API AND connecting to the websocket server.
+        :param ws_timeout: The timeout for the websocket connection.
+        :param ws_ping_interval: The interval between keepalive pings on the websocket connection.
+        :param process_initial_data: Whether to process the initial data (including cached chats).
+        :param enable_detailed_gifts: Whether to retrieve extended (detailed) gift info including its icon & other important things.
+        :param trust_env: Whether to trust environment variables that provide proxies to be used in HTTP requests.
+        :param proxies: Enable proxied requests by turning on forwarding for the HTTP "proxies" argument. Websocket connections will NOT be proxied.
         :param lang: Change the language. Payloads *will* be in English, but this will change stuff like the extended_gift Gift attribute to the desired language!
-        :param fetch_room_info_on_connect: Whether to fetch room info on connect. If disabled, you might attempt to connect to a closed livestream
+        :param fetch_room_info_on_connect: Whether to fetch room info on connect. If disabled, you might attempt to connect to a closed livestream.
         :param sign_api_key: Parameter to increase the amount of connections allowed to be made per minute via a Sign Server API key. If you need this, contact the project maintainer.
         """
 
@@ -80,17 +81,17 @@ class WebcastPushConnection:
         self._ws_ping_interval: float = ws_ping_interval
         self._ws_timeout: float = ws_timeout
         self._process_initial_data: bool = process_initial_data
-        self._enable_extended_gift_info: bool = enable_extended_gift_info
+        self._enable_detailed_gifts: bool = enable_detailed_gifts
         self._fetch_room_info_on_connect: bool = fetch_room_info_on_connect
 
         # HTTP Client for Webcast API
         self.http: TikTokHTTPClient = TikTokHTTPClient(
             loop=self.loop,
-            headers=request_headers or dict(),
+            headers=http_headers or dict(),
             timeout=http_timeout,
             proxies=proxies,
             trust_env=trust_env,
-            params=self.__get_client_params(client_params or dict(), lang),
+            params=self.__get_client_params(http_params or dict(), lang),
             sign_api_key=sign_api_key
         )
 
@@ -285,7 +286,7 @@ class WebcastPushConnection:
                 raise LiveNotFound("The requested user is most likely offline.")
 
         # Get extended gift info
-        if self._enable_extended_gift_info:
+        if self._enable_detailed_gifts:
             await self.retrieve_available_gifts()
 
         # Make initial request to Webcast, connect to WebSocket server

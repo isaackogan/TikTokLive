@@ -344,7 +344,7 @@ class WeeklyRankingEvent(AbstractEvent):
     """Extra data relating to the UI, presumably"""
 
     data: Optional[RankData] = None
-    """The Top-100 rank of the user"""
+    """The actual rank of the user"""
 
     @property
     def rank(self) -> Optional[int]:
@@ -504,7 +504,7 @@ class UnknownEvent(AbstractEvent):
     """Data contained within the event. This is useful if the protobuf has been decoded but an event object has not been made."""
 
     @property
-    def base64(self):
+    def base64(self) -> Optional[bytes]:
         """
         Base64 version of message binary *if* binary is provided
 
