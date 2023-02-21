@@ -124,24 +124,6 @@ A message type ‘msg’ represents a normal WebcastResponse</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="TikTokLive.proto.utilities.from_dict_plus">
-<span class="sig-prename descclassname"><span class="pre">TikTokLive.proto.utilities.</span></span><span class="sig-name descname"><span class="pre">from_dict_plus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Config</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#TikTokLive.proto.utilities.from_dict_plus" title="Permalink to this definition"></a></dt>
-<dd><p>Load a schema from a dict and set the _as_dict attribute automatically</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data_class</strong> – Data class schema</p></li>
-<li><p><strong>data</strong> – Data to fit into data class</p></li>
-<li><p><strong>config</strong> – Config for dacite</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A dataclass containing type T</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="TikTokLive.proto.utilities.serialize_message">
 <span class="sig-prename descclassname"><span class="pre">TikTokLive.proto.utilities.</span></span><span class="sig-name descname"><span class="pre">serialize_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proto_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#TikTokLive.proto.utilities.serialize_message" title="Permalink to this definition"></a></dt>
 <dd><p>Serialize a message from a dict to a protobuf bytearray</p>
