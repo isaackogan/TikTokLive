@@ -12,16 +12,15 @@ A python library to connect to and read events from TikTok's LIVE service.
 
 <!-- [![Downloads](https://pepy.tech/badge/tiktoklive)](https://pepy.tech/project/tiktoklive) -->
 
-A python library to receive and decode livestream events such as comments and gifts in real-time from TikTok's LIVE service by connecting to TikTok's internal Webcast push service. This library includes a wrapper that
+A python library to receive and decode livestream events such as comments and gifts in real-time from TikTok's LIVE service by connecting to TikTok's internal Webcast service. This library includes a wrapper that
 connects to the Webcast service using only a user's `unique_id` and allows you to join your livestream as well as that of other streamers. No credentials are required to use TikTokLive.
 
-This library is a Python implementation of the JavaScript
+This library was originally based off of the
 [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
-by [@zerodytrash](https://github.com/zerodytrash/) meant to serve as an alternative for users who feel more comfortable working in Python or require it for their specific project parameters.
+by [@zerodytrash](https://github.com/zerodytrash/), but has since taken on its own identity as it has added more features & changed the core way it functions.
+
 
 Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
-
-**NOTE:** This is **not** an official API. It's a reverse engineering and research project.
 
 > **UPDATE:**<br>Due to a change on the part of TikTok, versions prior to **v4.3.8** are no longer functional. If you are using an unsupported version, upgrade to the latest version using the `pip install TikTokLive --upgrade` command.
 
@@ -96,74 +95,11 @@ To create a new `TikTokLiveClient` object the following parameter is required. Y
 
 `TikTokLiveClient(unique_id, **options)`
 
-| Param Name | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| unique_id  | Yes      | The unique username of the broadcaster. You can find this name in the URL.<br>Example: `https://www.tiktok.com/@isaackogz` => `isaackogz`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| debug      | No       | Whether to fire the "debug" event for receiving raw data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| **options  | No       | Here you can set the following optional connection properties. If you do not specify a value, the default value will be used.<br><br>`process_initial_data` (default: `true`) <br> Define if you want to process the initial data which includes old messages of the last seconds.<br><br>`fetch_room_info_on_connect` (default: `true`) <br> Define if you want to fetch all room information on start. If this option is enabled, the connection to offline rooms will be prevented. If enabled, the connect result contains the room info via the `room_info` attribute. You can also manually retrieve the room info (even in an unconnected state) using the `retrieve_room_info()` method.<br><br>`enable_extended_gift_info` (default: `false`) <br> Define if you want to receive extended information about gifts like gift name, cost and images which you can retrieve via the `available_gifts` attribute. <br><br>`ping_interval_ms` (default: `1000`) <br> How frequently to make requests to the webcast API when long polling.<br><br>`client_params` (default: `{}`) <br> Custom client params for Webcast API.<br><br>`headers` (default: `{}`) <br> Custom request headers passed to aiohttp.<br><br>`timeout_ms` (default: `1000`)<br>How long to wait before a request should fail<br><br>`loop` (default: `None`)<br>Optionally supply your own asyncio event loop for usage by the client. When set to None, the client pulls the current active loop or creates a new one. This option is mostly useful for people trying to nest asyncio.<br/><br/>`trust_env` (default: `false`)<br/>Whether to trust environment variables that provide proxies in httpx requests<br/><br/>`proxies` (default: `None`)<br/>Enable proxied requests by turning on forwarding for the HTTPX "proxies" argument. Websocket connections will NOT be proxied<br/><br/>`lang` (default: `en`)<br/>Change the language. Payloads *will* be in English, but front-end content will be in the desired language!<br/><br/>`websocket_enabled` (default: `True`)<br/>Whether to use websockets or rely on purely long polling. You want to use websockets.<br/><br/>`sign_api_key` (default: `None`)<br/>Parameter to increase the amount of connections allowed to be made per minute via a Sign Server API key. If you need this, contact the project maintainer. |
+| Param Name | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| unique_id  | Yes      | The unique username of the broadcaster. You can find this name in the URL.<br>Example: `https://www.tiktok.com/@isaackogz` => `isaackogz`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| **options  | No       | Here you can set the following optional connection properties. If you do not specify a value, the default value will be used.<br><br>`process_initial_data` (default: `True`) <br> Define if you want to process initial data upon connecting (e.g. first 1-10 messages from BEFORE you connected).<br><br>`fetch_room_info_on_connect` (default: `True`) <br> Define if you want to fetch all room information on start. If this option is enabled, connection to offline rooms will be prevented. If enabled, the connect result contains the room info via the `room_info` attribute. You can also manually retrieve the room info (even in an unconnected state) using the `retrieve_room_info()` method.<br><br>`enable_detailed_gifts` (default: `False`) <br> Define if you want to receive extended information about gifts like gift name, cost and images which you can retrieve via the `available_gifts` attribute. When enabled, the `details` attribute in a `Gift` object will be populated.<br><br>`ws_ping_interval` (default: `10.0`) <br> The interval between keepalive pings on the websocket connection (in seconds).<br><br>`ws_timeout` (default: `10.0`)<br>How long to wait before the websocket connection is considered timed out (in seconds).<br><br>`http_timeout` (default: `10.0`) <br> How long to wait before considering an HTTP request in the http client timed out (in seconds).<br><br>`http_headers` (default: `{}`) <br> Additional HTTP client headers to include when making requests to the Webcast API AND connecting to the websocket server.<br><br>`http_params` (default: `{}`) <br>Additional HTTP client parameters to include when making requests to the Webcast API AND connecting to the websocket.<br><br>`loop` (default: `None`)<br>Optionally supply your own asyncio event loop for usage by the client. When set to None, the client pulls the current active loop or creates a new one. This option is mostly useful for people trying to nest asyncio.<br/><br/>`trust_env` (default: `False`)<br/>Whether to trust environment variables that provide proxies in httpx requests<br/><br/>`proxies` (default: `None`)<br/>Enable proxied requests by turning on forwarding for the HTTP "proxies" argument. Websocket connections will NOT be proxied<br/><br/>`lang` (default: `en-US`)<br/>Change the language. Payloads *will* be in English, but front-end content will be in the desired language!<br/><br/>`sign_api_key` (default: `None`)<br/>Parameter to increase the amount of connections allowed to be made per minute via a Sign Server API key. If you need this, contact the project maintainer. |
 
-Example Options:
-
-```python
-from TikTokLive import TikTokLiveClient
-
-client: TikTokLiveClient = TikTokLiveClient(
-    unique_id="@oldskoldj", **(
-        {
-
-            # Custom Asyncio event loop
-            "loop": None,
-
-            # Custom Client params
-            "client_params": {},
-
-            # Custom request headers to include in HTTP Requests
-            "request_headers": {},
-            
-            # Custom websocket headers to include when connecting to the TikTok WebSocket
-            "websocket_headers": {},
-            
-            # Custom timeout for Webcast API requests
-            "timeout_ms": 1000,
-
-            # How frequently to make requests the webcast API when long polling
-            "ping_interval_ms": 1000,
-
-            # Whether to process initial data (cached chats, etc.)
-            "process_initial_data": True,
-
-            # Whether to get extended gift info (Image URLs, etc.)
-            "enable_extended_gift_info": True,
-
-            # Whether to trust environment variables that provide proxies to be used in http requests
-            "trust_env": False,
-
-            # A dict object for proxies requests
-            "proxies": {
-                "http://": "http://username:password@localhost:8030",
-                "https://": "http://420.69.420:8031",
-            },
-
-            # Set the language for Webcast responses (Changes extended_gift's language)
-            "lang": "en-US",
-
-            # Connect info (viewers, stream status, etc.)
-            "fetch_room_info_on_connect": True,
-
-            # Whether to allow Websocket connections
-            "websocket_enabled": False,
-            
-            # Parameter to increase the amount of connections made per minute via a Sign Server API key. 
-            # If you need this, contact the project maintainer.
-            "sign_api_key": None
-
-        }
-    )
-)
-
-if __name__ == "__main__":
-    client.run()
-```
 
 ## Methods
 
@@ -179,20 +115,23 @@ A `TikTokLiveClient` object contains the following methods.
 | add_listener             | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on()`) and takes two parameters, an event name and the payload, an AbstractEvent                       ||
 | download                 | Start downloading the livestream video for a given duration or until stopped via the `stop_download` method                                                                                    |
 | stop_download            | Stop downloading the livestream video if currently downloading, otherwise throws an error                                                                                                      |
-| send_message             | Send a message to the chat. This is only partially implemented. See the [examples/message.py](https://github.com/isaackogan/TikTokLive/tree/master/examples/message.py) example for more info. |
-| reconnect                | Automatically reconnect to the Webcast server. Useful for accidental disconnects or lost Webcast connections.                                                                                  |
 
 ## Attributes
 
-| Attribute Name  | Description                                                                                                                          |
-|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| viewer_count    | The number of people currently watching the livestream broadcast                                                                     |
-| room_id         | The ID of the livestream room the client is currently connected to                                                                   |
-| room_info       | Information about the given livestream room                                                                                          |
-| unique_id       | The TikTok username of the person whose livestream the client is currently connected to                                              |
-| connected       | Whether the client is currently connected to a livestream                                                                            |
-| available_gifts | A dictionary containing K:V pairs of `Dict[int, ExtendedGift]`                                                                       |                              |
-| proxies         | Get the current proxies being used for HTTP requests.<br/><br/>**Note:** To set the active proxies, set the value of this attribute. |
+| Attribute Name  | Description                                                                                                                         |
+|-----------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| viewer_count    | The number of people currently watching the livestream broadcast. Updated automatically on a `viewer_count` event                   |
+| room_id         | The Room ID of the livestream room the client is currently connected to                                                             |
+| room_info       | Information about the given livestream room                                                                                         |
+| unique_id       | The TikTok username of the person whose livestream the client is currently connected to (e.g. @charlidamelio)                       |
+| connected       | Whether the client is currently connected to a livestream                                                                           |
+| connecting      | Whether the client is currently connecting to a livestream                                                                          |
+| available_gifts | A dictionary containing K:V pairs of `Dict[int, GiftDetailed]`, where the int is the internal TikTok gift id                        |                              |
+| proxies         | Get the current proxies being used for HTTP requests.<br/><br/>**Note:** To set the active proxies, set the value of this attribute |
+| loop            | The asyncio event loop the client is running off of                                                                                 |
+| http            | The HTTP client TikTokLive uses to make all HTTP-based requests                                                                     |
+| websocket       | The `WebcastWebsocketConnection` websocket client TikTokLive uses to manage its websocket connection                                |
+| ffmpeg          | The ffmpeg wrapper TikTokLive uses to manage ffmpeg-based stream downloads                                                          |
 
 ## Events
 
@@ -201,7 +140,7 @@ payload parameter.
 
 ### `connect`
 
-Triggered when the connection gets successfully established.
+Triggered when the websocket connection is successfully established.
 
 ```python
 @client.on("connect")
@@ -211,7 +150,7 @@ async def on_connect(event: ConnectEvent):
 
 ### `disconnect`
 
-Triggered when the connection gets disconnected. You can call `start()`  to have reconnect . Note that you should wait a little bit before attempting a reconnect to to avoid being rate-limited.
+Triggered when the connection is terminated. You can call `start()`  to reconnect . Note that you should wait a little bit before attempting a reconnect to to avoid being rate-limited.
 
 ```python
 @client.on("disconnect")
@@ -226,7 +165,7 @@ Triggered every time someone likes the stream.
 ```python
 @client.on("like")
 async def on_like(event: LikeEvent):
-    print("Someone liked the stream!")
+    print(f"@{event.user.unique_id} liked the stream!")
 ```
 
 ### `join`
@@ -236,7 +175,7 @@ Triggered every time a new person joins the stream.
 ```python
 @client.on("join")
 async def on_join(event: JoinEvent):
-    print("Someone joined the stream!")
+    print(f"@{event.user.unique_id} joined the stream!")
 ```
 
 ### `gift`
@@ -250,7 +189,7 @@ async def on_gift(event: GiftEvent):
     # If it's type 1 and the streak is over
     if event.gift.gift_type == 1:
         if event.gift.repeat_end == 1:
-            print(f"{event.user.uniqueId} sent {event.gift.repeat_count}x \"{event.gift.extended_gift.name}\"")
+            print(f"{event.user.unique_id} sent {event.gift.count}x \"{event.gift.info.name}\"")
 
     # It's not type 1, which means it can't have a streak & is automatically over
     elif event.gift.gift_type != 1:
@@ -260,14 +199,14 @@ async def on_gift(event: GiftEvent):
 ```python
 @client.on("gift")
 async def on_gift(event: GiftEvent):
-    # If it's type 1 and the streak is over
-    if event.gift.streakable:
-        if not event.gift.streaking:
-            print(f"{event.user.uniqueId} sent {event.gift.repeat_count}x \"{event.gift.extended_gift.name}\"")
+    # Streakable gift & streak is over
+    if event.gift.streakable and not event.gift.streaking:
+        print(f"{event.user.unique_id} sent {event.gift.count}x \"{event.gift.info.name}\"")
 
-    # It's not type 1, which means it can't have a streak & is automatically over
-    else:
-        print(f"{event.user.uniqueId} sent \"{event.gift.extended_gift.name}\"")
+    # Non-streakable gift
+    elif not event.gift.streakable:
+        print(f"{event.user.unique_id} sent \"{event.gift.info.name}\"")
+
 ```
 
 ### `follow`
@@ -277,7 +216,7 @@ Triggered every time someone follows the streamer.
 ```python
 @client.on("follow")
 async def on_follow(event: FollowEvent):
-    print("Someone followed the streamer!")
+    print(f"@{event.user.unique_id} followed the streamer!")
 ```
 
 ### `share`
@@ -287,17 +226,30 @@ Triggered every time someone shares the stream.
 ```python
 @client.on("share")
 async def on_share(event: ShareEvent):
-    print("Someone shared the streamer!")
+    print(f"@{event.user.unique_id} shared the stream!")
+
 ```
 
-### `viewer_count_update`
+### `more_share`
+
+Triggered when 5 or 10 users join from a viewer's share link.
+
+```python
+@client.on("more_share")
+async def on_connect(event: MoreShareEvent):
+    print(f"More than {event.amount} users have joined from {user.unique_id}'s share link!")
+```
+
+
+### `viewer_count`
 
 Triggered every time the viewer count is updated. This event also updates the cached viewer count by default.
 
 ```python
-@client.on("viewer_count_update")
-async def on_connect(event: ViewerCountUpdateEvent):
-    print("Received a new viewer count:", event.viewCount)
+@client.on("viewer_count")
+async def on_connect(event: ViewerCountEvent):
+    print("Received a new viewer count:", event.viewer_count)
+    print("The client automatically sets the count as an attribute too:", client.viewer_count)
 ```
 
 ### `comment`
@@ -317,7 +269,7 @@ Triggered when someone sends a subscription emote comment to the live chat.
 ```python
 @client.on("emote")
 async def on_connect(event: EmoteEvent):
-    print(f"{event.user.nickname} -> {event.emote.image.imageUrl}")
+    print(f"{event.user.nickname} -> {event.emote.image.url}")
 ```
 
 ### `envelope`
@@ -327,17 +279,7 @@ Triggered when someone sends an envelope (treasure box) to the TikTok streamer.
 ```python
 @client.on("envelope")
 async def on_connect(event: EnvelopeEvent):
-    print(f"{event.treasureBoxUser.uniqueId} -> {event.treasureBoxData}")
-```
-
-### `subscribe`
-
-Triggered when someone subscribes to the TikTok streamer.
-
-```python
-@client.on("subscribe")
-async def on_connect(event: SubscribeEvent):
-    print(f"{event.user.uniqueId} just subscribed to {client.unique_id}!")
+    print(f"{event.treasure_box_user.unique_id} -> {event.treasure_box_data}")
 ```
 
 ### `weekly_ranking`
@@ -347,38 +289,29 @@ Triggered when a weekly ranking update is sent out.
 ```python
 @client.on("weekly_ranking")
 async def on_connect(event: WeeklyRankingEvent):
-    print(f"{client.unique_id} is in the top {event.data.rankings.rank.id} streamers!")
+    print(f"{client.unique_id} has the rank #{event.data.rank} of all streamers!")
 ```
 
-### `mic_battle`
+### `mic_battle_start`
 
 Triggered when a Mic Battle starts!
 
 ```python
-@client.on("mic_battle")
-async def on_connect(event: MicBattleEvent):
-    print(f"A Mic battle has started between {', '.join([user.battleGroup.user.uniqueId for user in event.battleUsers])}")
+@client.on("mic_battle_start")
+async def on_connect(event: MicBattleStartEvent):
+    print(f"A Mic battle has started!")
 ```
 
-### `mic_armies`
+### `mic_battle_update`
 
 Triggered when information is received about a mic battle's progress.
 
 ```python
-@client.on("mic_armies")
-async def on_connect(event: MicArmiesEvent):
-    print(f"Mic battle data: {event.battleUsers}")
+@client.on("mic_battle_update")
+async def on_connect(event: MicBattleUpdateEvent):
+    print(f"An army in the mic battle has received points, or the status of the battle has changed!")
 ```
 
-### `more_share`
-
-Triggered when more than 5 or 10 users join from a viewer's share link.
-
-```python
-@client.on("more_share")
-async def on_connect(event: MoreShareEvent):
-    print(f"More than {event.amount} users have joined from {user.uniqueId}'s share link!")
-```
 
 ### `live_end`
 
@@ -392,12 +325,20 @@ async def on_connect(event: LiveEndEvent):
 
 ### `unknown`
 
-Triggered when an unknown event is received that is not yet handled by this client.
+Triggered when ANY unknown event is received that is not yet handled by this client.
+
+This includes both events where the protobuf has NOT been decoded, as well as events where it _has_ been decoded, but no event object has been created (e.g. it's useless data).
+
+Use this event to debug and find new events to add to TikTokLive. Mention them [here](https://github.com/isaackogan/TikTokLive/issues/104) when you do.
+
+This event is very advanced and handles both types of cases, an API to help you decode including offering the binary as base64. 
+You can plug base64 into https://protobuf-decoder.netlify.app/ to reverse-engineer the protobuf schema.
 
 ```python
 @client.on("unknown")
 async def on_connect(event: UnknownEvent):
-    print(event.as_dict, "<- This is my data as a dict!")
+    print(f"Event Type: {event.type}")
+    print(f"Event Base64: {event.base64}")
 ```
 
 ### `error`
@@ -406,7 +347,7 @@ Triggered when there is an error in the client or error handlers.
 
 If this handler is not present in the code, an internal default handler will log errors in the console. If a handler is added, all error handling (including logging) is up to the individual.
 
-**Warning:** If you listen for the error event and do not log errors, you will not see when an error occurs. This is because listening to the error event causes the default one to be overriden/turned off.
+**Warning:** If you listen for the error event and do not log errors, you will not see when an error occurs. This expected behaviour, listening to the error event overrides & disables the built-in one.
 
 ```python
 
@@ -414,10 +355,11 @@ If this handler is not present in the code, an internal default handler will log
 async def on_connect(error: Exception):
     # Handle the error
     if isinstance(error, SomeRandomError):
-        print("Handle Some Error")
+        print("Handle some error!")
         return
 
     # Otherwise, log the error
+    # You can use the internal method, but ideally your own
     client._log_error(error)
 
 ```
