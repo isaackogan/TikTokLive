@@ -28,6 +28,14 @@ TikTokLive.types.objects module
    :undoc-members:
    :show-inheritance:
 
+TikTokLive.types.utilities module
+---------------------------------
+
+.. automodule:: TikTokLive.types.utilities
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

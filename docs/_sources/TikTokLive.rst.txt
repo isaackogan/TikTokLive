@@ -14,10 +14,10 @@ Subpackages
 Submodules
 ----------
 
-TikTokLive.utils module
------------------------
+TikTokLive.utilities module
+---------------------------
 
-.. automodule:: TikTokLive.utils
+.. automodule:: TikTokLive.utilities
    :members:
    :undoc-members:
    :show-inheritance:

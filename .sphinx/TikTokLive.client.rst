@@ -36,6 +36,14 @@ TikTokLive.client.httpx module
    :undoc-members:
    :show-inheritance:
 
+TikTokLive.client.wsclient module
+---------------------------------
+
+.. automodule:: TikTokLive.client.wsclient
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
