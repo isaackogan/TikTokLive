@@ -1,9 +1,5 @@
 import json
-from typing import Type, Optional, Any
 
-from dacite import from_dict, Config
-from dacite.core import T
-from dacite.data import Data
 from google.protobuf import json_format
 from protobuf_to_dict import protobuf_to_dict
 
@@ -72,23 +68,6 @@ def deserialize_websocket_message(binary_message: bytes) -> dict:
 
     decoded: dict = deserialize_message("WebcastWebsocketMessage", binary_message)
     return {**decoded, **deserialize_message("WebcastResponse", decoded.get("binary"))} if decoded.get("type") == "msg" else dict()
-
-
-def from_dict_plus(data_class: Type[T], data: Data, config: Optional[Config] = None) -> Any:
-    """
-    Load a schema from a dict and set the _as_dict attribute automatically
-
-    :param data_class: Data class schema
-    :param data: Data to fit into data class
-    :param config: Config for dacite
-    :return: A dataclass containing type T
-
-    """
-
-    result = from_dict(data_class, data, config)
-    if isinstance(result, data_class):
-        result._as_dict = data
-    return result
 
 
 def serialize_message(proto_name: str, data: dict) -> bytes:
