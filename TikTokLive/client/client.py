@@ -1,13 +1,13 @@
 import logging
 import traceback
-from typing import Optional
+from typing import Optional, List
 
 from pyee import AsyncIOEventEmitter
 
 from .base import WebcastPushConnection
-from ..types import FailedParseMessage
-from ..types.events import AbstractEvent, CommentEvent, ConnectEvent, DisconnectEvent, ViewerCountEvent, JoinEvent, LikeEvent, GiftEvent, FollowEvent, ShareEvent, QuestionEvent, LiveEndEvent, \
-    IntroMessageEvent, EmoteEvent, MicBattleStartEvent, MicBattleUpdateEvent, MoreShareEvent, UnknownEvent, WeeklyRankingEvent
+from ..types import FailedParseMessage, TopViewer
+from ..types.events import AbstractEvent, ConnectEvent, DisconnectEvent, ViewerUpdateEvent, JoinEvent, LikeEvent, FollowEvent, ShareEvent, QuestionEvent, LiveEndEvent, \
+    IntroMessageEvent, EmoteEvent, MicBattleStartEvent, MicBattleUpdateEvent, MoreShareEvent, UnknownEvent, WeeklyRankingEvent, CommentEvent, GiftEvent
 
 
 class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
@@ -29,15 +29,18 @@ class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
         WebcastPushConnection.__init__(self, unique_id, **options)
 
         self.__viewer_count: Optional[int] = None
-        self.add_listener('viewer_count', self._on_viewer_count)
+        self.__top_viewers: List[TopViewer] = []
+        self.add_listener('viewer_update', self._on_viewer_update)
 
-    async def _on_viewer_count(self, event: ViewerCountEvent):
+    async def _on_viewer_update(self, event: ViewerUpdateEvent):
         """
-        Set the viewer count when one is received via a viewer count update event
+        Set the viewer count when one is received via a viewer count update event.
+        Also, set the top viewers!
         
         """
 
         self.__viewer_count = event.viewer_count or self.__viewer_count
+        self.__top_viewers = event.top_viewers or self.__top_viewers
 
     async def _on_error(self, original: Exception, append: Optional[Exception]) -> None:
         """
@@ -158,7 +161,7 @@ class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
             {
                 "WebcastGiftMessage": GiftEvent,
                 "WebcastChatMessage": CommentEvent,
-                "WebcastRoomUserSeqMessage": ViewerCountEvent,
+                "WebcastRoomUserSeqMessage": ViewerUpdateEvent,
                 "WebcastMemberMessage": JoinEvent,
                 "WebcastLikeMessage": LikeEvent,
                 "WebcastRankUpdateMessage": WeeklyRankingEvent,
@@ -172,7 +175,7 @@ class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
             }.get(webcast_message.get('type'))
         )
 
-        # Sometimes, we need to use the displayType attribute
+        # Sometimes, we need to use the display_type attribute
         mapping: Optional[AbstractEvent] = mapping or (
             {
                 "pm_main_follow_message_viewer_2": FollowEvent,
@@ -204,3 +207,12 @@ class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
         """
 
         return self.__viewer_count
+
+    @property
+    def top_viewers(self) -> List[TopViewer]:
+        """
+        An array of the top viewers in the stream measured by coins given
+
+        """
+
+        return self.__top_viewers
