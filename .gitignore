@@ -3,5 +3,5 @@ dist
 venv
 TikTokLive.egg-info
 requirements.txt
-testing.py
 .pypirc
+dev
