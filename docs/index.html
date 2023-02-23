@@ -208,19 +208,19 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
 </thead>
 <tbody>
 <tr class="row-even"><td><p>run</p></td>
-<td><p>Starts a connection to the live chat while blocking the main thread (sync)</p></td>
+<td><p>Starts a connection to the live chat while blocking the main thread</p></td>
 </tr>
 <tr class="row-odd"><td><p>start</p></td>
-<td><p>Connects to the live chat without blocking the main thread (async)</p></td>
+<td><p>(async) Connects to the live chat without blocking the main thread</p></td>
 </tr>
 <tr class="row-even"><td><p>stop</p></td>
 <td><p>Turns off the connection to the live chat.</p></td>
 </tr>
 <tr class="row-odd"><td><p>retrieve_room_info</p></td>
-<td><p>Gets the current room info from TikTok API</p></td>
+<td><p>(async) Gets the current room info from TikTok API</p></td>
 </tr>
 <tr class="row-even"><td><p>retrieve_available_gifts</p></td>
-<td><p>Retrieves a list of the available gifts for the room and adds it to the <code class="docutils literal notranslate"><span class="pre">extended_gift</span></code> attribute of the <code class="docutils literal notranslate"><span class="pre">Gift</span></code> object on the <code class="docutils literal notranslate"><span class="pre">gift</span></code> event, when enabled.</p></td>
+<td><p>(async) Retrieves a list of the available gifts for the room and adds it to the <code class="docutils literal notranslate"><span class="pre">extended_gift</span></code> attribute of the <code class="docutils literal notranslate"><span class="pre">Gift</span></code> object on the <code class="docutils literal notranslate"><span class="pre">gift</span></code> event, when enabled.</p></td>
 </tr>
 <tr class="row-odd"><td><p>add_listener</p></td>
 <td><p>Adds an <em>asynchronous</em> listener function (or, you can decorate a function with <code class="docutils literal notranslate"><span class="pre">&#64;client.on(&quot;&lt;event&gt;&quot;)</span></code>) and takes two parameters, an event name and the payload, an AbstractEvent</p></td>
