@@ -258,7 +258,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.types.events.CommentEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">CommentEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.CommentEvent" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">CommentEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user:</span> <span class="pre">~typing.Optional[~TikTokLive.types.objects.User]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mentions:</span> <span class="pre">~typing.List[~TikTokLive.types.objects.User]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">images:</span> <span class="pre">~typing.List[~TikTokLive.types.objects.ChatImage]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.CommentEvent" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
 <p>Event that fires when someone comments on the livestream</p>
 <dl class="py attribute">
@@ -271,6 +271,24 @@
 <dt class="sig sig-object py" id="TikTokLive.types.events.CommentEvent.from_dict">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.CommentEvent.from_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.events.CommentEvent.images">
+<span class="sig-name descname"><span class="pre">images</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.ChatImage" title="TikTokLive.types.objects.ChatImage"><span class="pre">ChatImage</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.CommentEvent.images" title="Permalink to this definition"></a></dt>
+<dd><p>List of chat images sent in a comment</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.events.CommentEvent.language">
+<span class="sig-name descname"><span class="pre">language</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.events.CommentEvent.language" title="Permalink to this definition"></a></dt>
+<dd><p>Language the commenter uses</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.events.CommentEvent.mentions">
+<span class="sig-name descname"><span class="pre">mentions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.CommentEvent.mentions" title="Permalink to this definition"></a></dt>
+<dd><p>List of people the comment mentions</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.events.CommentEvent.name">
@@ -421,7 +439,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.types.events.FollowEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">FollowEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.FollowEvent" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">FollowEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_followers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.FollowEvent" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
 <p>Event that fires when a user follows the livestream</p>
 <dl class="py attribute">
@@ -451,6 +469,12 @@
 <dt class="sig sig-object py" id="TikTokLive.types.events.FollowEvent.to_dict">
 <span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.FollowEvent.to_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.events.FollowEvent.total_followers">
+<span class="sig-name descname"><span class="pre">total_followers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.events.FollowEvent.total_followers" title="Permalink to this definition"></a></dt>
+<dd><p>Total number of creator followers</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.events.FollowEvent.user">
@@ -497,7 +521,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.types.events.IntroMessageEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">IntroMessageEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">streamer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.IntroMessageEvent" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">IntroMessageEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">streamer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.IntroMessageEvent" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
 <p>Event fires giving the current stream description when the stream is joined
 Note: Only fires if “process_initial_data” is enabled and the streamer has an intro message configured</p>
@@ -505,6 +529,12 @@ Note: Only fires if “process_initial_data” is enabled and the streamer has a
 <dt class="sig sig-object py" id="TikTokLive.types.events.IntroMessageEvent.from_dict">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.IntroMessageEvent.from_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.events.IntroMessageEvent.language">
+<span class="sig-name descname"><span class="pre">language</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.events.IntroMessageEvent.language" title="Permalink to this definition"></a></dt>
+<dd><p>Language of the creator’s room</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.events.IntroMessageEvent.message">
@@ -539,7 +569,7 @@ Note: Only fires if “process_initial_data” is enabled and the streamer has a
 
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.types.events.JoinEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">JoinEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.JoinEvent" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">JoinEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_viewers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.JoinEvent" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
 <p>Event that fires when a user joins the livestream</p>
 <dl class="py attribute">
@@ -586,6 +616,12 @@ Note: Only fires if “process_initial_data” is enabled and the streamer has a
 <dt class="sig sig-object py" id="TikTokLive.types.events.JoinEvent.to_dict">
 <span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.JoinEvent.to_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.events.JoinEvent.total_viewers">
+<span class="sig-name descname"><span class="pre">total_viewers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.events.JoinEvent.total_viewers" title="Permalink to this definition"></a></dt>
+<dd><p>Total number of viewers in the stream</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.events.JoinEvent.user">
@@ -914,29 +950,35 @@ e.g. “user123 has shared to more than 10 people!”</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerCountEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">ViewerCountEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">viewer_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.ViewerCountEvent" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerUpdateEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.events.</span></span><span class="sig-name descname"><span class="pre">ViewerUpdateEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">viewer_count:</span> <span class="pre">~typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_viewers:</span> <span class="pre">~typing.List[~TikTokLive.types.objects.TopViewer]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.ViewerUpdateEvent" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.events.AbstractEvent" title="TikTokLive.types.events.AbstractEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEvent</span></code></a></p>
-<p>Event that fires when the viewer count for the livestream updates</p>
+<p>Event that fires when the viewer count &amp; top viewers for the livestream updates</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerCountEvent.from_dict">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.ViewerCountEvent.from_dict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerUpdateEvent.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.ViewerUpdateEvent.from_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerCountEvent.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'viewer_count'</span></em><a class="headerlink" href="#TikTokLive.types.events.ViewerCountEvent.name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerUpdateEvent.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'viewer_update'</span></em><a class="headerlink" href="#TikTokLive.types.events.ViewerUpdateEvent.name" title="Permalink to this definition"></a></dt>
 <dd><p>The name of the TikTokLive event</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerCountEvent.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.ViewerCountEvent.to_dict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerUpdateEvent.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.events.ViewerUpdateEvent.to_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerCountEvent.viewer_count">
-<span class="sig-name descname"><span class="pre">viewer_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.events.ViewerCountEvent.viewer_count" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerUpdateEvent.top_viewers">
+<span class="sig-name descname"><span class="pre">top_viewers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.TopViewer" title="TikTokLive.types.objects.TopViewer"><span class="pre">TopViewer</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.events.ViewerUpdateEvent.top_viewers" title="Permalink to this definition"></a></dt>
+<dd><p>Top 10-20 viewers in the livestream by coins given</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.events.ViewerUpdateEvent.viewer_count">
+<span class="sig-name descname"><span class="pre">viewer_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.events.ViewerUpdateEvent.viewer_count" title="Permalink to this definition"></a></dt>
 <dd><p>The number of people viewing the stream currently</p>
 </dd></dl>
 
@@ -1016,71 +1058,42 @@ e.g. “user123 has shared to more than 10 people!”</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.Avatar">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">Avatar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.Avatar" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.Badge">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">Badge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">badge_scene_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.TikTokImage" title="TikTokLive.types.objects.TikTokImage"><span class="pre">TikTokImage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.Badge" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
-<p>The URLs to the avatar of a TikTok User</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.Avatar.download">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.types.objects.Avatar.download" title="Permalink to this definition"></a></dt>
-<dd><p>Download the GiftImage image
-:return: Image as a bytestring</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.Avatar.from_dict">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.Avatar.from_dict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.Avatar.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.Avatar.to_dict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.Avatar.url">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><a class="headerlink" href="#TikTokLive.types.objects.Avatar.url" title="Permalink to this definition"></a></dt>
-<dd><p>The last avatar URL supplied, if any are supplied</p>
-</dd></dl>
-
+<p>TikTok Badge class</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.Avatar.urls">
-<span class="sig-name descname"><span class="pre">urls</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.Avatar.urls" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.BadgeContainer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">BadgeContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">badge_scene_type:</span> <span class="pre">~typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_badges:</span> <span class="pre">~typing.List[~TikTokLive.types.objects.ImageBadge]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_badges:</span> <span class="pre">~typing.List[~TikTokLive.types.objects.TextBadge]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.BadgeContainer" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
-<p>Badge container housing a list of user badges</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.BadgeContainer.badge_scene_type">
-<span class="sig-name descname"><span class="pre">badge_scene_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.BadgeContainer.badge_scene_type" title="Permalink to this definition"></a></dt>
-<dd><p>Their badge “level”. For a subscriber, for example, this can be 3/7</p>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.Badge.badge_scene_type">
+<span class="sig-name descname"><span class="pre">badge_scene_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.Badge.badge_scene_type" title="Permalink to this definition"></a></dt>
+<dd><p>Internal type for a badge</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.BadgeContainer.from_dict">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.BadgeContainer.from_dict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.Badge.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.Badge.from_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.BadgeContainer.image_badges">
-<span class="sig-name descname"><span class="pre">image_badges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.ImageBadge" title="TikTokLive.types.objects.ImageBadge"><span class="pre">ImageBadge</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.BadgeContainer.image_badges" title="Permalink to this definition"></a></dt>
-<dd><p>A list of image badges the user has (e.g. Subscriber badge)</p>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.Badge.image">
+<span class="sig-name descname"><span class="pre">image</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.TikTokImage" title="TikTokLive.types.objects.TikTokImage"><span class="pre">TikTokImage</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.Badge.image" title="Permalink to this definition"></a></dt>
+<dd><p>Image associated with a badge</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.BadgeContainer.text_badges">
-<span class="sig-name descname"><span class="pre">text_badges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.TextBadge" title="TikTokLive.types.objects.TextBadge"><span class="pre">TextBadge</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.BadgeContainer.text_badges" title="Permalink to this definition"></a></dt>
-<dd><p>A list of text badges the user has (e.g. Moderator/Friend badge)</p>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.Badge.label">
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.Badge.label" title="Permalink to this definition"></a></dt>
+<dd><p>The internal TikTok badge label</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.Badge.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.Badge.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the badge</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.BadgeContainer.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.BadgeContainer.to_dict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.Badge.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.Badge.to_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1121,13 +1134,42 @@ e.g. “user123 has shared to more than 10 people!”</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.ChatImage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">ChatImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image:</span> <span class="pre">~typing.Optional[~TikTokLive.types.objects.TikTokImage]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.ChatImage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
+<p>An image sent in the TikTok LIVE chat as part of a comment</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.ChatImage.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.ChatImage.from_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.ChatImage.image">
+<span class="sig-name descname"><span class="pre">image</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.TikTokImage" title="TikTokLive.types.objects.TikTokImage"><span class="pre">TikTokImage</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.ChatImage.image" title="Permalink to this definition"></a></dt>
+<dd><p>Instance of the image</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.ChatImage.position">
+<span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#TikTokLive.types.objects.ChatImage.position" title="Permalink to this definition"></a></dt>
+<dd><p>Position of the message in the chat</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.ChatImage.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.ChatImage.to_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.Emote">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">Emote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emoteId:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image:</span> <span class="pre">~typing.Optional[~TikTokLive.types.objects.EmoteImage]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.Emote" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">Emote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emote_id:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image:</span> <span class="pre">~typing.Optional[~TikTokLive.types.objects.EmoteImage]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.Emote" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
 <p>The Emote a user sent in the chat</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.Emote.emoteId">
-<span class="sig-name descname"><span class="pre">emoteId</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.Emote.emoteId" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.Emote.emote_id">
+<span class="sig-name descname"><span class="pre">emote_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.Emote.emote_id" title="Permalink to this definition"></a></dt>
 <dd><p>ID of the TikTok Emote</p>
 </dd></dl>
 
@@ -1459,20 +1501,13 @@ e.g. “user123 has shared to more than 10 people!”</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.GiftIcon">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">GiftIcon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">avg_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_animated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.GiftIcon" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">GiftIcon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_animated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.GiftIcon" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.TikTokImage" title="TikTokLive.types.objects.TikTokImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokImage</span></code></a></p>
 <p>Icon data for a given gift (such as its image URL)</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.GiftIcon.avg_color">
 <span class="sig-name descname"><span class="pre">avg_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.GiftIcon.avg_color" title="Permalink to this definition"></a></dt>
 <dd><p>Colour of the gift</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.GiftIcon.download">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.types.objects.GiftIcon.download" title="Permalink to this definition"></a></dt>
-<dd><p>Download the GiftIcon image
-:return: Image as a bytestring</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1492,18 +1527,6 @@ e.g. “user123 has shared to more than 10 people!”</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.GiftIcon.uri">
-<span class="sig-name descname"><span class="pre">uri</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.GiftIcon.uri" title="Permalink to this definition"></a></dt>
-<dd><p>URI for the URL (the URL minus the <a class="reference external" href="https://cdn">https://cdn</a>)</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.GiftIcon.url">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.GiftIcon.url" title="Permalink to this definition"></a></dt>
-<dd><p>Retrieve the highest quality URL offered</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.GiftIcon.urls">
 <span class="sig-name descname"><span class="pre">urls</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.GiftIcon.urls" title="Permalink to this definition"></a></dt>
 <dd><p>A list of URLs containing various sizes of the gift’s icon</p>
@@ -1512,38 +1535,8 @@ e.g. “user123 has shared to more than 10 people!”</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.GiftImage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">GiftImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.GiftImage" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
-<p>Gift image</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.GiftImage.download">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.types.objects.GiftImage.download" title="Permalink to this definition"></a></dt>
-<dd><p>Download the GiftImage image
-:return: Image as a bytestring</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.GiftImage.from_dict">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.GiftImage.from_dict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.GiftImage.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.GiftImage.to_dict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.GiftImage.url">
-<span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.GiftImage.url" title="Permalink to this definition"></a></dt>
-<dd><p>Icon URL for the Gift</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.GiftInfo">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">GiftInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image:</span> <span class="pre">~typing.Optional[~TikTokLive.types.objects.GiftImage]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type:</span> <span class="pre">~typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diamond_count:</span> <span class="pre">~typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.GiftInfo" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">GiftInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image:</span> <span class="pre">~typing.Optional[~TikTokLive.types.objects.TikTokImage]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type:</span> <span class="pre">~typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diamond_count:</span> <span class="pre">~typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.GiftInfo" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
 <p>Details about a given gift</p>
 <dl class="py attribute">
@@ -1565,7 +1558,7 @@ e.g. “user123 has shared to more than 10 people!”</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.GiftInfo.image">
-<span class="sig-name descname"><span class="pre">image</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.GiftImage" title="TikTokLive.types.objects.GiftImage"><span class="pre">GiftImage</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.GiftInfo.image" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">image</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.TikTokImage" title="TikTokLive.types.objects.TikTokImage"><span class="pre">TikTokImage</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.GiftInfo.image" title="Permalink to this definition"></a></dt>
 <dd><p>Image container for the Gift</p>
 </dd></dl>
 
@@ -1618,50 +1611,13 @@ e.g. “user123 has shared to more than 10 people!”</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.ImageBadge">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">ImageBadge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.ImageBadge" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
-<p>”
-Image Badge object containing an image badge for a TikTok User</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.ImageBadge.display_type">
-<span class="sig-name descname"><span class="pre">display_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.ImageBadge.display_type" title="Permalink to this definition"></a></dt>
-<dd><p>The display type of the badge</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.ImageBadge.download">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.client.TikTokLiveClient" title="TikTokLive.client.client.TikTokLiveClient"><span class="pre">TikTokLiveClient</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.types.objects.ImageBadge.download" title="Permalink to this definition"></a></dt>
-<dd><p>Download the ImageBadge image
-:return: Image as a bytestring</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.ImageBadge.from_dict">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.ImageBadge.from_dict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.ImageBadge.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.ImageBadge.to_dict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.ImageBadge.url">
-<span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.ImageBadge.url" title="Permalink to this definition"></a></dt>
-<dd><p>The TikTok CDN Image URL for the badge</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.LinkUser">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">LinkUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id:</span> <span class="pre">~typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nickname:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avatar:</span> <span class="pre">~typing.Optional[~TikTokLive.types.objects.Avatar]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_id:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.LinkUser" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">LinkUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id:</span> <span class="pre">~typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nickname:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avatar:</span> <span class="pre">~typing.Optional[~TikTokLive.types.objects.TikTokImage]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_id:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.LinkUser" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
 <p>A user in a TikTok LinkMicBattle (TikTok Battle Events)</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.LinkUser.avatar">
-<span class="sig-name descname"><span class="pre">avatar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.Avatar" title="TikTokLive.types.objects.Avatar"><span class="pre">Avatar</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.LinkUser.avatar" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">avatar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.TikTokImage" title="TikTokLive.types.objects.TikTokImage"><span class="pre">TikTokImage</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.LinkUser.avatar" title="Permalink to this definition"></a></dt>
 <dd><p>User’s Profile Picture</p>
 </dd></dl>
 
@@ -1719,30 +1675,78 @@ Image Badge object containing an image badge for a TikTok User</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.TextBadge">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">TextBadge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.TextBadge" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TikTokImage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">TikTokImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.TikTokImage" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
-<p>User badges (e.g moderator)</p>
+<p>An image resource on TikTok LIVE</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.TextBadge.from_dict">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.TextBadge.from_dict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.TextBadge.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.TextBadge.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name for the badge</p>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TikTokImage.download">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.types.objects.TikTokImage.download" title="Permalink to this definition"></a></dt>
+<dd><p>Download the GiftImage image
+:return: Image as a bytestring</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.TextBadge.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.TextBadge.to_dict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TikTokImage.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.TikTokImage.from_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TikTokImage.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.TikTokImage.to_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.TextBadge.type">
-<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.TextBadge.type" title="Permalink to this definition"></a></dt>
-<dd><p>The type of badge</p>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TikTokImage.uri">
+<span class="sig-name descname"><span class="pre">uri</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.TikTokImage.uri" title="Permalink to this definition"></a></dt>
+<dd><p>URI without the CDN link</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TikTokImage.url">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.TikTokImage.url" title="Permalink to this definition"></a></dt>
+<dd><p>The last URL supplied, if any are supplied</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TikTokImage.urls">
+<span class="sig-name descname"><span class="pre">urls</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.TikTokImage.urls" title="Permalink to this definition"></a></dt>
+<dd><p>The full URL including CDN</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TopViewer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">TopViewer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coins_given</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.TopViewer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
+<p>Top viewer in a livestream</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TopViewer.coins_given">
+<span class="sig-name descname"><span class="pre">coins_given</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.TopViewer.coins_given" title="Permalink to this definition"></a></dt>
+<dd><p>Number of coins they have given to the streamer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TopViewer.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.TopViewer.from_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TopViewer.rank">
+<span class="sig-name descname"><span class="pre">rank</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.TopViewer.rank" title="Permalink to this definition"></a></dt>
+<dd><p>Their “top viewer” rank, typically ~1-20</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TopViewer.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.TopViewer.to_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.TopViewer.user">
+<span class="sig-name descname"><span class="pre">user</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.User" title="TikTokLive.types.objects.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.TopViewer.user" title="Permalink to this definition"></a></dt>
+<dd><p>User information. Tends to be mostly populated for top 3 only</p>
 </dd></dl>
 
 </dd></dl>
@@ -1784,31 +1788,37 @@ Image Badge object containing an image badge for a TikTok User</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.User">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nickname:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avatar:</span> <span class="pre">~typing.Optional[~TikTokLive.types.objects.Avatar]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_id:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id:</span> <span class="pre">~typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">details:</span> <span class="pre">~TikTokLive.types.objects.UserDetail</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">badges:</span> <span class="pre">~typing.List[~TikTokLive.types.objects.BadgeContainer]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.User" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id:</span> <span class="pre">~typing.Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nickname:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avatar:</span> <span class="pre">~typing.Optional[~TikTokLive.types.objects.TikTokImage]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_id:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sec_uid:</span> <span class="pre">~typing.Optional[str]</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info:</span> <span class="pre">~TikTokLive.types.objects.UserInfo</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">badges:</span> <span class="pre">~typing.List[~TikTokLive.types.objects.Badge]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.User" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
 <p>User object containing information on a TikTok User</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.User.avatar">
-<span class="sig-name descname"><span class="pre">avatar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.Avatar" title="TikTokLive.types.objects.Avatar"><span class="pre">Avatar</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.User.avatar" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">avatar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.TikTokImage" title="TikTokLive.types.objects.TikTokImage"><span class="pre">TikTokImage</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.User.avatar" title="Permalink to this definition"></a></dt>
 <dd><p>An object containing avatar url information</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.User.badges">
-<span class="sig-name descname"><span class="pre">badges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.BadgeContainer" title="TikTokLive.types.objects.BadgeContainer"><span class="pre">BadgeContainer</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.User.badges" title="Permalink to this definition"></a></dt>
-<dd><p>Badges for the user containing information such as if they are a stream moderator</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.User.details">
-<span class="sig-name descname"><span class="pre">details</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#TikTokLive.types.objects.UserDetail" title="TikTokLive.types.objects.UserDetail"><span class="pre">UserDetail</span></a></em><a class="headerlink" href="#TikTokLive.types.objects.User.details" title="Permalink to this definition"></a></dt>
-<dd><p>Extra attributes for the user such as if they are following the streamer</p>
+<span class="sig-name descname"><span class="pre">badges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#TikTokLive.types.objects.Badge" title="TikTokLive.types.objects.Badge"><span class="pre">Badge</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.User.badges" title="Permalink to this definition"></a></dt>
+<dd><p>Badges for the user containing important extra info</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.User.from_dict">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.User.from_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.User.gifter_level">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gifter_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#TikTokLive.types.objects.User.gifter_level" title="Permalink to this definition"></a></dt>
+<dd><p>The user’s gifter level. If this is None, they do not have a gifter level.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.User.info">
+<span class="sig-name descname"><span class="pre">info</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#TikTokLive.types.objects.UserInfo" title="TikTokLive.types.objects.UserInfo"><span class="pre">UserInfo</span></a></em><a class="headerlink" href="#TikTokLive.types.objects.User.info" title="Permalink to this definition"></a></dt>
+<dd><p>Extra attributes for the user such as if they are following the streamer</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.User.is_following">
@@ -1840,10 +1850,22 @@ Image Badge object containing an image badge for a TikTok User</p>
 <dd><p>Whether they are a subscriber in the watched stream</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.User.is_top_gifter">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_top_gifter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#TikTokLive.types.objects.User.is_top_gifter" title="Permalink to this definition"></a></dt>
+<dd><p>Whether they are withi nthe top 3 gifters in the stream</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.types.objects.User.nickname">
 <span class="sig-name descname"><span class="pre">nickname</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.User.nickname" title="Permalink to this definition"></a></dt>
 <dd><p>The user’s nickname (e.g Charlie d’Amelio)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.User.sec_uid">
+<span class="sig-name descname"><span class="pre">sec_uid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.User.sec_uid" title="Permalink to this definition"></a></dt>
+<dd><p>An internal alphanumeric TikTok User ID</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1872,23 +1894,36 @@ Image Badge object containing an image badge for a TikTok User</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.UserDetail">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">UserDetail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">follow_role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.UserDetail" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.UserInfo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.types.objects.</span></span><span class="sig-name descname"><span class="pre">UserInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">following</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">followers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow_role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.UserInfo" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.types.objects.AbstractObject" title="TikTokLive.types.objects.AbstractObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractObject</span></code></a></p>
 <p>Extra attributes on the User Object (e.g. following status)</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.UserDetail.follow_role">
-<span class="sig-name descname"><span class="pre">follow_role</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.UserDetail.follow_role" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.UserInfo.follow_role">
+<span class="sig-name descname"><span class="pre">follow_role</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.UserInfo.follow_role" title="Permalink to this definition"></a></dt>
+<dd><p>Whether they are a random, follower, or friend</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.UserInfo.followers">
+<span class="sig-name descname"><span class="pre">followers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.UserInfo.followers" title="Permalink to this definition"></a></dt>
+<dd><p>Number of people that follow them</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.UserInfo.following">
+<span class="sig-name descname"><span class="pre">following</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.types.objects.UserInfo.following" title="Permalink to this definition"></a></dt>
+<dd><p>Number of people they follow</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.types.objects.UserInfo.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.UserInfo.from_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.UserDetail.from_dict">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.UserDetail.from_dict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="TikTokLive.types.objects.UserDetail.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.UserDetail.to_dict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="TikTokLive.types.objects.UserInfo.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.types.objects.UserInfo.to_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

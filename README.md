@@ -17,7 +17,7 @@ connects to the Webcast service using only a user's `unique_id` and allows you t
 
 This library was originally based off of the
 [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
-by [@zerodytrash](https://github.com/zerodytrash/), but has since taken on its own identity as it has added more features & changed the core way it functions.
+by [@zerodytrash](https://github.com/zerodytrash/), but has since taken on its own identity as it has added more features & changed much of its core functionality.
 
 
 Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
@@ -78,7 +78,7 @@ async def on_comment(event: CommentEvent):
     print(f"{event.user.nickname} -> {event.comment}")
 
 
-# Define handling an event via "callback"
+# Define handling an event via a "callback"
 client.add_listener("comment", on_comment)
 
 if __name__ == '__main__':
@@ -105,33 +105,37 @@ To create a new `TikTokLiveClient` object the following parameter is required. Y
 
 A `TikTokLiveClient` object contains the following methods.
 
-| Method Name              | Description                                                                                                                                                                                    |
-|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| run                      | Starts a connection to the live chat while blocking the main thread (sync)                                                                                                                     |
-| start                    | Connects to the live chat without blocking the main thread (async)                                                                                                                             |
-| stop                     | Turns off the connection to the live chat.                                                                                                                                                     |
-| retrieve_room_info       | Gets the current room info from TikTok API                                                                                                                                                     |
-| retrieve_available_gifts | Retrieves a list of the available gifts for the room and adds it to the `extended_gift` attribute of the `Gift` object on the `gift` event, when enabled.                                      |
-| add_listener             | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on()`) and takes two parameters, an event name and the payload, an AbstractEvent                       ||
-| download                 | Start downloading the livestream video for a given duration or until stopped via the `stop_download` method                                                                                    |
-| stop_download            | Stop downloading the livestream video if currently downloading, otherwise throws an error                                                                                                      |
+| Method Name              | Description                                                                                                                                                                      |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| run                      | Starts a connection to the live chat while blocking the main thread (sync)                                                                                                       |
+| start                    | Connects to the live chat without blocking the main thread (async)                                                                                                               |
+| stop                     | Turns off the connection to the live chat.                                                                                                                                       |
+| retrieve_room_info       | Gets the current room info from TikTok API                                                                                                                                       |
+| retrieve_available_gifts | Retrieves a list of the available gifts for the room and adds it to the `extended_gift` attribute of the `Gift` object on the `gift` event, when enabled.                        |
+| add_listener             | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on("<event>")`) and takes two parameters, an event name and the payload, an AbstractEvent ||
+| download                 | Start downloading the livestream video for a given duration or until stopped via the `stop_download` method                                                                      |
+| stop_download            | Stop downloading the livestream video if currently downloading, otherwise throws an error                                                                                        |
 
 ## Attributes
 
-| Attribute Name  | Description                                                                                                                         |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| viewer_count    | The number of people currently watching the livestream broadcast. Updated automatically on a `viewer_count` event                   |
-| room_id         | The Room ID of the livestream room the client is currently connected to                                                             |
-| room_info       | Information about the given livestream room                                                                                         |
-| unique_id       | The TikTok username of the person whose livestream the client is currently connected to (e.g. @charlidamelio)                       |
-| connected       | Whether the client is currently connected to a livestream                                                                           |
-| connecting      | Whether the client is currently connecting to a livestream                                                                          |
-| available_gifts | A dictionary containing K:V pairs of `Dict[int, GiftDetailed]`, where the int is the internal TikTok gift id                        |                              |
-| proxies         | Get the current proxies being used for HTTP requests.<br/><br/>**Note:** To set the active proxies, set the value of this attribute |
-| loop            | The asyncio event loop the client is running off of                                                                                 |
-| http            | The HTTP client TikTokLive uses to make all HTTP-based requests                                                                     |
-| websocket       | The `WebcastWebsocketConnection` websocket client TikTokLive uses to manage its websocket connection                                |
-| ffmpeg          | The ffmpeg wrapper TikTokLive uses to manage ffmpeg-based stream downloads                                                          |
+A `TikTokLiveClient` object contains the following attributes.
+
+| Attribute Name  | Description                                                                                                                                  |
+|-----------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| room_id         | The Room ID of the livestream room the client is currently connected to                                                                      |
+| room_info       | Information about the given livestream room                                                                                                  |
+| unique_id       | The TikTok username of the person whose livestream the client is currently connected to (e.g. @charlidamelio)                                |
+| connected       | Whether the client is currently connected to a livestream                                                                                    |
+| connecting      | Whether the client is currently connecting to a livestream                                                                                   |
+| available_gifts | A dictionary containing K:V pairs of `Dict[int, GiftDetailed]`, where the int is the internal TikTok gift id                                 |                              |
+| proxies         | Get the current proxies being used for HTTP requests.<br/><br/>**Note:** To set the active proxies, set the value of this attribute          |
+| loop            | The asyncio event loop the client is running off of                                                                                          |
+| http            | The HTTP client TikTokLive uses to make all HTTP-based requests                                                                              |
+| websocket       | The `WebcastWebsocketConnection` websocket client TikTokLive uses to manage its websocket connection                                         |
+| ffmpeg          | The ffmpeg wrapper TikTokLive uses to manage ffmpeg-based stream downloads                                                                   |
+| viewer_count    | The number of people currently watching the livestream broadcast. Updated automatically on a `viewer_update` event                           |
+| top_viewers     | The top N (usually ~1-20) users, ranked by coins gifted to the streamer, for the broadcast. Updated automatically on a `viewer_update` event |
+
 
 ## Events
 
@@ -241,15 +245,22 @@ async def on_connect(event: MoreShareEvent):
 ```
 
 
-### `viewer_count`
+### `viewer_update`
 
 Triggered every time the viewer count is updated. This event also updates the cached viewer count by default.
 
 ```python
-@client.on("viewer_count")
-async def on_connect(event: ViewerCountEvent):
+@client.on("viewer_update")
+async def on_connect(event: ViewerUpdateEvent):
+
+    # Viewer Count
     print("Received a new viewer count:", event.viewer_count)
     print("The client automatically sets the count as an attribute too:", client.viewer_count)
+    
+    # Top VIewers
+    print("You can even get the top viewers (by coins gifted)!:", event.top_viewers)
+    print("The client automatically sets the top viewers as an attribute too:", client.top_viewers)
+
 ```
 
 ### `comment`
@@ -381,8 +392,8 @@ async def on_connect(error: Exception):
 
 ## Contributors
 
-* **Isaac Kogan** - *Initial work & primary maintainer* - [isaackogan](https://github.com/isaackogan)
-* **Zerody** - *Reverse-Engineering & Support* - [Zerody](https://github.com/zerodytrash/)
+* **Isaac Kogan** - *Creator, Primary Maintainer, and Reverse-Engineering* - [isaackogan](https://github.com/isaackogan)
+* **Zerody** - *Initial Reverse-Engineering Protobuf & Support* - [Zerody](https://github.com/zerodytrash/)
 * **Davincible** - *Reverse-Engineering Stream Downloads*  - [davincible](https://github.com/davincible)
 * **David Teather** - *TikTokLive Introduction Tutorial* - [davidteather](https://github.com/davidteather)
 
