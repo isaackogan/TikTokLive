@@ -79,7 +79,7 @@ class LikeEvent(AbstractEvent):
     """Total number of likes sent"""
 
     display_type: Optional[str] = None
-    """Internal type"""
+    """Internal display type"""
 
     label: Optional[str] = None
     """Internal TikTok label"""
@@ -236,6 +236,16 @@ class GiftEvent(AbstractEvent):
     gift: Optional[Gift] = None
     """Object containing gift data"""
 
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        De-flatten the gift event (too much in the primary payload)
+
+        """
+
+        d["gift"] = d  # Move 'er up a bit
+        return d
+    
     def _forward_client(self, client: TikTokLiveClient):
         """
         Forward the client to events where it is required
@@ -249,16 +259,6 @@ class GiftEvent(AbstractEvent):
                 self.gift.info.image._client = client
             if self.gift.detailed:
                 self.gift.detailed.icon._client = client
-
-    @classmethod
-    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
-        """
-        De-flatten the gift event (too much in the primary payload)
-
-        """
-
-        d["gift"] = d  # Move 'er up a bit
-        return d
 
 
 @LiveEvent("question")
