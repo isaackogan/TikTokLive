@@ -1,12 +1,4 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from TikTokLive.client.client import TikTokLiveClient
-
 import enum
-import re
 from dataclasses import dataclass, field
 from threading import Thread
 from typing import List, Optional, Any, Dict
@@ -28,18 +20,22 @@ class AbstractObject(DataClassDictMixin):
 
 
 @dataclass()
-class Avatar(AbstractObject):
+class TikTokImage(AbstractObject):
     """
-    The URLs to the avatar of a TikTok User
+    An image resource on TikTok LIVE
 
     """
 
-    urls: List[str] = field(default_factory=lambda: [])
+    urls: List[str] = field(default_factory=list)
+    """The full URL including CDN"""
+
+    uri: Optional[str] = None
+    """URI without the CDN link"""
 
     @property
-    def url(self):
+    def url(self) -> Optional[str]:
         """
-        The last avatar URL supplied, if any are supplied
+        The last URL supplied, if any are supplied
 
         """
 
@@ -57,77 +53,57 @@ class Avatar(AbstractObject):
 
 
 @dataclass()
-class UserDetail(AbstractObject):
+class UserInfo(AbstractObject):
     """
     Extra attributes on the User Object (e.g. following status)
 
     """
 
+    following: Optional[int] = None
+    """Number of people they follow"""
+
+    followers: Optional[int] = None
+    """Number of people that follow them"""
+
     follow_role: Optional[int] = None
+    """Whether they are a random, follower, or friend"""
 
 
 @dataclass()
-class TextBadge(AbstractObject):
+class Badge(AbstractObject):
     """
-    User badges (e.g moderator)
-
-    """
-
-    type: Optional[str] = None
-    """The type of badge"""
-
-    name: Optional[str] = None
-    """The name for the badge"""
-
-
-@dataclass()
-class ImageBadge(AbstractObject):
-    """"
-    Image Badge object containing an image badge for a TikTok User
+    TikTok Badge class
 
     """
 
     @classmethod
-    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
-        """
-        Flatten it a bit to get just the image
+    def __pre_deserialize__(cls, badge: Dict[Any, Any]) -> Dict[Any, Any]:
+        # Process image & text badges
+        data: dict = {
+            'badge_scene_type': badge.get('badge_scene_type'),
+            'image': badge.get('image', dict()).get('image'),
+            **badge.get('text', dict())
+        }
 
-        """
+        # Process complex badges
+        if badge.get('complex'):
+            data['image'] = badge["complex"].get('image', dict())
+            data['name'] = badge["complex"].get('data')
+            data = {**data, **badge["complex"].get('label', dict())}
 
-        d["url"] = d.get('image', dict()).get('url')
-        return d
-
-    async def download(self, client: TikTokLiveClient) -> Optional[bytes]:
-        """
-        Download the ImageBadge image
-        :return: Image as a bytestring
-
-        """
-
-        return await utilities.download(self.url, client)
-
-    url: Optional[str] = None
-    """The TikTok CDN Image URL for the badge"""
-
-    display_type: Optional[int] = None
-    """The display type of the badge"""
-
-
-@dataclass()
-class BadgeContainer(AbstractObject):
-    """
-    Badge container housing a list of user badges
-
-    """
+        return data
 
     badge_scene_type: Optional[int] = None
-    """Their badge "level". For a subscriber, for example, this can be 3/7"""
+    """Internal type for a badge"""
 
-    image_badges: List[ImageBadge] = field(default_factory=lambda: [])
-    """A list of image badges the user has (e.g. Subscriber badge)"""
+    image: Optional[TikTokImage] = None
+    """Image associated with a badge"""
 
-    text_badges: List[TextBadge] = field(default_factory=lambda: [])
-    """A list of text badges the user has (e.g. Moderator/Friend badge)"""
+    label: Optional[str] = None
+    """The internal TikTok badge label"""
+
+    name: Optional[str] = None
+    """The name of the badge"""
 
 
 @dataclass()
@@ -137,23 +113,53 @@ class User(AbstractObject):
 
     """
 
+    user_id: Optional[int] = None
+    """The user's Internal TikTok User ID"""
+
     nickname: Optional[str] = None
     """The user's nickname (e.g Charlie d'Amelio)"""
 
-    avatar: Optional[Avatar] = field(default_factory=lambda: Avatar())
+    avatar: Optional[TikTokImage] = field(default_factory=TikTokImage)
     """An object containing avatar url information"""
 
     unique_id: Optional[str] = None
     """The user's uniqueId (e.g @charlidamelio)"""
 
-    user_id: Optional[int] = None
-    """The user's Internal TikTok User ID"""
+    sec_uid: Optional[str] = None
+    """An internal alphanumeric TikTok User ID"""
 
-    details: UserDetail = field(default_factory=lambda: UserDetail())
+    info: UserInfo = field(default_factory=UserInfo)
     """Extra attributes for the user such as if they are following the streamer"""
 
-    badges: List[BadgeContainer] = field(default_factory=lambda: list())
-    """Badges for the user containing information such as if they are a stream moderator"""
+    badges: List[Badge] = field(default_factory=list)
+    """Badges for the user containing important extra info"""
+
+    def __badge_text_search(self, text: str) -> bool:
+        """
+        Search a badge for a given string of text
+
+        :param text: Text to include in search
+        :return: Search status
+
+        """
+
+        for badge in self.badges:
+            for i in [badge.image.uri if badge.image else None, badge.name, badge.label]:
+                if text.lower() in (i.lower() or ""):
+                    return True
+
+        return False
+
+    def __badge_type_search(self, badge_type: int) -> bool:
+        """
+        Search for a given badge type
+
+        :param badge_type: Type (int)
+        :return: Search status
+
+        """
+
+        return any(badge_type == badge.badge_scene_type for badge in self.badges)
 
     @property
     def is_following(self) -> bool:
@@ -162,7 +168,7 @@ class User(AbstractObject):
 
         """
 
-        return self.details.follow_role >= 1
+        return (self.info.follow_role or 0) >= 1
 
     @property
     def is_friend(self) -> bool:
@@ -171,26 +177,7 @@ class User(AbstractObject):
 
         """
 
-        return self.details.follow_role >= 2
-
-    def __contains_badge(self, name: str) -> bool:
-        """
-        Check if a given badge type is in the badge list
-
-        :param name: Name of the badge or URL
-        :return: Whether it's there
-
-        """
-
-        for badge in self.badges:
-            for text_badge in badge.text_badges:
-                if name in text_badge.type or name in text_badge.name:
-                    return True
-            for image_badge in badge.image_badges:
-                if name in image_badge.url or name in image_badge.display_type:
-                    return True
-
-        return False
+        return (self.info.follow_role or 0) >= 2
 
     @property
     def is_new_gifter(self) -> bool:
@@ -199,7 +186,7 @@ class User(AbstractObject):
 
         """
 
-        return self.__contains_badge("live_ng")
+        return self.__badge_text_search("live_ng")
 
     @property
     def is_moderator(self) -> bool:
@@ -208,7 +195,7 @@ class User(AbstractObject):
 
         """
 
-        return self.__contains_badge("moderator")
+        return self.__badge_text_search("moderator")
 
     @property
     def is_subscriber(self) -> bool:
@@ -217,16 +204,16 @@ class User(AbstractObject):
 
         """
 
-        # Sub badge name
-        if self.__contains_badge("/sub_"):
-            return True
+        return self.__badge_text_search("/sub_") or self.__badge_type_search(4)
 
-        # Generic sub badge type
-        for badge in self.badges:
-            if badge.badge_scene_type in [4, 7]:
-                return True
+    @property
+    def is_top_gifter(self) -> bool:
+        """
+        Whether they are withi nthe top 3 gifters in the stream
+        
+        """
 
-        return False
+        return bool(self.top_gifter_rank)
 
     @property
     def top_gifter_rank(self) -> Optional[int]:
@@ -236,16 +223,46 @@ class User(AbstractObject):
         """
 
         for badge in self.badges:
-            for _badge in badge.image_badges:
-                result = re.search(r'(?<=ranklist_top_gifter_)(\d+)(?=.png)', _badge.url)
-                if result is not None:
-                    return int(result.group())
+            if "top_gifter" in (badge.image.uri if badge.image else ""):
+                try:
+                    return int(badge.name.split(' ')[1])  # Parse "No. 2" string
+                except:
+                    continue
 
-        return None
+    @property
+    def gifter_level(self) -> Optional[int]:
+        """
+        The user's gifter level. If this is None, they do not have a gifter level.
+        
+        """
+
+        for badge in self.badges:
+            if "grade_badge" in (badge.image.uri if badge.image else ""):
+                try:
+                    return int(badge.name)
+                except:
+                    return None
 
 
 @dataclass()
-class GiftIcon(AbstractObject):
+class TopViewer(AbstractObject):
+    """
+    Top viewer in a livestream
+
+    """
+
+    coins_given: int = None
+    """Number of coins they have given to the streamer"""
+
+    user: Optional[User] = None
+    """User information. Tends to be mostly populated for top 3 only"""
+
+    rank: Optional[int] = None
+    """Their "top viewer" rank, typically ~1-20"""
+
+
+@dataclass()
+class GiftIcon(TikTokImage):
     """
     Icon data for a given gift (such as its image URL)
 
@@ -254,53 +271,11 @@ class GiftIcon(AbstractObject):
     avg_color: Optional[str] = None
     """Colour of the gift"""
 
-    uri: Optional[str] = None
-    """URI for the URL (the URL minus the https://cdn)"""
-
     is_animated: Optional[bool] = None
     """Whether or not it is an animated icon"""
 
     urls: Optional[List[str]] = alias("url_list")
     """A list of URLs containing various sizes of the gift's icon"""
-
-    @property
-    def url(self) -> Optional[str]:
-        """
-        Retrieve the highest quality URL offered
-
-        """
-
-        if len(self.urls) > 0:
-            return self.urls[-1]
-
-    async def download(self) -> Optional[bytes]:
-        """
-        Download the GiftIcon image
-        :return: Image as a bytestring
-
-        """
-
-        return await utilities.download(self.url, getattr(self, "_client"))
-
-
-@dataclass()
-class GiftImage(AbstractObject):
-    """
-    Gift image
-    
-    """
-
-    url: Optional[str] = None
-    """Icon URL for the Gift"""
-
-    async def download(self) -> Optional[bytes]:
-        """
-        Download the GiftImage image
-        :return: Image as a bytestring
-
-        """
-
-        return await utilities.download(self.url, getattr(self, "_client"))
 
 
 @dataclass()
@@ -310,7 +285,7 @@ class GiftInfo(AbstractObject):
     
     """
 
-    image: Optional[GiftImage] = field(default_factory=lambda: GiftImage())
+    image: Optional[TikTokImage] = field(default_factory=TikTokImage)
     """Image container for the Gift"""
 
     description: Optional[str] = None
@@ -319,10 +294,10 @@ class GiftInfo(AbstractObject):
     type: Optional[int] = None
     """The type of gift. Type 1 are repeatable, any other type are not."""
 
-    diamond_count: Optional[int] = alias("diamondCount")
+    diamond_count: Optional[int] = None
     """Diamond value of x1 of the gift"""
 
-    name: Optional[str] = alias("giftName")
+    name: Optional[str] = None
     """Name of the gift"""
 
 
@@ -368,7 +343,7 @@ class GiftDetailed(AbstractObject):
     for_link_mic: Optional[bool] = alias("for_linkmic")
     """Whether the gift is for link mic events"""
 
-    icon: Optional[GiftIcon] = field(default_factory=lambda: GiftIcon())
+    icon: Optional[GiftIcon] = field(default_factory=GiftIcon)
     """Image icon for the gift"""
 
     is_box_gift: Optional[bool] = None
@@ -418,13 +393,13 @@ class Gift(AbstractObject):
     count: Optional[int] = alias("repeatCount", default=None)
     """Number of times the gift has repeated"""
 
-    is_repeating: Optional[int] = alias("repeatEnd", default=None)
+    is_repeating: Optional[int] = alias("repeatEnd", default=0)
     """Whether or not the repetition is over"""
 
-    info: Optional[GiftInfo] = field(default_factory=lambda: GiftInfo())
+    info: Optional[GiftInfo] = field(default_factory=GiftInfo)
     """Details about the specific Gift sent"""
 
-    recipient: Optional[GiftRecipient] = field(default_factory=lambda: GiftRecipient())
+    recipient: Optional[GiftRecipient] = field(default_factory=GiftRecipient)
     """Who received the gift (for streams with multiple users)"""
 
     detailed: Optional[GiftDetailed] = field(metadata={"serialization_strategy": pass_through}, default=None)
@@ -479,11 +454,35 @@ class Emote(AbstractObject):
 
     """
 
-    emoteId: Optional[str] = None
+    emote_id: Optional[str] = None
     """ID of the TikTok Emote"""
 
-    image: Optional[EmoteImage] = field(default_factory=lambda: EmoteImage())
+    image: Optional[EmoteImage] = field(default_factory=EmoteImage)
     """Container encapsulating the image URL for the sent Emote"""
+
+
+@dataclass()
+class ChatImage(AbstractObject):
+    """
+    An image sent in the TikTok LIVE chat as part of a comment
+
+    """
+
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        Flatten the message a bit
+
+        """
+
+        d["image"] = d.get("image", dict()).get("image")
+        return d
+
+    position: int = 0
+    """Position of the message in the chat"""
+
+    image: Optional[TikTokImage] = field(default_factory=TikTokImage)
+    """Instance of the image"""
 
 
 @dataclass()
@@ -530,7 +529,7 @@ class LinkUser(AbstractObject):
     nickname: Optional[str] = None
     """User's Nickname"""
 
-    avatar: Optional[Avatar] = field(default_factory=lambda: Avatar())
+    avatar: Optional[TikTokImage] = field(default_factory=TikTokImage)
     """User's Profile Picture"""
 
     unique_id: Optional[str] = None
@@ -561,7 +560,7 @@ class BattleArmy(AbstractObject):
     points: Optional[int] = None
     """The number of points the battle army has"""
 
-    participants: List[User] = field(default_factory=lambda: [])
+    participants: List[User] = field(default_factory=list)
     """The users involved in the specific battle army"""
 
 

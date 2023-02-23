@@ -11,7 +11,7 @@ from typing import Optional, List, Any, Dict, ClassVar
 
 from mashumaro import DataClassDictMixin, pass_through
 
-from TikTokLive.types import User, Gift, Emote, TreasureBoxData, ExtraRankData, LinkUser, BattleArmy
+from TikTokLive.types import User, Gift, Emote, TreasureBoxData, ExtraRankData, LinkUser, BattleArmy, TopViewer, ChatImage
 from TikTokLive.types.utilities import LiveEvent, alias
 
 
@@ -42,8 +42,8 @@ class AbstractEvent(DataClassDictMixin):
         if hasattr(self, "user") and isinstance(self.user, User):
             self.user.avatar._client = client
             for badge in self.user.badges:
-                for image_badge in badge.image_badges:
-                    image_badge._client = client
+                if badge.image:
+                    badge.image._client = client
 
 
 @LiveEvent("connect")
@@ -101,6 +101,9 @@ class JoinEvent(AbstractEvent):
     label: Optional[str] = None
     """Label for event in live chat"""
 
+    total_viewers: Optional[int] = None
+    """Total number of viewers in the stream"""
+
     action_id: Optional[int] = None
     """Internal action ID from TikTok"""
 
@@ -130,6 +133,9 @@ class FollowEvent(AbstractEvent):
 
     label: Optional[str] = None
     """Internal TikTok label"""
+
+    total_followers: Optional[int] = None
+    """Total number of creator followers"""
 
 
 @LiveEvent("share")
@@ -172,15 +178,18 @@ class MoreShareEvent(ShareEvent):
             return None
 
 
-@LiveEvent("viewer_count")
-class ViewerCountEvent(AbstractEvent):
+@LiveEvent("viewer_update")
+class ViewerUpdateEvent(AbstractEvent):
     """
-    Event that fires when the viewer count for the livestream updates
+    Event that fires when the viewer count & top viewers for the livestream updates
     
     """
 
     viewer_count: Optional[int] = None
     """The number of people viewing the stream currently"""
+
+    top_viewers: List[TopViewer] = field(default_factory=list)
+    """Top 10-20 viewers in the livestream by coins given"""
 
 
 @LiveEvent("comment")
@@ -195,6 +204,15 @@ class CommentEvent(AbstractEvent):
 
     comment: Optional[str] = None
     """The UTF-8 text comment that was sent"""
+
+    mentions: List[User] = field(default_factory=list)
+    """List of people the comment mentions"""
+
+    images: List[ChatImage] = field(default_factory=list)
+    """List of chat images sent in a comment"""
+
+    language: Optional[str] = None
+    """Language the commenter uses"""
 
 
 @LiveEvent("live_end")
@@ -348,7 +366,7 @@ class WeeklyRankingEvent(AbstractEvent):
     label: Optional[str] = None
     """Internal TikTok Label"""
 
-    extra: Optional[ExtraRankData] = field(default_factory=lambda: ExtraRankData())
+    extra: Optional[ExtraRankData] = field(default_factory=ExtraRankData)
     """Extra data relating to the UI, presumably"""
 
     rank: Optional[int] = None
@@ -379,6 +397,9 @@ class IntroMessageEvent(AbstractEvent):
 
     streamer: Optional[User] = None
     """User payload of information about the streamer"""
+
+    language: Optional[str] = None
+    """Language of the creator's room"""
 
 
 @LiveEvent("mic_battle_start")
@@ -416,7 +437,7 @@ class MicBattleStartEvent(AbstractEvent):
 
         return {'battle_users': battle_users}
 
-    battle_users: List[LinkUser] = field(default_factory=lambda: [])
+    battle_users: List[LinkUser] = field(default_factory=list)
     """Information about the users engaged in the Mic Battle"""
 
 
@@ -464,7 +485,7 @@ class MicBattleUpdateEvent(AbstractEvent):
     battle_status: Optional[int] = None
     """The status of the current Battle. If battle_status=1, the battle is ongoing. If it's 2, the battle has ended."""
 
-    battle_armies: List[BattleArmy] = field(default_factory=lambda: [])
+    battle_armies: List[BattleArmy] = field(default_factory=list)
     """Information about the users engaged in the Mic Battle"""
 
     @property
