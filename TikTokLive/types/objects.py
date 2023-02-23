@@ -328,7 +328,7 @@ class GiftDetailed(AbstractObject):
     combo: Optional[bool] = None
     """Whether the gift can be combo'd"""
 
-    can_put_gift_in_box: Optional[bool] = None
+    can_put_in_gift_box: Optional[bool] = None
     """Whether the gift can be put into a treasure box"""
 
     description: Optional[str] = alias("describe")
