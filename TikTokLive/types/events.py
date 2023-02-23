@@ -115,7 +115,7 @@ class JoinEvent(AbstractEvent):
         :return: Returns True if they joined through a share link
 
         """
-        return self.type == "pm_mt_join_message_other_viewer"
+        return self.display_type == "pm_mt_join_message_other_viewer"
 
 
 @LiveEvent("follow")
