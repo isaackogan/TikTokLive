@@ -105,16 +105,16 @@ To create a new `TikTokLiveClient` object the following parameter is required. Y
 
 A `TikTokLiveClient` object contains the following methods.
 
-| Method Name              | Description                                                                                                                                                                      |
-|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| run                      | Starts a connection to the live chat while blocking the main thread (sync)                                                                                                       |
-| start                    | Connects to the live chat without blocking the main thread (async)                                                                                                               |
-| stop                     | Turns off the connection to the live chat.                                                                                                                                       |
-| retrieve_room_info       | Gets the current room info from TikTok API                                                                                                                                       |
-| retrieve_available_gifts | Retrieves a list of the available gifts for the room and adds it to the `extended_gift` attribute of the `Gift` object on the `gift` event, when enabled.                        |
+| Method Name              | Description                                                                                                                                                                       |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| run                      | Starts a connection to the live chat while blocking the main thread                                                                                                               |
+| start                    | (async) Connects to the live chat without blocking the main thread                                                                                                                |
+| stop                     | Turns off the connection to the live chat.                                                                                                                                        |
+| retrieve_room_info       | (async) Gets the current room info from TikTok API                                                                                                                                |
+| retrieve_available_gifts | (async) Retrieves a list of the available gifts for the room and adds it to the `extended_gift` attribute of the `Gift` object on the `gift` event, when enabled.                 |
 | add_listener             | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on("<event>")`) and takes two parameters, an event name and the payload, an AbstractEvent ||
-| download                 | Start downloading the livestream video for a given duration or until stopped via the `stop_download` method                                                                      |
-| stop_download            | Stop downloading the livestream video if currently downloading, otherwise throws an error                                                                                        |
+| download                 | Start downloading the livestream video for a given duration or until stopped via the `stop_download` method                                                                       |
+| stop_download            | Stop downloading the livestream video if currently downloading, otherwise throws an error                                                                                         |
 
 ## Attributes
 

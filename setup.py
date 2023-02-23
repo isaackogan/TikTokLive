@@ -23,7 +23,7 @@ setuptools.setup(
         "httpx>=0.23.0",  # Make requests
         "protobuf3-to-dict>=0.1.5",  # Convert Protobuf to Dict
         "protobuf>=3.19.4",  # Decode Protobuf Messages
-        "pyee>=9.0.4",  # event Emitter
+        "pyee>=9.0.4",  # Event Emitter
         "ffmpy>=0.3.0",  # Download streams
         "mashumaro>=3.5",  # JSON Deserialization
         "websockets>=10.4"  # Connecting to websocket server
