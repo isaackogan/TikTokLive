@@ -145,7 +145,7 @@ class User(AbstractObject):
 
         for badge in self.badges:
             for i in [badge.image.uri if badge.image else None, badge.name, badge.label]:
-                if text.lower() in (i.lower() or ""):
+                if text.lower() in (i or "").lower():
                     return True
 
         return False
