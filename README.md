@@ -111,7 +111,7 @@ To create a new `TikTokLiveClient` object the following parameter is required. Y
 
 ## Methods
 
-A `TikTokLiveClient` object contains the following methods.
+A `TikTokLiveClient` object contains the following methods:
 
 | Method Name              | Description                                                                                                                                                                       |
 |--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -126,7 +126,7 @@ A `TikTokLiveClient` object contains the following methods.
 
 ## Attributes
 
-A `TikTokLiveClient` object contains the following attributes.
+A `TikTokLiveClient` object contains the following attributes:
 
 | Attribute Name  | Description                                                                                                                                  |
 |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------|
