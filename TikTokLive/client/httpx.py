@@ -2,6 +2,7 @@ import json as json_parse
 import urllib.parse
 from asyncio import AbstractEventLoop
 from http.cookies import SimpleCookie
+from ssl import SSLContext
 from typing import Dict, Optional
 
 import httpx
@@ -29,16 +30,20 @@ class TikTokHTTPClient:
             proxies: Optional[Dict[str, str]] = None,
             trust_env: bool = True,
             params: Optional[Dict[str, str]] = dict(),
-            sign_api_key: Optional[str] = None
+            sign_api_key: Optional[str] = None,
+            ssl_context: Optional[SSLContext] = None
     ):
         """
         Initialize HTTP client for TikTok-related requests
 
+        :param loop: Asyncio event loop
         :param headers: Headers to use to make HTTP requests
         :param timeout: Timeout for HTTP requests
         :param proxies: Enable proxied requests by turning on forwarding for the HTTPX "proxies" argument
         :param trust_env: Whether to trust the environment when it comes to proxy usage
+        :param params: Client parameters to use in requests
         :param sign_api_key: API key to increase rate limits on the sign server API for bulk usage of the library
+        :param ssl_context: Add SSL context option, else True
 
         """
 
@@ -49,7 +54,8 @@ class TikTokHTTPClient:
         self.params: dict = params if params else dict()
         self.sign_api_key: str = sign_api_key or ""
         self.trust_env: bool = trust_env
-        self.cookies = Cookies()
+        self.cookies: Cookies = Cookies()
+        self.ssl_context: Optional[SSLContext] = ssl_context if isinstance(ssl_context, SSLContext) else True
         TikTokHTTPClient._uuc += 1
 
     def __del__(self):
@@ -88,7 +94,7 @@ class TikTokHTTPClient:
 
         url: str = self.update_url(url, params or dict())
 
-        async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies) as client:
+        async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies, verify=self.ssl_context) as client:
             response: httpx.Response = await client.get(url, headers=self.headers, timeout=self.timeout)
 
         # If requesting the sign api
@@ -154,7 +160,7 @@ class TikTokHTTPClient:
 
         url: str = self.update_url(url, params or dict())
 
-        async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies) as client:
+        async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies, verify=self.ssl_context) as client:
             response: httpx.Response = await client.post(
                 url=url,
                 data=json,
@@ -262,7 +268,7 @@ class TikTokHTTPClient:
 
         """
 
-        async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies) as client:
+        async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies, verify=self.ssl_context) as client:
             response: httpx.Response = await client.post(
                 url=url,
                 data=json,

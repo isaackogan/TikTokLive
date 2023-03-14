@@ -124,12 +124,12 @@ class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
 
             # Parse events & emit them
             try:
-                event: AbstractEvent = self.__parse_webcast_message(message)
+                event: AbstractEvent = self._parse_webcast_message(message)
                 self.emit(event.name, event)
             except Exception as ex:
                 await self._on_error(ex, FailedParseMessage("Failed parsing of a webcast message"))
 
-    def __parse_webcast_message(self, webcast_message: dict) -> Optional[AbstractEvent]:
+    def _parse_webcast_message(self, webcast_message: dict) -> Optional[AbstractEvent]:
         """
         Parse a webcast message into an event and return to the caller
 

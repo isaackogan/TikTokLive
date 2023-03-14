@@ -5,6 +5,7 @@ import os
 import signal
 from asyncio import AbstractEventLoop, Task
 from datetime import datetime
+from ssl import SSLContext
 from threading import Thread
 from typing import Optional, List, Dict, Set, Union
 
@@ -43,7 +44,8 @@ class WebcastPushConnection:
             proxies: Optional[Dict[str, str]] = None,
             lang: Optional[str] = "en-US",
             fetch_room_info_on_connect: bool = True,
-            sign_api_key: Optional[str] = None
+            sign_api_key: Optional[str] = None,
+            ssl_context: Optional[SSLContext] = None
     ):
         """
         Initialize the base client
@@ -62,6 +64,7 @@ class WebcastPushConnection:
         :param lang: Change the language. Payloads *will* be in English, but this will change stuff like the extended_gift Gift attribute to the desired language!
         :param fetch_room_info_on_connect: Whether to fetch room info on connect. If disabled, you might attempt to connect to a closed livestream.
         :param sign_api_key: Parameter to increase the amount of connections allowed to be made per minute via a Sign Server API key. If you need this, contact the project maintainer.
+        :param ssl_context: Add the option to modify the SSL context of the websocket connection request and httpx requests
         """
 
         # Event loop. On connect, this will be filled if None
@@ -74,6 +77,7 @@ class WebcastPushConnection:
         self.__room_id: Optional[int] = None
         self.__connecting: bool = False
         self.__connected: bool = False
+        self.__ssl_context: Optional[SSLContext] = ssl_context
         self._ws_connection_task: Optional[Task] = None
 
         # Configured Attributes
@@ -92,7 +96,8 @@ class WebcastPushConnection:
             proxies=proxies,
             trust_env=trust_env,
             params=self.__get_client_params(http_params or dict(), lang),
-            sign_api_key=sign_api_key
+            sign_api_key=sign_api_key,
+            ssl_context=self.__ssl_context
         )
 
         # Websocket Client for Webcast API
@@ -132,7 +137,7 @@ class WebcastPushConnection:
             except RuntimeError:
                 return asyncio.new_event_loop()
 
-    async def __fetch_room_id(self) -> Optional[int]:
+    async def _fetch_room_id(self) -> Optional[int]:
         """
         Fetch room ID of a given user
 
@@ -150,7 +155,7 @@ class WebcastPushConnection:
             await self._on_error(ex, FailedFetchRoomInfo("Failed to fetch room id from Webcast, see stacktrace for more info."))
             return None
 
-    async def __fetch_room_data(self) -> dict:
+    async def _fetch_room_data(self) -> dict:
         """
         Fetch the websocket URL from the Signing API
 
@@ -171,7 +176,7 @@ class WebcastPushConnection:
 
         return webcast_response
 
-    async def __websocket_connect(self, webcast_response: Dict[str, Union[dict, str]]) -> None:
+    async def _websocket_connect(self, webcast_response: Dict[str, Union[dict, str]]) -> None:
         """
         Attempt to upgrade the connection to a websocket
 
@@ -196,7 +201,8 @@ class WebcastPushConnection:
             subprotocols=["echo-protocol"],
             ping_interval=self._ws_ping_interval,
             ping_timeout=self._ws_timeout,
-            create_protocol=WebcastWebsocketConnection
+            create_protocol=WebcastWebsocketConnection,
+            ssl=self.__ssl_context
         )
 
         # Continuously reconnect unless we're disconnecting
@@ -275,7 +281,7 @@ class WebcastPushConnection:
         self.__connecting = True
 
         # Get the Room ID, always
-        await self.__fetch_room_id()
+        await self._fetch_room_id()
 
         # Fetch room info when connecting
         if self._fetch_room_info_on_connect:
@@ -290,7 +296,7 @@ class WebcastPushConnection:
             await self.retrieve_available_gifts()
 
         # Make initial request to Webcast, connect to WebSocket server
-        webcast_response: Dict[str, Union[dict, str]] = await self.__fetch_room_data()
+        webcast_response: Dict[str, Union[dict, str]] = await self._fetch_room_data()
 
         if not webcast_response.get("cursor"):
             raise InitialCursorMissing("Missing cursor in initial fetch response.")
@@ -304,7 +310,7 @@ class WebcastPushConnection:
             await self._handle_webcast_messages(webcast_response)
 
         # Blocks current async execution, CONNECTS TO WEBCAST
-        self._ws_connection_task = self.loop.create_task(self.__websocket_connect(webcast_response))
+        self._ws_connection_task = self.loop.create_task(self._websocket_connect(webcast_response))
 
     def _disconnect(self) -> None:
         """
@@ -368,7 +374,7 @@ class WebcastPushConnection:
 
         """
 
-        self.loop.run_until_complete(self._start())
+        self.loop.run_until_complete(self._start())  # TODO this is the reason the event loop stops. run until complete runs until the future ends, see docs
 
     async def retrieve_room_info(self) -> Optional[dict]:
         """
