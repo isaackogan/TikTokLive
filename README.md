@@ -24,6 +24,14 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#suppor
 
 > **UPDATE:**<br>Due to a change on the part of TikTok, versions prior to **v4.3.8** are no longer functional. If you are using an unsupported version, upgrade to the latest version using the `pip install TikTokLive --upgrade` command.
 
+## Other Languages
+
+TikTok LIVE is availible in several alternative languages with only slight differences between the versions:
+
+- **Node.JS:** https://github.com/zerodytrash/TikTok-Live-Connector
+- **Go:** https://github.com/Davincible/gotiktoklive
+- **C#/Unity:** https://github.com/frankvHoof93/TikTokLiveSharp
+
 ## Table of Contents
 
 **Primary Information**
@@ -103,7 +111,7 @@ To create a new `TikTokLiveClient` object the following parameter is required. Y
 
 ## Methods
 
-A `TikTokLiveClient` object contains the following methods.
+A `TikTokLiveClient` object contains the following methods:
 
 | Method Name              | Description                                                                                                                                                                       |
 |--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -118,7 +126,7 @@ A `TikTokLiveClient` object contains the following methods.
 
 ## Attributes
 
-A `TikTokLiveClient` object contains the following attributes.
+A `TikTokLiveClient` object contains the following attributes:
 
 | Attribute Name  | Description                                                                                                                                  |
 |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------|
