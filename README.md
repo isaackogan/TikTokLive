@@ -95,7 +95,7 @@ if __name__ == '__main__':
     client.run()
 ```
 
-For more examples, [see the examples folder](https://github.com/isaackogan/TikTok-Live-Connector/tree/master/examples) provided in the tree.
+For more examples, [see the examples folder](https://github.com/isaackogan/TikTokLive/tree/master/examples) provided in the tree.
 
 ## Params & Options
 
@@ -249,7 +249,7 @@ Triggered when 5 or 10 users join from a viewer's share link.
 ```python
 @client.on("more_share")
 async def on_connect(event: MoreShareEvent):
-    print(f"More than {event.amount} users have joined from {user.unique_id}'s share link!")
+    print(f"More than {event.amount} users have joined from {event.user.unique_id}'s share link!")
 ```
 
 
