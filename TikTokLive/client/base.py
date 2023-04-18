@@ -201,8 +201,7 @@ class WebcastPushConnection:
             subprotocols=["echo-protocol"],
             ping_interval=self._ws_ping_interval,
             ping_timeout=self._ws_timeout,
-            create_protocol=WebcastWebsocketConnection,
-            ssl=self.__ssl_context
+            create_protocol=WebcastWebsocketConnection
         )
 
         # Continuously reconnect unless we're disconnecting
@@ -576,7 +575,7 @@ class WebcastPushConnection:
     def connecting(self) -> bool:
         """
         Whether the client is in the process of connecting
-        
+
         """
 
         return self.__connecting
