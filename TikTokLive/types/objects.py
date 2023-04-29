@@ -162,20 +162,26 @@ class User(AbstractObject):
         return any(badge_type == badge.badge_scene_type for badge in self.badges)
 
     @property
-    def is_following(self) -> bool:
+    def is_following(self) -> Optional[bool]:
         """
         Whether they are following the watched streamer
 
         """
 
+        if self.info.follow_role is None:
+            return None
+
         return (self.info.follow_role or 0) >= 1
 
     @property
-    def is_friend(self) -> bool:
+    def is_friend(self) -> Optional[bool]:
         """
         Whether they are a friend of the watched streamer
 
         """
+
+        if self.info.follow_role is None:
+            return None
 
         return (self.info.follow_role or 0) >= 2
 
