@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TikTokLive Docs &mdash; TikTokLive  documentation</title>
@@ -12,9 +12,6 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -28,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="#" class="icon icon-home"> TikTokLive
+
+          
+          
+          <a href="#" class="icon icon-home">
+            TikTokLive
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,7 +56,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a></li>
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">TikTokLive Docs</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
@@ -109,23 +110,32 @@ by <a class="reference external" href="https://github.com/zerodytrash/">&#64;zer
 <blockquote>
 <div><p><strong>UPDATE:</strong><br>Due to a change on the part of TikTok, versions prior to <strong>v4.3.8</strong> are no longer functional. If you are using an unsupported version, upgrade to the latest version using the <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">TikTokLive</span> <span class="pre">--upgrade</span></code> command.</p>
 </div></blockquote>
+<section id="other-languages">
+<h3>Other Languages<a class="headerlink" href="#other-languages" title="Permalink to this heading"></a></h3>
+<p>TikTok LIVE is availible in several alternative languages with only slight differences between the versions:</p>
+<ul class="simple">
+<li><p><strong>Node.JS:</strong> https://github.com/zerodytrash/TikTok-Live-Connector</p></li>
+<li><p><strong>Go:</strong> https://github.com/Davincible/gotiktoklive</p></li>
+<li><p><strong>C#/Unity:</strong> https://github.com/frankvHoof93/TikTokLiveSharp</p></li>
+</ul>
+</section>
 <section id="table-of-contents">
 <h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading"></a></h3>
 <p><strong>Primary Information</strong></p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://isaackogan.github.io/TikTokLive/">Documentation</a></p></li>
-<li><p><span class="xref myst">Contributors</span></p></li>
-<li><p><span class="xref myst">License</span></p></li>
+<li><p><a class="reference external" href="#contributors">Contributors</a></p></li>
+<li><p><a class="reference external" href="#license">License</a></p></li>
 <li><p><a class="reference external" href="https://github.com/isaackogan/TikTokLive/tree/master/examples">Quickstart Examples</a></p></li>
 </ul>
 <p><strong>Resources &amp; Guides</strong></p>
 <ol class="arabic simple">
-<li><p><span class="xref myst">David’s Intro Tutorial</span></p></li>
-<li><p><span class="xref myst">Getting Started</span></p></li>
-<li><p><span class="xref myst">Params &amp; Options</span></p></li>
-<li><p><span class="xref myst">Client Methods</span></p></li>
-<li><p><span class="xref myst">Client Attributes</span></p></li>
-<li><p><span class="xref myst">TikTok Events</span></p></li>
+<li><p><a class="reference external" href="#tiktoklive-intro-tutorial">David’s Intro Tutorial</a></p></li>
+<li><p><a class="reference external" href="#getting-started">Getting Started</a></p></li>
+<li><p><a class="reference external" href="#Params-&amp;-Options">Params &amp; Options</a></p></li>
+<li><p><a class="reference external" href="#Methods">Client Methods</a></p></li>
+<li><p><a class="reference external" href="#Attributes">Client Attributes</a></p></li>
+<li><p><a class="reference external" href="#Events">TikTok Events</a></p></li>
 </ol>
 </section>
 <section id="tiktoklive-intro-tutorial">
@@ -172,13 +182,13 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
     <span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>For more examples, <a class="reference external" href="https://github.com/isaackogan/TikTok-Live-Connector/tree/master/examples">see the examples folder</a> provided in the tree.</p>
+<p>For more examples, <a class="reference external" href="https://github.com/isaackogan/TikTokLive/tree/master/examples">see the examples folder</a> provided in the tree.</p>
 </section>
 <section id="params-options">
 <h3>Params &amp; Options<a class="headerlink" href="#params-options" title="Permalink to this heading"></a></h3>
 <p>To create a new <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object the following parameter is required. You can optionally add configuration options to this via kwargs.</p>
 <p><code class="docutils literal notranslate"><span class="pre">TikTokLiveClient(unique_id,</span> <span class="pre">**options)</span></code></p>
-<table class="colwidths-auto docutils align-default">
+<table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Param Name</p></th>
 <th class="head"><p>Required</p></th>
@@ -192,15 +202,15 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
 </tr>
 <tr class="row-odd"><td><p>**options</p></td>
 <td><p>No</p></td>
-<td><p>Here you can set the following optional connection properties. If you do not specify a value, the default value will be used.<br><br><code class="docutils literal notranslate"><span class="pre">process_initial_data</span></code> (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>) <br> Define if you want to process initial data upon connecting (e.g. first 1-10 messages from BEFORE you connected).<br><br><code class="docutils literal notranslate"><span class="pre">fetch_room_info_on_connect</span></code> (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>) <br> Define if you want to fetch all room information on start. If this option is enabled, connection to offline rooms will be prevented. If enabled, the connect result contains the room info via the <code class="docutils literal notranslate"><span class="pre">room_info</span></code> attribute. You can also manually retrieve the room info (even in an unconnected state) using the <code class="docutils literal notranslate"><span class="pre">retrieve_room_info()</span></code> method.<br><br><code class="docutils literal notranslate"><span class="pre">enable_detailed_gifts</span></code> (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>) <br> Define if you want to receive extended information about gifts like gift name, cost and images which you can retrieve via the <code class="docutils literal notranslate"><span class="pre">available_gifts</span></code> attribute. When enabled, the <code class="docutils literal notranslate"><span class="pre">details</span></code> attribute in a <code class="docutils literal notranslate"><span class="pre">Gift</span></code> object will be populated.<br><br><code class="docutils literal notranslate"><span class="pre">ws_ping_interval</span></code> (default: <code class="docutils literal notranslate"><span class="pre">10.0</span></code>) <br> The interval between keepalive pings on the websocket connection (in seconds).<br><br><code class="docutils literal notranslate"><span class="pre">ws_timeout</span></code> (default: <code class="docutils literal notranslate"><span class="pre">10.0</span></code>)<br>How long to wait before the websocket connection is considered timed out (in seconds).<br><br><code class="docutils literal notranslate"><span class="pre">http_timeout</span></code> (default: <code class="docutils literal notranslate"><span class="pre">10.0</span></code>) <br> How long to wait before considering an HTTP request in the http client timed out (in seconds).<br><br><code class="docutils literal notranslate"><span class="pre">http_headers</span></code> (default: <code class="docutils literal notranslate"><span class="pre">{}</span></code>) <br> Additional HTTP client headers to include when making requests to the Webcast API AND connecting to the websocket server.<br><br><code class="docutils literal notranslate"><span class="pre">http_params</span></code> (default: <code class="docutils literal notranslate"><span class="pre">{}</span></code>) <br>Additional HTTP client parameters to include when making requests to the Webcast API AND connecting to the websocket.<br><br><code class="docutils literal notranslate"><span class="pre">loop</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br>Optionally supply your own asyncio event loop for usage by the client. When set to None, the client pulls the current active loop or creates a new one. This option is mostly useful for people trying to nest asyncio.<br/><br/><code class="docutils literal notranslate"><span class="pre">trust_env</span></code> (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)<br/>Whether to trust environment variables that provide proxies in httpx requests<br/><br/><code class="docutils literal notranslate"><span class="pre">proxies</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br/>Enable proxied requests by turning on forwarding for the HTTP “proxies” argument. Websocket connections will NOT be proxied<br/><br/><code class="docutils literal notranslate"><span class="pre">lang</span></code> (default: <code class="docutils literal notranslate"><span class="pre">en-US</span></code>)<br/>Change the language. Payloads <em>will</em> be in English, but front-end content will be in the desired language!<br/><br/><code class="docutils literal notranslate"><span class="pre">sign_api_key</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br/>Parameter to increase the amount of connections allowed to be made per minute via a Sign Server API key. If you need this, contact the project maintainer.</p></td>
+<td><p>Here you can set the following optional connection properties. If you do not specify a value, the default value will be used.<br><br><code class="docutils literal notranslate"><span class="pre">process_initial_data</span></code> (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>) <br> Define if you want to process initial data upon connecting (e.g. first 1-10 messages from BEFORE you connected).<br><br><code class="docutils literal notranslate"><span class="pre">fetch_room_info_on_connect</span></code> (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>) <br> Define if you want to fetch all room information on start. If this option is enabled, connection to offline rooms will be prevented. If enabled, the connect result contains the room info via the <code class="docutils literal notranslate"><span class="pre">room_info</span></code> attribute. You can also manually retrieve the room info (even in an unconnected state) using the <code class="docutils literal notranslate"><span class="pre">retrieve_room_info()</span></code> method.<br><br><code class="docutils literal notranslate"><span class="pre">enable_detailed_gifts</span></code> (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>) <br> Define if you want to receive extended information about gifts like gift name, cost and images which you can retrieve via the <code class="docutils literal notranslate"><span class="pre">available_gifts</span></code> attribute. When enabled, the <code class="docutils literal notranslate"><span class="pre">details</span></code> attribute in a <code class="docutils literal notranslate"><span class="pre">Gift</span></code> object will be populated.<br><br><code class="docutils literal notranslate"><span class="pre">ws_ping_interval</span></code> (default: <code class="docutils literal notranslate"><span class="pre">10.0</span></code>) <br> The interval between keepalive pings on the websocket connection (in seconds).<br><br><code class="docutils literal notranslate"><span class="pre">ws_timeout</span></code> (default: <code class="docutils literal notranslate"><span class="pre">10.0</span></code>)<br>How long to wait before the websocket connection is considered timed out (in seconds).<br><br><code class="docutils literal notranslate"><span class="pre">http_timeout</span></code> (default: <code class="docutils literal notranslate"><span class="pre">10.0</span></code>) <br> How long to wait before considering an HTTP request in the http client timed out (in seconds).<br><br><code class="docutils literal notranslate"><span class="pre">http_headers</span></code> (default: <code class="docutils literal notranslate"><span class="pre">{}</span></code>) <br> Additional HTTP client headers to include when making requests to the Webcast API AND connecting to the websocket server.<br><br><code class="docutils literal notranslate"><span class="pre">http_params</span></code> (default: <code class="docutils literal notranslate"><span class="pre">{}</span></code>) <br>Additional HTTP client parameters to include when making requests to the Webcast API AND connecting to the websocket.<br><br><code class="docutils literal notranslate"><span class="pre">loop</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br>Optionally supply your own asyncio event loop for usage by the client. When set to None, the client pulls the current active loop or creates a new one. This option is mostly useful for people trying to nest asyncio.<br/><br/><code class="docutils literal notranslate"><span class="pre">trust_env</span></code> (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)<br/>Whether to trust environment variables that provide proxies in httpx requests<br/><br/><code class="docutils literal notranslate"><span class="pre">proxies</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br/>Enable proxied requests by turning on forwarding for the HTTP “proxies” argument. Websocket connections will NOT be proxied<br/><br/><code class="docutils literal notranslate"><span class="pre">lang</span></code> (default: <code class="docutils literal notranslate"><span class="pre">en-US</span></code>)<br/>Change the language. Payloads <em>will</em> be in English, but front-end content will be in the desired language!<br/><br/><code class="docutils literal notranslate"><span class="pre">sign_api_key</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br/>Parameter to increase the amount of connections allowed to be made per minute via a Sign Server API key. If you need this, contact the project maintainer.<br/><br/><code class="docutils literal notranslate"><span class="pre">ssl_context</span></code> (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)<br/>Providing an SSLContext object overrides the default context used in HTTP requests made to TikTok. This is useful if TikTok sends invalid SSL signatures, as you can provide a “no verify” context.</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Permalink to this heading"></a></h3>
-<p>A <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object contains the following methods.</p>
-<table class="colwidths-auto docutils align-default">
+<p>A <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object contains the following methods:</p>
+<table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Method Name</p></th>
 <th class="head"><p>Description</p></th>
@@ -236,8 +246,8 @@ Python <a class="reference external" href="https://github.com/davidteather/TikTo
 </section>
 <section id="attributes">
 <h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h3>
-<p>A <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object contains the following attributes.</p>
-<table class="colwidths-auto docutils align-default">
+<p>A <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object contains the following attributes:</p>
+<table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Attribute Name</p></th>
 <th class="head"><p>Description</p></th>
@@ -381,7 +391,7 @@ payload parameter.</p>
 <p>Triggered when 5 or 10 users join from a viewer’s share link.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;more_share&quot;</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">MoreShareEvent</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;More than </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s2"> users have joined from </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span class="s2">&#39;s share link!&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;More than </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s2"> users have joined from </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span class="s2">&#39;s share link!&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -429,12 +439,22 @@ payload parameter.</p>
 </pre></div>
 </div>
 </section>
-<section id="weekly-ranking">
-<h4><code class="docutils literal notranslate"><span class="pre">weekly_ranking</span></code><a class="headerlink" href="#weekly-ranking" title="Permalink to this heading"></a></h4>
-<p>Triggered when a weekly ranking update is sent out.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;weekly_ranking&quot;</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">WeeklyRankingEvent</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">client</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span class="s2"> has the rank #</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s2"> of all streamers!&quot;</span><span class="p">)</span>
+<section id="ranking-update">
+<h4><code class="docutils literal notranslate"><span class="pre">ranking_update</span></code><a class="headerlink" href="#ranking-update" title="Permalink to this heading"></a></h4>
+<p>Triggered when a <strong>stream</strong> rank update is sent out. Can be <code class="docutils literal notranslate"><span class="pre">Weekly</span> <span class="pre">Ranking</span></code> or <code class="docutils literal notranslate"><span class="pre">Rising</span> <span class="pre">Star</span></code>!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;ranking_update&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">RankingUpdateEvent</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span class="s2"> has the rank #</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s2"> for the </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2"> leaderboard.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="user-ranking-update">
+<h4><code class="docutils literal notranslate"><span class="pre">user_ranking_update</span></code><a class="headerlink" href="#user-ranking-update" title="Permalink to this heading"></a></h4>
+<p>Triggered when a <strong>user</strong> rank update is sent out. Can be <code class="docutils literal notranslate"><span class="pre">Top</span> <span class="pre">Viewer</span></code>
+status.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;user_ranking_update&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">UserRankingUpdateEvent</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span class="s2"> just became a #</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">rank</span><span class="si">}</span><span class="s2"> top viewer!&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -523,7 +543,7 @@ You can plug base64 into https://protobuf-decoder.netlify.app/ to reverse-engine
 </section>
 <section id="license">
 <h3>License<a class="headerlink" href="#license" title="Permalink to this heading"></a></h3>
-<p>This project is licensed under the MIT License - see the <span class="xref myst">LICENSE</span> file for details.</p>
+<p>This project is licensed under the MIT License - see the <a class="reference internal" href="#LICENSE"><span class="xref myst">LICENSE</span></a> file for details.</p>
 </section>
 </section>
 </section>
