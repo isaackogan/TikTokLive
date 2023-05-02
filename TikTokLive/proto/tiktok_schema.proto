@@ -221,7 +221,7 @@ message WebcastInRoomBannerMessage {
   string data = 2;
 }
 
-// CHAT Notifications relating to weekly ranking (e.g. X just became a top viewer!) TODO implement eventually
+// Top Viewer
 message WebcastRankTextMessage {
   RankTextMessageSummary detailsSmall = 5;
   RankTextMessage details = 6;
@@ -421,10 +421,10 @@ message Ranking {
 
 message ValueLabel {
 
-  uint32 data = 1;
   string label = 2;
   string label2 = 3;
-  string label3 = 11;
+  uint32 data = 1;
+  string value = 11; // Rank number
 
 }
 
