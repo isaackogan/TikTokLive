@@ -337,12 +337,62 @@ class EnvelopeEvent(AbstractEvent):
     """Data about the user that sent the treasure box"""
 
 
+@LiveEvent("user_ranking_update")
+class UserRankingUpdateEvent(AbstractEvent):
+    """
+    Event publishing that a user ranked up in some way
+    e.g. "{0:user} just became a top {1:string} viewer!"
+
+    """
+
+    @classmethod
+    def __pre_deserialize__(cls, d: Dict[Any, Any]) -> Dict[Any, Any]:
+        """
+        Pre-process weekly ranking event
+
+        """
+
+        data: dict = d.get('details', dict())
+        details: List[dict] = data.get('details', list())
+
+        # Delete Duplicate Entry
+        try:
+            del data['details']
+        except KeyError:
+            pass
+
+        # Bring out user object
+        for detail in details:
+
+            # data1 = 11
+            if detail.get('user', dict()).get('user'):
+                data['user'] = detail['user']['user']
+
+            # data1 = 1
+            if detail.get('data1') == 1:
+                data['rank'] = detail.get('category')
+
+        return data
+
+    type: Optional[str] = None
+    """The type of update"""
+
+    label: Optional[str] = None
+    """Update message text label"""
+
+    user: Optional[User] = None
+    """User who is ranking up"""
+
+    rank: Optional[int] = None
+    """The rank of the user"""
+
+
 @LiveEvent("ranking_update")
 class RankingUpdateEvent(AbstractEvent):
     """
     Event firing containing updates to rank information. So far, this has been noted to include:
     - Weekly Ranking
-    - Rising Star
+    - Rising Stars
     """
 
     @classmethod
@@ -358,14 +408,14 @@ class RankingUpdateEvent(AbstractEvent):
         try:
             details: Optional[List] = rank.get('details', list())
             if len(details) > 0:
-                rank['rank'] = int(details[0].get('label3', None))
+                rank['rank'] = int(details[0].get('value', None))
         except:
             pass
 
         return rank
 
     type: Optional[str] = None
-    """Unknown"""
+    """The type of rank update (e.g. Rising stars, etc.)"""
 
     label: Optional[str] = None
     """Internal TikTok Label"""

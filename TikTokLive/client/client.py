@@ -9,7 +9,7 @@ from ..types import FailedParseMessage, TopViewer
 from ..types.events import AbstractEvent, ConnectEvent, DisconnectEvent, ViewerUpdateEvent, JoinEvent, LikeEvent, \
     FollowEvent, ShareEvent, QuestionEvent, LiveEndEvent, \
     IntroMessageEvent, EmoteEvent, MicBattleStartEvent, MicBattleUpdateEvent, MoreShareEvent, UnknownEvent, \
-    CommentEvent, GiftEvent, RankingUpdateEvent
+    CommentEvent, GiftEvent, RankingUpdateEvent, UserRankingUpdateEvent
 
 
 class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
@@ -172,8 +172,8 @@ class TikTokLiveClient(WebcastPushConnection, AsyncIOEventEmitter):
                 "WebcastLiveIntroMessage": IntroMessageEvent,
                 "WebcastEmoteChatMessage": EmoteEvent,
                 "WebcastLinkMicBattle": MicBattleStartEvent,
-                "WebcastLinkMicArmies": MicBattleUpdateEvent
-
+                "WebcastLinkMicArmies": MicBattleUpdateEvent,
+                "WebcastRankTextMessage": UserRankingUpdateEvent
             }.get(webcast_message.get('type'))
         )
 

@@ -42,7 +42,8 @@ def deserialize_message(proto_name: str, obj: bytes) -> dict:
                 "WebcastLiveIntroMessage",
                 "RoomMessage",
                 "WebcastRankUpdateMessage",
-                "WebcastHourlyRankMessage"
+                "WebcastHourlyRankMessage",
+                "WebcastRankTextMessage"
             ]:
                 continue
 

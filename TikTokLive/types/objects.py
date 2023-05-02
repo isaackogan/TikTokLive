@@ -577,10 +577,10 @@ class ValueLabel(AbstractObject):
 
     """
 
+    value: Optional[str] = None
     data: Optional[int] = None
     label: Optional[str] = None
     label2: Optional[str] = None
-    label3: Optional[str] = None
 
 
 @dataclass()
