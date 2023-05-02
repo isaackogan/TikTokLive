@@ -571,6 +571,19 @@ class BattleArmy(AbstractObject):
 
 
 @dataclass()
+class ValueLabel(AbstractObject):
+    """
+    Label containing a value
+
+    """
+
+    data: Optional[int] = None
+    label: Optional[str] = None
+    label2: Optional[str] = None
+    label3: Optional[str] = None
+
+
+@dataclass()
 class FFmpegWrapper:
     """
     A wrapper for the FFmpeg Stream Download utility in the TikTokLive Package

@@ -198,10 +198,17 @@ message WebcastQuestionNewMessage {
 
 // Pinned Start Message
 message WebcastLiveIntroMessage {
+
   uint64 room_id = 2;
   string message = 4;
   User streamer = 5;
   string language = 8;
+  IntroData extra_info = 7;
+
+  message IntroData {
+    ValueLabel details = 21;
+  }
+
 }
 
 // System Message
@@ -214,22 +221,53 @@ message WebcastInRoomBannerMessage {
   string data = 2;
 }
 
+// CHAT Notifications relating to weekly ranking (e.g. X just became a top viewer!) TODO implement eventually
+message WebcastRankTextMessage {
+  RankTextMessageSummary detailsSmall = 5;
+  RankTextMessage details = 6;
+  uint64 id1 = 7;
+
+  message RankTextMessageSummary {
+    string type = 1;
+    string label = 2;
+    ValueLabel details = 4;
+  }
+
+  message RankTextMessage {
+    string type = 1;
+    string label = 2;
+    repeated MessageDetails details = 4;
+
+
+    message MessageDetails {
+      uint32 data1 = 1;
+      string category = 11;
+      UserContainer user = 21;
+
+      message UserContainer {
+        User user = 1;
+        uint32 data1 = 2;
+      }
+
+    }
+
+  }
+}
+
 // Weekly Ranking
 message WebcastRankUpdateMessage {
+  RankUpdateData data = 2;
+
+  message RankUpdateData {
+    Ranking data = 3;
+  }
+}
+
+message WebcastHourlyRankMessage {
   RankContainer data = 2;
 
   message RankContainer {
-    WeeklyRanking rankings = 3;
-  }
-
-}
-
-// Also Weekly Ranking (No visible difference)
-message WebcastHourlyRankMessage {
-  HourlyRankContainer data = 2;
-
-  message HourlyRankContainer {
-    WeeklyRanking rankings = 4;
+    Ranking data = 4;
   }
 }
 
@@ -362,23 +400,33 @@ message User {
 
 }
 
-// Weekly Ranking
-message WeeklyRanking {
+
+
+
+// Ranking Type
+message Ranking {
 
   string type = 1;
   string label = 2;
-  RankData data = 4;
-  ExtraRankData extra = 3;
+  TikTokColour extra = 3;
+  repeated ValueLabel details = 4;
 
-  message RankData {
-    string rank = 11; // No, I have no idea why they made the rank a string
-  }
-
-  message ExtraRankData {
+  message TikTokColour {
     string colour = 1;
     uint64 id = 4;
   }
 
 }
+
+
+message ValueLabel {
+
+  uint32 data = 1;
+  string label = 2;
+  string label2 = 3;
+  string label3 = 11;
+
+}
+
 
 

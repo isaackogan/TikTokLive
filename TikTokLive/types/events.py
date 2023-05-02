@@ -11,7 +11,8 @@ from typing import Optional, List, Any, Dict, ClassVar
 
 from mashumaro import DataClassDictMixin, pass_through
 
-from TikTokLive.types import User, Gift, Emote, TreasureBoxData, ExtraRankData, LinkUser, BattleArmy, TopViewer, ChatImage
+from TikTokLive.types import User, Gift, Emote, TreasureBoxData, ExtraRankData, LinkUser, BattleArmy, TopViewer, \
+    ChatImage, ValueLabel
 from TikTokLive.types.utilities import LiveEvent, alias
 
 
@@ -336,11 +337,12 @@ class EnvelopeEvent(AbstractEvent):
     """Data about the user that sent the treasure box"""
 
 
-@LiveEvent("weekly_ranking")
-class WeeklyRankingEvent(AbstractEvent):
+@LiveEvent("ranking_update")
+class RankingUpdateEvent(AbstractEvent):
     """
-    Event that fires when the weekly rankings are updated
-
+    Event firing containing updates to rank information. So far, this has been noted to include:
+    - Weekly Ranking
+    - Rising Star
     """
 
     @classmethod
@@ -350,15 +352,17 @@ class WeeklyRankingEvent(AbstractEvent):
 
         """
 
-        ranks: Dict[str, Any] = d.get('data', dict()).get('rankings', dict())  # Do a little flattening
+        rank: Dict[str, Any] = d.get('data', dict()).get('data', dict())  # Flatten
 
-        # Try to flatten rank data & convert to int
+        # Try to flatten rank data & convert to int to
         try:
-            ranks['rank'] = int(ranks.get('data', dict()).get('rank', None))
+            details: Optional[List] = rank.get('details', list())
+            if len(details) > 0:
+                rank['rank'] = int(details[0].get('label3', None))
         except:
             pass
 
-        return ranks
+        return rank
 
     type: Optional[str] = None
     """Unknown"""
@@ -366,19 +370,14 @@ class WeeklyRankingEvent(AbstractEvent):
     label: Optional[str] = None
     """Internal TikTok Label"""
 
+    details: List[ValueLabel] = field(default_factory=list)
+    """The user's ranking details. This can be more than just weekly ranking!"""
+
     extra: Optional[ExtraRankData] = field(default_factory=ExtraRankData)
     """Extra data relating to the UI, presumably"""
 
     rank: Optional[int] = None
-    """The number for the user's TikTok ranking. If the rank is "None", the user is not in the top 99."""
-
-    @property
-    def top_99(self) -> bool:
-        """
-        Whether the user is in the top 99 of creators
-        """
-
-        return self.rank is not None
+    """The number for the user's TikTok ranking. """
 
 
 @LiveEvent("intro_message")
