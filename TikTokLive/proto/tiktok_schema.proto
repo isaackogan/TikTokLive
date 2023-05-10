@@ -98,7 +98,7 @@ message WebcastMemberMessage {
 
   WebcastMessageEvent event = 1;
   User user = 2;
-  int32 viewers = 3;
+  int32 total_viewers = 3;
   int32 action_id = 10;  // Also provides sub notif -> 1 = join, 7 = subscribe
 
 }
