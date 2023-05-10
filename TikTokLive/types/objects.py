@@ -396,10 +396,10 @@ class Gift(AbstractObject):
     id: Optional[int] = None
     """The Internal TikTok ID of the gift"""
 
-    count: Optional[int] = alias("repeatCount", default=None)
+    count: Optional[int] = alias("repeatCount")
     """Number of times the gift has repeated"""
 
-    repeat_end: Optional[int] = alias("repeatEnd", default=0)
+    repeat_end: Optional[int] = alias("repeatEnd")
     """Whether or not the repetition is over"""
 
     info: Optional[GiftInfo] = field(default_factory=GiftInfo)
@@ -422,13 +422,17 @@ class Gift(AbstractObject):
         return self.info.type == 1 if self.info.type is not None else None
 
     @property
-    def streaking(self) -> bool:
+    def streaking(self) -> Optional[bool]:
         """
         Whether the streak is over
         
         :return: True if currently streaking, False if not
 
         """
+
+        # Can't be streaking if not streakable
+        if not self.streakable:
+            return None
 
         return not bool(self.repeat_end)
 
