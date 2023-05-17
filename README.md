@@ -20,7 +20,7 @@ This library was originally based off of the
 by [@zerodytrash](https://github.com/zerodytrash/), but has since taken on its own identity as it has added more features & changed much of its core functionality.
 
 
-Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
+Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#py-support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
 > **UPDATE:**<br>Due to a change on the part of TikTok, versions prior to **v4.3.8** are no longer functional. If you are using an unsupported version, upgrade to the latest version using the `pip install TikTokLive --upgrade` command.
 
