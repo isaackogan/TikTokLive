@@ -26,7 +26,7 @@ Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#py-sup
 
 ## Other Languages
 
-TikTok LIVE is availible in several alternative languages with only slight differences between the versions:
+TikTok LIVE is available in several alternative languages with only slight differences between the versions:
 
 - **Node.JS:** https://github.com/zerodytrash/TikTok-Live-Connector
 - **Go:** https://github.com/Davincible/gotiktoklive
