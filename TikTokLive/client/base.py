@@ -19,7 +19,7 @@ from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, 
     FailedFetchRoomInfo, FailedFetchGifts, \
     FFmpegWrapper, AlreadyDownloadingStream, DownloadProcessNotFound, NotDownloadingStream, \
     InitialCursorMissing, VideoQuality, WebsocketConnectionFailed, GiftDetailed, FailedParseGift
-from TikTokLive.utilities import validate_and_normalize_unique_id, get_room_id_from_main_page_html
+from TikTokLive.utilities import validate_and_normalize_unique_id
 
 
 class WebcastPushConnection:
@@ -31,6 +31,7 @@ class WebcastPushConnection:
     def __init__(
             self,
             unique_id: str,
+            room_id: Optional[int] = None,
             loop: Optional[AbstractEventLoop] = None,
             http_params: Optional[dict] = None,
             http_headers: Optional[dict] = None,
@@ -51,6 +52,7 @@ class WebcastPushConnection:
         Initialize the base client
 
         :param unique_id: The unique id of the creator to connect to.
+        :param room_id: Optionally supply your own room ID. This will bypass the current room-check functionality.
         :param loop: Optionally supply your own asyncio loop.
         :param http_params: Additional HTTP client parameters to include when making requests to the Webcast API AND connecting to the websocket server.
         :param http_timeout: How long to wait before considering an HTTP request in the http client timed out.
@@ -81,6 +83,7 @@ class WebcastPushConnection:
         self._ws_connection_task: Optional[Task] = None
 
         # Configured Attributes
+        self._room_id_init: Optional[int] = room_id
         self._ws_headers: Optional[dict] = ws_headers or dict()
         self._ws_ping_interval: float = ws_ping_interval
         self._ws_timeout: float = ws_timeout
@@ -137,6 +140,25 @@ class WebcastPushConnection:
             except RuntimeError:
                 return asyncio.new_event_loop()
 
+    async def _scrape_room_id(self) -> Optional[str]:
+        """
+        Scrape a room ID. If this breaks, you can override it with your own room-id-getting function.
+
+        :return: The room ID
+        """
+
+        try:
+            params: dict = {
+                **self.http.params,
+                **{"device_id": self.http.generate_device_id(), "uniqueId": self.__unique_id, "sourceType": "54"}
+            }
+
+            return await self.http.get_livestream_page_html(params)
+
+        except Exception as ex:
+            await self._on_error(ex, FailedFetchRoomInfo("Failed to fetch room id from Webcast, see stacktrace for more info."))
+            return None
+
     async def _fetch_room_id(self) -> Optional[int]:
         """
         Fetch room ID of a given user
@@ -146,14 +168,13 @@ class WebcastPushConnection:
 
         """
 
-        try:
-            html: str = await self.http.get_livestream_page_html(self.__unique_id)
-            self.__room_id = int(get_room_id_from_main_page_html(html))
-            self.http.params["room_id"] = str(self.__room_id)
-            return self.__room_id
-        except Exception as ex:
-            await self._on_error(ex, FailedFetchRoomInfo("Failed to fetch room id from Webcast, see stacktrace for more info."))
-            return None
+        # Cached or scraped
+        self.__room_id = self._room_id_init or await self._scrape_room_id()
+
+        # Set HTTP Params
+        self.http.params["room_id"] = str(self.__room_id)
+
+        return self.__room_id
 
     async def _fetch_room_data(self) -> dict:
         """
@@ -373,7 +394,7 @@ class WebcastPushConnection:
 
         """
 
-        self.loop.run_until_complete(self._start())  # TODO this is the reason the event loop stops. run until complete runs until the future ends, see docs
+        self.loop.run_until_complete(self._start())
 
     async def retrieve_room_info(self) -> Optional[dict]:
         """

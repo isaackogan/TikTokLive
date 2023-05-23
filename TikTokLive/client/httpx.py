@@ -1,4 +1,5 @@
 import json as json_parse
+import random
 import urllib.parse
 from asyncio import AbstractEventLoop
 from http.cookies import SimpleCookie
@@ -170,18 +171,18 @@ class TikTokHTTPClient:
 
             return response.json()
 
-    async def get_livestream_page_html(self, unique_id: str) -> str:
+    async def get_livestream_page_html(self, params: dict) -> str:
         """
         Get livestream page HTML given a unique id
 
-        :param unique_id: Unique ID of the streamer
+        :param params: Params to modify the request
         :return: HTML string containing page data
         :raises: httpx.TimeoutException
 
         """
 
-        response: bytes = await self.__httpx_get_bytes(f"{config.TIKTOK_URL_WEB}@{unique_id}/live")
-        return response.decode(encoding="utf-8")
+        response: dict = await self.__httpx_get_json("https://www.tiktok.com/api-live/user/room/", params or dict())
+        return response["data"]["user"]["roomId"]
 
     async def get_deserialized_object_from_signing_api(self, path: str, params: dict, schema: str) -> dict:
         """
@@ -277,3 +278,13 @@ class TikTokHTTPClient:
             )
 
             return response.json()
+
+    @classmethod
+    def generate_device_id(cls) -> int:
+        """
+        Generate a device ID
+        :return: Random faked device ID for TikTok
+
+        """
+
+        return random.randrange(10000000000000000000, 99999999999999999999)
