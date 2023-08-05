@@ -34,6 +34,7 @@ def validate_and_normalize_unique_id(unique_id: str) -> str:
     For example, "@tiktoklive" -> "tiktoklive"
 
     :return: Normalized version of the unique_id
+    
     """
 
     if not isinstance(unique_id, str):
