@@ -62,7 +62,7 @@ Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click t
 1. Install the module via pip
 
 ```
-pip install TikTokLive
+> pip install TikTokLive
 ```
 
 2. Create your first chat connection
