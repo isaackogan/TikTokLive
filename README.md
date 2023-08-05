@@ -61,7 +61,7 @@ Python [TikTok-Api](https://github.com/davidteather/TikTok-Api) package. Click t
 
 1. Install the module via pip
 
-```
+```shell script
 > pip install TikTokLive
 ```
 
