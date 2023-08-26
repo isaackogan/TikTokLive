@@ -31,7 +31,8 @@ TikTok LIVE is available in several alternative languages with only slight diffe
 - **Node.JS:** https://github.com/zerodytrash/TikTok-Live-Connector
 - **Go:** https://github.com/Davincible/gotiktoklive
 - **C#/Unity:** https://github.com/frankvHoof93/TikTokLiveSharp
-
+- **Java:** https://github.com/jwdeveloper/TikTok-Live-Java
+  
 ## Table of Contents
 
 **Primary Information**
