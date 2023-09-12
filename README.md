@@ -276,6 +276,8 @@ async def on_connect(event: ViewerUpdateEvent):
 
 Triggered every time someone comments on the live.
 
+**NOTE:** Some comments will be missing. Certain "low quality" comments will ONLY show up when a `session_id` is passed to the client.
+
 ```python
 @client.on("comment")
 async def on_connect(event: CommentEvent):
