@@ -15,6 +15,8 @@ A Python library to connect to and read events from TikTok's LIVE service.
 A Python library to receive and decode livestream events such as comments and gifts in real-time from TikTok's LIVE service by connecting to TikTok's internal Webcast service. This library includes a wrapper that
 connects to the Webcast service using only a user's `unique_id` and allows you to join your livestream as well as that of other streamers. No credentials are required to use TikTokLive.
 
+## ⚠️ This library is undergoing a major revamp. 
+
 This library was originally based off of the
 [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
 by [@zerodytrash](https://github.com/zerodytrash/), but has since taken on its own identity as it has added more features & changed much of its core functionality.
