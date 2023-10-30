@@ -17,12 +17,9 @@ connects to the Webcast service using only a user's `unique_id` and allows you t
 
 ## ⚠️ Development Hiatus & Future Plans
 
-### See pertinent info [here](https://github.com/isaackogan/TikTokLive/issues/157)
+See the library news here: (https://github.com/isaackogan/TikTokLive/issues/157
 
-This library was originally based off of the
-[TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
-by [@zerodytrash](https://github.com/zerodytrash/), but has since taken on its own identity as it has added more features & changed much of its core functionality.
-
+## Support
 
 Join the [support discord](https://discord.gg/e2XwPNTBBr) and visit the `#py-support` channel for questions, contributions and ideas. Feel free to make pull requests with missing/new features, fixes, etc.
 
