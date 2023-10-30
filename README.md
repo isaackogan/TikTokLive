@@ -17,7 +17,9 @@ connects to the Webcast service using only a user's `unique_id` and allows you t
 
 ## ⚠️ Development Hiatus & Future Plans
 
-See the library news here: (https://github.com/isaackogan/TikTokLive/issues/157
+See the library news here: https://github.com/isaackogan/TikTokLive/issues/157
+
+Feel free to leave comments & suggestions.
 
 ## Support
 
