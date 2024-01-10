@@ -531,8 +531,12 @@ class WebcastPushConnection:
         if self.ffmpeg.ffmpeg.process is None:
             raise DownloadProcessNotFound("Download process not found. You are likely stopping the download before the ffmpeg process has opened. Add a delay!")
 
-        # Kill the process
-        os.kill(self.ffmpeg.ffmpeg.process.pid, signal.CTRL_BREAK_EVENT)
+        stop_signal = signal.CTRL_BREAK_EVENT
+        # Unix/Linux/MacOS
+        if os.name != 'nt':
+            stop_signal = signal.SIGTERM
+
+        os.kill(self.ffmpeg.ffmpeg.process.pid, stop_signal)
 
         # Give info about the final product
         if self.ffmpeg.verbose:
