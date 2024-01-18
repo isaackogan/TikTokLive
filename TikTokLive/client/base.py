@@ -10,6 +10,7 @@ from threading import Thread
 from typing import Optional, List, Dict, Set, Union
 
 import websockets
+import websockets_proxy
 from ffmpy import FFmpeg, FFRuntimeError
 
 from TikTokLive.client import config, wsclient
@@ -216,13 +217,21 @@ class WebcastPushConnection:
             **self._ws_headers
         }
 
+        _proxy_url: str = None
+        if self.http.trust_env and os.environ.get('https_proxy'):
+            _proxy_url = os.environ.get('https_proxy')
+        elif self.proxies and self.proxies.get('https://'):
+            _proxy_url = self.proxies.get('https://')
+
         aio_connection: WebcastConnect = wsclient.connect(
             uri=uri,
             extra_headers=headers,
             subprotocols=["echo-protocol"],
             ping_interval=self._ws_ping_interval,
             ping_timeout=self._ws_timeout,
-            create_protocol=WebcastWebsocketConnection
+            create_protocol=WebcastWebsocketConnection,
+            proxy=websockets_proxy.Proxy.from_url(_proxy_url) if _proxy_url else None,
+            proxy_conn_timeout=self._ws_timeout if _proxy_url else None
         )
 
         # Continuously reconnect unless we're disconnecting

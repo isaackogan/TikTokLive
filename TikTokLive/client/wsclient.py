@@ -3,7 +3,8 @@ import random
 from typing import Union, AsyncIterator, Any
 
 from websockets.exceptions import ConnectionClosedOK
-from websockets.legacy.client import WebSocketClientProtocol, Connect
+from websockets.legacy.client import WebSocketClientProtocol
+from websockets_proxy import proxy_connect as Connect
 
 from TikTokLive.proto.tiktok_schema_pb2 import WebcastWebsocketAck
 from TikTokLive.proto.utilities import serialize_message, deserialize_websocket_message

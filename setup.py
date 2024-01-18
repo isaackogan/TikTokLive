@@ -26,7 +26,9 @@ setuptools.setup(
         "pyee>=9.0.4",  # Event Emitter
         "ffmpy>=0.3.0",  # Download streams
         "mashumaro>=3.5",  # JSON Deserialization
-        "websockets>=10.4"  # Connecting to websocket server
+        "websockets>=10.4",  # Connecting to websocket server
+        "websockets_proxy>=0.1.0",  # This module will enable you to use websockets package with proxies
+        "async-timeout>=4.0.3"  # Fix: python_socks/async_/asyncio/_proxy.py import package
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
