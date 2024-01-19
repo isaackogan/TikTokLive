@@ -185,6 +185,20 @@ message WebcastLikeMessage {
   int32 total_likes = 3;
 }
 
+// Caption Event 
+message WebcastCaptionMessage {
+  WebcastMessageEvent event = 1;
+  uint64 lasttimestamp = 2;
+  uint32 duration = 3;
+  Caption caption = 4;
+  uint64 currenttimestamp = 6;
+
+  message Caption {
+    string language = 1;
+    string message = 2;
+  }
+}
+
 // New Question
 message WebcastQuestionNewMessage {
   QuestionDetails questionDetails = 2;

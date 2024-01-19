@@ -32,6 +32,7 @@ def deserialize_message(proto_name: str, obj: bytes) -> dict:
                 "WebcastGiftMessage",
                 "WebcastSocialMessage",
                 "WebcastLikeMessage",
+                "WebcastCaptionMessage",
                 "WebcastQuestionNewMessage",
                 "WebcastLinkMicBattle",
                 "WebcastLinkMicArmies",
