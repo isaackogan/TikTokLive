@@ -266,6 +266,19 @@ class TopViewer(AbstractObject):
     rank: Optional[int] = None
     """Their "top viewer" rank, typically ~1-20"""
 
+@dataclass()
+class Caption(AbstractObject):
+    """
+    Caption in a livestream
+
+    """
+
+    language: Optional[str] = None
+    """The language of Caption"""
+
+    message: Optional[str] = None
+    """The content of Caption"""
+
 
 @dataclass()
 class GiftIcon(TikTokImage):

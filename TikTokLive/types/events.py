@@ -12,7 +12,7 @@ from typing import Optional, List, Any, Dict, ClassVar
 from mashumaro import DataClassDictMixin, pass_through
 
 from TikTokLive.types import User, Gift, Emote, TreasureBoxData, ExtraRankData, LinkUser, BattleArmy, TopViewer, \
-    ChatImage, ValueLabel
+    ChatImage, ValueLabel, Caption
 from TikTokLive.types.utilities import LiveEvent, alias
 
 
@@ -84,6 +84,21 @@ class LikeEvent(AbstractEvent):
 
     label: Optional[str] = None
     """Internal TikTok label"""
+
+@LiveEvent("caption")
+class CaptionEvent(AbstractEvent):
+    """
+    Event that fires when
+    
+    """
+
+    
+    display_type: Optional[str] = None
+    """Internal display type"""
+    lasttimestamp: Optional[int] = None
+    caption: Caption = None
+    currenttimestamp: Optional[int] = None
+
 
 
 @LiveEvent("join")
