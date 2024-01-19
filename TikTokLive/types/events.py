@@ -91,13 +91,13 @@ class CaptionEvent(AbstractEvent):
     Event that fires when
     
     """
-
     
     display_type: Optional[str] = None
     """Internal display type"""
     lasttimestamp: Optional[int] = None
     caption: Caption = None
     currenttimestamp: Optional[int] = None
+    duration: Optional[int] = None
 
 
 
