@@ -94,10 +94,14 @@ class CaptionEvent(AbstractEvent):
     
     display_type: Optional[str] = None
     """Internal display type"""
-    lasttimestamp: Optional[int] = None
+    start_timestamp: Optional[int] = None
+    """ The start timestamp of caption's audio """
     caption: Caption = None
-    currenttimestamp: Optional[int] = None
+    end_timestamp: Optional[int] = None
+    """ The end timestamp of caption's audio """
     duration: Optional[int] = None
+    """ The duration of caption """
+
 
 
 

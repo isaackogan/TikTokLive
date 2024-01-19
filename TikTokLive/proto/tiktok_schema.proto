@@ -188,10 +188,10 @@ message WebcastLikeMessage {
 // Caption Event 
 message WebcastCaptionMessage {
   WebcastMessageEvent event = 1;
-  uint64 lasttimestamp = 2;
+  uint64 start_timestamp = 2;
   uint32 duration = 3;
   Caption caption = 4;
-  uint64 currenttimestamp = 6;
+  uint64 end_timestamp = 6;
 
   message Caption {
     string language = 1;
