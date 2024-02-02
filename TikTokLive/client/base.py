@@ -156,6 +156,7 @@ class WebcastPushConnection:
             return await self.http.get_livestream_page_html(params)
 
         except Exception as ex:
+            self.__connecting = False
             await self._on_error(ex, FailedFetchRoomInfo("Failed to fetch room id from Webcast, see stacktrace for more info."))
             return None
 
@@ -309,6 +310,7 @@ class WebcastPushConnection:
 
             # If offline
             if self.__room_info.get("status", 4) == 4:
+                self.__connecting = False
                 raise LiveNotFound("The requested user is most likely offline.")
 
         # Get extended gift info
@@ -319,10 +321,12 @@ class WebcastPushConnection:
         webcast_response: Dict[str, Union[dict, str]] = await self._fetch_room_data()
 
         if not webcast_response.get("cursor"):
+            self.__connecting = False
             raise InitialCursorMissing("Missing cursor in initial fetch response.")
 
         # If a WebSocket is offered, upgrade
         if not (webcast_response.get("wsUrl") and webcast_response.get("wsParam")):
+            self.__connecting = False
             raise WebsocketConnectionFailed("No websocket URL received from TikTok")
 
         # Process initial data if requested
@@ -409,6 +413,7 @@ class WebcastPushConnection:
             self.__room_info = response
             return self.__room_info
         except Exception as ex:
+            self.__connecting = False
             await self._on_error(ex, FailedFetchRoomInfo("Failed to fetch room info from Webcast, see stacktrace for more info."))
             return None
 
@@ -430,9 +435,11 @@ class WebcastPushConnection:
                         gift: GiftDetailed = GiftDetailed.from_dict(gift_data)
                         self.__available_gifts[gift.id] = gift
                     except Exception as ex:
+                        self.__connecting = False
                         await self._on_error(ex, FailedParseGift("Failed to parse gift's extra info"))
             return self.__available_gifts
         except Exception as ex:
+            self.__connecting = False
             await self._on_error(ex, FailedFetchGifts("Failed to fetch gift data from Webcast, see stacktrace for more info."))
             return None
 
