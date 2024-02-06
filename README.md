@@ -18,7 +18,7 @@ connects to the Webcast service using only a user's `unique_id` and allows you t
 ## 💼 Dear Software Engineers & Employers (Including you, ByteDance!)
 
 If you like the work I've done here, consider dropping me an e-mail at `info@isaackogan.com`. 
-I'm currently looking for entry-level/internship opportunities remotely or in the Greater Toronto Area (Canada), for this summer (April). *Only companies, not freelance.
+I'm currently looking for entry-level/internship opportunity remotely or in the Greater Toronto Area (Canada), for this summer (April). *Only companies, not freelance.
 If you're able to provide a referral, or put me into contact with a recruiter, that would be a real help! Life's expensive.
 
 ## Support
