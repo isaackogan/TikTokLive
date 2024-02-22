@@ -10,7 +10,10 @@ from TikTokLive.proto import WebcastResponseMessage
 
 @dataclass()
 class UnknownEvent(WebcastResponseMessage, BaseEvent):
-    pass
+    """
+    Thrown when a Webcast message is received that is NOT tracked by TikTokLive yet.
+
+    """
 
 
 @dataclass()
@@ -26,7 +29,10 @@ class ConnectEvent(BaseEvent):
 
 @dataclass()
 class DisconnectEvent(BaseEvent):
-    pass
+    """
+    Thrown when disconnecting from a stream
+
+    """
 
 
 @dataclass()
@@ -66,7 +72,14 @@ class ShareEvent(SocialEvent):
             return None
 
 
-CustomEvent: Type = Union[UnknownEvent, ConnectEvent, FollowEvent, ShareEvent, LiveEndEvent, DisconnectEvent]
+CustomEvent: Type = Union[
+    UnknownEvent,
+    ConnectEvent,
+    FollowEvent,
+    ShareEvent,
+    LiveEndEvent,
+    DisconnectEvent
+]
 
 __all__ = [
     "UnknownEvent",

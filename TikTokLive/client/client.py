@@ -12,7 +12,7 @@ from pyee.base import Handler
 from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, InitialCursorMissingError, \
     WebsocketURLMissingError
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
-from TikTokLive.client.web.web_client import WebcastWebClient
+from TikTokLive.client.web.web_client import TikTokWebClient
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_client import WebcastWSClient
 from TikTokLive.events import Event, EventHandler
@@ -30,8 +30,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             web_proxy: Optional[Proxy] = None,
             ws_proxy: Optional[Proxy] = None,
             web_kwargs: dict = {},
-            ws_kwargs: dict = {},
-            sign_api_key: Optional[str] = None,
+            ws_kwargs: dict = {}
     ):
         super().__init__()
         unique_id = self.parse_unique_id(unique_id)
@@ -41,11 +40,10 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             proxy=ws_proxy
         )
 
-        self._web: WebcastWebClient = WebcastWebClient(
+        self._web: TikTokWebClient = TikTokWebClient(
             unique_id=unique_id,
             httpx_kwargs=web_kwargs,
-            proxy=web_proxy,
-            sign_api_key=sign_api_key
+            proxy=web_proxy
         )
 
         self._logger: Logger = TikTokLiveLogHandler.get_logger(
@@ -168,7 +166,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         await self._event_loop_task
 
         # If recording, stop
-        if self._web.fetch_video.recording:
+        if self._web.fetch_video.is_recording:
             self._web.fetch_video.stop()
 
         # Reset state vars
@@ -270,7 +268,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         return self._room_id
 
     @property
-    def web(self) -> WebcastWebClient:
+    def web(self) -> TikTokWebClient:
         return self._web
 
     @property

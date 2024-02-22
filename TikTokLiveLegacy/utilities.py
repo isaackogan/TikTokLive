@@ -42,8 +42,8 @@ def validate_and_normalize_unique_id(unique_id: str) -> str:
 
     return (
         unique_id
-            .replace("https://www.tiktok.com/", "")
-            .replace("/live", "")
-            .replace("@", "")
-            .strip()
+        .replace("https://www.tiktok.com/", "")
+        .replace("/live", "")
+        .replace("@", "")
+        .strip()
     )

@@ -2,25 +2,36 @@ from typing import Any, Dict, Optional
 
 from httpx import Response
 
-from TikTokLive.client.web.web_base import WebcastRoute
+from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
 class FailedFetchRoomInfoError(RuntimeError):
-    pass
+    """
+    Thrown if Room info request fails
+
+    """
 
 
-class RoomInfoRoute(WebcastRoute):
-    """Retrieve the room ID"""
+class FetchRoomInfoRoute(ClientRoute):
+    """
+    Retrieve the room info payload of a livestream room
 
-    PATH: str = WebDefaults.tiktok_webcast_url + "/room/info/"
+    """
 
     async def __call__(self, room_id: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Fetch room info for a given livestream room id
+
+        :param room_id: The room id to get info for
+        :return: The room info dict object
+
+        """
 
         try:
 
             response: Response = await self._web.get_response(
-                url=self.PATH,
+                url=WebDefaults.tiktok_webcast_url + "/room/info/",
                 extra_params={"room_id": room_id or self._web.params["room_id"]}
             )
 

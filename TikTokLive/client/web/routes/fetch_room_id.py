@@ -4,23 +4,35 @@ import re
 from httpx import Response
 
 from TikTokLive.client.errors import UserOfflineError
-from TikTokLive.client.web.web_base import WebcastRoute
+from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
 class FailedParseRoomIdError(RuntimeError):
-    pass
+    """
+    Thrown when the Room ID cannot be parsed
+
+    """
 
 
-class RoomIdRoute(WebcastRoute):
-    """Retrieve the room ID"""
+class RoomIdRoute(ClientRoute):
+    """
+    Route to retrieve the room ID for a user
 
-    PATH: str = WebDefaults.tiktok_app_url + "/@%s/live"
+    """
 
     async def __call__(self, unique_id: str) -> str:
+        """
+        Fetch the Room ID for a given unique_id from the page HTML
 
+        :param unique_id: The user's username
+        :return: The room ID string
+
+        """
+
+        # Get their livestream HTML
         response: Response = await self._web.get_response(
-            url=self.PATH % (unique_id,)
+            url=WebDefaults.tiktok_app_url + f"/@{unique_id}/live"
         )
 
         # Parse & update the web client
@@ -29,14 +41,16 @@ class RoomIdRoute(WebcastRoute):
         return room_id
 
     @classmethod
-    def generate_device_id(cls) -> int:
-        """Generate Device ID"""
-
-        return random.randrange(10000000000000000000, 99999999999999999999)
-
-    @classmethod
     def parse_room_id(cls, html: str) -> str:
-        """Parse Room ID"""
+        """
+        Parse the room ID from livestream HTML
+
+        :param html: The HTML to parse from https://tiktok.com/@<unique_id>/live
+        :return: The user's room id
+        :raises: UserOfflineError if the user is offline
+        :raises: FailedParseRoomIdError if the user does not exist
+
+        """
 
         match_metadata = re.search("room_id=([0-9]*)", html)
         if bool(match_metadata):

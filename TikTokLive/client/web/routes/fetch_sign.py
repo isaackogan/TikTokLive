@@ -1,21 +1,55 @@
+import enum
 from http.cookies import SimpleCookie
 from typing import Optional
 
 import httpx
 from httpx import Response
 
-from TikTokLive.client.web.web_base import WebcastRoute
-from TikTokLive.client.web.web_settings import WebDefaults
+from TikTokLive.client.web.web_base import ClientRoute
+from TikTokLive.client.web.web_settings import WebDefaults, CLIENT_NAME
 from TikTokLive.proto import WebcastResponse
 
 
 class SignAPIError(RuntimeError):
-    pass
+    """
+    Thrown when a fetch to the Sign API fails for one reason or another
+
+    """
+
+    class ErrorReason(enum.Enum):
+        """
+        Possible failure reasons
+
+        """
+
+        RATE_LIMIT = 1
+        CONNECT_ERROR = 2
+        EMPTY_PAYLOAD = 3
+        EMPTY_COOKIES = 5
+        SIGN_NOT_200 = 4
+
+    def __init__(
+            self,
+            reason: ErrorReason,
+            *args: str
+    ):
+        """
+        Initialize a sign API Error class
+
+        :param reason: The reason for the error
+        :param args: Additional error arguments passed to the super-class
+
+        """
+
+        self.reason = reason
+        args = list(args)
+        args.insert(0, f"[{reason.name}]")
+        super().__init__(*args)
 
 
 class SignatureRateLimitError(SignAPIError):
     """
-    When a user hits the signature rate limit
+    Thrown when a user hits the Sign API limit
 
     """
 
@@ -36,7 +70,7 @@ class SignatureRateLimitError(SignAPIError):
         _args = list(args)
         _args[0] = str(args[0]) % str(self.retry_after)
 
-        super().__init__(self, *_args)
+        super().__init__(reason=SignAPIError.ErrorReason.RATE_LIMIT, *args)
 
     @property
     def retry_after(self) -> int:
@@ -57,30 +91,33 @@ class SignatureRateLimitError(SignAPIError):
         return self._reset_time
 
 
-class SignFetchRoute(WebcastRoute):
+class SignFetchRoute(ClientRoute):
+    """
+    Call the signature server to receive the TikTok websocket URL
+
+    """
 
     async def __call__(self) -> WebcastResponse:
+        """
+        Call the method to get the first WebcastResponse to use to upgrade to websocket
 
-        async with httpx.AsyncClient() as client:
+        :return: The WebcastResponse forwarded from the sign server proxy
 
-            try:
-                response: Response = await self._web.get_response(
-                    url=WebDefaults.tiktok_sign_url + "/webcast/fetch/",
-                    client=client,
-                    extra_params={'client': self._lib}
-                )
-            except httpx.ConnectError as ex:
-                raise SignAPIError(
-                    "Failed to connect to the sign server due to an httpx.ConnectError!"
-                ) from ex
+        """
 
-            if response.is_redirect:
-                response: Response = await self._web.get_response(
-                    url=str(response.url),
-                    client=client
-                )
+        try:
+            response: Response = await self._web.get_response(
+                url=WebDefaults.tiktok_sign_url + "/webcast/fetch/",
+                extra_params={'client': CLIENT_NAME},
+                proxies=None
+            )
+        except httpx.ConnectError as ex:
+            raise SignAPIError(
+                SignAPIError.ErrorReason.CONNECT_ERROR,
+                "Failed to connect to the sign server due to an httpx.ConnectError!"
+            ) from ex
 
-            data: bytes = await response.aread()
+        data: bytes = await response.aread()
 
         if response.status_code == 429:
             raise SignatureRateLimitError(
@@ -92,28 +129,43 @@ class SignFetchRoute(WebcastRoute):
             )
 
         elif not data:
-            raise SignAPIError(f"Sign API returned an empty request. Are you being detected by TikTok?")
+            raise SignAPIError(
+                SignAPIError.ErrorReason.EMPTY_PAYLOAD,
+                f"Sign API returned an empty request. Are you being detected by TikTok?"
+            )
 
         elif not response.status_code == 200:
-            raise SignAPIError(f"Failed request to Sign API with status code {response.status_code}.")
+            raise SignAPIError(
+                SignAPIError.ErrorReason.SIGN_NOT_200,
+                f"Failed request to Sign API with status code {response.status_code}."
+            )
 
         webcast_response: WebcastResponse = WebcastResponse().parse(response.read())
 
         # Update web params & cookies
-        self._update_cookies(response)
+        self._update_tiktok_cookies(response)
         self._web.params["cursor"] = webcast_response.cursor
         self._web.params["internal_ext"] = webcast_response.internal_ext
 
         return webcast_response
 
-    def _update_cookies(self, response: Response) -> None:
-        """Update the cookies for TikTok"""
+    def _update_tiktok_cookies(self, response: Response) -> None:
+        """
+        Update the cookies in the cookie jar from the sign server response
+
+        :param response: The `httpx.Response` to parse for cookies
+        :return: None
+
+        """
 
         jar: SimpleCookie = SimpleCookie()
         cookies_header: Optional[str] = response.headers.get("X-Set-TT-Cookie")
 
         if not cookies_header:
-            raise SignAPIError("Sign server did not return cookies!")
+            raise SignAPIError(
+                SignAPIError.ErrorReason.EMPTY_COOKIES,
+                "Sign server did not return cookies!"
+            )
 
         jar.load(cookies_header)
 

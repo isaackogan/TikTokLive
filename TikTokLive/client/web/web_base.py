@@ -1,5 +1,6 @@
 import logging
 import os
+import random
 from abc import ABC, abstractmethod
 from typing import Optional, Any, Awaitable, Dict
 
@@ -10,39 +11,59 @@ from TikTokLive.client.logger import TikTokLiveLogHandler
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
-class WebcastHTTPClient:
+class TikTokHTTPClient:
+    """
+    HTTP client for interacting with the various APIs
+
+    """
+
     __uuc: int = 0
-    __lib: str = "ttlive-python"
 
     def __init__(
             self,
-            unique_id: str,
             proxy: Optional[Proxy] = None,
-            sign_api_key: Optional[str] = None,
             httpx_kwargs: dict = {}
     ):
-        self.__uuc += 1
-        self._unique_id: str = unique_id
+        """
+        Create an HTTP client for interacting with the various APIs
 
-        self._sign_api_key: str = (
-                sign_api_key or
-                WebDefaults.tiktok_sign_api_key or
-                os.environ.get("SIGN_API_KEY")
+        :param proxy: An optional proxy for the HTTP client
+        :param httpx_kwargs: Additional httpx k
+
+        """
+
+        self._httpx: AsyncClient = self._create_httpx_client(
+            proxy=proxy,
+            httpx_kwargs=httpx_kwargs,
+            sign_api_key=WebDefaults.tiktok_sign_api_key or os.environ.get("SIGN_API_KEY")
         )
 
-        self._httpx_kwargs: Dict[str, Any] = httpx_kwargs
-        self._httpx: AsyncClient = self._create_httpx_client(proxy)
+        self.__uuc += 1
 
-    async def close(self):
-        await self._httpx.aclose()
+    def _create_httpx_client(
+            self,
+            proxy: Optional[Proxy],
+            httpx_kwargs: Dict[str, Any],
+            sign_api_key: Optional[str] = None
+    ) -> AsyncClient:
+        """
+        Initialize a new `httpx.AsyncClient`, called internally on object creation
 
-    def _create_httpx_client(self, proxy: Optional[Proxy]) -> AsyncClient:
-        self.cookies = self._httpx_kwargs.pop("cookies", Cookies())
-        self.headers = {**self._httpx_kwargs.pop("headers", {}), **WebDefaults.client_headers}
+        :param proxy: An optional HTTP proxy to initialize the client with
+        :return: An instance of the `httpx.AsyncClient`
 
-        self.params = {
-            "apiKey": self._sign_api_key,
-            **self._httpx_kwargs.pop("params", {}), **WebDefaults.client_params
+        """
+
+        # Create the cookie jar
+        self.cookies = httpx_kwargs.pop("cookies", Cookies())
+
+        # Create the headers
+        self.headers = {**httpx_kwargs.pop("headers", {}), **WebDefaults.client_headers}
+
+        # Create the params
+        self.params: Dict[str, Any] = {
+            "apiKey": sign_api_key,
+            **httpx_kwargs.pop("params", {}), **WebDefaults.client_params
         }
 
         return AsyncClient(
@@ -50,7 +71,7 @@ class WebcastHTTPClient:
             cookies=self.cookies,
             params=self.params,
             headers=self.headers,
-            **self._httpx_kwargs
+            **httpx_kwargs
         )
 
     async def get_response(
@@ -61,8 +82,23 @@ class WebcastHTTPClient:
             client: Optional[httpx.AsyncClient] = None,
             **kwargs
     ) -> Response:
-        self.params["uuc"] = self.__uuc
+        """
+        Get a response from the underlying `httpx.AsyncClient` client.
 
+        :param url: The URL to request
+        :param extra_params: Extra parameters to append to the globals
+        :param extra_headers: Extra headers to append to the globals
+        :param client: An optional override for the `httpx.AsyncClient` client
+        :param kwargs: Optional keywords for the `httpx.AsyncClient.get` method
+        :return: An `httpx.Response` object
+
+        """
+
+        # Update UUC param
+        self.params["uuc"] = self.__uuc
+        self.params["device_id"] = self.generate_device_id()
+
+        # Make the request
         return await (client or self._httpx).get(
             url=url,
             cookies=self.cookies,
@@ -71,35 +107,76 @@ class WebcastHTTPClient:
             **kwargs
         )
 
-    async def get_json(self, url: str, extra_params: Optional[dict] = None, **kwargs) -> Optional[dict]:
-        response: Response = await self.get_response(url, extra_params, **kwargs)
-        return response.json()
-        # remember to .get("data") when using
+    async def close(self) -> None:
+        """
+        Close the HTTP client gracefully
 
-    def __del__(self):
+        :return: None
+
+        """
+
+        await self._httpx.aclose()
+
+    def __del__(self) -> None:
+        """
+        Decrement the UUC on object deletion
+
+        :return: None
+
+        """
+
         self.__uuc = max(0, self.__uuc - 1)
 
-    @property
-    def client_name(self) -> str:
-        return self.__lib
-
-    @property
-    def unique_id(self) -> str:
-        return self._unique_id
-
     def set_session_id(self, session_id: str) -> None:
+        """
+        Set the session id cookies for the HTTP client and Websocket connection
+
+        :param session_id: The (must be valid) session ID
+        :return: None
+
+        """
+
         self.cookies.set("sessionid", session_id)
         self.cookies.set("sessionid_ss", session_id)
         self.cookies.set("sid_tt", session_id)
 
+    @classmethod
+    def generate_device_id(cls) -> int:
+        """
+        Generate a spoofed device ID for the TikTok API call
 
-class WebcastRoute(ABC):
+        :return: Device ID number
 
-    def __init__(self, web: WebcastHTTPClient):
-        self._web: WebcastHTTPClient = web
-        self._lib: str = self._web.client_name
+        """
+
+        return random.randrange(10000000000000000000, 99999999999999999999)
+
+
+class ClientRoute(ABC):
+    """
+    A callable API route for TikTok
+
+    """
+
+    def __init__(self, web: TikTokHTTPClient):
+        """
+        Instantiate a route
+
+        :param web: An instance of the HTTP client the route belongs to
+
+        """
+
+        self._web: TikTokHTTPClient = web
         self._logger: logging.Logger = TikTokLiveLogHandler.get_logger()
 
     @abstractmethod
     def __call__(self, **kwargs: Any) -> Awaitable[Any]:
+        """
+        Method used for calling the route as a function
+
+        :param kwargs: Arguments to be overridden
+        :return: Return to be overridden
+
+        """
+
         raise NotImplementedError

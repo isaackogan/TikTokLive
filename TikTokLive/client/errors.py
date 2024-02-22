@@ -1,14 +1,27 @@
 class AlreadyConnectedError(RuntimeError):
-    pass
+    """
+    Thrown when attempting to connect to a user that is already connected to
+
+    """
 
 
 class UserOfflineError(RuntimeError):
-    pass
+    """
+    Thrown when the requested streamer to watch is offline
+
+    """
 
 
 class InitialCursorMissingError(RuntimeError):
-    pass
+    """
+    Thrown when the cursor for connecting to TikTok is missing (blocked)
+
+    """
 
 
 class WebsocketURLMissingError(RuntimeError):
-    pass
+    """
+    Thrown when the websocket URL to connect to TikTok is missing (blocked)
+
+    """
+

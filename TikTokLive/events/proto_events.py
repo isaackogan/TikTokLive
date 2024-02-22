@@ -33,6 +33,13 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
 
     @property
     def comment(self) -> str:
+        """
+        The user comment content
+
+        :return: Comment string
+
+        """
+
         return self.content
 
 
@@ -67,6 +74,13 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
 
     @property
     def streaking(self) -> bool:
+        """
+        Read the repeat_end to tell a user whether the gift is part of an ongoing streak
+
+        :return: Whether the user is currently engaged in a streak
+
+        """
+
         if not self.streakable:
             return False
 

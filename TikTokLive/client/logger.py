@@ -7,6 +7,11 @@ from typing import Optional, List, Any, cast, Dict
 
 
 class LogLevel(enum.Enum):
+    """
+    The level to be used with the python logging module
+
+    """
+
     CRITICAL = 50
     ERROR = 40
     WARNING = 30
@@ -16,11 +21,21 @@ class LogLevel(enum.Enum):
 
     @property
     def value(self) -> int:
+        """
+        Return the enum item value
+
+        :return: Value recast (correctly) as an int
+
+        """
+
         return cast(int, super().value)
 
 
 class TikTokLiveLogHandler(logging.StreamHandler):
-    """A custom logger implementation for TikTokLive"""
+    """
+    A custom logger handler for TikTokLive
+
+    """
 
     LOGGER_NAME: str = "TikTokLive"
     LOGGER: Optional[logging.Logger] = None
@@ -40,6 +55,13 @@ class TikTokLiveLogHandler(logging.StreamHandler):
             stream: Optional[Any] = None,
             formatter: Optional[logging.Formatter] = None
     ):
+        """
+        The python output stream to write to
+
+        :param stream: Stream object (e.g. stdout, stderr)
+        :param formatter: The formatter the logger handler should use
+
+        """
         super().__init__(stream=stream or sys.stderr)
         self.formatter = formatter or logging.Formatter(self.FORMAT, self.TIME_FORMAT)
 
@@ -71,6 +93,14 @@ class TikTokLiveLogHandler(logging.StreamHandler):
 
     @classmethod
     def format_path(cls, record: logging.LogRecord) -> str:
+        """
+        Take a path from a stacktrace and convert it into compressed form similar to SpringBoot.
+
+        :param record: The record to read
+        :return: The formatted path in dot-format
+
+        """
+
         work_dir: str = os.path.normpath(os.getcwd())
         stack_path: str = os.path.normpath(record.pathname)
 
@@ -94,7 +124,13 @@ class TikTokLiveLogHandler(logging.StreamHandler):
         return ".".join(finished_parts)
 
     def emit(self, record: logging.LogRecord) -> None:
-        """Handle emitting from the logger"""
+        """
+        Handle emitting from the logger
+
+        :param record: The record to emit from
+        :return: None
+
+        """
 
         try:
 
@@ -111,8 +147,12 @@ class TikTokLiveLogHandler(logging.StreamHandler):
             self.handleError(record)
 
 
-def test_logs() -> None:
-    """Simple test for the logger"""
+if __name__ == '__main__':
+    """
+    Simple test for the logger
+    
+    """
+
     logger: logging.Logger = TikTokLiveLogHandler.get_logger(level=LogLevel.DEBUG)
 
     logger.info("Some information")
@@ -124,7 +164,3 @@ def test_logs() -> None:
         raise RuntimeError("An error occurred resulting in you being thrown.")
     except Exception as ex:
         logger.error(traceback.format_exc())
-
-
-if __name__ == '__main__':
-    test_logs()

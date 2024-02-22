@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Dict, Union, Any, Optional
 
+"""Default HTTP client parameters to include in requests to the Webcast API, Sign Server, and Websocket Server"""
 DEFAULT_CLIENT_PARAMS: Dict[str, Union[int, bool, str]] = {
     "aid": 1988,
     "app_language": 'en-US',
@@ -35,7 +36,7 @@ DEFAULT_CLIENT_PARAMS: Dict[str, Union[int, bool, str]] = {
     "update_version_code": '1.3.0',
 }
 
-"""Default HTTP client headers to include in requests to the Webcast API & Websocket Server"""
+"""Default HTTP client headers to include in requests to the Webcast API, Sign Server, and Websocket Server"""
 DEFAULT_REQUEST_HEADERS: Dict[str, str] = {
     "Connection": 'keep-alive',
     'Cache-Control': 'max-age=0',
@@ -47,21 +48,30 @@ DEFAULT_REQUEST_HEADERS: Dict[str, str] = {
     'Accept-Encoding': 'gzip, deflate',
 }
 
+"""The unique identifier for ttlive-python"""
+CLIENT_NAME: str = "ttlive-python"
+
 
 @dataclass()
 class _WebDefaults:
+    """
+    Default values used when instantiating the TikTokWebClient for a TikTokLiveClient object
+
+    """
+
     tiktok_app_url: str = "https://www.tiktok.com"
     tiktok_sign_url: str = "https://tiktok.eulerstream.com"
     tiktok_webcast_url: str = 'https://webcast.tiktok.com/webcast'
-
     client_params: Dict[str, Any] = field(default_factory=lambda: DEFAULT_CLIENT_PARAMS)
     client_headers: Dict[str, Any] = field(default_factory=lambda: DEFAULT_REQUEST_HEADERS)
-
     tiktok_sign_api_key: Optional[str] = None
 
 
+"""The modifiable settings global for web defaults"""
 WebDefaults: _WebDefaults = _WebDefaults()
 
+
 __all__ = [
-    "WebDefaults"
+    "WebDefaults",
+    "CLIENT_NAME"
 ]

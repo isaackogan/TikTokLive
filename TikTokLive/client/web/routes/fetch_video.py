@@ -10,10 +10,15 @@ from typing import Optional, Union
 
 from ffmpy import FFmpeg, FFRuntimeError
 
-from TikTokLive.client.web.web_base import WebcastRoute, WebcastHTTPClient
+from TikTokLive.client.web.web_base import ClientRoute, TikTokHTTPClient
 
 
 class VideoFetchFormat(enum.Enum):
+    """
+    TikTok-supported video recording formats
+
+    """
+
     FLV = "flv"
     HLS = "hls"
     CMAF = "cmaf"
@@ -42,28 +47,55 @@ class VideoFetchQuality(enum.Enum):
 
 
 class DuplicateDownloadError(RuntimeError):
-    pass
+    """
+    Thrown when attempting to start a duplicate download on a video you are already downloading
+
+    """
 
 
-class VideoFetchRoute(WebcastRoute):
+class VideoFetchRoute(ClientRoute):
+    """
+    TikTok route to record the livestream video in real-time
 
-    def __init__(self, web: WebcastHTTPClient):
+    """
+
+    def __init__(self, web: TikTokHTTPClient):
+        """
+        Instantiate the video fetch route
+
+        :param web: The web client used to initialize the route
+
+        """
+
         super().__init__(web)
+
+        # Storage for the thread / ffmpeg
         self._ffmpeg: Optional[FFmpeg] = None
         self._thread: Optional[Thread] = None
 
-    def __call__(self, **kwargs) -> None:
-        return self.start(**kwargs)
-
     @property
     def ffmpeg(self) -> Optional[FFmpeg]:
+        """
+        Return a copy of the FFmpeg class, which is only defined while recording
+
+        :return: Copy of the class or None
+
+        """
+
         return self._ffmpeg
 
     @property
-    def recording(self) -> bool:
+    def is_recording(self) -> bool:
+        """
+        Check if the route is currently in use to record the Live
+
+        :return: Recording status
+
+        """
+
         return self._ffmpeg and self._thread and self._ffmpeg.process
 
-    def start(
+    def __call__(
             self,
             output_fp: Union[Path, str],
             room_info: dict,
@@ -71,10 +103,23 @@ class VideoFetchRoute(WebcastRoute):
             quality: VideoFetchQuality = VideoFetchQuality.LD,
             record_format: VideoFetchFormat = VideoFetchFormat.FLV,
             output_format: Optional[str] = None,
-            unique_id: Optional[str] = None,
             **kwargs
     ) -> None:
-        unique_id: str = unique_id or self._web.unique_id
+        """
+        Record TikTok livestreams (threaded)
+
+        :param output_fp: The path to output the recording to
+        :param room_info: Room information used to start the recording
+        :param record_for: How long to record for (when <= 0, recording is infinite)
+        :param quality: A `VideoFetchQuality` enum value for one of the supported TikTok qualities
+        :param record_format: A `VideoFetchFormat` enum value for one of the supported TikTok formats
+        :param output_format: Any format supported by FFmpeg for video output (e.g. mp4)
+        :param kwargs: Other kwargs to pass to FFmpeg
+        :return: None
+
+        """
+
+        unique_id: str = room_info['owner']['display_id']
         self._logger.info(f"Attempting to start download on stream for '{unique_id}'.")
 
         if self._ffmpeg is not None:
@@ -86,18 +131,19 @@ class VideoFetchRoute(WebcastRoute):
         record_url: str = record_url_data.get(record_format) or record_url_data['flv']
 
         self._ffmpeg = FFmpeg(
-            inputs={**{record_url: None}, **kwargs.get('inputs', dict())},
+            inputs={**{record_url: None}, **kwargs.pop('inputs', dict())},
             outputs={
                 **{
                     str(output_fp): record_time,
                     output_format or record_format.value: "-f"
                 },
-                **kwargs.get('outputs', dict())
+                **kwargs.pop('outputs', dict())
             },
             global_options=(
-                {"-y", f"-loglevel {kwargs.get('loglevel', 'error')}"}
-                .union(kwargs.get('global_options', set()))
+                {"-y", f"-loglevel {kwargs.pop('loglevel', 'error')}"}
+                .union(kwargs.pop('global_options', set()))
             ),
+            **kwargs
         )
 
         self._thread: Thread = Thread(target=functools.partial(self._threaded_recording, unique_id))
@@ -109,9 +155,26 @@ class VideoFetchRoute(WebcastRoute):
             f"on user @{unique_id} with video quality \"{quality.name}\"."
         )
 
-    def stop(self) -> None:
+    def start(self, **kwargs) -> None:
+        """
+        Alias for calling the class itself, starts a recording
 
-        if not self.recording:
+        :param kwargs: Kwargs to pass to `__call__`
+        :return: None
+
+        """
+
+        self(**kwargs)
+
+    def stop(self) -> None:
+        """
+        Stop a livestream recording if it is ongoing
+
+        :return: None
+
+        """
+
+        if not self.is_recording:
             self._logger.warning("Attempted to stop a stream that does not exist or has not started.")
             return
 
@@ -121,7 +184,13 @@ class VideoFetchRoute(WebcastRoute):
         self._thread = None
 
     def _threaded_recording(self, unique_id: str) -> None:
-        """The function to run the recording in a different thread."""
+        """
+        The function to run the recording in a different thread.
+
+        :param unique_id: The unique_id of the recorded user (for logging purposes)
+        :return: None
+
+        """
 
         started_at: int = int(datetime.utcnow().timestamp())
 

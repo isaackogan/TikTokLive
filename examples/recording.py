@@ -32,7 +32,7 @@ async def on_live_end(_: DisconnectEvent):
 
     client.logger.info("Disconnected!")
 
-    if client.web.fetch_video.recording:
+    if client.web.fetch_video.is_recording:
         client.web.fetch_video.stop()
 
 
