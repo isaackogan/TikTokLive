@@ -54,4 +54,4 @@ TIKTOK_URL_WEB: str = 'https://www.tiktok.com/'
 TIKTOK_URL_WEBCAST: str = 'https://webcast.tiktok.com/webcast/'
 
 """The URL of the Webcast External Signing API"""
-TIKTOK_SIGN_API: str = "https://tiktok.eulerstream.com/"
+TIKTOK_SIGN_API: str = "https://tiktok-staging.eulerstream.com/"

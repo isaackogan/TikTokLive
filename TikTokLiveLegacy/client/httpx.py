@@ -97,6 +97,10 @@ class TikTokHTTPClient:
 
         async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies, verify=self.ssl_context) as client:
             response: httpx.Response = await client.get(url, headers=self.headers, timeout=self.timeout)
+            if sign_api:
+                print(response.url)
+
+        print(response.headers.keys())
 
         # If requesting the sign api
         if sign_api:

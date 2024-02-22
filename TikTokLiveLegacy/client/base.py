@@ -156,7 +156,8 @@ class WebcastPushConnection:
             return await self.http.get_livestream_page_html(params)
 
         except Exception as ex:
-            await self._on_error(ex, FailedFetchRoomInfo("Failed to fetch room id from Webcast, see stacktrace for more info."))
+            await self._on_error(ex, FailedFetchRoomInfo(
+                "Failed to fetch room id from Webcast, see stacktrace for more info."))
             return None
 
     async def _fetch_room_id(self) -> Optional[int]:
@@ -185,7 +186,8 @@ class WebcastPushConnection:
         """
 
         # Fetch from polling api
-        webcast_response = await self.http.get_deserialized_object_from_signing_api("webcast/fetch/", self.http.params, "WebcastResponse")
+        webcast_response = await self.http.get_deserialized_object_from_signing_api("webcast/fetch/", self.http.params,
+                                                                                    "WebcastResponse")
 
         # Update cursor
         _last_cursor, _next_cursor = self.http.params["cursor"], webcast_response.get("cursor")
@@ -409,7 +411,8 @@ class WebcastPushConnection:
             self.__room_info = response
             return self.__room_info
         except Exception as ex:
-            await self._on_error(ex, FailedFetchRoomInfo("Failed to fetch room info from Webcast, see stacktrace for more info."))
+            await self._on_error(ex, FailedFetchRoomInfo(
+                "Failed to fetch room info from Webcast, see stacktrace for more info."))
             return None
 
     async def retrieve_available_gifts(self) -> Optional[Dict[int, GiftDetailed]]:
@@ -433,7 +436,8 @@ class WebcastPushConnection:
                         await self._on_error(ex, FailedParseGift("Failed to parse gift's extra info"))
             return self.__available_gifts
         except Exception as ex:
-            await self._on_error(ex, FailedFetchGifts("Failed to fetch gift data from Webcast, see stacktrace for more info."))
+            await self._on_error(ex, FailedFetchGifts(
+                "Failed to fetch gift data from Webcast, see stacktrace for more info."))
             return None
 
     def download(
@@ -511,7 +515,8 @@ class WebcastPushConnection:
 
         # Give info about the started download
         if self.ffmpeg.verbose:
-            logging.warning(f"Started the download to path \"{path}\" for duration \"{'infinite' if runtime is None else duration} seconds\" on user @{self.unique_id} with \"{quality.name}\" video quality")
+            logging.warning(
+                f"Started the download to path \"{path}\" for duration \"{'infinite' if runtime is None else duration} seconds\" on user @{self.unique_id} with \"{quality.name}\" video quality")
 
     def stop_download(self) -> None:
         """
@@ -529,7 +534,8 @@ class WebcastPushConnection:
 
         # If attempting to stop a download before the process has opened
         if self.ffmpeg.ffmpeg.process is None:
-            raise DownloadProcessNotFound("Download process not found. You are likely stopping the download before the ffmpeg process has opened. Add a delay!")
+            raise DownloadProcessNotFound(
+                "Download process not found. You are likely stopping the download before the ffmpeg process has opened. Add a delay!")
 
         # Kill the process
         os.kill(self.ffmpeg.ffmpeg.process.pid, signal.CTRL_BREAK_EVENT)
