@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Type, Union, Optional
 
-from TikTokLive.events.base import BaseEvent
+from TikTokLive.events.base_event import BaseEvent
 from TikTokLive.events.proto_events import SocialEvent, ControlEvent
 from TikTokLive.proto import WebcastResponseMessage
 

@@ -1,10 +1,9 @@
 import asyncio
 import logging
-import os
 import urllib.parse
 from asyncio import AbstractEventLoop, Task, CancelledError
 from logging import Logger
-from typing import Optional, Type, AsyncIterator, Dict, Any, Tuple, Union, Callable, TypeVar, List, Awaitable
+from typing import Optional, Type, AsyncIterator, Dict, Any, Tuple, Union, Callable, List
 
 from httpx import Proxy
 from pyee import AsyncIOEventEmitter
@@ -16,13 +15,11 @@ from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
 from TikTokLive.client.web.web_client import WebcastWebClient
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_client import WebcastWSClient
-from TikTokLive.events import Event
+from TikTokLive.events import Event, EventHandler
 from TikTokLive.events.custom_events import UnknownEvent, ConnectEvent, FollowEvent, ShareEvent, LiveEndEvent, \
     DisconnectEvent
 from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, ControlEvent
 from TikTokLive.proto import WebcastResponse, WebcastResponseMessage, ControlAction
-
-EventHandler = TypeVar("EventHandler", bound=Callable[[Event], Union[None, Awaitable[None]]])
 
 
 class TikTokLiveClient(AsyncIOEventEmitter):

@@ -1,7 +1,7 @@
 import json
 import re
 
-from TikTokLive.types import FailedParseUserHTML
+from TikTokLiveLegacy.types import FailedParseUserHTML
 
 
 def get_room_id_from_main_page_html(main_page_html: str) -> str:

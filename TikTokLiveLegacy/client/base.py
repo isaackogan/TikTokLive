@@ -12,14 +12,14 @@ from typing import Optional, List, Dict, Set, Union
 import websockets
 from ffmpy import FFmpeg, FFRuntimeError
 
-from TikTokLive.client import config, wsclient
-from TikTokLive.client.httpx import TikTokHTTPClient
-from TikTokLive.client.wsclient import WebcastWebsocketConnection, WebcastConnect
-from TikTokLive.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, \
+from TikTokLiveLegacy.client import config, wsclient
+from TikTokLiveLegacy.client.httpx import TikTokHTTPClient
+from TikTokLiveLegacy.client.wsclient import WebcastWebsocketConnection, WebcastConnect
+from TikTokLiveLegacy.types import AlreadyConnecting, AlreadyConnected, LiveNotFound, \
     FailedFetchRoomInfo, FailedFetchGifts, \
     FFmpegWrapper, AlreadyDownloadingStream, DownloadProcessNotFound, NotDownloadingStream, \
     InitialCursorMissing, VideoQuality, WebsocketConnectionFailed, GiftDetailed, FailedParseGift
-from TikTokLive.utilities import validate_and_normalize_unique_id
+from TikTokLiveLegacy.utilities import validate_and_normalize_unique_id
 
 
 class WebcastPushConnection:

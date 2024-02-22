@@ -11,9 +11,9 @@ from typing import Optional, List, Any, Dict, ClassVar
 
 from mashumaro import DataClassDictMixin, pass_through
 
-from TikTokLive.types import User, Gift, Emote, TreasureBoxData, ExtraRankData, LinkUser, BattleArmy, TopViewer, \
+from TikTokLiveLegacy.types import User, Gift, Emote, TreasureBoxData, ExtraRankData, LinkUser, BattleArmy, TopViewer, \
     ChatImage, ValueLabel
-from TikTokLive.types.utilities import LiveEvent, alias
+from TikTokLiveLegacy.types.utilities import LiveEvent, alias
 
 
 class AbstractEvent(DataClassDictMixin):

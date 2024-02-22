@@ -5,7 +5,7 @@
 
 from TikTokLive.proto.tiktok_proto import *
 from TikTokLive.proto.custom_proto import *
-from .base import BaseEvent
+from .base_event import BaseEvent
 from typing import Type, Union, Dict
 from typing import Union
 

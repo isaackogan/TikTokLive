@@ -1,3 +1,7 @@
+from asyncio import Event
+from typing import TypeVar, Callable, Union, Awaitable
+
+
 class BaseEvent:
 
     @property
@@ -7,4 +11,5 @@ class BaseEvent:
     @classmethod
     def get_type(cls) -> str:
         return cls.__name__
+
 

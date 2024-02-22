@@ -6,8 +6,8 @@ from typing import List, Optional, Any, Dict
 from ffmpy import FFmpeg
 from mashumaro import DataClassDictMixin, pass_through
 
-from TikTokLive.types import utilities
-from TikTokLive.types.utilities import alias
+from TikTokLiveLegacy.types import utilities
+from TikTokLiveLegacy.types.utilities import alias
 
 
 class AbstractObject(DataClassDictMixin):

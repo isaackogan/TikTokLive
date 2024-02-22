@@ -3,7 +3,7 @@ import json
 from google.protobuf import json_format
 from protobuf_to_dict import protobuf_to_dict
 
-from TikTokLive.proto import tiktok_schema_pb2 as tiktok_schema
+from TikTokLiveLegacy.proto import tiktok_schema_pb2 as tiktok_schema
 
 
 def deserialize_message(proto_name: str, obj: bytes) -> dict:

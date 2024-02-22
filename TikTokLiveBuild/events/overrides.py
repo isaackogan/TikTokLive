@@ -9,7 +9,7 @@ from typing import Type, Dict, Generator, Any, Union
 import betterproto
 
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
-from TikTokLive.events.base import BaseEvent
+from TikTokLive.events.base_event import BaseEvent
 from TikTokLive.proto import ExtendedUser
 from TikTokLive.proto.tiktok_proto import User
 

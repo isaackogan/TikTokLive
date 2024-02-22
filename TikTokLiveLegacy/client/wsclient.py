@@ -5,8 +5,8 @@ from typing import Union, AsyncIterator, Any
 from websockets.exceptions import ConnectionClosedOK
 from websockets.legacy.client import WebSocketClientProtocol, Connect
 
-from TikTokLive.proto.tiktok_schema_pb2 import WebcastWebsocketAck
-from TikTokLive.proto.utilities import serialize_message, deserialize_websocket_message
+from TikTokLiveLegacy.proto.tiktok_schema_pb2 import WebcastWebsocketAck
+from TikTokLiveLegacy.proto.utilities import serialize_message, deserialize_websocket_message
 
 
 class WebcastWebsocketConnection(WebSocketClientProtocol):

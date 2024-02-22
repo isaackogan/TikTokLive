@@ -9,9 +9,9 @@ from typing import Dict, Optional
 import httpx
 from httpx import Cookies
 
-from TikTokLive.client import config
-from TikTokLive.proto.utilities import deserialize_message
-from TikTokLive.types import SignatureRateLimitReached
+from TikTokLiveLegacy.client import config
+from TikTokLiveLegacy.proto.utilities import deserialize_message
+from TikTokLiveLegacy.types import SignatureRateLimitReached
 
 
 class TikTokHTTPClient:
@@ -97,10 +97,6 @@ class TikTokHTTPClient:
 
         async with httpx.AsyncClient(trust_env=self.trust_env, proxies=self.proxies, cookies=self.cookies, verify=self.ssl_context) as client:
             response: httpx.Response = await client.get(url, headers=self.headers, timeout=self.timeout)
-            if sign_api:
-                print(response.url)
-
-        print(response.headers.keys())
 
         # If requesting the sign api
         if sign_api:
