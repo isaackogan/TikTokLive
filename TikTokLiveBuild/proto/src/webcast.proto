@@ -1,0 +1,789 @@
+syntax = "proto3";
+
+import "data.proto";
+import "enums.proto";
+
+//@WebcastPushFrame
+// Response from TikTokServer. Container for Messages
+message WebcastPushFrame {
+  uint64 SeqId = 1;
+  uint64 LogId = 2;
+  uint64 Service = 3;
+  uint64 Method = 4;
+  map<string, string> headers = 5;
+  string PayloadEncoding = 6;
+  string PayloadType = 7;
+  bytes Payload = 8;
+
+}
+
+
+
+//@WebcastResponse
+// Response from TikTokServer. Container for Messages
+message WebcastResponse {
+  repeated Message messages = 1;
+  string cursor = 2;
+  int64 fetchInterval = 3;
+  int64 now = 4;
+  string internalExt = 5;
+  int32 fetchType = 6;
+  map<string, string> routeParamsMap = 7;
+  int64 heartBeatDuration = 8;
+  bool needsAck = 9;
+  string pushServer = 10;
+  bool isFirst = 11;
+  string historyCommentCursor = 12;
+  bool historyNoMore = 13;
+
+  // Server-Message. Binary will deserialize into specific message
+  message Message {
+    string method = 1;
+    bytes payload = 2;
+    int64 msgId = 3;
+    int32 msgType = 4;
+    int64 offset = 5;
+    bool isHistory = 6;
+  }
+}
+
+//@GiftMessage
+message WebcastGiftMessage {
+  Common common = 1;
+  int64 giftId = 2;
+  int64 fanTicketCount = 3;
+  int32 groupCount = 4;
+  int32 repeatCount = 5;
+  int32 comboCount = 6;
+  User user = 7;
+  User toUser = 8;
+  int32 repeatEnd = 9;
+  int64 groupId = 11;
+  int64 incomeTaskgifts = 12;
+  int64 roomFanTicketCount = 13;
+  GiftStruct gift = 15;
+  string logId = 16;
+  int64 sendType = 17;
+  string monitorExtra = 22;
+  int64 colorId = 24;
+  bool isFirstSent = 25;
+  string orderId = 28;
+  UserIdentity userIdentity = 32;
+  UserGiftReciever userGiftReciever = 23;
+
+  message UserGiftReciever
+  {
+    int64 userId = 1;
+    string deviceName = 10;
+  }
+
+  message GiftIMPriority {
+    repeated int64 queueSizesList = 1;
+    int64 selfQueuePriority = 2;
+    int64 priority = 3;
+  }
+
+  message PublicAreaCommon {
+    Image userLabel = 1;
+    int64 userConsumeInRoom = 2;
+  }
+}
+
+//@RoomMessage
+message RoomMessage {
+  Common common = 1;
+  string content = 2;
+  bool supprotLandscape = 3;
+  int64 source = 4;
+  Image icon = 5;
+  string scene = 6;
+  bool isWelcome = 7;
+}
+
+//@WebcastRoomMessage
+message WebcastRoomMessage {
+  Common common = 1;
+  string content = 2;
+}
+
+//@WebcastBarrageMessage
+message WebcastBarrageMessage {
+  Common common = 1;
+  BarrageEvent event = 2;
+  BarrageType msgType = 3; // Enum
+  Image icon = 4;
+  Text content = 5;
+  int32 duration = 6;
+  Image background = 7;
+  Image rightIcon = 8;
+  BarrageTypeUserGradeParam userGradeParam = 100;
+  BarrageTypeFansLevelParam fansLevelParam = 101;
+  BarrageTypeSubscribeGiftParam subscribeGiftParam = 102;
+
+  message BarrageTypeUserGradeParam {
+    int32 currentGrade = 1;
+    int32 displayConfig = 2;
+    string userId = 3;
+    User user = 4;
+  }
+  message BarrageTypeFansLevelParam {
+    int32 currentGrade = 1;
+    int32 displayConfig = 2;
+    User user = 4;
+  }
+  message BarrageTypeSubscribeGiftParam {
+    int64 giftSubCount = 1;
+    bool showGiftSubCount = 2;
+  }
+
+  message BarrageEvent {
+    string eventName = 1;
+  }
+
+  // @BarrageType
+  // webcast.im.BarrageMessage
+  enum BarrageType {
+    UNKNOWN = 0;
+    ECOMORDERING = 1;
+    ECOMBUYING = 2;
+    NORMAL = 3;
+    SUBSCRIBE = 4;
+    EVENTVIEW = 5;
+    EVENTREGISTERED = 6;
+    SUBSCRIBEGIFT = 7;
+    USERUPGRADE = 8;
+    GRADEUSERENTRANCENOTIFICATION = 9;
+    FANSLEVELUPGRADE = 10;
+    FANSLEVELENTRANCE = 11;
+    GAMEPARTNERSHIP = 12;
+  }
+}
+
+//@WebcastCaptionMessage
+// Closed Captioning for Video
+message WebcastCaptionMessage {
+  Common common = 1;
+  uint64 timeStamp = 2;
+  CaptionData captionData = 4;
+
+  message CaptionData {
+    string language = 1;
+    string text = 2;
+  }
+}
+
+
+
+// Comment sent by User
+//@WebcastChatMessage
+message WebcastChatMessage {
+  Common common = 1;
+  User user = 2;
+  string content = 3;
+  bool visibleToSender = 4;
+  Image backgroundImage = 5;
+  string fullScreenTextColor = 6;
+  Image backgroundImageV2 = 7;
+  Image giftImage = 10;
+  int32 inputType = 11;
+  User atUser = 12;
+  repeated EmoteWithIndex emotesList = 13;
+  string contentLanguage = 14;
+  int32 quickChatScene = 16;
+  int32 communityFlaggedStatus = 17;
+  UserIdentity UserIdentity = 18;
+  map<string, string> CommentQualityScores = 19;
+
+  // @EmoteWithIndex
+  // proto.webcast.im.ChatMessage
+  message EmoteWithIndex {
+    int64 index = 1;
+    Emote emote = 2;
+  }
+}
+
+// System-Control Message from Room (e.g. Host ended Stream)
+//@WebcastControlMessage
+message WebcastControlMessage {
+  Common common = 1;
+  ControlAction action = 2;
+  string tips = 3;
+  Extra extra = 4;
+  //PerceptionDialogInfo perceptionDialog = 5;
+  Text perceptionAudienceText = 6;
+  PunishEventInfo punishInfo = 7;
+  Text floatText = 8;
+  int32 floatStyle = 9;
+
+  // @Extra
+  // proto.webcast.im.ControlMessage
+  message Extra {
+    string banInfoUrl = 1;
+    int64 reasonNo = 2;
+    Text title = 3;
+    Text violationReason = 4;
+    Text content = 5;
+    Text gotItButton = 6;
+    Text banDetailButton = 7;
+    string source = 8;
+  }
+}
+
+// Emote sent by user
+//@WebcastEmoteChatMessage
+message WebcastEmoteChatMessage {
+  Common common = 1;
+  User user = 2;
+  repeated Emote emoteList = 3;
+  MsgFilter msgFilter = 4;
+  UserIdentity userIdentity = 5;
+}
+
+//@WebcastEnvelopeMessage
+message WebcastEnvelopeMessage {
+  Common common = 1;
+  EnvelopeInfo envelopeInfo = 2;
+  EnvelopeDisplay display = 3; // @warning Enum not found, should be Display
+
+  // @EnvelopeInfo
+  // proto.webcast.im.EnvelopeMessage
+  message EnvelopeInfo {
+    string envelopeId = 1;
+    EnvelopeBusinessType businessType = 2;
+    string envelopeIdc = 3;
+    string sendUserName = 4;
+    int32 diamondCount = 5;
+    int32 peopleCount = 6;
+    int32 unpackAt = 7;
+    string sendUserId = 8;
+    Image sendUserAvatar = 9;
+    string createAt = 10;
+    string roomId = 11;
+    EnvelopeFollowShowStatus followShowStatus = 12; // @warning Enum not found, should be FollowShowStatus
+    int32 skinId = 13;
+  }
+}
+
+//@WebcastGoalUpdateMessage
+message WebcastGoalUpdateMessage {
+  Common common = 1;
+  Indicator indicator = 2;
+  Goal goal = 3;
+  int64 contributorId = 4;
+  Image contributorAvatar = 5;
+  string contributorDisplayId = 6;
+  //  SubGoal contributeSubgoal = 7;
+  int64 contributeCount = 9;
+  int64 contributeScore = 10;
+  int64 giftRepeatCount = 11;
+  string contributorIdStr = 12;
+  bool pin = 13;
+  bool unpin = 14;
+  // GoalPinInfo pinInfo = 15;
+}
+
+// Message related to Chat-moderation?
+//@WebcastImDeleteMessage
+message WebcastImDeleteMessage {
+  Common common = 1;
+  repeated int64 deleteMsgIdsList = 2;
+  repeated int64 deleteUserIdsList = 3;
+}
+
+//@WebcastInRoomBannerMessage
+message WebcastInRoomBannerMessage {
+  Common header = 1;
+  string json = 2; // Json-Data for BannerMessage
+}
+
+// User sent one or multiple likes to Stream. Maxes at 15 likes per message
+//@WebcastLikeMessage
+message WebcastLikeMessage {
+  Common common = 1;
+  int32 count = 2;
+  int32 total = 3;
+  User user = 5;
+}
+
+// Status of Room (ViewerCount + Top Viewers)
+//@WebcastRoomUserSeqMessage
+message WebcastRoomUserSeqMessage {
+  Common common = 1;
+  repeated Contributor ranksList = 2;
+  int64 total = 3;
+  string popStr = 4;
+  repeated Contributor seatsList = 5;
+  int64 popularity = 6;
+  int32 totalUser = 7;
+  int64 anonymous = 8;
+
+  // @Contributor
+  message Contributor {
+    int32 score = 1;
+    User user = 2;
+    int32 rank = 3;
+    int64 delta = 4;
+  }
+}
+
+// Sent for a variety of events, including Follow & Share
+//@WebcastSocialMessage
+message WebcastSocialMessage {
+  Common common = 1;
+  User user = 2;
+  int64 shareType = 3;
+  int64 action = 4;
+  string shareTarget = 5;
+  int32 followCount = 6;
+  int64 shareDisplayStyle = 7;
+  int32 shareCount = 8;
+}
+
+//@WebcastSubNotifyMessage
+message WebcastSubNotifyMessage {
+  Common common = 1;
+  User user = 2;
+  //  ExhibitionType exhibitionType = 3; // Enum
+  int64 subMonth = 4;
+  SubscribeType subscribeType = 5; // Enum
+  OldSubscribeStatus oldSubscribeStatus = 6; // Enum
+  SubscribingStatus subscribingStatus = 8; // Enum
+  bool isSend = 9;
+  bool isCustom = 10;
+
+}
+
+//@WebcastRankUpdateMessage
+message WebcastRankUpdateMessage {
+  Common common = 1;
+  repeated RankUpdate updatesList = 2;
+  int64 groupType = 3; // @warning Enum not found, should be GroupType
+  int64 priority = 5;
+  repeated RankTabInfo tabsList = 6;
+  bool isAnimationLoopPlay = 7;
+  bool animationLoopForOff = 8;
+
+
+  message RankTabInfo {
+    int64 rankType = 1; // @warning Enum not found, should be RankType
+    string title = 2;
+    Text titleText = 3;
+    int64 listLynxType = 4;
+  }
+
+  // @RankUpdate
+  // proto.webcast.im.RankUpdateMessage
+  message RankUpdate {
+    int64 rankType = 1; // @warning Enum not found, should be RankType
+    int64 ownerRank = 2;
+    Text defaultContent = 3;
+    bool showEntranceAnimation = 5;
+    int64 countdown = 6;
+    int64 relatedTabRankType = 8; // @warning Enum not found, should be RelatedTabRankType
+    int64 requestFirstShowType = 9; // @warning Enum not found, should be RequestFirstShowType
+    int64 supportedVersion = 10;
+    bool owneronrank = 11;
+  }
+}
+
+// Sent for a variety of events, including Join & Subscribe
+//@WebcastMemberMessage
+message WebcastMemberMessage {
+  Common common = 1;
+  User user = 2;
+  int32 memberCount = 3;
+  User operator = 4;
+  bool isSetToAdmin = 5;
+  bool isTopUser = 6;
+  int64 rankScore = 7;
+  int64 topUserNo = 8;
+  int64 enterType = 9;
+  MemberMessageAction action = 10;
+  string actionDescription = 11;
+  int64 userId = 12;
+  EffectConfig effectConfig = 13;
+  string popStr = 14;
+  EffectConfig enterEffectConfig = 15;
+  Image backgroundImage = 16;
+  Image backgroundImageV2 = 17;
+  Text anchorDisplayText = 18;
+  string clientEnterSource = 19;
+  string clientEnterType = 20;
+  string clientLiveReason = 21;
+  int64 actionDuration = 22;
+  string userShareType = 23;
+
+  // @EffectConfig
+  // proto.webcast.im.MemberMessage
+  // C:\Users\ja\RiderProjects\TikTokProBufferGenerator\Application\output\sources\test.js
+  message EffectConfig {
+    int64 type = 1;
+    Image icon = 2;
+    int64 avatarPos = 3;
+    Text text = 4;
+    Image textIcon = 5;
+    int32 stayTime = 6;
+    int64 animAssetId = 7;
+    Image badge = 8;
+    repeated int64 flexSettingArrayList = 9;
+  }
+
+}
+
+
+
+
+// --- HandMade --
+//@WebcastPollMessage
+message WebcastPollMessage {
+  Common common = 1;
+  MessageType messageType = 2;
+  int64 pollId = 3;
+  PollStartContent startContent = 4;
+  PollEndContent endContent = 5;
+  PollUpdateVotesContent updateContent = 6;
+  int32 pollKind = 7; // Possibly an Enum?
+}
+
+//@WebcastQuestionNewMessage
+message WebcastQuestionNewMessage {
+  Common common = 1;
+  QuestionDetails details = 2;
+
+  message QuestionDetails {
+    uint64 id = 1;
+    string text = 2;
+    uint64 timeStamp = 4;
+    User user = 5;
+    uint32 data1 = 20;
+  }
+}
+
+//@WebcastRankTextMessage
+message WebcastRankTextMessage {
+  Common common = 1;
+  int32 scene = 2;
+  int64 ownerIdxBeforeUpdate = 3;
+  int64 ownerIdxAfterUpdate = 4;
+  Text selfGetBadgeMsg = 5;
+  Text otherGetBadgeMsg = 6;
+  int64 curUserId = 7;
+}
+
+//@WebcastHourlyRankMessage
+message WebcastHourlyRankMessage {
+  Common common = 1;
+  RankContainer data = 2;
+  uint32 data2 = 3;
+
+  message RankContainer {
+    uint32 data1 = 1;
+    RankingData rankingdata = 2;
+    uint32 data2 = 3;
+    Ranking rankings = 4;
+    RankingData2 rankingdata2 = 5;
+    uint32 data3 = 6;
+    uint32 data4 = 7;
+
+    message RankingData {
+      uint32 data1 = 1;
+      Ranking rankdata = 2;
+      string data2 = 3;
+    }
+
+    message RankingData2 {
+      uint32 data1 = 1;
+      uint32 data2 = 2;
+      Ranking rankdata = 3;
+      string data3 = 4;
+      uint32 data4 = 5;
+      uint32 data5 = 6;
+    }
+  }
+}
+
+
+//<Battles>
+
+//@WebcastLinkMicArmies
+message WebcastLinkMicArmies {
+  Common common = 1;
+  uint64 id = 2;
+  repeated LinkMicArmiesItems battleItems = 3;
+  uint64 id2 = 4;
+  uint64 timeStamp1 = 5;
+  uint64 timeStamp2 = 6;
+  int32 battleStatus = 7; // SHOULD BE AN ENUM
+  uint64 data1 = 8;
+  uint64 data2 = 9;
+  uint32 data3 = 10;
+  Image Image = 11;
+  uint32 data4 = 12;
+  uint32 data5 = 13;
+}
+//@WebcastLinkMicBattlePunishFinish
+message WebcastLinkMicBattlePunishFinish {
+  Common Header = 1;
+  uint64 Id1 = 2;
+  uint64 Timestamp = 3;
+  uint32 Data4 = 4;
+  uint64 Id2 = 5;
+  LinkMicBattlePunishFinishData Data6 = 6;
+
+  message LinkMicBattlePunishFinishData {
+    uint64 Id2 = 1; // Same as Id2 in outer object (loser?)
+    uint64 Timestamp = 2;
+    uint32 Data3 = 3;
+    uint64 Id1 = 4; // Same as Id1 in outer object (winner?)
+    uint32 Data5 = 5;
+    uint32 Data6 = 6;
+    uint32 Data8 = 8;
+  }
+}
+
+//@WebcastLinkmicBattleTaskMessage
+message WebcastLinkmicBattleTaskMessage {
+  Common Header = 1;
+  uint32 Data2 = 2;
+  LinkmicBattleTaskData Data3 = 3;
+  LinkmicBattleTaskData2 Data5 = 5;
+
+  message LinkmicBattleTaskData {
+    BattleTaskData Data1 = 1;
+  }
+  message BattleTaskData {
+    uint32 Data1 = 1;
+  }
+
+  message LinkmicBattleTaskData2 {
+    uint32 Data1 = 1;
+    uint32 Data2 = 2;
+  }
+}
+
+//@WebcastLinkMicBattle
+message WebcastLinkMicBattle {
+  Common common = 1;
+  uint64 id = 2;
+  LinkMicBattleConfig battleConfig = 3;
+  uint32 data2 = 4;
+  repeated LinkMicBattleDetails details = 5;
+  repeated LinkMicBattleTeam teams1 = 9;
+  repeated LinkMicBattleTeam teams2 = 10;
+  repeated LinkMicBattleTeamData teamData = 13;
+
+  message LinkMicBattleConfig {
+    uint64 id1 = 1;
+    uint64 timestamp = 2;
+    uint32 data1 = 3;
+    uint64 id2 = 4;
+    uint32 data2 = 5;
+  }
+
+  message LinkMicBattleData {
+    uint64 id = 1;
+    uint32 data1 = 2;
+    uint32 data2 = 3;
+    uint32 data3 = 5;
+    string url = 6;
+  }
+
+  message LinkMicBattleDetails {
+    uint64 id = 1;
+    LinkMicBattleData details = 2;
+  }
+
+  message LinkMicBattleTeam {
+    uint64 id = 1;
+    repeated User users = 2;
+  }
+
+  message LinkMicBattleTeamData {
+    uint64 teamId = 1;
+    LinkMicBattleData data = 2;
+  }
+}
+
+//@WebcastLinkMicFanTicketMethod
+message WebcastLinkMicFanTicketMethod {
+  Common common = 1;
+  FanTicketRoomNoticeContent FanTicketRoomNotice = 2;
+}
+//@WebcastLinkMicMethod
+message WebcastLinkMicMethod {
+  Common common = 1;
+  MessageType messageType = 2;
+  string accessKey = 3;
+  int64 anchorLinkmicId = 4;
+  int64 userId = 5;
+  int64 fanTicket = 6;
+  int64 totalLinkMicFanTicket = 7;
+  int64 channelId = 8;
+  int64 layout = 9;
+  int64 vendor = 10;
+  int64 dimension = 11;
+  string theme = 12;
+  int64 inviteUid = 13;
+}
+
+//<Battles>
+
+//@WebcastLiveIntroMessage
+message WebcastLiveIntroMessage {
+  Common common = 1;
+  int64 roomId = 2;
+  AuditStatus auditStatus = 3;
+  string content = 4;
+  User host = 5;
+  int32 introMode = 6;
+  repeated BadgeStruct badges = 7;
+  string language = 8;
+}
+
+//@WebcastUnauthorizedMemberMessage
+message WebcastUnauthorizedMemberMessage {
+  Common common = 1;
+  int32 action = 2;
+  Text nickNamePrefix = 3;
+  string nickName = 4;
+  Text enterText = 5;
+}
+
+//@WebcastMsgDetectMessage
+message WebcastMsgDetectMessage {
+  Common common = 1;
+  int32 detectType = 2; // Possibly an Enum?
+  TriggerCondition triggerCondition = 3;
+  TimeInfo timeInfo = 4;
+  int32 triggerBy = 5; // Possible an Enum?
+  string fromRegion = 6;
+
+  message TimeInfo {
+    int64 clientStartMs = 1;
+    int64 apiRecvTimeMs = 2;
+    int64 apiSendToGoimMs = 3;
+  }
+
+  message TriggerCondition {
+    bool uplinkDetectHttp = 1;
+    bool uplinkDetectWebSocket = 2;
+    bool detectP2PMsg = 3;
+    bool detectRoomMsg = 4;
+    bool httpOptimize = 5;
+  }
+}
+
+//@WebcastOecLiveShoppingMessage
+message WebcastOecLiveShoppingMessage {
+  Common common = 1;
+  uint32 data1 = 2;
+  LiveShoppingData shopData = 4;
+  TimeStampContainer shopTimings = 5; // Uses index 1, 2 & 3
+  LiveShoppingDetails details = 9;
+
+  message LiveShoppingData {
+    string title = 1;
+    string priceString = 2; // $55.99
+    string imageUrl = 3;
+    string shopUrl = 4;
+    uint64 data1 = 6;
+    string shopName = 7; // "Shopify"
+    uint64 data2 = 8;
+    string shopUrl2 = 9;
+    uint64 data3 = 10;
+    uint64 data4 = 11;
+  }
+
+  message LiveShoppingDetails {
+    string id1 = 1;
+    string data1 = 3;
+    uint32 data2 = 4;
+    uint64 timestamp = 5;
+    ValueLabel data = 6;
+  }
+}
+
+//@WebcastRoomPinMessage
+// Host Pins comment to stream
+message WebcastRoomPinMessage {
+  Common common = 1;
+  bytes pinnedMessage = 2; // Usually this is a ChatMessage, but it can also be another message.
+  string originalMsgType = 30; // Use this Type/Method to Deserialize the PinnedMessage
+  uint64 timestamp = 31;
+}
+
+//@SystemMessage
+message WebcastSystemMessage {
+  Common common = 1;
+  string message = 2;
+}
+
+//@WebcastLinkMessage
+message WebcastLinkMessage {
+  Common common = 1;
+  LinkMessageType MessageType = 2;
+  int64 LinkerId = 3;
+  Scene Scene = 4;
+  LinkerInviteContent InviteContent = 5;
+  LinkerReplyContent ReplyContent = 6;
+  LinkerCreateContent CreateContent = 7;
+  LinkerCloseContent CloseContent = 8;
+  LinkerEnterContent EnterContent = 9;
+  LinkerLeaveContent LeaveContent = 10;
+  LinkerCancelContent CancelContent = 11;
+  LinkerKickOutContent KickOutContent = 12;
+  LinkerLinkedListChangeContent LinkedListChangeContent = 13;
+  LinkerUpdateUserContent UpdateUserContent = 14;
+  LinkerWaitingListChangeContent WaitingListChangeContent = 15;
+  LinkerMuteContent MuteContent = 16;
+  LinkerRandomMatchContent RandomMatchContent = 17;
+  LinkerUpdateUserSettingContent UpdateUserSettingContent = 18;
+  LinkerMicIdxUpdateContent MicIdxUpdateContent = 19;
+  LinkerListChangeContent ListChangeContent = 20;
+  CohostListChangeContent CohostListChangeContent = 21;
+  LinkerMediaChangeContent MediaChangeContent = 22;
+  LinkerAcceptNoticeContent ReplyAcceptNoticeContent = 23;
+  LinkerSysKickOutContent SysKickOutContent = 101;
+  LinkmicUserToastContent UserToastContent = 102;
+  string extra = 200;
+  int64 expireTimestamp = 201;
+  string transferExtra = 202;
+}
+
+
+// @WebcastLinkLayerMessage
+message WebcastLinkLayerMessage {
+  Common common = 1;
+  MessageType messageType = 2; // Enum
+  int64 channelId = 3;
+  Scene scene = 4; // Enum
+  CreateChannelContent createChannelContent = 100;
+  ListChangeContent listChangeContent = 102;
+  InviteContent inviteContent = 103;
+  ApplyContent applyContent = 104;
+  PermitApplyContent permitApplyContent = 105;
+  ReplyInviteContent replyInviteContent = 106;
+  KickOutContent kickOutContent = 107;
+  CancelApplyContent cancelApplyContent = 108;
+  CancelInviteContent cancelInviteContent = 109;
+  LeaveContent leaveContent = 110;
+  FinishChannelContent finishContent = 111;
+  JoinDirectContent joinDirectContent = 112;
+  JoinGroupContent joinGroupContent = 113;
+  PermitJoinGroupContent permitGroupContent = 114;
+  CancelJoinGroupContent cancelGroupContent = 115;
+  LeaveJoinGroupContent leaveGroupContent = 116;
+  P2PGroupChangeContent p2pGroupChangeContent = 117;
+  BusinessContent businessContent = 200;
+}
+
+// @RoomVerifyMessage
+message RoomVerifyMessage {
+  Common common = 1;
+  int32 action = 2;
+  string content = 3;
+  int64 noticeType = 4;
+  bool closeRoom = 5;
+}
+
+

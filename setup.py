@@ -9,24 +9,28 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="TikTokLive",
     packages=setuptools.find_packages(),
-    version="5.0.8",
+    version="6.0.0",
     license="MIT",
-    description="TikTok Live Connection Client",
+    description="TikTok Live Python Client",
     author="Isaac Kogan",
     author_email="info@isaackogan.com",
     url="https://github.com/isaackogan/TikTokLive",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/isaackogan/TikTokLive/releases/tag/v5.0.8",
+    download_url="https://github.com/isaackogan/TikTokLive/releases/tag/v6.0.0",
     keywords=["tiktok", "tiktok live", "python3", "api", "unofficial"],
     install_requires=[
-        "httpx>=0.23.0",  # Make requests
-        "protobuf3-to-dict>=0.1.5",  # Convert Protobuf to Dict
-        "protobuf>=3.19.4",  # Decode Protobuf Messages
-        "pyee>=9.0.4",  # Event Emitter
-        "ffmpy>=0.3.0",  # Download streams
+        "httpx>=0.25.0",
+        "pyee>=9.0.4",
+        "ffmpy>=0.3.0",
+        "websockets_proxy>=0.1.0",
+        "betterproto>=2.0.0b6",
+
+        # Legacy-only requirements (to be removed)
         "mashumaro>=3.5",  # JSON Deserialization
-        "websockets>=10.4"  # Connecting to websocket server
+        "protobuf3-to-dict>=0.1.5",
+        "protobuf>=3.19.4",
+
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -34,7 +38,6 @@ setuptools.setup(
         "Topic :: Software Development :: Build Tools",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
