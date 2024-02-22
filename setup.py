@@ -25,6 +25,7 @@ setuptools.setup(
         "ffmpy>=0.3.0",
         "websockets_proxy>=0.1.0",
         "betterproto>=2.0.0b6",
+        "async-timeout>=4.0.3"
 
         # Legacy-only requirements (to be removed)
         "mashumaro>=3.5",  # JSON Deserialization

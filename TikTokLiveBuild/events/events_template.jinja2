@@ -36,7 +36,7 @@ EVENT_MAPPINGS: Dict[str, BaseEvent] = {
 {# Types #}
 ProtoEvent: Type = Union[
     {% for i in events %}
-    {{ i.proto_name }},
+    {{ i.class_name }},
     {% endfor %}
 ]
 

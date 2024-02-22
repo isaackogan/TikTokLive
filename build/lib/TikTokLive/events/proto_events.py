@@ -3,12 +3,34 @@
 # SERIOUSLY!
 # I MEAN IT!
 
-from TikTokLive.proto.tiktok_proto import *
-from TikTokLive.proto.custom_proto import *
-from .base import BaseEvent
-from typing import Type, Union, Dict
 from typing import Union
 
+from TikTokLive.proto.custom_proto import *
+from TikTokLive.proto.tiktok_proto import *
+from .base import BaseEvent
+
+
+class GiftEvent(BaseEvent, WebcastGiftMessage):
+    """
+    GiftEvent
+    """
+
+    to_user: ExtendedUser
+    user: ExtendedUser
+    gift: ExtendedGiftStruct
+
+    @property
+    def streaking(self) -> bool:
+        if not self.streakable:
+            return False
+
+        return not bool(self.repeat_end)
+
+
+class RoomEvent(BaseEvent, WebcastRoomMessage):
+    """
+    RoomEvent
+    """
 
 
 class BarrageEvent(BaseEvent, WebcastBarrageMessage):
@@ -56,32 +78,9 @@ class EnvelopeEvent(BaseEvent, WebcastEnvelopeMessage):
     """
 
 
-class GiftEvent(BaseEvent, WebcastGiftMessage):
-    """
-    GiftEvent
-    """
-
-    to_user: ExtendedUser
-    user: ExtendedUser
-    gift: ExtendedGiftStruct
-
-    @property
-    def streaking(self) -> bool:
-        if not self.streakable:
-            return False
-
-        return not bool(self.repeat_end)
-
-
 class GoalUpdateEvent(BaseEvent, WebcastGoalUpdateMessage):
     """
     GoalUpdateEvent
-    """
-
-
-class HourlyRankEvent(BaseEvent, WebcastHourlyRankMessage):
-    """
-    HourlyRankEvent
     """
 
 
@@ -97,107 +96,6 @@ class LikeEvent(BaseEvent, WebcastLikeMessage):
     """
 
     user: ExtendedUser
-
-
-class LinkEvent(BaseEvent, WebcastLinkMessage):
-    """
-    LinkEvent
-    """
-
-
-class LinkLayerEvent(BaseEvent, WebcastLinkLayerMessage):
-    """
-    LinkLayerEvent
-    """
-
-
-class LinkMicArmiesEvent(BaseEvent, WebcastLinkMicArmies):
-    """
-    LinkMicArmiesEvent
-    """
-
-
-class LinkMicBattleEvent(BaseEvent, WebcastLinkMicBattle):
-    """
-    LinkMicBattleEvent
-    """
-
-
-class LinkMicFanTicketMethodEvent(BaseEvent, WebcastLinkMicFanTicketMethod):
-    """
-    LinkMicFanTicketMethodEvent
-    """
-
-
-class LinkMicMethodEvent(BaseEvent, WebcastLinkMicMethod):
-    """
-    LinkMicMethodEvent
-    """
-
-
-class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
-    """
-    LiveIntroEvent
-    """
-
-    host: ExtendedUser
-
-
-class MemberEvent(BaseEvent, WebcastMemberMessage):
-    """
-    MemberEvent
-    """
-
-    operator: ExtendedUser
-    user: ExtendedUser
-
-
-class MessageDetectEvent(BaseEvent, WebcastMsgDetectMessage):
-    """
-    MessageDetectEvent
-    """
-
-
-class OecLiveShoppingEvent(BaseEvent, WebcastOecLiveShoppingMessage):
-    """
-    OecLiveShoppingEvent
-    """
-
-
-class PollEvent(BaseEvent, WebcastPollMessage):
-    """
-    PollEvent
-    """
-
-
-class QuestionNewEvent(BaseEvent, WebcastQuestionNewMessage):
-    """
-    QuestionNewEvent
-    """
-
-
-class RankTextEvent(BaseEvent, WebcastRankTextMessage):
-    """
-    RankTextEvent
-    """
-
-
-class RankUpdateEvent(BaseEvent, WebcastRankUpdateMessage):
-    """
-    RankUpdateEvent
-    """
-
-
-class RoomEvent(BaseEvent, WebcastRoomMessage):
-    """
-    RoomEvent
-    """
-
-
-class RoomPinEvent(BaseEvent, WebcastRoomPinMessage):
-    """
-    RoomPinEvent
-    """
 
 
 class RoomUserSeqEvent(BaseEvent, WebcastRoomUserSeqMessage):
@@ -222,15 +120,116 @@ class SubNotifyEvent(BaseEvent, WebcastSubNotifyMessage):
     user: ExtendedUser
 
 
+class RankUpdateEvent(BaseEvent, WebcastRankUpdateMessage):
+    """
+    RankUpdateEvent
+    """
+
+
+class MemberEvent(BaseEvent, WebcastMemberMessage):
+    """
+    MemberEvent
+    """
+
+    operator: ExtendedUser
+    user: ExtendedUser
+
+
+class PollEvent(BaseEvent, WebcastPollMessage):
+    """
+    PollEvent
+    """
+
+
+class QuestionNewEvent(BaseEvent, WebcastQuestionNewMessage):
+    """
+    QuestionNewEvent
+    """
+
+
+class RankTextEvent(BaseEvent, WebcastRankTextMessage):
+    """
+    RankTextEvent
+    """
+
+
+class HourlyRankEvent(BaseEvent, WebcastHourlyRankMessage):
+    """
+    HourlyRankEvent
+    """
+
+
+class LinkMicArmies(BaseEvent, WebcastLinkMicArmies):
+    """
+    LinkMicArmies
+    """
+
+
+class LinkMicBattle(BaseEvent, WebcastLinkMicBattle):
+    """
+    LinkMicBattle
+    """
+
+
+class LinkMicFanTicketMethod(BaseEvent, WebcastLinkMicFanTicketMethod):
+    """
+    LinkMicFanTicketMethod
+    """
+
+
+class LinkMicMethod(BaseEvent, WebcastLinkMicMethod):
+    """
+    LinkMicMethod
+    """
+
+
+class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
+    """
+    LiveIntroEvent
+    """
+
+    host: ExtendedUser
+
+
+class UnauthorizedMemberEvent(BaseEvent, WebcastUnauthorizedMemberMessage):
+    """
+    UnauthorizedMemberEvent
+    """
+
+
+class MessageDetectEvent(BaseEvent, WebcastMsgDetectMessage):
+    """
+    MessageDetectEvent
+    """
+
+
+class OecLiveShoppingEvent(BaseEvent, WebcastOecLiveShoppingMessage):
+    """
+    OecLiveShoppingEvent
+    """
+
+
+class RoomPinEvent(BaseEvent, WebcastRoomPinMessage):
+    """
+    RoomPinEvent
+    """
+
+
 class SystemEvent(BaseEvent, WebcastSystemMessage):
     """
     SystemEvent
     """
 
 
-class UnauthorizedMemberEvent(BaseEvent, WebcastUnauthorizedMemberMessage):
+class LinkEvent(BaseEvent, WebcastLinkMessage):
     """
-    UnauthorizedMemberEvent
+    LinkEvent
+    """
+
+
+class LinkLayerEvent(BaseEvent, WebcastLinkLayerMessage):
+    """
+    LinkLayerEvent
     """
 
 
@@ -255,10 +254,10 @@ EVENT_MAPPINGS: Dict[str, BaseEvent] = {
     "WebcastQuestionNewMessage": QuestionNewEvent,
     "WebcastRankTextMessage": RankTextEvent,
     "WebcastHourlyRankMessage": HourlyRankEvent,
-    "WebcastLinkMicArmies": LinkMicArmiesEvent,
-    "WebcastLinkMicBattle": LinkMicBattleEvent,
-    "WebcastLinkMicFanTicketMethod": LinkMicFanTicketMethodEvent,
-    "WebcastLinkMicMethod": LinkMicMethodEvent,
+    "WebcastLinkMicArmies": LinkMicArmies,
+    "WebcastLinkMicBattle": LinkMicBattle,
+    "WebcastLinkMicFanTicketMethod": LinkMicFanTicketMethod,
+    "WebcastLinkMicMethod": LinkMicMethod,
     "WebcastLiveIntroMessage": LiveIntroEvent,
     "WebcastUnauthorizedMemberMessage": UnauthorizedMemberEvent,
     "WebcastMsgDetectMessage": MessageDetectEvent,
@@ -270,38 +269,38 @@ EVENT_MAPPINGS: Dict[str, BaseEvent] = {
 }
 
 ProtoEvent: Type = Union[
-    GiftEvent,
-    RoomEvent,
-    BarrageEvent,
-    CaptionEvent,
-    CommentEvent,
-    ControlEvent,
-    EmoteChatEvent,
-    EnvelopeEvent,
-    GoalUpdateEvent,
-    ImDeleteEvent,
-    LikeEvent,
-    RoomUserSeqEvent,
-    SocialEvent,
-    SubNotifyEvent,
-    RankUpdateEvent,
-    MemberEvent,
-    PollEvent,
-    QuestionNewEvent,
-    RankTextEvent,
-    HourlyRankEvent,
-    LinkMicArmiesEvent,
-    LinkMicBattleEvent,
-    LinkMicFanTicketMethodEvent,
-    LinkMicMethodEvent,
-    LiveIntroEvent,
-    UnauthorizedMemberEvent,
-    MessageDetectEvent,
-    OecLiveShoppingEvent,
-    RoomPinEvent,
-    SystemEvent,
-    LinkEvent,
-    LinkLayerEvent,
+    WebcastGiftMessage,
+    WebcastRoomMessage,
+    WebcastBarrageMessage,
+    WebcastCaptionMessage,
+    WebcastChatMessage,
+    WebcastControlMessage,
+    WebcastEmoteChatMessage,
+    WebcastEnvelopeMessage,
+    WebcastGoalUpdateMessage,
+    WebcastImDeleteMessage,
+    WebcastLikeMessage,
+    WebcastRoomUserSeqMessage,
+    WebcastSocialMessage,
+    WebcastSubNotifyMessage,
+    WebcastRankUpdateMessage,
+    WebcastMemberMessage,
+    WebcastPollMessage,
+    WebcastQuestionNewMessage,
+    WebcastRankTextMessage,
+    WebcastHourlyRankMessage,
+    WebcastLinkMicArmies,
+    WebcastLinkMicBattle,
+    WebcastLinkMicFanTicketMethod,
+    WebcastLinkMicMethod,
+    WebcastLiveIntroMessage,
+    WebcastUnauthorizedMemberMessage,
+    WebcastMsgDetectMessage,
+    WebcastOecLiveShoppingMessage,
+    WebcastRoomPinMessage,
+    WebcastSystemMessage,
+    WebcastLinkMessage,
+    WebcastLinkLayerMessage,
 ]
 
 __all__ = [
@@ -325,10 +324,10 @@ __all__ = [
     "QuestionNewEvent",
     "RankTextEvent",
     "HourlyRankEvent",
-    "LinkMicArmiesEvent",
-    "LinkMicBattleEvent",
-    "LinkMicFanTicketMethodEvent",
-    "LinkMicMethodEvent",
+    "LinkMicArmies",
+    "LinkMicBattle",
+    "LinkMicFanTicketMethod",
+    "LinkMicMethod",
     "LiveIntroEvent",
     "UnauthorizedMemberEvent",
     "MessageDetectEvent",

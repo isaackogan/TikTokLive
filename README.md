@@ -88,121 +88,134 @@ provided in the source tree.
 
 | Param Name   | Required | Default | Description                                                                                                                                                                                                                                                                              |
 |--------------|----------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| unique_id    | Yes      | `N/A`   | The unique username of the broadcaster. You can find this name in the URL of the user. For example, the `unique_id` for `https://www.tiktok.com/@isaackogz/live` would be `isaackogz`                                                                                                    |
+| unique_id    | Yes      | `N/A`   | The unique username of the broadcaster. You can find this name in the URL of the user. For example, the `unique_id` for `https://www.tiktok.com/@isaackogz/live` would be `isaackogz`.                                                                                                   |
 | web_proxy    | No       | `None`  | TikTokLive supports proxying HTTP requests. This parameter accepts an `httpx.Proxy`. Note that if you do use a proxy you may be subject to reduced connection limits at times of high load.                                                                                              |
 | ws_proxy     | No       | `None`  | TikTokLive supports proxying the websocket connection. This parameter accepts an `httpx.Proxy`. Using this proxy will never be subject to reduced connection limits.                                                                                                                     |
 | sign_api_key | No       | `None`  | API keys to the [signature service](https://github.com/isaackogan/TikTokLive/wiki/All-About-Signatures) are not publicly available. They are offered to <u>companies</u> that require increased access to the sign server. Please do not reach out for one if you are not an enterprise. |
 | web_kwargs   | No       | `{}`    | Under the scenes, the TikTokLive HTTP client uses the [`httpx`](https://github.com/encode/httpx) library. Arguments passed to `web_kwargs` will be forward the the underlying HTTP client.                                                                                               |
 | ws_kwargs    | No        | `{}`     | Under the scenes, TikTokLive uses the [`websockets`](https://github.com/python-websockets/websockets) library to connect to TikTok. Arguments passed to `ws_kwargs` will be forwarded to the underlying WebSocket client.                                                                |
 
-## WebDefaults
-
-TikTokLive has a series of global defaults used to create the HTTP client. These values can be customized in the following way:
-
-```python
-
-
-```
-
-
 ## Methods
 
-A `TikTokLiveClient` object contains the following methods:
+A `TikTokLiveClient` object contains the following important methods:
 
-| Method Name              | Description                                                                                                                                                                                                                   |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| run                      | Starts a connection to the live chat while blocking the main thread                                                                                                                                                           |
-| start                    | (async) Connects to the live chat without blocking the main thread                                                                                                                                                            |
-| stop                     | Turns off the connection to the live chat.                                                                                                                                                                                    |
-| retrieve_room_info       | (async) Gets the current room info from TikTok API                                                                                                                                                                            |
-| retrieve_available_gifts | (async) Retrieves a list of the available gifts for the room and adds it to the `extended_gift` attribute of the `Gift` object on the `gift` event, when enabled.                                                             |
-| add_listener             | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on("<event>")`) and takes two parameters, an event name and the payload, an AbstractEvent                                             ||
-| download                 | Start downloading the livestream video for a given duration or until stopped via the `stop_download` method. Supports the ability to add different flags, like `-c copy` which may reduce CPU usage by disabling transcoding. |
-| stop_download            | Stop downloading the livestream video if currently downloading, otherwise throws an error                                                                                                                                     |
+| Method Name  | Notes   | Description                                                                                                                                                                |
+|--------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| run          |         | Connect to the livestream and block the main thread. This is best for small scripts.                                                                 |
+| add_listener |         | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on("<event>")`) and takes two parameters, an event name and the payload, an AbstractEvent ||
+| connect      | `async` | Connects to the tiktok live chat while blocking the current future. When the connection ends (e.g. livestream is over), the future is released.                            |
+| start        | `async` | Connects to the live chat without blocking the main thread. This returns an `asyncio.Task` object with the client loop.                                                    |
+| disconnect   | `async` | Disconnects the client from the websocket gracefully, processing remaining events before ending the client loop.                                                           |
 
-## Attributes
+## Properties
 
-A `TikTokLiveClient` object contains the following attributes:
+A `TikTokLiveClient` object contains the following important properties:
 
-| Attribute Name  | Description                                                                                                                                  |
-|-----------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| room_id         | The Room ID of the livestream room the client is currently connected to                                                                      |
-| room_info       | Information about the given livestream room                                                                                                  |
-| unique_id       | The TikTok username of the person whose livestream the client is currently connected to (e.g. @charlidamelio)                                |
-| connected       | Whether the client is currently connected to a livestream                                                                                    |
-| connecting      | Whether the client is currently connecting to a livestream                                                                                   |
-| available_gifts | A dictionary containing K:V pairs of `Dict[int, GiftDetailed]`, where the int is the internal TikTok gift id                                 |                              |
-| proxies         | Get the current proxies being used for HTTP requests.<br/><br/>**Note:** To set the active proxies, set the value of this attribute          |
-| loop            | The asyncio event loop the client is running off of                                                                                          |
-| http            | The HTTP client TikTokLive uses to make all HTTP-based requests                                                                              |
-| websocket       | The `WebcastWebsocketConnection` websocket client TikTokLive uses to manage its websocket connection                                         |
-| ffmpeg          | The ffmpeg wrapper TikTokLive uses to manage ffmpeg-based stream downloads                                                                   |
-| viewer_count    | The number of people currently watching the livestream broadcast. Updated automatically on a `viewer_update` event                           |
-| top_viewers     | The top N (usually ~1-20) users, ranked by coins gifted to the streamer, for the broadcast. Updated automatically on a `viewer_update` event |
+| Attribute Name | Description                                                                                                                                                 |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| room_id        | The Room ID of the livestream room the client is currently connected to.                                                                                    |
+| web            | The TikTok HTTP client. This client has a lot of useful routes you should explore!                                                                          |
+| connected      | Whether you are currently connected to the livestream.                                                                                                      |
+| logger         | The internal logger used by TikTokLive. You can use `client.logger.setLevel(...)` method to enable client debug.                                            |
+| room_info      | Room information that is retrieved from TikTok when you use a connection method (e.g. `client.connect`) with the keyword argument `fetch_room_info=True` .  |
+| gift_info      | Extra gift information that is retrieved from TikTok when you use a connection method (e.g. `client.run`) with the keyword argument `fetch_gift_info=True`. |
+
+
+## WebDefaults
+
+TikTokLive has a series of global defaults used to create the HTTP client which you can customize. For more info, see
+the [web_defaults.py](https://github.com/isaackogan/TikTokLive/blob/master/examples/web_defaults.py) example.
+
+| Parameter                       | Type             | Description                                                                                                                                  |
+|---------------------------------|------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| WebDefaults.tiktok_app_url      | `str`            | The TikTok app URL (`https://www.tiktok.com`) used to scrape the room.                                                                       |
+| WebDefaults.tiktok_sign_url     | `str`            | The [signature server](https://github.com/isaackogan/TikTokLive/wiki/All-About-Signatures) used to generate tokens to connect to TikTokLive. |
+| WebDefaults.tiktok_webcast_url  | `str`            | The TikTok livestream URL (`https://webcast.tiktok.com`) where livestreams can be accessed from.                                             |
+| WebDefaults.client_params       | `Dict[str, Any]` | The URL parameters added on to TikTok requests from the HTTP client.                                                                         |
+| WebDefaults.client_headers      | `Dict[str, Any]` | The headers added on to TikTok requests from the HTTP client.                                                                                |
+| WebDefaults.tiktok_sign_api_key | `str`            | A global way of setting the `sign_api_key` parameter.                                                                                        |
 
 ## Events
 
-A `TikTokLiveClient` object has the following events. You can add events either by
-doing `client.add_listener("event_name", callable)` or by decorating a function with `@client.on("event_name")` that
-includes an event
-payload parameter.
+A `TikTokLiveClient` instance has the following events
 
-### `connect`
-
-Triggered when the websocket connection is successfully established.
+Events can be listened to using a decorator (`@client.on(Event)`) or non-decorator method (`client.add_listener(Event, Union[Callable, Awaiatable])`).
+payload parameter. All events use the following signatures for listening:
 
 ```python
-@client.on("connect")
-async def on_connect(event: ConnectEvent):
-    print("Connected")
+@client.on(LikeEvent)
+async def on_like(event: LikeEvent) -> None:
+    ...
+
+async def on_comment(event: CommentEvent) -> None:
+    ...
+
+client.add_listener(CommentEvent, on_comment)
 ```
 
-### `disconnect`
+There are two types of events, [`CustomEvent`](https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/custom_events.py) 
+events and [`ProtoEvent`](https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/proto_events.py) events.
+Both belong to the TikTokLive `Event` type ad can be listened to. The following events are available:
 
-Triggered when the connection is terminated. You can call `start()`  to reconnect . Note that you should wait a little
-bit before attempting a reconnect to to avoid being rate-limited.
+### Custom Events
 
-```python
-@client.on("disconnect")
-async def on_disconnect(event: DisconnectEvent):
-    print("Disconnected")
-```
+- `UnknownEvent` - Events not currently tracked by TikTokLive as they have not been reverse engineered
+- `FollowEvent` - Triggered when a user in the livestream follows the streamer
+- `ShareEvent` - Triggered when a user shares the livestream
+- `LiveEndEvent` - Triggered when the livestream ends
+- `ConnectEvent` - Triggered when the Webcast connection is initiated
+- `DisconnectEvent` - Triggered when the Webcast connection closes (including the livestream ending)
 
-### `like`
+### Proto Events
 
-Triggered every time someone likes the stream.
+If you know what an event does, [make a pull request](https://github.com/isaackogan/TikTokLive/pulls) and add the description. 
 
-```python
-@client.on("like")
-async def on_like(event: LikeEvent):
-    print(f"@{event.user.unique_id} liked the stream!")
-```
+- `GiftEvent` - Triggered when a gift is sent to the streamer
+- `GoalUpdateEvent` - Triggered when the subscriber goal is updated
+- `ControlEvent` - Triggered when a stream action occurs (e.g. Livestream start, end)
+- `LikeEvent` - Triggered when the stream receives a like
+- `SubNotifyEvent` - Triggered when someone subscribes to the TikTok creator
+- `RoomEvent`
+- `BarrageEvent`
+- `CaptionEvent`
+- `CommentEvent`
+- `EmoteChatEvent` 
+- `EnvelopeEvent`
+- `ImDeleteEvent`
+- `RoomUserSeqEvent`
+- `SocialEvent`
+- `RankUpdateEvent`
+- `MemberEvent` 
+- `PollEvent`
+- `QuestionNewEvent`
+- `RankTextEvent`
+- `HourlyRankEvent`
+- `LinkMicArmiesEvent`
+- `LinkMicBattleEvent`
+- `LinkMicFanTicketMethodEvent`
+- `LinkMicMethodEvent`
+- `LiveIntroEvent`
+- `UnauthorizedMemberEvent`
+- `MessageDetectEvent`
+- `OecLiveShoppingEvent`
+- `RoomPinEvent`
+- `SystemEvent`
+- `LinkEvent`
+- `LinkLayerEvent`
 
-### `join`
+### Special Events
 
-Triggered every time a new person joins the stream.
+### `GiftEvent`
 
-```python
-@client.on("join")
-async def on_join(event: JoinEvent):
-    print(f"@{event.user.unique_id} joined the stream!")
-```
-
-### `gift`
-
-Triggered every time a gift arrives. Extra information can be gleamed off the `available_gifts` client attribute.
-> **NOTE:** Users have the capability to send gifts in a streak. This increases the `event.gift.count` value until the
+Triggered every time a gift arrives. Extra information can be gleamed from the `available_gifts` client attribute.
+> **NOTE:** Users have the capability to send gifts in a streak. This increases the `event.gift.repeat_count` value until the
 > user terminates the streak. During this time new gift events are triggered again and again with an
-> increased `event.gift.count` value. It should be noted that after the end of the streak, another gift event is
-> triggered, which signals the end of the streak via `event.gift.is_repeating`:`1`. This applies only to gifts
-> with `event.gift.info.type`:`1`. This means that even if the user sends an `event.gift.info.type`:`1` gift only once,
-> you may receive the event twice. Once with `event.gift.is_repeating`:`0` and once with `event.gift.is_repeating`:`1`.
-> Therefore, the event should be handled as follows in one of TWO ways. These are the same, except the second is a '
-> higher
-> level' implementation using TikTokLive API features:
+> increased `event.gift.repeat_count` value. It should be noted that after the end of a streak, a final gift event is
+> triggered, which signals the end of the streak with `event.repeat_end`:`1`. The following handlers show how you can deal with this in your code.
 
+Using the low-level direct proto:
 ```python
-@client.on("gift")
+@client.on(GiftEvent)
 async def on_gift(event: GiftEvent):
     # If it's type 1 and the streak is over
     if event.gift.info.type == 1:
@@ -214,11 +227,12 @@ async def on_gift(event: GiftEvent):
         print(f"{event.user.unique_id} sent \"{event.gift.info.name}\"")
 ```
 
+Using the TikTokLive extended proto:
 ```python
 @client.on("gift")
 async def on_gift(event: GiftEvent):
     # Streakable gift & streak is over
-    if event.gift.streakable and not event.gift.streaking:
+    if event.gift.streakable and not event.streaking:
         print(f"{event.user.unique_id} sent {event.gift.count}x \"{event.gift.info.name}\"")
 
     # Non-streakable gift
@@ -227,196 +241,10 @@ async def on_gift(event: GiftEvent):
 
 ```
 
-### `follow`
+### `SubNotifyEvent`
 
-Triggered every time someone follows the streamer.
-
-```python
-@client.on("follow")
-async def on_follow(event: FollowEvent):
-    print(f"@{event.user.unique_id} followed the streamer!")
-```
-
-### `share`
-
-Triggered every time someone shares the stream.
-
-```python
-@client.on("share")
-async def on_share(event: ShareEvent):
-    print(f"@{event.user.unique_id} shared the stream!")
-
-```
-
-### `more_share`
-
-Triggered when 5 or 10 users join from a viewer's share link.
-
-```python
-@client.on("more_share")
-async def on_connect(event: MoreShareEvent):
-    print(f"More than {event.amount} users have joined from {event.user.unique_id}'s share link!")
-```
-
-### `viewer_update`
-
-Triggered every time the viewer count is updated. This event also updates the cached viewer count by default.
-
-```python
-@client.on("viewer_update")
-async def on_connect(event: ViewerUpdateEvent):
-    # Viewer Count
-    print("Received a new viewer count:", event.viewer_count)
-    print("The client automatically sets the count as an attribute too:", client.viewer_count)
-
-    # Top VIewers
-    print("You can even get the top viewers (by coins gifted)!:", event.top_viewers)
-    print("The client automatically sets the top viewers as an attribute too:", client.top_viewers)
-
-```
-
-### `comment`
-
-Triggered every time someone comments on the live.
-
-**NOTE:** Some comments will be missing. Certain "low quality" comments will ONLY show up when a `session_id` is passed
-to the client.
-
-```python
-@client.on("comment")
-async def on_connect(event: CommentEvent):
-    print(f"{event.user.nickname} -> {event.comment}")
-```
-
-### `emote`
-
-Triggered when someone sends a subscription emote comment to the live chat.
-
-```python
-@client.on("emote")
-async def on_connect(event: EmoteEvent):
-    print(f"{event.user.nickname} -> {event.emote.image.url}")
-```
-
-### `envelope`
-
-Triggered when someone sends an envelope (treasure box) to the TikTok streamer.
-
-```python
-@client.on("envelope")
-async def on_connect(event: EnvelopeEvent):
-    print(f"{event.treasure_box_user.unique_id} -> {event.treasure_box_data}")
-```
-
-### `ranking_update`
-
-Triggered when a **stream** rank update is sent out. Can be `Weekly Ranking` or `Rising Star`!
-
-```python
-@client.on("ranking_update")
-async def on_connect(event: RankingUpdateEvent):
-    print(f"{event.user.unique_id} has the rank #{event.rank} for the {event.type} leaderboard.")
-```
-
-### `user_ranking_update`
-
-Triggered when a **user** rank update is sent out. Can be `Top Viewer`
-status.
-
-```python
-@client.on("user_ranking_update")
-async def on_connect(event: UserRankingUpdateEvent):
-    print(f"{event.user.unique_id} just became a #{event.rank} top viewer!")
-```
-
-### `mic_battle_start`
-
-Triggered when a Mic Battle starts!
-
-```python
-@client.on("mic_battle_start")
-async def on_connect(event: MicBattleStartEvent):
-    print(f"A Mic battle has started!")
-```
-
-### `mic_battle_update`
-
-Triggered when information is received about a mic battle's progress.
-
-```python
-@client.on("mic_battle_update")
-async def on_connect(event: MicBattleUpdateEvent):
-    print(f"An army in the mic battle has received points, or the status of the battle has changed!")
-```
-
-### `live_end`
-
-Triggered when the live stream gets terminated by the host.
-
-```python
-@client.on("live_end")
-async def on_connect(event: LiveEndEvent):
-    print(f"Livestream ended :(")
-```
-
-### `intro_message`
-
-Triggered when an intro message is sent to the live room.
-An intro message is basically a pinned message at the top of chat when you join a room.
-
-This event only fires if "process_initial_data" is enabled and the streamer has an intro message configured.
-
-```python
-@client.on("intro_message")
-async def on_connect(event: IntroMessageEvent):
-    print(f"Message: {event.message}")
-```
-
-### `unknown`
-
-Triggered when ANY unknown event is received that is not yet handled by this client.
-
-This includes both events where the protobuf has NOT been decoded, as well as events where it _has_ been decoded, but no
-event object has been created (e.g. it's useless data).
-
-Use this event to debug and find new events to add to TikTokLive. Mention
-them [here](https://github.com/isaackogan/TikTokLive/issues/104) when you do.
-
-This event is very advanced and handles both types of cases, an API to help you decode including offering the binary as
-base64.
-You can plug base64 into https://protobuf-decoder.netlify.app/ to reverse-engineer the protobuf schema.
-
-```python
-@client.on("unknown")
-async def on_connect(event: UnknownEvent):
-    print(f"Event Type: {event.type}")
-    print(f"Event Base64: {event.base64}")
-```
-
-### `error`
-
-Triggered when there is an error in the client or error handlers.
-
-If this handler is not present in the code, an internal default handler will log errors in the console. If a handler is
-added, all error handling (including logging) is up to the individual.
-
-**Warning:** If you listen for the error event and do not log errors, you will not see when an error occurs. This
-expected behaviour, listening to the error event overrides & disables the built-in one.
-
-```python
-
-@client.on("error")
-async def on_connect(error: Exception):
-    # Handle the error
-    if isinstance(error, SomeRandomError):
-        print("Handle some error!")
-        return
-
-    # Otherwise, log the error
-    # You can use the internal method, but ideally your own
-    client._log_error(error)
-
-```
+This event will only fire when a session ID (account login) is passed to the HTTP client *before* connecting to TikTok LIVE.
+You can set the session ID with [`client.web.set_session_id(...)`](https://github.com/isaackogan/TikTokLive/blob/master/examples/logged_in.py).
 
 ## Contributors
 

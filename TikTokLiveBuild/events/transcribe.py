@@ -127,16 +127,21 @@ class EventsTranscriber:
             "classes": existing_classes
         }
 
-    def event_name(self, subclass_name: str) -> str:
+    @classmethod
+    def event_name(cls, subclass_name: str) -> str:
 
         # Handle Overrides
         if subclass_name in MESSAGE_OVERRIDES:
             return MESSAGE_OVERRIDES[subclass_name]
 
-        # Handle Generation
-        return subclass_name \
-            .replace("Message", "Event") \
-            .replace("Webcast", "")
+        if subclass_name.endswith("Message"):
+            return subclass_name \
+                .replace("Message", "Event") \
+                .replace("Webcast", "")
+        else:
+            return subclass_name \
+                .replace("Webcast", "") \
+                + "Event"
 
 
 class PreviousMod:
