@@ -16,17 +16,15 @@ such as comments, gifts, and likes through a websocket connection to TikTok's in
 allows you to
 connect directly to TikTok with just a username (`@unique_id`). No credentials are required to use TikTokLive.
 
-### Sponsors
+Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
+the [`#py-support`](https://discord.gg/uja6SajDxd)
+channel for questions, contributions and ideas.
+
+### Consider Donating
 
 I'm a 2nd-year Biology student in university who likes to program for fun. Please consider supporting development
 through a small donation at [https://www.buymeacoffee.com/isaackogan](https://www.buymeacoffee.com/isaackogan). Anything
 you can offer will go towards school & development costs for TikTokLive.
-
-### Support
-
-Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
-the [`#py-support`](https://discord.gg/uja6SajDxd)
-channel for questions, contributions and ideas.
 
 ### Languages
 
@@ -87,13 +85,13 @@ provided in the source tree.
 ## Parameters
 
 | Param Name   | Required | Default | Description                                                                                                                                                                                                                                                                              |
-|--------------|----------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| unique_id    | Yes      | `N/A`   | The unique username of the broadcaster. You can find this name in the URL of the user. For example, the `unique_id` for `https://www.tiktok.com/@isaackogz/live` would be `isaackogz`.                                                                                                   |
-| web_proxy    | No       | `None`  | TikTokLive supports proxying HTTP requests. This parameter accepts an `httpx.Proxy`. Note that if you do use a proxy you may be subject to reduced connection limits at times of high load.                                                                                              |
-| ws_proxy     | No       | `None`  | TikTokLive supports proxying the websocket connection. This parameter accepts an `httpx.Proxy`. Using this proxy will never be subject to reduced connection limits.                                                                                                                     |
-| sign_api_key | No       | `None`  | API keys to the [signature service](https://github.com/isaackogan/TikTokLive/wiki/All-About-Signatures) are not publicly available. They are offered to <u>companies</u> that require increased access to the sign server. Please do not reach out for one if you are not an enterprise. |
-| web_kwargs   | No       | `{}`    | Under the scenes, the TikTokLive HTTP client uses the [`httpx`](https://github.com/encode/httpx) library. Arguments passed to `web_kwargs` will be forward the the underlying HTTP client.                                                                                               |
-| ws_kwargs    | No        | `{}`     | Under the scenes, TikTokLive uses the [`websockets`](https://github.com/python-websockets/websockets) library to connect to TikTok. Arguments passed to `ws_kwargs` will be forwarded to the underlying WebSocket client.                                                                |
+|--------------|----------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| unique_id    | Yes      | N/A    | The unique username of the broadcaster. You can find this name in the URL of the user. For example, the `unique_id` for `https://www.tiktok.com/@isaackogz/live` would be `isaackogz`.                                                                                                   |
+| web_proxy    | No       | `None` | TikTokLive supports proxying HTTP requests. This parameter accepts an `httpx.Proxy`. Note that if you do use a proxy you may be subject to reduced connection limits at times of high load.                                                                                              |
+| ws_proxy     | No       | `None` | TikTokLive supports proxying the websocket connection. This parameter accepts an `httpx.Proxy`. Using this proxy will never be subject to reduced connection limits.                                                                                                                     |
+| sign_api_key | No       | `None` | API keys to the [signature service](https://github.com/isaackogan/TikTokLive/wiki/All-About-Signatures) are not publicly available. They are offered to <u>companies</u> that require increased access to the sign server. Please do not reach out for one if you are not an enterprise. |
+| web_kwargs   | No       | `{}`   | Under the scenes, the TikTokLive HTTP client uses the [`httpx`](https://github.com/encode/httpx) library. Arguments passed to `web_kwargs` will be forward the the underlying HTTP client.                                                                                               |
+| ws_kwargs    | No        | `{}`   | Under the scenes, TikTokLive uses the [`websockets`](https://github.com/python-websockets/websockets) library to connect to TikTok. Arguments passed to `ws_kwargs` will be forwarded to the underlying WebSocket client.                                                                |
 
 ## Methods
 
@@ -101,8 +99,8 @@ A `TikTokLiveClient` object contains the following important methods:
 
 | Method Name  | Notes   | Description                                                                                                                                                                |
 |--------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| run          |         | Connect to the livestream and block the main thread. This is best for small scripts.                                                                 |
-| add_listener |         | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on("<event>")`) and takes two parameters, an event name and the payload, an AbstractEvent ||
+| run          | N/A     | Connect to the livestream and block the main thread. This is best for small scripts.                                                                 |
+| add_listener | N/A     | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on("<event>")`) and takes two parameters, an event name and the payload, an AbstractEvent ||
 | connect      | `async` | Connects to the tiktok live chat while blocking the current future. When the connection ends (e.g. livestream is over), the future is released.                            |
 | start        | `async` | Connects to the live chat without blocking the main thread. This returns an `asyncio.Task` object with the client loop.                                                    |
 | disconnect   | `async` | Disconnects the client from the websocket gracefully, processing remaining events before ending the client loop.                                                           |
@@ -123,24 +121,21 @@ A `TikTokLiveClient` object contains the following important properties:
 
 ## WebDefaults
 
-TikTokLive has a series of global defaults used to create the HTTP client which you can customize. For more info, see
+TikTokLive has a series of global defaults used to create the HTTP client which you can customize. For info on how to set these parameters, see
 the [web_defaults.py](https://github.com/isaackogan/TikTokLive/blob/master/examples/web_defaults.py) example.
 
-| Parameter                       | Type             | Description                                                                                                                                  |
-|---------------------------------|------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| WebDefaults.tiktok_app_url      | `str`            | The TikTok app URL (`https://www.tiktok.com`) used to scrape the room.                                                                       |
-| WebDefaults.tiktok_sign_url     | `str`            | The [signature server](https://github.com/isaackogan/TikTokLive/wiki/All-About-Signatures) used to generate tokens to connect to TikTokLive. |
-| WebDefaults.tiktok_webcast_url  | `str`            | The TikTok livestream URL (`https://webcast.tiktok.com`) where livestreams can be accessed from.                                             |
-| WebDefaults.client_params       | `Dict[str, Any]` | The URL parameters added on to TikTok requests from the HTTP client.                                                                         |
-| WebDefaults.client_headers      | `Dict[str, Any]` | The headers added on to TikTok requests from the HTTP client.                                                                                |
-| WebDefaults.tiktok_sign_api_key | `str`            | A global way of setting the `sign_api_key` parameter.                                                                                        |
+| Parameter           | Type   | Description                                                                                                                                  |
+|---------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| tiktok_app_url      | `str`  | The TikTok app URL (`https://www.tiktok.com`) used to scrape the room.                                                                       |
+| tiktok_sign_url     | `str`  | The [signature server](https://github.com/isaackogan/TikTokLive/wiki/All-About-Signatures) used to generate tokens to connect to TikTokLive. |
+| tiktok_webcast_url  | `str`  | The TikTok livestream URL (`https://webcast.tiktok.com`) where livestreams can be accessed from.                                             |
+| client_params       | `dict` | The URL parameters added on to TikTok requests from the HTTP client.                                                                         |
+| client_headers      | `dict` | The headers added on to TikTok requests from the HTTP client.                                                                                |
+| tiktok_sign_api_key | `str`  | A global way of setting the `sign_api_key` parameter.                                                                                        |
 
 ## Events
 
-A `TikTokLiveClient` instance has the following events
-
-Events can be listened to using a decorator (`@client.on(Event)`) or non-decorator method (`client.add_listener(Event, Union[Callable, Awaiatable])`).
-payload parameter. All events use the following signatures for listening:
+Events can be listened to using a decorator or non-decorator method call. The following examples illustrate how you can listen to an event:
 
 ```python
 @client.on(LikeEvent)
@@ -155,7 +150,7 @@ client.add_listener(CommentEvent, on_comment)
 
 There are two types of events, [`CustomEvent`](https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/custom_events.py) 
 events and [`ProtoEvent`](https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/proto_events.py) events.
-Both belong to the TikTokLive `Event` type ad can be listened to. The following events are available:
+Both belong to the TikTokLive `Event` type and can be listened to. The following events are available:
 
 ### Custom Events
 

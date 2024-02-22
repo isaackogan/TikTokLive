@@ -48,7 +48,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             unique_id=unique_id,
             httpx_kwargs=web_kwargs,
             proxy=web_proxy,
-            sign_api_key=sign_api_key or os.environ.get("SIGN_API_KEY")
+            sign_api_key=sign_api_key
         )
 
         self._logger: Logger = TikTokLiveLogHandler.get_logger(

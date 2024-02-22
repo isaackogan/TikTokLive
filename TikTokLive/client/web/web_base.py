@@ -1,4 +1,5 @@
 import logging
+import os
 from abc import ABC, abstractmethod
 from typing import Optional, Any, Awaitable, Dict
 
@@ -23,7 +24,12 @@ class WebcastHTTPClient:
         self.__uuc += 1
         self._unique_id: str = unique_id
 
-        self._sign_api_key: str = sign_api_key or WebDefaults.tiktok_sign_api_key
+        self._sign_api_key: str = (
+                sign_api_key or
+                WebDefaults.tiktok_sign_api_key or
+                os.environ.get("SIGN_API_KEY")
+        )
+
         self._httpx_kwargs: Dict[str, Any] = httpx_kwargs
         self._httpx: AsyncClient = self._create_httpx_client(proxy)
 
