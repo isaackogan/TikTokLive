@@ -8,9 +8,16 @@ from TikTokLive.events.proto_events import SocialEvent, ControlEvent
 from TikTokLive.proto import WebcastResponseMessage
 
 
-class UnknownEvent(WebcastResponseMessage, BaseEvent):
+class WebsocketResponseEvent(WebcastResponseMessage, BaseEvent):
     """
-    Thrown when a Webcast message is received that is NOT tracked by TikTokLive yet.
+    Triggered when any event is received from the WebSocket
+
+    """
+
+
+class UnknownEvent(WebsocketResponseEvent):
+    """
+    Triggered when a Webcast message is received that is NOT tracked by TikTokLive yet.
 
     """
 
@@ -40,14 +47,14 @@ class LiveEndEvent(ControlEvent):
     """
 
 
-class LivePausedEvent(ControlEvent):
+class LivePauseEvent(ControlEvent):
     """
     Thrown when the stream is paused
 
     """
 
 
-class LiveUnpausedEvent(ControlEvent):
+class LiveUnpauseEvent(ControlEvent):
     """
     Thrown when a paused stream is unpaused
 
@@ -84,22 +91,26 @@ class ShareEvent(SocialEvent):
 
 
 CustomEvent: Type = Union[
+    WebsocketResponseEvent,
     UnknownEvent,
     ConnectEvent,
     FollowEvent,
     ShareEvent,
     LiveEndEvent,
+    LivePauseEvent,
+    LiveUnpauseEvent,
     DisconnectEvent
 ]
 
 __all__ = [
+    "WebsocketResponseEvent",
     "UnknownEvent",
     "ConnectEvent",
     "FollowEvent",
     "ShareEvent",
     "LiveEndEvent",
-    "LivePausedEvent",
-    "LiveUnpausedEvent",
+    "LivePauseEvent",
+    "LiveUnpauseEvent",
     "CustomEvent",
     "DisconnectEvent"
 ]

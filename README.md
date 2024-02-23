@@ -156,12 +156,12 @@ Both belong to the TikTokLive `Event` type and can be listened to. The following
 - `ConnectEvent` - Triggered when the Webcast connection is initiated
 - `DisconnectEvent` - Triggered when the Webcast connection closes (including the livestream ending)
 - `LiveEndEvent` - Triggered when the livestream ends
-- `LivePausedEvent` - Triggered when the livestream is paused
-- `LiveUnpausedEvent` - Triggered when the livestream is unpaused
+- `LivePauseEvent` - Triggered when the livestream is paused
+- `LiveUnpauseEvent` - Triggered when the livestream is unpaused
 - `FollowEvent` - Triggered when a user in the livestream follows the streamer
 - `ShareEvent` - Triggered when a user shares the livestream
-- `UnknownEvent` - Events not currently tracked by TikTokLive as they have not been reverse-engineered
-
+- `WebsocketResponseEvent` - Triggered when any event is received (contains the event)
+- `UnknownEvent` - An instance of `WebsocketResponseEvent` thrown whenever an event does not have an existing definition, useful for debugging
 
 ### Proto Events
 
