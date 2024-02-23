@@ -27,7 +27,7 @@ you can offer will go towards school & development costs for TikTokLive, which h
 
 ### Other Languages
 
-TikTok LIVE is available in several alternate programming languages:
+TikTokLive is available in several alternate programming languages:
 
 - **Node.JS:** [https://github.com/zerodytrash/TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
 - **Java:** [https://github.com/jwdeveloper/TikTok-Live-Java](https://github.com/jwdeveloper/TikTok-Live-Java)
@@ -38,8 +38,9 @@ TikTok LIVE is available in several alternate programming languages:
 ## Table of Contents
 
 - [Documentation](https://isaackogan.github.io/TikTokLive/)
-- [Licensing](#license)
 - [Examples](https://github.com/isaackogan/TikTokLive/tree/master/examples)
+- [Wiki](https://github.com/isaackogan/TikTokLive/wiki) 
+- [Licensing](#license)
 - [Contributors](#contributors)
 
 ## Getting Started
@@ -47,7 +48,7 @@ TikTok LIVE is available in several alternate programming languages:
 1. Install the module via pip from the [PyPi](https://pypi.org/project/TikTokLive/) repository
 
 ```shell script
-$ pip install TikTokLive
+pip install TikTokLive
 ```
 
 2. Create your first chat connection

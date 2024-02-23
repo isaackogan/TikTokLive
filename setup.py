@@ -5,11 +5,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 # PyPi upload Command
 # rm -r dist ; python setup.py sdist ; python -m twine upload dist/*
+version: str = "6.0.0-pre1"
 
 setuptools.setup(
     name="TikTokLive",
     packages=setuptools.find_packages(),
-    version="6.0.0",
+    version=version,
     license="MIT",
     description="TikTok Live Python Client",
     author="Isaac Kogan",
@@ -17,7 +18,7 @@ setuptools.setup(
     url="https://github.com/isaackogan/TikTokLive",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="https://github.com/isaackogan/TikTokLive/releases/tag/v6.0.0",
+    download_url=f"https://github.com/isaackogan/TikTokLive/releases/tag/v{version}",
     keywords=["tiktok", "tiktok live", "python3", "api", "unofficial"],
     install_requires=[
         "httpx>=0.25.0",

@@ -27,4 +27,4 @@ echo "Moved to docs folder"
 
 echo "Build docs finished!"
 
-read -p "Press any key to continue" x
+read -p "Press any key to continue..." x
