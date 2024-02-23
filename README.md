@@ -33,6 +33,7 @@ TikTok LIVE is available in several alternate programming languages:
 - **Java:** [https://github.com/jwdeveloper/TikTok-Live-Java](https://github.com/jwdeveloper/TikTok-Live-Java)
 - **C#/Unity:** [https://github.com/frankvHoof93/TikTokLiveSharp](https://github.com/frankvHoof93/TikTokLiveSharp)
 - **Go:** [https://github.com/Davincible/gotiktoklive](https://github.com/Davincible/gotiktoklive)
+- **Rust:** [https://github.com/jwdeveloper/TikTokLiveRust](https://github.com/jwdeveloper/TikTokLiveRust)
 
 ## Table of Contents
 
