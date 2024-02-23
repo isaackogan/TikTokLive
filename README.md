@@ -19,20 +19,20 @@ Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
 the [`#py-support`](https://discord.gg/uja6SajDxd)
 channel for questions, contributions and ideas.
 
-
-TikTok LIVE is available in several alternate programming languages:
-
-- **Node.JS:** https://github.com/zerodytrash/TikTok-Live-Connector
-- **Java:** https://github.com/jwdeveloper/TikTok-Live-Java
-- **C#/Unity:** https://github.com/frankvHoof93/TikTokLiveSharp
-- **Go:** https://github.com/Davincible/gotiktoklive
-
-
 ### Consider Donating <3
 
 I'm a 2nd-year Biology student in university who likes to program for fun. Please consider supporting development
 through a small donation at [https://www.buymeacoffee.com/isaackogan](https://www.buymeacoffee.com/isaackogan). Anything
-you can offer will go towards school & development costs for TikTokLive.
+you can offer will go towards school & development costs for TikTokLive, which has taken hundreds of hours of time to build.
+
+### Other Languages
+
+TikTok LIVE is available in several alternate programming languages:
+
+- **Node.JS:** [https://github.com/zerodytrash/TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
+- **Java:** [https://github.com/jwdeveloper/TikTok-Live-Java](https://github.com/jwdeveloper/TikTok-Live-Java)
+- **C#/Unity:** [https://github.com/frankvHoof93/TikTokLiveSharp](https://github.com/frankvHoof93/TikTokLiveSharp)
+- **Go:** [https://github.com/Davincible/gotiktoklive](https://github.com/Davincible/gotiktoklive)
 
 ## Table of Contents
 

@@ -34,9 +34,11 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autodoc.typehints",
     "myst_parser",
-    "sphinx_rtd_theme"
+    "sphinx_rtd_theme",
+    'sphinx_search.extension',
 ]
 
+html_logo = "logo.png"
 
 
 # Add any paths that contain templates here, relative to this directory.
@@ -49,7 +51,8 @@ html_theme_options = {
     "light_css_variables": {
     },
     "dark_css_variables": {
-        "color-problematic": "#80aeef"
+        "color-problematic": "#80aeef",
+        "sidebar-filter": "invert(0.95)"
     }
 }
 
@@ -61,6 +64,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', "tiktok_schema_pb2.py", 
 # -- Options for HTML output -------------------------------------------------
 
 html_css_files = [
+    "css/custom.css"
 ]
 html_js_files = [
 ]

@@ -9,8 +9,9 @@
         <title>TikTokLive v6.0.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/css\rtd_sphinx_search.min.css?v=e72958e9" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="_static/css/algolia.css?v=5b3065c1" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=ff85bd92" />
     
     
 
@@ -25,14 +26,16 @@
     body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
-  --color-problematic: #114a9e;
+  --color-problematic: #80aeef;
+  --sidebar-filter: invert(0.95);
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
-  --color-problematic: #114a9e;
+  --color-problematic: #80aeef;
+  --sidebar-filter: invert(0.95);
   
       }
     }
@@ -148,6 +151,9 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
+  </div>
   
   <span class="sidebar-brand-text">TikTokLive v6.0.0</span>
   
@@ -206,7 +212,8 @@
         </div>
         <article role="main">
           <section id="tiktoklive-docs">
-<h1>TikTokLive Docs<a class="headerlink" href="#tiktoklive-docs" title="Link to this heading"></a></h1>
+<h1>TikTokLive Docs<a class="headerlink" href="#tiktoklive-docs" title="Link to this heading">#</a></h1>
+<p>The following subpackages exist for TikTokLive:</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="TikTokLive.html">TikTokLive package</a><ul>
@@ -216,21 +223,18 @@
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.proto.html">TikTokLive.proto package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="TikTokLive.html#module-TikTokLive">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<p>View the above tree for detailed documentation on the package.</p>
 <section id="tiktoklive">
-<h2>TikTokLive<a class="headerlink" href="#tiktoklive" title="Link to this heading"></a></h2>
+<h2>TikTokLive<a class="headerlink" href="#tiktoklive" title="Link to this heading">#</a></h2>
 <p>The definitive Python library to connect to TikTok LIVE.</p>
 <p><img alt="Connections" src="https://tiktok.eulerstream.com/analytics/pips/1" />
 <img alt="Downloads" src="https://pepy.tech/badge/tiktoklive" />
 <img alt="Stars" src="https://img.shields.io/github/stars/isaackogan/TikTokLive?style=flat&amp;color=0274b5" />
 <img alt="Forks" src="https://img.shields.io/github/forks/isaackogan/TikTokLive?style=flat&amp;color=0274b5" />
-<img alt="Issues" src="https://img.shields.io/github/issues/isaackogan/TikTokLive" />
-<a class="reference external" href="https://discord.gg/e2XwPNTBBr"><img alt="Support Server" src="https://img.shields.io/discord/977648006063091742.svg?color=7289da&amp;logo=discord&amp;style=flat" /></a></p>
+<img alt="Issues" src="https://img.shields.io/github/issues/isaackogan/TikTokLive" /></p>
 <!-- [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive) -->
 <p>TikTokLive is a Python library designed to connect to <a class="reference external" href="https://tiktok.com/live">TikTok LIVE</a> and receive realtime events
 such as comments, gifts, and likes through a websocket connection to TikTok’s internal Webcast service. This library
@@ -239,24 +243,24 @@ connect directly to TikTok with just a username (<code class="docutils literal n
 <p>Join the <a class="reference external" href="https://discord.gg/e2XwPNTBBr">TikTokLive discord</a> and visit
 the <a class="reference external" href="https://discord.gg/uja6SajDxd"><code class="docutils literal notranslate"><span class="pre">#py-support</span></code></a>
 channel for questions, contributions and ideas.</p>
-<section id="consider-donating">
-<h3>Consider Donating<a class="headerlink" href="#consider-donating" title="Link to this heading"></a></h3>
+<section id="consider-donating-3">
+<h3>Consider Donating &lt;3<a class="headerlink" href="#consider-donating-3" title="Link to this heading">#</a></h3>
 <p>I’m a 2nd-year Biology student in university who likes to program for fun. Please consider supporting development
 through a small donation at <a class="reference external" href="https://www.buymeacoffee.com/isaackogan">https://www.buymeacoffee.com/isaackogan</a>. Anything
 you can offer will go towards school &amp; development costs for TikTokLive.</p>
 </section>
-<section id="languages">
-<h3>Languages<a class="headerlink" href="#languages" title="Link to this heading"></a></h3>
+<section id="other-languages">
+<h3>Other Languages<a class="headerlink" href="#other-languages" title="Link to this heading">#</a></h3>
 <p>TikTok LIVE is available in several alternate programming languages:</p>
 <ul class="simple">
-<li><p><strong>Node.JS:</strong> https://github.com/zerodytrash/TikTok-Live-Connector</p></li>
-<li><p><strong>Java:</strong> https://github.com/jwdeveloper/TikTok-Live-Java</p></li>
-<li><p><strong>C#/Unity:</strong> https://github.com/frankvHoof93/TikTokLiveSharp</p></li>
-<li><p><strong>Go:</strong> https://github.com/Davincible/gotiktoklive</p></li>
+<li><p><strong>Node.JS:</strong> <a class="reference external" href="https://github.com/zerodytrash/TikTok-Live-Connector">https://github.com/zerodytrash/TikTok-Live-Connector</a></p></li>
+<li><p><strong>Java:</strong> <a class="reference external" href="https://github.com/jwdeveloper/TikTok-Live-Java">https://github.com/jwdeveloper/TikTok-Live-Java</a></p></li>
+<li><p><strong>C#/Unity:</strong> <a class="reference external" href="https://github.com/frankvHoof93/TikTokLiveSharp">https://github.com/frankvHoof93/TikTokLiveSharp</a></p></li>
+<li><p><strong>Go:</strong> <a class="reference external" href="https://github.com/Davincible/gotiktoklive">https://github.com/Davincible/gotiktoklive</a></p></li>
 </ul>
 </section>
 <section id="table-of-contents">
-<h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
+<h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://isaackogan.github.io/TikTokLive/">Documentation</a></p></li>
 <li><p><a class="reference external" href="#license">Licensing</a></p></li>
@@ -265,7 +269,7 @@ you can offer will go towards school &amp; development costs for TikTokLive.</p>
 </ul>
 </section>
 <section id="getting-started">
-<h3>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h3>
+<h3>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
 <li><p>Install the module via pip from the <a class="reference external" href="https://pypi.org/project/TikTokLive/">PyPi</a> repository</p></li>
 </ol>
@@ -305,7 +309,7 @@ you can offer will go towards school &amp; development costs for TikTokLive.</p>
 provided in the source tree.</p>
 </section>
 <section id="parameters">
-<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
 <thead>
@@ -346,7 +350,7 @@ provided in the source tree.</p>
 </div>
 </section>
 <section id="methods">
-<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading">#</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object contains the following important methods:</p>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
@@ -382,7 +386,7 @@ provided in the source tree.</p>
 </div>
 </section>
 <section id="properties">
-<h3>Properties<a class="headerlink" href="#properties" title="Link to this heading"></a></h3>
+<h3>Properties<a class="headerlink" href="#properties" title="Link to this heading">#</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object contains the following important properties:</p>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
@@ -415,7 +419,7 @@ provided in the source tree.</p>
 </div>
 </section>
 <section id="webdefaults">
-<h3>WebDefaults<a class="headerlink" href="#webdefaults" title="Link to this heading"></a></h3>
+<h3>WebDefaults<a class="headerlink" href="#webdefaults" title="Link to this heading">#</a></h3>
 <p>TikTokLive has a series of global defaults used to create the HTTP client which you can customize. For info on how to set these parameters, see
 the <a class="reference external" href="https://github.com/isaackogan/TikTokLive/blob/master/examples/web_defaults.py">web_defaults.py</a> example.</p>
 <div class="table-wrapper colwidths-auto docutils container">
@@ -456,7 +460,7 @@ the <a class="reference external" href="https://github.com/isaackogan/TikTokLive
 </div>
 </section>
 <section id="events">
-<h3>Events<a class="headerlink" href="#events" title="Link to this heading"></a></h3>
+<h3>Events<a class="headerlink" href="#events" title="Link to this heading">#</a></h3>
 <p>Events can be listened to using a decorator or non-decorator method call. The following examples illustrate how you can listen to an event:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">LikeEvent</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">on_like</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">LikeEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -472,7 +476,7 @@ the <a class="reference external" href="https://github.com/isaackogan/TikTokLive
 events and <a class="reference external" href="https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/proto_events.py"><code class="docutils literal notranslate"><span class="pre">ProtoEvent</span></code></a> events.
 Both belong to the TikTokLive <code class="docutils literal notranslate"><span class="pre">Event</span></code> type and can be listened to. The following events are available:</p>
 <section id="custom-events">
-<h4>Custom Events<a class="headerlink" href="#custom-events" title="Link to this heading"></a></h4>
+<h4>Custom Events<a class="headerlink" href="#custom-events" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ConnectEvent</span></code> - Triggered when the Webcast connection is initiated</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">DisconnectEvent</span></code> - Triggered when the Webcast connection closes (including the livestream ending)</p></li>
@@ -486,7 +490,7 @@ Both belong to the TikTokLive <code class="docutils literal notranslate"><span c
 </ul>
 </section>
 <section id="proto-events">
-<h4>Proto Events<a class="headerlink" href="#proto-events" title="Link to this heading"></a></h4>
+<h4>Proto Events<a class="headerlink" href="#proto-events" title="Link to this heading">#</a></h4>
 <p>If you know what an event does, <a class="reference external" href="https://github.com/isaackogan/TikTokLive/pulls">make a pull request</a> and add the description.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">GiftEvent</span></code> - Triggered when a gift is sent to the streamer</p></li>
@@ -524,10 +528,10 @@ Both belong to the TikTokLive <code class="docutils literal notranslate"><span c
 </ul>
 </section>
 <section id="special-events">
-<h4>Special Events<a class="headerlink" href="#special-events" title="Link to this heading"></a></h4>
+<h4>Special Events<a class="headerlink" href="#special-events" title="Link to this heading">#</a></h4>
 </section>
 <section id="giftevent">
-<h4><code class="docutils literal notranslate"><span class="pre">GiftEvent</span></code><a class="headerlink" href="#giftevent" title="Link to this heading"></a></h4>
+<h4><code class="docutils literal notranslate"><span class="pre">GiftEvent</span></code><a class="headerlink" href="#giftevent" title="Link to this heading">#</a></h4>
 <p>Triggered every time a gift arrives. Extra information can be gleamed from the <code class="docutils literal notranslate"><span class="pre">available_gifts</span></code> client attribute.</p>
 <blockquote>
 <div><p><strong>NOTE:</strong> Users have the capability to send gifts in a streak. This increases the <code class="docutils literal notranslate"><span class="pre">event.gift.repeat_count</span></code> value until the
@@ -563,13 +567,13 @@ triggered, which signals the end of the streak with <code class="docutils litera
 </div>
 </section>
 <section id="subscribeevent">
-<h4><code class="docutils literal notranslate"><span class="pre">SubscribeEvent</span></code><a class="headerlink" href="#subscribeevent" title="Link to this heading"></a></h4>
+<h4><code class="docutils literal notranslate"><span class="pre">SubscribeEvent</span></code><a class="headerlink" href="#subscribeevent" title="Link to this heading">#</a></h4>
 <p>This event will only fire when a session ID (account login) is passed to the HTTP client <em>before</em> connecting to TikTok LIVE.
 You can set the session ID with <a class="reference external" href="https://github.com/isaackogan/TikTokLive/blob/master/examples/logged_in.py"><code class="docutils literal notranslate"><span class="pre">client.web.set_session_id(...)</span></code></a>.</p>
 </section>
 </section>
 <section id="contributors">
-<h3>Contributors<a class="headerlink" href="#contributors" title="Link to this heading"></a></h3>
+<h3>Contributors<a class="headerlink" href="#contributors" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Isaac Kogan</strong> - <em>Creator, Primary Maintainer, and Reverse-Engineering</em> - <a class="reference external" href="https://github.com/isaackogan">isaackogan</a></p></li>
 <li><p><strong>Zerody</strong> - <em>Initial Reverse-Engineering Protobuf &amp; Support</em> - <a class="reference external" href="https://github.com/zerodytrash/">Zerody</a></p></li>
@@ -580,7 +584,7 @@ You can set the session ID with <a class="reference external" href="https://gith
 this project.</p>
 </section>
 <section id="license">
-<h3>License<a class="headerlink" href="#license" title="Link to this heading"></a></h3>
+<h3>License<a class="headerlink" href="#license" title="Link to this heading">#</a></h3>
 <p>This project is licensed under the MIT License - see the <a class="reference internal" href="#LICENSE"><span class="xref myst">LICENSE</span></a> file for details.</p>
 </section>
 </section>
@@ -633,8 +637,8 @@ this project.</p>
             <ul>
 <li><a class="reference internal" href="#">TikTokLive Docs</a><ul>
 <li><a class="reference internal" href="#tiktoklive">TikTokLive</a><ul>
-<li><a class="reference internal" href="#consider-donating">Consider Donating</a></li>
-<li><a class="reference internal" href="#languages">Languages</a></li>
+<li><a class="reference internal" href="#consider-donating-3">Consider Donating &lt;3</a></li>
+<li><a class="reference internal" href="#other-languages">Other Languages</a></li>
 <li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
 <li><a class="reference internal" href="#getting-started">Getting Started</a></li>
 <li><a class="reference internal" href="#parameters">Parameters</a></li>
@@ -670,5 +674,7 @@ this project.</p>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/js\rtd_search_config.js?v=b0596c34"></script>
+    <script src="_static/js\rtd_sphinx_search.min.js?v=5e065386"></script>
     </body>
 </html>

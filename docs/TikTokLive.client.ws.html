@@ -9,8 +9,9 @@
         <title>TikTokLive.client.ws package - TikTokLive v6.0.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/css\rtd_sphinx_search.min.css?v=e72958e9" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="_static/css/algolia.css?v=5b3065c1" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=2c2e2638" />
     
     
 
@@ -25,14 +26,16 @@
     body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
-  --color-problematic: #114a9e;
+  --color-problematic: #80aeef;
+  --sidebar-filter: invert(0.95);
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
-  --color-problematic: #114a9e;
+  --color-problematic: #80aeef;
+  --sidebar-filter: invert(0.95);
   
       }
     }
@@ -148,6 +151,9 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
+  </div>
   
   <span class="sidebar-brand-text">TikTokLive v6.0.0</span>
   
@@ -206,26 +212,26 @@
         </div>
         <article role="main">
           <section id="tiktoklive-client-ws-package">
-<h1>TikTokLive.client.ws package<a class="headerlink" href="#tiktoklive-client-ws-package" title="Link to this heading"></a></h1>
+<h1>TikTokLive.client.ws package<a class="headerlink" href="#tiktoklive-client-ws-package" title="Link to this heading">#</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
 </section>
 <section id="module-TikTokLive.client.ws.ws_client">
-<span id="tiktoklive-client-ws-ws-client-module"></span><h2>TikTokLive.client.ws.ws_client module<a class="headerlink" href="#module-TikTokLive.client.ws.ws_client" title="Link to this heading"></a></h2>
+<span id="tiktoklive-client-ws-ws-client-module"></span><h2>TikTokLive.client.ws.ws_client module<a class="headerlink" href="#module-TikTokLive.client.ws.ws_client" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastProxyConnect">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.ws.ws_client.</span></span><span class="sig-name descname"><span class="pre">WebcastProxyConnect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Proxy</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastProxyConnect" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.ws.ws_client.</span></span><span class="sig-name descname"><span class="pre">WebcastProxyConnect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Proxy</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastProxyConnect" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ProxyConnect</span></code></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.ws.ws_client.</span></span><span class="sig-name descname"><span class="pre">WebcastWSClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ws_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Proxy</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.ws.ws_client.</span></span><span class="sig-name descname"><span class="pre">WebcastWSClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ws_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Proxy</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Websocket client responsible for connections to TikTok</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.build_connection_args">
-<span class="sig-name descname"><span class="pre">build_connection_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.build_connection_args" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">build_connection_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.build_connection_args" title="Link to this definition">#</a></dt>
 <dd><p>Build the <cite>websockets</cite> library connection arguments dictionary</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -242,7 +248,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.connect">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.WebcastResponseMessage" title="TikTokLive.proto.tiktok_proto.WebcastResponseMessage"><span class="pre">WebcastResponseMessage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.connect" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.WebcastResponseMessage" title="TikTokLive.proto.tiktok_proto.WebcastResponseMessage"><span class="pre">WebcastResponseMessage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.connect" title="Link to this definition">#</a></dt>
 <dd><p>Connect to the Webcast websocket server &amp; handle cancellation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -259,7 +265,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.connect_loop">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.WebcastResponseMessage" title="TikTokLive.proto.tiktok_proto.WebcastResponseMessage"><span class="pre">WebcastResponseMessage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.connect_loop" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.WebcastResponseMessage" title="TikTokLive.proto.tiktok_proto.WebcastResponseMessage"><span class="pre">WebcastResponseMessage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.connect_loop" title="Link to this definition">#</a></dt>
 <dd><p>Connect to the Webcast server &amp; iterate over response messages.</p>
 <p>The iterator exits normally when the connection is closed with close code
 1000 (OK) or 1001 (going away) or without a close code. It raises
@@ -280,7 +286,7 @@ is closed with any other code.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.connected">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.connected" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.connected" title="Link to this definition">#</a></dt>
 <dd><p>Check if the websocket is currently connected</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -291,14 +297,14 @@ is closed with any other code.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.disconnect">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.disconnect" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.disconnect" title="Link to this definition">#</a></dt>
 <dd><p>Request to stop the websocket connection &amp; wait
 :return: None</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.process_recv">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">process_recv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.WebcastResponseMessage" title="TikTokLive.proto.tiktok_proto.WebcastResponseMessage"><span class="pre">WebcastResponseMessage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.process_recv" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">process_recv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.WebcastResponseMessage" title="TikTokLive.proto.tiktok_proto.WebcastResponseMessage"><span class="pre">WebcastResponseMessage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.process_recv" title="Link to this definition">#</a></dt>
 <dd><p>Handle push frames received as websocket data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -312,7 +318,7 @@ is closed with any other code.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.send_ack">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">send_ack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal_ext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.send_ack" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">send_ack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal_ext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.send_ack" title="Link to this definition">#</a></dt>
 <dd><p>Acknowledge incoming messages from TikTok</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -331,7 +337,7 @@ is closed with any other code.</p>
 
 </section>
 <section id="module-TikTokLive.client.ws">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TikTokLive.client.ws" title="Link to this heading"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TikTokLive.client.ws" title="Link to this heading">#</a></h2>
 </section>
 </section>
 
@@ -424,5 +430,7 @@ is closed with any other code.</p>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/js\rtd_search_config.js?v=b0596c34"></script>
+    <script src="_static/js\rtd_sphinx_search.min.js?v=5e065386"></script>
     </body>
 </html>

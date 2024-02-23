@@ -9,8 +9,9 @@
         <title>TikTokLive.client.web package - TikTokLive v6.0.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/css\rtd_sphinx_search.min.css?v=e72958e9" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="_static/css/algolia.css?v=5b3065c1" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=2c2e2638" />
     
     
 
@@ -25,14 +26,16 @@
     body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
-  --color-problematic: #114a9e;
+  --color-problematic: #80aeef;
+  --sidebar-filter: invert(0.95);
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
         --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
-  --color-problematic: #114a9e;
+  --color-problematic: #80aeef;
+  --sidebar-filter: invert(0.95);
   
       }
     }
@@ -148,6 +151,9 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
+  </div>
   
   <span class="sidebar-brand-text">TikTokLive v6.0.0</span>
   
@@ -206,9 +212,9 @@
         </div>
         <article role="main">
           <section id="tiktoklive-client-web-package">
-<h1>TikTokLive.client.web package<a class="headerlink" href="#tiktoklive-client-web-package" title="Link to this heading"></a></h1>
+<h1>TikTokLive.client.web package<a class="headerlink" href="#tiktoklive-client-web-package" title="Link to this heading">#</a></h1>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="TikTokLive.client.web.routes.html">TikTokLive.client.web.routes package</a><ul>
@@ -280,25 +286,25 @@
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
 </section>
 <section id="module-TikTokLive.client.web.web_base">
-<span id="tiktoklive-client-web-web-base-module"></span><h2>TikTokLive.client.web.web_base module<a class="headerlink" href="#module-TikTokLive.client.web.web_base" title="Link to this heading"></a></h2>
+<span id="tiktoklive-client-web-web-base-module"></span><h2>TikTokLive.client.web.web_base module<a class="headerlink" href="#module-TikTokLive.client.web.web_base" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.client.web.web_base.ClientRoute">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.web_base.</span></span><span class="sig-name descname"><span class="pre">ClientRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.web_base.ClientRoute" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.web_base.</span></span><span class="sig-name descname"><span class="pre">ClientRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.web_base.ClientRoute" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>A callable API route for TikTok</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.client.web.web_base.TikTokHTTPClient">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.web_base.</span></span><span class="sig-name descname"><span class="pre">TikTokHTTPClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Proxy</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">httpx_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.web_base.TikTokHTTPClient" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.web_base.</span></span><span class="sig-name descname"><span class="pre">TikTokHTTPClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Proxy</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">httpx_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.web_base.TikTokHTTPClient" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>HTTP client for interacting with the various APIs</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.web.web_base.TikTokHTTPClient.close">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.web.web_base.TikTokHTTPClient.close" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.web.web_base.TikTokHTTPClient.close" title="Link to this definition">#</a></dt>
 <dd><p>Close the HTTP client gracefully</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -309,7 +315,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.web.web_base.TikTokHTTPClient.generate_device_id">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_device_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#TikTokLive.client.web.web_base.TikTokHTTPClient.generate_device_id" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_device_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#TikTokLive.client.web.web_base.TikTokHTTPClient.generate_device_id" title="Link to this definition">#</a></dt>
 <dd><p>Generate a spoofed device ID for the TikTok API call</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -320,7 +326,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.web.web_base.TikTokHTTPClient.get_response">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncClient</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#TikTokLive.client.web.web_base.TikTokHTTPClient.get_response" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncClient</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Response</span></span></span><a class="headerlink" href="#TikTokLive.client.web.web_base.TikTokHTTPClient.get_response" title="Link to this definition">#</a></dt>
 <dd><p>Get a response from the underlying <cite>httpx.AsyncClient</cite> client.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -340,7 +346,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.web.web_base.TikTokHTTPClient.set_session_id">
-<span class="sig-name descname"><span class="pre">set_session_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.web.web_base.TikTokHTTPClient.set_session_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_session_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.web.web_base.TikTokHTTPClient.set_session_id" title="Link to this definition">#</a></dt>
 <dd><p>Set the session id cookies for the HTTP client and Websocket connection</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -356,20 +362,20 @@
 
 </section>
 <section id="module-TikTokLive.client.web.web_client">
-<span id="tiktoklive-client-web-web-client-module"></span><h2>TikTokLive.client.web.web_client module<a class="headerlink" href="#module-TikTokLive.client.web.web_client" title="Link to this heading"></a></h2>
+<span id="tiktoklive-client-web-web-client-module"></span><h2>TikTokLive.client.web.web_client module<a class="headerlink" href="#module-TikTokLive.client.web.web_client" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.client.web.web_client.TikTokWebClient">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.web_client.</span></span><span class="sig-name descname"><span class="pre">TikTokWebClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.web_client.TikTokWebClient" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.web_client.</span></span><span class="sig-name descname"><span class="pre">TikTokWebClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.web_client.TikTokWebClient" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokHTTPClient</span></code></a></p>
 <p>Wrapper for the HTTP client to add web routes</p>
 </dd></dl>
 
 </section>
 <section id="module-TikTokLive.client.web.web_settings">
-<span id="tiktoklive-client-web-web-settings-module"></span><h2>TikTokLive.client.web.web_settings module<a class="headerlink" href="#module-TikTokLive.client.web.web_settings" title="Link to this heading"></a></h2>
+<span id="tiktoklive-client-web-web-settings-module"></span><h2>TikTokLive.client.web.web_settings module<a class="headerlink" href="#module-TikTokLive.client.web.web_settings" title="Link to this heading">#</a></h2>
 </section>
 <section id="module-TikTokLive.client.web">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TikTokLive.client.web" title="Link to this heading"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TikTokLive.client.web" title="Link to this heading">#</a></h2>
 </section>
 </section>
 
@@ -465,5 +471,7 @@
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/js\rtd_search_config.js?v=b0596c34"></script>
+    <script src="_static/js\rtd_sphinx_search.min.js?v=5e065386"></script>
     </body>
 </html>
