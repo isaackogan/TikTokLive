@@ -1,0 +1,674 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="TikTokLive package" href="TikTokLive.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>TikTokLive v6.0.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/css/algolia.css?v=5b3065c1" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-problematic: #114a9e;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-problematic: #114a9e;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="#"><div class="brand">TikTokLive v6.0.0</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+  
+  
+  <span class="sidebar-brand-text">TikTokLive v6.0.0</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="TikTokLive.html">TikTokLive package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of TikTokLive package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="TikTokLive.client.html">TikTokLive.client package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of TikTokLive.client package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="TikTokLive.client.web.html">TikTokLive.client.web package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of TikTokLive.client.web package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.routes.html">TikTokLive.client.web.routes package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.ws.html">TikTokLive.client.ws package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.events.html">TikTokLive.events package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.proto.html">TikTokLive.proto package</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="tiktoklive-docs">
+<h1>TikTokLive Docs<a class="headerlink" href="#tiktoklive-docs" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="TikTokLive.html">TikTokLive package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html">TikTokLive.client package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.events.html">TikTokLive.events package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.proto.html">TikTokLive.proto package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.html#module-TikTokLive">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>View the above tree for detailed documentation on the package.</p>
+<section id="tiktoklive">
+<h2>TikTokLive<a class="headerlink" href="#tiktoklive" title="Link to this heading"></a></h2>
+<p>The definitive Python library to connect to TikTok LIVE.</p>
+<p><img alt="Connections" src="https://tiktok.eulerstream.com/analytics/pips/1" />
+<img alt="Downloads" src="https://pepy.tech/badge/tiktoklive" />
+<img alt="Stars" src="https://img.shields.io/github/stars/isaackogan/TikTokLive?style=flat&amp;color=0274b5" />
+<img alt="Forks" src="https://img.shields.io/github/forks/isaackogan/TikTokLive?style=flat&amp;color=0274b5" />
+<img alt="Issues" src="https://img.shields.io/github/issues/isaackogan/TikTokLive" />
+<a class="reference external" href="https://discord.gg/e2XwPNTBBr"><img alt="Support Server" src="https://img.shields.io/discord/977648006063091742.svg?color=7289da&amp;logo=discord&amp;style=flat" /></a></p>
+<!-- [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive) -->
+<p>TikTokLive is a Python library designed to connect to <a class="reference external" href="https://tiktok.com/live">TikTok LIVE</a> and receive realtime events
+such as comments, gifts, and likes through a websocket connection to TikTok’s internal Webcast service. This library
+allows you to
+connect directly to TikTok with just a username (<code class="docutils literal notranslate"><span class="pre">&#64;unique_id</span></code>). No credentials are required to use TikTokLive.</p>
+<p>Join the <a class="reference external" href="https://discord.gg/e2XwPNTBBr">TikTokLive discord</a> and visit
+the <a class="reference external" href="https://discord.gg/uja6SajDxd"><code class="docutils literal notranslate"><span class="pre">#py-support</span></code></a>
+channel for questions, contributions and ideas.</p>
+<section id="consider-donating">
+<h3>Consider Donating<a class="headerlink" href="#consider-donating" title="Link to this heading"></a></h3>
+<p>I’m a 2nd-year Biology student in university who likes to program for fun. Please consider supporting development
+through a small donation at <a class="reference external" href="https://www.buymeacoffee.com/isaackogan">https://www.buymeacoffee.com/isaackogan</a>. Anything
+you can offer will go towards school &amp; development costs for TikTokLive.</p>
+</section>
+<section id="languages">
+<h3>Languages<a class="headerlink" href="#languages" title="Link to this heading"></a></h3>
+<p>TikTok LIVE is available in several alternate programming languages:</p>
+<ul class="simple">
+<li><p><strong>Node.JS:</strong> https://github.com/zerodytrash/TikTok-Live-Connector</p></li>
+<li><p><strong>Java:</strong> https://github.com/jwdeveloper/TikTok-Live-Java</p></li>
+<li><p><strong>C#/Unity:</strong> https://github.com/frankvHoof93/TikTokLiveSharp</p></li>
+<li><p><strong>Go:</strong> https://github.com/Davincible/gotiktoklive</p></li>
+</ul>
+</section>
+<section id="table-of-contents">
+<h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://isaackogan.github.io/TikTokLive/">Documentation</a></p></li>
+<li><p><a class="reference external" href="#license">Licensing</a></p></li>
+<li><p><a class="reference external" href="https://github.com/isaackogan/TikTokLive/tree/master/examples">Examples</a></p></li>
+<li><p><a class="reference external" href="#contributors">Contributors</a></p></li>
+</ul>
+</section>
+<section id="getting-started">
+<h3>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Install the module via pip from the <a class="reference external" href="https://pypi.org/project/TikTokLive/">PyPi</a> repository</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>TikTokLive
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Create your first chat connection</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">TikTokLive</span> <span class="kn">import</span> <span class="n">TikTokLiveClient</span>
+<span class="kn">from</span> <span class="nn">TikTokLive.events</span> <span class="kn">import</span> <span class="n">ConnectEvent</span><span class="p">,</span> <span class="n">CommentEvent</span>
+
+<span class="c1"># Create the client</span>
+<span class="n">client</span><span class="p">:</span> <span class="n">TikTokLiveClient</span> <span class="o">=</span> <span class="n">TikTokLiveClient</span><span class="p">(</span><span class="n">unique_id</span><span class="o">=</span><span class="s2">&quot;@isaackogz&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Listen to an event with a decorator!</span>
+<span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">ConnectEvent</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">ConnectEvent</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Connected to @</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span class="s2"> (Room ID: </span><span class="si">{</span><span class="n">client</span><span class="o">.</span><span class="n">room_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Or, add it manually via &quot;client.add_listener()&quot;</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_comment</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">CommentEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">nickname</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">comment</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="n">client</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="n">CommentEvent</span><span class="p">,</span> <span class="n">on_comment</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Run the client and block the main thread</span>
+    <span class="c1"># await client.start() to run non-blocking</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>For more quickstart examples, see the <a class="reference external" href="https://github.com/isaackogan/TikTokLive/tree/master/examples">examples folder</a>
+provided in the source tree.</p>
+</section>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Param Name</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>unique_id</p></td>
+<td><p>Yes</p></td>
+<td><p>N/A</p></td>
+<td><p>The unique username of the broadcaster. You can find this name in the URL of the user. For example, the <code class="docutils literal notranslate"><span class="pre">unique_id</span></code> for <code class="docutils literal notranslate"><span class="pre">https://www.tiktok.com/&#64;isaackogz/live</span></code> would be <code class="docutils literal notranslate"><span class="pre">isaackogz</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>web_proxy</p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>TikTokLive supports proxying HTTP requests. This parameter accepts an <code class="docutils literal notranslate"><span class="pre">httpx.Proxy</span></code>. Note that if you do use a proxy you may be subject to reduced connection limits at times of high load.</p></td>
+</tr>
+<tr class="row-even"><td><p>ws_proxy</p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>TikTokLive supports proxying the websocket connection. This parameter accepts an <code class="docutils literal notranslate"><span class="pre">httpx.Proxy</span></code>. Using this proxy will never be subject to reduced connection limits.</p></td>
+</tr>
+<tr class="row-odd"><td><p>web_kwargs</p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{}</span></code></p></td>
+<td><p>Under the scenes, the TikTokLive HTTP client uses the <a class="reference external" href="https://github.com/encode/httpx"><code class="docutils literal notranslate"><span class="pre">httpx</span></code></a> library. Arguments passed to <code class="docutils literal notranslate"><span class="pre">web_kwargs</span></code> will be forward the the underlying HTTP client.</p></td>
+</tr>
+<tr class="row-even"><td><p>ws_kwargs</p></td>
+<td><p>No</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{}</span></code></p></td>
+<td><p>Under the scenes, TikTokLive uses the <a class="reference external" href="https://github.com/python-websockets/websockets"><code class="docutils literal notranslate"><span class="pre">websockets</span></code></a> library to connect to TikTok. Arguments passed to <code class="docutils literal notranslate"><span class="pre">ws_kwargs</span></code> will be forwarded to the underlying WebSocket client.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object contains the following important methods:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method Name</p></th>
+<th class="head"><p>Notes</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>run</p></td>
+<td><p>N/A</p></td>
+<td><p>Connect to the livestream and block the main thread. This is best for small scripts.</p></td>
+</tr>
+<tr class="row-odd"><td><p>add_listener</p></td>
+<td><p>N/A</p></td>
+<td><p>Adds an <em>asynchronous</em> listener function (or, you can decorate a function with <code class="docutils literal notranslate"><span class="pre">&#64;client.on(&quot;&lt;event&gt;&quot;)</span></code>) and takes two parameters, an event name and the payload, an AbstractEvent</p></td>
+</tr>
+<tr class="row-even"><td><p>connect</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">async</span></code></p></td>
+<td><p>Connects to the tiktok live chat while blocking the current future. When the connection ends (e.g. livestream is over), the future is released.</p></td>
+</tr>
+<tr class="row-odd"><td><p>start</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">async</span></code></p></td>
+<td><p>Connects to the live chat without blocking the main thread. This returns an <code class="docutils literal notranslate"><span class="pre">asyncio.Task</span></code> object with the client loop.</p></td>
+</tr>
+<tr class="row-even"><td><p>disconnect</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">async</span></code></p></td>
+<td><p>Disconnects the client from the websocket gracefully, processing remaining events before ending the client loop.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="properties">
+<h3>Properties<a class="headerlink" href="#properties" title="Link to this heading"></a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object contains the following important properties:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>room_id</p></td>
+<td><p>The Room ID of the livestream room the client is currently connected to.</p></td>
+</tr>
+<tr class="row-odd"><td><p>web</p></td>
+<td><p>The TikTok HTTP client. This client has a lot of useful routes you should explore!</p></td>
+</tr>
+<tr class="row-even"><td><p>connected</p></td>
+<td><p>Whether you are currently connected to the livestream.</p></td>
+</tr>
+<tr class="row-odd"><td><p>logger</p></td>
+<td><p>The internal logger used by TikTokLive. You can use <code class="docutils literal notranslate"><span class="pre">client.logger.setLevel(...)</span></code> method to enable client debug.</p></td>
+</tr>
+<tr class="row-even"><td><p>room_info</p></td>
+<td><p>Room information that is retrieved from TikTok when you use a connection method (e.g. <code class="docutils literal notranslate"><span class="pre">client.connect</span></code>) with the keyword argument <code class="docutils literal notranslate"><span class="pre">fetch_room_info=True</span></code> .</p></td>
+</tr>
+<tr class="row-odd"><td><p>gift_info</p></td>
+<td><p>Extra gift information that is retrieved from TikTok when you use a connection method (e.g. <code class="docutils literal notranslate"><span class="pre">client.run</span></code>) with the keyword argument <code class="docutils literal notranslate"><span class="pre">fetch_gift_info=True</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="webdefaults">
+<h3>WebDefaults<a class="headerlink" href="#webdefaults" title="Link to this heading"></a></h3>
+<p>TikTokLive has a series of global defaults used to create the HTTP client which you can customize. For info on how to set these parameters, see
+the <a class="reference external" href="https://github.com/isaackogan/TikTokLive/blob/master/examples/web_defaults.py">web_defaults.py</a> example.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>tiktok_app_url</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>The TikTok app URL (<code class="docutils literal notranslate"><span class="pre">https://www.tiktok.com</span></code>) used to scrape the room.</p></td>
+</tr>
+<tr class="row-odd"><td><p>tiktok_sign_url</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>The <a class="reference external" href="https://github.com/isaackogan/TikTokLive/wiki/All-About-Signatures">signature server</a> used to generate tokens to connect to TikTokLive.</p></td>
+</tr>
+<tr class="row-even"><td><p>tiktok_webcast_url</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>The TikTok livestream URL (<code class="docutils literal notranslate"><span class="pre">https://webcast.tiktok.com</span></code>) where livestreams can be accessed from.</p></td>
+</tr>
+<tr class="row-odd"><td><p>client_params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
+<td><p>The URL parameters added on to TikTok requests from the HTTP client.</p></td>
+</tr>
+<tr class="row-even"><td><p>client_headers</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
+<td><p>The headers added on to TikTok requests from the HTTP client.</p></td>
+</tr>
+<tr class="row-odd"><td><p>tiktok_sign_api_key</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>A global way of setting the <code class="docutils literal notranslate"><span class="pre">sign_api_key</span></code> parameter.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="events">
+<h3>Events<a class="headerlink" href="#events" title="Link to this heading"></a></h3>
+<p>Events can be listened to using a decorator or non-decorator method call. The following examples illustrate how you can listen to an event:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">LikeEvent</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_like</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">LikeEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="o">...</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_comment</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">CommentEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="o">...</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="n">CommentEvent</span><span class="p">,</span> <span class="n">on_comment</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are two types of events, <a class="reference external" href="https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/custom_events.py"><code class="docutils literal notranslate"><span class="pre">CustomEvent</span></code></a>
+events and <a class="reference external" href="https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/proto_events.py"><code class="docutils literal notranslate"><span class="pre">ProtoEvent</span></code></a> events.
+Both belong to the TikTokLive <code class="docutils literal notranslate"><span class="pre">Event</span></code> type and can be listened to. The following events are available:</p>
+<section id="custom-events">
+<h4>Custom Events<a class="headerlink" href="#custom-events" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ConnectEvent</span></code> - Triggered when the Webcast connection is initiated</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DisconnectEvent</span></code> - Triggered when the Webcast connection closes (including the livestream ending)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LiveEndEvent</span></code> - Triggered when the livestream ends</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LivePauseEvent</span></code> - Triggered when the livestream is paused</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LiveUnpauseEvent</span></code> - Triggered when the livestream is unpaused</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FollowEvent</span></code> - Triggered when a user in the livestream follows the streamer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ShareEvent</span></code> - Triggered when a user shares the livestream</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WebsocketResponseEvent</span></code> - Triggered when any event is received (contains the event)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UnknownEvent</span></code> - An instance of <code class="docutils literal notranslate"><span class="pre">WebsocketResponseEvent</span></code> thrown whenever an event does not have an existing definition, useful for debugging</p></li>
+</ul>
+</section>
+<section id="proto-events">
+<h4>Proto Events<a class="headerlink" href="#proto-events" title="Link to this heading"></a></h4>
+<p>If you know what an event does, <a class="reference external" href="https://github.com/isaackogan/TikTokLive/pulls">make a pull request</a> and add the description.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GiftEvent</span></code> - Triggered when a gift is sent to the streamer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GoalUpdateEvent</span></code> - Triggered when the subscriber goal is updated</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ControlEvent</span></code> - Triggered when a stream action occurs (e.g. Livestream start, end)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LikeEvent</span></code> - Triggered when the stream receives a like</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SubscribeEvent</span></code> - Triggered when someone subscribes to the TikTok creator</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PollEvent</span></code> - Triggered when the creator launches a new poll</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CommentEvent</span></code> - Triggered when a comment is sent in the stream</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RoomEvent</span></code> - Messages broadcasted to all users in the room (e.g. “Welcome to TikTok LIVE!”)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EmoteChatEvent</span></code> - Triggered when a custom emote is sent in the chat</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EnvelopeEvent</span></code> - Triggered every time someone sends a treasure chest</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SocialEvent</span></code> - Triggered when a user shares the stream or follows the host</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QuestionNewEvent</span></code> - Triggered every time someone asks a new question via the question feature.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LiveIntroEvent</span></code> - Triggered when a live intro message appears</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LinkMicArmiesEvent</span></code> - Triggered when a TikTok battle user receives points</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LinkMicBattleEvent</span></code> - Triggered when a TikTok battle is started</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">JoinEvent</span></code> - Triggered when a user joins the livestream</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LinkMicFanTicketMethodEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LinkMicMethodEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BarrageEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CaptionEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ImDeleteEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RoomUserSeqEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RankUpdateEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RankTextEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HourlyRankEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UnauthorizedMemberEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MessageDetectEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OecLiveShoppingEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RoomPinEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SystemEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LinkEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LinkLayerEvent</span></code></p></li>
+</ul>
+</section>
+<section id="special-events">
+<h4>Special Events<a class="headerlink" href="#special-events" title="Link to this heading"></a></h4>
+</section>
+<section id="giftevent">
+<h4><code class="docutils literal notranslate"><span class="pre">GiftEvent</span></code><a class="headerlink" href="#giftevent" title="Link to this heading"></a></h4>
+<p>Triggered every time a gift arrives. Extra information can be gleamed from the <code class="docutils literal notranslate"><span class="pre">available_gifts</span></code> client attribute.</p>
+<blockquote>
+<div><p><strong>NOTE:</strong> Users have the capability to send gifts in a streak. This increases the <code class="docutils literal notranslate"><span class="pre">event.gift.repeat_count</span></code> value until the
+user terminates the streak. During this time new gift events are triggered again and again with an
+increased <code class="docutils literal notranslate"><span class="pre">event.gift.repeat_count</span></code> value. It should be noted that after the end of a streak, a final gift event is
+triggered, which signals the end of the streak with <code class="docutils literal notranslate"><span class="pre">event.repeat_end</span></code>:<code class="docutils literal notranslate"><span class="pre">1</span></code>. The following handlers show how you can deal with this in your code.</p>
+</div></blockquote>
+<p>Using the low-level direct proto:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">GiftEvent</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_gift</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">GiftEvent</span><span class="p">):</span>
+    <span class="c1"># If it&#39;s type 1 and the streak is over</span>
+    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">is_repeating</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span class="s2"> sent </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2">x </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># It&#39;s not type 1, which means it can&#39;t have a streak &amp; is automatically over</span>
+    <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span class="s2"> sent </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using the TikTokLive extended proto:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@client</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;gift&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_gift</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">GiftEvent</span><span class="p">):</span>
+    <span class="c1"># Streakable gift &amp; streak is over</span>
+    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">streakable</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">streaking</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span class="s2"> sent </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">count</span><span class="si">}</span><span class="s2">x </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Non-streakable gift</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">streakable</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">unique_id</span><span class="si">}</span><span class="s2"> sent </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">gift</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</section>
+<section id="subscribeevent">
+<h4><code class="docutils literal notranslate"><span class="pre">SubscribeEvent</span></code><a class="headerlink" href="#subscribeevent" title="Link to this heading"></a></h4>
+<p>This event will only fire when a session ID (account login) is passed to the HTTP client <em>before</em> connecting to TikTok LIVE.
+You can set the session ID with <a class="reference external" href="https://github.com/isaackogan/TikTokLive/blob/master/examples/logged_in.py"><code class="docutils literal notranslate"><span class="pre">client.web.set_session_id(...)</span></code></a>.</p>
+</section>
+</section>
+<section id="contributors">
+<h3>Contributors<a class="headerlink" href="#contributors" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Isaac Kogan</strong> - <em>Creator, Primary Maintainer, and Reverse-Engineering</em> - <a class="reference external" href="https://github.com/isaackogan">isaackogan</a></p></li>
+<li><p><strong>Zerody</strong> - <em>Initial Reverse-Engineering Protobuf &amp; Support</em> - <a class="reference external" href="https://github.com/zerodytrash/">Zerody</a></p></li>
+<li><p><strong>Davincible</strong> - <em>Reverse-Engineering Stream Downloads</em>  - <a class="reference external" href="https://github.com/davincible">davincible</a></p></li>
+<li><p><strong>David Teather</strong> - <em>TikTokLive Introduction Tutorial</em> - <a class="reference external" href="https://github.com/davidteather">davidteather</a></p></li>
+</ul>
+<p>See also the full list of <a class="reference external" href="https://github.com/isaackogan/TikTokLive/contributors">contributors</a> who have participated in
+this project.</p>
+</section>
+<section id="license">
+<h3>License<a class="headerlink" href="#license" title="Link to this heading"></a></h3>
+<p>This project is licensed under the MIT License - see the <a class="reference internal" href="#LICENSE"><span class="xref myst">LICENSE</span></a> file for details.</p>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="TikTokLive.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">TikTokLive package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Isaac Kogan
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">TikTokLive Docs</a><ul>
+<li><a class="reference internal" href="#tiktoklive">TikTokLive</a><ul>
+<li><a class="reference internal" href="#consider-donating">Consider Donating</a></li>
+<li><a class="reference internal" href="#languages">Languages</a></li>
+<li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#parameters">Parameters</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+<li><a class="reference internal" href="#properties">Properties</a></li>
+<li><a class="reference internal" href="#webdefaults">WebDefaults</a></li>
+<li><a class="reference internal" href="#events">Events</a><ul>
+<li><a class="reference internal" href="#custom-events">Custom Events</a></li>
+<li><a class="reference internal" href="#proto-events">Proto Events</a></li>
+<li><a class="reference internal" href="#special-events">Special Events</a></li>
+<li><a class="reference internal" href="#giftevent"><code class="docutils literal notranslate"><span class="pre">GiftEvent</span></code></a></li>
+<li><a class="reference internal" href="#subscribeevent"><code class="docutils literal notranslate"><span class="pre">SubscribeEvent</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contributors">Contributors</a></li>
+<li><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

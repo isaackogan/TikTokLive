@@ -7,7 +7,6 @@ The definitive Python library to connect to TikTok LIVE.
 ![Stars](https://img.shields.io/github/stars/isaackogan/TikTokLive?style=flat&color=0274b5)
 ![Forks](https://img.shields.io/github/forks/isaackogan/TikTokLive?style=flat&color=0274b5)
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
-[![Support Server](https://img.shields.io/discord/977648006063091742.svg?color=7289da&logo=discord&style=flat)](https://discord.gg/e2XwPNTBBr)
 
 <!-- [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive) -->
 
@@ -20,13 +19,6 @@ Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
 the [`#py-support`](https://discord.gg/uja6SajDxd)
 channel for questions, contributions and ideas.
 
-### Consider Donating
-
-I'm a 2nd-year Biology student in university who likes to program for fun. Please consider supporting development
-through a small donation at [https://www.buymeacoffee.com/isaackogan](https://www.buymeacoffee.com/isaackogan). Anything
-you can offer will go towards school & development costs for TikTokLive.
-
-### Languages
 
 TikTok LIVE is available in several alternate programming languages:
 
@@ -34,6 +26,13 @@ TikTok LIVE is available in several alternate programming languages:
 - **Java:** https://github.com/jwdeveloper/TikTok-Live-Java
 - **C#/Unity:** https://github.com/frankvHoof93/TikTokLiveSharp
 - **Go:** https://github.com/Davincible/gotiktoklive
+
+
+### Consider Donating <3
+
+I'm a 2nd-year Biology student in university who likes to program for fun. Please consider supporting development
+through a small donation at [https://www.buymeacoffee.com/isaackogan](https://www.buymeacoffee.com/isaackogan). Anything
+you can offer will go towards school & development costs for TikTokLive.
 
 ## Table of Contents
 

@@ -48,7 +48,6 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         """
 
         super().__init__()
-        unique_id = self.parse_unique_id(unique_id)
 
         self._ws: WebcastWSClient = WebcastWSClient(
             ws_kwargs=ws_kwargs,
@@ -56,7 +55,6 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         )
 
         self._web: TikTokWebClient = TikTokWebClient(
-            unique_id=unique_id,
             httpx_kwargs=web_kwargs,
             proxy=web_proxy
         )
@@ -66,7 +64,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         )
 
         # Properties
-        self._unique_id: str = unique_id
+        self._unique_id: str = self.parse_unique_id(unique_id)
         self._room_id: Optional[str] = None
         self._room_info: Optional[Dict[str, Any]] = None
         self._gift_info: Optional[Dict[str, Any]] = None

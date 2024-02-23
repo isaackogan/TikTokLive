@@ -108,8 +108,7 @@ class SignFetchRoute(ClientRoute):
         try:
             response: Response = await self._web.get_response(
                 url=WebDefaults.tiktok_sign_url + "/webcast/fetch/",
-                extra_params={'client': CLIENT_NAME},
-                proxies=None
+                extra_params={'client': CLIENT_NAME}
             )
         except httpx.ConnectError as ex:
             raise SignAPIError(

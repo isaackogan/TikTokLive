@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 from dataclasses import dataclass
 from typing import Type, Union, Optional
 
@@ -20,6 +21,10 @@ class UnknownEvent(WebsocketResponseEvent):
     Triggered when a Webcast message is received that is NOT tracked by TikTokLive yet.
 
     """
+
+    @property
+    def bytes(self) -> bytes:
+        return base64.b64decode(self.payload)
 
 
 @dataclass()
