@@ -17,7 +17,7 @@ from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_client import WebcastWSClient
 from TikTokLive.events import Event, EventHandler
 from TikTokLive.events.custom_events import UnknownEvent, ConnectEvent, FollowEvent, ShareEvent, LiveEndEvent, \
-    DisconnectEvent
+    DisconnectEvent, LivePausedEvent, LiveUnpausedEvent
 from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, ControlEvent
 from TikTokLive.proto import WebcastResponse, WebcastResponseMessage, ControlAction
 
@@ -250,9 +250,18 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         event: Event = event_type().parse(response.payload)
 
-        # Handle stream ending
-        if isinstance(event, ControlEvent) and event.action == ControlAction.STREAM_ENDED:
-            return [LiveEndEvent().parse(response.payload), event]
+        # Handle stream control events
+        if isinstance(event, ControlEvent):
+            return_events: List[Event] = [event]
+
+            if event.action == ControlAction.STREAM_ENDED:
+                return_events.append(LiveEndEvent().parse(response.payload))
+            elif event.action == ControlAction.STREAM_PAUSED:
+                return_events.append(LivePausedEvent().parse(response.payload))
+            elif event.action == ControlAction.STREAM_PAUSED:
+                return_events.append(LiveUnpausedEvent().parse(response.payload))
+
+            return return_events
 
         # Handle follow & share events
         if self.has_listener(FollowEvent, ShareEvent):

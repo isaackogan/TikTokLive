@@ -11,13 +11,14 @@ from TikTokLive.proto.tiktok_proto import Common
 
 MESSAGE_OVERRIDES: Dict[str, str] = {
     "WebcastMsgDetectMessage": "MessageDetectEvent",
-    "WebcastChatMessage": "CommentEvent"
+    "WebcastChatMessage": "CommentEvent",
+    "WebcastSubNotifyMessage": "SubscribeEvent"
 }
 
 BASE_IMPORTS: List[str] = [
     "from TikTokLive.proto.tiktok_proto import *",
     "from TikTokLive.proto.custom_proto import *",
-    "from .base import BaseEvent",
+    "from .base_event import BaseEvent",
     "from typing import Type, Union, Dict"
 ]
 

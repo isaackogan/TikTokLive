@@ -8,7 +8,6 @@ from TikTokLive.events.proto_events import SocialEvent, ControlEvent
 from TikTokLive.proto import WebcastResponseMessage
 
 
-@dataclass()
 class UnknownEvent(WebcastResponseMessage, BaseEvent):
     """
     Thrown when a Webcast message is received that is NOT tracked by TikTokLive yet.
@@ -27,7 +26,6 @@ class ConnectEvent(BaseEvent):
     room_id: str
 
 
-@dataclass()
 class DisconnectEvent(BaseEvent):
     """
     Thrown when disconnecting from a stream
@@ -35,10 +33,23 @@ class DisconnectEvent(BaseEvent):
     """
 
 
-@dataclass()
 class LiveEndEvent(ControlEvent):
     """
     Thrown when the stream ends
+
+    """
+
+
+class LivePausedEvent(ControlEvent):
+    """
+    Thrown when the stream is paused
+
+    """
+
+
+class LiveUnpausedEvent(ControlEvent):
+    """
+    Thrown when a paused stream is unpaused
 
     """
 
@@ -87,6 +98,8 @@ __all__ = [
     "FollowEvent",
     "ShareEvent",
     "LiveEndEvent",
+    "LivePausedEvent",
+    "LiveUnpausedEvent",
     "CustomEvent",
     "DisconnectEvent"
 ]

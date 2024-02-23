@@ -10,22 +10,24 @@ from typing import Type, Union, Dict
 from typing import Union
 
 
-
 class BarrageEvent(BaseEvent, WebcastBarrageMessage):
     """
     BarrageEvent
+
     """
 
 
 class CaptionEvent(BaseEvent, WebcastCaptionMessage):
     """
     CaptionEvent
+
     """
 
 
 class CommentEvent(BaseEvent, WebcastChatMessage):
     """
     CommentEvent
+
     """
 
     at_user: ExtendedUser
@@ -46,12 +48,14 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
 class ControlEvent(BaseEvent, WebcastControlMessage):
     """
     ControlEvent
+
     """
 
 
 class EmoteChatEvent(BaseEvent, WebcastEmoteChatMessage):
     """
     EmoteChatEvent
+
     """
 
     user: ExtendedUser
@@ -60,12 +64,14 @@ class EmoteChatEvent(BaseEvent, WebcastEmoteChatMessage):
 class EnvelopeEvent(BaseEvent, WebcastEnvelopeMessage):
     """
     EnvelopeEvent
+
     """
 
 
 class GiftEvent(BaseEvent, WebcastGiftMessage):
     """
     GiftEvent
+
     """
 
     to_user: ExtendedUser
@@ -90,24 +96,28 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
 class GoalUpdateEvent(BaseEvent, WebcastGoalUpdateMessage):
     """
     GoalUpdateEvent
+
     """
 
 
 class HourlyRankEvent(BaseEvent, WebcastHourlyRankMessage):
     """
     HourlyRankEvent
+
     """
 
 
 class ImDeleteEvent(BaseEvent, WebcastImDeleteMessage):
     """
     ImDeleteEvent
+
     """
 
 
 class LikeEvent(BaseEvent, WebcastLikeMessage):
     """
     LikeEvent
+
     """
 
     user: ExtendedUser
@@ -116,42 +126,49 @@ class LikeEvent(BaseEvent, WebcastLikeMessage):
 class LinkEvent(BaseEvent, WebcastLinkMessage):
     """
     LinkEvent
+
     """
 
 
 class LinkLayerEvent(BaseEvent, WebcastLinkLayerMessage):
     """
     LinkLayerEvent
+
     """
 
 
 class LinkMicArmiesEvent(BaseEvent, WebcastLinkMicArmies):
     """
     LinkMicArmiesEvent
+
     """
 
 
 class LinkMicBattleEvent(BaseEvent, WebcastLinkMicBattle):
     """
     LinkMicBattleEvent
+
     """
 
 
 class LinkMicFanTicketMethodEvent(BaseEvent, WebcastLinkMicFanTicketMethod):
     """
     LinkMicFanTicketMethodEvent
+
     """
 
 
 class LinkMicMethodEvent(BaseEvent, WebcastLinkMicMethod):
     """
     LinkMicMethodEvent
+
     """
 
 
 class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
     """
     LiveIntroEvent
+
     """
 
     host: ExtendedUser
@@ -160,6 +177,7 @@ class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
 class MemberEvent(BaseEvent, WebcastMemberMessage):
     """
     MemberEvent
+
     """
 
     operator: ExtendedUser
@@ -169,68 +187,79 @@ class MemberEvent(BaseEvent, WebcastMemberMessage):
 class MessageDetectEvent(BaseEvent, WebcastMsgDetectMessage):
     """
     MessageDetectEvent
+
     """
 
 
 class OecLiveShoppingEvent(BaseEvent, WebcastOecLiveShoppingMessage):
     """
     OecLiveShoppingEvent
+
     """
 
 
 class PollEvent(BaseEvent, WebcastPollMessage):
     """
     PollEvent
+
     """
 
 
 class QuestionNewEvent(BaseEvent, WebcastQuestionNewMessage):
     """
     QuestionNewEvent
+
     """
 
 
 class RankTextEvent(BaseEvent, WebcastRankTextMessage):
     """
     RankTextEvent
+
     """
 
 
 class RankUpdateEvent(BaseEvent, WebcastRankUpdateMessage):
     """
     RankUpdateEvent
+
     """
 
 
 class RoomEvent(BaseEvent, WebcastRoomMessage):
     """
     RoomEvent
+
     """
 
 
 class RoomPinEvent(BaseEvent, WebcastRoomPinMessage):
     """
     RoomPinEvent
+
     """
 
 
 class RoomUserSeqEvent(BaseEvent, WebcastRoomUserSeqMessage):
     """
     RoomUserSeqEvent
+
     """
 
 
 class SocialEvent(BaseEvent, WebcastSocialMessage):
     """
     SocialEvent
+
     """
 
     user: ExtendedUser
 
 
-class SubNotifyEvent(BaseEvent, WebcastSubNotifyMessage):
+class SubscribeEvent(BaseEvent, WebcastSubNotifyMessage):
     """
-    SubNotifyEvent
+    SubscribeEvent
+
     """
 
     user: ExtendedUser
@@ -239,12 +268,14 @@ class SubNotifyEvent(BaseEvent, WebcastSubNotifyMessage):
 class SystemEvent(BaseEvent, WebcastSystemMessage):
     """
     SystemEvent
+
     """
 
 
 class UnauthorizedMemberEvent(BaseEvent, WebcastUnauthorizedMemberMessage):
     """
     UnauthorizedMemberEvent
+
     """
 
 
@@ -262,7 +293,7 @@ EVENT_MAPPINGS: Dict[str, BaseEvent] = {
     "WebcastLikeMessage": LikeEvent,
     "WebcastRoomUserSeqMessage": RoomUserSeqEvent,
     "WebcastSocialMessage": SocialEvent,
-    "WebcastSubNotifyMessage": SubNotifyEvent,
+    "WebcastSubNotifyMessage": SubscribeEvent,
     "WebcastRankUpdateMessage": RankUpdateEvent,
     "WebcastMemberMessage": MemberEvent,
     "WebcastPollMessage": PollEvent,
@@ -297,7 +328,7 @@ ProtoEvent: Type = Union[
     LikeEvent,
     RoomUserSeqEvent,
     SocialEvent,
-    SubNotifyEvent,
+    SubscribeEvent,
     RankUpdateEvent,
     MemberEvent,
     PollEvent,
@@ -332,7 +363,7 @@ __all__ = [
     "LikeEvent",
     "RoomUserSeqEvent",
     "SocialEvent",
-    "SubNotifyEvent",
+    "SubscribeEvent",
     "RankUpdateEvent",
     "MemberEvent",
     "PollEvent",

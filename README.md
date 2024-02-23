@@ -153,12 +153,15 @@ Both belong to the TikTokLive `Event` type and can be listened to. The following
 
 ### Custom Events
 
-- `UnknownEvent` - Events not currently tracked by TikTokLive as they have not been reverse engineered
-- `FollowEvent` - Triggered when a user in the livestream follows the streamer
-- `ShareEvent` - Triggered when a user shares the livestream
-- `LiveEndEvent` - Triggered when the livestream ends
 - `ConnectEvent` - Triggered when the Webcast connection is initiated
 - `DisconnectEvent` - Triggered when the Webcast connection closes (including the livestream ending)
+- `LiveEndEvent` - Triggered when the livestream ends
+- `LivePausedEvent` - Triggered when the livestream is paused
+- `LiveUnpausedEvent` - Triggered when the livestream is unpaused
+- `FollowEvent` - Triggered when a user in the livestream follows the streamer
+- `ShareEvent` - Triggered when a user shares the livestream
+- `UnknownEvent` - Events not currently tracked by TikTokLive as they have not been reverse-engineered
+
 
 ### Proto Events
 
@@ -168,27 +171,27 @@ If you know what an event does, [make a pull request](https://github.com/isaacko
 - `GoalUpdateEvent` - Triggered when the subscriber goal is updated
 - `ControlEvent` - Triggered when a stream action occurs (e.g. Livestream start, end)
 - `LikeEvent` - Triggered when the stream receives a like
-- `SubNotifyEvent` - Triggered when someone subscribes to the TikTok creator
-- `RoomEvent`
-- `BarrageEvent`
-- `CaptionEvent`
-- `CommentEvent`
-- `EmoteChatEvent` 
-- `EnvelopeEvent`
-- `ImDeleteEvent`
-- `RoomUserSeqEvent`
-- `SocialEvent`
-- `RankUpdateEvent`
-- `MemberEvent` 
-- `PollEvent`
-- `QuestionNewEvent`
-- `RankTextEvent`
-- `HourlyRankEvent`
-- `LinkMicArmiesEvent`
-- `LinkMicBattleEvent`
+- `SubscribeEvent` - Triggered when someone subscribes to the TikTok creator
+- `PollEvent` - Triggered when the creator launches a new poll
+- `CommentEvent` - Triggered when a comment is sent in the stream
+- `RoomEvent` - Messages broadcasted to all users in the room (e.g. "Welcome to TikTok LIVE!")
+- `EmoteChatEvent` - Triggered when a custom emote is sent in the chat
+- `EnvelopeEvent` - Triggered every time someone sends a treasure chest
+- `SocialEvent` - Triggered when a user shares the stream or follows the host
+- `QuestionNewEvent` - Triggered every time someone asks a new question via the question feature.
+- `LiveIntroEvent` - Triggered when a live intro message appears
+- `LinkMicArmiesEvent` - Triggered when a TikTok battle user receives points
+- `LinkMicBattleEvent` - Triggered when a TikTok battle is started
+- `JoinEvent` - Triggered when a user joins the livestream
 - `LinkMicFanTicketMethodEvent`
 - `LinkMicMethodEvent`
-- `LiveIntroEvent`
+- `BarrageEvent`
+- `CaptionEvent`
+- `ImDeleteEvent`
+- `RoomUserSeqEvent`
+- `RankUpdateEvent`
+- `RankTextEvent`
+- `HourlyRankEvent`
 - `UnauthorizedMemberEvent`
 - `MessageDetectEvent`
 - `OecLiveShoppingEvent`
@@ -235,7 +238,7 @@ async def on_gift(event: GiftEvent):
 
 ```
 
-### `SubNotifyEvent`
+### `SubscribeEvent`
 
 This event will only fire when a session ID (account login) is passed to the HTTP client *before* connecting to TikTok LIVE.
 You can set the session ID with [`client.web.set_session_id(...)`](https://github.com/isaackogan/TikTokLive/blob/master/examples/logged_in.py).
