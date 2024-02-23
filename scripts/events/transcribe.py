@@ -12,7 +12,8 @@ from TikTokLive.proto.tiktok_proto import Common
 MESSAGE_OVERRIDES: Dict[str, str] = {
     "WebcastMsgDetectMessage": "MessageDetectEvent",
     "WebcastChatMessage": "CommentEvent",
-    "WebcastSubNotifyMessage": "SubscribeEvent"
+    "WebcastSubNotifyMessage": "SubscribeEvent",
+    "WebcastMemberMessage": "JoinEvent"
 }
 
 BASE_IMPORTS: List[str] = [

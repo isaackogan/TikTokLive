@@ -10,6 +10,15 @@ from typing import Type, Union, Dict
 from typing import Union
 
 
+class JoinEvent(BaseEvent, WebcastMemberMessage):
+    """
+    JoinEvent
+    """
+
+    operator: ExtendedUser
+    user: ExtendedUser
+
+
 class BarrageEvent(BaseEvent, WebcastBarrageMessage):
     """
     BarrageEvent
@@ -174,16 +183,6 @@ class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
     host: ExtendedUser
 
 
-class MemberEvent(BaseEvent, WebcastMemberMessage):
-    """
-    MemberEvent
-
-    """
-
-    operator: ExtendedUser
-    user: ExtendedUser
-
-
 class MessageDetectEvent(BaseEvent, WebcastMsgDetectMessage):
     """
     MessageDetectEvent
@@ -295,7 +294,7 @@ EVENT_MAPPINGS: Dict[str, BaseEvent] = {
     "WebcastSocialMessage": SocialEvent,
     "WebcastSubNotifyMessage": SubscribeEvent,
     "WebcastRankUpdateMessage": RankUpdateEvent,
-    "WebcastMemberMessage": MemberEvent,
+    "WebcastMemberMessage": JoinEvent,
     "WebcastPollMessage": PollEvent,
     "WebcastQuestionNewMessage": QuestionNewEvent,
     "WebcastRankTextMessage": RankTextEvent,
@@ -330,7 +329,7 @@ ProtoEvent: Type = Union[
     SocialEvent,
     SubscribeEvent,
     RankUpdateEvent,
-    MemberEvent,
+    JoinEvent,
     PollEvent,
     QuestionNewEvent,
     RankTextEvent,
@@ -365,7 +364,7 @@ __all__ = [
     "SocialEvent",
     "SubscribeEvent",
     "RankUpdateEvent",
-    "MemberEvent",
+    "JoinEvent",
     "PollEvent",
     "QuestionNewEvent",
     "RankTextEvent",

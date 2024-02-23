@@ -4,8 +4,8 @@ import time
 
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
 from TikTokLive.proto import User, ExtendedUser
-from events.overrides import InsertOverrides
-from events.transcribe import EventsTranscriber
+from overrides import InsertOverrides
+from transcribe import EventsTranscriber
 
 if __name__ == '__main__':
 
