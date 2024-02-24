@@ -5,7 +5,7 @@ from typing import Optional
 import httpx
 from httpx import Response
 
-from TikTokLive.client.web.web_base import ClientRoute
+from TikTokLive.client.web.web_base import ClientRoute, TikTokHTTPClient
 from TikTokLive.client.web.web_settings import WebDefaults, CLIENT_NAME
 from TikTokLive.proto import WebcastResponse
 
@@ -97,6 +97,11 @@ class SignFetchRoute(ClientRoute):
 
     """
 
+    def __init__(self, web: TikTokHTTPClient, sign_api_key: Optional[str]):
+
+        super().__init__(web)
+        self._sign_api_key: Optional[str] = sign_api_key
+
     async def __call__(self) -> WebcastResponse:
         """
         Call the method to get the first WebcastResponse to use to upgrade to websocket
@@ -108,7 +113,7 @@ class SignFetchRoute(ClientRoute):
         try:
             response: Response = await self._web.get_response(
                 url=WebDefaults.tiktok_sign_url + "/webcast/fetch/",
-                extra_params={'client': CLIENT_NAME}
+                extra_params={'client': CLIENT_NAME, 'apiKey': self._sign_api_key}
             )
         except httpx.ConnectError as ex:
             raise SignAPIError(

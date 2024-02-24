@@ -91,7 +91,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             *,
             process_connect_events: bool = True,
             fetch_room_info: bool = True,
-            fetch_gift_info: bool = False
+            fetch_gift_info: bool = False,
+            room_id: Optional[int] = None
     ) -> Task:
         """
         Create a non-blocking connection to TikTok LIVE and return the task
@@ -99,6 +100,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :param process_connect_events: Whether to process initial events sent on room join
         :param fetch_room_info: Whether to fetch room info on join
         :param fetch_gift_info: Whether to fetch gift info on join
+        :param room_id: An override to the room ID to connect directly to the livestream and skip scraping the live.
+                        Useful when trying to scale, as scraping the HTML can result in TikTok blocks.
         :return: Task containing the heartbeat of the client
 
         """
@@ -107,7 +110,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             raise AlreadyConnectedError("You can only make one connection per client!")
 
         # <Required> Fetch room ID
-        self._room_id: str = await self._web.fetch_room_id(self._unique_id)
+        self._room_id: str = room_id or await self._web.fetch_room_id(self._unique_id)
 
         # <Optional> Fetch room info
         if fetch_room_info:
@@ -322,6 +325,17 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # Add the custom event IF not null
         return [custom_event, *parsed_events] if custom_event else parsed_events
+
+    async def is_live(self, unique_id: Optional[str] = None) -> bool:
+        """
+        Check if the client is currently live on TikTok
+
+        :param unique_id: Optionally override the user to check
+        :return: Whether they are live on TikTok
+
+        """
+
+        return await self._web.fetch_is_live(unique_id=unique_id or self.unique_id)
 
     @classmethod
     def _parse_custom_event(cls, response: WebcastResponseMessage, event: ProtoEvent) -> Optional[CustomEvent]:

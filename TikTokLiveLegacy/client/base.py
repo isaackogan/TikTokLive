@@ -150,7 +150,11 @@ class WebcastPushConnection:
         try:
             params: dict = {
                 **self.http.params,
-                **{"device_id": self.http.generate_device_id(), "uniqueId": self.__unique_id, "sourceType": "54"}
+                **{
+                    "device_id": self.http.generate_device_id(),
+                    "uniqueId": self.__unique_id,
+                    "sourceType": 54
+                }
             }
 
             return await self.http.get_livestream_page_html(params)

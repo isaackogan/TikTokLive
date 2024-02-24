@@ -34,17 +34,16 @@ class TikTokHTTPClient:
 
         self._httpx: AsyncClient = self._create_httpx_client(
             proxy=proxy,
-            httpx_kwargs=httpx_kwargs,
-            sign_api_key=WebDefaults.tiktok_sign_api_key or os.environ.get("SIGN_API_KEY")
+            httpx_kwargs=httpx_kwargs
         )
 
+        self._sign_api_key: Optional[str] = WebDefaults.tiktok_sign_api_key or os.environ.get("SIGN_API_KEY")
         self.__uuc += 1
 
     def _create_httpx_client(
             self,
             proxy: Optional[Proxy],
-            httpx_kwargs: Dict[str, Any],
-            sign_api_key: Optional[str] = None
+            httpx_kwargs: Dict[str, Any]
     ) -> AsyncClient:
         """
         Initialize a new `httpx.AsyncClient`, called internally on object creation
@@ -62,7 +61,6 @@ class TikTokHTTPClient:
 
         # Create the params
         self.params: Dict[str, Any] = {
-            "apiKey": sign_api_key,
             **httpx_kwargs.pop("params", {}), **WebDefaults.client_params
         }
 

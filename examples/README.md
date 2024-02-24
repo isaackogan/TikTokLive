@@ -10,6 +10,7 @@ If you have an example project, please [create a pull request](https://github.co
 - [Proxied Connections - proxying.py](proxying.py)
 - [Recording Livestreams - recording.py](recording.py)
 - [Editing HTTP Defaults - web_defaults.py](web_defaults.py)
+- [Checking If User Is Live - check_live.py](check_live.py)
 
 
 ## Documentation
