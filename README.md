@@ -248,33 +248,7 @@ You can set the session ID with [`client.web.set_session_id(...)`](https://githu
 
 It is considered inefficient to use the connect method to check if a user is live. It is better to use the dedicated `await client.is_live()` method. 
 
-Here is a worked example of how to approach this:
-
-```python
-import asyncio
-from TikTokLive import TikTokLiveClient
-
-client: TikTokLiveClient = TikTokLiveClient(
-    unique_id="@isaackogz"
-)
-
-
-async def check_loop() -> None:
-    
-    # Run 24/7
-    while True:
-        
-        # Check if they're live
-        while not await client.is_live():
-            await asyncio.sleep(60)  # Spamming the endpoint will get you blocked
-        
-        # Connect once they become live
-        await client.connect()
-
-if __name__ == '__main__':
-    asyncio.run(check_loop())
-```
-
+There is a [complete example](https://github.com/isaackogan/TikTokLive/blob/master/examples/check_live.py) of how to do this in the [examples](https://github.com/isaackogan/TikTokLive/tree/master/examples) folder.
 
 ## Contributors
 
