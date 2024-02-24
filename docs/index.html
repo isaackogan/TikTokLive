@@ -247,24 +247,26 @@ channel for questions, contributions and ideas.</p>
 <h3>Consider Donating &lt;3<a class="headerlink" href="#consider-donating-3" title="Link to this heading">#</a></h3>
 <p>I’m a 2nd-year Biology student in university who likes to program for fun. Please consider supporting development
 through a small donation at <a class="reference external" href="https://www.buymeacoffee.com/isaackogan">https://www.buymeacoffee.com/isaackogan</a>. Anything
-you can offer will go towards school &amp; development costs for TikTokLive.</p>
+you can offer will go towards school &amp; development costs for TikTokLive, which has taken hundreds of hours of time to build.</p>
 </section>
 <section id="other-languages">
 <h3>Other Languages<a class="headerlink" href="#other-languages" title="Link to this heading">#</a></h3>
-<p>TikTok LIVE is available in several alternate programming languages:</p>
+<p>TikTokLive is available in several alternate programming languages:</p>
 <ul class="simple">
 <li><p><strong>Node.JS:</strong> <a class="reference external" href="https://github.com/zerodytrash/TikTok-Live-Connector">https://github.com/zerodytrash/TikTok-Live-Connector</a></p></li>
 <li><p><strong>Java:</strong> <a class="reference external" href="https://github.com/jwdeveloper/TikTok-Live-Java">https://github.com/jwdeveloper/TikTok-Live-Java</a></p></li>
 <li><p><strong>C#/Unity:</strong> <a class="reference external" href="https://github.com/frankvHoof93/TikTokLiveSharp">https://github.com/frankvHoof93/TikTokLiveSharp</a></p></li>
 <li><p><strong>Go:</strong> <a class="reference external" href="https://github.com/Davincible/gotiktoklive">https://github.com/Davincible/gotiktoklive</a></p></li>
+<li><p><strong>Rust:</strong> <a class="reference external" href="https://github.com/jwdeveloper/TikTokLiveRust">https://github.com/jwdeveloper/TikTokLiveRust</a></p></li>
 </ul>
 </section>
 <section id="table-of-contents">
 <h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://isaackogan.github.io/TikTokLive/">Documentation</a></p></li>
-<li><p><a class="reference external" href="#license">Licensing</a></p></li>
 <li><p><a class="reference external" href="https://github.com/isaackogan/TikTokLive/tree/master/examples">Examples</a></p></li>
+<li><p><a class="reference external" href="https://github.com/isaackogan/TikTokLive/wiki">Wiki</a></p></li>
+<li><p><a class="reference external" href="#license">Licensing</a></p></li>
 <li><p><a class="reference external" href="#contributors">Contributors</a></p></li>
 </ul>
 </section>
@@ -273,7 +275,7 @@ you can offer will go towards school &amp; development costs for TikTokLive.</p>
 <ol class="arabic simple">
 <li><p>Install the module via pip from the <a class="reference external" href="https://pypi.org/project/TikTokLive/">PyPi</a> repository</p></li>
 </ol>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>TikTokLive
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>TikTokLive
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
@@ -323,7 +325,7 @@ provided in the source tree.</p>
 <tr class="row-even"><td><p>unique_id</p></td>
 <td><p>Yes</p></td>
 <td><p>N/A</p></td>
-<td><p>The unique username of the broadcaster. You can find this name in the URL of the user. For example, the <code class="docutils literal notranslate"><span class="pre">unique_id</span></code> for <code class="docutils literal notranslate"><span class="pre">https://www.tiktok.com/&#64;isaackogz/live</span></code> would be <code class="docutils literal notranslate"><span class="pre">isaackogz</span></code>.</p></td>
+<td><p>The unique username of the broadcaster. You can find this name in the URL of the user. For example, the <code class="docutils literal notranslate"><span class="pre">unique_id</span></code> for <a class="reference external" href="https://www.tiktok.com/&#64;isaackogz"><code class="docutils literal notranslate"><span class="pre">https://www.tiktok.com/&#64;isaackogz</span></code></a> would be <code class="docutils literal notranslate"><span class="pre">isaackogz</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p>web_proxy</p></td>
 <td><p>No</p></td>
@@ -572,6 +574,11 @@ triggered, which signals the end of the streak with <code class="docutils litera
 You can set the session ID with <a class="reference external" href="https://github.com/isaackogan/TikTokLive/blob/master/examples/logged_in.py"><code class="docutils literal notranslate"><span class="pre">client.web.set_session_id(...)</span></code></a>.</p>
 </section>
 </section>
+<section id="checking-if-a-user-is-live">
+<h3>Checking If A User Is Live<a class="headerlink" href="#checking-if-a-user-is-live" title="Link to this heading">#</a></h3>
+<p>It is considered inefficient to use the connect method to check if a user is live. It is better to use the dedicated <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">client.is_live()</span></code> method.</p>
+<p>There is a <a class="reference external" href="https://github.com/isaackogan/TikTokLive/blob/master/examples/check_live.py">complete example</a> of how to do this in the <a class="reference external" href="https://github.com/isaackogan/TikTokLive/tree/master/examples">examples</a> folder.</p>
+</section>
 <section id="contributors">
 <h3>Contributors<a class="headerlink" href="#contributors" title="Link to this heading">#</a></h3>
 <ul class="simple">
@@ -653,6 +660,7 @@ this project.</p>
 <li><a class="reference internal" href="#subscribeevent"><code class="docutils literal notranslate"><span class="pre">SubscribeEvent</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#checking-if-a-user-is-live">Checking If A User Is Live</a></li>
 <li><a class="reference internal" href="#contributors">Contributors</a></li>
 <li><a class="reference internal" href="#license">License</a></li>
 </ul>
