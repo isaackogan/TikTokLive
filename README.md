@@ -255,7 +255,6 @@ There is a [complete example](https://github.com/isaackogan/TikTokLive/blob/mast
 * **Isaac Kogan** - *Creator, Primary Maintainer, and Reverse-Engineering* - [isaackogan](https://github.com/isaackogan)
 * **Zerody** - *Initial Reverse-Engineering Protobuf & Support* - [Zerody](https://github.com/zerodytrash/)
 * **Davincible** - *Reverse-Engineering Stream Downloads*  - [davincible](https://github.com/davincible)
-* **David Teather** - *TikTokLive Introduction Tutorial* - [davidteather](https://github.com/davidteather)
 
 See also the full list of [contributors](https://github.com/isaackogan/TikTokLive/contributors) who have participated in
 this project.
