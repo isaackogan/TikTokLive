@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 # PyPi upload Command
 # rm -r dist ; python setup.py sdist ; python -m twine upload dist/*
-version: str = "6.0.0-post1"
+version: str = "6.0.1"
 
 setuptools.setup(
     name="TikTokLive",
