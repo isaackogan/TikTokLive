@@ -3,7 +3,8 @@
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
-
+import importlib
+import json
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -13,9 +14,8 @@
 import os
 import sys
 
-import pkg_resources
-
-version = "v" + pkg_resources.get_distribution("TikTokLive").version
+manifest = json.loads(open("../../manifest.json", "r").read())
+version = "v" + manifest["version"]
 
 sys.path.insert(0, os.path.abspath('../../'))
 
@@ -40,12 +40,13 @@ extensions = [
 
 html_logo = "logo.png"
 
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
 html_theme = "furo"
 html_title = project + " " + version
+
+print("Building for version", html_title)
 
 html_theme_options = {
     "light_css_variables": {
