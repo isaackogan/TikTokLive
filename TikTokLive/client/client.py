@@ -356,6 +356,15 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         return None
 
     @property
+    def unique_id(self) -> str:
+        """
+        The cleaned unique-id parameter passed to the client
+
+        """
+
+        return self._unique_id
+
+    @property
     def room_id(self) -> Optional[str]:
         """
         The room ID the user is currently connected to
