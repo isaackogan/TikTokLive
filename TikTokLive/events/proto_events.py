@@ -96,7 +96,7 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
 
         """
 
-        if not self.streakable:
+        if not self.gift.streakable:
             return False
 
         return not bool(self.repeat_end)

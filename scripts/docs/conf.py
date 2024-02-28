@@ -14,7 +14,9 @@ import json
 import os
 import sys
 
-manifest = json.loads(open("../../manifest.json", "r").read())
+from setup import manifest  # todo this wont work
+
+manifest = manifest
 version = "v" + manifest["version"]
 
 sys.path.insert(0, os.path.abspath('../../'))
