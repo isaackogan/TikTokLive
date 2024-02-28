@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import traceback
 import urllib.parse
 from asyncio import AbstractEventLoop, Task, CancelledError
 from logging import Logger
@@ -319,7 +320,12 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             return [response_event, UnknownEvent().from_pydict(response.to_dict())]
 
         # Get the underlying events
-        proto_event: ProtoEvent = event_type().parse(response.payload)
+        try:
+            proto_event: ProtoEvent = event_type().parse(response.payload)
+        except Exception:
+            self._logger.error(traceback.format_exc())
+            return [response_event]
+
         parsed_events: List[Event] = [response_event, proto_event]
         custom_event: Optional[Event] = self._parse_custom_event(response, proto_event)
 

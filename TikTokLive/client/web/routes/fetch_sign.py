@@ -44,7 +44,7 @@ class SignAPIError(RuntimeError):
         self.reason = reason
         args = list(args)
         args.insert(0, f"[{reason.name}]")
-        super().__init__(*args)
+        super().__init__(" ".join(args))
 
 
 class SignatureRateLimitError(SignAPIError):
@@ -70,7 +70,7 @@ class SignatureRateLimitError(SignAPIError):
         _args = list(args)
         _args[0] = str(args[0]) % str(self.retry_after)
 
-        super().__init__(reason=SignAPIError.ErrorReason.RATE_LIMIT, *args)
+        super().__init__(SignAPIError.ErrorReason.RATE_LIMIT, *_args)
 
     @property
     def retry_after(self) -> int:

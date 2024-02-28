@@ -6,10 +6,13 @@ import betterproto
 
 from TikTokLive.proto import User, GiftStruct
 
-MessageType: Type = TypeVar('MessageType', bound=betterproto.Message)
+# "MessageType" is a proto enum field.
+# This underscore is the difference between life & death, because if you shadow the proto field,
+# everything crashes & burns in a fiery hell.
+_MessageType: Type = TypeVar('_MessageType', bound=betterproto.Message)
 
 
-def proto_extension(cls: MessageType):
+def proto_extension(cls: _MessageType):
     """
     Betterproto doesn't properly handle inheriting existing messages.
     This method takes the superclass proto metadata and assigns that to this one.
