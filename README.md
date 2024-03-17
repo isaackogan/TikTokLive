@@ -189,7 +189,7 @@ If you know what an event does, [make a pull request](https://github.com/isaacko
 - `BarrageEvent`
 - `CaptionEvent`
 - `ImDeleteEvent`
-- `RoomUserSeqEvent`
+- `RoomUserSeqEvent` - Current viewer count information
 - `RankUpdateEvent`
 - `RankTextEvent`
 - `HourlyRankEvent`
