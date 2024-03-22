@@ -4,7 +4,7 @@ from typing import Optional, AsyncIterator, List, Dict, Any, Callable, Tuple
 from httpx import Proxy
 from python_socks import parse_proxy_url, ProxyType
 from websockets import WebSocketClientProtocol
-from websockets.legacy.client import Connect
+from websockets.legacy.client import Connect, WebSocketClientProtocol
 from websockets_proxy import websockets_proxy
 from websockets_proxy.websockets_proxy import ProxyConnect
 
@@ -93,12 +93,25 @@ class WebcastWSClient:
         :param headers: Headers to send to TikTok on connecting
         :return: Connection dictionary
 
+        DEVELOP SANITY NOTE:
+
+        When ping_timeout is set (i.e. not None), the client waits for a pong for N seconds.
+        TikTok DO NOT SEND pongs back. Unfortunately the websockets client after N seconds assumes the server is dead.
+        It then throws the following infamous exception:
+
+        websockets.exceptions.ConnectionClosedError: sent 1011 (unexpected error) keepalive ping timeout; no close frame received
+
+        If you set ping_timeout to None, it doesn't wait for a pong. Perfect, since TikTok don't send them.
         """
+
+        # Copy & remove ping intervals so people can't destroy their clients by accident
+        ws_kwargs = self._ws_kwargs.copy()
+        ws_kwargs.pop("ping_timeout", None)
 
         base_config: dict = (
             {
                 "subprotocols": ["echo-protocol"],
-                "ping_timeout": 10.0,
+                "ping_timeout": None,  # DO NOT OVERRIDE THIS. SEE DOCSTRING.
                 "ping_interval": 10.0,
                 "logger": self._logger,
                 "uri": self._ws_kwargs.pop("uri", uri),
