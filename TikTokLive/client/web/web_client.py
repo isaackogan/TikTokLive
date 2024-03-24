@@ -1,12 +1,12 @@
 from TikTokLive.client.web.routes import FetchIsLiveRoute
 from TikTokLive.client.web.routes.fetch_video import VideoFetchRoute
+from TikTokLive.client.web.routes.fetch_audio import AudioFetchRoute
 from TikTokLive.client.web.routes.fetch_gift_list import GiftListRoute
 from TikTokLive.client.web.routes.fetch_image import ImageFetchRoute
 from TikTokLive.client.web.routes.fetch_room_id import RoomIdRoute
 from TikTokLive.client.web.routes.fetch_room_info import FetchRoomInfoRoute
 from TikTokLive.client.web.routes.fetch_sign import SignFetchRoute
 from TikTokLive.client.web.web_base import TikTokHTTPClient
-
 
 class TikTokWebClient(TikTokHTTPClient):
     """
@@ -29,5 +29,6 @@ class TikTokWebClient(TikTokHTTPClient):
         self.fetch_gift_list: GiftListRoute = GiftListRoute(self)
         self.fetch_image: ImageFetchRoute = ImageFetchRoute(self)
         self.fetch_video: VideoFetchRoute = VideoFetchRoute(self)
+        self.fetch_audio: AudioFetchRoute = AudioFetchRoute(self)
         self.fetch_is_live: FetchIsLiveRoute = FetchIsLiveRoute(self)
         self.fetch_sign_fetch: SignFetchRoute = SignFetchRoute(self, self._sign_api_key)

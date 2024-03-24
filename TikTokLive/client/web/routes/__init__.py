@@ -4,4 +4,5 @@ from .fetch_room_id import RoomIdRoute
 from .fetch_room_info import FetchRoomInfoRoute
 from .fetch_sign import SignFetchRoute
 from .fetch_video import VideoFetchRoute
+from .fetch_audio import AudioFetchRoute
 from .fetch_is_live import FetchIsLiveRoute
