@@ -21,8 +21,6 @@ channel for questions, contributions and ideas.
 
 ### Enterprise Access
 
-Enterprise access is available for:
-
 - Tokens to scrape ANY TikTok URL (i.e. fetch profiles,  videos, comments, etc.)
 - Increased TikTok LIVE rate limits (i.e. ability to 1000s of clients per hour)
 
