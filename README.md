@@ -23,10 +23,10 @@ channel for questions, contributions and ideas.
 
 <div align="left">
     <a href="https://eulerstream.com" target="_blank">
-        <img src="https://github.com/isaackogan/TikTokLive/assets/65869106/b56cef89-5d87-4f2f-ac3e-0685af21b28d)" width="100" alt="Eulerstream">
         <div>
             <b>Eulerstream</b> is the free LIVE access provider for TikTok LIVE and offers paid plans for enterprises to access LIVEs and all of TikTok
         </div>
+        <img src="https://github.com/isaackogan/TikTokLive/assets/65869106/b56cef89-5d87-4f2f-ac3e-0685af21b28d)" width="100" alt="Eulerstream">
     </a>
 </div>
 
