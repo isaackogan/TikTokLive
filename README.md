@@ -21,8 +21,6 @@ channel for questions, contributions and ideas.
 
 ### Enterprise Access
 
-For enterprise access to TikTok LIVE through any TikTokLive library, and token generation for any TikTok URL, visit:
-
 <div align="left">
     <a href="https://eulerstream.com" target="_blank">
         <img src="https://github.com/isaackogan/TikTokLive/assets/65869106/b56cef89-5d87-4f2f-ac3e-0685af21b28d)" width="100" alt="Eulerstream">
