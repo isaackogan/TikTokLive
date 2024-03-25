@@ -19,6 +19,19 @@ Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
 the [`#py-support`](https://discord.gg/uja6SajDxd)
 channel for questions, contributions and ideas.
 
+### Sponsors
+
+For enterprise access to TikTok LIVE through any TikTokLive library, and token generation for any TikTok URL, visit:
+
+<div align="center">
+    <a href="https://eulerstream.com" target="_blank">
+        <img src="https://github.com/isaackogan/TikTokLive/assets/65869106/b56cef89-5d87-4f2f-ac3e-0685af21b28d)" width="100" alt="Eulerstream">
+        <div>
+            <b>Eulerstream</b> is the free LIVE access provider for TikTok LIVE and offers paid plans for enterprises to access LIVEs and all of TikTok
+        </div>
+    </a>
+</div>
+
 ### Consider Donating <3
 
 I'm a 2nd-year Biology student in university who likes to program for fun. Please consider supporting development
