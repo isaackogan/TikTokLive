@@ -283,6 +283,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :return: The generated `pyee.Handler` object
 
         """
+        if isinstance(event, str):
+            return super().add_listener(event=event, f=f)
 
         return super().add_listener(event=event.get_type(), f=f)
 
