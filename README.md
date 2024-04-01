@@ -19,6 +19,21 @@ Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
 the [`#py-support`](https://discord.gg/uja6SajDxd)
 channel for questions, contributions and ideas.
 
+### Enterprise Access
+
+- Tokens to scrape ANY TikTok URL (i.e. fetch profiles,  videos, comments, etc.)
+- Increased TikTok LIVE rate limits (i.e. ability to 1000s of clients per hour)
+
+<div align="left">
+    <a href="https://eulerstream.com" target="_blank">
+        <div>
+            <b>Eulerstream</b> offers paid plans for enterprises for increased TikTokLive access & TikTok API tokens for data collection
+        </div>
+        <br/>
+        <img src="https://github.com/isaackogan/TikTokLive/assets/65869106/b56cef89-5d87-4f2f-ac3e-0685af21b28d)" width="100" alt="Eulerstream">
+    </a>
+</div>
+
 ### Consider Donating <3
 
 I'm a 2nd-year Biology student in university who likes to program for fun. Please consider supporting development
