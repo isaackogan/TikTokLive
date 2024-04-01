@@ -1,17 +1,18 @@
 import asyncio
+import inspect
 import logging
 import traceback
 import urllib.parse
 from asyncio import AbstractEventLoop, Task, CancelledError
 from logging import Logger
-from typing import Optional, Type, AsyncIterator, Dict, Any, Tuple, Union, Callable, List
+from typing import Optional, Type, AsyncIterator, Dict, Any, Tuple, Union, Callable, List, Coroutine
 
 from httpx import Proxy
 from pyee import AsyncIOEventEmitter
 from pyee.base import Handler
 
 from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, InitialCursorMissingError, \
-    WebsocketURLMissingError
+    WebsocketURLMissingError, AgeRestrictedError
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
 from TikTokLive.client.web.web_client import TikTokWebClient
 from TikTokLive.client.web.web_settings import WebDefaults
@@ -116,6 +117,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # <Optional> Fetch room info
         if fetch_room_info:
             self._room_info = await self._web.fetch_room_info()
+            if "prompts" in self._room_info and len(self._room_info) == 1:
+                raise AgeRestrictedError("Age restricted. Pass sessionid to log in & bypass age restriction.")
             if self._room_info.get("status", 4) == 4:
                 raise UserOfflineError()
 
@@ -141,10 +144,21 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         self._event_loop_task = self._asyncio_loop.create_task(self._client_loop(webcast_response))
         return self._event_loop_task
 
-    async def connect(self, **kwargs) -> Task:
+    async def connect(
+            self,
+            callback: Optional[
+                Union[
+                    Callable[[None], None],
+                    Callable[[None], Coroutine[None, None, None]],
+                    Coroutine[None, None, None],
+                ]
+            ] = None,
+            **kwargs
+    ) -> Task:
         """
         Start a future-blocking connection to TikTokLive
 
+        :param callback: A callback function to run when connected
         :param kwargs: Kwargs to pass to start
         :return: The task, once it's finished
 
@@ -153,6 +167,12 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         task: Task = await self.start(**kwargs)
 
         try:
+            if inspect.iscoroutinefunction(callback):
+                self._asyncio_loop.create_task(callback())
+            elif inspect.isawaitable(callback):
+                self._asyncio_loop.create_task(callback)
+            elif inspect.isfunction(callback):
+                callback()
             await task
         except CancelledError:
             self._logger.debug("The client has been manually stopped with 'client.stop()'.")

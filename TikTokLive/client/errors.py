@@ -11,6 +11,10 @@ class UserOfflineError(RuntimeError):
 
     """
 
+class AgeRestrictedError(RuntimeError):
+    """
+    Thrown when a LIVE is age restricted. Pass sessionid to bypass.
+    """
 
 class InitialCursorMissingError(RuntimeError):
     """
