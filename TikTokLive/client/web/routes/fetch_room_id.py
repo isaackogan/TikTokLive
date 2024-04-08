@@ -1,4 +1,3 @@
-import random
 import re
 
 from httpx import Response
@@ -32,7 +31,8 @@ class RoomIdRoute(ClientRoute):
 
         # Get their livestream HTML
         response: Response = await self._web.get_response(
-            url=WebDefaults.tiktok_app_url + f"/@{unique_id}/live"
+            url=WebDefaults.tiktok_app_url + f"/@{unique_id}/live",
+            base_params=False
         )
 
         # Parse & update the web client

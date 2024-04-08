@@ -4,6 +4,8 @@ echo "Starting build..."
 
 cd ../
 
+rm -r "./dist"
+
 python -m build
 
 echo "Finished build..."

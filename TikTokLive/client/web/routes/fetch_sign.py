@@ -141,7 +141,7 @@ class SignFetchRoute(ClientRoute):
         elif not response.status_code == 200:
             raise SignAPIError(
                 SignAPIError.ErrorReason.SIGN_NOT_200,
-                f"Failed request to Sign API with status code {response.status_code}."
+                f"Failed request to Sign API with status code {response.status_code} and payload \"{response.read()}\"."
             )
 
         webcast_response: WebcastResponse = WebcastResponse().parse(response.read())

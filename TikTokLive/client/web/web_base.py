@@ -67,8 +67,6 @@ class TikTokHTTPClient:
         return AsyncClient(
             proxies=proxy,
             cookies=self.cookies,
-            params=self.params,
-            headers=self.headers,
             **httpx_kwargs
         )
 
@@ -78,6 +76,8 @@ class TikTokHTTPClient:
             extra_params: dict = {},
             extra_headers: dict = {},
             client: Optional[httpx.AsyncClient] = None,
+            base_params: bool = True,
+            base_headers: bool = True,
             **kwargs
     ) -> Response:
         """
@@ -88,6 +88,8 @@ class TikTokHTTPClient:
         :param extra_headers: Extra headers to append to the globals
         :param client: An optional override for the `httpx.AsyncClient` client
         :param kwargs: Optional keywords for the `httpx.AsyncClient.get` method
+        :param base_params: Whether to include the base params
+        :param base_headers: Whether to include the base headers
         :return: An `httpx.Response` object
 
         """
@@ -100,8 +102,8 @@ class TikTokHTTPClient:
         return await (client or self._httpx).get(
             url=url,
             cookies=self.cookies,
-            params={**self.params, **extra_params},
-            headers={**self.headers, **extra_headers},
+            params={**(self.params if base_params else {}), **extra_params},
+            headers={**(self.headers if base_headers else {}), **extra_headers},
             **kwargs
         )
 

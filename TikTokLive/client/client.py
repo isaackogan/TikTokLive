@@ -118,7 +118,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         if fetch_room_info:
             self._room_info = await self._web.fetch_room_info()
             if "prompts" in self._room_info and len(self._room_info) == 1:
-                raise AgeRestrictedError("Age restricted. Pass sessionid to log in & bypass age restriction.")
+                raise AgeRestrictedError(
+                    "Age restricted stream. "
+                    "Pass sessionid to log in & bypass age restriction, OR set fetch_room_info=False "
+                    "in the client connection method."
+                )
             if self._room_info.get("status", 4) == 4:
                 raise UserOfflineError()
 
