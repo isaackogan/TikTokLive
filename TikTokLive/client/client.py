@@ -12,7 +12,7 @@ from pyee import AsyncIOEventEmitter
 from pyee.base import Handler
 
 from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, InitialCursorMissingError, \
-    WebsocketURLMissingError, AgeRestrictedError
+    WebsocketURLMissingError
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
 from TikTokLive.client.web.web_client import TikTokWebClient
 from TikTokLive.client.web.web_settings import WebDefaults
@@ -92,8 +92,9 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self,
             *,
             process_connect_events: bool = True,
-            fetch_room_info: bool = True,
+            fetch_room_info: bool = False,
             fetch_gift_info: bool = False,
+            fetch_live_check: bool = True,
             room_id: Optional[int] = None
     ) -> Task:
         """
@@ -102,6 +103,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :param process_connect_events: Whether to process initial events sent on room join
         :param fetch_room_info: Whether to fetch room info on join
         :param fetch_gift_info: Whether to fetch gift info on join
+        :param fetch_live_check: Whether to check if the user is live (you almost ALWAYS want this enabled)
         :param room_id: An override to the room ID to connect directly to the livestream and skip scraping the live.
                         Useful when trying to scale, as scraping the HTML can result in TikTok blocks.
         :return: Task containing the heartbeat of the client
@@ -112,19 +114,22 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             raise AlreadyConnectedError("You can only make one connection per client!")
 
         # <Required> Fetch room ID
-        self._room_id: str = room_id or await self._web.fetch_room_id(self._unique_id)
+        try:
+            self._room_id: str = room_id or await self._web.fetch_room_id_from_html(self._unique_id)
+        except Exception as base_ex:
+            try:
+                self._logger.error("Failed to parse room ID from HTML. Using API fallback.")
+                self._room_id: str = await self._web.fetch_room_id_from_api(self.unique_id)
+            except Exception as super_ex:
+                raise super_ex from base_ex
+
+        # <Optional> Fetch live status
+        if fetch_live_check and not await self._web.fetch_is_live(room_id=self._room_id):
+            raise UserOfflineError()
 
         # <Optional> Fetch room info
         if fetch_room_info:
             self._room_info = await self._web.fetch_room_info()
-            if "prompts" in self._room_info and len(self._room_info) == 1:
-                raise AgeRestrictedError(
-                    "Age restricted stream. "
-                    "Pass sessionid to log in & bypass age restriction, OR set fetch_room_info=False "
-                    "in the client connection method."
-                )
-            if self._room_info.get("status", 4) == 4:
-                raise UserOfflineError()
 
         # <Optional> Fetch gift info
         if fetch_gift_info:

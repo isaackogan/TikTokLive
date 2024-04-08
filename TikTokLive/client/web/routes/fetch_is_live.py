@@ -2,6 +2,7 @@ from typing import Optional, List
 
 from httpx import Response
 
+from TikTokLive.client.web.routes.fetch_room_id_api import RoomIdAPIRoute
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
 
@@ -13,18 +14,6 @@ class InvalidFetchIsLiveRequest(RuntimeError):
     """
 
     pass
-
-
-class InvalidLiveUser(RuntimeError):
-    """
-    Thrown when the request to check if a user is live fails because a user has no
-    livestream account (e.g. <1000 followers)
-
-    """
-
-    def __init__(self, unique_id: str, *args):
-        self.unique_id: str = unique_id
-        super().__init__(*args)
 
 
 class FetchIsLiveRoute(ClientRoute):
@@ -87,26 +76,9 @@ class FetchIsLiveRoute(ClientRoute):
 
         """
 
-        response: Response = await self._web.get_response(
-            url=WebDefaults.tiktok_app_url + f"/api-live/user/room/",
-            extra_params=(
-                {
-                    "uniqueId": unique_id,
-                    "sourceType": 54
-                }
-            )
+        response_json: dict = await RoomIdAPIRoute.fetch_user_room_data(
+            web=self._web,
+            unique_id=unique_id
         )
-
-        response_json: dict = response.json()
-
-        # Invalid user
-        if response_json["message"] == "user_not_found":
-            raise InvalidLiveUser(
-                unique_id,
-                (
-                    f"The requested user '{unique_id}' is not capable of going LIVE on TikTok, "
-                    "or has never gone live on TikTok, or does not exist."
-                )
-            )
 
         return response_json["data"]["liveRoom"]["status"] != 4

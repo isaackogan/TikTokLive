@@ -14,7 +14,7 @@ class FailedParseRoomIdError(RuntimeError):
     """
 
 
-class RoomIdRoute(ClientRoute):
+class RoomIdHTMLRoute(ClientRoute):
     """
     Route to retrieve the room ID for a user
 

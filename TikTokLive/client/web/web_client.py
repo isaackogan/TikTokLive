@@ -1,8 +1,9 @@
 from TikTokLive.client.web.routes import FetchIsLiveRoute
+from TikTokLive.client.web.routes.fetch_room_id_api import RoomIdAPIRoute
 from TikTokLive.client.web.routes.fetch_video import VideoFetchRoute
 from TikTokLive.client.web.routes.fetch_gift_list import GiftListRoute
 from TikTokLive.client.web.routes.fetch_image import ImageFetchRoute
-from TikTokLive.client.web.routes.fetch_room_id import RoomIdRoute
+from TikTokLive.client.web.routes.fetch_room_id_html import RoomIdHTMLRoute
 from TikTokLive.client.web.routes.fetch_room_info import FetchRoomInfoRoute
 from TikTokLive.client.web.routes.fetch_sign import SignFetchRoute
 from TikTokLive.client.web.web_base import TikTokHTTPClient
@@ -24,7 +25,8 @@ class TikTokWebClient(TikTokHTTPClient):
 
         super().__init__(**kwargs)
 
-        self.fetch_room_id: RoomIdRoute = RoomIdRoute(self)
+        self.fetch_room_id_from_html: RoomIdHTMLRoute = RoomIdHTMLRoute(self)
+        self.fetch_room_id_from_api: RoomIdAPIRoute = RoomIdAPIRoute(self)
         self.fetch_room_info: FetchRoomInfoRoute = FetchRoomInfoRoute(self)
         self.fetch_gift_list: GiftListRoute = GiftListRoute(self)
         self.fetch_image: ImageFetchRoute = ImageFetchRoute(self)
