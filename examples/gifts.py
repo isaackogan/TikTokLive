@@ -13,16 +13,16 @@ async def on_connect(event: ConnectEvent):
 
 
 @client.on(GiftEvent)
-async def on_comment(event: GiftEvent):
+async def on_gift(event: GiftEvent):
     client.logger.info("Received a gift!")
 
     # Can have a streak and streak is over
     if event.gift.streakable and not event.streaking:
-        print(f"{event.user.unique_id} sent {event.gift.count}x \"{event.gift.info.name}\"")
+        print(f"{event.user.unique_id} sent {event.repeat_count}x \"{event.gift.name}\"")
 
     # Cannot have a streak
     elif not event.gift.streakable:
-        print(f"{event.user.unique_id} sent \"{event.gift.info.name}\"")
+        print(f"{event.user.unique_id} sent \"{event.gift.name}\"")
 
 
 if __name__ == '__main__':

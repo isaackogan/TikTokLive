@@ -233,11 +233,11 @@ async def on_gift(event: GiftEvent):
     # If it's type 1 and the streak is over
     if event.gift.info.type == 1:
         if event.gift.is_repeating == 1:
-            print(f"{event.user.unique_id} sent {event.gift.count}x \"{event.gift.info.name}\"")
+            print(f"{event.user.unique_id} sent {event.repeat_count}x \"{event.gift.name}\"")
 
     # It's not type 1, which means it can't have a streak & is automatically over
     elif event.gift.info.type != 1:
-        print(f"{event.user.unique_id} sent \"{event.gift.info.name}\"")
+        print(f"{event.user.unique_id} sent \"{event.gift.name}\"")
 ```
 
 Using the TikTokLive extended proto:
@@ -246,12 +246,11 @@ Using the TikTokLive extended proto:
 async def on_gift(event: GiftEvent):
     # Streakable gift & streak is over
     if event.gift.streakable and not event.streaking:
-        print(f"{event.user.unique_id} sent {event.gift.count}x \"{event.gift.info.name}\"")
+        print(f"{event.user.unique_id} sent {event.repeat_count}x \"{event.gift.name}\"")
 
     # Non-streakable gift
     elif not event.gift.streakable:
-        print(f"{event.user.unique_id} sent \"{event.gift.info.name}\"")
-
+        print(f"{event.user.unique_id} sent \"{event.gift.name}\"")
 ```
 
 ### `SubscribeEvent`
