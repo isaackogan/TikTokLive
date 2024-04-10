@@ -21,9 +21,6 @@ channel for questions, contributions and ideas.
 
 ### Enterprise Access
 
-- Tokens to scrape ANY TikTok URL (i.e. fetch profiles,  videos, comments, etc.)
-- Increased TikTok LIVE rate limits (i.e. ability to 1000s of clients per hour)
-
 <div align="left">
     <a href="https://eulerstream.com" target="_blank">
         <div>
