@@ -6,8 +6,6 @@
 from TikTokLive.proto.tiktok_proto import *
 from TikTokLive.proto.custom_proto import *
 from .base_event import BaseEvent
-from typing import Type, Union, Dict
-from typing import Union
 
 
 class JoinEvent(BaseEvent, WebcastMemberMessage):
@@ -100,6 +98,21 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
             return False
 
         return not bool(self.repeat_end)
+
+    @property
+    def value(self) -> Optional[float]:
+        """
+        Get the USD value of a GiftEvent. If the gift is streakable, this will return None until the streak is over
+
+        :return: The value of the gift
+
+        """
+
+        # Prevent double-count by only calculating for non-streaking gifts
+        if self.streaking:
+            return None
+
+        return self.repeat_count * self.gift.diamond_count * 0.005  # 0.005 is the conversion
 
 
 class GoalUpdateEvent(BaseEvent, WebcastGoalUpdateMessage):
