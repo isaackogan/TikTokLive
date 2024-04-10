@@ -354,7 +354,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         try:
             proto_event: ProtoEvent = event_type().parse(response.payload)
         except Exception:
-            self._logger.error(traceback.format_exc())
+            self._logger.error(traceback.format_exc() + "\nBroken Payload:\n" + str(response.payload))
             return [response_event]
 
         parsed_events: List[Event] = [response_event, proto_event]

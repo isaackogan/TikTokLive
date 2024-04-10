@@ -11,10 +11,12 @@ class UserOfflineError(RuntimeError):
 
     """
 
+
 class AgeRestrictedError(RuntimeError):
     """
     Thrown when a LIVE is age restricted. Pass sessionid to bypass.
     """
+
 
 class InitialCursorMissingError(RuntimeError):
     """
@@ -28,4 +30,3 @@ class WebsocketURLMissingError(RuntimeError):
     Thrown when the websocket URL to connect to TikTok is missing (blocked)
 
     """
-
