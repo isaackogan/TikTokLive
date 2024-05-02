@@ -2,6 +2,7 @@
 # DO NOT EDIT!
 # SERIOUSLY!
 # I MEAN IT!
+from typing import Union
 
 from TikTokLive.proto.tiktok_proto import *
 from TikTokLive.proto.custom_proto import *
