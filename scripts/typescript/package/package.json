@@ -1,0 +1,22 @@
+{
+  "name": "@tiktoklive/types",
+  "displayName": "TikTokLive TS Types",
+  "version": "1.0.1",
+  "description": "NPM package template with Typescript, Webpack, SCSS, EsLint, Babel",
+  "files": [
+    "TikTokLive.d.ts"
+  ],
+  "keywords": [
+    "npm",
+    "TikTok",
+    "TikTokLive",
+    "Python"
+  ],
+  "author": "Isaac Kogan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isaackogan/TikTokLive/tree/master/scripts/typescript/package"
+  },
+  "homepage": "https://github.com/isaackogan/TikTokLive/tree/master/scripts/typescript/"
+}

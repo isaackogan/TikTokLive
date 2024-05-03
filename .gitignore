@@ -7,3 +7,4 @@ dev
 test.py
 .env
 build
+badges.py
