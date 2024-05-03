@@ -5,7 +5,7 @@ SERIOUSLY!
 I MEAN IT!
 */
 
-export declare enum AuditStatus {
+export enum AuditStatus {
     AUDITSTATUSUNKNOWN = 0,
     AUDITSTATUSPASS = 1,
     AUDITSTATUSFAILED = 2,
@@ -13,44 +13,44 @@ export declare enum AuditStatus {
     AUDITSTATUSFORBIDDEN = 4,
 }
 
-export declare enum EmoteType {
+export enum EmoteType {
     EMOTETYPENORMAL = 0,
     EMOTETYPEWITHSTICKER = 1,
 }
 
-export declare enum ContentSource {
+export enum ContentSource {
     CONTENTSOURCEUNKNOWN = 0,
     CONTENTSOURCENORMAL = 1,
     CONTENTSOURCECAMERA = 2,
 }
 
-export declare enum EmotePrivateType {
+export enum EmotePrivateType {
     NORMAL = 0,
     SUB_WAVE = 1,
 }
 
-export declare enum TextType {
+export enum TextType {
     DISPLAY_TEXT = 0,
     CONTENT = 1,
 }
 
-export declare enum LinkmicApplierSortSetting {
+export enum LinkmicApplierSortSetting {
     NONE = 0,
     BY_GIFT_SCORE = 1,
 }
 
-export declare enum HashtagNamespace {
+export enum HashtagNamespace {
     GLOBAL = 0,
     GAMING = 1,
 }
 
-export declare enum AgreeStatus {
+export enum AgreeStatus {
     AGREE_UNKNOWN = 0,
     AGREE = 1,
     REJECT = 2,
 }
 
-export declare enum KickoutReason {
+export enum KickoutReason {
     UNKNOWN = 0,
     FIRST_FRAME_TIMEOUT = 1,
     BY_HOST = 2,
@@ -60,13 +60,13 @@ export declare enum KickoutReason {
     HOST_REMOVE_ALL_GUESTS = 6,
 }
 
-export declare enum GroupStatus {
+export enum GroupStatus {
     UNKNOWN = 0,
     WAITING = 1,
     LINKED = 3,
 }
 
-export declare enum BusinessCase {
+export enum BusinessCase {
     BUSINESS_NOT_SET = 0,
     APPLY_BIZ_CONTENT = 1,
     INVITE_BIZ_CONTENT = 2,
@@ -79,7 +79,7 @@ export declare enum BusinessCase {
     COHOST_CONTENT = 200,
 }
 
-export declare enum ReplyStatus {
+export enum ReplyStatus {
     UNKNOWN = 0,
     AGREE = 1,
     REFUSE_PERSONALLY = 2,
@@ -108,13 +108,13 @@ export declare enum ReplyStatus {
     REFUSE_TOPIC_PAIRING = 25,
 }
 
-export declare enum SubscribeType {
+export enum SubscribeType {
     SUBSCRIBETYPE_ONCE = 0,
     SUBSCRIBETYPE_AUTO = 1,
     SUBSCRIBETYPE_DEFAULT = 100,
 }
 
-export declare enum OldSubscribeStatus {
+export enum OldSubscribeStatus {
     OLDSUBSCRIBESTATUS_FIRST = 0,
     OLDSUBSCRIBESTATUS_RESUB = 1,
     OLDSUBSCRIBESTATUS_SUBINGRACEPERIOD = 2,
@@ -122,7 +122,7 @@ export declare enum OldSubscribeStatus {
     OLDSUBSCRIBESTATUS_DEFAULT = 100,
 }
 
-export declare enum SubscribingStatus {
+export enum SubscribingStatus {
     SUBSCRIBINGSTATUS_UNKNOWN = 0,
     SUBSCRIBINGSTATUS_ONCE = 1,
     SUBSCRIBINGSTATUS_CIRCLE = 2,
@@ -132,7 +132,7 @@ export declare enum SubscribingStatus {
     SUBSCRIBINGSTATUS_NOTINGRACEPERIOD = 6,
 }
 
-export declare enum LinkmicStatus {
+export enum LinkmicStatus {
     Disable = 0,
     Enable = 1,
     Just_Following = 2,
@@ -140,20 +140,20 @@ export declare enum LinkmicStatus {
     Multi_Linking_Only_Following = 4,
 }
 
-export declare enum MemberMessageAction {
+export enum MemberMessageAction {
     UNKNOWN = 0,
     JOINED = 1,
     SUBSCRIBED = 3,
 }
 
-export declare enum ControlAction {
+export enum ControlAction {
     ControlActionUNKNOWN = 0,
     STREAM_PAUSED = 1,
     STREAM_UNPAUSED = 2,
     STREAM_ENDED = 3,
 }
 
-export declare enum LinkLayerMessageType {
+export enum LinkLayerMessageType {
     Linker_Unknown = 0,
     Linker_Create = 1,
     Linker_Invite = 2,
@@ -175,7 +175,7 @@ export declare enum LinkLayerMessageType {
     Linker_Group_Change = 18,
 }
 
-export declare enum BarrageType {
+export enum BarrageType {
     BarrageType_Unknown = 0,
     EComOrdering = 1,
     EComBuying = 2,
@@ -191,7 +191,7 @@ export declare enum BarrageType {
     GamePartnership = 12,
 }
 
-export declare enum EnvelopeBusinessType {
+export enum EnvelopeBusinessType {
     BusinessTypeUnknown = 0,
     BusinessTypeUserDiamond = 1,
     BusinessTypePlatformDiamond = 2,
@@ -202,19 +202,19 @@ export declare enum EnvelopeBusinessType {
     BusinessTypeFanClubGtM = 7,
 }
 
-export declare enum EnvelopeFollowShowStatus {
+export enum EnvelopeFollowShowStatus {
     EnvelopeFollowShowUnknown = 0,
     EnvelopeFollowShow = 1,
     EnvelopeFollowNotShow = 2,
 }
 
-export declare enum EnvelopeDisplay {
+export enum EnvelopeDisplay {
     EnvelopeDisplayUnknown = 0,
     EnvelopeDisplayNew = 1,
     EnvelopeDisplayHide = 2,
 }
 
-export declare enum CommonContentCase {
+export enum CommonContentCase {
     COMMON_CONTENT_NOT_SET = 0,
     CREATE_CHANNEL_CONTENT = 100,
     LIST_CHANGE_CONTENT = 102,
@@ -236,7 +236,7 @@ export declare enum CommonContentCase {
     GROUP_CHANGE_CONTENT = 118,
 }
 
-export declare enum LinkMessageType {
+export enum LinkMessageType {
     TPYE_LINKER_UNKNOWN = 0,
     TYPE_LINKER_CREATE = 1,
     TYPE_LINKER_CLOSE = 2,
@@ -266,7 +266,7 @@ export declare enum LinkMessageType {
     TPYE_LINKMIC_USER_TOAST = 102,
 }
 
-export declare enum MessageType {
+export enum MessageType {
     MESSAGETYPE_SUBSUCCESS = 0,
     MESSAGETYPE_ANCHORREMINDER = 1,
     MESSAGETYPE_ENTERROOMEXPIRESOON = 2,
@@ -282,18 +282,18 @@ export declare enum MessageType {
     MESSAGETYPE_SUBGIFTUSERBUYAUTHNOTICE = 12,
 }
 
-export declare enum Scene {
+export enum Scene {
     UNKNOWN = 0,
     CO_HOST = 2,
     MULTI_LIVE = 4,
 }
 
-export declare enum CommonImDispatchStrategy {
+export enum CommonImDispatchStrategy {
     IM_DISPATCH_STRATEGY_DEFAULT = 0,
     IM_DISPATCH_STRATEGY_BYPASS_DISPATCH_QUEUE = 1,
 }
 
-export declare enum BadgeStructDataCase {
+export enum BadgeStructDataCase {
     DATA_NOT_SET = 0,
     IMAGE = 20,
     TEXT = 21,
@@ -301,7 +301,7 @@ export declare enum BadgeStructDataCase {
     COMBINE = 23,
 }
 
-export declare enum BadgeStructBadgeDisplayType {
+export enum BadgeStructBadgeDisplayType {
     BADGEDISPLAYTYPE_UNKNOWN = 0,
     BADGEDISPLAYTYPE_IMAGE = 1,
     BADGEDISPLAYTYPE_TEXT = 2,
@@ -309,32 +309,32 @@ export declare enum BadgeStructBadgeDisplayType {
     BADGEDISPLAYTYPE_COMBINE = 4,
 }
 
-export declare enum BadgeStructPosition {
+export enum BadgeStructPosition {
     POSITIONUNKNOWN = 0,
     POSITIONLEFT = 1,
     POSITIONRIGHT = 2,
 }
 
-export declare enum UserLiveEventInfoEventPayMethod {
+export enum UserLiveEventInfoEventPayMethod {
     EVENTPAYMETHODINVALID = 0,
     EVENTPAYMETHODCOINS = 1,
     EVENTPAYMETHODCASH = 2,
 }
 
-export declare enum UserEcommerceEntranceCreatorType {
+export enum UserEcommerceEntranceCreatorType {
     UNDEFINED = 0,
     OFFICIAL = 1,
     MARKET = 2,
     NORMAL = 3,
 }
 
-export declare enum UserEcommerceEntranceEntranceType {
+export enum UserEcommerceEntranceEntranceType {
     PROFILE = 0,
     SHOWCASE = 1,
     SHOP = 2,
 }
 
-export declare enum UserEcommerceEntranceShopEntranceInfoStoreLabelStoreBrandLabelType {
+export enum UserEcommerceEntranceShopEntranceInfoStoreLabelStoreBrandLabelType {
     NONE = 0,
     OFFICIAL = 1,
     AUTHORIZED = 2,
@@ -342,30 +342,30 @@ export declare enum UserEcommerceEntranceShopEntranceInfoStoreLabelStoreBrandLab
     STORE_BRAND_LABEL_TYPE_TOP_CHOICE = 4,
 }
 
-export declare enum UserFansClubPreferntialType {
+export enum UserFansClubPreferntialType {
     PRESONALPROFILE = 0,
     OTHERROOM = 1,
 }
 
-export declare enum UserFansClubFansClubDataBadgeIcon {
+export enum UserFansClubFansClubDataBadgeIcon {
     UNKNOWN = 0,
     ICON = 1,
     SMALLICON = 2,
 }
 
-export declare enum UserFansClubFansClubDataUserFansClubStatus {
+export enum UserFansClubFansClubDataUserFansClubStatus {
     NOTJOINED = 0,
     ACTIVE = 1,
     INACTIVE = 2,
 }
 
-export declare enum ListUserLinkType {
+export enum ListUserLinkType {
     LINK_UNKNOWN = 0,
     AUDIO = 1,
     VIDEO = 2,
 }
 
-export declare enum WebcastBarrageMessageBarrageType {
+export enum WebcastBarrageMessageBarrageType {
     UNKNOWN = 0,
     ECOMORDERING = 1,
     ECOMBUYING = 2,
@@ -382,7 +382,7 @@ export declare enum WebcastBarrageMessageBarrageType {
 }
 
 
-export declare interface Common  {
+export interface Common  {
     method: string
     msg_id: number
     room_id: number
@@ -411,24 +411,24 @@ export declare interface Common  {
     dispatch_strategy: CommonImDispatchStrategy
 }
 
-export declare interface CommonLiveMessageSei  {
+export interface CommonLiveMessageSei  {
     unique_id: CommonLiveMessageId
     timestamp: number
 }
 
-export declare interface CommonLiveMessageId  {
+export interface CommonLiveMessageId  {
     primary_id: string
     message_scene: string
 }
 
-export declare interface Text  {
+export interface Text  {
     key: string
     default_pattern: string
     default_format: TextTextFormat
     pieces_list: TextTextPiece[]
 }
 
-export declare interface TextTextPiece  {
+export interface TextTextPiece  {
     type: number
     format: TextTextFormat
     string_value: string
@@ -437,7 +437,7 @@ export declare interface TextTextPiece  {
     pattern_ref_value: TextTextPiecePatternRef
 }
 
-export declare interface TextTextFormat  {
+export interface TextTextFormat  {
     color: string
     bold: boolean
     italic: boolean
@@ -448,27 +448,27 @@ export declare interface TextTextFormat  {
     use_remote_clor: boolean
 }
 
-export declare interface TextTextPieceGift  {
+export interface TextTextPieceGift  {
     gift_id: number
     color_id: number
 }
 
-export declare interface TextTextPiecePatternRef  {
+export interface TextTextPiecePatternRef  {
     key: string
     default_pattern: string
 }
 
-export declare interface TextTextPieceUser  {
+export interface TextTextPieceUser  {
     user: User
     with_colon: boolean
 }
 
-export declare interface Image  {
+export interface Image  {
     url_list: string[]
     is_animated: boolean
 }
 
-export declare interface BadgeStruct  {
+export interface BadgeStruct  {
     display_type: BadgeStructBadgeDisplayType
     image: BadgeStructImageBadge
     text: BadgeStructTextBadge
@@ -476,7 +476,7 @@ export declare interface BadgeStruct  {
     combine: BadgeStructCombineBadge
 }
 
-export declare interface BadgeStructCombineBadge  {
+export interface BadgeStructCombineBadge  {
     icon: Image
     text: BadgeStructTextBadge
     str: string
@@ -491,52 +491,52 @@ export declare interface BadgeStructCombineBadge  {
     multi_guest_show_style: number
 }
 
-export declare interface BadgeStructProfileContent  {
+export interface BadgeStructProfileContent  {
     use_content: boolean
     icon_list: BadgeStructIconConfig[]
     number_config: BadgeStructNumberConfig
 }
 
-export declare interface BadgeStructProjectionConfig  {
+export interface BadgeStructProjectionConfig  {
     use_projection: boolean
     icon: Image
 }
 
-export declare interface BadgeStructNumberConfig  {
+export interface BadgeStructNumberConfig  {
     number: number
     background: BadgeStructCombineBadgeBackground
 }
 
-export declare interface BadgeStructProfileCardPanel  {
+export interface BadgeStructProfileCardPanel  {
     use_new_profile_card_style: boolean
     projection_config: BadgeStructProjectionConfig
     profile_content: BadgeStructProfileContent
 }
 
-export declare interface BadgeStructCombineBadgeBackground  {
+export interface BadgeStructCombineBadgeBackground  {
     image: Image
     background_color_code: string
     border_color_code: string
 }
 
-export declare interface BadgeStructImageBadge  {
+export interface BadgeStructImageBadge  {
     image: Image
 }
 
-export declare interface BadgeStructTextBadge  {
+export interface BadgeStructTextBadge  {
     default_pattern: string
 }
 
-export declare interface BadgeStructIconConfig  {
+export interface BadgeStructIconConfig  {
     icon: Image
     background: BadgeStructCombineBadgeBackground
 }
 
-export declare interface BadgeStructStringBadge  {
+export interface BadgeStructStringBadge  {
     str: string
 }
 
-export declare interface GiftStruct  {
+export interface GiftStruct  {
     image: Image
     describe: string
     duration: number
@@ -560,7 +560,7 @@ export declare interface GiftStruct  {
     can_put_in_gift_box: boolean
 }
 
-export declare interface GiftStructGiftPanelBanner  {
+export interface GiftStructGiftPanelBanner  {
     display_text: Text
     left_icon: Image
     schema_url: string
@@ -568,7 +568,7 @@ export declare interface GiftStructGiftPanelBanner  {
     banner_lynx_url: string
 }
 
-export declare interface GiftStructGiftRandomEffectInfo  {
+export interface GiftStructGiftRandomEffectInfo  {
     random_gift_panel_banner: GiftStructRandomGiftPanelBanner
     effect_ids_list: number[]
     host_key: string
@@ -576,12 +576,12 @@ export declare interface GiftStructGiftRandomEffectInfo  {
     random_gift_bubble: GiftStructRandomGiftBubble
 }
 
-export declare interface GiftStructRandomGiftBubble  {
+export interface GiftStructRandomGiftBubble  {
     display_text: string
     icon_dynamic_effect: Image
 }
 
-export declare interface GiftStructRandomGiftPanelBanner  {
+export interface GiftStructRandomGiftPanelBanner  {
     bg_image: Image
     shading_image: Image
     target_num: number
@@ -593,7 +593,7 @@ export declare interface GiftStructRandomGiftPanelBanner  {
     round: number
 }
 
-export declare interface User  {
+export interface User  {
     id: number
     nickname: string
     bio_description: string
@@ -686,7 +686,7 @@ export declare interface User  {
     is_block: boolean
 }
 
-export declare interface UserLiveEventInfo  {
+export interface UserLiveEventInfo  {
     event_id: number
     start_time: number
     duration: number
@@ -698,17 +698,17 @@ export declare interface UserLiveEventInfo  {
     pay_method: number
 }
 
-export declare interface UserLiveEventInfoWalletPackage  {
+export interface UserLiveEventInfoWalletPackage  {
     iap_id: string
     usd_price_show: string
 }
 
-export declare interface UserActivityInfo  {
+export interface UserActivityInfo  {
     badge: Image
     storytag: Image
 }
 
-export declare interface UserAnchorLevel  {
+export interface UserAnchorLevel  {
     level: number
     experience: number
     lowest_experience_this_level: number
@@ -724,13 +724,13 @@ export declare interface UserAnchorLevel  {
     small_icon: Image
 }
 
-export declare interface UserAuthenticationInfo  {
+export interface UserAuthenticationInfo  {
     custom_verify: string
     enterprise_verify_reason: string
     authentication_badge: Image
 }
 
-export declare interface UserAuthorStats  {
+export interface UserAuthorStats  {
     video_total_count: number
     video_total_play_count: number
     video_total_share_count: number
@@ -739,7 +739,7 @@ export declare interface UserAuthorStats  {
     video_total_favorite_count: number
 }
 
-export declare interface UserBorder  {
+export interface UserBorder  {
     icon: Image
     level: number
     source: string
@@ -748,12 +748,12 @@ export declare interface UserBorder  {
     avatar_background_border_color: string
 }
 
-export declare interface UserComboBadgeInfo  {
+export interface UserComboBadgeInfo  {
     icon: Image
     combo_count: number
 }
 
-export declare interface UserEcommerceEntrance  {
+export interface UserEcommerceEntrance  {
     entrance_type: UserEcommerceEntranceEntranceType
     creator_type: UserEcommerceEntranceCreatorType
     schema: string
@@ -761,7 +761,7 @@ export declare interface UserEcommerceEntrance  {
     showcase_entrance_info: UserEcommerceEntranceShowcaseEntranceInfo
 }
 
-export declare interface UserEcommerceEntranceShopEntranceInfo  {
+export interface UserEcommerceEntranceShopEntranceInfo  {
     shop_id: string
     shop_name: string
     shop_rating: string
@@ -774,19 +774,19 @@ export declare interface UserEcommerceEntranceShopEntranceInfo  {
     show_rate_not_applicable: boolean
 }
 
-export declare interface UserEcommerceEntranceShopEntranceInfoStoreLabel  {
+export interface UserEcommerceEntranceShopEntranceInfoStoreLabel  {
     official_label: UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabel
     is_bytemall: boolean
 }
 
-export declare interface UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabel  {
+export interface UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabel  {
     label_image_light: UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabelShopLabelImage
     label_image_dark: UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabelShopLabelImage
     label_type: number
     label_type_str: string
 }
 
-export declare interface UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabelShopLabelImage  {
+export interface UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabelShopLabelImage  {
     height: number
     width: number
     minetype: string
@@ -797,16 +797,16 @@ export declare interface UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOff
     color: string
 }
 
-export declare interface UserEcommerceEntranceShowcaseEntranceInfo  {
+export interface UserEcommerceEntranceShowcaseEntranceInfo  {
     format_sold_count: string
     sold_count: number
 }
 
-export declare interface UserFansClub  {
+export interface UserFansClub  {
     data: UserFansClubFansClubData
 }
 
-export declare interface UserFansClubFansClubData  {
+export interface UserFansClubFansClubData  {
     club_name: string
     level: number
     user_fans_club_status: UserFansClubFansClubDataUserFansClubStatus
@@ -814,7 +814,7 @@ export declare interface UserFansClubFansClubData  {
     anchor_id: number
 }
 
-export declare interface UserFansClubInfo  {
+export interface UserFansClubInfo  {
     is_sleeping: boolean
     fans_level: number
     fans_score: number
@@ -822,19 +822,19 @@ export declare interface UserFansClubInfo  {
     fans_count: number
 }
 
-export declare interface UserFollowInfo  {
+export interface UserFollowInfo  {
     following_count: number
     follower_count: number
     follow_status: number
     push_status: number
 }
 
-export declare interface UserOwnRoom  {
+export interface UserOwnRoom  {
     room_ids_list: number[]
     room_ids_str_list: string[]
 }
 
-export declare interface UserPayGrade  {
+export interface UserPayGrade  {
     diamond_icon: Image
     name: string
     icon: Image
@@ -859,19 +859,19 @@ export declare interface UserPayGrade  {
     profile_dialog_bg_back: Image
 }
 
-export declare interface UserPayGradeGradeIcon  {
+export interface UserPayGradeGradeIcon  {
     icon: Image
     icon_diamond: number
     level: number
     level_str: string
 }
 
-export declare interface UserSubscribeBadge  {
+export interface UserSubscribeBadge  {
     origin_img: Image
     preview_img: Image
 }
 
-export declare interface UserSubscribeInfo  {
+export interface UserSubscribeInfo  {
     qualification: boolean
     is_subscribe: boolean
     badge: UserSubscribeBadge
@@ -883,14 +883,14 @@ export declare interface UserSubscribeInfo  {
     anchor_gift_sub_auth: boolean
 }
 
-export declare interface UserUserAttr  {
+export interface UserUserAttr  {
     is_muted: boolean
     is_admin: boolean
     is_super_admin: boolean
     mute_duration: number
 }
 
-export declare interface UserUserStats  {
+export interface UserUserStats  {
     id: number
     id_str: string
     following_count: number
@@ -905,7 +905,7 @@ export declare interface UserUserStats  {
     tuwen_item_count: number
 }
 
-export declare interface Emote  {
+export interface Emote  {
     emote_id: string
     image: Image
     audit_status: AuditStatus
@@ -915,7 +915,7 @@ export declare interface Emote  {
     emote_private_type: EmotePrivateType
 }
 
-export declare interface PunishEventInfo  {
+export interface PunishEventInfo  {
     punish_type: string
     punish_reason: string
     punish_id: string
@@ -924,12 +924,12 @@ export declare interface PunishEventInfo  {
     duration: number
 }
 
-export declare interface MsgFilter  {
+export interface MsgFilter  {
     is_gifter: boolean
     is_subscribed_to_anchor: boolean
 }
 
-export declare interface UserIdentity  {
+export interface UserIdentity  {
     is_gift_giver_of_anchor: boolean
     is_subscriber_of_anchor: boolean
     is_mutual_following_with_anchor: boolean
@@ -938,7 +938,7 @@ export declare interface UserIdentity  {
     is_anchor: boolean
 }
 
-export declare interface Goal  {
+export interface Goal  {
     id: number
     description: string
     audit_status: number
@@ -952,12 +952,12 @@ export declare interface Goal  {
     stats: GoalGoalStats
 }
 
-export declare interface GoalGoalStats  {
+export interface GoalGoalStats  {
     total_coins: number
     total_contributor: number
 }
 
-export declare interface GoalGoalContributor  {
+export interface GoalGoalContributor  {
     user_id: number
     avatar: Image
     display_id: string
@@ -970,44 +970,44 @@ export declare interface GoalGoalContributor  {
     is_fist_contribute: boolean
 }
 
-export declare interface Indicator  {
+export interface Indicator  {
     key: string
     op: number
 }
 
-export declare interface Ranking  {
+export interface Ranking  {
     type: string
     label: string
     color: TikTokColor
     details: ValueLabel[]
 }
 
-export declare interface TikTokColor  {
+export interface TikTokColor  {
     color: string
     id: number
     data1: number
 }
 
-export declare interface ValueLabel  {
+export interface ValueLabel  {
     data: number
     label: string
     label2: string
     label3: string
 }
 
-export declare interface MessageDetails  {
+export interface MessageDetails  {
     data1: number
     color: TikTokColor
     category: string
     user: UserContainer
 }
 
-export declare interface UserContainer  {
+export interface UserContainer  {
     user: User
     data1: number
 }
 
-export declare interface DataContainer  {
+export interface DataContainer  {
     data1: number
     data2: number
     data3: number
@@ -1019,30 +1019,30 @@ export declare interface DataContainer  {
     data9: number
 }
 
-export declare interface TimeStampContainer  {
+export interface TimeStampContainer  {
     timestamp1: number
     timestamp2: number
     timestamp3: number
 }
 
-export declare interface MemberMessageData  {
+export interface MemberMessageData  {
     type: string
     label: string
     color: TikTokColor
     details: MessageDetails[]
 }
 
-export declare interface LinkMicArmiesItems  {
+export interface LinkMicArmiesItems  {
     host_user_id: number
     battle_groups: LinkMicArmiesItemsLinkMicArmiesGroup[]
 }
 
-export declare interface LinkMicArmiesItemsLinkMicArmiesGroup  {
+export interface LinkMicArmiesItemsLinkMicArmiesGroup  {
     users: User[]
     points: number
 }
 
-export declare interface PollStartContent  {
+export interface PollStartContent  {
     start_time: number
     end_time: number
     option_list: PollOptionInfo[]
@@ -1050,37 +1050,37 @@ export declare interface PollStartContent  {
     operator: User
 }
 
-export declare interface PollEndContent  {
+export interface PollEndContent  {
     end_type: number
     option_list: PollOptionInfo[]
     operator: User
 }
 
-export declare interface PollOptionInfo  {
+export interface PollOptionInfo  {
     votes: number
     display_content: string
     option_idx: number
     vote_user_list: VoteUser[]
 }
 
-export declare interface VoteUser  {
+export interface VoteUser  {
     user_id: number
     nick_name: string
     avatar_thumb: Image
 }
 
-export declare interface PollUpdateVotesContent  {
+export interface PollUpdateVotesContent  {
     option_list: PollOptionInfo[]
 }
 
-export declare interface UserFanTicket  {
+export interface UserFanTicket  {
     user_id: number
     fan_ticket: number
     match_total_score: number
     match_rank: number
 }
 
-export declare interface FanTicketRoomNoticeContent  {
+export interface FanTicketRoomNoticeContent  {
     user_fan_ticket_list: UserFanTicket[]
     total_link_mic_fan_ticket: number
     match_id: number
@@ -1088,20 +1088,20 @@ export declare interface FanTicketRoomNoticeContent  {
     fan_ticket_icon_url: string
 }
 
-export declare interface LinkerAcceptNoticeContent  {
+export interface LinkerAcceptNoticeContent  {
     from_user_id: number
     from_room_id: number
     to_user_id: number
 }
 
-export declare interface LinkerCancelContent  {
+export interface LinkerCancelContent  {
     from_user_id: number
     to_user_id: number
     cancel_type: number
     action_id: number
 }
 
-export declare interface ListUser  {
+export interface ListUser  {
     user: User
     linkmic_id: number
     linkmic_id_str: string
@@ -1114,22 +1114,22 @@ export declare interface ListUser  {
     role_type: number
 }
 
-export declare interface LinkerCloseContent  {
+export interface LinkerCloseContent  {
 }
 
-export declare interface LinkerCreateContent  {
+export interface LinkerCreateContent  {
     owner_id: number
     owner_room_id: number
     link_type: number
 }
 
-export declare interface LinkerEnterContent  {
+export interface LinkerEnterContent  {
     linked_users_list: ListUser[]
     anchor_multi_live_enum: number
     anchor_setting_info: LinkmicUserSettingInfo
 }
 
-export declare interface LinkerInviteContent  {
+export interface LinkerInviteContent  {
     from_user_id: number
     from_room_id: number
     to_rtc_ext_info: string
@@ -1141,31 +1141,31 @@ export declare interface LinkerInviteContent  {
     required_mic_idx: number
 }
 
-export declare interface LinkerKickOutContent  {
+export interface LinkerKickOutContent  {
     from_user_id: number
     kickout_reason: KickoutReason
 }
 
-export declare interface LinkerLeaveContent  {
+export interface LinkerLeaveContent  {
     user_id: number
     linkmic_id_str: string
     send_leave_uid: number
     leave_reason: number
 }
 
-export declare interface LinkerLinkedListChangeContent  {
+export interface LinkerLinkedListChangeContent  {
 }
 
-export declare interface CohostListChangeContent  {
+export interface CohostListChangeContent  {
 }
 
-export declare interface LinkerListChangeContent  {
+export interface LinkerListChangeContent  {
     linked_users_list: ListUser[]
     applied_users_list: ListUser[]
     connecting_users_list: ListUser[]
 }
 
-export declare interface LinkerMediaChangeContent  {
+export interface LinkerMediaChangeContent  {
     op: number
     to_user_id: number
     anchor_id: number
@@ -1173,15 +1173,15 @@ export declare interface LinkerMediaChangeContent  {
     change_scene: number
 }
 
-export declare interface LinkerMicIdxUpdateContent  {
+export interface LinkerMicIdxUpdateContent  {
 }
 
-export declare interface LinkerMuteContent  {
+export interface LinkerMuteContent  {
     user_id: number
     status: number
 }
 
-export declare interface LinkerRandomMatchContent  {
+export interface LinkerRandomMatchContent  {
     user: User
     room_id: number
     invite_type: number
@@ -1189,7 +1189,7 @@ export declare interface LinkerRandomMatchContent  {
     inner_channel_id: number
 }
 
-export declare interface LinkerReplyContent  {
+export interface LinkerReplyContent  {
     from_user_id: number
     from_room_id: number
     from_user_linkmic_info: LinkerReplyContentLinkmicInfo
@@ -1202,7 +1202,7 @@ export declare interface LinkerReplyContent  {
     to_user: User
 }
 
-export declare interface LinkerReplyContentLinkmicInfo  {
+export interface LinkerReplyContentLinkmicInfo  {
     access_key: string
     link_mic_id: number
     joinable: boolean
@@ -1214,7 +1214,7 @@ export declare interface LinkerReplyContentLinkmicInfo  {
     vendor: number
 }
 
-export declare interface LinkerSetting  {
+export interface LinkerSetting  {
     max_member_limit: number
     link_type: number
     scene: number
@@ -1223,29 +1223,29 @@ export declare interface LinkerSetting  {
     vendor: number
 }
 
-export declare interface LinkerSysKickOutContent  {
+export interface LinkerSysKickOutContent  {
     user_id: number
     linkmic_id_str: string
 }
 
-export declare interface LinkmicUserToastContent  {
+export interface LinkmicUserToastContent  {
     user_id: number
     room_id: number
     display_text: Text
 }
 
-export declare interface LinkerUpdateUserContent  {
+export interface LinkerUpdateUserContent  {
     from_user_id: number
     to_user_id: number
 }
 
-export declare interface LinkerUpdateUserSettingContent  {
+export interface LinkerUpdateUserSettingContent  {
 }
 
-export declare interface LinkerWaitingListChangeContent  {
+export interface LinkerWaitingListChangeContent  {
 }
 
-export declare interface LinkmicUserSettingInfo  {
+export interface LinkmicUserSettingInfo  {
     user_id: number
     layout: number
     fix_mic_num: number
@@ -1254,19 +1254,19 @@ export declare interface LinkmicUserSettingInfo  {
     applier_sort_setting: LinkmicApplierSortSetting
 }
 
-export declare interface Player  {
+export interface Player  {
     room_id: number
     user_id: number
 }
 
-export declare interface AllListUser  {
+export interface AllListUser  {
     linked_list: LinkLayerListUser[]
     applied_list: LinkLayerListUser[]
     invited_list: LinkLayerListUser[]
     ready_list: LinkLayerListUser[]
 }
 
-export declare interface LinkLayerListUser  {
+export interface LinkLayerListUser  {
     user: User
     linkmic_id: number
     pos: Position
@@ -1275,32 +1275,32 @@ export declare interface LinkLayerListUser  {
     magic_number1: number
 }
 
-export declare interface Position  {
+export interface Position  {
     type: number
     link: LinkPosition
 }
 
-export declare interface LinkPosition  {
+export interface LinkPosition  {
     position: number
     opt: number
 }
 
-export declare interface GroupPlayer  {
+export interface GroupPlayer  {
     channel_id: number
     user: User
 }
 
-export declare interface DslConfig  {
+export interface DslConfig  {
     scene_version: number
     layout_id: string
 }
 
-export declare interface GroupChannelAllUser  {
+export interface GroupChannelAllUser  {
     group_channel_id: number
     user_list: GroupChannelUser[]
 }
 
-export declare interface GroupChannelUser  {
+export interface GroupChannelUser  {
     channel_id: number
     status: GroupStatus
     type: TextType
@@ -1310,7 +1310,7 @@ export declare interface GroupChannelUser  {
     owner_user: GroupPlayer
 }
 
-export declare interface RtcExtraInfo  {
+export interface RtcExtraInfo  {
     live_rtc_engine_config: RtcExtraInfoRtcEngineConfig
     live_rtc_video_param_list: RtcExtraInfoRtcLiveVideoParam[]
     rtc_bitrate_map: RtcExtraInfoRtcBitrateMap
@@ -1319,50 +1319,50 @@ export declare interface RtcExtraInfo  {
     interact_client_type: number
 }
 
-export declare interface RtcExtraInfoRtcEngineConfig  {
+export interface RtcExtraInfoRtcEngineConfig  {
     rtc_app_id: string
     rtc_user_id: string
     rtc_token: string
     rtc_channel_id: number
 }
 
-export declare interface RtcExtraInfoRtcLiveVideoParam  {
+export interface RtcExtraInfoRtcLiveVideoParam  {
     strategy_id: number
     params: RtcExtraInfoRtcVideoParam
 }
 
-export declare interface RtcExtraInfoRtcVideoParam  {
+export interface RtcExtraInfoRtcVideoParam  {
     width: number
     height: number
     fps: number
     bitrate_kbps: number
 }
 
-export declare interface RtcExtraInfoRtcBitrateMap  {
+export interface RtcExtraInfoRtcBitrateMap  {
     xx1: number
     xx2: number
     xx3: number
     xx4: number
 }
 
-export declare interface CreateChannelContent  {
+export interface CreateChannelContent  {
     owner: Player
     owner_link_mic_id: string
 }
 
-export declare interface ListChangeContent  {
+export interface ListChangeContent  {
     type: TextType
     list: AllListUser
 }
 
-export declare interface MultiLiveContent  {
+export interface MultiLiveContent  {
     invite_biz_content: MultiLiveContentInviteBizContent
     reply_biz_content: MultiLiveContentReplyBizContent
     permit_biz_content: MultiLiveContentPermitBizContent
     kick_out_biz_content: MultiLiveContentKickOutBizContent
 }
 
-export declare interface MultiLiveContentInviteBizContent  {
+export interface MultiLiveContentInviteBizContent  {
     anchor_setting_info: LinkmicUserSettingInfo
     invite_source: number
     operator_user_info: User
@@ -1370,26 +1370,26 @@ export declare interface MultiLiveContentInviteBizContent  {
     invitee_user_info: User
 }
 
-export declare interface MultiLiveContentReplyBizContent  {
+export interface MultiLiveContentReplyBizContent  {
     link_type: number
     is_turn_off_invitation: number
     reply_user_info: User
 }
 
-export declare interface MultiLiveContentPermitBizContent  {
+export interface MultiLiveContentPermitBizContent  {
     anchor_setting_info: LinkmicUserSettingInfo
     expire_timestamp: number
     operator_user_info: User
     operator_link_admin_type: number
 }
 
-export declare interface MultiLiveContentKickOutBizContent  {
+export interface MultiLiveContentKickOutBizContent  {
     operator_user_info: User
     operator_link_admin_type: number
     kick_player_user_info: User
 }
 
-export declare interface InviteContent  {
+export interface InviteContent  {
     invitor: Player
     invitee_rtc_ext_info: RtcExtraInfo
     invitor_link_mic_id: string
@@ -1401,12 +1401,12 @@ export declare interface InviteContent  {
     operator: User
 }
 
-export declare interface ApplyContent  {
+export interface ApplyContent  {
     applier: Player
     applier_link_mic_id: string
 }
 
-export declare interface PermitApplyContent  {
+export interface PermitApplyContent  {
     permiter: Player
     permiter_link_mic_id: string
     applier_pos: Position
@@ -1417,7 +1417,7 @@ export declare interface PermitApplyContent  {
     applier_link_mic_id: string
 }
 
-export declare interface ReplyInviteContent  {
+export interface ReplyInviteContent  {
     invitee: Player
     reply_status: ReplyStatus
     invitee_link_mic_id: string
@@ -1425,17 +1425,17 @@ export declare interface ReplyInviteContent  {
     invite_operator_user: Player
 }
 
-export declare interface KickOutContent  {
+export interface KickOutContent  {
     offliner: Player
     kickout_reason: KickoutReason
 }
 
-export declare interface CancelApplyContent  {
+export interface CancelApplyContent  {
     applier: Player
     applier_link_mic_id: string
 }
 
-export declare interface CancelInviteContent  {
+export interface CancelInviteContent  {
     invitor: Player
     invitor_link_mic_id: string
     invitee_link_mic_id: string
@@ -1443,28 +1443,28 @@ export declare interface CancelInviteContent  {
     invitee: Player
 }
 
-export declare interface LeaveContent  {
+export interface LeaveContent  {
     leaver: Player
     leave_reason: number
 }
 
-export declare interface FinishChannelContent  {
+export interface FinishChannelContent  {
     owner: Player
     finish_reason: number
 }
 
-export declare interface JoinDirectContent  {
+export interface JoinDirectContent  {
     joiner: LinkLayerListUser
     all_users: AllListUser
 }
 
-export declare interface LeaveJoinGroupContent  {
+export interface LeaveJoinGroupContent  {
     operator: GroupPlayer
     group_channel_id: number
     leave_source: string
 }
 
-export declare interface PermitJoinGroupContent  {
+export interface PermitJoinGroupContent  {
     approver: GroupPlayer
     agree_status: AgreeStatus
     type: TextType
@@ -1472,28 +1472,28 @@ export declare interface PermitJoinGroupContent  {
     group_user: GroupChannelAllUser
 }
 
-export declare interface CancelJoinGroupContent  {
+export interface CancelJoinGroupContent  {
     leaver_list: GroupPlayer[]
     operator: GroupPlayer
     type: TextType
 }
 
-export declare interface P2PGroupChangeContent  {
+export interface P2PGroupChangeContent  {
     group_ext_info_list: RtcExtraInfo[]
     group_user: GroupChannelAllUser
 }
 
-export declare interface BusinessContent  {
+export interface BusinessContent  {
     over_length: number
     multi_live_content: MultiLiveContent
     cohost_content: BusinessContentCohostContent
 }
 
-export declare interface BusinessContentCohostContent  {
+export interface BusinessContentCohostContent  {
     join_group_biz_content: BusinessContentJoinGroupBizContent
 }
 
-export declare interface BusinessContentJoinGroupBizContent  {
+export interface BusinessContentJoinGroupBizContent  {
     from_room_age_restricted: number
     from_tag: BusinessContentTag
     dialog: BusinessContentPerceptionDialogInfo
@@ -1501,13 +1501,13 @@ export declare interface BusinessContentJoinGroupBizContent  {
     join_group_msg_extra: BusinessContentJoinGroupMessageExtra
 }
 
-export declare interface BusinessContentTag  {
+export interface BusinessContentTag  {
     tag_type: number
     tag_value: string
     tag_text: string
 }
 
-export declare interface BusinessContentPerceptionDialogInfo  {
+export interface BusinessContentPerceptionDialogInfo  {
     icon_type: number
     title: Text
     sub_title: Text
@@ -1523,18 +1523,18 @@ export declare interface BusinessContentPerceptionDialogInfo  {
     policy_tip: number
 }
 
-export declare interface BusinessContentPerceptionFeedbackOption  {
+export interface BusinessContentPerceptionFeedbackOption  {
     id: number
     content_key: string
 }
 
-export declare interface BusinessContentJoinGroupMessageExtra  {
+export interface BusinessContentJoinGroupMessageExtra  {
     source_type: number
     extra: BusinessContentJoinGroupMessageExtraRivalExtra
     other_users_list: BusinessContentJoinGroupMessageExtraRivalExtra[]
 }
 
-export declare interface BusinessContentJoinGroupMessageExtraRivalExtra  {
+export interface BusinessContentJoinGroupMessageExtraRivalExtra  {
     user_count: number
     avatar_thumb: Image
     display_id: string
@@ -1547,31 +1547,31 @@ export declare interface BusinessContentJoinGroupMessageExtraRivalExtra  {
     is_best_teammate: boolean
 }
 
-export declare interface BusinessContentJoinGroupMessageExtraRivalExtraAuthenticationInfo  {
+export interface BusinessContentJoinGroupMessageExtraRivalExtraAuthenticationInfo  {
     custom_verify: string
     enterprise_verify_reason: string
     authentication_badge: Image
 }
 
-export declare interface BusinessContentHashtag  {
+export interface BusinessContentHashtag  {
     id: number
     title: string
     image: Image
     namespace: HashtagNamespace
 }
 
-export declare interface BusinessContentTopHostInfo  {
+export interface BusinessContentTopHostInfo  {
     rank_type: string
     top_index: number
 }
 
-export declare interface JoinGroupContent  {
+export interface JoinGroupContent  {
     group_user: GroupChannelAllUser
     join_user: GroupPlayer
     type: TextType
 }
 
-export declare interface WebcastPushFrame  {
+export interface WebcastPushFrame  {
     seq_id: number
     log_id: number
     service: number
@@ -1582,7 +1582,7 @@ export declare interface WebcastPushFrame  {
     payload: unknown
 }
 
-export declare interface WebcastResponse  {
+export interface WebcastResponse  {
     messages: WebcastResponseMessage[]
     cursor: string
     fetch_interval: number
@@ -1598,7 +1598,7 @@ export declare interface WebcastResponse  {
     history_no_more: boolean
 }
 
-export declare interface WebcastResponseMessage  {
+export interface WebcastResponseMessage  {
     method: string
     payload: unknown
     msg_id: number
@@ -1607,7 +1607,7 @@ export declare interface WebcastResponseMessage  {
     is_history: boolean
 }
 
-export declare interface WebcastGiftMessage  {
+export interface WebcastGiftMessage  {
     common: Common
     gift_id: number
     fan_ticket_count: number
@@ -1631,23 +1631,23 @@ export declare interface WebcastGiftMessage  {
     user_gift_reciever: WebcastGiftMessageUserGiftReciever
 }
 
-export declare interface WebcastGiftMessageUserGiftReciever  {
+export interface WebcastGiftMessageUserGiftReciever  {
     user_id: number
     device_name: string
 }
 
-export declare interface WebcastGiftMessageGiftImPriority  {
+export interface WebcastGiftMessageGiftImPriority  {
     queue_sizes_list: number[]
     self_queue_priority: number
     priority: number
 }
 
-export declare interface WebcastGiftMessagePublicAreaCommon  {
+export interface WebcastGiftMessagePublicAreaCommon  {
     user_label: Image
     user_consume_in_room: number
 }
 
-export declare interface RoomMessage  {
+export interface RoomMessage  {
     common: Common
     content: string
     supprot_landscape: boolean
@@ -1657,12 +1657,12 @@ export declare interface RoomMessage  {
     is_welcome: boolean
 }
 
-export declare interface WebcastRoomMessage  {
+export interface WebcastRoomMessage  {
     common: Common
     content: string
 }
 
-export declare interface WebcastBarrageMessage  {
+export interface WebcastBarrageMessage  {
     common: Common
     event: WebcastBarrageMessageBarrageEvent
     msg_type: WebcastBarrageMessageBarrageType
@@ -1676,40 +1676,40 @@ export declare interface WebcastBarrageMessage  {
     subscribe_gift_param: WebcastBarrageMessageBarrageTypeSubscribeGiftParam
 }
 
-export declare interface WebcastBarrageMessageBarrageTypeUserGradeParam  {
+export interface WebcastBarrageMessageBarrageTypeUserGradeParam  {
     current_grade: number
     display_config: number
     user_id: string
     user: User
 }
 
-export declare interface WebcastBarrageMessageBarrageTypeFansLevelParam  {
+export interface WebcastBarrageMessageBarrageTypeFansLevelParam  {
     current_grade: number
     display_config: number
     user: User
 }
 
-export declare interface WebcastBarrageMessageBarrageTypeSubscribeGiftParam  {
+export interface WebcastBarrageMessageBarrageTypeSubscribeGiftParam  {
     gift_sub_count: number
     show_gift_sub_count: boolean
 }
 
-export declare interface WebcastBarrageMessageBarrageEvent  {
+export interface WebcastBarrageMessageBarrageEvent  {
     event_name: string
 }
 
-export declare interface WebcastCaptionMessage  {
+export interface WebcastCaptionMessage  {
     common: Common
     time_stamp: number
     caption_data: WebcastCaptionMessageCaptionData
 }
 
-export declare interface WebcastCaptionMessageCaptionData  {
+export interface WebcastCaptionMessageCaptionData  {
     language: string
     text: string
 }
 
-export declare interface WebcastChatMessage  {
+export interface WebcastChatMessage  {
     common: Common
     user: User
     content: string
@@ -1728,12 +1728,12 @@ export declare interface WebcastChatMessage  {
     comment_quality_scores: string[]
 }
 
-export declare interface WebcastChatMessageEmoteWithIndex  {
+export interface WebcastChatMessageEmoteWithIndex  {
     index: number
     emote: Emote
 }
 
-export declare interface WebcastControlMessage  {
+export interface WebcastControlMessage  {
     common: Common
     action: ControlAction
     tips: string
@@ -1744,7 +1744,7 @@ export declare interface WebcastControlMessage  {
     float_style: number
 }
 
-export declare interface WebcastControlMessageExtra  {
+export interface WebcastControlMessageExtra  {
     ban_info_url: string
     reason_no: number
     title: Text
@@ -1755,7 +1755,7 @@ export declare interface WebcastControlMessageExtra  {
     source: string
 }
 
-export declare interface WebcastEmoteChatMessage  {
+export interface WebcastEmoteChatMessage  {
     common: Common
     user: User
     emote_list: Emote[]
@@ -1763,13 +1763,13 @@ export declare interface WebcastEmoteChatMessage  {
     user_identity: UserIdentity
 }
 
-export declare interface WebcastEnvelopeMessage  {
+export interface WebcastEnvelopeMessage  {
     common: Common
     envelope_info: WebcastEnvelopeMessageEnvelopeInfo
     display: EnvelopeDisplay
 }
 
-export declare interface WebcastEnvelopeMessageEnvelopeInfo  {
+export interface WebcastEnvelopeMessageEnvelopeInfo  {
     envelope_id: string
     business_type: EnvelopeBusinessType
     envelope_idc: string
@@ -1785,7 +1785,7 @@ export declare interface WebcastEnvelopeMessageEnvelopeInfo  {
     skin_id: number
 }
 
-export declare interface WebcastGoalUpdateMessage  {
+export interface WebcastGoalUpdateMessage  {
     common: Common
     indicator: Indicator
     goal: Goal
@@ -1800,25 +1800,25 @@ export declare interface WebcastGoalUpdateMessage  {
     unpin: boolean
 }
 
-export declare interface WebcastImDeleteMessage  {
+export interface WebcastImDeleteMessage  {
     common: Common
     delete_msg_ids_list: number[]
     delete_user_ids_list: number[]
 }
 
-export declare interface WebcastInRoomBannerMessage  {
+export interface WebcastInRoomBannerMessage  {
     header: Common
     json: string
 }
 
-export declare interface WebcastLikeMessage  {
+export interface WebcastLikeMessage  {
     common: Common
     count: number
     total: number
     user: User
 }
 
-export declare interface WebcastRoomUserSeqMessage  {
+export interface WebcastRoomUserSeqMessage  {
     common: Common
     ranks_list: WebcastRoomUserSeqMessageContributor[]
     total: number
@@ -1829,14 +1829,14 @@ export declare interface WebcastRoomUserSeqMessage  {
     anonymous: number
 }
 
-export declare interface WebcastRoomUserSeqMessageContributor  {
+export interface WebcastRoomUserSeqMessageContributor  {
     score: number
     user: User
     rank: number
     delta: number
 }
 
-export declare interface WebcastSocialMessage  {
+export interface WebcastSocialMessage  {
     common: Common
     user: User
     share_type: number
@@ -1847,7 +1847,7 @@ export declare interface WebcastSocialMessage  {
     share_count: number
 }
 
-export declare interface WebcastSubNotifyMessage  {
+export interface WebcastSubNotifyMessage  {
     common: Common
     user: User
     sub_month: number
@@ -1858,7 +1858,7 @@ export declare interface WebcastSubNotifyMessage  {
     is_custom: boolean
 }
 
-export declare interface WebcastRankUpdateMessage  {
+export interface WebcastRankUpdateMessage  {
     common: Common
     updates_list: WebcastRankUpdateMessageRankUpdate[]
     group_type: number
@@ -1868,14 +1868,14 @@ export declare interface WebcastRankUpdateMessage  {
     animation_loop_for_off: boolean
 }
 
-export declare interface WebcastRankUpdateMessageRankTabInfo  {
+export interface WebcastRankUpdateMessageRankTabInfo  {
     rank_type: number
     title: string
     title_text: Text
     list_lynx_type: number
 }
 
-export declare interface WebcastRankUpdateMessageRankUpdate  {
+export interface WebcastRankUpdateMessageRankUpdate  {
     rank_type: number
     owner_rank: number
     default_content: Text
@@ -1887,7 +1887,7 @@ export declare interface WebcastRankUpdateMessageRankUpdate  {
     owneronrank: boolean
 }
 
-export declare interface WebcastMemberMessage  {
+export interface WebcastMemberMessage  {
     common: Common
     user: User
     member_count: number
@@ -1913,7 +1913,7 @@ export declare interface WebcastMemberMessage  {
     user_share_type: string
 }
 
-export declare interface WebcastMemberMessageEffectConfig  {
+export interface WebcastMemberMessageEffectConfig  {
     type: number
     icon: Image
     avatar_pos: number
@@ -1925,7 +1925,7 @@ export declare interface WebcastMemberMessageEffectConfig  {
     flex_setting_array_list: number[]
 }
 
-export declare interface WebcastPollMessage  {
+export interface WebcastPollMessage  {
     common: Common
     message_type: MessageType
     poll_id: number
@@ -1935,12 +1935,12 @@ export declare interface WebcastPollMessage  {
     poll_kind: number
 }
 
-export declare interface WebcastQuestionNewMessage  {
+export interface WebcastQuestionNewMessage  {
     common: Common
     details: WebcastQuestionNewMessageQuestionDetails
 }
 
-export declare interface WebcastQuestionNewMessageQuestionDetails  {
+export interface WebcastQuestionNewMessageQuestionDetails  {
     id: number
     text: string
     time_stamp: number
@@ -1948,7 +1948,7 @@ export declare interface WebcastQuestionNewMessageQuestionDetails  {
     data1: number
 }
 
-export declare interface WebcastRankTextMessage  {
+export interface WebcastRankTextMessage  {
     common: Common
     scene: number
     owner_idx_before_update: number
@@ -1958,13 +1958,13 @@ export declare interface WebcastRankTextMessage  {
     cur_user_id: number
 }
 
-export declare interface WebcastHourlyRankMessage  {
+export interface WebcastHourlyRankMessage  {
     common: Common
     data: WebcastHourlyRankMessageRankContainer
     data2: number
 }
 
-export declare interface WebcastHourlyRankMessageRankContainer  {
+export interface WebcastHourlyRankMessageRankContainer  {
     data1: number
     rankingdata: WebcastHourlyRankMessageRankContainerRankingData
     data2: number
@@ -1974,13 +1974,13 @@ export declare interface WebcastHourlyRankMessageRankContainer  {
     data4: number
 }
 
-export declare interface WebcastHourlyRankMessageRankContainerRankingData  {
+export interface WebcastHourlyRankMessageRankContainerRankingData  {
     data1: number
     rankdata: Ranking
     data2: string
 }
 
-export declare interface WebcastHourlyRankMessageRankContainerRankingData2  {
+export interface WebcastHourlyRankMessageRankContainerRankingData2  {
     data1: number
     data2: number
     rankdata: Ranking
@@ -1989,7 +1989,7 @@ export declare interface WebcastHourlyRankMessageRankContainerRankingData2  {
     data5: number
 }
 
-export declare interface WebcastLinkMicArmies  {
+export interface WebcastLinkMicArmies  {
     common: Common
     id: number
     battle_items: LinkMicArmiesItems[]
@@ -2005,7 +2005,7 @@ export declare interface WebcastLinkMicArmies  {
     data5: number
 }
 
-export declare interface WebcastLinkMicBattlePunishFinish  {
+export interface WebcastLinkMicBattlePunishFinish  {
     header: Common
     id1: number
     timestamp: number
@@ -2014,7 +2014,7 @@ export declare interface WebcastLinkMicBattlePunishFinish  {
     data6: WebcastLinkMicBattlePunishFinishLinkMicBattlePunishFinishData
 }
 
-export declare interface WebcastLinkMicBattlePunishFinishLinkMicBattlePunishFinishData  {
+export interface WebcastLinkMicBattlePunishFinishLinkMicBattlePunishFinishData  {
     id2: number
     timestamp: number
     data3: number
@@ -2024,27 +2024,27 @@ export declare interface WebcastLinkMicBattlePunishFinishLinkMicBattlePunishFini
     data8: number
 }
 
-export declare interface WebcastLinkmicBattleTaskMessage  {
+export interface WebcastLinkmicBattleTaskMessage  {
     header: Common
     data2: number
     data3: WebcastLinkmicBattleTaskMessageLinkmicBattleTaskData
     data5: WebcastLinkmicBattleTaskMessageLinkmicBattleTaskData2
 }
 
-export declare interface WebcastLinkmicBattleTaskMessageLinkmicBattleTaskData  {
+export interface WebcastLinkmicBattleTaskMessageLinkmicBattleTaskData  {
     data1: WebcastLinkmicBattleTaskMessageBattleTaskData
 }
 
-export declare interface WebcastLinkmicBattleTaskMessageBattleTaskData  {
+export interface WebcastLinkmicBattleTaskMessageBattleTaskData  {
     data1: number
 }
 
-export declare interface WebcastLinkmicBattleTaskMessageLinkmicBattleTaskData2  {
+export interface WebcastLinkmicBattleTaskMessageLinkmicBattleTaskData2  {
     data1: number
     data2: number
 }
 
-export declare interface WebcastLinkMicBattle  {
+export interface WebcastLinkMicBattle  {
     common: Common
     id: number
     battle_config: WebcastLinkMicBattleLinkMicBattleConfig
@@ -2055,7 +2055,7 @@ export declare interface WebcastLinkMicBattle  {
     team_data: WebcastLinkMicBattleLinkMicBattleTeamData[]
 }
 
-export declare interface WebcastLinkMicBattleLinkMicBattleConfig  {
+export interface WebcastLinkMicBattleLinkMicBattleConfig  {
     id1: number
     timestamp: number
     data1: number
@@ -2063,7 +2063,7 @@ export declare interface WebcastLinkMicBattleLinkMicBattleConfig  {
     data2: number
 }
 
-export declare interface WebcastLinkMicBattleLinkMicBattleData  {
+export interface WebcastLinkMicBattleLinkMicBattleData  {
     id: number
     data1: number
     data2: number
@@ -2071,27 +2071,27 @@ export declare interface WebcastLinkMicBattleLinkMicBattleData  {
     url: string
 }
 
-export declare interface WebcastLinkMicBattleLinkMicBattleDetails  {
+export interface WebcastLinkMicBattleLinkMicBattleDetails  {
     id: number
     details: WebcastLinkMicBattleLinkMicBattleData
 }
 
-export declare interface WebcastLinkMicBattleLinkMicBattleTeam  {
+export interface WebcastLinkMicBattleLinkMicBattleTeam  {
     id: number
     users: User[]
 }
 
-export declare interface WebcastLinkMicBattleLinkMicBattleTeamData  {
+export interface WebcastLinkMicBattleLinkMicBattleTeamData  {
     team_id: number
     data: WebcastLinkMicBattleLinkMicBattleData
 }
 
-export declare interface WebcastLinkMicFanTicketMethod  {
+export interface WebcastLinkMicFanTicketMethod  {
     common: Common
     fan_ticket_room_notice: FanTicketRoomNoticeContent
 }
 
-export declare interface WebcastLinkMicMethod  {
+export interface WebcastLinkMicMethod  {
     common: Common
     message_type: MessageType
     access_key: string
@@ -2107,7 +2107,7 @@ export declare interface WebcastLinkMicMethod  {
     invite_uid: number
 }
 
-export declare interface WebcastLiveIntroMessage  {
+export interface WebcastLiveIntroMessage  {
     common: Common
     room_id: number
     audit_status: AuditStatus
@@ -2118,7 +2118,7 @@ export declare interface WebcastLiveIntroMessage  {
     language: string
 }
 
-export declare interface WebcastUnauthorizedMemberMessage  {
+export interface WebcastUnauthorizedMemberMessage  {
     common: Common
     action: number
     nick_name_prefix: Text
@@ -2126,7 +2126,7 @@ export declare interface WebcastUnauthorizedMemberMessage  {
     enter_text: Text
 }
 
-export declare interface WebcastMsgDetectMessage  {
+export interface WebcastMsgDetectMessage  {
     common: Common
     detect_type: number
     trigger_condition: WebcastMsgDetectMessageTriggerCondition
@@ -2135,13 +2135,13 @@ export declare interface WebcastMsgDetectMessage  {
     from_region: string
 }
 
-export declare interface WebcastMsgDetectMessageTimeInfo  {
+export interface WebcastMsgDetectMessageTimeInfo  {
     client_start_ms: number
     api_recv_time_ms: number
     api_send_to_goim_ms: number
 }
 
-export declare interface WebcastMsgDetectMessageTriggerCondition  {
+export interface WebcastMsgDetectMessageTriggerCondition  {
     uplink_detect_http: boolean
     uplink_detect_web_socket: boolean
     detect_p2_p_msg: boolean
@@ -2149,7 +2149,7 @@ export declare interface WebcastMsgDetectMessageTriggerCondition  {
     http_optimize: boolean
 }
 
-export declare interface WebcastOecLiveShoppingMessage  {
+export interface WebcastOecLiveShoppingMessage  {
     common: Common
     data1: number
     shop_data: WebcastOecLiveShoppingMessageLiveShoppingData
@@ -2157,7 +2157,7 @@ export declare interface WebcastOecLiveShoppingMessage  {
     details: WebcastOecLiveShoppingMessageLiveShoppingDetails
 }
 
-export declare interface WebcastOecLiveShoppingMessageLiveShoppingData  {
+export interface WebcastOecLiveShoppingMessageLiveShoppingData  {
     title: string
     price_string: string
     image_url: string
@@ -2170,7 +2170,7 @@ export declare interface WebcastOecLiveShoppingMessageLiveShoppingData  {
     data4: number
 }
 
-export declare interface WebcastOecLiveShoppingMessageLiveShoppingDetails  {
+export interface WebcastOecLiveShoppingMessageLiveShoppingDetails  {
     id1: string
     data1: string
     data2: number
@@ -2178,19 +2178,19 @@ export declare interface WebcastOecLiveShoppingMessageLiveShoppingDetails  {
     data: ValueLabel
 }
 
-export declare interface WebcastRoomPinMessage  {
+export interface WebcastRoomPinMessage  {
     common: Common
     pinned_message: unknown
     original_msg_type: string
     timestamp: number
 }
 
-export declare interface WebcastSystemMessage  {
+export interface WebcastSystemMessage  {
     common: Common
     message: string
 }
 
-export declare interface WebcastLinkMessage  {
+export interface WebcastLinkMessage  {
     common: Common
     message_type: LinkMessageType
     linker_id: number
@@ -2221,7 +2221,7 @@ export declare interface WebcastLinkMessage  {
     transfer_extra: string
 }
 
-export declare interface WebcastLinkLayerMessage  {
+export interface WebcastLinkLayerMessage  {
     common: Common
     message_type: MessageType
     channel_id: number
@@ -2246,7 +2246,7 @@ export declare interface WebcastLinkLayerMessage  {
     business_content: BusinessContent
 }
 
-export declare interface RoomVerifyMessage  {
+export interface RoomVerifyMessage  {
     common: Common
     action: number
     content: string
@@ -2254,189 +2254,189 @@ export declare interface RoomVerifyMessage  {
     close_room: boolean
 }
 
-export declare interface ExtendedUser extends User {
+export interface ExtendedUser extends User {
 }
 
-export declare interface ExtendedGiftStruct extends GiftStruct {
+export interface ExtendedGiftStruct extends GiftStruct {
 }
 
 
 
-export declare interface WebsocketResponseEvent extends WebcastResponseMessage {
-
-}
-
-export declare interface UnknownEvent extends WebsocketResponseEvent {
+export interface WebsocketResponseEvent extends WebcastResponseMessage {
 
 }
 
-export declare interface ConnectEvent  {
+export interface UnknownEvent extends WebsocketResponseEvent {
+
+}
+
+export interface ConnectEvent  {
     unique_id: string
     room_id: string
 
 }
 
-export declare interface FollowEvent extends SocialEvent {
+export interface FollowEvent extends SocialEvent {
 
 }
 
-export declare interface ShareEvent extends SocialEvent {
+export interface ShareEvent extends SocialEvent {
 
 }
 
-export declare interface LiveEndEvent extends ControlEvent {
+export interface LiveEndEvent extends ControlEvent {
 
 }
 
-export declare interface LivePauseEvent extends ControlEvent {
+export interface LivePauseEvent extends ControlEvent {
 
 }
 
-export declare interface LiveUnpauseEvent extends ControlEvent {
+export interface LiveUnpauseEvent extends ControlEvent {
 
 }
 
-export declare interface DisconnectEvent  {
+export interface DisconnectEvent  {
 
 }
 
-export declare interface GiftEvent extends WebcastGiftMessage {
+export interface GiftEvent extends WebcastGiftMessage {
     user: ExtendedUser
     to_user: ExtendedUser
     gift: ExtendedGiftStruct
 
 }
 
-export declare interface RoomEvent extends WebcastRoomMessage {
+export interface RoomEvent extends WebcastRoomMessage {
 
 }
 
-export declare interface BarrageEvent extends WebcastBarrageMessage {
+export interface BarrageEvent extends WebcastBarrageMessage {
 
 }
 
-export declare interface CaptionEvent extends WebcastCaptionMessage {
+export interface CaptionEvent extends WebcastCaptionMessage {
 
 }
 
-export declare interface CommentEvent extends WebcastChatMessage {
+export interface CommentEvent extends WebcastChatMessage {
     user: ExtendedUser
     at_user: ExtendedUser
 
 }
 
-export declare interface ControlEvent extends WebcastControlMessage {
+export interface ControlEvent extends WebcastControlMessage {
 
 }
 
-export declare interface EmoteChatEvent extends WebcastEmoteChatMessage {
+export interface EmoteChatEvent extends WebcastEmoteChatMessage {
     user: ExtendedUser
 
 }
 
-export declare interface EnvelopeEvent extends WebcastEnvelopeMessage {
+export interface EnvelopeEvent extends WebcastEnvelopeMessage {
 
 }
 
-export declare interface GoalUpdateEvent extends WebcastGoalUpdateMessage {
+export interface GoalUpdateEvent extends WebcastGoalUpdateMessage {
 
 }
 
-export declare interface ImDeleteEvent extends WebcastImDeleteMessage {
+export interface ImDeleteEvent extends WebcastImDeleteMessage {
 
 }
 
-export declare interface LikeEvent extends WebcastLikeMessage {
+export interface LikeEvent extends WebcastLikeMessage {
     user: ExtendedUser
 
 }
 
-export declare interface RoomUserSeqEvent extends WebcastRoomUserSeqMessage {
+export interface RoomUserSeqEvent extends WebcastRoomUserSeqMessage {
 
 }
 
-export declare interface SocialEvent extends WebcastSocialMessage {
+export interface SocialEvent extends WebcastSocialMessage {
     user: ExtendedUser
 
 }
 
-export declare interface SubscribeEvent extends WebcastSubNotifyMessage {
+export interface SubscribeEvent extends WebcastSubNotifyMessage {
     user: ExtendedUser
 
 }
 
-export declare interface RankUpdateEvent extends WebcastRankUpdateMessage {
+export interface RankUpdateEvent extends WebcastRankUpdateMessage {
 
 }
 
-export declare interface JoinEvent extends WebcastMemberMessage {
+export interface JoinEvent extends WebcastMemberMessage {
     user: ExtendedUser
     operator: ExtendedUser
 
 }
 
-export declare interface PollEvent extends WebcastPollMessage {
+export interface PollEvent extends WebcastPollMessage {
 
 }
 
-export declare interface QuestionNewEvent extends WebcastQuestionNewMessage {
+export interface QuestionNewEvent extends WebcastQuestionNewMessage {
 
 }
 
-export declare interface RankTextEvent extends WebcastRankTextMessage {
+export interface RankTextEvent extends WebcastRankTextMessage {
 
 }
 
-export declare interface HourlyRankEvent extends WebcastHourlyRankMessage {
+export interface HourlyRankEvent extends WebcastHourlyRankMessage {
 
 }
 
-export declare interface LinkMicArmiesEvent extends WebcastLinkMicArmies {
+export interface LinkMicArmiesEvent extends WebcastLinkMicArmies {
 
 }
 
-export declare interface LinkMicBattleEvent extends WebcastLinkMicBattle {
+export interface LinkMicBattleEvent extends WebcastLinkMicBattle {
 
 }
 
-export declare interface LinkMicFanTicketMethodEvent extends WebcastLinkMicFanTicketMethod {
+export interface LinkMicFanTicketMethodEvent extends WebcastLinkMicFanTicketMethod {
 
 }
 
-export declare interface LinkMicMethodEvent extends WebcastLinkMicMethod {
+export interface LinkMicMethodEvent extends WebcastLinkMicMethod {
 
 }
 
-export declare interface LiveIntroEvent extends WebcastLiveIntroMessage {
+export interface LiveIntroEvent extends WebcastLiveIntroMessage {
     host: ExtendedUser
 
 }
 
-export declare interface UnauthorizedMemberEvent extends WebcastUnauthorizedMemberMessage {
+export interface UnauthorizedMemberEvent extends WebcastUnauthorizedMemberMessage {
 
 }
 
-export declare interface MessageDetectEvent extends WebcastMsgDetectMessage {
+export interface MessageDetectEvent extends WebcastMsgDetectMessage {
 
 }
 
-export declare interface OecLiveShoppingEvent extends WebcastOecLiveShoppingMessage {
+export interface OecLiveShoppingEvent extends WebcastOecLiveShoppingMessage {
 
 }
 
-export declare interface RoomPinEvent extends WebcastRoomPinMessage {
+export interface RoomPinEvent extends WebcastRoomPinMessage {
 
 }
 
-export declare interface SystemEvent extends WebcastSystemMessage {
+export interface SystemEvent extends WebcastSystemMessage {
 
 }
 
-export declare interface LinkEvent extends WebcastLinkMessage {
+export interface LinkEvent extends WebcastLinkMessage {
 
 }
 
-export declare interface LinkLayerEvent extends WebcastLinkLayerMessage {
+export interface LinkLayerEvent extends WebcastLinkLayerMessage {
 
 }
 

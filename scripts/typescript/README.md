@@ -7,3 +7,5 @@ In this case, type definitions for TikTokLive events are useful. After all, what
 This module generates typedefs for TikTokLive to put into your project.
 
 See the [package](package) folder for the NPM package `@TikTokLive/types`.
+
+**Note to Self:** Set `"module": "NodeNext"` if types don't show up. F@ck off, TypeScript...

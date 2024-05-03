@@ -156,7 +156,7 @@ if __name__ == '__main__':
             process_event_class(class_meta)
         )
 
-    with open("./package/TikTokLive.d.ts", "w") as file:
+    with open("./package/index.d.ts", "w") as file:
         file.write(build_ts_defs(
             enums=enum_defs,
             classes=class_defs,

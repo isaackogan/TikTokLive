@@ -7,7 +7,7 @@ I MEAN IT!
 
 {# Protobuf Enums #}
 {% for i in enums %}
-export declare enum {{ i.name }} {
+export enum {{ i.name }} {
 {% for key, value in i.mappings.items() %}
     {{ key }} = {{ value }},
 {% endfor %}
@@ -17,7 +17,7 @@ export declare enum {{ i.name }} {
 
 {# Protobuf Messages #}
 {% for i in classes %}
-export declare interface {{ i.name }} {{ 'extends ' + i.super.__name__ if i.super else '' }} {
+export interface {{ i.name }} {{ 'extends ' + i.super.__name__ if i.super else '' }} {
 {% for key, value in i.mappings.items() %}
 {# List[Type] #}
 {% if value.__args__ %}
@@ -33,7 +33,7 @@ export declare interface {{ i.name }} {{ 'extends ' + i.super.__name__ if i.supe
 
 {# TikTokLive Events #}
 {% for i in events %}
-export declare interface {{ i.name }} {{ 'extends ' + i.super.__name__ if i.super else '' }} {
+export interface {{ i.name }} {{ 'extends ' + i.super.__name__ if i.super else '' }} {
 {% for key, value in i.mappings.items() %}
 {# List[Type] #}
 {% if value.__args__ %}
