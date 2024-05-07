@@ -19,6 +19,16 @@ Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
 the [`#py-support`](https://discord.gg/uja6SajDxd)
 channel for questions, contributions and ideas.
 
+### SIGN SERVER - WE NEED SUPPORT (May 6th, 2024)!!
+
+We don't have the $$ to buy extra servers to prevent downtime if ours go down. 
+
+Each node requires a 2.5GB machine ($25/yr). If you've felt like supporting the Node, Java, Python, Rust, C# libraries, help us keep the lights on.
+
+I will use [all donations](https://buymeacoffee.com/isaackogan) over the next __month__ **exclusively** to purchase new servers. If we raise $25, that'll be 1 machine. $50, 2 machines...and so on.
+
+Help us help you scrape TikTok!
+
 ### Enterprise Access
 
 <div align="left">
@@ -30,12 +40,6 @@ channel for questions, contributions and ideas.
         <img src="https://github.com/isaackogan/TikTokLive/assets/65869106/b56cef89-5d87-4f2f-ac3e-0685af21b28d)" width="100" alt="Eulerstream">
     </a>
 </div>
-
-### Consider Donating <3
-
-I'm a 2nd-year Biology student in university who likes to program for fun. Please consider supporting development
-through a small donation at [https://www.buymeacoffee.com/isaackogan](https://www.buymeacoffee.com/isaackogan). Anything
-you can offer will go towards school & development costs for TikTokLive, which has taken hundreds of hours of time to build.
 
 ### Other Languages
 
