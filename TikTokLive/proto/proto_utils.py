@@ -81,5 +81,5 @@ def badge_match(badge: BadgeStruct, p: re.Pattern) -> Optional[re.Match]:
 SUBSCRIBER_BADGE_PATTERN: re.Pattern = re.compile("/sub_")
 MODERATOR_BADGE_PATTERN: re.Pattern = re.compile("moderator", flags=re.IGNORECASE)
 TOP_GIFTER_BADGE_PATTERN: re.Pattern = re.compile("/new_top_gifter", flags=re.IGNORECASE)
-MEMBER_LEVEL_BADGE_PATTERN: re.Pattern = re.compile("fans_badge_icon_lv(\d+)_v")
-GIFTER_LEVEL_BADGE_PATTERN: re.Pattern = re.compile("grade_badge_icon_lite_lv(\d+)_v")
+MEMBER_LEVEL_BADGE_PATTERN: re.Pattern = re.compile("fans_badge_icon_lv(\\d+)_v")
+GIFTER_LEVEL_BADGE_PATTERN: re.Pattern = re.compile("grade_badge_icon_lite_lv(\\d+)_v")
