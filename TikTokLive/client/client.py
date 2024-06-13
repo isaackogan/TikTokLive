@@ -116,6 +116,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # <Required> Fetch room ID
         try:
             self._room_id: str = room_id or await self._web.fetch_room_id_from_html(self._unique_id)
+            self._web.params["room_id"] = self._room_id
         except Exception as base_ex:
             try:
                 self._logger.error("Failed to parse room ID from HTML. Using API fallback.")
