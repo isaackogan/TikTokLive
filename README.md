@@ -116,7 +116,7 @@ A `TikTokLiveClient` object contains the following important methods:
 | Method Name  | Notes   | Description                                                                                                                                                                |
 |--------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | run          | N/A     | Connect to the livestream and block the main thread. This is best for small scripts.                                                                 |
-| add_listener | N/A     | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on("<event>")`) and takes two parameters, an event name and the payload, an AbstractEvent ||
+| add_listener | N/A     | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on(<event>)`) and takes two parameters, an event name and the payload, an AbstractEvent ||
 | connect      | `async` | Connects to the tiktok live chat while blocking the current future. When the connection ends (e.g. livestream is over), the future is released.                            |
 | start        | `async` | Connects to the live chat without blocking the main thread. This returns an `asyncio.Task` object with the client loop.                                                    |
 | disconnect   | `async` | Disconnects the client from the websocket gracefully, processing remaining events before ending the client loop.                                                           |
