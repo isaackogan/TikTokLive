@@ -97,7 +97,8 @@ message Text {
 
 // @Image
 message Image {
-  repeated string urlList = 1;
+  repeated string url = 1;
+  string extras = 2;
   bool isAnimated = 9;
 }
 
@@ -1056,9 +1057,9 @@ message CohostListChangeContent {
 
 
 message LinkerListChangeContent {
-  repeated ListUser linkedUsersList = 1;
-  repeated ListUser appliedUsersList = 2;
-  repeated ListUser connectingUsersList = 3;
+  repeated ListUser linkedUsers = 1;
+  repeated ListUser appliedUsers = 2;
+  repeated ListUser connectingUsers = 3;
 }
 
 message LinkerMediaChangeContent {
