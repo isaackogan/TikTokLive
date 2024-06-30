@@ -32,8 +32,8 @@ class ContentSource(betterproto.Enum):
 
 
 class EmotePrivateType(betterproto.Enum):
-    NORMAL = 0
-    SUB_WAVE = 1
+    EMOTE_PRIVATE_TYPE_NORMAL = 0
+    EMOTE_PRIVATE_TYPE_SUB_WAVE = 1
 
 
 class TextType(betterproto.Enum):
@@ -42,8 +42,16 @@ class TextType(betterproto.Enum):
 
 
 class LinkmicApplierSortSetting(betterproto.Enum):
-    NONE = 0
-    BY_GIFT_SCORE = 1
+    LINKMIC_APPLIER_SORT_SETTING_NONE = 0
+    LINKMIC_APPLIER_SORT_SETTING_BY_GIFT_SCORE = 1
+
+
+class LinkMicBattleStatus(betterproto.Enum):
+    BATTLE_ARMY_UNKNOWN = 0
+    ARMY_ONGOING = 1
+    ARMY_FINISHED = 2
+    BATTLE_ONGOING = 4
+    BATTLE_FINISHED = 5
 
 
 class HashtagNamespace(betterproto.Enum):
@@ -58,19 +66,19 @@ class AgreeStatus(betterproto.Enum):
 
 
 class KickoutReason(betterproto.Enum):
-    UNKNOWN = 0
-    FIRST_FRAME_TIMEOUT = 1
-    BY_HOST = 2
-    RTC_LOST_CONNECTION = 3
-    BY_PUNISH = 4
-    BY_ADMIN = 5
-    HOST_REMOVE_ALL_GUESTS = 6
+    KICKOUT_REASON_UNKNOWN = 0
+    KICKOUT_REASON_FIRST_FRAME_TIMEOUT = 1
+    KICKOUT_REASON_BY_HOST = 2
+    KICKOUT_REASON_RTC_LOST_CONNECTION = 3
+    KICKOUT_REASON_BY_PUNISH = 4
+    KICKOUT_REASON_BY_ADMIN = 5
+    KICKOUT_REASON_HOST_REMOVE_ALL_GUESTS = 6
 
 
 class GroupStatus(betterproto.Enum):
-    UNKNOWN = 0
-    WAITING = 1
-    LINKED = 3
+    GROUP_STATUS_UNKNOWN = 0
+    GROUP_STATUS_WAITING = 1
+    GROUP_STATUS_LINKED = 3
 
 
 class BusinessCase(betterproto.Enum):
@@ -87,32 +95,32 @@ class BusinessCase(betterproto.Enum):
 
 
 class ReplyStatus(betterproto.Enum):
-    UNKNOWN = 0
-    AGREE = 1
-    REFUSE_PERSONALLY = 2
-    REFUSE_TYPE_NOT_SUPPORT = 3
-    REFUSE_PROCESSING_INVITATION = 4
-    REFUSE_BY_TIMEOUT = 5
-    REFUSE_EXCEPTION = 6
-    REFUSE_SYSTEM_NOT_SUPPORTED = 7
-    REFUSE_SUBTYPE_DIFFERENCE = 8
-    REFUSE_IN_MICROOM = 9
-    REFUSE_NOT_LOAD_PLUGIN = 10
-    REFUSE_IN_MULTI_GUEST = 11
-    REFUSE_PAUSE_LIVE = 12
-    REFUSE_OPEN_CAMERA_DIALOG_SHOWING = 13
-    REFUSE_DRAW_GUESSING = 14
-    REFUSE_RANDOM_MATCHING = 15
-    REFUSE_IN_MATCH_PROCESSING = 16
-    REFUSE_IN_MICROOM_FOR_MULTI_COHOST = 17
-    REFUSE_COHOST_FINISHED = 18
-    REFUSE_NOT_CONNECTED = 19
-    REFUSE_LINKMIC_FULL = 20
-    REFUSE_ARC_INCOMPATIBLE = 21
-    REFUSE_PROCESSING_OTHER_INVITE = 22
-    REFUSE_PROCESSING_OTHER_APPLY = 23
-    REFUSE_IN_ANCHOR_COHOST = 24
-    REFUSE_TOPIC_PAIRING = 25
+    REPLY_STATUS_UNKNOWN = 0
+    REPLY_STATUS_AGREE = 1
+    REPLY_STATUS_REFUSE_PERSONALLY = 2
+    REPLY_STATUS_REFUSE_TYPE_NOT_SUPPORT = 3
+    REPLY_STATUS_REFUSE_PROCESSING_INVITATION = 4
+    REPLY_STATUS_REFUSE_BY_TIMEOUT = 5
+    REPLY_STATUS_REFUSE_EXCEPTION = 6
+    REPLY_STATUS_REFUSE_SYSTEM_NOT_SUPPORTED = 7
+    REPLY_STATUS_REFUSE_SUBTYPE_DIFFERENCE = 8
+    REPLY_STATUS_REFUSE_IN_MICROOM = 9
+    REPLY_STATUS_REFUSE_NOT_LOAD_PLUGIN = 10
+    REPLY_STATUS_REFUSE_IN_MULTI_GUEST = 11
+    REPLY_STATUS_REFUSE_PAUSE_LIVE = 12
+    REPLY_STATUS_REFUSE_OPEN_CAMERA_DIALOG_SHOWING = 13
+    REPLY_STATUS_REFUSE_DRAW_GUESSING = 14
+    REPLY_STATUS_REFUSE_RANDOM_MATCHING = 15
+    REPLY_STATUS_REFUSE_IN_MATCH_PROCESSING = 16
+    REPLY_STATUS_REFUSE_IN_MICROOM_FOR_MULTI_COHOST = 17
+    REPLY_STATUS_REFUSE_COHOST_FINISHED = 18
+    REPLY_STATUS_REFUSE_NOT_CONNECTED = 19
+    REPLY_STATUS_REFUSE_LINKMIC_FULL = 20
+    REPLY_STATUS_REFUSE_ARC_INCOMPATIBLE = 21
+    REPLY_STATUS_REFUSE_PROCESSING_OTHER_INVITE = 22
+    REPLY_STATUS_REFUSE_PROCESSING_OTHER_APPLY = 23
+    REPLY_STATUS_REFUSE_IN_ANCHOR_COHOST = 24
+    REPLY_STATUS_REFUSE_TOPIC_PAIRING = 25
 
 
 class SubscribeType(betterproto.Enum):
@@ -244,21 +252,21 @@ class CommonContentCase(betterproto.Enum):
 
 
 class LinkMessageType(betterproto.Enum):
-    TPYE_LINKER_UNKNOWN = 0
+    TYPE_LINKER_UNKNOWN = 0
     TYPE_LINKER_CREATE = 1
     TYPE_LINKER_CLOSE = 2
     TYPE_LINKER_INVITE = 3
     TYPE_LINKER_APPLY = 4
     TYPE_LINKER_REPLY = 5
-    TPYE_LINKER_ENTER = 6
-    TPYE_LINKER_LEAVE = 7
+    TYPE_LINKER_ENTER = 6
+    TYPE_LINKER_LEAVE = 7
     TYPE_LINKER_PERMIT = 8
-    TPYE_LINKER_CANCEL_INVITE = 9
+    TYPE_LINKER_CANCEL_INVITE = 9
     TYPE_LINKER_WAITING_LIST_CHANGE = 10
     TYPE_LINKER_LINKED_LIST_CHANGE = 11
     TYPE_LINKER_UPDATE_USER = 12
-    TPYE_LINKER_KICK_OUT = 13
-    TPYE_LINKER_CANCEL_APPLY = 14
+    TYPE_LINKER_KICK_OUT = 13
+    TYPE_LINKER_CANCEL_APPLY = 14
     TYPE_LINKER_MUTE = 15
     TYPE_LINKER_MATCH = 16
     TYPE_LINKER_UPDATE_USER_SETTING = 17
@@ -269,8 +277,8 @@ class LinkMessageType(betterproto.Enum):
     TYPE_LINKER_COHOST_LIST_CHANGE = 22
     TYPE_LINKER_MEDIA_CHANGE = 23
     TYPE_LINKER_ACCEPT_NOTICE = 24
-    TPYE_LINKER_SYS_KICK_OUT = 101
-    TPYE_LINKMIC_USER_TOAST = 102
+    TYPE_LINKER_SYS_KICK_OUT = 101
+    TYPE_LINKMIC_USER_TOAST = 102
 
 
 class MessageType(betterproto.Enum):
@@ -290,9 +298,9 @@ class MessageType(betterproto.Enum):
 
 
 class Scene(betterproto.Enum):
-    UNKNOWN = 0
-    CO_HOST = 2
-    MULTI_LIVE = 4
+    SCENE_UNKNOWN = 0
+    SCENE_CO_HOST = 2
+    SCENE_MULTI_LIVE = 4
 
 
 class CommonImDispatchStrategy(betterproto.Enum):
@@ -486,7 +494,8 @@ class TextTextPieceUser(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Image(betterproto.Message):
-    url_list: List[str] = betterproto.string_field(1)
+    url: List[str] = betterproto.string_field(1)
+    extras: str = betterproto.string_field(2)
     is_animated: bool = betterproto.bool_field(9)
 
 
@@ -837,9 +846,9 @@ class UserEcommerceEntranceShopEntranceInfo(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class UserEcommerceEntranceShopEntranceInfoStoreLabel(betterproto.Message):
-    official_label: "UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabel" = betterproto.message_field(
-        1
-    )
+    official_label: (
+        "UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabel"
+    ) = betterproto.message_field(1)
     is_bytemall: bool = betterproto.bool_field(2)
 
 
@@ -847,11 +856,11 @@ class UserEcommerceEntranceShopEntranceInfoStoreLabel(betterproto.Message):
 class UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabel(
     betterproto.Message
 ):
-    label_image_light: "UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabelShopLabelImage" = betterproto.message_field(
-        1
+    label_image_light: "UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabelShopLabelImage" = (
+        betterproto.message_field(1)
     )
-    label_image_dark: "UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabelShopLabelImage" = betterproto.message_field(
-        2
+    label_image_dark: "UserEcommerceEntranceShopEntranceInfoStoreLabelStoreOfficialLabelShopLabelImage" = (
+        betterproto.message_field(2)
     )
     label_type: int = betterproto.int64_field(3)
     label_type_str: str = betterproto.string_field(4)
@@ -1139,9 +1148,9 @@ class MemberMessageData(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class LinkMicArmiesItems(betterproto.Message):
     host_user_id: int = betterproto.uint64_field(1)
-    battle_groups: List[
-        "LinkMicArmiesItemsLinkMicArmiesGroup"
-    ] = betterproto.message_field(2)
+    battle_groups: List["LinkMicArmiesItemsLinkMicArmiesGroup"] = (
+        betterproto.message_field(2)
+    )
 
 
 @dataclass(eq=False, repr=False)
@@ -1290,9 +1299,9 @@ class CohostListChangeContent(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class LinkerListChangeContent(betterproto.Message):
-    linked_users_list: List["ListUser"] = betterproto.message_field(1)
-    applied_users_list: List["ListUser"] = betterproto.message_field(2)
-    connecting_users_list: List["ListUser"] = betterproto.message_field(3)
+    linked_users: List["ListUser"] = betterproto.message_field(1)
+    applied_users: List["ListUser"] = betterproto.message_field(2)
+    connecting_users: List["ListUser"] = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)
@@ -1470,9 +1479,9 @@ class GroupChannelUser(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class RtcExtraInfo(betterproto.Message):
     live_rtc_engine_config: "RtcExtraInfoRtcEngineConfig" = betterproto.message_field(1)
-    live_rtc_video_param_list: List[
-        "RtcExtraInfoRtcLiveVideoParam"
-    ] = betterproto.message_field(2)
+    live_rtc_video_param_list: List["RtcExtraInfoRtcLiveVideoParam"] = (
+        betterproto.message_field(2)
+    )
     rtc_bitrate_map: "RtcExtraInfoRtcBitrateMap" = betterproto.message_field(3)
     rtc_fps: int = betterproto.int32_field(4)
     rtc_business_id: str = betterproto.string_field(8)
@@ -1719,9 +1728,9 @@ class BusinessContentPerceptionDialogInfo(betterproto.Message):
     target_room_id: int = betterproto.int64_field(9)
     count_down_time: int = betterproto.int64_field(10)
     show_feedback: bool = betterproto.bool_field(11)
-    feedback_options_list: List[
-        "BusinessContentPerceptionFeedbackOption"
-    ] = betterproto.message_field(12)
+    feedback_options_list: List["BusinessContentPerceptionFeedbackOption"] = (
+        betterproto.message_field(12)
+    )
     policy_tip: int = betterproto.int64_field(13)
 
 
@@ -1737,9 +1746,9 @@ class BusinessContentJoinGroupMessageExtra(betterproto.Message):
     extra: "BusinessContentJoinGroupMessageExtraRivalExtra" = betterproto.message_field(
         2
     )
-    other_users_list: List[
-        "BusinessContentJoinGroupMessageExtraRivalExtra"
-    ] = betterproto.message_field(3)
+    other_users_list: List["BusinessContentJoinGroupMessageExtraRivalExtra"] = (
+        betterproto.message_field(3)
+    )
 
 
 @dataclass(eq=False, repr=False)
@@ -1747,9 +1756,9 @@ class BusinessContentJoinGroupMessageExtraRivalExtra(betterproto.Message):
     user_count: int = betterproto.int64_field(4)
     avatar_thumb: "Image" = betterproto.message_field(5)
     display_id: str = betterproto.string_field(6)
-    authentication_info: "BusinessContentJoinGroupMessageExtraRivalExtraAuthenticationInfo" = betterproto.message_field(
-        7
-    )
+    authentication_info: (
+        "BusinessContentJoinGroupMessageExtraRivalExtraAuthenticationInfo"
+    ) = betterproto.message_field(7)
     nickname: str = betterproto.string_field(8)
     follow_status: int = betterproto.int64_field(9)
     hashtag: "BusinessContentHashtag" = betterproto.message_field(10)
@@ -2081,14 +2090,14 @@ class WebcastLikeMessage(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class WebcastRoomUserSeqMessage(betterproto.Message):
     common: "Common" = betterproto.message_field(1)
-    ranks_list: List[
-        "WebcastRoomUserSeqMessageContributor"
-    ] = betterproto.message_field(2)
+    ranks_list: List["WebcastRoomUserSeqMessageContributor"] = (
+        betterproto.message_field(2)
+    )
     total: int = betterproto.int64_field(3)
     pop_str: str = betterproto.string_field(4)
-    seats_list: List[
-        "WebcastRoomUserSeqMessageContributor"
-    ] = betterproto.message_field(5)
+    seats_list: List["WebcastRoomUserSeqMessageContributor"] = (
+        betterproto.message_field(5)
+    )
     popularity: int = betterproto.int64_field(6)
     total_user: int = betterproto.int32_field(7)
     anonymous: int = betterproto.int64_field(8)
@@ -2129,9 +2138,9 @@ class WebcastSubNotifyMessage(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class WebcastRankUpdateMessage(betterproto.Message):
     common: "Common" = betterproto.message_field(1)
-    updates_list: List[
-        "WebcastRankUpdateMessageRankUpdate"
-    ] = betterproto.message_field(2)
+    updates_list: List["WebcastRankUpdateMessageRankUpdate"] = (
+        betterproto.message_field(2)
+    )
     group_type: int = betterproto.int64_field(3)
     priority: int = betterproto.int64_field(5)
     tabs_list: List["WebcastRankUpdateMessageRankTabInfo"] = betterproto.message_field(
@@ -2288,7 +2297,7 @@ class WebcastLinkMicArmies(betterproto.Message):
     id2: int = betterproto.uint64_field(4)
     time_stamp1: int = betterproto.uint64_field(5)
     time_stamp2: int = betterproto.uint64_field(6)
-    battle_status: int = betterproto.int32_field(7)
+    battle_status: "LinkMicBattleStatus" = betterproto.enum_field(7)
     data1: int = betterproto.uint64_field(8)
     data2: int = betterproto.uint64_field(9)
     data3: int = betterproto.uint32_field(10)
@@ -2359,17 +2368,40 @@ class WebcastLinkMicBattle(betterproto.Message):
     battle_config: "WebcastLinkMicBattleLinkMicBattleConfig" = (
         betterproto.message_field(3)
     )
-    data2: int = betterproto.uint32_field(4)
-    details: List[
-        "WebcastLinkMicBattleLinkMicBattleDetails"
-    ] = betterproto.message_field(5)
-    teams1: List["WebcastLinkMicBattleLinkMicBattleTeam"] = betterproto.message_field(9)
-    teams2: List["WebcastLinkMicBattleLinkMicBattleTeam"] = betterproto.message_field(
-        10
+    battle_status: "LinkMicBattleStatus" = betterproto.enum_field(4)
+    details: List["WebcastLinkMicBattleLinkMicBattleDetails"] = (
+        betterproto.message_field(5)
     )
-    team_data: List[
-        "WebcastLinkMicBattleLinkMicBattleTeamData"
-    ] = betterproto.message_field(13)
+    viewer_team: List["WebcastLinkMicBattleLinkMicBattleTopViewers"] = (
+        betterproto.message_field(9)
+    )
+    host_team: List["WebcastLinkMicBattleLinkMicBattleHost"] = (
+        betterproto.message_field(10)
+    )
+    team_data: List["WebcastLinkMicBattleLinkMicBattleTeamData"] = (
+        betterproto.message_field(13)
+    )
+    unknown_data16: int = betterproto.uint64_field(16)
+    host_data2_v2: List["WebcastLinkMicBattleHost2V2Data"] = betterproto.message_field(
+        17
+    )
+
+
+@dataclass(eq=False, repr=False)
+class WebcastLinkMicBattleHost2V2Data(betterproto.Message):
+    team_number: int = betterproto.uint32_field(1)
+    hostdata: List["WebcastLinkMicBattleHost2V2DataHostData"] = (
+        betterproto.message_field(2)
+    )
+    unknown_data3: int = betterproto.uint32_field(3)
+    total_points: int = betterproto.uint32_field(4)
+
+
+@dataclass(eq=False, repr=False)
+class WebcastLinkMicBattleHost2V2DataHostData(betterproto.Message):
+    host_id: int = betterproto.uint64_field(1)
+    points: int = betterproto.uint32_field(2)
+    host_id_str: str = betterproto.string_field(3)
 
 
 @dataclass(eq=False, repr=False)
@@ -2379,13 +2411,21 @@ class WebcastLinkMicBattleLinkMicBattleConfig(betterproto.Message):
     data1: int = betterproto.uint32_field(3)
     id2: int = betterproto.uint64_field(4)
     data2: int = betterproto.uint32_field(5)
+    data3: int = betterproto.uint32_field(6)
+    data4: int = betterproto.uint32_field(8)
+
+
+@dataclass(eq=False, repr=False)
+class WebcastLinkMicBattleLinkMicBattleTeamData(betterproto.Message):
+    team_id: int = betterproto.uint64_field(1)
+    data: "WebcastLinkMicBattleLinkMicBattleData" = betterproto.message_field(2)
 
 
 @dataclass(eq=False, repr=False)
 class WebcastLinkMicBattleLinkMicBattleData(betterproto.Message):
     id: int = betterproto.uint64_field(1)
     data1: int = betterproto.uint32_field(2)
-    data2: int = betterproto.uint32_field(3)
+    win_streak: int = betterproto.uint32_field(3)
     data3: int = betterproto.uint32_field(5)
     url: str = betterproto.string_field(6)
 
@@ -2393,19 +2433,71 @@ class WebcastLinkMicBattleLinkMicBattleData(betterproto.Message):
 @dataclass(eq=False, repr=False)
 class WebcastLinkMicBattleLinkMicBattleDetails(betterproto.Message):
     id: int = betterproto.uint64_field(1)
-    details: "WebcastLinkMicBattleLinkMicBattleData" = betterproto.message_field(2)
+    summary: "WebcastLinkMicBattleLinkMicBattleDetailsLinkMicBattleDetailsSummary" = (
+        betterproto.message_field(2)
+    )
 
 
 @dataclass(eq=False, repr=False)
-class WebcastLinkMicBattleLinkMicBattleTeam(betterproto.Message):
+class WebcastLinkMicBattleLinkMicBattleDetailsLinkMicBattleDetailsSummary(
+    betterproto.Message
+):
     id: int = betterproto.uint64_field(1)
-    users: List["User"] = betterproto.message_field(2)
+    unknown_data2: int = betterproto.uint32_field(2)
+    points: int = betterproto.uint32_field(3)
 
 
 @dataclass(eq=False, repr=False)
-class WebcastLinkMicBattleLinkMicBattleTeamData(betterproto.Message):
-    team_id: int = betterproto.uint64_field(1)
-    data: "WebcastLinkMicBattleLinkMicBattleData" = betterproto.message_field(2)
+class WebcastLinkMicBattleLinkMicBattleTopViewers(betterproto.Message):
+    id: int = betterproto.uint64_field(1)
+    viewer_group: List["WebcastLinkMicBattleLinkMicBattleTopViewersTopViewerGroup"] = (
+        betterproto.message_field(2)
+    )
+
+
+@dataclass(eq=False, repr=False)
+class WebcastLinkMicBattleLinkMicBattleTopViewersTopViewerGroup(betterproto.Message):
+    viewer: List[
+        "WebcastLinkMicBattleLinkMicBattleTopViewersTopViewerGroupTopViewer"
+    ] = betterproto.message_field(1)
+    points: int = betterproto.uint32_field(2)
+    host_id_or_team_num: str = betterproto.string_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class WebcastLinkMicBattleLinkMicBattleTopViewersTopViewerGroupTopViewer(
+    betterproto.Message
+):
+    id: int = betterproto.uint64_field(1)
+    points: int = betterproto.uint32_field(2)
+    profile_id: str = betterproto.string_field(3)
+    images: List["Image"] = betterproto.message_field(4)
+    string_id: str = betterproto.string_field(6)
+
+
+@dataclass(eq=False, repr=False)
+class WebcastLinkMicBattleLinkMicBattleHost(betterproto.Message):
+    id: int = betterproto.uint64_field(1)
+    host_group: List["WebcastLinkMicBattleLinkMicBattleHostHostGroup"] = (
+        betterproto.message_field(2)
+    )
+
+
+@dataclass(eq=False, repr=False)
+class WebcastLinkMicBattleLinkMicBattleHostHostGroup(betterproto.Message):
+    host: List["WebcastLinkMicBattleLinkMicBattleHostHostGroupHost"] = (
+        betterproto.message_field(1)
+    )
+    points: int = betterproto.uint32_field(2)
+    host_id: str = betterproto.string_field(3)
+
+
+@dataclass(eq=False, repr=False)
+class WebcastLinkMicBattleLinkMicBattleHostHostGroupHost(betterproto.Message):
+    id: int = betterproto.uint64_field(1)
+    profile_id: str = betterproto.string_field(2)
+    images: List["Image"] = betterproto.message_field(3)
+    name: str = betterproto.string_field(4)
 
 
 @dataclass(eq=False, repr=False)
@@ -2562,9 +2654,7 @@ class WebcastLinkMessage(betterproto.Message):
         21
     )
     media_change_content: "LinkerMediaChangeContent" = betterproto.message_field(22)
-    reply_accept_notice_content: "LinkerAcceptNoticeContent" = (
-        betterproto.message_field(23)
-    )
+    accept_notice_content: "LinkerAcceptNoticeContent" = betterproto.message_field(23)
     sys_kick_out_content: "LinkerSysKickOutContent" = betterproto.message_field(101)
     user_toast_content: "LinkmicUserToastContent" = betterproto.message_field(102)
     extra: str = betterproto.string_field(200)
