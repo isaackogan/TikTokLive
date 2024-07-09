@@ -1,6 +1,4 @@
-import importlib
 import logging
-import time
 
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
 from TikTokLive.proto import User, ExtendedUser
