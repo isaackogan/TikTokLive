@@ -19,16 +19,6 @@ Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
 the [`#py-support`](https://discord.gg/uja6SajDxd)
 channel for questions, contributions and ideas.
 
-### SIGN SERVER - WE NEED SUPPORT (May 6th, 2024)!!
-
-We don't have the $$ to buy extra servers to prevent downtime if ours go down. 
-
-Each node requires a 2.5GB machine ($25/yr). If you've felt like supporting the Node, Java, Python, Rust, C# libraries, help us keep the lights on.
-
-I will use [all donations](https://buymeacoffee.com/isaackogan) over the next __month__ **exclusively** to purchase new servers. If we raise $25, that'll be 1 machine. $50, 2 machines...and so on.
-
-Help us help you scrape TikTok!
-
 ### Enterprise Access
 
 <div align="left">
