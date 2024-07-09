@@ -494,7 +494,7 @@ class TextTextPieceUser(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Image(betterproto.Message):
-    url: List[str] = betterproto.string_field(1)
+    url_list: List[str] = betterproto.string_field(1)
     extras: str = betterproto.string_field(2)
     is_animated: bool = betterproto.bool_field(9)
 

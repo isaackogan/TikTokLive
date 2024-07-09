@@ -97,7 +97,7 @@ message Text {
 
 // @Image
 message Image {
-  repeated string url = 1;
+  repeated string urlList = 1;
   string extras = 2;
   bool isAnimated = 9;
 }

@@ -1,6 +1,6 @@
 from pathlib import Path
-from proto.convert import compile_proto_python
-from proto.preprocess import pre_process_proto_dir
+from convert import compile_proto_python
+from preprocess import pre_process_proto_dir
 
 if __name__ == '__main__':
 

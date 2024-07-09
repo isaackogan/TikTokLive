@@ -2,20 +2,12 @@
 # DO NOT EDIT!
 # SERIOUSLY!
 # I MEAN IT!
-from typing import Union
 
 from TikTokLive.proto.tiktok_proto import *
 from TikTokLive.proto.custom_proto import *
 from .base_event import BaseEvent
-
-
-class JoinEvent(BaseEvent, WebcastMemberMessage):
-    """
-    JoinEvent
-    """
-
-    operator: ExtendedUser
-    user: ExtendedUser
+from typing import Type, Union, Dict
+from typing import Union
 
 
 class BarrageEvent(BaseEvent, WebcastBarrageMessage):
@@ -135,6 +127,15 @@ class ImDeleteEvent(BaseEvent, WebcastImDeleteMessage):
     ImDeleteEvent
 
     """
+
+
+class JoinEvent(BaseEvent, WebcastMemberMessage):
+    """
+    JoinEvent
+    """
+
+    operator: ExtendedUser
+    user: ExtendedUser
 
 
 class LikeEvent(BaseEvent, WebcastLikeMessage):

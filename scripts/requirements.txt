@@ -3,3 +3,4 @@ jinja2
 python-dotenv
 build
 twine
+betterproto[compiler]
