@@ -12,6 +12,14 @@ TikTokLive.proto.custom\_proto module
    :undoc-members:
    :show-inheritance:
 
+TikTokLive.proto.proto\_utils module
+------------------------------------
+
+.. automodule:: TikTokLive.proto.proto_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 TikTokLive.proto.tiktok\_proto module
 -------------------------------------
 

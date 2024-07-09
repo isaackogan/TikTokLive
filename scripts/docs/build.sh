@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create api-doc files
-#sphinx-apidoc --ext-autodoc --force -o  . ../../TikTokLive && ^
+sphinx-apidoc --ext-autodoc --force -o  . ../../TikTokLive && ^
 
 echo "Generated API docs"
 

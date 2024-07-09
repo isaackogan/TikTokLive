@@ -8,3 +8,4 @@ test.py
 .env
 build
 badges.py
+proto-testing

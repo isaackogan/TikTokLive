@@ -20,10 +20,26 @@ TikTokLive.client.web.routes.fetch\_image module
    :undoc-members:
    :show-inheritance:
 
-TikTokLive.client.web.routes.fetch\_room\_id module
+TikTokLive.client.web.routes.fetch\_is\_live module
 ---------------------------------------------------
 
-.. automodule:: TikTokLive.client.web.routes.fetch_room_id
+.. automodule:: TikTokLive.client.web.routes.fetch_is_live
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+TikTokLive.client.web.routes.fetch\_room\_id\_api module
+--------------------------------------------------------
+
+.. automodule:: TikTokLive.client.web.routes.fetch_room_id_api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+TikTokLive.client.web.routes.fetch\_room\_id\_html module
+---------------------------------------------------------
+
+.. automodule:: TikTokLive.client.web.routes.fetch_room_id_html
    :members:
    :undoc-members:
    :show-inheritance:
