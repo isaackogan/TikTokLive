@@ -12,6 +12,18 @@ class UserOfflineError(RuntimeError):
     """
 
 
+class UserNotFoundError(RuntimeError):
+    """
+    Thrown when the request to check if a user is live fails because a user has no
+    livestream account (e.g. <1000 followers)
+
+    """
+
+    def __init__(self, unique_id: str, *args):
+        self.unique_id: str = unique_id
+        super().__init__(*args)
+
+
 class AgeRestrictedError(RuntimeError):
     """
     Thrown when a LIVE is age restricted. Pass sessionid to bypass.

@@ -1,8 +1,13 @@
+import json
+import logging
 import re
+import traceback
+from json import JSONDecodeError
+from typing import Optional
 
 from httpx import Response
 
-from TikTokLive.client.errors import UserOfflineError
+from TikTokLive.client.errors import UserOfflineError, UserNotFoundError
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
 
@@ -19,6 +24,8 @@ class RoomIdHTMLRoute(ClientRoute):
     Route to retrieve the room ID for a user
 
     """
+
+    SIGI_PATTERN: re.Pattern = re.compile(r"""<script id="SIGI_STATE" type="application/json">(.*?)</script>""")
 
     async def __call__(self, unique_id: str) -> str:
         """
@@ -52,15 +59,31 @@ class RoomIdHTMLRoute(ClientRoute):
 
         """
 
-        match_metadata = re.search("room_id=([0-9]*)", html)
-        if bool(match_metadata):
-            return match_metadata.group(0).split("=")[1]
+        match: Optional[re.Match[str]] = cls.SIGI_PATTERN.search(html)
 
-        match_json = re.search('"roomId":"([0-9]*)"', html)
-        if bool(match_json):
-            return match_json.group(0)
+        if match is None:
+            raise FailedParseRoomIdError("Failed to extract the SIGI_STATE HTML tag, you might be blocked by TikTok.")
 
-        if '"og:url"' in html:
-            raise UserOfflineError("The user might be offline.")
-        else:
-            raise FailedParseRoomIdError("That user doesn't exist, or you might be blocked by TikTok.")
+        # Load SIGI_STATE JSON
+        try:
+            sigi_state: dict = json.loads(match.group(1))
+        except JSONDecodeError:
+            raise FailedParseRoomIdError("Failed to parse SIGI_STATE into JSON. Are you captcha-blocked by TikTok?")
+
+        # LiveRoom is missing for users that have never been live
+        if sigi_state.get('LiveRoom') is None:
+            raise UserNotFoundError(
+                "The requested user is not capable of going LIVE on TikTok, "
+                "has never gone live on TikTok, or does not exist.."
+            )
+
+        # Method 1) Parse the room ID from liveRoomUserInfo/user#roomId
+        room_data: dict = sigi_state["LiveRoom"]["liveRoomUserInfo"]["user"]
+        room_id: str = room_data.get('roomId')
+        username_str: str = f" '@{room_data['uniqueId']}' " if room_data.get('uniqueId') else " "
+
+        # User is offline
+        if room_data.get('status') == 4:
+            raise UserOfflineError(f"The requested TikTok LIVE user{username_str}is offline.")
+
+        return room_id

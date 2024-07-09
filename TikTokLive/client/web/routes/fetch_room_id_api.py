@@ -1,20 +1,9 @@
 from httpx import Response
 
+from TikTokLive.client.errors import UserNotFoundError
 from TikTokLive.client.web.routes.fetch_room_id_html import FailedParseRoomIdError
 from TikTokLive.client.web.web_base import ClientRoute, TikTokHTTPClient
 from TikTokLive.client.web.web_settings import WebDefaults
-
-
-class UserNotFound(RuntimeError):
-    """
-    Thrown when the request to check if a user is live fails because a user has no
-    livestream account (e.g. <1000 followers)
-
-    """
-
-    def __init__(self, unique_id: str, *args):
-        self.unique_id: str = unique_id
-        super().__init__(*args)
 
 
 class RoomIdAPIRoute(ClientRoute):
@@ -67,7 +56,7 @@ class RoomIdAPIRoute(ClientRoute):
 
         # Invalid user
         if response_json["message"] == "user_not_found":
-            raise UserNotFound(
+            raise UserNotFoundError(
                 unique_id,
                 (
                     f"The requested user '{unique_id}' is not capable of going LIVE on TikTok, "

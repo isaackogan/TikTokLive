@@ -63,6 +63,7 @@ class FetchIsLiveRoute(ClientRoute):
         )
 
         response_json: dict = response.json()
+        print(response_json)
         return [i["alive"] for i in response_json["data"]]
 
     async def fetch_is_live_unique_id(self, unique_id: str) -> bool:

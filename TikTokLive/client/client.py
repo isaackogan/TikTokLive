@@ -12,7 +12,7 @@ from pyee import AsyncIOEventEmitter
 from pyee.base import Handler
 
 from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, InitialCursorMissingError, \
-    WebsocketURLMissingError
+    WebsocketURLMissingError, UserNotFoundError
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
 from TikTokLive.client.web.web_client import TikTokWebClient
 from TikTokLive.client.web.web_settings import WebDefaults
@@ -118,6 +118,10 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self._room_id: str = room_id or await self._web.fetch_room_id_from_html(self._unique_id)
             self._web.params["room_id"] = self._room_id
         except Exception as base_ex:
+
+            if isinstance(base_ex, UserOfflineError) or isinstance(base_ex, UserNotFoundError):
+                raise base_ex
+
             try:
                 self._logger.error("Failed to parse room ID from HTML. Using API fallback.")
                 self._room_id: str = await self._web.fetch_room_id_from_api(self.unique_id)
