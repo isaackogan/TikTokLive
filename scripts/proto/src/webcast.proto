@@ -192,7 +192,7 @@ message WebcastChatMessage {
   int32 quickChatScene = 16;
   int32 communityFlaggedStatus = 17;
   UserIdentity UserIdentity = 18;
-  map<string, string> CommentQualityScores = 19;
+  map<int32, string> CommentQualityScores = 19;
 
   // @EmoteWithIndex
   // proto.webcast.im.ChatMessage
@@ -513,7 +513,7 @@ message WebcastLinkMicArmies {
   uint64 id2 = 4;
   uint64 timeStamp1 = 5;
   uint64 timeStamp2 = 6;
-  int32 battleStatus = 7; // SHOULD BE AN ENUM
+  LinkMicBattleStatus battleStatus = 7;
   uint64 data1 = 8;
   uint64 data2 = 9;
   uint32 data3 = 10;
@@ -566,11 +566,26 @@ message WebcastLinkMicBattle {
   Common common = 1;
   uint64 id = 2;
   LinkMicBattleConfig battleConfig = 3;
-  uint32 data2 = 4;
+  LinkMicBattleStatus battleStatus = 4;
   repeated LinkMicBattleDetails details = 5;
-  repeated LinkMicBattleTeam teams1 = 9;
-  repeated LinkMicBattleTeam teams2 = 10;
+  repeated LinkMicBattleTopViewers viewerTeam = 9;
+  repeated LinkMicBattleHost hostTeam = 10;
   repeated LinkMicBattleTeamData teamData = 13;
+  uint64 unknownData16 = 16;
+  repeated Host2v2Data hostData2v2 = 17;
+
+  message Host2v2Data {
+    uint32 teamNumber = 1;
+    repeated HostData hostdata = 2;
+    uint32 unknownData3 = 3;
+    uint32 totalPoints = 4;
+
+    message HostData {
+      uint64 hostId = 1;
+      uint32 points = 2;
+      string hostIdStr = 3;
+    }
+  }
 
   message LinkMicBattleConfig {
     uint64 id1 = 1;
@@ -578,29 +593,69 @@ message WebcastLinkMicBattle {
     uint32 data1 = 3;
     uint64 id2 = 4;
     uint32 data2 = 5;
+    uint32 data3 = 6;
+    uint32 data4 = 8;
+  }
+
+  message LinkMicBattleTeamData {
+    uint64 teamId = 1;
+    LinkMicBattleData data = 2;
   }
 
   message LinkMicBattleData {
     uint64 id = 1;
     uint32 data1 = 2;
-    uint32 data2 = 3;
+    uint32 winStreak = 3;
     uint32 data3 = 5;
     string url = 6;
   }
 
   message LinkMicBattleDetails {
     uint64 id = 1;
-    LinkMicBattleData details = 2;
+    LinkMicBattleDetailsSummary summary = 2;
+
+    message LinkMicBattleDetailsSummary {
+      uint64 id = 1;
+      uint32 unknownData2 = 2;
+      uint32 points = 3;
+    }
   }
 
-  message LinkMicBattleTeam {
+  message LinkMicBattleTopViewers {
     uint64 id = 1;
-    repeated User users = 2;
+    repeated TopViewerGroup viewerGroup = 2;
+
+    message TopViewerGroup {
+      repeated TopViewer viewer = 1;
+      uint32 points = 2;
+      string hostIdOrTeamNum = 3; // 1v1 Battle = HostId | 2v2 Battle = Team # - 1 & 2
+
+      message TopViewer {
+        uint64 id = 1;
+        uint32 points = 2;
+        string profileId = 3;
+        repeated Image images = 4;
+        string stringId = 6;
+      }
+    }
   }
 
-  message LinkMicBattleTeamData {
-    uint64 teamId = 1;
-    LinkMicBattleData data = 2;
+  message LinkMicBattleHost {
+    uint64 id = 1;
+    repeated HostGroup hostGroup = 2;
+
+    message HostGroup {
+      repeated Host host = 1;
+      uint32 points = 2;
+      string hostId = 3;
+
+      message Host {
+        uint64 id = 1;
+        string profileId = 2;
+        repeated Image images = 3;
+        string name = 4;
+      }
+    }
   }
 }
 
@@ -742,7 +797,7 @@ message WebcastLinkMessage {
   LinkerListChangeContent ListChangeContent = 20;
   CohostListChangeContent CohostListChangeContent = 21;
   LinkerMediaChangeContent MediaChangeContent = 22;
-  LinkerAcceptNoticeContent ReplyAcceptNoticeContent = 23;
+  LinkerAcceptNoticeContent AcceptNoticeContent = 23;
   LinkerSysKickOutContent SysKickOutContent = 101;
   LinkmicUserToastContent UserToastContent = 102;
   string extra = 200;
