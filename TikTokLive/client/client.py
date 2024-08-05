@@ -35,8 +35,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             unique_id: str,
             web_proxy: Optional[Proxy] = None,
             ws_proxy: Optional[Proxy] = None,
-            web_kwargs: dict = {},
-            ws_kwargs: dict = {}
+            web_kwargs: Optional[dict] = None,
+            ws_kwargs: Optional[dict] = None
     ):
         """
         Instantiate the TikTokLiveClient client
@@ -52,12 +52,12 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         super().__init__()
 
         self._ws: WebcastWSClient = WebcastWSClient(
-            ws_kwargs=ws_kwargs,
+            ws_kwargs=ws_kwargs or {},
             proxy=ws_proxy
         )
 
         self._web: TikTokWebClient = TikTokWebClient(
-            httpx_kwargs=web_kwargs,
+            httpx_kwargs=web_kwargs or {},
             proxy=web_proxy
         )
 
@@ -67,7 +67,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # Properties
         self._unique_id: str = self.parse_unique_id(unique_id)
-        self._room_id: Optional[str] = None
+        self._room_id: Optional[int] = None
         self._room_info: Optional[Dict[str, Any]] = None
         self._gift_info: Optional[Dict[str, Any]] = None
         self._event_loop_task: Optional[Task] = None
@@ -115,8 +115,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # <Required> Fetch room ID
         try:
-            self._room_id: str = room_id or await self._web.fetch_room_id_from_html(self._unique_id)
-            self._web.params["room_id"] = self._room_id
+            self._room_id: int = room_id or await self._web.fetch_room_id_from_html(self._unique_id)
+            self._web.params["room_id"] = str(self._room_id)
         except Exception as base_ex:
 
             if isinstance(base_ex, UserOfflineError) or isinstance(base_ex, UserNotFoundError):
@@ -124,7 +124,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
             try:
                 self._logger.error("Failed to parse room ID from HTML. Using API fallback.")
-                self._room_id: str = await self._web.fetch_room_id_from_api(self.unique_id)
+                self._room_id: int = await self._web.fetch_room_id_from_api(self.unique_id)
             except Exception as super_ex:
                 raise super_ex from base_ex
 

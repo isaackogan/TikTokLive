@@ -1,4 +1,7 @@
 import asyncio
+import os
+import time
+from asyncio import Task
 from typing import Optional, AsyncIterator, List, Dict, Any, Callable, Tuple
 
 from httpx import Proxy
@@ -39,6 +42,27 @@ class WebcastWSClient:
         self._ws: Optional[WebSocketClientProtocol] = None
         self._ws_proxy: Optional[Proxy] = proxy
         self._logger = TikTokLiveLogHandler.get_logger()
+        self._ping_loop: Optional[Task] = None
+
+    async def send_stupid_ping(
+            self,
+    ) -> None:
+        """
+        Send a stupid ping with arbitrary data we found in the WS
+        TikTok client sends this every 10 seconds from testing
+
+        """
+
+        if os.environ['WITH_PING'] == 'Y':
+            print('Ping actually sent.')
+        else:
+            return
+
+        d = await self._ws.send(
+            message=bytes.fromhex("3A026862")
+        )
+
+        print('res', d)
 
     async def send_ack(
             self,
@@ -120,6 +144,8 @@ class WebcastWSClient:
             }
         )
 
+        print(base_config)
+
         if self._ws_proxy is not None:
             base_config["proxy_conn_timeout"] = 10.0
             base_config["proxy"] = self._convert_proxy()
@@ -128,7 +154,6 @@ class WebcastWSClient:
 
     def _convert_proxy(self) -> websockets_proxy.Proxy:
 
-        # (proxy_type, host, port, username, password)
         parsed: Tuple[ProxyType, str, int, Optional[str], Optional[str]] = parse_proxy_url(str(self._ws_proxy.url))
         parsed: list = list(parsed)
 
@@ -190,6 +215,11 @@ class WebcastWSClient:
             # Update the stored websocket
             self._ws = websocket
 
+            # Restart the ping loop
+            if self._ping_loop:
+                self._ping_loop.cancel()
+            self._ping_loop = asyncio.create_task(self.ping_loop())
+
             # Each time we receive a message, process it
             async for message in websocket:
 
@@ -203,6 +233,25 @@ class WebcastWSClient:
 
             if self._ws_cancel is not None:
                 return
+
+    async def ping_loop(self) -> None:
+        """
+        Send a ping every 10 seconds to keep the connection alive
+
+        """
+        x = 0
+
+        t = time.time()
+        time_as_est_string = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
+        while self.connected:
+
+            if x % 10 == 0:
+                self._logger.debug(f"Sending WebSocket ping at {time_as_est_string}...")
+                await self.send_stupid_ping()
+                x = 0
+
+            x += 1
+            await asyncio.sleep(1)
 
     async def process_recv(self, data: bytes) -> List[WebcastResponseMessage]:
         """
@@ -218,6 +267,7 @@ class WebcastWSClient:
 
         # Only deal with messages
         if push_frame.payload_type != "msg":
+            print('recv', push_frame)
             self._logger.debug(f"Received payload of type '{push_frame.payload_type}', not 'msg': {push_frame}")
             return []
 

@@ -2,14 +2,23 @@ from typing import Optional, List
 
 from httpx import Response
 
-from TikTokLive.client.web.routes.fetch_room_id_api import RoomIdAPIRoute
+from TikTokLive.client.web.routes.room_id_api import RoomIdAPIRoute
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
 class InvalidFetchIsLiveRequest(RuntimeError):
     """
-    Thrown when the request to check if a user is live fails
+    Thrown when the user fails to specify either a room ID or unique ID
+
+    """
+
+    pass
+
+
+class MissingRoomIdInResponse(RuntimeError):
+    """
+    Thrown when no entries are returned from the Room ID live method. This occurs when passing a nonexistent Room ID or when being detected by TikTok.
 
     """
 
@@ -24,7 +33,7 @@ class FetchIsLiveRoute(ClientRoute):
 
     async def __call__(
             self,
-            room_id: Optional[str] = None,
+            room_id: Optional[int] = None,
             unique_id: Optional[str] = None
     ) -> bool:
         """
@@ -44,11 +53,16 @@ class FetchIsLiveRoute(ClientRoute):
             )
 
         if room_id is not None:
-            return (await self.fetch_is_live_room_ids(room_id))[0]
+            try:
+                return (await self.fetch_is_live_room_ids(room_id))[0]
+            except:
+                raise MissingRoomIdInResponse(
+                    f"Room ID {room_id} did not return any entries. This may be due to a nonexistent Room ID or being detected by TikTok."
+                )
 
         return await self.fetch_is_live_unique_id(unique_id)
 
-    async def fetch_is_live_room_ids(self, *room_ids: str) -> List[bool]:
+    async def fetch_is_live_room_ids(self, *room_ids: int) -> List[bool]:
         """
         Check whether a list of room_id's are currently live
 
@@ -59,11 +73,10 @@ class FetchIsLiveRoute(ClientRoute):
 
         response: Response = await self._web.get_response(
             url=WebDefaults.tiktok_webcast_url + f"/room/check_alive/",
-            extra_params={"room_ids": ",".join(room_ids)}
+            extra_params={"room_ids": ",".join([str(room_id) for room_id in room_ids])}
         )
 
         response_json: dict = response.json()
-        print(response_json)
         return [i["alive"] for i in response_json["data"]]
 
     async def fetch_is_live_unique_id(self, unique_id: str) -> bool:

@@ -1,7 +1,7 @@
 from httpx import Response
 
 from TikTokLive.client.errors import UserNotFoundError
-from TikTokLive.client.web.routes.fetch_room_id_html import FailedParseRoomIdError
+from TikTokLive.client.web.routes.room_id_live_html import FailedParseRoomIdError
 from TikTokLive.client.web.web_base import ClientRoute, TikTokHTTPClient
 from TikTokLive.client.web.web_settings import WebDefaults
 
@@ -12,7 +12,7 @@ class RoomIdAPIRoute(ClientRoute):
 
     """
 
-    async def __call__(self, unique_id: str) -> str:
+    async def __call__(self, unique_id: str) -> int:
         """
         Fetch the Room ID for a given unique_id from the TikTok API
 
@@ -29,7 +29,7 @@ class RoomIdAPIRoute(ClientRoute):
 
         # Parse & update the web client
         room_id = self._web.params["room_id"] = self.parse_room_id(room_data)
-        return room_id
+        return int(room_id)
 
     @classmethod
     async def fetch_user_room_data(cls, web: TikTokHTTPClient, unique_id: str) -> dict:
