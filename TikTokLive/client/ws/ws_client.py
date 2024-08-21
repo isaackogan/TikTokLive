@@ -58,11 +58,9 @@ class WebcastWSClient:
         else:
             return
 
-        d = await self._ws.send(
+        await self._ws.send(
             message=bytes.fromhex("3A026862")
         )
-
-        print('res', d)
 
     async def send_ack(
             self,
@@ -143,8 +141,6 @@ class WebcastWSClient:
                 **self._ws_kwargs
             }
         )
-
-        print(base_config)
 
         if self._ws_proxy is not None:
             base_config["proxy_conn_timeout"] = 10.0
@@ -267,7 +263,6 @@ class WebcastWSClient:
 
         # Only deal with messages
         if push_frame.payload_type != "msg":
-            print('recv', push_frame)
             self._logger.debug(f"Received payload of type '{push_frame.payload_type}', not 'msg': {push_frame}")
             return []
 
