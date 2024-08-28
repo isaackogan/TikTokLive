@@ -129,7 +129,7 @@ class SignFetchRoute(ClientRoute):
                 response.headers.get("X-RateLimit-Reset"),
                 "You have hit the rate limit for starting connections. Try again in %s seconds. "
                 "Catch this error & access its attributes (retry_after, reset_time) for data on when you can "
-                "request next."
+                "request next. Sign up for an API key at https://www.eulerstream.com/ for higher limits."
             )
 
         elif not data:
