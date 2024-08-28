@@ -20,7 +20,7 @@ the [`#py-support`](https://discord.gg/uja6SajDxd)
 channel for questions, contributions and ideas.
 
 
-### ‼️ Need more connections? Packages are available at https://www.eulerstream.com/piricing.
+## ‼️ Need more connections? Packages are available at https://www.eulerstream.com/piricing.
 
 ### Other Languages
 
