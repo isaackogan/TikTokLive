@@ -8,7 +8,7 @@ from logging import Logger
 from typing import Optional, Type, AsyncIterator, Dict, Any, Tuple, Union, Callable, List, Coroutine
 
 from httpx import Proxy
-from pyee import AsyncIOEventEmitter
+from pyee.asyncio import AsyncIOEventEmitter
 from pyee.base import Handler
 
 from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, InitialCursorMissingError, \
