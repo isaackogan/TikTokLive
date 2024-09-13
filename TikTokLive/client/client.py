@@ -349,11 +349,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # Get the proto mapping for proto-events
         event_type: Optional[Type[ProtoEvent]] = EVENT_MAPPINGS.get(response.method)
-        response_event: Event = WebsocketResponseEvent().from_pydict(response.to_dict())
+        response_event: Event = WebsocketResponseEvent().from_dict(response.to_dict())
 
         # If the event is not tracked, return
         if event_type is None:
-            return [response_event, UnknownEvent().from_pydict(response.to_dict())]
+            return [response_event, UnknownEvent().from_dict(response.to_dict())]
 
         # Get the underlying events
         try:

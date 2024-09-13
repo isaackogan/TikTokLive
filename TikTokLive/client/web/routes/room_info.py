@@ -70,4 +70,4 @@ class FetchRoomInfoRoomIdRoute(ClientRoute):
                 "Pass sessionid to log in & bypass age restriction."
             )
 
-        return data["data"]
+        return data

@@ -27,7 +27,7 @@ class WebcastWSClient:
 
     def __init__(
             self,
-            ws_kwargs: dict = {},
+            ws_kwargs: Optional[dict] = None,
             proxy: Optional[Proxy] = None
     ):
         """
@@ -37,7 +37,7 @@ class WebcastWSClient:
 
         """
 
-        self._ws_kwargs: dict = ws_kwargs
+        self._ws_kwargs: dict = ws_kwargs or {}
         self._ws_cancel: Optional[asyncio.Event] = None
         self._ws: Optional[WebSocketClientProtocol] = None
         self._ws_proxy: Optional[Proxy] = proxy
@@ -137,10 +137,15 @@ class WebcastWSClient:
                 "ping_interval": 10.0,
                 "logger": self._logger,
                 "uri": self._ws_kwargs.pop("uri", uri),
-                "extra_headers": {**headers, **self._ws_kwargs.pop("headers", {})},
+                "extra_headers": {
+                    **headers,
+                    **self._ws_kwargs.pop("headers", {})
+                },
                 **self._ws_kwargs
             }
         )
+
+        print(base_config['extra_headers'])
 
         if self._ws_proxy is not None:
             base_config["proxy_conn_timeout"] = 10.0

@@ -35,7 +35,7 @@ class ConnectEvent(BaseEvent):
     """
 
     unique_id: str
-    room_id: str
+    room_id: int
 
 
 class DisconnectEvent(BaseEvent):

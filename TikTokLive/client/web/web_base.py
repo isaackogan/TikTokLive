@@ -73,8 +73,8 @@ class TikTokHTTPClient:
     async def get_response(
             self,
             url: str,
-            extra_params: dict = {},
-            extra_headers: dict = {},
+            extra_params: Optional[Dict] = None,
+            extra_headers: Optional[Dict] = None,
             client: Optional[httpx.AsyncClient] = None,
             base_params: bool = True,
             base_headers: bool = True,
@@ -102,8 +102,8 @@ class TikTokHTTPClient:
         return await (client or self._httpx).get(
             url=url,
             cookies=self.cookies,
-            params={**(self.params if base_params else {}), **extra_params},
-            headers={**(self.headers if base_headers else {}), **extra_headers},
+            params={**(self.params if base_params else {}), **(extra_params or dict())},
+            headers={**(self.headers if base_headers else {}), **(extra_headers or dict())},
             **kwargs
         )
 
