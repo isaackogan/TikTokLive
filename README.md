@@ -1,7 +1,9 @@
-TikTokLive
+TikTokLive API
 ==================
-The definitive Python library to connect to TikTok LIVE.
+This is an unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@username`.
 
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/isaackogan/)
+[![LinkedIn](https://www.eulerstream.com/api/pips/patrons?t=3)](https://www.linkedin.com/in/isaackogan/)
 ![Connections](https://tiktok.eulerstream.com/analytics/pips/1)
 ![Downloads](https://pepy.tech/badge/tiktoklive)
 ![Stars](https://img.shields.io/github/stars/isaackogan/TikTokLive?style=flat&color=0274b5)
@@ -10,17 +12,21 @@ The definitive Python library to connect to TikTok LIVE.
 
 <!-- [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive) -->
 
-TikTokLive is a Python library designed to connect to [TikTok LIVE](https://tiktok.com/live) and receive realtime events
-such as comments, gifts, and likes through a websocket connection to TikTok's internal Webcast service. This library
-allows you to
-connect directly to TikTok with just a username (`@unique_id`). No credentials are required to use TikTokLive.
+This API is designed to **retrieve** information from TikTok. It **cannot** be used to **post/upload** LIVE content or comments, to simulate user interaction, or otherwise generate fake traffic. This API does **not** count towards viewers
+in a stream. It has **no support** for any **user-authenticated routes**.
 
-Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
-the [`#py-support`](https://discord.gg/uja6SajDxd)
-channel for questions, contributions and ideas.
+No credentials are required to use TikTokLive.
 
+## Sponsors
 
-## ‼️ Need more connections? Packages are available at https://www.eulerstream.com/piricing.
+<table>
+<tr>
+    <td><img width="60px" src="https://raw.githubusercontent.com/davidteather/TikTok-Api/main/imgs/tikapi.png"/></td>
+    <td>Test</td>
+</tr>
+</table>
+
+## ‼ Need more connections? Packages are available at https://www.eulerstream.com/piricing.
 
 ### Other Languages
 
@@ -34,11 +40,18 @@ TikTokLive is available in several alternate programming languages:
 
 ## Table of Contents
 
+- [Community](#community)
 - [Documentation](https://isaackogan.github.io/TikTokLive/)
 - [Examples](https://github.com/isaackogan/TikTokLive/tree/master/examples)
-- [Wiki](https://github.com/isaackogan/TikTokLive/wiki) 
+- [Wiki](https://github.com/isaackogan/TikTokLive/wiki)
 - [Licensing](#license)
 - [Contributors](#contributors)
+
+## Community
+
+Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
+the [`#py-support`](https://discord.gg/uja6SajDxd)
+channel for questions, contributions and ideas.
 
 ## Getting Started
 
@@ -94,13 +107,13 @@ provided in the source tree.
 
 A `TikTokLiveClient` object contains the following important methods:
 
-| Method Name  | Notes   | Description                                                                                                                                                                |
-|--------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| run          | N/A     | Connect to the livestream and block the main thread. This is best for small scripts.                                                                 |
+| Method Name  | Notes   | Description                                                                                                                                                                     |
+|--------------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| run          | N/A     | Connect to the livestream and block the main thread. This is best for small scripts.                                                                                            |
 | add_listener | N/A     | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on(<event>)`) and takes two parameters, an event name and the payload, an AbstractEvent ||
-| connect      | `async` | Connects to the tiktok live chat while blocking the current future. When the connection ends (e.g. livestream is over), the future is released.                            |
-| start        | `async` | Connects to the live chat without blocking the main thread. This returns an `asyncio.Task` object with the client loop.                                                    |
-| disconnect   | `async` | Disconnects the client from the websocket gracefully, processing remaining events before ending the client loop.                                                           |
+| connect      | `async` | Connects to the tiktok live chat while blocking the current future. When the connection ends (e.g. livestream is over), the future is released.                                 |
+| start        | `async` | Connects to the live chat without blocking the main thread. This returns an `asyncio.Task` object with the client loop.                                                         |
+| disconnect   | `async` | Disconnects the client from the websocket gracefully, processing remaining events before ending the client loop.                                                                |
 
 ## Properties
 
@@ -114,7 +127,6 @@ A `TikTokLiveClient` object contains the following important properties:
 | logger         | The internal logger used by TikTokLive. You can use `client.logger.setLevel(...)` method to enable client debug.                                            |
 | room_info      | Room information that is retrieved from TikTok when you use a connection method (e.g. `client.connect`) with the keyword argument `fetch_room_info=True` .  |
 | gift_info      | Extra gift information that is retrieved from TikTok when you use a connection method (e.g. `client.run`) with the keyword argument `fetch_gift_info=True`. |
-
 
 ## WebDefaults
 
@@ -139,13 +151,15 @@ Events can be listened to using a decorator or non-decorator method call. The fo
 async def on_like(event: LikeEvent) -> None:
     ...
 
+
 async def on_comment(event: CommentEvent) -> None:
     ...
+
 
 client.add_listener(CommentEvent, on_comment)
 ```
 
-There are two types of events, [`CustomEvent`](https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/custom_events.py) 
+There are two types of events, [`CustomEvent`](https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/custom_events.py)
 events and [`ProtoEvent`](https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/proto_events.py) events.
 Both belong to the TikTokLive `Event` type and can be listened to. The following events are available:
 
@@ -163,7 +177,7 @@ Both belong to the TikTokLive `Event` type and can be listened to. The following
 
 ### Proto Events
 
-If you know what an event does, [make a pull request](https://github.com/isaackogan/TikTokLive/pulls) and add the description. 
+If you know what an event does, [make a pull request](https://github.com/isaackogan/TikTokLive/pulls) and add the description.
 
 - `GiftEvent` - Triggered when a gift is sent to the streamer
 - `GoalUpdateEvent` - Triggered when the subscriber goal is updated
@@ -209,6 +223,7 @@ Triggered every time a gift arrives. Extra information can be gleamed from the `
 > triggered, which signals the end of the streak with `event.repeat_end`:`1`. The following handlers show how you can deal with this in your code.
 
 Using the low-level direct proto:
+
 ```python
 @client.on(GiftEvent)
 async def on_gift(event: GiftEvent):
@@ -223,6 +238,7 @@ async def on_gift(event: GiftEvent):
 ```
 
 Using the TikTokLive extended proto:
+
 ```python
 @client.on("gift")
 async def on_gift(event: GiftEvent):
@@ -242,7 +258,7 @@ You can set the session ID with [`client.web.set_session_id(...)`](https://githu
 
 ## Checking If A User Is Live
 
-It is considered inefficient to use the connect method to check if a user is live. It is better to use the dedicated `await client.is_live()` method. 
+It is considered inefficient to use the connect method to check if a user is live. It is better to use the dedicated `await client.is_live()` method.
 
 There is a [complete example](https://github.com/isaackogan/TikTokLive/blob/master/examples/check_live.py) of how to do this in the [examples](https://github.com/isaackogan/TikTokLive/tree/master/examples) folder.
 
