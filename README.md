@@ -15,18 +15,18 @@ This is an unofficial API wrapper for TikTok LIVE written in Python. With this A
 This API is designed to **retrieve** information from TikTok. It **cannot** be used to **post/upload** LIVE content or comments, to simulate user interaction, or otherwise generate fake traffic. This API does **not** count towards viewers
 in a stream. It has **no support** for any **user-authenticated routes**.
 
-No credentials are required to use TikTokLive.
-
-## Sponsors
+## Enterprise Solutions
 
 <table>
 <tr>
-    <td><img width="60px" style="border-radius: 10px" src="https://www.eulerstream.com/_static/favicons/android-chrome-512x512.png" alt="Logo"/></td>
-    <td>Test</td>
+    <td><br/><img width="80px" style="border-radius: 10px" src="https://www.eulerstream.com/_static/favicons/android-chrome-512x512.png"><br/><br/></td>
+    <td>
+        <a href="https://www.eulerstream.com">
+            <strong>Euler Stream</strong> is a paid TikTok LIVE service providing increased access, TikTok LIVE alerts, JWT authentication and more, integrated directly into this package.
+        </a>
+    </td>
 </tr>
 </table>
-
-## ‼ Need more connections? Packages are available at https://www.eulerstream.com/piricing.
 
 ### Other Languages
 
