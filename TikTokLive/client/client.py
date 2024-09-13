@@ -65,6 +65,9 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             level=LogLevel.ERROR
         )
 
+        # Overridable properties
+        self.ignore_broken_payload: bool = False
+
         # Properties
         self._unique_id: str = self.parse_unique_id(unique_id)
         self._room_id: Optional[int] = None
@@ -359,7 +362,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         try:
             proto_event: ProtoEvent = event_type().parse(response.payload)
         except Exception:
-            self._logger.error(traceback.format_exc() + "\nBroken Payload:\n" + str(response.payload))
+            if not self.ignore_broken_payload:
+                self._logger.error(traceback.format_exc() + "\nBroken Payload:\n" + str(response.payload))
             return [response_event]
 
         parsed_events: List[Event] = [response_event, proto_event]
