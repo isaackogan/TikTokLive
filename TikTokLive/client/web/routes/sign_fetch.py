@@ -124,10 +124,11 @@ class SignFetchRoute(ClientRoute):
         data: bytes = await response.aread()
 
         if response.status_code == 429:
+            data_json = response.json()
             raise SignatureRateLimitError(
                 response.headers.get("RateLimit-Reset"),
                 response.headers.get("X-RateLimit-Reset"),
-                "You have hit the rate limit for starting connections. Try again in %s seconds. "
+                f"You have hit the rate limit for starting connections ({data_json['limit_label']}). Try again in %s seconds. "
                 "Catch this error & access its attributes (retry_after, reset_time) for data on when you can "
                 "request next. Sign up for an API key at https://www.eulerstream.com/ for higher limits."
             )
