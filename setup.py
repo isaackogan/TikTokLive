@@ -1,15 +1,11 @@
+import json
+
 import setuptools
 
 # PyPi upload Command
 # rm -r dist ; python setup.py sdist ; python -m twine upload dist/*
 
-manifest: dict = {
-    "name": "TikTokLive",
-    "license": "MIT",
-    "author": "Isaac Kogan",
-    "version": "6.1.2",
-    "email": "info@isaackogan.com"
-}
+manifest: dict = json.loads(open("manifest.json", "r").read())
 
 if __name__ == '__main__':
     with open("README.md", "r", encoding="utf-8") as fh:

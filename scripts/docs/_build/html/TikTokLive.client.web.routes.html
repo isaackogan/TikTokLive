@@ -1,0 +1,824 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="TikTokLive.client.ws package" href="TikTokLive.client.ws.html" /><link rel="prev" title="TikTokLive.client.web package" href="TikTokLive.client.web.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>TikTokLive.client.web.routes package - TikTokLive v6.1.2</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=ff85bd92" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-problematic: #80aeef;
+  --sidebar-filter: invert(0.95);
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-problematic: #80aeef;
+  --sidebar-filter: invert(0.95);
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">TikTokLive v6.1.2</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">TikTokLive v6.1.2</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="TikTokLive.html">TikTokLive package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of TikTokLive package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="TikTokLive.client.html">TikTokLive.client package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of TikTokLive.client package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current has-children"><a class="reference internal" href="TikTokLive.client.web.html">TikTokLive.client.web package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of TikTokLive.client.web package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">TikTokLive.client.web.routes package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.ws.html">TikTokLive.client.ws package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.events.html">TikTokLive.events package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.proto.html">TikTokLive.proto package</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/TikTokLive.client.web.routes.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="tiktoklive-client-web-routes-package">
+<h1>TikTokLive.client.web.routes package<a class="headerlink" href="#tiktoklive-client-web-routes-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-TikTokLive.client.web.routes.download_video">
+<span id="tiktoklive-client-web-routes-download-video-module"></span><h2>TikTokLive.client.web.routes.download_video module<a class="headerlink" href="#module-TikTokLive.client.web.routes.download_video" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.DuplicateDownloadError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.download_video.</span></span><span class="sig-name descname"><span class="pre">DuplicateDownloadError</span></span><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.DuplicateDownloadError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Thrown when attempting to start a duplicate download on a video you are already downloading</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchFormat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.download_video.</span></span><span class="sig-name descname"><span class="pre">VideoFetchFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchFormat" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>TikTok-supported video recording formats</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchFormat.CMAF">
+<span class="sig-name descname"><span class="pre">CMAF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cmaf'</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchFormat.CMAF" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchFormat.FLV">
+<span class="sig-name descname"><span class="pre">FLV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'flv'</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchFormat.FLV" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchFormat.HLS">
+<span class="sig-name descname"><span class="pre">HLS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'hls'</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchFormat.HLS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchQuality">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.download_video.</span></span><span class="sig-name descname"><span class="pre">VideoFetchQuality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Video quality selection for stream downloads</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchQuality.HD">
+<span class="sig-name descname"><span class="pre">HD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'hd'</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality.HD" title="Link to this definition"></a></dt>
+<dd><p>High definition (540p, vbrate-1,000,000)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchQuality.LD">
+<span class="sig-name descname"><span class="pre">LD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ld'</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality.LD" title="Link to this definition"></a></dt>
+<dd><p>Low definition (480p, vbrate-500,000)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchQuality.ORIGIN">
+<span class="sig-name descname"><span class="pre">ORIGIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'origin'</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality.ORIGIN" title="Link to this definition"></a></dt>
+<dd><p>Original definition (N/A, vbrate-N/A)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchQuality.SD">
+<span class="sig-name descname"><span class="pre">SD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sd'</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality.SD" title="Link to this definition"></a></dt>
+<dd><p>Standard definition (480p, vbrate-800,000)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchQuality.UHD">
+<span class="sig-name descname"><span class="pre">UHD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'uhd'</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality.UHD" title="Link to this definition"></a></dt>
+<dd><p>Ultra-high definition (720p, vbrate-1,000,000)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchRoute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.download_video.</span></span><span class="sig-name descname"><span class="pre">VideoFetchRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchRoute" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
+<p>TikTok route to record the livestream video in real-time</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchRoute.ffmpeg">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ffmpeg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">FFmpeg</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchRoute.ffmpeg" title="Link to this definition"></a></dt>
+<dd><p>Return a copy of the FFmpeg class, which is only defined while recording</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Copy of the class or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchRoute.is_recording">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_recording</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchRoute.is_recording" title="Link to this definition"></a></dt>
+<dd><p>Check if the route is currently in use to record the Live</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Recording status</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchRoute.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchRoute.start" title="Link to this definition"></a></dt>
+<dd><p>Alias for calling the class itself, starts a recording</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Kwargs to pass to <cite>__call__</cite></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.download_video.VideoFetchRoute.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.web.routes.download_video.VideoFetchRoute.stop" title="Link to this definition"></a></dt>
+<dd><p>Stop a livestream recording if it is ongoing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-TikTokLive.client.web.routes.gift_list">
+<span id="tiktoklive-client-web-routes-gift-list-module"></span><h2>TikTokLive.client.web.routes.gift_list module<a class="headerlink" href="#module-TikTokLive.client.web.routes.gift_list" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.gift_list.FailedFetchGiftListError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.gift_list.</span></span><span class="sig-name descname"><span class="pre">FailedFetchGiftListError</span></span><a class="headerlink" href="#TikTokLive.client.web.routes.gift_list.FailedFetchGiftListError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Thrown when a request to the gift list endpoint fails</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.gift_list.GiftListRoute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.gift_list.</span></span><span class="sig-name descname"><span class="pre">GiftListRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.gift_list.GiftListRoute" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
+<p>Retrieve the gift list from TikTok</p>
+</dd></dl>
+
+</section>
+<section id="module-TikTokLive.client.web.routes.image_download">
+<span id="tiktoklive-client-web-routes-image-download-module"></span><h2>TikTokLive.client.web.routes.image_download module<a class="headerlink" href="#module-TikTokLive.client.web.routes.image_download" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.image_download.ImageFetchRoute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.image_download.</span></span><span class="sig-name descname"><span class="pre">ImageFetchRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.image_download.ImageFetchRoute" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
+<p>Fetch an image from the TikTok CDN</p>
+</dd></dl>
+
+</section>
+<section id="module-TikTokLive.client.web.routes.is_live">
+<span id="tiktoklive-client-web-routes-is-live-module"></span><h2>TikTokLive.client.web.routes.is_live module<a class="headerlink" href="#module-TikTokLive.client.web.routes.is_live" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.is_live.FetchIsLiveRoute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.is_live.</span></span><span class="sig-name descname"><span class="pre">FetchIsLiveRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.is_live.FetchIsLiveRoute" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
+<p>Check if a given user is alive through their unique_id or room_id</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.is_live.FetchIsLiveRoute.fetch_is_live_room_ids">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_is_live_room_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">room_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.web.routes.is_live.FetchIsLiveRoute.fetch_is_live_room_ids" title="Link to this definition"></a></dt>
+<dd><p>Check whether a list of room_id’s are currently live</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>room_ids</strong> – The room_id’s to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Whether they are alive, in the order they were sent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.is_live.FetchIsLiveRoute.fetch_is_live_unique_id">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_is_live_unique_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unique_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#TikTokLive.client.web.routes.is_live.FetchIsLiveRoute.fetch_is_live_unique_id" title="Link to this definition"></a></dt>
+<dd><p>Check whether a given user is live</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>unique_id</strong> – The unique_id of the user</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Whether they are live</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p>InvalidLiveUser</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.is_live.InvalidFetchIsLiveRequest">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.is_live.</span></span><span class="sig-name descname"><span class="pre">InvalidFetchIsLiveRequest</span></span><a class="headerlink" href="#TikTokLive.client.web.routes.is_live.InvalidFetchIsLiveRequest" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Thrown when the user fails to specify either a room ID or unique ID</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.is_live.MissingRoomIdInResponse">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.is_live.</span></span><span class="sig-name descname"><span class="pre">MissingRoomIdInResponse</span></span><a class="headerlink" href="#TikTokLive.client.web.routes.is_live.MissingRoomIdInResponse" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Thrown when no entries are returned from the Room ID live method. This occurs when passing a nonexistent Room ID or when being detected by TikTok.</p>
+</dd></dl>
+
+</section>
+<section id="module-TikTokLive.client.web.routes.room_id_api">
+<span id="tiktoklive-client-web-routes-room-id-api-module"></span><h2>TikTokLive.client.web.routes.room_id_api module<a class="headerlink" href="#module-TikTokLive.client.web.routes.room_id_api" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.room_id_api.RoomIdAPIRoute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.room_id_api.</span></span><span class="sig-name descname"><span class="pre">RoomIdAPIRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.room_id_api.RoomIdAPIRoute" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
+<p>Route to retrieve the room ID for a user</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.room_id_api.RoomIdAPIRoute.fetch_user_room_data">
+<em class="property"><span class="pre">async</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_user_room_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#TikTokLive.client.web.routes.room_id_api.RoomIdAPIRoute.fetch_user_room_data" title="Link to this definition"></a></dt>
+<dd><p>Fetch user room from the API (not the same as room info)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>web</strong> – The TikTokHTTPClient client to use</p></li>
+<li><p><strong>unique_id</strong> – The user to check</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The user’s room info</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.room_id_api.RoomIdAPIRoute.parse_room_id">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_room_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#TikTokLive.client.web.routes.room_id_api.RoomIdAPIRoute.parse_room_id" title="Link to this definition"></a></dt>
+<dd><p>Parse the room ID from livestream API response</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – The data to parse</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The user’s room id</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p>UserOfflineError if the user is offline</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p>FailedParseRoomIdError if the user data does not exist</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-TikTokLive.client.web.routes.room_id_live_html">
+<span id="tiktoklive-client-web-routes-room-id-live-html-module"></span><h2>TikTokLive.client.web.routes.room_id_live_html module<a class="headerlink" href="#module-TikTokLive.client.web.routes.room_id_live_html" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.room_id_live_html.FailedParseRoomIdError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.room_id_live_html.</span></span><span class="sig-name descname"><span class="pre">FailedParseRoomIdError</span></span><a class="headerlink" href="#TikTokLive.client.web.routes.room_id_live_html.FailedParseRoomIdError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Thrown when the Room ID cannot be parsed</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.room_id_live_html.RoomIdLiveHTMLRoute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.room_id_live_html.</span></span><span class="sig-name descname"><span class="pre">RoomIdLiveHTMLRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.room_id_live_html.RoomIdLiveHTMLRoute" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
+<p>Route to retrieve the room ID for a user</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.room_id_live_html.RoomIdLiveHTMLRoute.SIGI_PATTERN">
+<span class="sig-name descname"><span class="pre">SIGI_PATTERN</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Pattern</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">re.compile('&lt;script</span> <span class="pre">id=&quot;SIGI_STATE&quot;</span> <span class="pre">type=&quot;application/json&quot;&gt;(.*?)&lt;/script&gt;')</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.room_id_live_html.RoomIdLiveHTMLRoute.SIGI_PATTERN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.room_id_live_html.RoomIdLiveHTMLRoute.parse_room_id">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_room_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#TikTokLive.client.web.routes.room_id_live_html.RoomIdLiveHTMLRoute.parse_room_id" title="Link to this definition"></a></dt>
+<dd><p>Parse the room ID from livestream HTML</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>html</strong> – The HTML to parse from <a class="reference external" href="https://tiktok.com">https://tiktok.com</a>/&#64;&lt;unique_id&gt;/live</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The user’s room id</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p>UserOfflineError if the user is offline</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p>FailedParseRoomIdError if the user does not exist</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-TikTokLive.client.web.routes.room_info">
+<span id="tiktoklive-client-web-routes-room-info-module"></span><h2>TikTokLive.client.web.routes.room_info module<a class="headerlink" href="#module-TikTokLive.client.web.routes.room_info" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.room_info.FailedFetchRoomInfoError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.room_info.</span></span><span class="sig-name descname"><span class="pre">FailedFetchRoomInfoError</span></span><a class="headerlink" href="#TikTokLive.client.web.routes.room_info.FailedFetchRoomInfoError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Thrown if Room info request fails</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.room_info.FetchRoomInfoRoomIdRoute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.room_info.</span></span><span class="sig-name descname"><span class="pre">FetchRoomInfoRoomIdRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.room_info.FetchRoomInfoRoomIdRoute" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
+<p>Retrieve the room info payload of a livestream room</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.room_info.InvalidFetchRoomInfoPayload">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.room_info.</span></span><span class="sig-name descname"><span class="pre">InvalidFetchRoomInfoPayload</span></span><a class="headerlink" href="#TikTokLive.client.web.routes.room_info.InvalidFetchRoomInfoPayload" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-TikTokLive.client.web.routes.sign_fetch">
+<span id="tiktoklive-client-web-routes-sign-fetch-module"></span><h2>TikTokLive.client.web.routes.sign_fetch module<a class="headerlink" href="#module-TikTokLive.client.web.routes.sign_fetch" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignAPIError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.sign_fetch.</span></span><span class="sig-name descname"><span class="pre">SignAPIError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason" title="TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason"><span class="pre">ErrorReason</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Thrown when a fetch to the Sign API fails for one reason or another</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ErrorReason</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Possible failure reasons</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.CONNECT_ERROR">
+<span class="sig-name descname"><span class="pre">CONNECT_ERROR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.CONNECT_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.EMPTY_COOKIES">
+<span class="sig-name descname"><span class="pre">EMPTY_COOKIES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.EMPTY_COOKIES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.EMPTY_PAYLOAD">
+<span class="sig-name descname"><span class="pre">EMPTY_PAYLOAD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.EMPTY_PAYLOAD" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.RATE_LIMIT">
+<span class="sig-name descname"><span class="pre">RATE_LIMIT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.RATE_LIMIT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.SIGN_NOT_200">
+<span class="sig-name descname"><span class="pre">SIGN_NOT_200</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.SIGN_NOT_200" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignFetchRoute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.sign_fetch.</span></span><span class="sig-name descname"><span class="pre">SignFetchRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign_api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignFetchRoute" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
+<p>Call the signature server to receive the TikTok websocket URL</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignatureRateLimitError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.sign_fetch.</span></span><span class="sig-name descname"><span class="pre">SignatureRateLimitError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retry_after</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignatureRateLimitError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError" title="TikTokLive.client.web.routes.sign_fetch.SignAPIError"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignAPIError</span></code></a></p>
+<p>Thrown when a user hits the Sign API limit</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignatureRateLimitError.reset_time">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reset_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignatureRateLimitError.reset_time" title="Link to this definition"></a></dt>
+<dd><p>The unix timestamp for when the client can request again</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.sign_fetch.SignatureRateLimitError.retry_after">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">retry_after</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.sign_fetch.SignatureRateLimitError.retry_after" title="Link to this definition"></a></dt>
+<dd><p>How long to wait until the next attempt</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-TikTokLive.client.web.routes">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TikTokLive.client.web.routes" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="TikTokLive.client.ws.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">TikTokLive.client.ws package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="TikTokLive.client.web.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">TikTokLive.client.web package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Isaac Kogan
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">TikTokLive.client.web.routes package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-TikTokLive.client.web.routes.download_video">TikTokLive.client.web.routes.download_video module</a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.DuplicateDownloadError"><code class="docutils literal notranslate"><span class="pre">DuplicateDownloadError</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchFormat"><code class="docutils literal notranslate"><span class="pre">VideoFetchFormat</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchFormat.CMAF"><code class="docutils literal notranslate"><span class="pre">VideoFetchFormat.CMAF</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchFormat.FLV"><code class="docutils literal notranslate"><span class="pre">VideoFetchFormat.FLV</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchFormat.HLS"><code class="docutils literal notranslate"><span class="pre">VideoFetchFormat.HLS</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality"><code class="docutils literal notranslate"><span class="pre">VideoFetchQuality</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality.HD"><code class="docutils literal notranslate"><span class="pre">VideoFetchQuality.HD</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality.LD"><code class="docutils literal notranslate"><span class="pre">VideoFetchQuality.LD</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality.ORIGIN"><code class="docutils literal notranslate"><span class="pre">VideoFetchQuality.ORIGIN</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality.SD"><code class="docutils literal notranslate"><span class="pre">VideoFetchQuality.SD</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchQuality.UHD"><code class="docutils literal notranslate"><span class="pre">VideoFetchQuality.UHD</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchRoute"><code class="docutils literal notranslate"><span class="pre">VideoFetchRoute</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchRoute.ffmpeg"><code class="docutils literal notranslate"><span class="pre">VideoFetchRoute.ffmpeg</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchRoute.is_recording"><code class="docutils literal notranslate"><span class="pre">VideoFetchRoute.is_recording</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchRoute.start"><code class="docutils literal notranslate"><span class="pre">VideoFetchRoute.start()</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.download_video.VideoFetchRoute.stop"><code class="docutils literal notranslate"><span class="pre">VideoFetchRoute.stop()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-TikTokLive.client.web.routes.gift_list">TikTokLive.client.web.routes.gift_list module</a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.gift_list.FailedFetchGiftListError"><code class="docutils literal notranslate"><span class="pre">FailedFetchGiftListError</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.gift_list.GiftListRoute"><code class="docutils literal notranslate"><span class="pre">GiftListRoute</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-TikTokLive.client.web.routes.image_download">TikTokLive.client.web.routes.image_download module</a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.image_download.ImageFetchRoute"><code class="docutils literal notranslate"><span class="pre">ImageFetchRoute</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-TikTokLive.client.web.routes.is_live">TikTokLive.client.web.routes.is_live module</a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.is_live.FetchIsLiveRoute"><code class="docutils literal notranslate"><span class="pre">FetchIsLiveRoute</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.is_live.FetchIsLiveRoute.fetch_is_live_room_ids"><code class="docutils literal notranslate"><span class="pre">FetchIsLiveRoute.fetch_is_live_room_ids()</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.is_live.FetchIsLiveRoute.fetch_is_live_unique_id"><code class="docutils literal notranslate"><span class="pre">FetchIsLiveRoute.fetch_is_live_unique_id()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.is_live.InvalidFetchIsLiveRequest"><code class="docutils literal notranslate"><span class="pre">InvalidFetchIsLiveRequest</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.is_live.MissingRoomIdInResponse"><code class="docutils literal notranslate"><span class="pre">MissingRoomIdInResponse</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-TikTokLive.client.web.routes.room_id_api">TikTokLive.client.web.routes.room_id_api module</a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.room_id_api.RoomIdAPIRoute"><code class="docutils literal notranslate"><span class="pre">RoomIdAPIRoute</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.room_id_api.RoomIdAPIRoute.fetch_user_room_data"><code class="docutils literal notranslate"><span class="pre">RoomIdAPIRoute.fetch_user_room_data()</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.room_id_api.RoomIdAPIRoute.parse_room_id"><code class="docutils literal notranslate"><span class="pre">RoomIdAPIRoute.parse_room_id()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-TikTokLive.client.web.routes.room_id_live_html">TikTokLive.client.web.routes.room_id_live_html module</a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.room_id_live_html.FailedParseRoomIdError"><code class="docutils literal notranslate"><span class="pre">FailedParseRoomIdError</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.room_id_live_html.RoomIdLiveHTMLRoute"><code class="docutils literal notranslate"><span class="pre">RoomIdLiveHTMLRoute</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.room_id_live_html.RoomIdLiveHTMLRoute.SIGI_PATTERN"><code class="docutils literal notranslate"><span class="pre">RoomIdLiveHTMLRoute.SIGI_PATTERN</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.room_id_live_html.RoomIdLiveHTMLRoute.parse_room_id"><code class="docutils literal notranslate"><span class="pre">RoomIdLiveHTMLRoute.parse_room_id()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-TikTokLive.client.web.routes.room_info">TikTokLive.client.web.routes.room_info module</a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.room_info.FailedFetchRoomInfoError"><code class="docutils literal notranslate"><span class="pre">FailedFetchRoomInfoError</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.room_info.FetchRoomInfoRoomIdRoute"><code class="docutils literal notranslate"><span class="pre">FetchRoomInfoRoomIdRoute</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.room_info.InvalidFetchRoomInfoPayload"><code class="docutils literal notranslate"><span class="pre">InvalidFetchRoomInfoPayload</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-TikTokLive.client.web.routes.sign_fetch">TikTokLive.client.web.routes.sign_fetch module</a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError"><code class="docutils literal notranslate"><span class="pre">SignAPIError</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason"><code class="docutils literal notranslate"><span class="pre">SignAPIError.ErrorReason</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.CONNECT_ERROR"><code class="docutils literal notranslate"><span class="pre">SignAPIError.ErrorReason.CONNECT_ERROR</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.EMPTY_COOKIES"><code class="docutils literal notranslate"><span class="pre">SignAPIError.ErrorReason.EMPTY_COOKIES</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.EMPTY_PAYLOAD"><code class="docutils literal notranslate"><span class="pre">SignAPIError.ErrorReason.EMPTY_PAYLOAD</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.RATE_LIMIT"><code class="docutils literal notranslate"><span class="pre">SignAPIError.ErrorReason.RATE_LIMIT</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignAPIError.ErrorReason.SIGN_NOT_200"><code class="docutils literal notranslate"><span class="pre">SignAPIError.ErrorReason.SIGN_NOT_200</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignFetchRoute"><code class="docutils literal notranslate"><span class="pre">SignFetchRoute</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignatureRateLimitError"><code class="docutils literal notranslate"><span class="pre">SignatureRateLimitError</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignatureRateLimitError.reset_time"><code class="docutils literal notranslate"><span class="pre">SignatureRateLimitError.reset_time</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.sign_fetch.SignatureRateLimitError.retry_after"><code class="docutils literal notranslate"><span class="pre">SignatureRateLimitError.retry_after</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-TikTokLive.client.web.routes">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="_static/js/rtd_search_config.js"></script>
+    <script src="_static/js/rtd_sphinx_search.min.js"></script>
+    </body>
+</html>
