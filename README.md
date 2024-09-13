@@ -19,7 +19,7 @@ in a stream. It has **no support** for any **user-authenticated routes**.
 
 <table>
 <tr>
-    <td><br/><img width="180px" style="border-radius: 10px" src="./.github/SquareLogo.png"><br/><br/></td>
+    <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
     <td>
         <a href="https://www.eulerstream.com">
             <strong>Euler Stream</strong> is a paid TikTok LIVE service providing increased access, TikTok LIVE alerts, JWT authentication and more, integrated directly into this package.
