@@ -139,14 +139,14 @@ A `TikTokLiveClient` object contains the following important properties:
 TikTokLive has a series of global defaults used to create the HTTP client which you can customize. For info on how to set these parameters, see
 the [web_defaults.py](https://github.com/isaackogan/TikTokLive/blob/master/examples/web_defaults.py) example.
 
-| Parameter           | Type   | Description                                                                                                                                  |
-|---------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| tiktok_app_url      | `str`  | The TikTok app URL (`https://www.tiktok.com`) used to scrape the room.                                                                       |
-| tiktok_sign_url     | `str`  | The [signature server](https://github.com/isaackogan/TikTokLive/wiki/All-About-Signatures) used to generate tokens to connect to TikTokLive. |
-| tiktok_webcast_url  | `str`  | The TikTok livestream URL (`https://webcast.tiktok.com`) where livestreams can be accessed from.                                             |
-| client_params       | `dict` | The URL parameters added on to TikTok requests from the HTTP client.                                                                         |
-| client_headers      | `dict` | The headers added on to TikTok requests from the HTTP client.                                                                                |
-| tiktok_sign_api_key | `str`  | A global way of setting the `sign_api_key` parameter.                                                                                        |
+| Parameter           | Type   | Description                                                                                            |
+|---------------------|--------|--------------------------------------------------------------------------------------------------------|
+| tiktok_app_url      | `str`  | The TikTok app URL (`https://www.tiktok.com`) used to scrape the room.                                 |
+| tiktok_sign_url     | `str`  | The [signature server](https://www.eulerstream.com/) used to generate tokens to connect to TikTokLive. |
+| tiktok_webcast_url  | `str`  | The TikTok livestream URL (`https://webcast.tiktok.com`) where livestreams can be accessed from.       |
+| client_params       | `dict` | The URL parameters added on to TikTok requests from the HTTP client.                                   |
+| client_headers      | `dict` | The headers added on to TikTok requests from the HTTP client.                                          |
+| tiktok_sign_api_key | `str`  | A global way of setting the `sign_api_key` parameter.                                                  |
 
 ## Events
 
