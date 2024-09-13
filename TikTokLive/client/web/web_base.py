@@ -61,7 +61,8 @@ class TikTokHTTPClient:
 
         # Create the params
         self.params: Dict[str, Any] = {
-            **httpx_kwargs.pop("params", {}), **WebDefaults.client_params
+            **httpx_kwargs.pop("params", {}),
+            **WebDefaults.client_params
         }
 
         return AsyncClient(

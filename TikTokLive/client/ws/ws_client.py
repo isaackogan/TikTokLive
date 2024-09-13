@@ -6,7 +6,6 @@ from typing import Optional, AsyncIterator, List, Dict, Any, Callable, Tuple
 
 from httpx import Proxy
 from python_socks import parse_proxy_url, ProxyType
-from websockets import WebSocketClientProtocol
 from websockets.legacy.client import Connect, WebSocketClientProtocol
 from websockets_proxy import websockets_proxy
 from websockets_proxy.websockets_proxy import ProxyConnect
