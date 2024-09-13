@@ -28,22 +28,17 @@ in a stream. It has **no support** for any **user-authenticated routes**.
 </tr>
 </table>
 
-### Other Languages
-
-TikTokLive is available in several alternate programming languages:
-
-- **Node.JS:** [https://github.com/zerodytrash/TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
-- **Java:** [https://github.com/jwdeveloper/TikTok-Live-Java](https://github.com/jwdeveloper/TikTok-Live-Java)
-- **C#/Unity:** [https://github.com/frankvHoof93/TikTokLiveSharp](https://github.com/frankvHoof93/TikTokLiveSharp)
-- **Go:** [https://github.com/Davincible/gotiktoklive](https://github.com/Davincible/gotiktoklive)
-- **Rust:** [https://github.com/jwdeveloper/TikTokLiveRust](https://github.com/jwdeveloper/TikTokLiveRust)
-
 ## Table of Contents
 
-- [Community](#community)
+- [Getting Started](#getting-started)
+  - [Parameters](#parameters)
+  - [Methods](#methods)
+  - [Properties](#properties)
+  - [WebDefaults](#webdefaults)
 - [Documentation](https://isaackogan.github.io/TikTokLive/)
+- [Other Languages](#other-languages)
+- [Community](#community)
 - [Examples](https://github.com/isaackogan/TikTokLive/tree/master/examples)
-- [Wiki](https://github.com/isaackogan/TikTokLive/wiki)
 - [Licensing](#license)
 - [Contributors](#contributors)
 
@@ -92,6 +87,17 @@ if __name__ == '__main__':
 
 For more quickstart examples, see the [examples folder](https://github.com/isaackogan/TikTokLive/tree/master/examples)
 provided in the source tree.
+
+## Other Languages
+
+TikTokLive is available in several alternate programming languages:
+
+- **Node.JS:** [https://github.com/zerodytrash/TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
+- **Java:** [https://github.com/jwdeveloper/TikTok-Live-Java](https://github.com/jwdeveloper/TikTok-Live-Java)
+- **C#/Unity:** [https://github.com/frankvHoof93/TikTokLiveSharp](https://github.com/frankvHoof93/TikTokLiveSharp)
+- **Go:** [https://github.com/Davincible/gotiktoklive](https://github.com/Davincible/gotiktoklive)
+- **Rust:** [https://github.com/jwdeveloper/TikTokLiveRust](https://github.com/jwdeveloper/TikTokLiveRust)
+
 
 ## Parameters
 
