@@ -32,7 +32,7 @@ if __name__ == '__main__':
             "httpx>=0.25.0",
             "pyee>=9.0.4",
             "ffmpy>=0.3.0",
-            "websockets_proxy>=0.1.0",
+            "websockets_proxy==0.1.2",
             "betterproto>=2.0.0b6",
             "async-timeout>=4.0.3",
 

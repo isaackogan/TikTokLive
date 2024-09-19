@@ -2,7 +2,6 @@ import asyncio
 import inspect
 import logging
 import traceback
-import urllib.parse
 from asyncio import AbstractEventLoop, Task, CancelledError
 from logging import Logger
 from typing import Optional, Type, AsyncIterator, Dict, Any, Tuple, Union, Callable, List, Coroutine
@@ -287,10 +286,16 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         """
 
+        uri_params: dict = {
+            "room_id": self._room_id,
+            **WebDefaults.client_ws_params,
+            **initial_response.route_params_map
+        }
+
         connect_uri: str = (
                 initial_response.push_server
                 + "?"
-                + urllib.parse.urlencode({**self._web.params, **initial_response.route_params_map})
+                + '&'.join(f"{key}={value}" for key, value in uri_params.items())
         )
 
         connect_headers: dict = {

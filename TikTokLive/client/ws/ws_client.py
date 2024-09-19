@@ -8,17 +8,10 @@ from httpx import Proxy
 from python_socks import parse_proxy_url, ProxyType
 from websockets.legacy.client import Connect, WebSocketClientProtocol
 from websockets_proxy import websockets_proxy
-from websockets_proxy.websockets_proxy import ProxyConnect
 
 from TikTokLive.client.logger import TikTokLiveLogHandler
+from TikTokLive.client.ws.ws_connect import WebcastProxyConnect, WebcastConnect
 from TikTokLive.proto import WebcastPushFrame, WebcastResponse, WebcastResponseMessage
-
-
-class WebcastProxyConnect(ProxyConnect):
-
-    def __init__(self, uri: str, *, proxy: Optional[Proxy], **kwargs):
-        self.logger = kwargs.get("logger", TikTokLiveLogHandler.get_logger())
-        super().__init__(uri, proxy=proxy, **kwargs)
 
 
 class WebcastWSClient:
@@ -51,11 +44,6 @@ class WebcastWSClient:
         TikTok client sends this every 10 seconds from testing
 
         """
-
-        if os.environ['WITH_PING'] == 'Y':
-            print('Ping actually sent.')
-        else:
-            return
 
         await self._ws.send(
             message=bytes.fromhex("3A026862")
@@ -144,6 +132,12 @@ class WebcastWSClient:
             }
         )
 
+        #base_config["uri"] = input("Enter the URI: ")
+        #base_config["extra_headers"]["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36"
+
+        print(base_config['uri'])
+        print(base_config['extra_headers'])
+
         if self._ws_proxy is not None:
             base_config["proxy_conn_timeout"] = 10.0
             base_config["proxy"] = self._convert_proxy()
@@ -181,6 +175,7 @@ class WebcastWSClient:
         async for webcast_message in self.connect_loop(uri, headers):
             yield webcast_message
 
+
         # After loop breaks, gracefully shut down & send the cancellation event
         if self._ws_cancel is not None:
             await self._ws.close()
@@ -205,7 +200,7 @@ class WebcastWSClient:
 
         """
 
-        connect: Callable = WebcastProxyConnect if self._ws_proxy else Connect
+        connect: Callable = WebcastProxyConnect if self._ws_proxy else WebcastConnect
 
         # Run connection loop
         async for websocket in connect(**self.build_connection_args(uri, headers)):

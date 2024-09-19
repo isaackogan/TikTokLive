@@ -31,10 +31,10 @@ in a stream. It has **no support** for any **user-authenticated routes**.
 ## Table of Contents
 
 - [Getting Started](#getting-started)
-  - [Parameters](#parameters)
-  - [Methods](#methods)
-  - [Properties](#properties)
-  - [WebDefaults](#webdefaults)
+    - [Parameters](#parameters)
+    - [Methods](#methods)
+    - [Properties](#properties)
+    - [WebDefaults](#webdefaults)
 - [Documentation](https://isaackogan.github.io/TikTokLive/)
 - [Other Languages](#other-languages)
 - [Community](#community)
@@ -98,7 +98,6 @@ TikTokLive is available in several alternate programming languages:
 - **Go:** [https://github.com/Davincible/gotiktoklive](https://github.com/Davincible/gotiktoklive)
 - **Rust:** [https://github.com/jwdeveloper/TikTokLiveRust](https://github.com/jwdeveloper/TikTokLiveRust)
 
-
 ## Parameters
 
 | Param Name | Required | Default | Description                                                                                                                                                                                                               |
@@ -145,6 +144,7 @@ the [web_defaults.py](https://github.com/isaackogan/TikTokLive/blob/master/examp
 | tiktok_sign_url     | `str`  | The [signature server](https://www.eulerstream.com/) used to generate tokens to connect to TikTokLive. |
 | tiktok_webcast_url  | `str`  | The TikTok livestream URL (`https://webcast.tiktok.com`) where livestreams can be accessed from.       |
 | client_params       | `dict` | The URL parameters added on to TikTok requests from the HTTP client.                                   |
+| client_ws_params    | `dict` | The URL parameters added to the URI when connecting to TikTok's Webcast WebSocket server.              |
 | client_headers      | `dict` | The headers added on to TikTok requests from the HTTP client.                                          |
 | tiktok_sign_api_key | `str`  | A global way of setting the `sign_api_key` parameter.                                                  |
 

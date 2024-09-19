@@ -22,7 +22,7 @@ class TikTokHTTPClient:
     def __init__(
             self,
             proxy: Optional[Proxy] = None,
-            httpx_kwargs: dict = {}
+            httpx_kwargs: Optional[dict] = None
     ):
         """
         Create an HTTP client for interacting with the various APIs
@@ -34,7 +34,7 @@ class TikTokHTTPClient:
 
         self._httpx: AsyncClient = self._create_httpx_client(
             proxy=proxy,
-            httpx_kwargs=httpx_kwargs
+            httpx_kwargs=httpx_kwargs or dict()
         )
 
         self._sign_api_key: Optional[str] = WebDefaults.tiktok_sign_api_key or os.environ.get("SIGN_API_KEY")

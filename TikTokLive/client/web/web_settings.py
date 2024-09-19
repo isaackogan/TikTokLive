@@ -1,6 +1,7 @@
 import random
+import urllib.parse
 from dataclasses import dataclass, field
-from typing import Dict, Union, Any, Optional
+from typing import Dict, Union, Optional
 
 from TikTokLive.client.web.web_presets import LocationPreset, DevicePreset, ScreenPreset, Locations, Devices, Screens
 
@@ -51,6 +52,32 @@ DEFAULT_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
 
 }
 
+# There's a special set of params for just the WebSocket
+DEFAULT_WS_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
+    "aid": 1988,
+    "app_language": Location["lang"],
+    "app_name": "tiktok_web",
+    "browser_language": Location["lang_country"],
+    "browser_name": Device["browser_name"],
+    "browser_online": "true",
+    "cookie_enabled": "true",
+    "imprp": "",
+    "tz_name": Location["tz_name"],
+    "device_platform": "web",
+    "compress": "",
+    "debug": "true",
+    "heartbeatDuration": "0",
+    "host": urllib.parse.quote_plus("https://webcast.tiktok.com"),
+    "identity": "audience",
+    "live_id": "12",
+    "sup_ws_ds_opt": "1",
+    "update_version_code": "1.3.0",
+    "version_code": "270000",
+    "webcast_sdk_version": "1.3.0",
+    "screen_height": Screen["screen_height"],
+    "screen_width": Screen["screen_width"],
+}
+
 """Default HTTP client headers to include in requests to the Webcast API, Sign Server, and Websocket Server"""
 DEFAULT_REQUEST_HEADERS: Dict[str, str] = {
     "Connection": 'keep-alive',
@@ -81,8 +108,9 @@ class _WebDefaults:
     tiktok_app_url: str = "https://www.tiktok.com"
     tiktok_sign_url: str = "https://tiktok.eulerstream.com"
     tiktok_webcast_url: str = 'https://webcast.tiktok.com/webcast'
-    client_params: Dict[str, Any] = field(default_factory=lambda: DEFAULT_CLIENT_PARAMS)
-    client_headers: Dict[str, Any] = field(default_factory=lambda: DEFAULT_REQUEST_HEADERS)
+    client_params: dict = field(default_factory=lambda: DEFAULT_CLIENT_PARAMS)
+    client_ws_params: dict = field(default_factory=lambda: DEFAULT_WS_CLIENT_PARAMS)
+    client_headers: dict = field(default_factory=lambda: DEFAULT_REQUEST_HEADERS)
     tiktok_sign_api_key: Optional[str] = None
 
 
