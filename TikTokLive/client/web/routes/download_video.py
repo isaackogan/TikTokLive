@@ -93,7 +93,7 @@ class VideoFetchRoute(ClientRoute):
 
         """
 
-        return self._ffmpeg and self._thread and self._ffmpeg.process
+        return bool(self._ffmpeg) and self._thread and self._ffmpeg.process
 
     def __call__(
             self,
@@ -140,8 +140,9 @@ class VideoFetchRoute(ClientRoute):
                 **kwargs.pop('outputs', dict())
             },
             global_options=(
-                {"-y", f"-loglevel {kwargs.pop('loglevel', 'error')}"}
-                .union(kwargs.pop('global_options', set()))
+                list(
+                    {"-y", f"-loglevel {kwargs.pop('loglevel', 'error')}"}.union(kwargs.pop('global_options', set()))
+                )
             ),
             **kwargs
         )

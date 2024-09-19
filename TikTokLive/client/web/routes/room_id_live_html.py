@@ -1,7 +1,5 @@
 import json
-import logging
 import re
-import traceback
 from json import JSONDecodeError
 from typing import Optional
 
@@ -42,10 +40,8 @@ class RoomIdLiveHTMLRoute(ClientRoute):
             base_params=False
         )
 
-        # Parse & update the web client
-        room_id: str = self.parse_room_id(response.text)
-        self._web.params["room_id"] = room_id
-        return room_id
+        # Parse room ID
+        return self.parse_room_id(response.text)
 
     @classmethod
     def parse_room_id(cls, html: str) -> str:

@@ -144,8 +144,6 @@ class WebcastWSClient:
             }
         )
 
-        print(base_config['extra_headers'])
-
         if self._ws_proxy is not None:
             base_config["proxy_conn_timeout"] = 10.0
             base_config["proxy"] = self._convert_proxy()
@@ -158,8 +156,8 @@ class WebcastWSClient:
         parsed: list = list(parsed)
 
         # Add auth back
-        parsed[3] = self._ws_proxy.auth[0]
-        parsed[4] = self._ws_proxy.auth[1]
+        parsed[3] = self._ws_proxy.url.username
+        parsed[4] = self._ws_proxy.url.password
 
         return websockets_proxy.Proxy(*parsed)
 

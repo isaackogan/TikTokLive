@@ -47,7 +47,10 @@ class FetchRoomInfoRoomIdRoute(ClientRoute):
             extra_params: dict = {"unique_id": unique_id}
         else:
             url: str = WebDefaults.tiktok_webcast_url + "/room/info/"
-            extra_params: dict = {"room_id": str(room_id) or self._web.params["room_id"]}
+            room_id: Optional[str] = str(room_id) if room_id else self._web.params["room_id"]
+            if room_id is None:
+                raise InvalidFetchRoomInfoPayload("No room_id specified & the client has no room ID stored")
+            extra_params: dict = {"room_id": room_id}
 
         try:
 

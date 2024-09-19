@@ -119,7 +119,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # <Required> Fetch room ID
         try:
             self._room_id: int = room_id or await self._web.fetch_room_id_from_html(self._unique_id)
-            self._web.params["room_id"] = str(self._room_id)
+            self._web.params["room_id"] = str(self._room_id) or None
         except Exception as base_ex:
 
             if isinstance(base_ex, UserOfflineError) or isinstance(base_ex, UserNotFoundError):
@@ -272,10 +272,10 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
                 # Handle initial messages
                 for webcast_message in initial_response.messages:
-                    for event in self._parse_webcast_response(webcast_message):
+                    for event in await self._parse_webcast_response(webcast_message):
                         yield event
 
-            for event in self._parse_webcast_response(response_message):
+            for event in await self._parse_webcast_response(response_message):
                 yield event
 
     def _build_connect_info(self, initial_response: WebcastResponse) -> Tuple[str, dict]:
@@ -336,7 +336,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         return event.__name__ in self._events
 
-    def _parse_webcast_response(self, response: Optional[WebcastResponseMessage]) -> List[Event]:
+    async def _parse_webcast_response(self, response: Optional[WebcastResponseMessage]) -> List[Event]:
         """
         Parse incoming webcast responses into events that can be emitted
 
@@ -367,7 +367,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             return [response_event]
 
         parsed_events: List[Event] = [response_event, proto_event]
-        custom_event: Optional[Event] = self._parse_custom_event(response, proto_event)
+        custom_event: Optional[Event] = await self.handle_custom_event(response, proto_event)
 
         # Add the custom event IF not null
         return [custom_event, *parsed_events] if custom_event else parsed_events
@@ -383,8 +383,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         return await self._web.fetch_is_live(unique_id=unique_id or self.unique_id)
 
-    @classmethod
-    def _parse_custom_event(cls, response: WebcastResponseMessage, event: ProtoEvent) -> Optional[CustomEvent]:
+    async def handle_custom_event(self, response: WebcastResponseMessage, event: ProtoEvent) -> Optional[CustomEvent]:
         """
         Extract CustomEvent events from existing ProtoEvent events
 
@@ -397,6 +396,10 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # LiveEndEvent, LivePauseEvent, LiveUnpauseEvent
         if isinstance(event, ControlEvent):
             if event.action == ControlAction.STREAM_ENDED:
+
+                # If the stream is over, disconnect the client
+                self.disconnect()
+
                 return LiveEndEvent().parse(response.payload)
             elif event.action == ControlAction.STREAM_PAUSED:
                 return LivePauseEvent().parse(response.payload)

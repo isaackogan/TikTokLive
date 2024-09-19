@@ -141,6 +141,9 @@ class TikTokHTTPClient:
         self.cookies.set("sessionid_ss", session_id)
         self.cookies.set("sid_tt", session_id)
 
+        # Set logged in status
+        self.params['user_is_login'] = "true" if session_id else "false"
+
     @classmethod
     def generate_device_id(cls) -> int:
         """

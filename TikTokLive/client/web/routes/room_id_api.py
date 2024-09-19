@@ -28,8 +28,7 @@ class RoomIdAPIRoute(ClientRoute):
         )
 
         # Parse & update the web client
-        room_id = self._web.params["room_id"] = self.parse_room_id(room_data)
-        return int(room_id)
+        return int(self.parse_room_id(room_data))
 
     @classmethod
     async def fetch_user_room_data(cls, web: TikTokHTTPClient, unique_id: str) -> dict:

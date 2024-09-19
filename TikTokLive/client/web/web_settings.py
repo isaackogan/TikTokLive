@@ -1,51 +1,70 @@
+import random
 from dataclasses import dataclass, field
 from typing import Dict, Union, Any, Optional
 
+from TikTokLive.client.web.web_presets import LocationPreset, DevicePreset, ScreenPreset, Locations, Devices, Screens
+
+# Pick a random location and device preset on start
+Location: LocationPreset = random.choice(Locations)
+Device: DevicePreset = random.choice(Devices)
+Screen: ScreenPreset = random.choice(Screens)
+
 """Default HTTP client parameters to include in requests to the Webcast API, Sign Server, and Websocket Server"""
-DEFAULT_CLIENT_PARAMS: Dict[str, Union[int, bool, str]] = {
+DEFAULT_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
+
+    # Original Data Collected
     "aid": 1988,
-    "app_language": 'en-US',
+    "app_language": Location["lang"],
     "app_name": 'tiktok_web',
-    "browser_language": 'en',
-    "browser_name": 'Mozilla',
-    "browser_online": True,
-    "browser_platform": 'Win32',
-    "browser_version": '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36',
-    "cookie_enabled": True,
-    "cursor": '',
-    "internal_ext": '',
-    "device_platform": 'web',
-    "focus_state": True,
+    "browser_language": Location["lang_country"],
+    "browser_name": Device["browser_name"],
+    "browser_online": "true",
+    "browser_platform": Device["browser_platform"],
+    "browser_version": Device["browser_version"],
+    "cookie_enabled": "true",
+    "device_platform": "web_pc",
+    "focus_state": "true",
     "from_page": 'user',
-    "history_len": 4,
-    "is_fullscreen": False,
-    "is_page_visible": True,
-    "did_rule": 3,
-    "fetch_rule": 1,
-    "last_rtt": 0,
-    "live_id": 12,
-    "resp_content_type": 'protobuf',
-    "screen_height": 1152,
-    "screen_width": 2048,
-    "tz_name": 'Europe/Berlin',
+    "history_len": random.randint(4, 14),
+    "is_fullscreen": "false",
+    "is_page_visible": "true",
+    "screen_height": Screen["screen_height"],
+    "screen_width": Screen["screen_width"],
+    "tz_name": Location["tz_name"],
     "referer": 'https://www.tiktok.com/',
     "root_referer": 'https://www.tiktok.com/',
-    "msToken": '',
-    "version_code": 180800,
-    "webcast_sdk_version": '1.3.0',
-    "update_version_code": '1.3.0',
+    "channel": "tiktok_web",
+
+    # New Data
+    "data_collection_enabled": "true",
+    "device_type": "web_h265",
+    "os": Device["os"],
+    "priority_region": Location["country"],
+    "region": Location["country"],
+    "user_is_login": "false",
+    "webcast_language": Location["lang"],
+
+    # Empty Signature Codes
+    "msToken": "",
+    "X-Bogus": "",
+    "_signature": "",
+
 }
 
 """Default HTTP client headers to include in requests to the Webcast API, Sign Server, and Websocket Server"""
 DEFAULT_REQUEST_HEADERS: Dict[str, str] = {
     "Connection": 'keep-alive',
     'Cache-Control': 'max-age=0',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36',
+    'User-Agent': Device["user_agent"],
     "Accept": 'text/html,application/json,application/protobuf',
     "Referer": 'https://www.tiktok.com/',
     "Origin": 'https://www.tiktok.com',
     'Accept-Language': 'en-US,en;q=0.9',
     'Accept-Encoding': 'gzip, deflate',
+    "Sec-Fetch-Site": 'same-site',
+    "Sec-Fetch-Mode": 'cors',
+    "Sec-Fetch-Dest": 'empty',
+    "Sec-Fetch-Ua-Mobile": '?0',
 }
 
 """The unique identifier for ttlive-python"""
@@ -69,7 +88,6 @@ class _WebDefaults:
 
 """The modifiable settings global for web defaults"""
 WebDefaults: _WebDefaults = _WebDefaults()
-
 
 __all__ = [
     "WebDefaults",
