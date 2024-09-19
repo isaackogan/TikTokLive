@@ -99,11 +99,12 @@ class TikTokHTTPClient:
         self.params["uuc"] = self.__uuc
         self.params["device_id"] = self.generate_device_id()
 
+        params = '&'.join(f"{key}={value}" for key, value in {**(self.params if base_params else {}), **(extra_params or dict())}.items())
+
         # Make the request
         return await (client or self._httpx).get(
-            url=url,
+            url=url + "?" + params,
             cookies=self.cookies,
-            params={**(self.params if base_params else {}), **(extra_params or dict())},
             headers={**(self.headers if base_headers else {}), **(extra_headers or dict())},
             **kwargs
         )

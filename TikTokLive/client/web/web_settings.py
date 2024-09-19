@@ -45,10 +45,8 @@ DEFAULT_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
     "user_is_login": "false",
     "webcast_language": Location["lang"],
 
-    # Empty Signature Codes
+    # Note: Never include X-Bogus
     "msToken": "",
-    "X-Bogus": "",
-    "_signature": "",
 
 }
 

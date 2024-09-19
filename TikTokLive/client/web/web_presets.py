@@ -107,8 +107,8 @@ def user_agent_to_device_preset(user_agent: str) -> DevicePreset:
     # Safe='' is used to make it so that the slashes in the user agent string are escaped
     return {
         "user_agent": user_agent,
-        "browser_name": urllib.parse.quote_plus(browser_name),
-        "browser_version": urllib.parse.quote_plus(browser_version),
+        "browser_name": urllib.parse.quote(browser_name, safe=''),
+        "browser_version": urllib.parse.quote(browser_version, safe=''),
         "browser_platform": "MacIntel" if "Macintosh" in user_agent else "Win32",
         "os": "mac" if "Macintosh" in user_agent else "windows"
     }
