@@ -59,6 +59,7 @@ DEFAULT_WS_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
     "app_name": "tiktok_web",
     "browser_language": Location["lang_country"],
     "browser_name": Device["browser_name"],
+    "browser_version": Device["browser_version"],
     "browser_online": "true",
     "cookie_enabled": "true",
     "imprp": "",

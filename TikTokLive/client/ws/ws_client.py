@@ -132,12 +132,6 @@ class WebcastWSClient:
             }
         )
 
-        #base_config["uri"] = input("Enter the URI: ")
-        #base_config["extra_headers"]["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36"
-
-        print(base_config['uri'])
-        print(base_config['extra_headers'])
-
         if self._ws_proxy is not None:
             base_config["proxy_conn_timeout"] = 10.0
             base_config["proxy"] = self._convert_proxy()

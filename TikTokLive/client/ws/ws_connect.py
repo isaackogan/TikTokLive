@@ -1,10 +1,11 @@
 from typing import Optional, AsyncIterator
 
 from httpx import Proxy
-from websockets import WebSocketClientProtocol
+from websockets import WebSocketClientProtocol, InvalidStatusCode
 from websockets.legacy.client import Connect
 from websockets_proxy.websockets_proxy import ProxyConnect
 
+from TikTokLive.client.errors import WebcastBlocked200Error
 from TikTokLive.client.logger import TikTokLiveLogHandler
 
 
@@ -14,8 +15,13 @@ class WebcastConnect(Connect):
         """Custom implementation of async iterator that disables exception"""
 
         while True:
-            async with self as protocol:
-                yield protocol
+            try:
+                async with self as protocol:
+                    yield protocol
+            except InvalidStatusCode as ex:
+                if ex.status_code == 200:
+                    raise WebcastBlocked200Error("WebSocket rejected by TikTok with a 200 status code, implying detection.") from ex
+                raise
 
 
 class WebcastProxyConnect(ProxyConnect):
@@ -28,6 +34,10 @@ class WebcastProxyConnect(ProxyConnect):
         """Custom implementation of async iterator that disables exception"""
 
         while True:
-            async with self as protocol:
-                yield protocol
-
+            try:
+                async with self as protocol:
+                    yield protocol
+            except InvalidStatusCode as ex:
+                if ex.status_code == 200:
+                    raise WebcastBlocked200Error("WebSocket rejected by TikTok with a 200 status code, implying detection.") from ex
+                raise

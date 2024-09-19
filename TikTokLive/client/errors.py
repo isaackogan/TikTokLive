@@ -42,3 +42,10 @@ class WebsocketURLMissingError(RuntimeError):
     Thrown when the websocket URL to connect to TikTok is missing (blocked)
 
     """
+
+
+class WebcastBlocked200Error(RuntimeError):
+    """
+    Thrown when the webcast is blocked by TikTok with a 200 status code (detected)
+
+    """
