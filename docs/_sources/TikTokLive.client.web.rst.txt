@@ -28,6 +28,14 @@ TikTokLive.client.web.web\_client module
    :undoc-members:
    :show-inheritance:
 
+TikTokLive.client.web.web\_presets module
+-----------------------------------------
+
+.. automodule:: TikTokLive.client.web.web_presets
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 TikTokLive.client.web.web\_settings module
 ------------------------------------------
 
