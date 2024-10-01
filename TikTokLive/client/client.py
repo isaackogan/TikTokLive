@@ -118,7 +118,6 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # <Required> Fetch room ID
         try:
             self._room_id: int = room_id or await self._web.fetch_room_id_from_html(self._unique_id)
-            self._web.params["room_id"] = str(self._room_id) or None
         except Exception as base_ex:
 
             if isinstance(base_ex, UserOfflineError) or isinstance(base_ex, UserNotFoundError):
@@ -129,6 +128,9 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 self._room_id: int = await self._web.fetch_room_id_from_api(self.unique_id)
             except Exception as super_ex:
                 raise super_ex from base_ex
+
+        # Gram Room ID
+        self._web.params["room_id"] = str(self._room_id) or None
 
         # <Optional> Fetch live status
         if fetch_live_check and not await self._web.fetch_is_live(room_id=self._room_id):
