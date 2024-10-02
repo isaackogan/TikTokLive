@@ -95,7 +95,7 @@ TikTokLive is available in several alternate programming languages:
 - **Node.JS:** [https://github.com/zerodytrash/TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
 - **Java:** [https://github.com/jwdeveloper/TikTok-Live-Java](https://github.com/jwdeveloper/TikTok-Live-Java)
 - **C#/Unity:** [https://github.com/frankvHoof93/TikTokLiveSharp](https://github.com/frankvHoof93/TikTokLiveSharp)
-- **Go:** [https://github.com/Davincible/gotiktoklive](https://github.com/Davincible/gotiktoklive)
+- **Go:** [https://github.com/steampoweredtaco/gotiktoklive](https://github.com/steampoweredtaco/gotiktoklive)
 - **Rust:** [https://github.com/jwdeveloper/TikTokLiveRust](https://github.com/jwdeveloper/TikTokLiveRust)
 
 ## Parameters
