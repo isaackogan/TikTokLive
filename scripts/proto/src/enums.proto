@@ -153,6 +153,7 @@ enum ControlAction {
   STREAM_PAUSED = 1; // Stream Paused by Host
   STREAM_UNPAUSED = 2;
   STREAM_ENDED = 3; // Stream Ended by Host
+  STREAM_SUSPENDED = 4; // Stream Ended by TikTok
 }
 
 enum LinkLayerMessageType
