@@ -405,7 +405,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             if event.action == ControlAction.STREAM_ENDED:
 
                 # If the stream is over, disconnect the client
-                self.disconnect()
+                await self.disconnect()
 
                 return LiveEndEvent().parse(response.payload)
             elif event.action == ControlAction.STREAM_PAUSED:
