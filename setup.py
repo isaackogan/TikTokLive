@@ -7,7 +7,7 @@ manifest: dict = {
     "name": "TikTokLive",
     "license": "MIT",
     "author": "Isaac Kogan",
-    "version": "6.1.6",
+    "version": "6.1.9",
     "email": "info@isaackogan.com"
 }
 
@@ -33,7 +33,9 @@ if __name__ == '__main__':
             "pyee>=9.0.4",
             "ffmpy>=0.3.0",
             "websockets_proxy==0.1.2",
-            "betterproto>=2.0.0b6",
+
+            # Downgrade to b1. This is necessary because to_dict breaks for ShareEvent in 2.0.0b2 due to 'Common' not being defined. No clue why.
+            "betterproto==2.0.0b1",
             "async-timeout>=4.0.3",
 
             # Legacy-only requirements (to be removed)

@@ -1,7 +1,7 @@
 {
   "name": "@tiktoklive/types",
   "displayName": "TikTokLive TS Types",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "NPM package template with Typescript, Webpack, SCSS, EsLint, Babel",
   "keywords": [
     "npm",

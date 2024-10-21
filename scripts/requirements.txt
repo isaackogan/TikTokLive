@@ -4,3 +4,8 @@ python-dotenv
 build
 twine
 betterproto[compiler]
+grpcio-tools
+googleapis-common-protos
+
+# To compile, we need a higher version of betterproto D:
+# pip install "betterproto[compiler]==2.0.0b4"

@@ -39,6 +39,14 @@ export enum LinkmicApplierSortSetting {
     BY_GIFT_SCORE = 1,
 }
 
+export enum LinkMicBattleStatus {
+    BATTLE_ARMY_UNKNOWN = 0,
+    ARMY_ONGOING = 1,
+    ARMY_FINISHED = 2,
+    BATTLE_ONGOING = 4,
+    BATTLE_FINISHED = 5,
+}
+
 export enum HashtagNamespace {
     GLOBAL = 0,
     GAMING = 1,
@@ -151,6 +159,7 @@ export enum ControlAction {
     STREAM_PAUSED = 1,
     STREAM_UNPAUSED = 2,
     STREAM_ENDED = 3,
+    STREAM_SUSPENDED = 4,
 }
 
 export enum LinkLayerMessageType {
@@ -237,21 +246,21 @@ export enum CommonContentCase {
 }
 
 export enum LinkMessageType {
-    TPYE_LINKER_UNKNOWN = 0,
+    TYPE_LINKER_UNKNOWN = 0,
     TYPE_LINKER_CREATE = 1,
     TYPE_LINKER_CLOSE = 2,
     TYPE_LINKER_INVITE = 3,
     TYPE_LINKER_APPLY = 4,
     TYPE_LINKER_REPLY = 5,
-    TPYE_LINKER_ENTER = 6,
-    TPYE_LINKER_LEAVE = 7,
+    TYPE_LINKER_ENTER = 6,
+    TYPE_LINKER_LEAVE = 7,
     TYPE_LINKER_PERMIT = 8,
-    TPYE_LINKER_CANCEL_INVITE = 9,
+    TYPE_LINKER_CANCEL_INVITE = 9,
     TYPE_LINKER_WAITING_LIST_CHANGE = 10,
     TYPE_LINKER_LINKED_LIST_CHANGE = 11,
     TYPE_LINKER_UPDATE_USER = 12,
-    TPYE_LINKER_KICK_OUT = 13,
-    TPYE_LINKER_CANCEL_APPLY = 14,
+    TYPE_LINKER_KICK_OUT = 13,
+    TYPE_LINKER_CANCEL_APPLY = 14,
     TYPE_LINKER_MUTE = 15,
     TYPE_LINKER_MATCH = 16,
     TYPE_LINKER_UPDATE_USER_SETTING = 17,
@@ -262,8 +271,8 @@ export enum LinkMessageType {
     TYPE_LINKER_COHOST_LIST_CHANGE = 22,
     TYPE_LINKER_MEDIA_CHANGE = 23,
     TYPE_LINKER_ACCEPT_NOTICE = 24,
-    TPYE_LINKER_SYS_KICK_OUT = 101,
-    TPYE_LINKMIC_USER_TOAST = 102,
+    TYPE_LINKER_SYS_KICK_OUT = 101,
+    TYPE_LINKMIC_USER_TOAST = 102,
 }
 
 export enum MessageType {
@@ -465,6 +474,7 @@ export interface TextTextPieceUser  {
 
 export interface Image  {
     url_list: string[]
+    extras: string
     is_animated: boolean
 }
 
@@ -1160,9 +1170,9 @@ export interface CohostListChangeContent  {
 }
 
 export interface LinkerListChangeContent  {
-    linked_users_list: ListUser[]
-    applied_users_list: ListUser[]
-    connecting_users_list: ListUser[]
+    linked_users: ListUser[]
+    applied_users: ListUser[]
+    connecting_users: ListUser[]
 }
 
 export interface LinkerMediaChangeContent  {
@@ -1996,7 +2006,7 @@ export interface WebcastLinkMicArmies  {
     id2: number
     time_stamp1: number
     time_stamp2: number
-    battle_status: number
+    battle_status: LinkMicBattleStatus
     data1: number
     data2: number
     data3: number
@@ -2048,11 +2058,26 @@ export interface WebcastLinkMicBattle  {
     common: Common
     id: number
     battle_config: WebcastLinkMicBattleLinkMicBattleConfig
-    data2: number
+    battle_status: LinkMicBattleStatus
     details: WebcastLinkMicBattleLinkMicBattleDetails[]
-    teams1: WebcastLinkMicBattleLinkMicBattleTeam[]
-    teams2: WebcastLinkMicBattleLinkMicBattleTeam[]
+    viewer_team: WebcastLinkMicBattleLinkMicBattleTopViewers[]
+    host_team: WebcastLinkMicBattleLinkMicBattleHost[]
     team_data: WebcastLinkMicBattleLinkMicBattleTeamData[]
+    unknown_data16: number
+    host_data2_v2: WebcastLinkMicBattleHost2V2Data[]
+}
+
+export interface WebcastLinkMicBattleHost2V2Data  {
+    team_number: number
+    hostdata: WebcastLinkMicBattleHost2V2DataHostData[]
+    unknown_data3: number
+    total_points: number
+}
+
+export interface WebcastLinkMicBattleHost2V2DataHostData  {
+    host_id: number
+    points: number
+    host_id_str: string
 }
 
 export interface WebcastLinkMicBattleLinkMicBattleConfig  {
@@ -2061,29 +2086,69 @@ export interface WebcastLinkMicBattleLinkMicBattleConfig  {
     data1: number
     id2: number
     data2: number
+    data3: number
+    data4: number
+}
+
+export interface WebcastLinkMicBattleLinkMicBattleTeamData  {
+    team_id: number
+    data: WebcastLinkMicBattleLinkMicBattleData
 }
 
 export interface WebcastLinkMicBattleLinkMicBattleData  {
     id: number
     data1: number
-    data2: number
+    win_streak: number
     data3: number
     url: string
 }
 
 export interface WebcastLinkMicBattleLinkMicBattleDetails  {
     id: number
-    details: WebcastLinkMicBattleLinkMicBattleData
+    summary: WebcastLinkMicBattleLinkMicBattleDetailsLinkMicBattleDetailsSummary
 }
 
-export interface WebcastLinkMicBattleLinkMicBattleTeam  {
+export interface WebcastLinkMicBattleLinkMicBattleDetailsLinkMicBattleDetailsSummary  {
     id: number
-    users: User[]
+    unknown_data2: number
+    points: number
 }
 
-export interface WebcastLinkMicBattleLinkMicBattleTeamData  {
-    team_id: number
-    data: WebcastLinkMicBattleLinkMicBattleData
+export interface WebcastLinkMicBattleLinkMicBattleTopViewers  {
+    id: number
+    viewer_group: WebcastLinkMicBattleLinkMicBattleTopViewersTopViewerGroup[]
+}
+
+export interface WebcastLinkMicBattleLinkMicBattleTopViewersTopViewerGroup  {
+    viewer: WebcastLinkMicBattleLinkMicBattleTopViewersTopViewerGroupTopViewer[]
+    points: number
+    host_id_or_team_num: string
+}
+
+export interface WebcastLinkMicBattleLinkMicBattleTopViewersTopViewerGroupTopViewer  {
+    id: number
+    points: number
+    profile_id: string
+    images: Image[]
+    string_id: string
+}
+
+export interface WebcastLinkMicBattleLinkMicBattleHost  {
+    id: number
+    host_group: WebcastLinkMicBattleLinkMicBattleHostHostGroup[]
+}
+
+export interface WebcastLinkMicBattleLinkMicBattleHostHostGroup  {
+    host: WebcastLinkMicBattleLinkMicBattleHostHostGroupHost[]
+    points: number
+    host_id: string
+}
+
+export interface WebcastLinkMicBattleLinkMicBattleHostHostGroupHost  {
+    id: number
+    profile_id: string
+    images: Image[]
+    name: string
 }
 
 export interface WebcastLinkMicFanTicketMethod  {
@@ -2213,7 +2278,7 @@ export interface WebcastLinkMessage  {
     list_change_content: LinkerListChangeContent
     cohost_list_change_content: CohostListChangeContent
     media_change_content: LinkerMediaChangeContent
-    reply_accept_notice_content: LinkerAcceptNoticeContent
+    accept_notice_content: LinkerAcceptNoticeContent
     sys_kick_out_content: LinkerSysKickOutContent
     user_toast_content: LinkmicUserToastContent
     extra: string
@@ -2272,7 +2337,7 @@ export interface UnknownEvent extends WebsocketResponseEvent {
 
 export interface ConnectEvent  {
     unique_id: string
-    room_id: string
+    room_id: number
 
 }
 
