@@ -1,4 +1,5 @@
 import enum
+import os
 from http.cookies import SimpleCookie
 from typing import Optional
 
@@ -53,22 +54,49 @@ class SignatureRateLimitError(SignAPIError):
 
     """
 
-    def __init__(self, retry_after: int, reset_time: int, *args):
+    @classmethod
+    def format_sign_server_message(cls, message: str) -> str:
+        """
+        Format the sign server message
+        """
+
+        message = message.strip()
+        msg_len: int = len(message)
+        header_text: str = "SIGN SERVER MESSAGE"
+        header_len: int = (msg_len - len(header_text)) // 2
+        padding_len: int = int(bool((msg_len - len(header_text)) % 2))
+
+        # Center header text in header
+        footer: str = "+" + "-" * (msg_len + 2) + "+"
+        header: str = "+" + "-" * header_len + " " + header_text + " " + "-" * (header_len + padding_len) + "+"
+        message: str = "| " + message + " |"
+
+        return f"\n\t|\n\t{header}\n\t{message}\n\t{footer}"
+
+    def __init__(self, retry_after: int, reset_time: int, api_message: Optional[str], *args):
         """
         Constructor for signature rate limit
 
         :param retry_after: How long to wait until the next attempt
         :param reset_time: The unix timestamp for when the client can request again
+        :param api_message: The message provided by the API
         :param args: Default RuntimeException *args
         :param kwargs: Default RuntimeException **kwargs
 
         """
 
+        # Message provided by the API
+        euler_msg: Optional[str] = self.format_sign_server_message(api_message) if api_message else None
+
         self._retry_after: int = retry_after
         self._reset_time: int = reset_time
 
         _args = list(args)
-        _args[0] = str(args[0]) % str(self.retry_after)
+
+        if euler_msg:
+            _args.append(euler_msg)
+
+        _args[0] = str(args[0]) % self.retry_after
 
         super().__init__(SignAPIError.ErrorReason.RATE_LIMIT, *_args)
 
@@ -125,12 +153,17 @@ class SignFetchRoute(ClientRoute):
 
         if response.status_code == 429:
             data_json = response.json()
+            server_message: Optional[str] = None if os.environ.get('SIGN_SERVER_MESSAGE_DISABLED') else data_json.get("message")
+            limit_label: str = f"({data_json['limit_label']}) " if data_json.get("limit_label") else ""
+
             raise SignatureRateLimitError(
                 response.headers.get("RateLimit-Reset"),
                 response.headers.get("X-RateLimit-Reset"),
-                f"You have hit the rate limit for starting connections ({data_json['limit_label']}). Try again in %s seconds. "
-                "Catch this error & access its attributes (retry_after, reset_time) for data on when you can "
-                "request next. Sign up for an API key at https://www.eulerstream.com/ for higher limits."
+                server_message,
+                (
+                    f"{limit_label}Too many connections started, try again in %s seconds."
+                )
+
             )
 
         elif not data:
