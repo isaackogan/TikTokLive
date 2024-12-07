@@ -144,8 +144,8 @@ class WebcastWSClient:
         parsed: list = list(parsed)
 
         # Add auth back
-        parsed[3] = self._ws_proxy.url.username
-        parsed[4] = self._ws_proxy.url.password
+        parsed[3] = self._ws_proxy.auth[0]
+        parsed[4] = self._ws_proxy.auth[1]
 
         return websockets_proxy.Proxy(*parsed)
 
