@@ -38,7 +38,6 @@ DEFAULT_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
 
     # New Data
     "data_collection_enabled": "true",
-    "device_type": "web_h265",
     "os": Device["os"],
     "priority_region": Location["country"],
     "region": Location["country"],
