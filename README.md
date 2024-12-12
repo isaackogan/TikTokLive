@@ -30,7 +30,7 @@ in a stream. It has **no support** for any **user-authenticated routes**.
 
 ## Star History
 
-<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="https://star-history.com/embed?secret=#isaackogan/tiktoklive&Date" frameBorder="0"></iframe>
+[![Star History Chart](https://api.star-history.com/svg?repos=isaackogan/tiktoklive&type=Date)](https://star-history.com/#isaackogan/tiktoklive&Date)
 
 ## Table of Contents
 
