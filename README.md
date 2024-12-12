@@ -28,6 +28,10 @@ in a stream. It has **no support** for any **user-authenticated routes**.
 </tr>
 </table>
 
+## Star History
+
+<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="https://star-history.com/embed?secret=#isaackogan/tiktoklive&Date" frameBorder="0"></iframe>
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
