@@ -28,9 +28,13 @@ in a stream. It has **no support** for any **user-authenticated routes**.
 </tr>
 </table>
 
-## Star History
+## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=isaackogan/tiktoklive&type=Date)](https://star-history.com/#isaackogan/tiktoklive&Date)
+<p align="center">
+  <a href="https://star-history.com/#danny-avila/LibreChat&Date">
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=isaackogan/TikTokLive&type=Date&theme=dark" onerror="this.src='https://api.star-history.com/svg?repos=isaackogan/TikTokLive&type=Date'" />
+  </a>
+</p>
 
 ## Table of Contents
 
