@@ -7,7 +7,7 @@ manifest: dict = {
     "name": "TikTokLive",
     "license": "MIT",
     "author": "Isaac Kogan",
-    "version": "6.2.0",
+    "version": "6.2.1",
     "email": "info@isaackogan.com"
 }
 
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         download_url=f"https://github.com/isaackogan/TikTokLive/releases/tag/v{manifest['version']}",
         keywords=["tiktok", "tiktok live", "python3", "api", "unofficial"],
         install_requires=[
-            "httpx>=0.25.0",
+            "httpx>=0.26.0",
             "pyee>=9.0.4",
             "ffmpy>=0.3.0",
             "websockets_proxy==0.1.2",

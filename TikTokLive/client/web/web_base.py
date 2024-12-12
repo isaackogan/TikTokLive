@@ -66,7 +66,7 @@ class TikTokHTTPClient:
         }
 
         return AsyncClient(
-            proxies=proxy,
+            proxy=proxy,
             cookies=self.cookies,
             **httpx_kwargs
         )
