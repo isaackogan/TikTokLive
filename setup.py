@@ -32,7 +32,7 @@ if __name__ == '__main__':
             "httpx>=0.26.0",
             "pyee>=9.0.4",
             "ffmpy>=0.3.0",
-            "websockets_proxy==0.1.2",
+            "websockets_proxy==0.1.3",
 
             # Downgrade to b1. This is necessary because to_dict breaks for ShareEvent in 2.0.0b2 due to 'Common' not being defined. No clue why.
             "betterproto==2.0.0b1",
