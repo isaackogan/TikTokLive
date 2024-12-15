@@ -128,7 +128,7 @@ class VideoFetchRoute(ClientRoute):
         record_time: Optional[str] = f"-t {record_for}" if record_for and record_for > 0 else None
         record_data: dict = json.loads(room_info['stream_url']['live_core_sdk_data']['pull_data']['stream_data'])
         record_url_data: dict = record_data['data'][quality.value]['main']
-        record_url: str = record_url_data.get(record_format) or record_url_data['flv']
+        record_url: str = record_url_data.get(record_format.value) or record_url_data['flv']
 
         self._ffmpeg = FFmpeg(
             inputs={**{record_url: None}, **kwargs.pop('inputs', dict())},
