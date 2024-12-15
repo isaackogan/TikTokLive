@@ -57,12 +57,15 @@ class TikTokHTTPClient:
         self.cookies = httpx_kwargs.pop("cookies", Cookies())
 
         # Create the headers
-        self.headers = {**httpx_kwargs.pop("headers", {}), **WebDefaults.client_headers}
+        self.headers = {
+            **WebDefaults.client_headers,
+            **httpx_kwargs.pop("headers", {})
+        }
 
         # Create the params
         self.params: Dict[str, Any] = {
+            **WebDefaults.client_params,
             **httpx_kwargs.pop("params", {}),
-            **WebDefaults.client_params
         }
 
         return AsyncClient(
