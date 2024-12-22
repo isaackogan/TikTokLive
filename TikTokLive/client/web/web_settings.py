@@ -96,6 +96,15 @@ DEFAULT_REQUEST_HEADERS: Dict[str, str] = {
 CLIENT_NAME: str = "ttlive-python"
 
 
+"""Whether the curl cffi library is installed"""
+try:
+    import curl_cffi
+
+    SUPPORTS_CURL_CFFI: bool = True
+except ImportError:
+    SUPPORTS_CURL_CFFI: bool = False
+
+
 @dataclass()
 class _WebDefaults:
     """
@@ -110,6 +119,7 @@ class _WebDefaults:
     client_ws_params: dict = field(default_factory=lambda: DEFAULT_WS_CLIENT_PARAMS)
     client_headers: dict = field(default_factory=lambda: DEFAULT_REQUEST_HEADERS)
     tiktok_sign_api_key: Optional[str] = None
+    ja3_impersonate: str = "chrome131"
 
 
 """The modifiable settings global for web defaults"""
@@ -117,5 +127,6 @@ WebDefaults: _WebDefaults = _WebDefaults()
 
 __all__ = [
     "WebDefaults",
-    "CLIENT_NAME"
+    "CLIENT_NAME",
+    "SUPPORTS_CURL_CFFI"
 ]

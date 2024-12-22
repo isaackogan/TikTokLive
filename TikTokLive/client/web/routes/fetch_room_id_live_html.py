@@ -17,7 +17,7 @@ class FailedParseRoomIdError(RuntimeError):
     """
 
 
-class RoomIdLiveHTMLRoute(ClientRoute):
+class FetchRoomIdLiveHTMLRoute(ClientRoute):
     """
     Route to retrieve the room ID for a user
 
@@ -35,7 +35,7 @@ class RoomIdLiveHTMLRoute(ClientRoute):
         """
 
         # Get their livestream HTML
-        response: Response = await self._web.get_response(
+        response: Response = await self._web.get(
             url=WebDefaults.tiktok_app_url + f"/@{unique_id}/live",
             base_params=False
         )

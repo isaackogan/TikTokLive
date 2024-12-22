@@ -1,12 +1,12 @@
 from httpx import Response
 
 from TikTokLive.client.errors import UserNotFoundError
-from TikTokLive.client.web.routes.room_id_live_html import FailedParseRoomIdError
+from TikTokLive.client.web.routes.fetch_room_id_live_html import FailedParseRoomIdError
 from TikTokLive.client.web.web_base import ClientRoute, TikTokHTTPClient
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
-class RoomIdAPIRoute(ClientRoute):
+class FetchRoomIdAPIRoute(ClientRoute):
     """
     Route to retrieve the room ID for a user
 
@@ -41,7 +41,7 @@ class RoomIdAPIRoute(ClientRoute):
 
         """
 
-        response: Response = await web.get_response(
+        response: Response = await web.get(
             url=WebDefaults.tiktok_app_url + f"/api-live/user/room/",
             extra_params=(
                 {

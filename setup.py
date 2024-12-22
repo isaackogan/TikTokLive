@@ -28,6 +28,11 @@ if __name__ == '__main__':
         long_description_content_type="text/markdown",
         download_url=f"https://github.com/isaackogan/TikTokLive/releases/tag/v{manifest['version']}",
         keywords=["tiktok", "tiktok live", "python3", "api", "unofficial"],
+        extras_require={
+            "interactive": [
+                "curl_cffi==v0.8.0b7",
+            ]
+        },
         install_requires=[
             "httpx>=0.26.0",
             "pyee>=9.0.4",

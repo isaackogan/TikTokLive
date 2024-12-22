@@ -1,14 +1,21 @@
 import logging
-import os
 import random
 from abc import ABC, abstractmethod
-from typing import Optional, Any, Awaitable, Dict
+from typing import Optional, Any, Awaitable, Dict, Literal, Union
 
 import httpx
-from httpx import Cookies, AsyncClient, Response, Proxy
+from httpx import Cookies, AsyncClient, Proxy, URL
 
 from TikTokLive.client.logger import TikTokLiveLogHandler
-from TikTokLive.client.web.web_settings import WebDefaults
+from TikTokLive.client.web.web_settings import WebDefaults, SUPPORTS_CURL_CFFI
+from TikTokLive.client.web.web_signer import TikTokSigner, SignData
+
+# Import the curl_cffi module if it is supported
+try:
+    import curl_cffi.requests
+# Otherwise, import a dummy class
+except:
+    from . import curl_cffi_dummy as curl_cffi
 
 
 class TikTokHTTPClient:
@@ -17,28 +24,67 @@ class TikTokHTTPClient:
 
     """
 
-    __uuc: int = 0
-
     def __init__(
             self,
             proxy: Optional[Proxy] = None,
-            httpx_kwargs: Optional[dict] = None
+            httpx_kwargs: Optional[dict] = None,
+            curl_cffi_kwargs: Optional[dict] = None,
+            signer_kwargs: Optional[dict] = None
     ):
         """
         Create an HTTP client for interacting with the various APIs
 
         :param proxy: An optional proxy for the HTTP client
-        :param httpx_kwargs: Additional httpx k
+        :param httpx_kwargs: Additional httpx kwargs
+        :param curl_cffi_kwargs: Additional curl_cffi kwargs
+        :param signer_kwargs: Additional signer kwargs
 
         """
 
+        # The HTTP client
         self._httpx: AsyncClient = self._create_httpx_client(
             proxy=proxy,
             httpx_kwargs=httpx_kwargs or dict()
         )
 
-        self._sign_api_key: Optional[str] = WebDefaults.tiktok_sign_api_key or os.environ.get("SIGN_API_KEY")
-        self.__uuc += 1
+        # The URL signer
+        self._tiktok_signer: TikTokSigner = TikTokSigner(**(signer_kwargs or dict()))
+
+        # Special client for requests that check the TLS certificate
+        self._curl_cffi: Optional[curl_cffi.requests.AsyncSession] = curl_cffi.requests.AsyncSession(**(curl_cffi_kwargs or {})) if SUPPORTS_CURL_CFFI else None
+
+    @property
+    def httpx_client(self) -> AsyncClient:
+        """
+        Get the underlying `httpx.AsyncClient` instance
+
+        :return: The `httpx.AsyncClient` instance
+
+        """
+
+        return self._httpx
+
+    @property
+    def curl_cffi_client(self) -> curl_cffi.requests.AsyncSession:
+        """
+        Get the underlying `curl_cffi.requests.AsyncSession` instance
+
+        :return: The `curl_cffi.requests.AsyncSession` instance
+
+        """
+
+        return self._curl_cffi
+
+    @property
+    def signer(self) -> TikTokSigner:
+        """
+        Get the TikTok signer for the HTTP client
+
+        :return: The TikTok signer
+
+        """
+
+        return self._tiktok_signer
 
     def _create_httpx_client(
             self,
@@ -74,44 +120,6 @@ class TikTokHTTPClient:
             **httpx_kwargs
         )
 
-    async def get_response(
-            self,
-            url: str,
-            extra_params: Optional[Dict] = None,
-            extra_headers: Optional[Dict] = None,
-            client: Optional[httpx.AsyncClient] = None,
-            base_params: bool = True,
-            base_headers: bool = True,
-            **kwargs
-    ) -> Response:
-        """
-        Get a response from the underlying `httpx.AsyncClient` client.
-
-        :param url: The URL to request
-        :param extra_params: Extra parameters to append to the globals
-        :param extra_headers: Extra headers to append to the globals
-        :param client: An optional override for the `httpx.AsyncClient` client
-        :param kwargs: Optional keywords for the `httpx.AsyncClient.get` method
-        :param base_params: Whether to include the base params
-        :param base_headers: Whether to include the base headers
-        :return: An `httpx.Response` object
-
-        """
-
-        # Update UUC param
-        self.params["uuc"] = self.__uuc
-        self.params["device_id"] = self.generate_device_id()
-
-        params = '&'.join(f"{key}={value}" for key, value in {**(self.params if base_params else {}), **(extra_params or dict())}.items())
-
-        # Make the request
-        return await (client or self._httpx).get(
-            url=url + "?" + params,
-            cookies=self.cookies,
-            headers={**(self.headers if base_headers else {}), **(extra_headers or dict())},
-            **kwargs
-        )
-
     async def close(self) -> None:
         """
         Close the HTTP client gracefully
@@ -121,16 +129,7 @@ class TikTokHTTPClient:
         """
 
         await self._httpx.aclose()
-
-    def __del__(self) -> None:
-        """
-        Decrement the UUC on object deletion
-
-        :return: None
-
-        """
-
-        self.__uuc = max(0, self.__uuc - 1)
+        await self._curl_cffi.close()
 
     def set_session_id(self, session_id: str) -> None:
         """
@@ -158,6 +157,214 @@ class TikTokHTTPClient:
         """
 
         return random.randrange(10000000000000000000, 99999999999999999999)
+
+    def build_url(
+            self,
+            url: str | URL,
+            extra_params: Optional[dict] = None,
+            base_params: bool = True
+    ) -> URL:
+
+        # Built the dict of URL params that were PASSED
+        try:
+            url_params = url.split("?")[1].split("&")
+            url_params = {param.split("=")[0]: param.split("=")[1] for param in url_params}
+        except IndexError:
+            url_params = {}
+
+        try:
+            url_base = url.split("?")[0]
+        except IndexError:
+            url_base = url
+
+        # If base_params is True, include them, but make sure the current url_params override
+        if base_params:
+            url_params = {**(self.params if base_params else {}), **url_params}
+
+        # Now include extra params
+        url_params = {**url_params, **(extra_params or dict())}
+
+        # Rebuild the URL
+        url = url_base + "?" + "&".join([f"{key}={value}" for key, value in url_params.items()])
+        return httpx.URL(url)
+
+    async def build_request(
+            self,
+            url: str | URL,
+            method: str,
+            httpx_client: Optional[httpx.AsyncClient] = None,
+            extra_params: Optional[Dict] = None,
+            extra_headers: Optional[Dict] = None,
+            base_params: bool = True,
+            base_headers: bool = True,
+            sign_url: bool = False,
+            sign_url_method: Optional[str] = None,
+            **kwargs
+    ) -> httpx.Request:
+        """
+       BUILD a request to call the httpx client
+
+       :param url: The URL to request
+       :param sign_url: Whether to sign the URL before requesting
+       :param method: The HTTP method to use
+       :param extra_params: Extra parameters to append to the globals
+       :param extra_headers: Extra headers to append to the globals
+       :param httpx_client: An optional override for the `httpx.AsyncClient` client
+       :param kwargs: Optional keywords for the `httpx.AsyncClient.get` method
+       :param sign_url_method: The HTTP method to sign with
+       :param base_params: Whether to include the base params
+       :param base_headers: Whether to include the base headers
+       :return: An `httpx.Response` object
+
+       """
+
+        # Generate a device ID
+        self.params["device_id"] = self.generate_device_id()
+
+        # Use the provided client or the default one
+        client = httpx_client or self._httpx
+
+        # Build the request object
+        request: httpx.Request = client.build_request(
+            method=method,
+            url=self.build_url(url, extra_params, base_params),
+            cookies=self.cookies,
+            headers={**(self.headers if base_headers else {}), **(extra_headers or dict())},
+            **kwargs
+        )
+
+        # Sign the URL & update the request accordingly
+        if sign_url:
+            sign_data: SignData = (await self._tiktok_signer.webcast_sign(url=request.url, method=sign_url_method or method))['response']
+            request.headers['User-Agent'] = sign_data['userAgent']
+            request.url = httpx.URL(url=sign_data['signedUrl'])
+
+        return request
+
+    async def request(
+            self,
+            url: str,
+            method: str,
+            http_client: Optional[Union[httpx.AsyncClient, curl_cffi.requests.AsyncSession]] = None,
+            http_backend: Literal["httpx", "curl_cffi"] = "httpx",
+            extra_params: Optional[Dict] = None,
+            extra_headers: Optional[Dict] = None,
+            base_params: bool = True,
+            base_headers: bool = True,
+            sign_url: bool = False,
+            **kwargs
+    ) -> Union[httpx.Response, curl_cffi.requests.Response]:
+        """
+        Request a response from the underlying `httpx.AsyncClient` client.
+
+        :param url: The URL to request
+        :param sign_url: Whether to sign the URL before requesting
+        :param method: The HTTP method to use
+        :param http_backend: The backend to use for the request
+        :param extra_params: Extra parameters to append to the globals
+        :param extra_headers: Extra headers to append to the globals
+        :param http_client: An optional override for the `httpx.AsyncClient` client
+        :param kwargs: Optional keywords for the `httpx.AsyncClient.get` method
+        :param base_params: Whether to include the base params
+        :param base_headers: Whether to include the base headers
+        :return: An `httpx.Response` object
+
+        """
+
+        # Build the request
+        request: httpx.Request = await self.build_request(
+            url=url,
+            method=method,
+            extra_params=extra_params,
+            extra_headers=extra_headers,
+            base_params=base_params,
+            base_headers=base_headers,
+            sign_url=sign_url,
+            httpx_client=http_client if isinstance(http_client, httpx.AsyncClient) else None,
+            **kwargs
+        )
+
+        if http_backend == "httpx":
+
+            if SUPPORTS_CURL_CFFI and isinstance(http_client, curl_cffi.requests.AsyncSession):
+                raise ValueError("Cannot use the curl_cffi client with httpx backend!")
+
+            http_client = http_client or self._httpx
+            return await http_client.send(request)
+
+        elif http_backend == "curl_cffi":
+
+            if not SUPPORTS_CURL_CFFI:
+                raise ImportError(
+                    'Cannot perform this request without the "interactive" package extension for curl_cffi. '
+                    'To install it, type "pip install TikTokLive[interactive]".'
+                )
+
+            if isinstance(http_client, httpx.AsyncClient):
+                raise ValueError("Cannot use the httpx client with curl_cffi backend!")
+
+            http_client = http_client or self._curl_cffi
+            return await http_client.request(
+                url=str(request.url),
+                headers=request.headers,
+                method=request.method,
+                impersonate=WebDefaults.ja3_impersonate,
+                data=kwargs.pop('data', None)
+            )
+
+        else:
+
+            raise ValueError("Invalid HTTP backend specified!")
+
+    async def get(
+            self,
+            url: str,
+            extra_params: Optional[Dict] = None,
+            extra_headers: Optional[Dict] = None,
+            http_client: Optional[Union[httpx.AsyncClient, curl_cffi.requests.AsyncSession]] = None,
+            http_backend: Literal["httpx", "curl_cffi"] = "httpx",
+            base_params: bool = True,
+            base_headers: bool = True,
+            sign_url: bool = False,
+            **kwargs
+    ) -> httpx.Response:
+        return await self.request(
+            method="GET",
+            url=url,
+            extra_params=extra_params,
+            extra_headers=extra_headers,
+            http_client=http_client,
+            http_backend=http_backend,
+            base_params=base_params,
+            base_headers=base_headers,
+            sign_url=sign_url,
+            **kwargs
+        )
+
+    async def post(
+            self,
+            url: str,
+            extra_params: Optional[Dict] = None,
+            extra_headers: Optional[Dict] = None,
+            http_client: Optional[Union[httpx.AsyncClient, curl_cffi.requests.AsyncSession]] = None,
+            http_backend: Literal["httpx", "curl_cffi"] = "httpx",
+            base_params: bool = True,
+            base_headers: bool = True,
+            sign_url: bool = False,
+            **kwargs
+    ) -> httpx.Response:
+        return await self.request(
+            method="POST",
+            url=url,
+            extra_params=extra_params,
+            extra_headers=extra_headers,
+            http_client=http_client,
+            http_backend=http_backend,
+            base_params=base_params,
+            base_headers=base_headers,
+            sign_url=sign_url,
+            **kwargs
+        )
 
 
 class ClientRoute(ABC):

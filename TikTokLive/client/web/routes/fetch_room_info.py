@@ -18,7 +18,7 @@ class InvalidFetchRoomInfoPayload(RuntimeError):
     pass
 
 
-class FetchRoomInfoRoomIdRoute(ClientRoute):
+class FetchRoomInfoRoute(ClientRoute):
     """
     Retrieve the room info payload of a livestream room
 
@@ -55,7 +55,7 @@ class FetchRoomInfoRoomIdRoute(ClientRoute):
         try:
 
             # Fetch from API
-            response: Response = await self._web.get_response(
+            response: Response = await self._web.get(
                 url=url,
                 extra_params=extra_params
             )

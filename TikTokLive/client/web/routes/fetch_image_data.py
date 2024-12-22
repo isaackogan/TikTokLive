@@ -6,7 +6,7 @@ from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.proto import Image
 
 
-class ImageFetchRoute(ClientRoute):
+class FetchImageDataRoute(ClientRoute):
     """
     Fetch an image from the TikTok CDN
 
@@ -22,5 +22,5 @@ class ImageFetchRoute(ClientRoute):
         """
 
         image_url: str = image.url_list[0] if isinstance(image, Image) else image
-        response: Response = await self._web.get_response(url=image_url)
+        response: Response = await self._web.get(url=image_url)
         return response.read()

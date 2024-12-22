@@ -53,7 +53,7 @@ class DuplicateDownloadError(RuntimeError):
     """
 
 
-class VideoFetchRoute(ClientRoute):
+class FetchVideoDataRoute(ClientRoute):
     """
     TikTok route to record the livestream video in real-time
 

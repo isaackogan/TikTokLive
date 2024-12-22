@@ -13,7 +13,7 @@ class FailedFetchGiftListError(RuntimeError):
     """
 
 
-class GiftListRoute(ClientRoute):
+class FetchGifListRoute(ClientRoute):
     """
     Retrieve the gift list from TikTok
 
@@ -29,7 +29,7 @@ class GiftListRoute(ClientRoute):
         """
 
         try:
-            response: Response = await self._web.get_response(
+            response: Response = await self._web.get(
                 url=WebDefaults.tiktok_webcast_url + "/gift/list/"
             )
             return response.json()["data"]

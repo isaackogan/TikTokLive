@@ -145,7 +145,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self._gift_info = await self._web.fetch_gift_list()
 
         # <Required> Fetch the first response
-        webcast_response: WebcastResponse = await self._web.fetch_sign_fetch()
+        webcast_response: WebcastResponse = await self._web.fetch_signed_websocket()
 
         # <Optional> Disregard initial events
         webcast_response.messages = webcast_response.messages if process_connect_events else []
@@ -208,10 +208,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         return self._asyncio_loop.run_until_complete(self.connect(**kwargs))
 
-    async def disconnect(self) -> None:
+    async def disconnect(self, close: bool = False) -> None:
         """
-        Disconnect the client from the websocket
+        Disconnect the client from the websocket.
 
+        :param close: Whether to also close the HTTP client if you don't intend to reuse it
         :return: None
 
         """
@@ -221,14 +222,27 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         await self._event_loop_task
 
         # If recording, stop
-        if self._web.fetch_video.is_recording:
-            self._web.fetch_video.stop()
+        if self._web.fetch_video_data.is_recording:
+            self._web.fetch_video_data.stop()
 
         # Reset state vars
         self._room_id = None
         self._room_info = None
         self._gift_info = None
         self._event_loop_task = None
+
+        # Close the client (if discarding)
+        await self.close()
+
+    async def close(self) -> None:
+        """
+        Discards the async sessions if you don't intend to use the client again
+
+        :return: None
+
+        """
+
+        await self._web.close()
 
     async def _client_loop(self, initial_response: WebcastResponse) -> None:
         """

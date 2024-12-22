@@ -14,7 +14,7 @@ async def on_connect(event: ConnectEvent):
     client.logger.info("Connected!")
 
     # Start a recording
-    client.web.fetch_video.start(
+    client.web.fetch_video_data.start(
         output_fp=f"{event.unique_id}.mp4",
         room_info=client.room_info,
         output_format="mp4"
@@ -32,8 +32,8 @@ async def on_live_end(_: DisconnectEvent):
 
     client.logger.info("Disconnected!")
 
-    if client.web.fetch_video.is_recording:
-        client.web.fetch_video.stop()
+    if client.web.fetch_video_data.is_recording:
+        client.web.fetch_video_data.stop()
 
 
 if __name__ == '__main__':

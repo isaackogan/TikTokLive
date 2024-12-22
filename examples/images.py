@@ -17,7 +17,7 @@ async def on_comment(event: CommentEvent):
     client.logger.info("Received a comment!")
 
     # Download the image
-    image_bytes: bytes = await client.web.fetch_image(
+    image_bytes: bytes = await client.web.fetch_image_data(
         image=event.user.avatar_thumb
     )
 

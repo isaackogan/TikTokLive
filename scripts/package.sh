@@ -1,13 +1,24 @@
 #!/usr/bin/env bash
 
-echo "Starting build..."
+
+# Extract version from setup.py
+VERSION_TAG=$(grep '"version":' ../setup.py | awk -F'"' '{print $4}')
+
+echo "-> Starting build for version \"$VERSION_TAG\""
+
+echo "-> Updating \"TikTokLive/__version__.py\""
+
+echo "PACKAGE_VERSION: str = \"$VERSION_TAG\"" > ../TikTokLive/__version__.py
+
+echo "-> Clearing Existent Distribution"
 
 cd ../
-
 rm -r "./dist"
+
+echo "-> Building New Distribution"
 
 python -m build
 
-echo "Finished build..."
+echo "-> Finished build..."
 
 read -p "Press any key to continue..." x

@@ -2,7 +2,7 @@ from typing import Optional, List
 
 from httpx import Response
 
-from TikTokLive.client.web.routes.room_id_api import RoomIdAPIRoute
+from TikTokLive.client.web.routes.fetch_room_id_api import FetchRoomIdAPIRoute
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
 
@@ -71,7 +71,7 @@ class FetchIsLiveRoute(ClientRoute):
 
         """
 
-        response: Response = await self._web.get_response(
+        response: Response = await self._web.get(
             url=WebDefaults.tiktok_webcast_url + f"/room/check_alive/",
             extra_params={"room_ids": ",".join([str(room_id) for room_id in room_ids])}
         )
@@ -90,7 +90,7 @@ class FetchIsLiveRoute(ClientRoute):
 
         """
 
-        response_json: dict = await RoomIdAPIRoute.fetch_user_room_data(
+        response_json: dict = await FetchRoomIdAPIRoute.fetch_user_room_data(
             web=self._web,
             unique_id=unique_id
         )
