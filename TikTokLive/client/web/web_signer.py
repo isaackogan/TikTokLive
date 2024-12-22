@@ -108,8 +108,6 @@ class TikTokSigner:
 
         try:
             sign_response = response.json()
-            print('gotem', sign_response
-                  )
         except Exception as ex:
             raise UnexpectedSignatureError(
                 "Failed to retrieve JSON from a signed request: " + str(response)
