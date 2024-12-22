@@ -1,4 +1,5 @@
 import setuptools
+from TikTokLive import __version__
 
 # PyPi upload Command
 # rm -r dist ; python setup.py sdist ; python -m twine upload dist/*
@@ -7,7 +8,7 @@ manifest: dict = {
     "name": "TikTokLive",
     "license": "MIT",
     "author": "Isaac Kogan",
-    "version": "6.2.1.post1",
+    "version": __version__.PACKAGE_VERSION,
     "email": "info@isaackogan.com"
 }
 
