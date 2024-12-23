@@ -1,26 +1,27 @@
 import asyncio
-import os
-import time
+import typing
 from asyncio import Task
-from typing import Optional, AsyncIterator, List, Dict, Any, Callable, Tuple
+from typing import Optional, AsyncIterator, Union, Type
 
-from httpx import Proxy
-from python_socks import parse_proxy_url, ProxyType
-from websockets.legacy.client import Connect, WebSocketClientProtocol
-from websockets_proxy import websockets_proxy
+import httpx
+from betterproto import Message
+from websockets.legacy.client import WebSocketClientProtocol
 
 from TikTokLive.client.logger import TikTokLiveLogHandler
-from TikTokLive.client.ws.ws_connect import WebcastProxyConnect, WebcastConnect
-from TikTokLive.proto import WebcastPushFrame, WebcastResponse, WebcastResponseMessage
+from TikTokLive.client.web.web_settings import WebDefaults
+from TikTokLive.client.ws.ws_connect import WebcastProxyConnect, WebcastConnect, WebcastProxy, WebcastIterator
+from TikTokLive.proto import WebcastPushFrame, WebcastResponse
 
 
 class WebcastWSClient:
     """Websocket client responsible for connections to TikTok"""
 
+    DEFAULT_PING_INTERVAL: float = 5.0
+
     def __init__(
             self,
             ws_kwargs: Optional[dict] = None,
-            proxy: Optional[Proxy] = None
+            ws_proxy: Optional[WebcastProxy] = None
     ):
         """
         Initialize WebcastWSClient
@@ -30,35 +31,70 @@ class WebcastWSClient:
         """
 
         self._ws_kwargs: dict = ws_kwargs or {}
-        self._ws_cancel: Optional[asyncio.Event] = None
-        self._ws: Optional[WebSocketClientProtocol] = None
-        self._ws_proxy: Optional[Proxy] = proxy
         self._logger = TikTokLiveLogHandler.get_logger()
         self._ping_loop: Optional[Task] = None
+        self._ws_proxy: Optional[WebcastProxy] = ws_proxy or ws_kwargs.get("proxy")
+        self._connect_generator_class: Union[Type[WebcastConnect], Type[WebcastProxyConnect]] = WebcastProxyConnect if self._ws_proxy else WebcastConnect
+        self._connection_generator: Optional[WebcastConnect] = None
 
-    async def send_stupid_ping(
-            self,
-    ) -> None:
+    @property
+    def ws(self) -> Optional[WebSocketClientProtocol]:
         """
-        Send a stupid ping with arbitrary data we found in the WS
-        TikTok client sends this every 10 seconds from testing
+        Get the current WebSocketClientProtocol
+
+        :return: WebSocketClientProtocol
 
         """
 
-        await self._ws.send(
-            message=bytes.fromhex("3A026862")
+        # None because there's no generator
+        if not self._connection_generator:
+            return None
+
+        # Optional[WebSocketClientProtocol]
+        return self._connection_generator.ws
+
+    @property
+    def connected(self) -> bool:
+        """
+        Check if the WebSocket is open
+
+        :return: WebSocket status
+
+        """
+
+        return self.ws and self.ws.open
+
+    async def send(self, message: Union[bytes, Message]) -> None:
+        """
+        Send a message to the WebSocket
+
+        :param message: Message to send to the WebSocket connection
+
+        """
+
+        # Can't send a message to a disconnected WebSocket
+        if not self.connected:
+            self._logger.warning("Attempted to send a message without an open WebSocket connection.")
+            return
+
+        # Log outbound data
+        self._logger.debug(f"Sending data to Webcast Server... {message}")
+
+        # Send the data (+ Serialize the data if it's a protobuf message)
+        await self.ws.send(
+            message=bytes(message) if isinstance(message, Message) else message
         )
 
     async def send_ack(
             self,
-            log_id: int,
-            internal_ext: str
+            webcast_response: WebcastResponse,
+            webcast_push_frame: WebcastPushFrame
     ) -> None:
         """
-        Acknowledge incoming messages from TikTok
+        Acknowledge the receipt of a WebcastResponse message from TikTok, if necessary
 
-        :param log_id: ID for the acknowledgement
-        :param internal_ext: [unknown] Outbound data
+        :param webcast_response: The WebcastResponse to acknowledge
+        :param webcast_push_frame: The WebcastPushFrame containing the WebcastResponse
         :return: None
 
         """
@@ -67,14 +103,16 @@ class WebcastWSClient:
         if not self.connected:
             return
 
-        message: WebcastPushFrame = WebcastPushFrame(
-            payload_type="ack",
-            log_id=log_id,
-            payload=internal_ext.encode()
+        # Send the ack
+        await self.send(
+            message=WebcastPushFrame(
+                payload_type="ack",
+                # ID of the WebcastPushMessage for the acknowledgement
+                log_id=webcast_push_frame.log_id,
+                # [Unknown] Hypothesized to be an acknowledgement of the WebcastResponse (& its messages) within the WebcastPushMessage
+                payload=(webcast_response.internal_ext or "-").encode()
+            )
         )
-
-        self._logger.debug(f"Sending ack... {message}")
-        await self._ws.send(bytes(message))
 
     async def disconnect(self) -> None:
         """
@@ -86,21 +124,27 @@ class WebcastWSClient:
         if not self.connected:
             return
 
-        self._ws_cancel = asyncio.Event()
-        await self._ws_cancel.wait()
-        self._ws_cancel = None
+        await self.ws.close()
 
-    def build_connection_args(
+    async def connect(
             self,
-            uri: str,
-            headers: Dict[str, str]
-    ) -> Dict[str, Any]:
+            room_id: int,
+            cookies: httpx.Cookies,
+            initial_webcast_response: WebcastResponse,
+            process_connect_events: bool = True,
+            compress_ws_events: bool = True
+    ) -> AsyncIterator[WebcastResponse]:
         """
-        Build the `websockets` library connection arguments dictionary
+        Connect to the Webcast server & iterate over response messages.
 
-        :param uri: URI to connect to TikTok
-        :param headers: Headers to send to TikTok on connecting
-        :return: Connection dictionary
+        --- Message 1 ---
+
+        The iterator exits normally when the connection is closed with close code
+        1000 (OK) or 1001 (going away) or without a close code. It raises
+        a :exc:`~websockets.exceptions.ConnectionClosedError` when the connection
+        is closed with any other code.
+
+        --- Message 2 ---
 
         DEVELOP SANITY NOTE:
 
@@ -111,171 +155,120 @@ class WebcastWSClient:
         websockets.exceptions.ConnectionClosedError: sent 1011 (unexpected error) keepalive ping timeout; no close frame received
 
         If you set ping_timeout to None, it doesn't wait for a pong. Perfect, since TikTok don't send them.
+
+        --- Parameters --
+
+        :param initial_webcast_response: The Initial WebcastResponse from the sign server - NOT a PushFrame
+        :param room_id: The room ID to connect to
+        :param cookies: The cookies to pass to the WebSocket connection
+        :param process_connect_events: Whether to process the initial events sent in the first fetch
+        :param compress_ws_events: Whether to ask TikTok to gzip the WebSocket events
+        :return: Yields WebcastResponseMessage, the messages within WebcastResponse.messages
+
         """
 
-        # Copy & remove ping intervals so people can't destroy their clients by accident
-        ws_kwargs = self._ws_kwargs.copy()
-        ws_kwargs.pop("ping_timeout", None)
+        # Copy as to not affect the internal state
+        ws_kwargs: dict = self._ws_kwargs.copy()
 
-        base_config: dict = (
-            {
-                "subprotocols": ["echo-protocol"],
-                "ping_timeout": None,  # DO NOT OVERRIDE THIS. SEE DOCSTRING.
-                "ping_interval": 10.0,
-                "logger": self._logger,
-                "uri": self._ws_kwargs.pop("uri", uri),
-                "extra_headers": {
-                    **headers,
-                    **self._ws_kwargs.pop("headers", {})
-                },
-                **self._ws_kwargs
+        if self._ws_proxy is not None:
+            ws_kwargs["proxy_conn_timeout"] = ws_kwargs.get("proxy_conn_timeout", 10.0)
+            ws_kwargs["proxy"] = self._ws_proxy
+
+        # If we don't want to process these, remove them
+        if not process_connect_events:
+            initial_webcast_response.messages = []
+
+        # Initialize the WebcastConnect class
+        self._connection_generator: WebcastConnect = self._connect_generator_class(
+            initial_webcast_response=initial_webcast_response,
+            subprotocols=ws_kwargs.pop("subprotocols", ["echo-protocol"]),
+            ping_interval=ws_kwargs.pop("ping_interval", self.DEFAULT_PING_INTERVAL),
+            logger=self._logger,
+            uri=ws_kwargs.pop('uri', None),  # Always *should* be none as we build this internally
+            base_uri_append_str=(ws_kwargs.pop("base_uri_append_str", WebDefaults.ws_client_params_append_str)),
+
+            # Base URI parameters
+            base_uri_params={
+                **WebDefaults.ws_client_params,
+                **ws_kwargs.pop("base_uri_params", {}),
+                "room_id": room_id,
+                "compress": "gzip" if compress_ws_events else "",
+            },
+
+            # Extra headers
+            extra_headers={
+                # Must pass cookies to connect to the WebSocket
+                "Cookie": " ".join(f"{k}={v};" for k, v in cookies.items()),
+
+                # Optional override for the headers
+                **ws_kwargs.pop("extra_headers", {})
+            },
+
+            # Pass any extra  kwargs
+            **{
+                **ws_kwargs,
+                "ping_timeout": None
             }
         )
 
-        if self._ws_proxy is not None:
-            base_config["proxy_conn_timeout"] = 10.0
-            base_config["proxy"] = self._convert_proxy()
+        # Open a connection & yield WebcastResponse items
+        async for webcast_push_frame, webcast_response in typing.cast(WebcastIterator, self._connection_generator):
 
-        return base_config
+            # The first message does NOT need an ack since we perform the ack with the actual WebSocket connect URI
+            if webcast_response.is_first:
+                self.restart_ping_loop()
 
-    def _convert_proxy(self) -> websockets_proxy.Proxy:
+            # Ack when necessary
+            if webcast_response.needs_ack:
+                await self.send_ack(webcast_response=webcast_response, webcast_push_frame=webcast_push_frame)
 
-        parsed: Tuple[ProxyType, str, int, Optional[str], Optional[str]] = parse_proxy_url(str(self._ws_proxy.url))
-        parsed: list = list(parsed)
+            # Yield the response
+            yield webcast_response
 
-        # Add auth back
-        parsed[3] = self._ws_proxy.auth[0]
-        parsed[4] = self._ws_proxy.auth[1]
+            # If not connected, break
+            if not self.connected:
+                break
 
-        return websockets_proxy.Proxy(*parsed)
+        # Cancel the ping loop if it hasn't started to
+        if not self._ping_loop.done() and not self._ping_loop.cancelling():
+            self._ping_loop.cancel()
 
-    async def connect(
-            self,
-            uri: str,
-            headers: Dict[str, str]
-    ) -> AsyncIterator[WebcastResponseMessage]:
+        if not self._ping_loop.done():
+            await self._ping_loop
+
+        # Reset internal state
+        self._ping_loop = None
+        self._connection_generator = None
+
+    def restart_ping_loop(self) -> None:
         """
-        Connect to the Webcast websocket server & handle cancellation
-
-        :param uri:
-        :param headers:
-        :return:
-        """
-
-        # Reset the cancel var
-        self._ws_cancel = None
-
-        # Yield while existent
-        async for webcast_message in self.connect_loop(uri, headers):
-            yield webcast_message
-
-
-        # After loop breaks, gracefully shut down & send the cancellation event
-        if self._ws_cancel is not None:
-            await self._ws.close()
-            self._ws_cancel.set()
-
-    async def connect_loop(
-            self,
-            uri: str,
-            headers: Dict[str, str]
-    ) -> AsyncIterator[WebcastResponseMessage]:
-        """
-        Connect to the Webcast server & iterate over response messages.
-
-        The iterator exits normally when the connection is closed with close code
-        1000 (OK) or 1001 (going away) or without a close code. It raises
-        a :exc:`~websockets.exceptions.ConnectionClosedError` when the connection
-        is closed with any other code.
-
-        :param uri: URI to connect to
-        :param headers: Headers used for the connection
-        :return: Yields WebcastResponseMessage
+        Restart the WebSocket ping loop
 
         """
 
-        connect: Callable = WebcastProxyConnect if self._ws_proxy else WebcastConnect
+        if self._ping_loop:
+            self._ping_loop.cancel()
 
-        # Run connection loop
-        async for websocket in connect(**self.build_connection_args(uri, headers)):
+        self._ping_loop = asyncio.create_task(self._ping_loop_fn())
 
-            # Update the stored websocket
-            self._ws = websocket
-
-            # Restart the ping loop
-            if self._ping_loop:
-                self._ping_loop.cancel()
-            self._ping_loop = asyncio.create_task(self.ping_loop())
-
-            # Each time we receive a message, process it
-            async for message in websocket:
-
-                # Yield processed messages
-                for webcast_message in await self.process_recv(message):
-                    yield webcast_message
-
-                # Handle cancellation request
-                if self._ws_cancel is not None:
-                    return
-
-            if self._ws_cancel is not None:
-                return
-
-    async def ping_loop(self) -> None:
+    async def _ping_loop_fn(self) -> None:
         """
         Send a ping every 10 seconds to keep the connection alive
 
         """
-        x = 0
 
-        t = time.time()
-        time_as_est_string = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
-        while self.connected:
+        # Must be connected to loop as ping_interval requires the WS be instantiated
+        if not self.connected:
+            return
 
-            if x % 10 == 0:
-                self._logger.debug(f"Sending WebSocket ping at {time_as_est_string}...")
-                await self.send_stupid_ping()
-                x = 0
+        # Ping Loop
+        try:
+            while self.connected:
+                # Send the ping
+                await self.send(message=bytes.fromhex("3A026862"))
 
-            x += 1
-            await asyncio.sleep(1)
+                # Every 10 seconds
+                await asyncio.sleep(self.ws.ping_interval or self.DEFAULT_PING_INTERVAL)
 
-    async def process_recv(self, data: bytes) -> List[WebcastResponseMessage]:
-        """
-        Handle push frames received as websocket data
-
-        :param data: Protobuf bytestream
-        :return: List of contained messages for handling
-
-        """
-
-        # Extract push frame
-        push_frame: WebcastPushFrame = WebcastPushFrame().parse(data)
-
-        # Only deal with messages
-        if push_frame.payload_type != "msg":
-            self._logger.debug(f"Received payload of type '{push_frame.payload_type}', not 'msg': {push_frame}")
-            return []
-
-        # Extract response
-        webcast_response: WebcastResponse = WebcastResponse().parse(push_frame.payload)
-
-        # Acknowledge messages
-        if webcast_response.needs_ack:
-            await self.send_ack(
-                internal_ext=webcast_response.internal_ext,
-                log_id=push_frame.log_id
-            )
-
-        return webcast_response.messages
-
-    @property
-    def connected(self) -> bool:
-        """
-        Check if the websocket is currently connected
-
-        :return: Connection status
-
-        """
-
-        return self._ws and self._ws.open
+        except asyncio.CancelledError:
+            self._logger.debug("Ping loop cancelled.")

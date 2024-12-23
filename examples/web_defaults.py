@@ -5,7 +5,7 @@ from TikTokLive.events import ConnectEvent
 
 # *Before* creating a client, you can override the default HTTP settings
 WebDefaults.tiktok_sign_url = "https://my-sign-server.com"
-WebDefaults.client_headers['my_new_header'] = "my-new-value"
+WebDefaults.web_client_headers['my_new_header'] = "my-new-value"
 
 # Create the client
 client: TikTokLiveClient = TikTokLiveClient(

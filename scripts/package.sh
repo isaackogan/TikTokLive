@@ -2,7 +2,7 @@
 
 
 # Extract version from setup.py
-VERSION_TAG=$(grep '"version":' ../setup.py | awk -F'"' '{print $4}')
+VERSION_TAG="6.3.0"
 
 echo "-> Starting build for version \"$VERSION_TAG\""
 

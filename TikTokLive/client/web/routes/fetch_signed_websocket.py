@@ -1,6 +1,6 @@
 import os
 from http.cookies import SimpleCookie
-from typing import Optional
+from typing import Optional, Union
 
 import httpx
 from httpx import Response
@@ -8,7 +8,8 @@ from httpx import Response
 from TikTokLive.client.errors import SignAPIError, SignatureRateLimitError
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults, CLIENT_NAME
-from TikTokLive.proto import WebcastResponse
+from TikTokLive.client.ws.ws_utils import extract_webcast_response_message
+from TikTokLive.proto import WebcastResponse, WebcastPushFrame
 
 
 class FetchSignedWebSocketRoute(ClientRoute):
@@ -22,9 +23,10 @@ class FetchSignedWebSocketRoute(ClientRoute):
             room_id: Optional[int] = None
     ) -> WebcastResponse:
         """
-        Call the method to get the first WebcastResponse to use to upgrade to websocket
+        Call the method to get the first WebcastResponse (as bytes) to use to upgrade to WebSocket & perform the first ack
 
-        :return: The WebcastResponse forwarded from the sign server proxy
+        :param room_id: Override the room ID to fetch the webcast for
+        :return: The WebcastResponse forwarded from the sign server proxy, as raw bytes
 
         """
 
@@ -79,11 +81,19 @@ class FetchSignedWebSocketRoute(ClientRoute):
                 f"Failed request to Sign API with status code {response.status_code} and payload \"{response.read()}\"."
             )
 
-        webcast_response: WebcastResponse = WebcastResponse().parse(response.read())
-
         # Update web params & cookies
         self._update_client_cookies(response)
-        return webcast_response
+        response_data: bytes = response.read()
+
+        # Package it in a push frame & parse it to maintain parity with the WebcastWebSocket
+        return extract_webcast_response_message(
+            logger=self._logger,
+            push_frame=WebcastPushFrame(
+                log_id=-1,
+                payload=response_data,
+                payload_type="msg"
+            ),
+        )
 
     def _update_client_cookies(self, response: Response) -> None:
         """

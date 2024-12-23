@@ -104,14 +104,14 @@ class TikTokHTTPClient:
 
         # Create the headers
         self.headers = {
-            **WebDefaults.client_headers,
+            **WebDefaults.web_client_headers,
             **httpx_kwargs.pop("headers", {})
         }
 
         # Create the params
         self.params: Dict[str, Any] = {
-            **WebDefaults.client_params,
-            **httpx_kwargs.pop("params", {}),
+            **WebDefaults.web_client_params,
+            **httpx_kwargs.pop("params", dict())
         }
 
         return AsyncClient(

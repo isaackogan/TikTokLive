@@ -4,21 +4,21 @@ import logging
 import traceback
 from asyncio import AbstractEventLoop, Task, CancelledError
 from logging import Logger
-from typing import Optional, Type, AsyncIterator, Dict, Any, Tuple, Union, Callable, List, Coroutine
+from typing import Optional, Type, Dict, Any, Union, Callable, List, Coroutine, AsyncIterator
 
-from httpx import Proxy
+import httpx
 from pyee.asyncio import AsyncIOEventEmitter
 from pyee.base import Handler
 
-from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, InitialCursorMissingError, \
-    WebsocketURLMissingError, UserNotFoundError
+from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, UserNotFoundError
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
 from TikTokLive.client.web.web_client import TikTokWebClient
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_client import WebcastWSClient
+from TikTokLive.client.ws.ws_connect import WebcastProxy
 from TikTokLive.events import Event, EventHandler
-from TikTokLive.events.custom_events import WebsocketResponseEvent, ConnectEvent, FollowEvent, ShareEvent, LiveEndEvent, \
-    DisconnectEvent, LivePauseEvent, LiveUnpauseEvent, UnknownEvent, CustomEvent
+from TikTokLive.events.custom_events import WebsocketResponseEvent, FollowEvent, ShareEvent, LiveEndEvent, \
+    DisconnectEvent, LivePauseEvent, LiveUnpauseEvent, UnknownEvent, CustomEvent, ConnectEvent
 from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, ControlEvent
 from TikTokLive.proto import WebcastResponse, WebcastResponseMessage, ControlAction
 
@@ -31,9 +31,14 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
     def __init__(
             self,
+            # User to connect to
             unique_id: str,
-            web_proxy: Optional[Proxy] = None,
-            ws_proxy: Optional[Proxy] = None,
+
+            # Proxies
+            web_proxy: Optional[httpx.Proxy] = None,
+            ws_proxy: Optional[WebcastProxy] = None,
+
+            # Client kwargs
             web_kwargs: Optional[dict] = None,
             ws_kwargs: Optional[dict] = None
     ):
@@ -52,7 +57,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         self._ws: WebcastWSClient = WebcastWSClient(
             ws_kwargs=ws_kwargs or {},
-            proxy=ws_proxy
+            ws_proxy=ws_proxy
         )
 
         self._web: TikTokWebClient = TikTokWebClient(
@@ -94,6 +99,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self,
             *,
             process_connect_events: bool = True,
+            compress_ws_events: bool = True,
             fetch_room_info: bool = False,
             fetch_gift_info: bool = False,
             fetch_live_check: bool = True,
@@ -108,6 +114,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :param fetch_live_check: Whether to check if the user is live (you almost ALWAYS want this enabled)
         :param room_id: An override to the room ID to connect directly to the livestream and skip scraping the live.
                         Useful when trying to scale, as scraping the HTML can result in TikTok blocks.
+        :param compress_ws_events: Whether to compress the WebSocket events using gzip compression (you should probably have this on)
         :return: Task containing the heartbeat of the client
 
         """
@@ -145,21 +152,17 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self._gift_info = await self._web.fetch_gift_list()
 
         # <Required> Fetch the first response
-        webcast_response: WebcastResponse = await self._web.fetch_signed_websocket()
-
-        # <Optional> Disregard initial events
-        webcast_response.messages = webcast_response.messages if process_connect_events else []
-
-        # Handle detection & invalid payloads
-        if not webcast_response.cursor:
-            raise InitialCursorMissingError("Missing cursor in initial fetch response.")
-        if not webcast_response.push_server:
-            raise WebsocketURLMissingError("No websocket URL received from TikTok.")
-        if not webcast_response.route_params_map:
-            raise WebsocketURLMissingError("Websocket parameters missing.")
+        initial_webcast_response: WebcastResponse = await self._web.fetch_signed_websocket()
 
         # Start the websocket connection & return it
-        self._event_loop_task = self._asyncio_loop.create_task(self._client_loop(webcast_response))
+        self._event_loop_task = self._asyncio_loop.create_task(
+            self._ws_client_loop(
+                initial_webcast_response=initial_webcast_response,
+                process_connect_events=process_connect_events,
+                compress_ws_events=compress_ws_events
+            )
+        )
+
         return self._event_loop_task
 
     async def connect(
@@ -208,11 +211,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         return self._asyncio_loop.run_until_complete(self.connect(**kwargs))
 
-    async def disconnect(self, close: bool = False) -> None:
+    async def disconnect(self, close_client: bool = False) -> None:
         """
         Disconnect the client from the websocket.
 
-        :param close: Whether to also close the HTTP client if you don't intend to reuse it
+        :param close_client: Whether to also close the HTTP client if you don't intend to reuse it
         :return: None
 
         """
@@ -232,7 +235,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         self._event_loop_task = None
 
         # Close the client (if discarding)
-        await self.close()
+        if close_client:
+            await self.close()
 
     async def close(self) -> None:
         """
@@ -243,82 +247,6 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         """
 
         await self._web.close()
-
-    async def _client_loop(self, initial_response: WebcastResponse) -> None:
-        """
-        Run the main client loop to handle events
-
-        :param initial_response: The WebcastResponse retrieved from the sign server with connection info
-        :return: None
-
-        """
-
-        async for event in self._ws_loop(initial_response):
-
-            if event is None:
-                continue
-
-            self._logger.debug(f"Received Event '{event.type}'.")
-            self.emit(event.type, event)
-
-        # Disconnecting
-        ev: DisconnectEvent = DisconnectEvent()
-        self.emit(ev.type, ev)
-
-    async def _ws_loop(self, initial_response: WebcastResponse) -> AsyncIterator[Optional[Event]]:
-        """
-        Run the websocket loop to handle incoming WS messages
-
-        :param initial_response: The WebcastResponse retrieved from the sign server with connection info
-        :return: None
-
-        """
-
-        first_event: bool = True
-
-        # Handle websocket connection
-        async for response_message in self._ws.connect(*self._build_connect_info(initial_response)):
-
-            if first_event:
-                first_event = False
-
-                # Send a connection event
-                yield ConnectEvent(unique_id=self._unique_id, room_id=self._room_id)
-
-                # Handle initial messages
-                for webcast_message in initial_response.messages:
-                    for event in await self._parse_webcast_response(webcast_message):
-                        yield event
-
-            for event in await self._parse_webcast_response(response_message):
-                yield event
-
-    def _build_connect_info(self, initial_response: WebcastResponse) -> Tuple[str, dict]:
-        """
-        Create connection info for starting the connection
-
-        :param initial_response: The WebcastResponse retrieved from the sign server with connection info
-        :return: None
-
-        """
-
-        uri_params: dict = {
-            "room_id": self._room_id,
-            **WebDefaults.client_ws_params,
-            **initial_response.route_params_map
-        }
-
-        connect_uri: str = (
-                initial_response.push_server
-                + "?"
-                + '&'.join(f"{key}={value}" for key, value in uri_params.items())
-        )
-
-        connect_headers: dict = {
-            "Cookie": " ".join(f"{k}={v};" for k, v in self._web.cookies.items())
-        }
-
-        return connect_uri, connect_headers
 
     def on(self, event: Type[Event], f: Optional[EventHandler] = None) -> Union[Handler, Callable[[Handler], Handler]]:
         """
@@ -357,38 +285,91 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         return event.__name__ in self._events
 
-    async def _parse_webcast_response(self, response: Optional[WebcastResponseMessage]) -> List[Event]:
+    async def _ws_client_loop(
+            self,
+            initial_webcast_response: WebcastResponse,
+            process_connect_events: bool,
+            compress_ws_events: bool
+    ) -> None:
+        """
+        Run the websocket loop to handle incoming WS events
+
+        :param initial_webcast_response: The WebcastResponse (as bytes) retrieved from the sign server with connection info
+        :param process_connect_events: Whether to process initial events sent on room join
+        :param compress_ws_events: Whether to compress the WebSocket events using gzip compression
+        :return: None
+
+        """
+
+        # Handle websocket connection
+        async for webcast_response in self._ws.connect(
+                initial_webcast_response=initial_webcast_response,
+                process_connect_events=process_connect_events,
+                compress_ws_events=compress_ws_events,
+                cookies=self._web.cookies,
+                room_id=self._room_id
+        ):
+
+            # Iterate over the events extracted
+            async for event in self._parse_webcast_response(webcast_response):
+                self._logger.debug(f"Received Event '{event.type}' [{event.size} bytes]")
+                self.emit(event.type, event)
+
+        # Send the Disconnect event when we disconnect
+        ev: DisconnectEvent = DisconnectEvent()
+        self.emit(ev.type, ev)
+
+    async def _parse_webcast_response(self, webcast_response: WebcastResponse) -> AsyncIterator[Event]:
         """
         Parse incoming webcast responses into events that can be emitted
 
-        :param response: The WebcastResponseMessage protobuf message
+        :param webcast_response: The WebcastResponse protobuf message
+        :return: A list of events that can be gleamed from this event
+
+        """
+
+        # The first event means we connected
+        if webcast_response.is_first:
+            yield ConnectEvent(unique_id=self._unique_id, room_id=self._room_id)
+
+        # Yield events
+        for message in webcast_response.messages:
+            for event in await self._parse_webcast_response_message(webcast_response_message=message):
+                if event is not None:
+                    yield event
+
+    async def _parse_webcast_response_message(self, webcast_response_message: Optional[WebcastResponseMessage]) -> List[Event]:
+        """
+        Parse incoming webcast responses into events that can be emitted
+
+        :param webcast_response_message: The WebcastResponseMessage protobuf message
         :return: A list of events that can be gleamed from this event
 
         """
 
         # Invalid response handler
-        if response is None:
+        if webcast_response_message is None:
             self._logger.warning("Received a null WebcastResponseMessage from the Webcast server.")
             return []
 
         # Get the proto mapping for proto-events
-        event_type: Optional[Type[ProtoEvent]] = EVENT_MAPPINGS.get(response.method)
-        response_event: Event = WebsocketResponseEvent().from_dict(response.to_dict())
+        event_type: Optional[Type[ProtoEvent]] = EVENT_MAPPINGS.get(webcast_response_message.method)
+        response_event: Event = WebsocketResponseEvent().from_dict(webcast_response_message.to_dict())
 
         # If the event is not tracked, return
         if event_type is None:
-            return [response_event, UnknownEvent().from_dict(response.to_dict())]
+            return [response_event, UnknownEvent().from_dict(webcast_response_message.to_dict())]
 
         # Get the underlying events
         try:
-            proto_event: ProtoEvent = event_type().parse(response.payload)
+            proto_event: ProtoEvent = event_type().parse(webcast_response_message.payload)
         except Exception:
             if not self.ignore_broken_payload:
-                self._logger.error(traceback.format_exc() + "\nBroken Payload:\n" + str(response.payload))
+                self._logger.error(traceback.format_exc() + "\nBroken Payload:\n" + str(webcast_response_message.payload))
             return [response_event]
 
         parsed_events: List[Event] = [response_event, proto_event]
-        custom_event: Optional[Event] = await self.handle_custom_event(response, proto_event)
+        custom_event: Optional[Event] = await self.handle_custom_event(webcast_response_message, proto_event)
 
         # Add the custom event IF not null
         return [custom_event, *parsed_events] if custom_event else parsed_events
@@ -417,10 +398,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # LiveEndEvent, LivePauseEvent, LiveUnpauseEvent
         if isinstance(event, ControlEvent):
             if event.action in {ControlAction.STREAM_ENDED, ControlAction.STREAM_SUSPENDED}:
-
-                # If the stream is over, disconnect the client
-                await self.disconnect()
-
+                # If the stream is over, disconnect the client. Can't await due to circular dependency.
+                self._asyncio_loop.create_task(self.disconnect())
                 return LiveEndEvent().parse(response.payload)
             elif event.action == ControlAction.STREAM_PAUSED:
                 return LivePauseEvent().parse(response.payload)

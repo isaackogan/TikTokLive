@@ -1,0 +1,188 @@
+/Users/isaackogan/Documents/PycharmProjects/TikTokLive/.venv/bin/python /Users/isaackogan/Documents/PycharmProjects/TikTokLive/test.py
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:249 — = connection is CONNECTING
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:110 — > GET /webcast/im/ws_proxy/ws_reuse_supplement/?imprp=&wrss=yT433NpZOv0VkfRCkCwjyqWkBEpF-wbDyFCt7HjgMkA&aid=1988&app_language=en&app_name=tiktok_web&browser_platform=MacIntel&browser_language=en-AU&browser_name=Mozilla&browser_version=5.0%20%28Macintosh%3B%20Intel%20Mac%20OS%20X%2014_7%29%20AppleWebKit%2F605.1.15%20%28KHTML%2C%20like%20Gecko%29%20Version%2F17.6%20Safari%2F605.1.15&browser_online=true&cookie_enabled=true&tz_name=Australia/Sydney&device_platform=web&debug=false&host=https%3A%2F%2Fwebcast.tiktok.com&identity=audience&live_id=12&sup_ws_ds_opt=1&update_version_code=2.0.0&version_code=180800&screen_height=2160&screen_width=4096&last_rtt=155&room_id=7451412086070004510&compress=gzip&internal_ext=fetch_time:1734919516612|start_time:0|ack_ids:,,|flag:0|seq:1|next_cursor:1734919516612_7451422582412154131_1_1_7451422578117191135_0|wss_info:0-1734919516612-0-0&cursor=1734919516612_7451422582412154131_1_1_7451422578117191135_0&history_comment_cursor=7451422339723430661&version_code=270000 HTTP/1.1
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:112 — > Host: webcast16-ws-useast5.us.tiktok.com
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:112 — > Upgrade: websocket
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:112 — > Connection: Upgrade
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:112 — > Sec-WebSocket-Key: 3xgQIwwBG+D4crzW7Um0aA==
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:112 — > Sec-WebSocket-Version: 13
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:112 — > Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:112 — > Sec-WebSocket-Protocol: echo-protocol
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:112 — > Cookie: ttwid=1%7CDoyQbUcimJBTTFQpLDIY2dLsrxI34iE-h9YneEs0teo%7C1734892298%7Cba4235d2efe096ee30d5323b61134ec6d28657ee5e8713b8ac5f22d7c2424f3e;
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:112 — > User-Agent: Python/3.12 websockets/13.1
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:139 — < HTTP/1.1 101 Switching Protocols
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Server: nginx
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Sec-WebSocket-Accept: BvSpOPmG/GzYveLd1BWW18/KKMY=
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Handshake-Status: 0
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Handshake-Msg: OK
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Handshake-Options: ping-interval=15;
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < tt_stable: 1
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Server-Timing: inner; dur=13
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < x-tt-trace-host: 0102b8594426ed3a43dabcada76086a833942ab1131a807cf5448b471461669919d7474b6676a11532460887746243e95d0f9a123c85b54bec1a73dacbf5990bd293a8a2ec07dfec39c42b22ba52bbf855e7a4e5891e0ff4587d168fcb4a795116
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < x-tt-trace-id: 00-24122302051797CC739D6EDA9EA37307-7D2C85403FA7143E-00
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < X-TT-LOGID: 2024122302051797CC739D6EDA9EA37307
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Expires: Mon, 23 Dec 2024 02:05:17 GMT
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Cache-Control: max-age=0, no-cache, no-store
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Pragma: no-cache
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Date: Mon, 23 Dec 2024 02:05:17 GMT
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < X-Cache: TCP_MISS from a23-53-4-4.deploy.akamaitechnologies.com (AkamaiGHost/11.7.2.1-35a4fcef889a1f053c9fa641f2ccd99a) (-)
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < x-tt-trace-tag: id=16;cdn-cache=miss;type=dyn
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Server-Timing: cdn-cache; desc=MISS, edge; dur=38, origin; dur=209
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < X-Origin-Response-Time: 209,23.53.4.4
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < X-Akamai-Request-ID: 28d01066
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Upgrade: websocket
+[TikTokLive] DEBUG from ..l.p.s.w.l.client.py:141 — < Connection: Upgrade
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:351 — = connection is OPEN
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'ConnectEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [261 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'UnknownEvent' [261 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [853 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'LiveIntroEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [192 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'RoomEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [4773 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'CommentEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [2086 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'CommentEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [5768 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'CommentEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [2374 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'CommentEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [2853 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'CommentEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [5980 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'CommentEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [73 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'UnknownEvent' [73 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [5830 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'LinkMicArmiesEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'FollowEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [2973 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'SocialEvent' [0 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 01 10 81 fc f6 aa 8c cd ca cf 52 18 b8 45 20 ... 7c 86 68 0a 4c 00 00 00 [315 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 02 10 82 fc f6 aa 8c cd ca cf 52 18 b8 45 20 ... 32 2a 01 2d 40 0f 48 01 [203 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 03 10 8e fc f6 aa 8c cd ca cf 52 18 b8 45 20 ... ce 81 21 2e 0a 07 00 00 [1037 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... b':\x02hb'
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 3a 02 68 62 [4 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_connect.py:90 — Received payload of type 'im_enter_room_resp', not 'msg': WebcastPushFrame(seq_id=1, log_id=5953523861883305473, service=8888, method=8, headers={'with_sys_msg': '0', 'im_register_log_id': '2024122302051797CC739D6EDA9EA37307', 'compress_type': 'gzip', 'im_cursor': '1734919517047_7451422582412154131_1_0_7451422578117191135_0'}, payload_encoding='pb', payload_type='im_enter_room_resp', payload=WebcastResponse(cursor='1734919517047_7451422582412154131_1_0_7451422578117191135_0', fetch_interval=1000, now=1734919517047, internal_ext='-', heart_beat_duration=15))
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883305474, payload_type='ack', payload=b'-')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 82 fc f6 aa 8c cd ca cf 52 3a 03 61 63 6b 42 01 2d [18 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883305486, payload_type='ack', payload=b'-')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 8e fc f6 aa 8c cd ca cf 52 3a 03 61 63 6b 42 01 2d [18 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [1706 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'LikeEvent' [0 bytes]
+ConnectEvent(unique_id='brandon.houle', room_id='7451412086070004510')
+event LikeEvent(common=Common(method='WebcastLikeMessage', msg_id=7451422576083058977, room_id=7451412086070004510, create_time=1734919516409, is_show_msg=True, display_text=Text(key='pm_mt_msg_viewer', default_pattern='{0:user} liked the LIVE', default_format=TextTextFormat(color='#ffffffff', weight=400), pieces_list=[TextTextPiece(type=11, user_value=TextTextPieceUser(user=User(id=6957934246087230469, nickname='bbybluebrain', display_id='bbybluebrain', sec_uid='MS4wLjABAAAAvZPiWjB42sBqwcmB3HilpmPriSh8qGVaVBFxr1AuTYRoCtROyuTnjWVS4BCOAxes')))]), fold_type=1, anchor_fold_type=1, priority_score=1, anchor_priority_score=1, room_message_heat_level=3, fold_type_for_web=1, anchor_fold_type_for_web=1), count=9, total=21731, user=ExtendedUser(id=6957934246087230469, nickname='bbybluebrain', avatar_thumb=Image(url_list=['https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a~tplv-tiktok-shrink:72:72.webp?lk3s=a5d48078&nonce=85305&refresh_token=782cb223fb47e44f011f000544496198&x-expires=1735092000&x-signature=rKs40Uk59Pb0h81NRGulZ9%2BwWcM%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a~c5_100x100.webp?lk3s=a5d48078&nonce=50529&refresh_token=bb9b8ef6c9665f24f540fb7041975846&x-expires=1735092000&x-signature=sJ2mRtbL0Q2D%2F64hEH2WwrvxHxY%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a~c5_100x100.jpeg?lk3s=a5d48078&nonce=68439&refresh_token=23baaf7390474e2fa951be870784280c&x-expires=1735092000&x-signature=nT%2BGntF8ZLU%2BclScDHesjVLK3Bc%3D&shp=a5d48078&shcp=fdd36af4'], extras='100x100/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a'), follow_info=UserFollowInfo(following_count=3391, follower_count=1150, follow_status=1), pay_grade=UserPayGrade(), user_attr=UserUserAttr(), display_id='bbybluebrain', sec_uid='MS4wLjABAAAAvZPiWjB42sBqwcmB3HilpmPriSh8qGVaVBFxr1AuTYRoCtROyuTnjWVS4BCOAxes'))
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 01 18 b8 45 20 08 2a 1c 0a 0b 73 65 72 76 65 ... 00 00 00 00 00 00 00 00 [168 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_connect.py:90 — Received payload of type 'hb', not 'msg': WebcastPushFrame(seq_id=1, service=8888, method=8, headers={'server_time': '1734919517228', 'compress_type': 'gzip', 'im_cursor': '1734919517228_7451422582412154132_1_0_7451422578117191135_0'}, payload_type='hb', payload=WebcastResponse())
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 04 10 e9 98 f7 aa 8c cd ca cf 52 18 b8 45 20 ... 1c 95 fe 4c e7 24 00 00 [3457 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883309161, payload_type='ack', payload=b'{"server_fetch_time":1734919517658,"push_time":1734919517661,"msg_type":"r","seq_id":345,"is_from_ws_proxy":false}')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 e9 98 f7 aa 8c cd ca cf 52 3a 03 61 63 6b 42 ... 22 3a 66 61 6c 73 65 7d [131 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [3339 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'CommentEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [5854 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'UnknownEvent' [5854 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 05 10 9a e6 ff aa 8c cd ca cf 52 18 b8 45 20 ... 11 ca 39 0b 50 1d 00 00 [3055 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883450138, payload_type='ack', payload=b'{"server_fetch_time":1734919519279,"push_time":1734919519281,"msg_type":"r","seq_id":376,"is_from_ws_proxy":false}')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 9a e6 ff aa 8c cd ca cf 52 3a 03 61 63 6b 42 ... 22 3a 66 61 6c 73 65 7d [131 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [5283 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'RoomUserSeqEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [1969 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'LikeEvent' [0 bytes]
+event LikeEvent(common=Common(method='WebcastLikeMessage', msg_id=7451422591811994666, room_id=7451412086070004510, create_time=1734919518699, is_show_msg=True, display_text=Text(key='pm_mt_msg_viewer', default_pattern='{0:user} liked the LIVE', default_format=TextTextFormat(color='#ffffffff', weight=400), pieces_list=[TextTextPiece(type=11, user_value=TextTextPieceUser(user=User(id=7346647827924173870, nickname='addy 💌', display_id='adskkate', sec_uid='MS4wLjABAAAAKKu2DfwvqghZKQtY9lg1449hOW_tVh39q6wrXVaz5doa3ktyQ6PUF9LFxXXm3cXk')))]), fold_type=1, anchor_fold_type=1, priority_score=1, anchor_priority_score=1, room_message_heat_level=3, fold_type_for_web=1, anchor_fold_type_for_web=1), count=15, total=21781, user=ExtendedUser(id=7346647827924173870, nickname='addy 💌', avatar_thumb=Image(url_list=['https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~tplv-tiktok-shrink:72:72.webp?lk3s=a5d48078&nonce=51310&refresh_token=c1fc14b408e6cce86176a7fc1c7d67f3&x-expires=1735092000&x-signature=kmU7qayWNEUgcPo%2Bqx%2BLqi9dWiY%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~c5_100x100.webp?lk3s=a5d48078&nonce=3326&refresh_token=91dbecddf52fadbe98b4548fecf2d51d&x-expires=1735092000&x-signature=AuQnGUR5NKGH3hKg%2BpCgtt4%2FK48%3D&shp=a5d48078&shcp=fdd36af4', 'https://p19-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~c5_100x100.webp?lk3s=a5d48078&nonce=78836&refresh_token=43dc40cd3c968f57c9c6d712d395fc46&x-expires=1735092000&x-signature=YVXGINFV1g50BTLwOCbQ54P5fqY%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~c5_100x100.jpeg?lk3s=a5d48078&nonce=80413&refresh_token=25bf6b2b1a15d49f389e18210376a01c&x-expires=1735092000&x-signature=q4NYnlYMPTIGloJb31o9GI7kWGg%3D&shp=a5d48078&shcp=fdd36af4'], extras='100x100/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf'), follow_info=UserFollowInfo(following_count=241, follower_count=64, follow_status=1), pay_grade=UserPayGrade(), user_attr=UserUserAttr(), display_id='adskkate', sec_uid='MS4wLjABAAAAKKu2DfwvqghZKQtY9lg1449hOW_tVh39q6wrXVaz5doa3ktyQ6PUF9LFxXXm3cXk'))
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 06 10 bf 8b 80 ab 8c cd ca cf 52 18 b8 45 20 ... 53 a7 26 d2 d6 11 00 00 [1120 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883454911, payload_type='ack', payload=b'{"server_fetch_time":1734919520079,"push_time":1734919520080,"msg_type":"r","seq_id":231,"is_from_ws_proxy":false}')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 bf 8b 80 ab 8c cd ca cf 52 3a 03 61 63 6b 42 ... 22 3a 66 61 6c 73 65 7d [131 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [4355 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'JoinEvent' [0 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 07 10 bc b4 80 ab 8c cd ca cf 52 18 b8 45 20 ... 78 36 3c 15 3c 00 00 00 [212 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883460156, payload_type='ack', payload=b'-')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 bc b4 80 ab 8c cd ca cf 52 3a 03 61 63 6b 42 01 2d [18 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1244 — % sending keepalive ping
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > PING 'ŰD' [text, 4 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... b':\x02hb'
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 3a 02 68 62 [4 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < PONG '' [0 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 01 18 b8 45 20 08 2a 1c 0a 0b 73 65 72 76 65 ... 00 00 00 00 00 00 00 00 [168 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_connect.py:90 — Received payload of type 'hb', not 'msg': WebcastPushFrame(seq_id=1, service=8888, method=8, headers={'server_time': '1734919522232', 'compress_type': 'gzip', 'im_cursor': '1734919522232_7451422599592023323_1_0_7451422578117191135_0'}, payload_type='hb', payload=WebcastResponse())
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 08 10 e0 ff 88 ab 8c cd ca cf 52 18 b8 45 20 ... b6 93 58 ea ad 00 00 00 [301 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883600864, payload_type='ack', payload=b'{"server_fetch_time":1734919522483,"push_time":1734919522491,"msg_type":"r","seq_id":233,"is_from_ws_proxy":false}')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 e0 ff 88 ab 8c cd ca cf 52 3a 03 61 63 6b 42 ... 22 3a 66 61 6c 73 65 7d [131 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 09 10 c6 aa 8d ab 8c cd ca cf 52 18 b8 45 20 ... 3f 55 cb 94 53 0f 00 00 [1662 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883671878, payload_type='ack', payload=b'{"server_fetch_time":1734919523282,"push_time":1734919523284,"msg_type":"r","seq_id":350,"is_from_ws_proxy":false}')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 c6 aa 8d ab 8c cd ca cf 52 3a 03 61 63 6b 42 ... 22 3a 66 61 6c 73 65 7d [131 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [1972 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'LikeEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [1706 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'LikeEvent' [0 bytes]
+event LikeEvent(common=Common(method='WebcastLikeMessage', msg_id=7451422608060367146, room_id=7451412086070004510, create_time=1734919522462, is_show_msg=True, display_text=Text(key='pm_mt_msg_viewer', default_pattern='{0:user} liked the LIVE', default_format=TextTextFormat(color='#ffffffff', weight=400), pieces_list=[TextTextPiece(type=11, user_value=TextTextPieceUser(user=User(id=7346647827924173870, nickname='addy 💌', display_id='adskkate', sec_uid='MS4wLjABAAAAKKu2DfwvqghZKQtY9lg1449hOW_tVh39q6wrXVaz5doa3ktyQ6PUF9LFxXXm3cXk')))]), fold_type=1, anchor_fold_type=1, priority_score=1, anchor_priority_score=1, room_message_heat_level=3, fold_type_for_web=1, anchor_fold_type_for_web=1), count=15, total=21805, user=ExtendedUser(id=7346647827924173870, nickname='addy 💌', avatar_thumb=Image(url_list=['https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~tplv-tiktok-shrink:72:72.webp?lk3s=a5d48078&nonce=49551&refresh_token=2fac5306601956b59a733878ee96e204&x-expires=1735092000&x-signature=kmU7qayWNEUgcPo%2Bqx%2BLqi9dWiY%3D&shp=a5d48078&shcp=fdd36af4', 'https://p19-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~c5_100x100.webp?lk3s=a5d48078&nonce=30817&refresh_token=567026f7a3619e9269486fcd3e21dc57&x-expires=1735092000&x-signature=YVXGINFV1g50BTLwOCbQ54P5fqY%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~c5_100x100.webp?lk3s=a5d48078&nonce=60084&refresh_token=6279eb19ffae6b11eead061e6c291c7e&x-expires=1735092000&x-signature=AuQnGUR5NKGH3hKg%2BpCgtt4%2FK48%3D&shp=a5d48078&shcp=fdd36af4', 'https://p19-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~c5_100x100.jpeg?lk3s=a5d48078&nonce=14697&refresh_token=7918ed27b7086ded423411db663e1057&x-expires=1735092000&x-signature=Ob6D5X5%2F8zAfqDcI2HOJ9yuFlJw%3D&shp=a5d48078&shcp=fdd36af4'], extras='100x100/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf'), follow_info=UserFollowInfo(following_count=241, follower_count=64, follow_status=1), pay_grade=UserPayGrade(), user_attr=UserUserAttr(), display_id='adskkate', sec_uid='MS4wLjABAAAAKKu2DfwvqghZKQtY9lg1449hOW_tVh39q6wrXVaz5doa3ktyQ6PUF9LFxXXm3cXk'))
+event LikeEvent(common=Common(method='WebcastLikeMessage', msg_id=7451422601072624161, room_id=7451412086070004510, create_time=1734919522278, is_show_msg=True, display_text=Text(key='pm_mt_msg_viewer', default_pattern='{0:user} liked the LIVE', default_format=TextTextFormat(color='#ffffffff', weight=400), pieces_list=[TextTextPiece(type=11, user_value=TextTextPieceUser(user=User(id=6957934246087230469, nickname='bbybluebrain', display_id='bbybluebrain', sec_uid='MS4wLjABAAAAvZPiWjB42sBqwcmB3HilpmPriSh8qGVaVBFxr1AuTYRoCtROyuTnjWVS4BCOAxes')))]), fold_type=1, anchor_fold_type=1, priority_score=1, anchor_priority_score=1, room_message_heat_level=3, fold_type_for_web=1, anchor_fold_type_for_web=1), count=15, total=21805, user=ExtendedUser(id=6957934246087230469, nickname='bbybluebrain', avatar_thumb=Image(url_list=['https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a~tplv-tiktok-shrink:72:72.webp?lk3s=a5d48078&nonce=52450&refresh_token=52e35d1d55fa1c4614dff413f3777d21&x-expires=1735092000&x-signature=rKs40Uk59Pb0h81NRGulZ9%2BwWcM%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a~c5_100x100.webp?lk3s=a5d48078&nonce=88247&refresh_token=ba2d0fde34a10a19ae347df0bbd83b87&x-expires=1735092000&x-signature=sJ2mRtbL0Q2D%2F64hEH2WwrvxHxY%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a~c5_100x100.jpeg?lk3s=a5d48078&nonce=52834&refresh_token=7ba460641d6547081179bf1de4a8cfe9&x-expires=1735092000&x-signature=nT%2BGntF8ZLU%2BclScDHesjVLK3Bc%3D&shp=a5d48078&shcp=fdd36af4'], extras='100x100/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a'), follow_info=UserFollowInfo(following_count=3391, follower_count=1150, follow_status=1), pay_grade=UserPayGrade(), user_attr=UserUserAttr(), display_id='bbybluebrain', sec_uid='MS4wLjABAAAAvZPiWjB42sBqwcmB3HilpmPriSh8qGVaVBFxr1AuTYRoCtROyuTnjWVS4BCOAxes'))
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 0a 10 ce cf 91 ab 8c cd ca cf 52 18 b8 45 20 ... 6d 7b 42 55 ee 2e 00 00 [4021 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883742158, payload_type='ack', payload=b'{"server_fetch_time":1734919524083,"push_time":1734919524085,"msg_type":"r","seq_id":351,"is_from_ws_proxy":false}')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 ce cf 91 ab 8c cd ca cf 52 3a 03 61 63 6b 42 ... 22 3a 66 61 6c 73 65 7d [131 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [5929 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'UnknownEvent' [5929 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [5829 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'LinkMicArmiesEvent' [0 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 0b 10 a6 f9 91 ab 8c cd ca cf 52 18 b8 45 20 ... dd 6f 41 a3 41 0a 00 00 [1548 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883747494, payload_type='ack', payload=b'{"server_fetch_time":1734919524882,"push_time":1734919524888,"msg_type":"r","seq_id":352,"is_from_ws_proxy":false}')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 a6 f9 91 ab 8c cd ca cf 52 3a 03 61 63 6b 42 ... 22 3a 66 61 6c 73 65 7d [131 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [2416 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'CommentEvent' [0 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 0c 10 a0 a1 96 ab 8c cd ca cf 52 18 b8 45 20 ... 04 b9 7d 38 8b 29 00 00 [3564 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883818144, payload_type='ack', payload=b'{"server_fetch_time":1734919525682,"push_time":1734919525689,"msg_type":"r","seq_id":353,"is_from_ws_proxy":false}')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 a0 a1 96 ab 8c cd ca cf 52 3a 03 61 63 6b 42 ... 22 3a 66 61 6c 73 65 7d [131 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [5284 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'RoomUserSeqEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [3356 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'JoinEvent' [0 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [1705 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'LikeEvent' [0 bytes]
+event LikeEvent(common=Common(method='WebcastLikeMessage', msg_id=7451422608617373984, room_id=7451412086070004510, create_time=1734919525095, is_show_msg=True, display_text=Text(key='pm_mt_msg_viewer', default_pattern='{0:user} liked the LIVE', default_format=TextTextFormat(color='#ffffffff', weight=400), pieces_list=[TextTextPiece(type=11, user_value=TextTextPieceUser(user=User(id=6957934246087230469, nickname='bbybluebrain', display_id='bbybluebrain', sec_uid='MS4wLjABAAAAvZPiWjB42sBqwcmB3HilpmPriSh8qGVaVBFxr1AuTYRoCtROyuTnjWVS4BCOAxes')))]), fold_type=1, anchor_fold_type=1, priority_score=1, anchor_priority_score=1, room_message_heat_level=3, fold_type_for_web=1, anchor_fold_type_for_web=1), count=15, total=21820, user=ExtendedUser(id=6957934246087230469, nickname='bbybluebrain', avatar_thumb=Image(url_list=['https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a~tplv-tiktok-shrink:72:72.webp?lk3s=a5d48078&nonce=2480&refresh_token=b9cba74b4524b9e8724e170953aac61e&x-expires=1735092000&x-signature=rKs40Uk59Pb0h81NRGulZ9%2BwWcM%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a~c5_100x100.webp?lk3s=a5d48078&nonce=54117&refresh_token=49a3868ad231da35221651f9e1241450&x-expires=1735092000&x-signature=sJ2mRtbL0Q2D%2F64hEH2WwrvxHxY%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-sign-useast2a.tiktokcdn.com/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a~c5_100x100.jpeg?lk3s=a5d48078&nonce=41890&refresh_token=c15cc34b89a9d55c71833b473f72840e&x-expires=1735092000&x-signature=nT%2BGntF8ZLU%2BclScDHesjVLK3Bc%3D&shp=a5d48078&shcp=fdd36af4'], extras='100x100/tos-useast2a-avt-0068-euttp/3c0fcf199e6b938cfd3ac5702a4af36a'), follow_info=UserFollowInfo(following_count=3391, follower_count=1150, follow_status=1), pay_grade=UserPayGrade(), user_attr=UserUserAttr(), display_id='bbybluebrain', sec_uid='MS4wLjABAAAAvZPiWjB42sBqwcmB3HilpmPriSh8qGVaVBFxr1AuTYRoCtROyuTnjWVS4BCOAxes'))
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 0d 10 e3 c7 9a ab 8c cd ca cf 52 18 b8 45 20 ... de 1a 15 7f 82 08 00 00 [1161 bytes]
+[TikTokLive] DEBUG from T.c.w.ws_client.py:81 — Sending data to Webcast Server... WebcastPushFrame(log_id=5953523861883888611, payload_type='ack', payload=b'{"server_fetch_time":1734919526483,"push_time":1734919526489,"msg_type":"r","seq_id":354,"is_from_ws_proxy":false}')
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > BINARY 10 e3 c7 9a ab 8c cd ca cf 52 3a 03 61 63 6b 42 ... 22 3a 66 61 6c 73 65 7d [131 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'WebsocketResponseEvent' [1969 bytes]
+[TikTokLive] DEBUG from T.c.client.py:315 — Received Event 'LikeEvent' [0 bytes]
+event LikeEvent(common=Common(method='WebcastLikeMessage', msg_id=7451422623826887210, room_id=7451412086070004510, create_time=1734919526287, is_show_msg=True, display_text=Text(key='pm_mt_msg_viewer', default_pattern='{0:user} liked the LIVE', default_format=TextTextFormat(color='#ffffffff', weight=400), pieces_list=[TextTextPiece(type=11, user_value=TextTextPieceUser(user=User(id=7346647827924173870, nickname='addy 💌', display_id='adskkate', sec_uid='MS4wLjABAAAAKKu2DfwvqghZKQtY9lg1449hOW_tVh39q6wrXVaz5doa3ktyQ6PUF9LFxXXm3cXk')))]), fold_type=1, anchor_fold_type=1, priority_score=1, anchor_priority_score=1, room_message_heat_level=3, fold_type_for_web=1, anchor_fold_type_for_web=1), count=15, total=21850, user=ExtendedUser(id=7346647827924173870, nickname='addy 💌', avatar_thumb=Image(url_list=['https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~tplv-tiktok-shrink:72:72.webp?lk3s=a5d48078&nonce=35218&refresh_token=cfb7850a59605f5fc07da869abcd737c&x-expires=1735092000&x-signature=kmU7qayWNEUgcPo%2Bqx%2BLqi9dWiY%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~c5_100x100.webp?lk3s=a5d48078&nonce=36842&refresh_token=c4012decb8ebe25e04308a8a14849c1c&x-expires=1735092000&x-signature=AuQnGUR5NKGH3hKg%2BpCgtt4%2FK48%3D&shp=a5d48078&shcp=fdd36af4', 'https://p19-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~c5_100x100.webp?lk3s=a5d48078&nonce=98462&refresh_token=f76b06a0b86af58ad58342c603a330ec&x-expires=1735092000&x-signature=YVXGINFV1g50BTLwOCbQ54P5fqY%3D&shp=a5d48078&shcp=fdd36af4', 'https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf~c5_100x100.jpeg?lk3s=a5d48078&nonce=5656&refresh_token=923f0f83ef6b575a1fc88cc3dac91a7a&x-expires=1735092000&x-signature=q4NYnlYMPTIGloJb31o9GI7kWGg%3D&shp=a5d48078&shcp=fdd36af4'], extras='100x100/tos-useast5-avt-0068-tx/03f078d87840f1cb1c96181ad5537adf'), follow_info=UserFollowInfo(following_count=241, follower_count=64, follow_status=1), pay_grade=UserPayGrade(), user_attr=UserUserAttr(), display_id='adskkate', sec_uid='MS4wLjABAAAAKKu2DfwvqghZKQtY9lg1449hOW_tVh39q6wrXVaz5doa3ktyQ6PUF9LFxXXm3cXk'))
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1215 — = connection is CLOSING
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1168 — > CLOSE 1000 (OK) [2 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1244 — % sending keepalive ping
+disconnected
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1162 — < BINARY 08 0e 10 bd ee 9e ab 8c cd ca cf 52 18 b8 45 20 ... 52 f9 96 9b ad 00 00 00 [300 bytes]
+[TikTokLive] DEBUG from ..l.p.s.w.l.protocol.py:1482 — = connection is CLOSED
+Future exception was never retrieved
+future: <Future finished exception=ConnectionClosedError(None, Close(code=<CloseCode.NORMAL_CLOSURE: 1000>, reason=''), None)>
+Traceback (most recent call last):
+  File "/Users/isaackogan/Documents/PycharmProjects/TikTokLive/.venv/lib/python3.12/site-packages/websockets/legacy/protocol.py", line 1287, in close_connection
+    await self.transfer_data_task
+  File "/Users/isaackogan/Documents/PycharmProjects/TikTokLive/.venv/lib/python3.12/site-packages/websockets/legacy/protocol.py", line 953, in transfer_data
+    message = await self.read_message()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isaackogan/Documents/PycharmProjects/TikTokLive/.venv/lib/python3.12/site-packages/websockets/legacy/protocol.py", line 1023, in read_message
+    frame = await self.read_data_frame(max_size=self.max_size)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isaackogan/Documents/PycharmProjects/TikTokLive/.venv/lib/python3.12/site-packages/websockets/legacy/protocol.py", line 1098, in read_data_frame
+    frame = await self.read_frame(max_size)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/isaackogan/Documents/PycharmProjects/TikTokLive/.venv/lib/python3.12/site-packages/websockets/legacy/protocol.py", line 1155, in read_frame
+    frame = await Frame.read(
+            ^^^^^^^^^^^^^^^^^
+  File "/Users/isaackogan/Documents/PycharmProjects/TikTokLive/.venv/lib/python3.12/site-packages/websockets/legacy/framing.py", line 70, in read
+    data = await reader(2)
+           ^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/streams.py", line 734, in readexactly
+    await self._wait_for_data('readexactly')
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/streams.py", line 527, in _wait_for_data
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+websockets.exceptions.ConnectionClosedError: sent 1000 (OK); no close frame received
+
+Process finished with exit code 0
+
+
+TODO need to handle this wtf?
+why does it disconnect early??/

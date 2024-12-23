@@ -22,15 +22,12 @@ class UnknownEvent(WebsocketResponseEvent):
 
     """
 
-    @property
-    def bytes(self) -> bytes:
-        return base64.b64decode(self.payload)
 
 
 @dataclass()
 class ConnectEvent(BaseEvent):
     """
-    Manually thrown whenever a connection is started
+    Manually thrown when the first payload is received from the Sign Server
 
     """
 
@@ -104,7 +101,7 @@ CustomEvent: Type = Union[
     LiveEndEvent,
     LivePauseEvent,
     LiveUnpauseEvent,
-    DisconnectEvent
+    DisconnectEvent,
 ]
 
 __all__ = [
