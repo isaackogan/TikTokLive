@@ -1,4 +1,5 @@
 import asyncio
+import base64
 import typing
 from asyncio import Task
 from typing import Optional, AsyncIterator, Union, Type
@@ -16,7 +17,8 @@ from TikTokLive.proto import WebcastPushFrame, WebcastResponse
 class WebcastWSClient:
     """Websocket client responsible for connections to TikTok"""
 
-    DEFAULT_PING_INTERVAL: float = 5.0
+    DEFAULT_PING_INTERVAL: float = 1.0
+    PING_MESSAGE: bytes = base64.b64decode(b'MgJwYjoCaGI=')  # Used to be '3A026862' aka ':\x02hb', now is '2\x02pb:\x02hb'.
 
     def __init__(
             self,
@@ -130,6 +132,7 @@ class WebcastWSClient:
             self,
             room_id: int,
             cookies: httpx.Cookies,
+            user_agent: str,
             initial_webcast_response: WebcastResponse,
             process_connect_events: bool = True,
             compress_ws_events: bool = True
@@ -160,6 +163,7 @@ class WebcastWSClient:
 
         :param initial_webcast_response: The Initial WebcastResponse from the sign server - NOT a PushFrame
         :param room_id: The room ID to connect to
+        :param user_agent: The user agent to pass to the WebSocket connection
         :param cookies: The cookies to pass to the WebSocket connection
         :param process_connect_events: Whether to process the initial events sent in the first fetch
         :param compress_ws_events: Whether to ask TikTok to gzip the WebSocket events
@@ -182,7 +186,6 @@ class WebcastWSClient:
         self._connection_generator: WebcastConnect = self._connect_generator_class(
             initial_webcast_response=initial_webcast_response,
             subprotocols=ws_kwargs.pop("subprotocols", ["echo-protocol"]),
-            ping_interval=ws_kwargs.pop("ping_interval", self.DEFAULT_PING_INTERVAL),
             logger=self._logger,
             uri=ws_kwargs.pop('uri', None),  # Always *should* be none as we build this internally
             base_uri_append_str=(ws_kwargs.pop("base_uri_append_str", WebDefaults.ws_client_params_append_str)),
@@ -199,6 +202,7 @@ class WebcastWSClient:
             extra_headers={
                 # Must pass cookies to connect to the WebSocket
                 "Cookie": " ".join(f"{k}={v};" for k, v in cookies.items()),
+                "User-Agent": user_agent,
 
                 # Optional override for the headers
                 **ws_kwargs.pop("extra_headers", {})
@@ -207,7 +211,8 @@ class WebcastWSClient:
             # Pass any extra  kwargs
             **{
                 **ws_kwargs,
-                "ping_timeout": None
+                "ping_timeout": None,
+                "ping_interval": None,
             }
         )
 
@@ -264,11 +269,12 @@ class WebcastWSClient:
         # Ping Loop
         try:
             while self.connected:
+
                 # Send the ping
-                await self.send(message=bytes.fromhex("3A026862"))
+                await self.send(message=self.PING_MESSAGE)
 
                 # Every 10 seconds
-                await asyncio.sleep(self.ws.ping_interval or self.DEFAULT_PING_INTERVAL)
+                await asyncio.sleep(self.DEFAULT_PING_INTERVAL)
 
         except asyncio.CancelledError:
             self._logger.debug("Ping loop cancelled.")

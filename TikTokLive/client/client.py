@@ -220,23 +220,26 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         """
 
-        # Wait gracefully for things to finish
+        # Disconnect the WebSocket
         await self._ws.disconnect()
-        await self._event_loop_task
 
-        # If recording, stop
+        # Wait for the event loop task to finish
+        if self._event_loop_task is not None:
+            await self._event_loop_task
+            self._event_loop_task = None
+
+        # If recording, stop it
         if self._web.fetch_video_data.is_recording:
             self._web.fetch_video_data.stop()
+
+        # Close the client (if discarding)
+        if close_client:
+            await self.close()
 
         # Reset state vars
         self._room_id = None
         self._room_info = None
         self._gift_info = None
-        self._event_loop_task = None
-
-        # Close the client (if discarding)
-        if close_client:
-            await self.close()
 
     async def close(self) -> None:
         """
@@ -307,7 +310,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 process_connect_events=process_connect_events,
                 compress_ws_events=compress_ws_events,
                 cookies=self._web.cookies,
-                room_id=self._room_id
+                room_id=self._room_id,
+                user_agent=self._web.headers['User-Agent']
         ):
 
             # Iterate over the events extracted

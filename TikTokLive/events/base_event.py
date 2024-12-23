@@ -1,4 +1,5 @@
 import base64
+from typing import Optional
 
 
 class BaseEvent:
@@ -30,11 +31,11 @@ class BaseEvent:
         return cls.__name__
 
     @property
-    def bytes(self) -> bytes:
+    def bytes(self) -> Optional[bytes]:
         if hasattr(self, 'payload'):
             return self.payload
 
-        return b''
+        return None
 
     @property
     def as_base64(self) -> str:
@@ -56,4 +57,4 @@ class BaseEvent:
 
         """
 
-        return len(self.bytes)
+        return len(self.bytes) if self.bytes else -1
