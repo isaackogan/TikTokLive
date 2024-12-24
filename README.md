@@ -1,6 +1,6 @@
 TikTokLive API
 ==================
-This is an unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@username`.
+This is an unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`. 
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/isaackogan/)
 [![LinkedIn](https://www.eulerstream.com/api/pips/patrons?v=002)](https://www.eulerstream.com/)
@@ -11,9 +11,6 @@ This is an unofficial API wrapper for TikTok LIVE written in Python. With this A
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
 
 <!-- [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive) -->
-
-This API is designed to **retrieve** information from TikTok. It **cannot** be used to **post/upload** LIVE content or comments, to simulate user interaction, or otherwise generate fake traffic. This API does **not** count towards viewers
-in a stream. It has **no support** for any **user-authenticated routes**.
 
 ## Enterprise Solutions
 
@@ -28,13 +25,19 @@ in a stream. It has **no support** for any **user-authenticated routes**.
 </tr>
 </table>
 
-## ⭐ Star History
+## TikTok LIVE Interactive Bots
 
-<p align="center">
-  <a href="https://star-history.com/#danny-avila/LibreChat&Date">
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=isaackogan/TikTokLive&type=Date&theme=dark" onerror="this.src='https://api.star-history.com/svg?repos=isaackogan/TikTokLive&type=Date'" />
-  </a>
-</p>
+<table>
+<tr>
+    <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/BotsLogo.png"><br/><br/></td>
+    <td>
+        <a href="https://www.github.com/isaackogan/TikTokLive.py">
+          Build interactive chatbots to increase retention & elevate user experience with the open source TikTokLive bot famework and a  <strong>Euler Stream</strong> API key.
+        </a>
+    </td>
+</tr>
+</table>
+
 
 ## Table of Contents
 
@@ -48,6 +51,7 @@ in a stream. It has **no support** for any **user-authenticated routes**.
 - [Community](#community)
 - [Examples](https://github.com/isaackogan/TikTokLive/tree/master/examples)
 - [Licensing](#license)
+- [Star History](#star-history)
 - [Contributors](#contributors)
 
 ## Community
@@ -118,15 +122,15 @@ TikTokLive is available in several alternate programming languages:
 
 ## Methods
 
-A `TikTokLiveClient` object contains the following important methods:
+A `TikTokLiveClient` object contains the following methods worth mentioning:
 
-| Method Name  | Notes   | Description                                                                                                                                                                     |
-|--------------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| run          | N/A     | Connect to the livestream and block the main thread. This is best for small scripts.                                                                                            |
-| add_listener | N/A     | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on(<event>)`) and takes two parameters, an event name and the payload, an AbstractEvent ||
-| connect      | `async` | Connects to the tiktok live chat while blocking the current future. When the connection ends (e.g. livestream is over), the future is released.                                 |
-| start        | `async` | Connects to the live chat without blocking the main thread. This returns an `asyncio.Task` object with the client loop.                                                         |
-| disconnect   | `async` | Disconnects the client from the websocket gracefully, processing remaining events before ending the client loop.                                                                |
+| Method Name  | Notes   | Description                                                                                                                                                                         |
+|--------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| run          | N/A     | Connect to the livestream and block the main thread. This is best for small scripts.                                                                                                |
+| add_listener | N/A     | Adds an *asynchronous* listener function (or, you can decorate a function with `@client.on(Type[Event])`) and takes two parameters, an event name and the payload, an AbstractEvent ||
+| connect      | `async` | Connects to the tiktok live chat while blocking the current future. When the connection ends (e.g. livestream is over), the future is released.                                     |
+| start        | `async` | Connects to the live chat without blocking the main thread. This returns an `asyncio.Task` object with the client loop.                                                             |
+| disconnect   | `async` | Disconnects the client from the websocket gracefully, processing remaining events before ending the client loop.                                                                    |
 
 ## Properties
 
@@ -146,15 +150,18 @@ A `TikTokLiveClient` object contains the following important properties:
 TikTokLive has a series of global defaults used to create the HTTP client which you can customize. For info on how to set these parameters, see
 the [web_defaults.py](https://github.com/isaackogan/TikTokLive/blob/master/examples/web_defaults.py) example.
 
-| Parameter           | Type   | Description                                                                                            |
-|---------------------|--------|--------------------------------------------------------------------------------------------------------|
-| tiktok_app_url      | `str`  | The TikTok app URL (`https://www.tiktok.com`) used to scrape the room.                                 |
-| tiktok_sign_url     | `str`  | The [signature server](https://www.eulerstream.com/) used to generate tokens to connect to TikTokLive. |
-| tiktok_webcast_url  | `str`  | The TikTok livestream URL (`https://webcast.tiktok.com`) where livestreams can be accessed from.       |
-| client_params       | `dict` | The URL parameters added on to TikTok requests from the HTTP client.                                   |
-| client_ws_params    | `dict` | The URL parameters added to the URI when connecting to TikTok's Webcast WebSocket server.              |
-| client_headers      | `dict` | The headers added on to TikTok requests from the HTTP client.                                          |
-| tiktok_sign_api_key | `str`  | A global way of setting the `sign_api_key` parameter.                                                  |
+| Parameter                   | Type   | Description                                                                                                                                                                   |
+|-----------------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tiktok_sign_api_key         | `str`  | A [Euler Stream](https://www.eulerstream.com/) API key used to increase rate limits.                                                                                          |
+| tiktok_app_url              | `str`  | The TikTok app URL (`https://www.tiktok.com`) used to scrape the room.                                                                                                        |
+| tiktok_sign_url             | `str`  | The [signature server](https://www.eulerstream.com/) used to generate tokens to connect to TikTokLive. By default, this is Euler Stream, but you can swap your own with ease. |
+| tiktok_webcast_url          | `str`  | The TikTok livestream URL (`https://webcast.tiktok.com`) where livestreams can be accessed from.                                                                              |
+| web_client_params           | `dict` | The URL parameters added on to TikTok requests from the HTTP client.                                                                                                          |
+| web_client_headers          | `dict` | The headers added on to TikTok requests from the HTTP client.                                                                                                                 |
+| ws_client_params            | `dict` | The URL parameters added to the URI when connecting to TikTok's Webcast WebSocket server.                                                                                     |
+| ws_client_params_append_str | `dict` | Extra string data to append to the TikTokLive WebSocket connection URI.                                                                                                       |
+| ws_client_headers           | `dict` | Extra headers to append to the TikTokLive WebSocket client.                                                                                                                   |
+| ja3_impersonate             | `str`  | The ja3 fingerprint to impersonate. This should match whatever the current version is on the Sign Server, or "privileged" methods will fail.                                  |
 
 ## Events
 
@@ -276,15 +283,22 @@ It is considered inefficient to use the connect method to check if a user is liv
 
 There is a [complete example](https://github.com/isaackogan/TikTokLive/blob/master/examples/check_live.py) of how to do this in the [examples](https://github.com/isaackogan/TikTokLive/tree/master/examples) folder.
 
-## Contributors
+## Star History
 
-* **Isaac Kogan** - *Creator, Primary Maintainer, and Reverse-Engineering* - [isaackogan](https://github.com/isaackogan)
-* **Zerody** - *Initial Reverse-Engineering Protobuf & Support* - [Zerody](https://github.com/zerodytrash/)
-* **Davincible** - *Reverse-Engineering Stream Downloads*  - [davincible](https://github.com/davincible)
-
-See also the full list of [contributors](https://github.com/isaackogan/TikTokLive/contributors) who have participated in
-this project.
+<p align="center">
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=isaackogan/TikTokLive&type=Date&theme=dark" onerror="this.src='https://api.star-history.com/svg?repos=isaackogan/TikTokLive&type=Date'" />
+</p>
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+## Contributors
+
+* **Isaac Kogan** - *Creator, Primary Maintainer, and Reverse-Engineering* - [isaackogan](https://github.com/isaackogan)
+* **Zerody** - *Creator of the NodeJS library, introduced me to scraping TikTok LIVE* - [Zerody](https://github.com/zerodytrash/)
+
+See also the full list of secondary [contributors](https://github.com/isaackogan/TikTokLive/contributors) who have participated in
+this project.
+

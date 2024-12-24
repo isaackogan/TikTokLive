@@ -16,7 +16,7 @@ sed -i '' "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION_TAG\"|" "../setup.
 
 echo "-> Clearing Existent Distribution"
 
-cd ../
+cd ../:
 rm -r "./dist"
 
 echo "-> Building New Distribution"
