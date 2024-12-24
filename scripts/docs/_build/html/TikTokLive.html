@@ -276,6 +276,7 @@
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.html#module-TikTokLive.client.web.web_client">TikTokLive.client.web.web_client module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.html#module-TikTokLive.client.web.web_presets">TikTokLive.client.web.web_presets module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.html#module-TikTokLive.client.web.web_settings">TikTokLive.client.web.web_settings module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.html#module-TikTokLive.client.web.web_signer">TikTokLive.client.web.web_signer module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.html#module-TikTokLive.client.web">Module contents</a></li>
 </ul>
 </li>
@@ -283,6 +284,7 @@
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.ws.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.ws.html#module-TikTokLive.client.ws.ws_client">TikTokLive.client.ws.ws_client module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.ws.html#module-TikTokLive.client.ws.ws_connect">TikTokLive.client.ws.ws_connect module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.ws.html#module-TikTokLive.client.ws.ws_utils">TikTokLive.client.ws.ws_utils module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.ws.html#module-TikTokLive.client.ws">Module contents</a></li>
 </ul>
 </li>
@@ -292,6 +294,7 @@
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.client.html#module-TikTokLive.client.client">TikTokLive.client.client module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.client.TikTokLiveClient"><code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.client.TikTokLiveClient.add_listener"><code class="docutils literal notranslate"><span class="pre">TikTokLiveClient.add_listener()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.client.TikTokLiveClient.close"><code class="docutils literal notranslate"><span class="pre">TikTokLiveClient.close()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.client.TikTokLiveClient.connect"><code class="docutils literal notranslate"><span class="pre">TikTokLiveClient.connect()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.client.TikTokLiveClient.connected"><code class="docutils literal notranslate"><span class="pre">TikTokLiveClient.connected</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.client.TikTokLiveClient.disconnect"><code class="docutils literal notranslate"><span class="pre">TikTokLiveClient.disconnect()</span></code></a></li>
@@ -316,6 +319,19 @@
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.AgeRestrictedError"><code class="docutils literal notranslate"><span class="pre">AgeRestrictedError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.AlreadyConnectedError"><code class="docutils literal notranslate"><span class="pre">AlreadyConnectedError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.InitialCursorMissingError"><code class="docutils literal notranslate"><span class="pre">InitialCursorMissingError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.PremiumEndpointError"><code class="docutils literal notranslate"><span class="pre">PremiumEndpointError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.SignAPIError"><code class="docutils literal notranslate"><span class="pre">SignAPIError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.SignAPIError.ErrorReason"><code class="docutils literal notranslate"><span class="pre">SignAPIError.ErrorReason</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.SignAPIError.format_sign_server_message"><code class="docutils literal notranslate"><span class="pre">SignAPIError.format_sign_server_message()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.SignatureMissingTokensError"><code class="docutils literal notranslate"><span class="pre">SignatureMissingTokensError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.SignatureRateLimitError"><code class="docutils literal notranslate"><span class="pre">SignatureRateLimitError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.SignatureRateLimitError.reset_time"><code class="docutils literal notranslate"><span class="pre">SignatureRateLimitError.reset_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.SignatureRateLimitError.retry_after"><code class="docutils literal notranslate"><span class="pre">SignatureRateLimitError.retry_after</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.UnexpectedSignatureError"><code class="docutils literal notranslate"><span class="pre">UnexpectedSignatureError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.UserNotFoundError"><code class="docutils literal notranslate"><span class="pre">UserNotFoundError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.UserOfflineError"><code class="docutils literal notranslate"><span class="pre">UserOfflineError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.WebcastBlocked200Error"><code class="docutils literal notranslate"><span class="pre">WebcastBlocked200Error</span></code></a></li>
@@ -353,7 +369,10 @@
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.events.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.events.html#module-TikTokLive.events.base_event">TikTokLive.events.base_event module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.base_event.BaseEvent"><code class="docutils literal notranslate"><span class="pre">BaseEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.base_event.BaseEvent.as_base64"><code class="docutils literal notranslate"><span class="pre">BaseEvent.as_base64</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.base_event.BaseEvent.bytes"><code class="docutils literal notranslate"><span class="pre">BaseEvent.bytes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.base_event.BaseEvent.get_type"><code class="docutils literal notranslate"><span class="pre">BaseEvent.get_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.base_event.BaseEvent.size"><code class="docutils literal notranslate"><span class="pre">BaseEvent.size</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.base_event.BaseEvent.type"><code class="docutils literal notranslate"><span class="pre">BaseEvent.type</span></code></a></li>
 </ul>
 </li>
@@ -374,10 +393,7 @@
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.custom_events.ShareEvent.users_joined"><code class="docutils literal notranslate"><span class="pre">ShareEvent.users_joined</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.custom_events.UnknownEvent"><code class="docutils literal notranslate"><span class="pre">UnknownEvent</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.custom_events.UnknownEvent.bytes"><code class="docutils literal notranslate"><span class="pre">UnknownEvent.bytes</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.custom_events.UnknownEvent"><code class="docutils literal notranslate"><span class="pre">UnknownEvent</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.events.html#TikTokLive.events.custom_events.WebsocketResponseEvent"><code class="docutils literal notranslate"><span class="pre">WebsocketResponseEvent</span></code></a></li>
 </ul>
 </li>
@@ -428,6 +444,17 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="TikTokLive.proto.html">TikTokLive.proto package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.proto.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TikTokLive.proto.html#module-TikTokLive.proto.custom_extras">TikTokLive.proto.custom_extras module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.custom_extras.WebcastWSAckPayload"><code class="docutils literal notranslate"><span class="pre">WebcastWSAckPayload</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.custom_extras.WebcastWSAckPayload.is_from_ws_proxy"><code class="docutils literal notranslate"><span class="pre">WebcastWSAckPayload.is_from_ws_proxy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.custom_extras.WebcastWSAckPayload.msg_type"><code class="docutils literal notranslate"><span class="pre">WebcastWSAckPayload.msg_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.custom_extras.WebcastWSAckPayload.push_time"><code class="docutils literal notranslate"><span class="pre">WebcastWSAckPayload.push_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.custom_extras.WebcastWSAckPayload.seq_id"><code class="docutils literal notranslate"><span class="pre">WebcastWSAckPayload.seq_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.custom_extras.WebcastWSAckPayload.server_fetch_time"><code class="docutils literal notranslate"><span class="pre">WebcastWSAckPayload.server_fetch_time</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="TikTokLive.proto.html#module-TikTokLive.proto.custom_proto">TikTokLive.proto.custom_proto module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.custom_proto.ExtendedGiftStruct"><code class="docutils literal notranslate"><span class="pre">ExtendedGiftStruct</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.custom_proto.ExtendedGiftStruct.streakable"><code class="docutils literal notranslate"><span class="pre">ExtendedGiftStruct.streakable</span></code></a></li>

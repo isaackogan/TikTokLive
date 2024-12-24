@@ -273,6 +273,22 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.events.base_event.</span></span><span class="sig-name descname"><span class="pre">BaseEvent</span></span><a class="headerlink" href="#TikTokLive.events.base_event.BaseEvent" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base event emitted from the TikTokLiveClient</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.events.base_event.BaseEvent.as_base64">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">as_base64</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#TikTokLive.events.base_event.BaseEvent.as_base64" title="Link to this definition"></a></dt>
+<dd><p>Base64 encoded bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Base64 encoded bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.events.base_event.BaseEvent.bytes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bytes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.events.base_event.BaseEvent.bytes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.events.base_event.BaseEvent.get_type">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#TikTokLive.events.base_event.BaseEvent.get_type" title="Link to this definition"></a></dt>
@@ -280,6 +296,17 @@
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Class name</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.events.base_event.BaseEvent.size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#TikTokLive.events.base_event.BaseEvent.size" title="Link to this definition"></a></dt>
+<dd><p>Size of the payload in bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Size of the payload</p>
 </dd>
 </dl>
 </dd></dl>
@@ -304,7 +331,7 @@
 <dt class="sig sig-object py" id="TikTokLive.events.custom_events.ConnectEvent">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.events.custom_events.</span></span><span class="sig-name descname"><span class="pre">ConnectEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unique_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">room_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.events.custom_events.ConnectEvent" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.events.base_event.BaseEvent" title="TikTokLive.events.base_event.BaseEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEvent</span></code></a></p>
-<p>Manually thrown whenever a connection is started</p>
+<p>Manually thrown when the first payload is received from the Sign Server</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.events.custom_events.ConnectEvent.room_id">
 <span class="sig-name descname"><span class="pre">room_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#TikTokLive.events.custom_events.ConnectEvent.room_id" title="Link to this definition"></a></dt>
@@ -375,11 +402,6 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.events.custom_events.</span></span><span class="sig-name descname"><span class="pre">UnknownEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">&lt;object</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload:</span> <span class="pre">bytes</span> <span class="pre">=</span> <span class="pre">&lt;object</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_id:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">&lt;object</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_type:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">&lt;object</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">&lt;object</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_history:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;object</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.events.custom_events.UnknownEvent" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.events.custom_events.WebsocketResponseEvent" title="TikTokLive.events.custom_events.WebsocketResponseEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">WebsocketResponseEvent</span></code></a></p>
 <p>Triggered when a Webcast message is received that is NOT tracked by TikTokLive yet.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="TikTokLive.events.custom_events.UnknownEvent.bytes">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bytes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bytes</span></em><a class="headerlink" href="#TikTokLive.events.custom_events.UnknownEvent.bytes" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -682,7 +704,10 @@
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-TikTokLive.events.base_event">TikTokLive.events.base_event module</a><ul>
 <li><a class="reference internal" href="#TikTokLive.events.base_event.BaseEvent"><code class="docutils literal notranslate"><span class="pre">BaseEvent</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.events.base_event.BaseEvent.as_base64"><code class="docutils literal notranslate"><span class="pre">BaseEvent.as_base64</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.events.base_event.BaseEvent.bytes"><code class="docutils literal notranslate"><span class="pre">BaseEvent.bytes</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.events.base_event.BaseEvent.get_type"><code class="docutils literal notranslate"><span class="pre">BaseEvent.get_type()</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.events.base_event.BaseEvent.size"><code class="docutils literal notranslate"><span class="pre">BaseEvent.size</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.events.base_event.BaseEvent.type"><code class="docutils literal notranslate"><span class="pre">BaseEvent.type</span></code></a></li>
 </ul>
 </li>
@@ -703,10 +728,7 @@
 <li><a class="reference internal" href="#TikTokLive.events.custom_events.ShareEvent.users_joined"><code class="docutils literal notranslate"><span class="pre">ShareEvent.users_joined</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#TikTokLive.events.custom_events.UnknownEvent"><code class="docutils literal notranslate"><span class="pre">UnknownEvent</span></code></a><ul>
-<li><a class="reference internal" href="#TikTokLive.events.custom_events.UnknownEvent.bytes"><code class="docutils literal notranslate"><span class="pre">UnknownEvent.bytes</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#TikTokLive.events.custom_events.UnknownEvent"><code class="docutils literal notranslate"><span class="pre">UnknownEvent</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.events.custom_events.WebsocketResponseEvent"><code class="docutils literal notranslate"><span class="pre">WebsocketResponseEvent</span></code></a></li>
 </ul>
 </li>

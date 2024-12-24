@@ -20,6 +20,14 @@ TikTokLive.client.ws.ws\_connect module
    :undoc-members:
    :show-inheritance:
 
+TikTokLive.client.ws.ws\_utils module
+-------------------------------------
+
+.. automodule:: TikTokLive.client.ws.ws_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

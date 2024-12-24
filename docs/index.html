@@ -280,7 +280,7 @@
 </div>
 <section id="tiktoklive-api">
 <h2>TikTokLive API<a class="headerlink" href="#tiktoklive-api" title="Link to this heading"></a></h2>
-<p>This is an unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator’s <code class="docutils literal notranslate"><span class="pre">&#64;username</span></code>.</p>
+<p>This is an unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator’s <code class="docutils literal notranslate"><span class="pre">&#64;unique_id</span></code>.</p>
 <p><a class="reference external" href="https://www.linkedin.com/in/isaackogan/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white&amp;style=flat-square" /></a>
 <a class="reference external" href="https://www.eulerstream.com/"><img alt="LinkedIn" src="https://www.eulerstream.com/api/pips/patrons?v=002" /></a>
 <img alt="Connections" src="https://tiktok.eulerstream.com/analytics/pips/1" />
@@ -289,8 +289,24 @@
 <img alt="Forks" src="https://img.shields.io/github/forks/isaackogan/TikTokLive?style=flat&amp;color=0274b5" />
 <img alt="Issues" src="https://img.shields.io/github/issues/isaackogan/TikTokLive" /></p>
 <!-- [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive) -->
-<p>This API is designed to <strong>retrieve</strong> information from TikTok. It <strong>cannot</strong> be used to <strong>post/upload</strong> LIVE content or comments, to simulate user interaction, or otherwise generate fake traffic. This API does <strong>not</strong> count towards viewers
-in a stream. It has <strong>no support</strong> for any <strong>user-authenticated routes</strong>.</p>
+<!--
+
+COMING SOON:
+
+## TikTok LIVE Interactive Bots
+
+<table>
+<tr>
+    <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/BotsLogo.png"><br/><br/></td>
+    <td>
+        <a href="https://www.github.com/isaackogan/TikTokLive.py">
+          Build interactive chatbots to increase retention & elevate user experience with the open source TikTokLive bot famework and a  <strong>Euler Stream</strong> API key.
+        </a>
+    </td>
+</tr>
+</table>
+
+-->
 <section id="enterprise-solutions">
 <h3>Enterprise Solutions<a class="headerlink" href="#enterprise-solutions" title="Link to this heading"></a></h3>
 <table>
@@ -303,14 +319,6 @@ in a stream. It has <strong>no support</strong> for any <strong>user-authenticat
     </td>
 </tr>
 </table>
-</section>
-<section id="star-history">
-<h3>⭐ Star History<a class="headerlink" href="#star-history" title="Link to this heading"></a></h3>
-<p align="center">
-  <a href="https://star-history.com/#danny-avila/LibreChat&Date">
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=isaackogan/TikTokLive&type=Date&theme=dark" onerror="this.src='https://api.star-history.com/svg?repos=isaackogan/TikTokLive&type=Date'" />
-  </a>
-</p>
 </section>
 <section id="table-of-contents">
 <h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
@@ -328,6 +336,7 @@ in a stream. It has <strong>no support</strong> for any <strong>user-authenticat
 <li><p><a class="reference internal" href="#community"><span class="xref myst">Community</span></a></p></li>
 <li><p><a class="reference external" href="https://github.com/isaackogan/TikTokLive/tree/master/examples">Examples</a></p></li>
 <li><p><a class="reference internal" href="#license"><span class="xref myst">Licensing</span></a></p></li>
+<li><p><a class="reference internal" href="#star-history"><span class="xref myst">Star History</span></a></p></li>
 <li><p><a class="reference internal" href="#contributors"><span class="xref myst">Contributors</span></a></p></li>
 </ul>
 </section>
@@ -431,7 +440,7 @@ provided in the source tree.</p>
 </section>
 <section id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h3>
-<p>A <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object contains the following important methods:</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">TikTokLiveClient</span></code> object contains the following methods worth mentioning:</p>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
 <thead>
@@ -447,7 +456,7 @@ provided in the source tree.</p>
 </tr>
 <tr class="row-odd"><td><p>add_listener</p></td>
 <td><p>N/A</p></td>
-<td><p>Adds an <em>asynchronous</em> listener function (or, you can decorate a function with <code class="docutils literal notranslate"><span class="pre">&#64;client.on(&lt;event&gt;)</span></code>) and takes two parameters, an event name and the payload, an AbstractEvent</p></td>
+<td><p>Adds an <em>asynchronous</em> listener function (or, you can decorate a function with <code class="docutils literal notranslate"><span class="pre">&#64;client.on(Type[Event])</span></code>) and takes two parameters, an event name and the payload, an AbstractEvent</p></td>
 </tr>
 <tr class="row-even"><td><p>connect</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">async</span></code></p></td>
@@ -511,33 +520,45 @@ the <a class="reference external" href="https://github.com/isaackogan/TikTokLive
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>tiktok_app_url</p></td>
+<tr class="row-even"><td><p>tiktok_sign_api_key</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>A <a class="reference external" href="https://www.eulerstream.com/">Euler Stream</a> API key used to increase rate limits.</p></td>
+</tr>
+<tr class="row-odd"><td><p>tiktok_app_url</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
 <td><p>The TikTok app URL (<code class="docutils literal notranslate"><span class="pre">https://www.tiktok.com</span></code>) used to scrape the room.</p></td>
 </tr>
-<tr class="row-odd"><td><p>tiktok_sign_url</p></td>
+<tr class="row-even"><td><p>tiktok_sign_url</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
-<td><p>The <a class="reference external" href="https://www.eulerstream.com/">signature server</a> used to generate tokens to connect to TikTokLive.</p></td>
+<td><p>The <a class="reference external" href="https://www.eulerstream.com/">signature server</a> used to generate tokens to connect to TikTokLive. By default, this is Euler Stream, but you can swap your own with ease.</p></td>
 </tr>
-<tr class="row-even"><td><p>tiktok_webcast_url</p></td>
+<tr class="row-odd"><td><p>tiktok_webcast_url</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
 <td><p>The TikTok livestream URL (<code class="docutils literal notranslate"><span class="pre">https://webcast.tiktok.com</span></code>) where livestreams can be accessed from.</p></td>
 </tr>
-<tr class="row-odd"><td><p>client_params</p></td>
+<tr class="row-even"><td><p>web_client_params</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
 <td><p>The URL parameters added on to TikTok requests from the HTTP client.</p></td>
 </tr>
-<tr class="row-even"><td><p>client_ws_params</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
-<td><p>The URL parameters added to the URI when connecting to TikTok’s Webcast WebSocket server.</p></td>
-</tr>
-<tr class="row-odd"><td><p>client_headers</p></td>
+<tr class="row-odd"><td><p>web_client_headers</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
 <td><p>The headers added on to TikTok requests from the HTTP client.</p></td>
 </tr>
-<tr class="row-even"><td><p>tiktok_sign_api_key</p></td>
+<tr class="row-even"><td><p>ws_client_params</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
+<td><p>The URL parameters added to the URI when connecting to TikTok’s Webcast WebSocket server.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ws_client_params_append_str</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
+<td><p>Extra string data to append to the TikTokLive WebSocket connection URI.</p></td>
+</tr>
+<tr class="row-even"><td><p>ws_client_headers</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
+<td><p>Extra headers to append to the TikTokLive WebSocket client.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ja3_impersonate</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
-<td><p>A global way of setting the <code class="docutils literal notranslate"><span class="pre">sign_api_key</span></code> parameter.</p></td>
+<td><p>The ja3 fingerprint to impersonate. This should match whatever the current version is on the Sign Server, or “privileged” methods will fail.</p></td>
 </tr>
 </tbody>
 </table>
@@ -662,19 +683,24 @@ You can set the session ID with <a class="reference external" href="https://gith
 <p>It is considered inefficient to use the connect method to check if a user is live. It is better to use the dedicated <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">client.is_live()</span></code> method.</p>
 <p>There is a <a class="reference external" href="https://github.com/isaackogan/TikTokLive/blob/master/examples/check_live.py">complete example</a> of how to do this in the <a class="reference external" href="https://github.com/isaackogan/TikTokLive/tree/master/examples">examples</a> folder.</p>
 </section>
-<section id="contributors">
-<h3>Contributors<a class="headerlink" href="#contributors" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>Isaac Kogan</strong> - <em>Creator, Primary Maintainer, and Reverse-Engineering</em> - <a class="reference external" href="https://github.com/isaackogan">isaackogan</a></p></li>
-<li><p><strong>Zerody</strong> - <em>Initial Reverse-Engineering Protobuf &amp; Support</em> - <a class="reference external" href="https://github.com/zerodytrash/">Zerody</a></p></li>
-<li><p><strong>Davincible</strong> - <em>Reverse-Engineering Stream Downloads</em>  - <a class="reference external" href="https://github.com/davincible">davincible</a></p></li>
-</ul>
-<p>See also the full list of <a class="reference external" href="https://github.com/isaackogan/TikTokLive/contributors">contributors</a> who have participated in
-this project.</p>
+<section id="star-history">
+<h3>Star History<a class="headerlink" href="#star-history" title="Link to this heading"></a></h3>
+<p align="center">
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=isaackogan/TikTokLive&type=Date&theme=dark" onerror="this.src='https://api.star-history.com/svg?repos=isaackogan/TikTokLive&type=Date'" />
+</p>
 </section>
 <section id="license">
 <h3>License<a class="headerlink" href="#license" title="Link to this heading"></a></h3>
 <p>This project is licensed under the MIT License - see the <a class="reference internal" href="#LICENSE"><span class="xref myst">LICENSE</span></a> file for details.</p>
+</section>
+<section id="contributors">
+<h3>Contributors<a class="headerlink" href="#contributors" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Isaac Kogan</strong> - <em>Creator, Primary Maintainer, and Reverse-Engineering</em> - <a class="reference external" href="https://github.com/isaackogan">isaackogan</a></p></li>
+<li><p><strong>Zerody</strong> - <em>Creator of the NodeJS library, introduced me to scraping TikTok LIVE</em> - <a class="reference external" href="https://github.com/zerodytrash/">Zerody</a></p></li>
+</ul>
+<p>See also the full list of secondary <a class="reference external" href="https://github.com/isaackogan/TikTokLive/contributors">contributors</a> who have participated in
+this project.</p>
 </section>
 </section>
 </section>
@@ -727,7 +753,6 @@ this project.</p>
 <li><a class="reference internal" href="#">TikTokLive Docs</a><ul>
 <li><a class="reference internal" href="#tiktoklive-api">TikTokLive API</a><ul>
 <li><a class="reference internal" href="#enterprise-solutions">Enterprise Solutions</a></li>
-<li><a class="reference internal" href="#star-history">⭐ Star History</a></li>
 <li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
 <li><a class="reference internal" href="#community">Community</a></li>
 <li><a class="reference internal" href="#getting-started">Getting Started</a></li>
@@ -745,8 +770,9 @@ this project.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#checking-if-a-user-is-live">Checking If A User Is Live</a></li>
-<li><a class="reference internal" href="#contributors">Contributors</a></li>
+<li><a class="reference internal" href="#star-history">Star History</a></li>
 <li><a class="reference internal" href="#license">License</a></li>
+<li><a class="reference internal" href="#contributors">Contributors</a></li>
 </ul>
 </li>
 </ul>

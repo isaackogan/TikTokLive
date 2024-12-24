@@ -4,6 +4,14 @@ TikTokLive.proto package
 Submodules
 ----------
 
+TikTokLive.proto.custom\_extras module
+--------------------------------------
+
+.. automodule:: TikTokLive.proto.custom_extras
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 TikTokLive.proto.custom\_proto module
 -------------------------------------
 
