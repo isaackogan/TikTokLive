@@ -1,6 +1,6 @@
 TikTokLive API
 ==================
-This is an unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`. 
+This is an unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`.
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/isaackogan/)
 [![LinkedIn](https://www.eulerstream.com/api/pips/patrons?v=002)](https://www.eulerstream.com/)
@@ -11,19 +11,6 @@ This is an unofficial API wrapper for TikTok LIVE written in Python. With this A
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
 
 <!-- [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive) -->
-
-## Enterprise Solutions
-
-<table>
-<tr>
-    <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
-    <td>
-        <a href="https://www.eulerstream.com">
-            <strong>Euler Stream</strong> is a paid TikTok LIVE service providing managed TikTok LIVE WebSocket connections, increased access, TikTok LIVE alerts, JWT authentication and more.
-        </a>
-    </td>
-</tr>
-</table>
 
 ## TikTok LIVE Interactive Bots
 
@@ -38,6 +25,18 @@ This is an unofficial API wrapper for TikTok LIVE written in Python. With this A
 </tr>
 </table>
 
+## Enterprise Solutions
+
+<table>
+<tr>
+    <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
+    <td>
+        <a href="https://www.eulerstream.com">
+            <strong>Euler Stream</strong> is a paid TikTok LIVE service providing managed TikTok LIVE WebSocket connections, increased access, TikTok LIVE alerts, JWT authentication and more.
+        </a>
+    </td>
+</tr>
+</table>
 
 ## Table of Contents
 
@@ -292,7 +291,6 @@ There is a [complete example](https://github.com/isaackogan/TikTokLive/blob/mast
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 
 ## Contributors
 
