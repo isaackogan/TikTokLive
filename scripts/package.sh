@@ -10,12 +10,18 @@ echo "-> Updating \"TikTokLive/__version__.py\""
 
 echo "PACKAGE_VERSION: str = \"$VERSION_TAG\"" > ../TikTokLive/__version__.py
 
+echo "-> Updating \"setup.py\""
+
+sed -i '' "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION_TAG\"|" "../setup.py"
+
 echo "-> Clearing Existent Distribution"
 
 cd ../
 rm -r "./dist"
 
 echo "-> Building New Distribution"
+
+echo ls
 
 python -m build
 
