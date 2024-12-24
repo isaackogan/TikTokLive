@@ -12,6 +12,10 @@ This is an unofficial API wrapper for TikTok LIVE written in Python. With this A
 
 <!-- [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive) -->
 
+<!--
+
+COMING SOON:
+
 ## TikTok LIVE Interactive Bots
 
 <table>
@@ -24,6 +28,8 @@ This is an unofficial API wrapper for TikTok LIVE written in Python. With this A
     </td>
 </tr>
 </table>
+
+-->
 
 ## Enterprise Solutions
 
