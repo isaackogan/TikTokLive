@@ -26,7 +26,7 @@ class TikTokHTTPClient:
 
     def __init__(
             self,
-            proxy: Optional[Proxy] = None,
+            web_proxy: Optional[Proxy] = None,
             httpx_kwargs: Optional[dict] = None,
             curl_cffi_kwargs: Optional[dict] = None,
             signer_kwargs: Optional[dict] = None
@@ -34,7 +34,7 @@ class TikTokHTTPClient:
         """
         Create an HTTP client for interacting with the various APIs
 
-        :param proxy: An optional proxy for the HTTP client
+        :param web_proxy: An optional proxy for the HTTP client
         :param httpx_kwargs: Additional httpx kwargs
         :param curl_cffi_kwargs: Additional curl_cffi kwargs
         :param signer_kwargs: Additional signer kwargs
@@ -43,7 +43,7 @@ class TikTokHTTPClient:
 
         # The HTTP client
         self._httpx: AsyncClient = self._create_httpx_client(
-            proxy=proxy,
+            proxy=web_proxy,
             httpx_kwargs=httpx_kwargs or dict()
         )
 
