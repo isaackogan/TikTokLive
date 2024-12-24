@@ -61,8 +61,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         )
 
         self._web: TikTokWebClient = TikTokWebClient(
-            httpx_kwargs=web_kwargs or {},
-            proxy=web_proxy
+            proxy=web_proxy or (web_kwargs or {}).pop("proxy", None),
+            **(web_kwargs or {})
         )
 
         self._logger: Logger = TikTokLiveLogHandler.get_logger(
