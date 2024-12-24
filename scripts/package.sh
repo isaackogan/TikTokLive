@@ -14,6 +14,8 @@ echo "-> Updating \"setup.py\""
 
 sed -i '' "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION_TAG\"|" "../setup.py"
 
+sed -i '' "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION_TAG\"|" "../scripts/docs/manifest.json"
+
 echo "-> Clearing Existent Distribution"
 
 cd ../
