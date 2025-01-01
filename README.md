@@ -223,17 +223,17 @@ If you know what an event does, [make a pull request](https://github.com/isaacko
 - `JoinEvent` - Triggered when a user joins the livestream
 - `LinkMicFanTicketMethodEvent`
 - `LinkMicMethodEvent`
-- `BarrageEvent`
+- `BarrageEvent` - Triggered when a "VIP" viewer (based on their gifting level) joins the live chat room
 - `CaptionEvent`
-- `ImDeleteEvent`
+- `ImDeleteEvent` - Triggered when a viewer's messages are deleted
 - `RoomUserSeqEvent` - Current viewer count information
 - `RankUpdateEvent`
-- `RankTextEvent`
+- `RankTextEvent` - Triggered when gift count makes a viewer one of the top three
 - `HourlyRankEvent`
 - `UnauthorizedMemberEvent`
 - `MessageDetectEvent`
 - `OecLiveShoppingEvent`
-- `RoomPinEvent`
+- `RoomPinEvent` - Triggered when a message is pinned
 - `SystemEvent`
 - `LinkEvent`
 - `LinkLayerEvent`
