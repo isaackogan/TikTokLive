@@ -100,7 +100,11 @@ class TikTokHTTPClient:
         """
 
         # Create the cookie jar
-        self.cookies = httpx_kwargs.pop("cookies", Cookies())
+        self.cookies = Cookies({
+            **WebDefaults.web_client_cookies,
+            **httpx_kwargs.pop("cookies", {})
+        })
+
 
         # Create the headers
         self.headers = {

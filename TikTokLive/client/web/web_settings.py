@@ -98,6 +98,10 @@ DEFAULT_REQUEST_HEADERS: Dict[str, str] = {
     "Sec-Fetch-Ua-Mobile": '?0',
 }
 
+DEFAULT_COOKIES: Dict[str, str] = {
+    "tt-target-idc": "useast2a"
+}
+
 """The unique identifier for ttlive-python"""
 CLIENT_NAME: str = "ttlive-python"
 
@@ -125,6 +129,7 @@ class _WebDefaults:
     # TikTokLiveWebClient defaults
     web_client_params: dict = field(default_factory=lambda: DEFAULT_WEB_CLIENT_PARAMS)
     web_client_headers: dict = field(default_factory=lambda: DEFAULT_REQUEST_HEADERS)
+    web_client_cookies: dict = field(default_factory=lambda: DEFAULT_COOKIES)
 
     # TikTokLiveWSClient defaults
     ws_client_params: dict = field(default_factory=lambda: DEFAULT_WS_CLIENT_PARAMS)
