@@ -225,7 +225,10 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # Wait for the event loop task to finish
         if self._event_loop_task is not None:
-            await self._event_loop_task
+            try:
+                await self._event_loop_task
+            except Exception:
+                self._logger.debug("an exception in event loop is ignored", exc_info=True)
             self._event_loop_task = None
 
         # If recording, stop it
