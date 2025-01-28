@@ -31,12 +31,6 @@ class ScreenPreset(TypedDict):
 
 Locations: List[LocationPreset] = [
     {
-        "lang_country": "en-US",
-        "lang": "en",
-        "country": "US",
-        "tz_name": "America/New_York",
-    },
-    {
         "lang_country": "en-GB",
         "lang": "en",
         "country": "GB",

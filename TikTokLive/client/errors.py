@@ -73,6 +73,7 @@ class SignAPIError(RuntimeError):
         SIGN_NOT_200 = 4
         EMPTY_COOKIES = 5
         PREMIUM_ENDPOINT = 6
+        AUTHENTICATED_WS = 7
 
     def __init__(
             self,
@@ -183,3 +184,13 @@ class PremiumEndpointError(SignAPIError):
         _args.append(self.format_sign_server_message(api_message))
 
         super().__init__(SignAPIError.ErrorReason.PREMIUM_ENDPOINT, *_args)
+
+
+class AuthenticatedWebSocketConnectionError(SignAPIError):
+    """
+    Thrown when sending the session ID to the sign server as this is deemed a risky operation that could lead to an account being banned.
+
+    """
+
+    def __init__(self, *args):
+        super().__init__(SignAPIError.ErrorReason.AUTHENTICATED_WS, *args)

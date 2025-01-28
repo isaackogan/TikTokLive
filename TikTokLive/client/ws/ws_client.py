@@ -128,10 +128,47 @@ class WebcastWSClient:
 
         await self.ws.close()
 
+    def get_ws_cookie_string(self, cookies: httpx.Cookies, authenticate_websocket: bool) -> str:
+        """
+        Get the cookie string for the WebSocket connection.
+
+        :param cookies: Cookies to pass to the WebSocket connection
+        :param authenticate_websocket: Whether the WebSocket is authenticated
+        :return: Cookie string
+
+        """
+
+        cookie_values = []
+        session_id: str | None = cookies.get("sessionid")
+
+        # Exclude all session ID's
+        for key, value in cookies.items():
+            if not authenticate_websocket:
+                if session_id in value:
+                    continue
+            cookie_values.append(f"{key}={value};")
+
+        # Create the cookie string
+        cookie_string: str = " ".join(cookie_values)
+
+        # Create a redacted SID & cookie string
+        redacted_sid = session_id[:8] + "*" * (len(session_id) - 8)
+        redacted_cookie_string: str = cookie_string.replace(session_id, redacted_sid)
+
+        # Log that we're creating a cookie string for a logged in session
+        if session_id is not None and authenticate_websocket:
+            self._logger.warning(f"Created WS Cookie string for a LOGGED IN TikTok LIVE WebSocket session (Session ID: {redacted_sid}). Cookies: {redacted_cookie_string}")
+        else:
+            self._logger.debug(f"Created WS Cookie string for an ANONYMOUS TikTok Live WebSocket session. Cookies: {redacted_cookie_string}")
+
+        # Return the cookie string
+        return cookie_string
+
     async def connect(
             self,
             room_id: int,
             cookies: httpx.Cookies,
+            authenticate_websocket: bool,
             user_agent: str,
             initial_webcast_response: WebcastResponse,
             process_connect_events: bool = True,
@@ -165,6 +202,7 @@ class WebcastWSClient:
         :param room_id: The room ID to connect to
         :param user_agent: The user agent to pass to the WebSocket connection
         :param cookies: The cookies to pass to the WebSocket connection
+        :param authenticate_websocket: Whether to authenticate the WebSocket connection
         :param process_connect_events: Whether to process the initial events sent in the first fetch
         :param compress_ws_events: Whether to ask TikTok to gzip the WebSocket events
         :return: Yields WebcastResponseMessage, the messages within WebcastResponse.messages
@@ -201,7 +239,7 @@ class WebcastWSClient:
             # Extra headers
             extra_headers={
                 # Must pass cookies to connect to the WebSocket
-                "Cookie": " ".join(f"{k}={v};" for k, v in cookies.items()),
+                "Cookie": self.get_ws_cookie_string(cookies=cookies, authenticate_websocket=authenticate_websocket),
                 "User-Agent": user_agent,
 
                 # Optional override for the headers
@@ -269,7 +307,6 @@ class WebcastWSClient:
         # Ping Loop
         try:
             while self.connected:
-
                 # Send the ping
                 await self.send(message=self.PING_MESSAGE)
 

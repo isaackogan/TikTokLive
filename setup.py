@@ -7,7 +7,7 @@ manifest: dict = {
     "name": "TikTokLive",
     "license": "MIT",
     "author": "Isaac Kogan",
-    "version": "6.3.1",
+    "version": "6.4.0",
     "email": "info@isaackogan.com"
 }
 
@@ -47,7 +47,6 @@ if __name__ == '__main__':
             "mashumaro>=3.5",  # JSON Deserialization
             "protobuf3-to-dict>=0.1.5",
             "protobuf>=3.19.4",
-
         ],
         classifiers=[
             "Development Status :: 4 - Beta",

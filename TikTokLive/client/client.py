@@ -103,7 +103,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             fetch_room_info: bool = False,
             fetch_gift_info: bool = False,
             fetch_live_check: bool = True,
-            room_id: Optional[int] = None
+            room_id: Optional[int] = None,
+            preferred_agent_id: Optional[str] = None
     ) -> Task:
         """
         Create a non-blocking connection to TikTok LIVE and return the task
@@ -115,6 +116,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :param room_id: An override to the room ID to connect directly to the livestream and skip scraping the live.
                         Useful when trying to scale, as scraping the HTML can result in TikTok blocks.
         :param compress_ws_events: Whether to compress the WebSocket events using gzip compression (you should probably have this on)
+        :param preferred_agent_id: The preferred agent ID to use when connecting to the WebSocket
         :return: Task containing the heartbeat of the client
 
         """
@@ -152,7 +154,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self._gift_info = await self._web.fetch_gift_list()
 
         # <Required> Fetch the first response
-        initial_webcast_response: WebcastResponse = await self._web.fetch_signed_websocket()
+        initial_webcast_response: WebcastResponse = await self._web.fetch_signed_websocket(preferred_agent_id=preferred_agent_id)
 
         # Start the websocket connection & return it
         self._event_loop_task = self._asyncio_loop.create_task(
@@ -314,7 +316,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 compress_ws_events=compress_ws_events,
                 cookies=self._web.cookies,
                 room_id=self._room_id,
-                user_agent=self._web.headers['User-Agent']
+                user_agent=self._web.headers['User-Agent'],
+                authenticate_websocket=self._web.authenticate_websocket
         ):
 
             # Iterate over the events extracted
