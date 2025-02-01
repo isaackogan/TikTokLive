@@ -135,33 +135,44 @@ class WebcastWSClient:
         :param cookies: Cookies to pass to the WebSocket connection
         :param authenticate_websocket: Whether the WebSocket is authenticated
         :return: Cookie string
-
         """
 
         cookie_values = []
         session_id: str | None = cookies.get("sessionid")
 
-        # Exclude all session ID's
+        # If session_id is None and authentication is required, raise an error or handle appropriately
+        if authenticate_websocket and session_id is None:
+            self._logger.error("Session ID is required for WebSocket authentication, but none was found.")
+            raise ValueError("Session ID is required for WebSocket authentication.")
+
+        # Exclude all session ID's if session_id exists and authentication is not required
         for key, value in cookies.items():
-            if not authenticate_websocket:
-                if session_id in value:
-                    continue
+            if session_id and not authenticate_websocket and session_id in value:
+                continue
             cookie_values.append(f"{key}={value};")
 
-        # Create the cookie string
-        cookie_string: str = " ".join(cookie_values)
+        cookie_string = " ".join(cookie_values)
 
-        # Create a redacted SID & cookie string
-        redacted_sid = session_id[:8] + "*" * (len(session_id) - 8)
-        redacted_cookie_string: str = cookie_string.replace(session_id, redacted_sid)
+        # Handle session_id presence and create redacted cookie string
+        if session_id:
+            redacted_sid = session_id[:8] + "*" * (len(session_id) - 8)
+            redacted_cookie_string = cookie_string.replace(session_id, redacted_sid)
 
-        # Log that we're creating a cookie string for a logged in session
-        if session_id is not None and authenticate_websocket:
-            self._logger.warning(f"Created WS Cookie string for a LOGGED IN TikTok LIVE WebSocket session (Session ID: {redacted_sid}). Cookies: {redacted_cookie_string}")
+            # Log that we're creating a cookie string for a logged-in session
+            if authenticate_websocket:
+                self._logger.warning(
+                    f"Created WS Cookie string for a LOGGED IN TikTok LIVE WebSocket session (Session ID: {redacted_sid}). "
+                    f"Cookies: {redacted_cookie_string}"
+                )
+            else:
+                self._logger.debug(
+                    f"Created WS Cookie string for an ANONYMOUS TikTok Live WebSocket session. Cookies: {redacted_cookie_string}"
+                )
         else:
-            self._logger.debug(f"Created WS Cookie string for an ANONYMOUS TikTok Live WebSocket session. Cookies: {redacted_cookie_string}")
+            self._logger.debug(
+                f"Created WS Cookie string for an ANONYMOUS TikTok Live WebSocket session. Cookies: {cookie_string}"
+            )
 
-        # Return the cookie string
         return cookie_string
 
     async def connect(
