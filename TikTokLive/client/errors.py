@@ -1,22 +1,41 @@
 import enum
 from typing import Optional
 
+from TikTokLive.__version__ import PACKAGE_VERSION
 
-class AlreadyConnectedError(RuntimeError):
+
+class TikTokLiveError(RuntimeError):
+    """
+    Base error class for TikTokLive errors
+
+    """
+
+    def __init__(self, *args):
+        args = list(args)
+        args.insert(0, f"TikTokLive v{PACKAGE_VERSION} -")
+
+        # If it was empty
+        if len(args) == 1:
+            args.append("No Message Provided")
+
+        super().__init__(" ".join(args))
+
+
+class AlreadyConnectedError(TikTokLiveError):
     """
     Thrown when attempting to connect to a user that is already connected to
 
     """
 
 
-class UserOfflineError(RuntimeError):
+class UserOfflineError(TikTokLiveError):
     """
     Thrown when the requested streamer to watch is offline
 
     """
 
 
-class UserNotFoundError(RuntimeError):
+class UserNotFoundError(TikTokLiveError):
     """
     Thrown when the request to check if a user is live fails because a user has no
     livestream account (e.g. <1000 followers)
@@ -28,34 +47,34 @@ class UserNotFoundError(RuntimeError):
         super().__init__(*args)
 
 
-class AgeRestrictedError(RuntimeError):
+class AgeRestrictedError(TikTokLiveError):
     """
     Thrown when a LIVE is age restricted. Pass sessionid to bypass.
     """
 
 
-class InitialCursorMissingError(RuntimeError):
+class InitialCursorMissingError(TikTokLiveError):
     """
     Thrown when the cursor for connecting to TikTok is missing (blocked)
 
     """
 
 
-class WebsocketURLMissingError(RuntimeError):
+class WebsocketURLMissingError(TikTokLiveError):
     """
     Thrown when the websocket URL to connect to TikTok is missing (blocked)
 
     """
 
 
-class WebcastBlocked200Error(RuntimeError):
+class WebcastBlocked200Error(TikTokLiveError):
     """
     Thrown when the webcast is blocked by TikTok with a 200 status code (detected)
 
     """
 
 
-class SignAPIError(RuntimeError):
+class SignAPIError(TikTokLiveError):
     """
     Thrown when a fetch to the Sign API fails for one reason or another
 
@@ -194,3 +213,8 @@ class AuthenticatedWebSocketConnectionError(SignAPIError):
 
     def __init__(self, *args):
         super().__init__(SignAPIError.ErrorReason.AUTHENTICATED_WS, *args)
+
+
+if __name__ == '__main__':
+    """Error testing"""
+    raise AlreadyConnectedError("User is already connected")

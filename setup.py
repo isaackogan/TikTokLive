@@ -7,7 +7,7 @@ manifest: dict = {
     "name": "TikTokLive",
     "license": "MIT",
     "author": "Isaac Kogan",
-    "version": "6.4.0",
+    "version": "6.4.1.post1",
     "email": "info@isaackogan.com"
 }
 

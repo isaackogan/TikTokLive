@@ -10,6 +10,7 @@ from typing import Optional, Union
 
 from ffmpy import FFmpeg, FFRuntimeError
 
+from TikTokLive.client.errors import TikTokLiveError
 from TikTokLive.client.web.web_base import ClientRoute, TikTokHTTPClient
 
 
@@ -46,7 +47,7 @@ class VideoFetchQuality(enum.Enum):
     """Original definition (N/A, vbrate-N/A)"""
 
 
-class DuplicateDownloadError(RuntimeError):
+class DuplicateDownloadError(TikTokLiveError):
     """
     Thrown when attempting to start a duplicate download on a video you are already downloading
 
