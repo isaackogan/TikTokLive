@@ -134,11 +134,11 @@ class FetchVideoDataRoute(ClientRoute):
         self._ffmpeg = FFmpeg(
             inputs={**{record_url: None}, **kwargs.pop('inputs', dict())},
             outputs={
+                **kwargs.pop('outputs', dict()),
                 **{
                     str(output_fp): record_time,
                     output_format or record_format.value: "-f"
                 },
-                **kwargs.pop('outputs', dict())
             },
             global_options=(
                 list(
