@@ -126,7 +126,7 @@ class FetchVideoDataRoute(ClientRoute):
         if self._ffmpeg is not None:
             raise DuplicateDownloadError("You are already downloading this stream!")
 
-        record_time: Optional[str] = f"-t {record_for}" if record_for and record_for > 0 else None
+        record_time: dict = {str(record_for): "-t"} if record_for and record_for > 0 else {}
         record_data: dict = json.loads(room_info['stream_url']['live_core_sdk_data']['pull_data']['stream_data'])
         record_url_data: dict = record_data['data'][quality.value]['main']
         record_url: str = record_url_data.get(record_format.value) or record_url_data['flv']
@@ -134,11 +134,12 @@ class FetchVideoDataRoute(ClientRoute):
         self._ffmpeg = FFmpeg(
             inputs={**{record_url: None}, **kwargs.pop('inputs', dict())},
             outputs={
-                **kwargs.pop('outputs', dict()),
+                **{v: k for k, v in kwargs.pop('outputs', dict()).items()},
                 **{
-                    str(output_fp): record_time,
+                    **record_time,
+                    str(output_fp): None,
                     output_format or record_format.value: "-f"
-                },
+                }
             },
             global_options=(
                 list(
