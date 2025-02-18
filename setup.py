@@ -7,7 +7,7 @@ manifest: dict = {
     "name": "TikTokLive",
     "license": "MIT",
     "author": "Isaac Kogan",
-    "version": "6.4.1.post1",
+    "version": "6.4.2",
     "email": "info@isaackogan.com"
 }
 
@@ -54,8 +54,6 @@ if __name__ == '__main__':
             "Topic :: Software Development :: Build Tools",
             "License :: OSI Approved :: MIT License",
             "Natural Language :: English",
-            "Programming Language :: Python :: 3.8",
-            "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
         ]
