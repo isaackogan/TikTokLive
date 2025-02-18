@@ -93,7 +93,15 @@ class FetchSignedWebSocketRoute(ClientRoute):
                 response=None
             ) from ex
 
-        self._logger.debug(f"Sign API Fetched from agent {response.headers.get('X-Agent-Id')}: {response.status_code}")
+        self._logger.debug(
+            f"Sign API Fetched from the Sign Server! <-> "
+            f"Agent ID: \"{response.headers.get('X-Agent-Id', 'N/A')}\" - "
+            f"Return Status: {response.status_code} - "
+            f"Log ID: {response.headers.get('X-Log-Id')} - "
+            f"Log Code: {response.headers.get('X-Log-Code')} "
+            f"<->"
+        )
+
         data: bytes = await response.aread()
 
         if response.status_code == 429:
