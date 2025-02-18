@@ -1,5 +1,8 @@
 import enum
+from functools import cached_property
 from typing import Optional
+
+import httpx
 
 from TikTokLive.__version__ import PACKAGE_VERSION
 
@@ -97,7 +100,8 @@ class SignAPIError(TikTokLiveError):
     def __init__(
             self,
             reason: ErrorReason,
-            *args: str
+            *args: str,
+            response: Optional[httpx.Response],
     ):
         """
         Initialize a sign API Error class
@@ -107,10 +111,39 @@ class SignAPIError(TikTokLiveError):
 
         """
 
+        self._response = response
         self.reason = reason
         args = list(args)
         args.insert(0, f"[{reason.name}]")
         super().__init__(" ".join(args))
+
+    @property
+    def response(self) -> httpx.Response:
+        """
+        The response object from the Sign API
+
+        """
+
+        return self._response
+
+    @cached_property
+    def log_id(self) -> int | None:
+        """
+        The log ID from the response
+
+        """
+
+        log_id: Optional[str] = self.response.headers.get("X-Log-ID", None)
+        return int(log_id) if log_id else log_id
+
+    @cached_property
+    def agent_id(self) -> str | None:
+        """
+        The agent ID from the response
+
+        """
+
+        return self.response.headers.get("X-Agent-ID", None)
 
     @classmethod
     def format_sign_server_message(cls, message: str) -> str:
@@ -138,12 +171,9 @@ class SignatureRateLimitError(SignAPIError):
 
     """
 
-    def __init__(self, retry_after: int, reset_time: int, api_message: Optional[str], *args):
+    def __init__(self, api_message: Optional[str], *args, response: httpx.Response):
         """
         Constructor for signature rate limit
-
-        :param retry_after: How long to wait until the next attempt
-        :param reset_time: The unix timestamp for when the client can request again
         :param api_message: The message provided by the API
         :param args: Default RuntimeException *args
         :param kwargs: Default RuntimeException **kwargs
@@ -152,57 +182,52 @@ class SignatureRateLimitError(SignAPIError):
 
         # Message provided by the API
         euler_msg: Optional[str] = self.format_sign_server_message(api_message) if api_message else None
-
-        self._retry_after: int = retry_after
-        self._reset_time: int = reset_time
-
         _args = list(args)
 
         if euler_msg:
             _args.append(euler_msg)
 
         _args[0] = str(args[0]) % self.retry_after
+        super().__init__(SignAPIError.ErrorReason.RATE_LIMIT, *_args, response=response)
 
-        super().__init__(SignAPIError.ErrorReason.RATE_LIMIT, *_args)
-
-    @property
+    @cached_property
     def retry_after(self) -> int:
         """
         How long to wait until the next attempt
 
         """
 
-        return self._retry_after
+        return self.response.headers.get("RateLimit-Remaining")
 
-    @property
+    @cached_property
     def reset_time(self) -> int:
         """
         The unix timestamp for when the client can request again
 
         """
 
-        return self._reset_time
+        return self.response.headers.get("RateLimit-Reset")
 
 
 class UnexpectedSignatureError(SignAPIError):
 
-    def __init__(self, *args):
-        super().__init__(SignAPIError.ErrorReason.SIGN_NOT_200, *args)
+    def __init__(self, *args, **kwargs):
+        super().__init__(SignAPIError.ErrorReason.SIGN_NOT_200, *args, **kwargs)
 
 
 class SignatureMissingTokensError(SignAPIError):
 
-    def __init__(self, *args):
-        super().__init__(SignAPIError.ErrorReason.EMPTY_PAYLOAD, *args)
+    def __init__(self, *args, **kwargs):
+        super().__init__(SignAPIError.ErrorReason.EMPTY_PAYLOAD, *args, **kwargs)
 
 
 class PremiumEndpointError(SignAPIError):
 
-    def __init__(self, *args, api_message: str):
+    def __init__(self, *args, api_message: str, **kwargs):
         _args = list(args)
         _args.append(self.format_sign_server_message(api_message))
 
-        super().__init__(SignAPIError.ErrorReason.PREMIUM_ENDPOINT, *_args)
+        super().__init__(SignAPIError.ErrorReason.PREMIUM_ENDPOINT, *_args, **kwargs)
 
 
 class AuthenticatedWebSocketConnectionError(SignAPIError):
@@ -211,8 +236,8 @@ class AuthenticatedWebSocketConnectionError(SignAPIError):
 
     """
 
-    def __init__(self, *args):
-        super().__init__(SignAPIError.ErrorReason.AUTHENTICATED_WS, *args)
+    def __init__(self, *args, **kwargs):
+        super().__init__(SignAPIError.ErrorReason.AUTHENTICATED_WS, *args, **kwargs)
 
 
 if __name__ == '__main__':

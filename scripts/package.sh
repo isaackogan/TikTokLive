@@ -2,7 +2,7 @@
 
 
 # Extract version from setup.py
-VERSION_TAG="6.4.1"
+VERSION_TAG="6.4.2"
 
 echo "-> Starting build for version \"$VERSION_TAG\""
 
@@ -30,4 +30,5 @@ python -m build
 
 echo "-> Finished build..."
 
-read -p "Press any key to continue..." x
+cd ./scripts
+python ./publish.py

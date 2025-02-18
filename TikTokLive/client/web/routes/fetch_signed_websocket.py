@@ -1,5 +1,7 @@
+import json
 import os
 from http.cookies import SimpleCookie
+from json import JSONDecodeError
 from typing import Optional
 
 import httpx
@@ -87,7 +89,8 @@ class FetchSignedWebSocketRoute(ClientRoute):
         except httpx.ConnectError as ex:
             raise SignAPIError(
                 SignAPIError.ErrorReason.CONNECT_ERROR,
-                "Failed to connect to the sign server due to an httpx.ConnectError!"
+                "Failed to connect to the sign server due to an httpx.ConnectError!",
+                response=None
             ) from ex
 
         self._logger.debug(f"Sign API Fetched from agent {response.headers.get('X-Agent-Id')}: {response.status_code}")
@@ -99,25 +102,31 @@ class FetchSignedWebSocketRoute(ClientRoute):
             limit_label: str = f"({data_json['limit_label']}) " if data_json.get("limit_label") else ""
 
             raise SignatureRateLimitError(
-                response.headers.get("RateLimit-Reset"),
-                response.headers.get("X-RateLimit-Reset"),
                 server_message,
                 (
                     f"{limit_label}Too many connections started, try again in %s seconds."
-                )
-
+                ),
+                response=response
             )
 
         elif not data:
             raise SignAPIError(
                 SignAPIError.ErrorReason.EMPTY_PAYLOAD,
-                f"Sign API returned an empty request. Are you being detected by TikTok?"
+                f"Sign API returned an empty request. Are you being detected by TikTok?",
+                response=response
             )
 
         elif not response.status_code == 200:
+
+            try:
+                payload: str = json.dumps(response.json(), indent=2)
+            except JSONDecodeError:
+                payload: str = f'"{response.text}"'
+
             raise SignAPIError(
                 SignAPIError.ErrorReason.SIGN_NOT_200,
-                f"Failed request to Sign API with status code {response.status_code} and payload \"{response.read()}\"."
+                f"Failed request to Sign API with status code {response.status_code} and the following payload:\n{payload}",
+                response=response
             )
 
         # Update web params & cookies
@@ -149,7 +158,8 @@ class FetchSignedWebSocketRoute(ClientRoute):
         if not cookies_header:
             raise SignAPIError(
                 SignAPIError.ErrorReason.EMPTY_COOKIES,
-                "Sign server did not return cookies!"
+                "Sign server did not return cookies!",
+                response=response
             )
 
         jar.load(cookies_header)
