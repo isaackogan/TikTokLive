@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="TikTokLive.client.web package" href="TikTokLive.client.web.html" /><link rel="prev" title="TikTokLive package" href="TikTokLive.html" />
 
     <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>TikTokLive.client package - TikTokLive v6.3.1</title>
+        <title>TikTokLive.client package - TikTokLive v6.4.3</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css?v=e72958e9" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">TikTokLive v6.3.1</div></a>
+      <a href="index.html"><div class="brand">TikTokLive v6.4.3</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -199,7 +199,7 @@
     <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">TikTokLive v6.3.1</span>
+  <span class="sidebar-brand-text">TikTokLive v6.4.3</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -673,42 +673,42 @@ Useful when trying to scale, as scraping the HTML can result in TikTok blocks.</
 <span id="tiktoklive-client-errors-module"></span><h2>TikTokLive.client.errors module<a class="headerlink" href="#module-TikTokLive.client.errors" title="Link to this heading"></a></h2>
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.AgeRestrictedError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">AgeRestrictedError</span></span><a class="headerlink" href="#TikTokLive.client.errors.AgeRestrictedError" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">AgeRestrictedError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.AgeRestrictedError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.TikTokLiveError" title="TikTokLive.client.errors.TikTokLiveError"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></p>
 <p>Thrown when a LIVE is age restricted. Pass sessionid to bypass.</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.AlreadyConnectedError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">AlreadyConnectedError</span></span><a class="headerlink" href="#TikTokLive.client.errors.AlreadyConnectedError" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">AlreadyConnectedError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.AlreadyConnectedError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.TikTokLiveError" title="TikTokLive.client.errors.TikTokLiveError"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></p>
 <p>Thrown when attempting to connect to a user that is already connected to</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.AuthenticatedWebSocketConnectionError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">AuthenticatedWebSocketConnectionError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.AuthenticatedWebSocketConnectionError" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">AuthenticatedWebSocketConnectionError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.AuthenticatedWebSocketConnectionError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.SignAPIError" title="TikTokLive.client.errors.SignAPIError"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignAPIError</span></code></a></p>
 <p>Thrown when sending the session ID to the sign server as this is deemed a risky operation that could lead to an account being banned.</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.InitialCursorMissingError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">InitialCursorMissingError</span></span><a class="headerlink" href="#TikTokLive.client.errors.InitialCursorMissingError" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">InitialCursorMissingError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.InitialCursorMissingError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.TikTokLiveError" title="TikTokLive.client.errors.TikTokLiveError"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></p>
 <p>Thrown when the cursor for connecting to TikTok is missing (blocked)</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.PremiumEndpointError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">PremiumEndpointError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.PremiumEndpointError" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">PremiumEndpointError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.PremiumEndpointError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.SignAPIError" title="TikTokLive.client.errors.SignAPIError"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignAPIError</span></code></a></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.SignAPIError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">SignAPIError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#TikTokLive.client.errors.SignAPIError.ErrorReason" title="TikTokLive.client.errors.SignAPIError.ErrorReason"><span class="pre">ErrorReason</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.SignAPIError" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">SignAPIError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#TikTokLive.client.errors.SignAPIError.ErrorReason" title="TikTokLive.client.errors.SignAPIError.ErrorReason"><span class="pre">ErrorReason</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Response</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.SignAPIError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.TikTokLiveError" title="TikTokLive.client.errors.TikTokLiveError"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></p>
 <p>Thrown when a fetch to the Sign API fails for one reason or another</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.SignAPIError.ErrorReason">
@@ -752,23 +752,41 @@ Useful when trying to scale, as scraping the HTML can result in TikTok blocks.</
 
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.client.errors.SignAPIError.agent_id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agent_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.client.errors.SignAPIError.agent_id" title="Link to this definition"></a></dt>
+<dd><p>The agent ID from the response</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.SignAPIError.format_sign_server_message">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">format_sign_server_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#TikTokLive.client.errors.SignAPIError.format_sign_server_message" title="Link to this definition"></a></dt>
 <dd><p>Format the sign server message</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.client.errors.SignAPIError.log_id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.client.errors.SignAPIError.log_id" title="Link to this definition"></a></dt>
+<dd><p>The log ID from the response</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.client.errors.SignAPIError.response">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">response</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Response</span></em><a class="headerlink" href="#TikTokLive.client.errors.SignAPIError.response" title="Link to this definition"></a></dt>
+<dd><p>The response object from the Sign API</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.SignatureMissingTokensError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">SignatureMissingTokensError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.SignatureMissingTokensError" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">SignatureMissingTokensError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.SignatureMissingTokensError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.SignAPIError" title="TikTokLive.client.errors.SignAPIError"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignAPIError</span></code></a></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.SignatureRateLimitError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">SignatureRateLimitError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retry_after</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.SignatureRateLimitError" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">SignatureRateLimitError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Response</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.SignatureRateLimitError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.SignAPIError" title="TikTokLive.client.errors.SignAPIError"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignAPIError</span></code></a></p>
 <p>Thrown when a user hits the Sign API limit</p>
 <dl class="py property">
@@ -786,37 +804,44 @@ Useful when trying to scale, as scraping the HTML can result in TikTok blocks.</
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.errors.TikTokLiveError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">TikTokLiveError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.TikTokLiveError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Base error class for TikTokLive errors</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.UnexpectedSignatureError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">UnexpectedSignatureError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.UnexpectedSignatureError" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">UnexpectedSignatureError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.UnexpectedSignatureError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.SignAPIError" title="TikTokLive.client.errors.SignAPIError"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignAPIError</span></code></a></p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.UserNotFoundError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">UserNotFoundError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unique_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.UserNotFoundError" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.TikTokLiveError" title="TikTokLive.client.errors.TikTokLiveError"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></p>
 <p>Thrown when the request to check if a user is live fails because a user has no
 livestream account (e.g. &lt;1000 followers)</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.UserOfflineError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">UserOfflineError</span></span><a class="headerlink" href="#TikTokLive.client.errors.UserOfflineError" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">UserOfflineError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.UserOfflineError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.TikTokLiveError" title="TikTokLive.client.errors.TikTokLiveError"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></p>
 <p>Thrown when the requested streamer to watch is offline</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.WebcastBlocked200Error">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">WebcastBlocked200Error</span></span><a class="headerlink" href="#TikTokLive.client.errors.WebcastBlocked200Error" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">WebcastBlocked200Error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.WebcastBlocked200Error" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.TikTokLiveError" title="TikTokLive.client.errors.TikTokLiveError"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></p>
 <p>Thrown when the webcast is blocked by TikTok with a 200 status code (detected)</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="TikTokLive.client.errors.WebsocketURLMissingError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">WebsocketURLMissingError</span></span><a class="headerlink" href="#TikTokLive.client.errors.WebsocketURLMissingError" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.errors.</span></span><span class="sig-name descname"><span class="pre">WebsocketURLMissingError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.errors.WebsocketURLMissingError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#TikTokLive.client.errors.TikTokLiveError" title="TikTokLive.client.errors.TikTokLiveError"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></p>
 <p>Thrown when the websocket URL to connect to TikTok is missing (blocked)</p>
 </dd></dl>
 
@@ -1053,7 +1078,10 @@ livestream account (e.g. &lt;1000 followers)</p>
 <li><a class="reference internal" href="#TikTokLive.client.errors.SignAPIError.ErrorReason.SIGN_NOT_200"><code class="docutils literal notranslate"><span class="pre">SignAPIError.ErrorReason.SIGN_NOT_200</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#TikTokLive.client.errors.SignAPIError.agent_id"><code class="docutils literal notranslate"><span class="pre">SignAPIError.agent_id</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.errors.SignAPIError.format_sign_server_message"><code class="docutils literal notranslate"><span class="pre">SignAPIError.format_sign_server_message()</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.errors.SignAPIError.log_id"><code class="docutils literal notranslate"><span class="pre">SignAPIError.log_id</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.errors.SignAPIError.response"><code class="docutils literal notranslate"><span class="pre">SignAPIError.response</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#TikTokLive.client.errors.SignatureMissingTokensError"><code class="docutils literal notranslate"><span class="pre">SignatureMissingTokensError</span></code></a></li>
@@ -1062,6 +1090,7 @@ livestream account (e.g. &lt;1000 followers)</p>
 <li><a class="reference internal" href="#TikTokLive.client.errors.SignatureRateLimitError.retry_after"><code class="docutils literal notranslate"><span class="pre">SignatureRateLimitError.retry_after</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#TikTokLive.client.errors.TikTokLiveError"><code class="docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.errors.UnexpectedSignatureError"><code class="docutils literal notranslate"><span class="pre">UnexpectedSignatureError</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.errors.UserNotFoundError"><code class="docutils literal notranslate"><span class="pre">UserNotFoundError</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.errors.UserOfflineError"><code class="docutils literal notranslate"><span class="pre">UserOfflineError</span></code></a></li>
