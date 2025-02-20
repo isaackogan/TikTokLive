@@ -15,7 +15,7 @@ class TikTokLiveError(RuntimeError):
 
     def __init__(self, *args):
         args = list(args)
-        args.insert(0, f"TikTokLive v{PACKAGE_VERSION} -")
+        args.insert(0, f"TikTokLive v{PACKAGE_VERSION} ->")
 
         # If it was empty
         if len(args) == 1:

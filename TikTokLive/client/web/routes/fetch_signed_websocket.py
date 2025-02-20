@@ -35,18 +35,15 @@ class FetchSignedWebSocketRoute(ClientRoute):
 
         """
 
-        extra_headers: dict = {
-        }
+        signer_client: httpx.AsyncClient = self._web.signer.client
 
-        extra_params: dict = {
+        sign_params: dict = {
             'client': CLIENT_NAME,
+            'room_id': room_id or self._web.params.get('room_id', None),
         }
-
-        if room_id is not None:
-            extra_params['room_id'] = room_id
 
         if preferred_agent_id is not None:
-            extra_params['preferred_agent_id'] = preferred_agent_id
+            sign_params['preferred_agent_id'] = preferred_agent_id
 
         # The session ID we want to add to the request
         session_id: str = session_id or self._web.cookies.get('sessionid')
@@ -73,18 +70,13 @@ class FetchSignedWebSocketRoute(ClientRoute):
                     f"Please set the correct host in 'WHITELIST_AUTHENTICATED_SESSION_ID_HOST' to authorize the Sign Server."
                 )
 
-            extra_params['session_id'] = session_id
+            sign_params['session_id'] = session_id
             self._logger.warning("Sending session ID to sign server for WebSocket connection. This is a risky operation.")
 
-        # Add the API key if it exists
-        if self._web.signer.sign_api_key is not None:
-            extra_headers['X-Api-Key'] = self._web.signer.sign_api_key
-
         try:
-            response: httpx.Response = await self._web.get(
+            response: httpx.Response = await signer_client.get(
                 url=WebDefaults.tiktok_sign_url + "/webcast/fetch/",
-                extra_headers=extra_headers,
-                extra_params=extra_params
+                params=sign_params,
             )
         except httpx.ConnectError as ex:
             raise SignAPIError(
@@ -94,9 +86,9 @@ class FetchSignedWebSocketRoute(ClientRoute):
             ) from ex
 
         self._logger.debug(
-            f"Sign API Fetched from the Sign Server! <-> "
+            f"Attempted to fetch WebSocket information fetch from the Sign Server API! <-> "
+            f"Status: {response.status_code} - "
             f"Agent ID: \"{response.headers.get('X-Agent-Id', 'N/A')}\" - "
-            f"Return Status: {response.status_code} - "
             f"Log ID: {response.headers.get('X-Log-Id')} - "
             f"Log Code: {response.headers.get('X-Log-Code')} "
             f"<->"
