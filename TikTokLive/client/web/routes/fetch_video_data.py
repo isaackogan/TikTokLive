@@ -73,6 +73,7 @@ class FetchVideoDataRoute(ClientRoute):
         # Storage for the thread / ffmpeg
         self._ffmpeg: Optional[FFmpeg] = None
         self._thread: Optional[Thread] = None
+        self._output_fp: Optional[str] = None
 
     @property
     def ffmpeg(self) -> Optional[FFmpeg]:
@@ -95,6 +96,17 @@ class FetchVideoDataRoute(ClientRoute):
         """
 
         return bool(self._ffmpeg) and self._thread and self._ffmpeg.process
+
+    @property
+    def output_filename(self) -> Optional[str]:
+        """
+        Get the output filename
+
+        :return: output filename or None
+
+        """
+
+        return self._output_fp
 
     def __call__(
             self,
@@ -119,6 +131,7 @@ class FetchVideoDataRoute(ClientRoute):
         :return: None
 
         """
+        self._output_fp = str(output_fp)
 
         unique_id: str = room_info['owner']['display_id']
         self._logger.info(f"Attempting to start download on stream for '{unique_id}'.")
