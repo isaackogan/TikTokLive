@@ -11,7 +11,8 @@ from websockets.legacy.client import WebSocketClientProtocol
 from TikTokLive.client.logger import TikTokLiveLogHandler
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_connect import WebcastProxyConnect, WebcastConnect, WebcastProxy, WebcastIterator
-from TikTokLive.proto import WebcastPushFrame, WebcastResponse
+from TikTokLive.proto import ProtoMessageFetchResult
+from TikTokLive.proto.custom_extras import WebcastPushFrame
 
 
 class WebcastWSClient:
@@ -89,14 +90,14 @@ class WebcastWSClient:
 
     async def send_ack(
             self,
-            webcast_response: WebcastResponse,
+            webcast_response: ProtoMessageFetchResult,
             webcast_push_frame: WebcastPushFrame
     ) -> None:
         """
-        Acknowledge the receipt of a WebcastResponse message from TikTok, if necessary
+        Acknowledge the receipt of a ProtoMessageFetchResult message from TikTok, if necessary
 
-        :param webcast_response: The WebcastResponse to acknowledge
-        :param webcast_push_frame: The WebcastPushFrame containing the WebcastResponse
+        :param webcast_response: The ProtoMessageFetchResult to acknowledge
+        :param webcast_push_frame: The WebcastPushFrame containing the ProtoMessageFetchResult
         :return: None
 
         """
@@ -111,7 +112,7 @@ class WebcastWSClient:
                 payload_type="ack",
                 # ID of the WebcastPushMessage for the acknowledgement
                 log_id=webcast_push_frame.log_id,
-                # [Unknown] Hypothesized to be an acknowledgement of the WebcastResponse (& its messages) within the WebcastPushMessage
+                # [Unknown] Hypothesized to be an acknowledgement of the ProtoMessageFetchResult (& its messages) within the WebcastPushMessage
                 payload=(webcast_response.internal_ext or "-").encode()
             )
         )
@@ -181,10 +182,10 @@ class WebcastWSClient:
             cookies: httpx.Cookies,
             authenticate_websocket: bool,
             user_agent: str,
-            initial_webcast_response: WebcastResponse,
+            initial_webcast_response: ProtoMessageFetchResult,
             process_connect_events: bool = True,
             compress_ws_events: bool = True
-    ) -> AsyncIterator[WebcastResponse]:
+    ) -> AsyncIterator[ProtoMessageFetchResult]:
         """
         Connect to the Webcast server & iterate over response messages.
 
@@ -209,14 +210,14 @@ class WebcastWSClient:
 
         --- Parameters --
 
-        :param initial_webcast_response: The Initial WebcastResponse from the sign server - NOT a PushFrame
+        :param initial_webcast_response: The Initial ProtoMessageFetchResult from the sign server - NOT a PushFrame
         :param room_id: The room ID to connect to
         :param user_agent: The user agent to pass to the WebSocket connection
         :param cookies: The cookies to pass to the WebSocket connection
         :param authenticate_websocket: Whether to authenticate the WebSocket connection
         :param process_connect_events: Whether to process the initial events sent in the first fetch
         :param compress_ws_events: Whether to ask TikTok to gzip the WebSocket events
-        :return: Yields WebcastResponseMessage, the messages within WebcastResponse.messages
+        :return: Yields ProtoMessageFetchResultMessage, the messages within ProtoMessageFetchResult.messages
 
         """
 
@@ -265,7 +266,7 @@ class WebcastWSClient:
             }
         )
 
-        # Open a connection & yield WebcastResponse items
+        # Open a connection & yield ProtoMessageFetchResult items
         async for webcast_push_frame, webcast_response in typing.cast(WebcastIterator, self._connection_generator):
 
             # The first message does NOT need an ack since we perform the ack with the actual WebSocket connect URI

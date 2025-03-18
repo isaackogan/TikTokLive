@@ -11,7 +11,8 @@ from TikTokLive.client.errors import SignAPIError, SignatureRateLimitError, Auth
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults, CLIENT_NAME
 from TikTokLive.client.ws.ws_utils import extract_webcast_response_message
-from TikTokLive.proto import WebcastResponse, WebcastPushFrame
+from TikTokLive.proto import ProtoMessageFetchResult
+from TikTokLive.proto.custom_extras import WebcastPushFrame
 
 
 class FetchSignedWebSocketRoute(ClientRoute):
@@ -25,13 +26,13 @@ class FetchSignedWebSocketRoute(ClientRoute):
             room_id: Optional[int] = None,
             preferred_agent_id: Optional[int] = None,
             session_id: Optional[str] = None
-    ) -> WebcastResponse:
+    ) -> ProtoMessageFetchResult:
         """
-        Call the method to get the first WebcastResponse (as bytes) to use to upgrade to WebSocket & perform the first ack
+        Call the method to get the first ProtoMessageFetchResult (as bytes) to use to upgrade to WebSocket & perform the first ack
 
         :param room_id: Override the room ID to fetch the webcast for
         :param preferred_agent_id: The preferred agent ID to use for the request
-        :return: The WebcastResponse forwarded from the sign server proxy, as raw bytes
+        :return: The ProtoMessageFetchResult forwarded from the sign server proxy, as raw bytes
 
         """
 

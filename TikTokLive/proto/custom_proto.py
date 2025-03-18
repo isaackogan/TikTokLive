@@ -200,7 +200,7 @@ class ExtendedUser(User):
 
 
 @proto_extension
-class ExtendedGiftStruct(GiftStruct):
+class ExtendedGiftStruct(Gift):
     """
     Extended gift object with clearer streak handling
 
@@ -216,3 +216,11 @@ class ExtendedGiftStruct(GiftStruct):
         """
 
         return self.type == 1
+
+
+class ControlAction(betterproto.Enum):
+    CONTROL_ACTION_FALLBACK_UNKNOWN = 0
+    CONTROL_ACTION_STREAM_PAUSED = 1
+    CONTROL_ACTION_STREAM_UNPAUSED = 2
+    CONTROL_ACTION_STREAM_ENDED = 3
+    CONTROL_ACTION_STREAM_SUSPENDED = 4

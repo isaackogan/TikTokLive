@@ -20,7 +20,8 @@ from TikTokLive.events import Event, EventHandler
 from TikTokLive.events.custom_events import WebsocketResponseEvent, FollowEvent, ShareEvent, LiveEndEvent, \
     DisconnectEvent, LivePauseEvent, LiveUnpauseEvent, UnknownEvent, CustomEvent, ConnectEvent
 from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, ControlEvent
-from TikTokLive.proto import WebcastResponse, WebcastResponseMessage, ControlAction
+from TikTokLive.proto import ProtoMessageFetchResult, ProtoMessageFetchResultBaseProtoMessage
+from TikTokLive.proto.custom_proto import ControlAction
 
 
 class TikTokLiveClient(AsyncIOEventEmitter):
@@ -154,7 +155,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self._gift_info = await self._web.fetch_gift_list()
 
         # <Required> Fetch the first response
-        initial_webcast_response: WebcastResponse = await self._web.fetch_signed_websocket(preferred_agent_id=preferred_agent_id)
+        initial_webcast_response: ProtoMessageFetchResult = await self._web.fetch_signed_websocket(preferred_agent_id=preferred_agent_id)
 
         # Start the websocket connection & return it
         self._event_loop_task = self._asyncio_loop.create_task(
@@ -295,14 +296,14 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
     async def _ws_client_loop(
             self,
-            initial_webcast_response: WebcastResponse,
+            initial_webcast_response: ProtoMessageFetchResult,
             process_connect_events: bool,
             compress_ws_events: bool
     ) -> None:
         """
         Run the websocket loop to handle incoming WS events
 
-        :param initial_webcast_response: The WebcastResponse (as bytes) retrieved from the sign server with connection info
+        :param initial_webcast_response: The ProtoMessageFetchResult (as bytes) retrieved from the sign server with connection info
         :param process_connect_events: Whether to process initial events sent on room join
         :param compress_ws_events: Whether to compress the WebSocket events using gzip compression
         :return: None
@@ -329,11 +330,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         ev: DisconnectEvent = DisconnectEvent()
         self.emit(ev.type, ev)
 
-    async def _parse_webcast_response(self, webcast_response: WebcastResponse) -> AsyncIterator[Event]:
+    async def _parse_webcast_response(self, webcast_response: ProtoMessageFetchResult) -> AsyncIterator[Event]:
         """
         Parse incoming webcast responses into events that can be emitted
 
-        :param webcast_response: The WebcastResponse protobuf message
+        :param webcast_response: The ProtoMessageFetchResult protobuf message
         :return: A list of events that can be gleamed from this event
 
         """
@@ -348,18 +349,18 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 if event is not None:
                     yield event
 
-    async def _parse_webcast_response_message(self, webcast_response_message: Optional[WebcastResponseMessage]) -> List[Event]:
+    async def _parse_webcast_response_message(self, webcast_response_message: Optional[ProtoMessageFetchResultBaseProtoMessage]) -> List[Event]:
         """
         Parse incoming webcast responses into events that can be emitted
 
-        :param webcast_response_message: The WebcastResponseMessage protobuf message
+        :param webcast_response_message: The ProtoMessageFetchResultMessage protobuf message
         :return: A list of events that can be gleamed from this event
 
         """
 
         # Invalid response handler
         if webcast_response_message is None:
-            self._logger.warning("Received a null WebcastResponseMessage from the Webcast server.")
+            self._logger.warning("Received a null ProtoMessageFetchResultMessage from the Webcast server.")
             return []
 
         # Get the proto mapping for proto-events
@@ -395,11 +396,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         return await self._web.fetch_is_live(unique_id=unique_id or self.unique_id)
 
-    async def handle_custom_event(self, response: WebcastResponseMessage, event: ProtoEvent) -> Optional[CustomEvent]:
+    async def handle_custom_event(self, response: ProtoMessageFetchResultBaseProtoMessage, event: ProtoEvent) -> Optional[CustomEvent]:
         """
         Extract CustomEvent events from existing ProtoEvent events
 
-        :param response: The WebcastResponseMessage to parse for the custom event
+        :param response: The ProtoMessageFetchResultMessage to parse for the custom event
         :param event: The ProtoEvent to parse for the custom event
         :return: The event, if one exists
 
