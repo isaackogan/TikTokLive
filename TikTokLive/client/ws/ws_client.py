@@ -274,7 +274,7 @@ class WebcastWSClient:
                 self.restart_ping_loop()
 
             # Ack when necessary
-            if webcast_response.needs_ack:
+            if webcast_response.need_ack:
                 await self.send_ack(webcast_response=webcast_response, webcast_push_frame=webcast_push_frame)
 
             # Yield the response

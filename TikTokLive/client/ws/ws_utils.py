@@ -30,12 +30,12 @@ def build_webcast_uri(
     if not initial_webcast_response.push_server:
         raise WebsocketURLMissingError("No websocket URL received from TikTok.")
 
-    if not initial_webcast_response.route_params_map:
+    if not initial_webcast_response.route_params:
         raise WebsocketURLMissingError("Websocket parameters missing.")
 
     # Build the URI parameters dict
     uri_params: dict = {
-        **initial_webcast_response.route_params_map,
+        **initial_webcast_response.route_params,
         **base_uri_params,
         "internal_ext": initial_webcast_response.internal_ext,
         "cursor": initial_webcast_response.cursor,

@@ -419,11 +419,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             return None
 
         # FollowEvent
-        if "follow" in event.common.display_text.key:
+        if "follow" in event.base_message.display_text.key:
             return FollowEvent().parse(response.payload)
 
         # ShareEvent
-        if "share" in event.common.display_text.key:
+        if "share" in event.base_message.display_text.key:
             return ShareEvent().parse(response.payload)
 
         # Not a custom event

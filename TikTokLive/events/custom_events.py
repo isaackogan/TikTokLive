@@ -84,7 +84,7 @@ class ShareEvent(SocialEvent):
         """
 
         try:
-            display_text: str = self.common.display_text.key
+            display_text: str = self.base_message.display_text.key
             return int(display_text.split("pm_mt_guidance_viewer_")[1].split("_share")[0])
         except IndexError:
             return None
