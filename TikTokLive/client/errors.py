@@ -187,8 +187,20 @@ class SignatureRateLimitError(SignAPIError):
         if euler_msg:
             _args.append(euler_msg)
 
-        _args[0] = str(args[0]) % self.retry_after
+        _args[0] = str(args[0]) % self.calculate_retry_after(response=response)
         super().__init__(SignAPIError.ErrorReason.RATE_LIMIT, *_args, response=response)
+
+    @classmethod
+    def calculate_retry_after(cls, response: httpx.Response) -> int:
+        """
+        Calculate the retry after time from the response headers
+
+        :param response: The response object
+        :return: The retry after time in seconds
+
+        """
+
+        return int(response.headers.get("RateLimit-Remaining"))
 
     @cached_property
     def retry_after(self) -> int:
@@ -197,7 +209,7 @@ class SignatureRateLimitError(SignAPIError):
 
         """
 
-        return self.response.headers.get("RateLimit-Remaining")
+        return self.calculate_retry_after(response=self.response)
 
     @cached_property
     def reset_time(self) -> int:
