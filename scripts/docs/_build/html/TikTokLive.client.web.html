@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="TikTokLive.client.web.routes package" href="TikTokLive.client.web.routes.html" /><link rel="prev" title="TikTokLive.client package" href="TikTokLive.client.html" />
 
     <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>TikTokLive.client.web package - TikTokLive v6.4.3</title>
+        <title>TikTokLive.client.web package - TikTokLive v6.4.5</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css?v=e72958e9" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">TikTokLive v6.4.3</div></a>
+      <a href="index.html"><div class="brand">TikTokLive v6.4.5</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -199,7 +199,7 @@
     <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">TikTokLive v6.4.3</span>
+  <span class="sidebar-brand-text">TikTokLive v6.4.5</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -320,6 +320,7 @@
 <li class="toctree-l3"><a class="reference internal" href="TikTokLive.client.web.routes.html#TikTokLive.client.web.routes.fetch_video_data.FetchVideoDataRoute"><code class="docutils literal notranslate"><span class="pre">FetchVideoDataRoute</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.routes.html#TikTokLive.client.web.routes.fetch_video_data.FetchVideoDataRoute.ffmpeg"><code class="docutils literal notranslate"><span class="pre">FetchVideoDataRoute.ffmpeg</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.routes.html#TikTokLive.client.web.routes.fetch_video_data.FetchVideoDataRoute.is_recording"><code class="docutils literal notranslate"><span class="pre">FetchVideoDataRoute.is_recording</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.routes.html#TikTokLive.client.web.routes.fetch_video_data.FetchVideoDataRoute.output_filename"><code class="docutils literal notranslate"><span class="pre">FetchVideoDataRoute.output_filename</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.routes.html#TikTokLive.client.web.routes.fetch_video_data.FetchVideoDataRoute.start"><code class="docutils literal notranslate"><span class="pre">FetchVideoDataRoute.start()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="TikTokLive.client.web.routes.html#TikTokLive.client.web.routes.fetch_video_data.FetchVideoDataRoute.stop"><code class="docutils literal notranslate"><span class="pre">FetchVideoDataRoute.stop()</span></code></a></li>
 </ul>
@@ -731,6 +732,12 @@ This COULD lead to a hypothetical ban, but the odds are low &amp; this has never
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Utility to sign any TikTok request using Euler Stream</p>
 <dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.client.web.web_signer.TikTokSigner.client">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AsyncClient</span></em><a class="headerlink" href="#TikTokLive.client.web.web_signer.TikTokSigner.client" title="Link to this definition"></a></dt>
+<dd><p>The httpx client used to sign requests</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="TikTokLive.client.web.web_signer.TikTokSigner.sign_api_key">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sign_api_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.client.web.web_signer.TikTokSigner.sign_api_key" title="Link to this definition"></a></dt>
 <dd><p>API key for signing requests</p>
@@ -923,6 +930,7 @@ This COULD lead to a hypothetical ban, but the odds are low &amp; this has never
 </ul>
 </li>
 <li><a class="reference internal" href="#TikTokLive.client.web.web_signer.TikTokSigner"><code class="docutils literal notranslate"><span class="pre">TikTokSigner</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.web_signer.TikTokSigner.client"><code class="docutils literal notranslate"><span class="pre">TikTokSigner.client</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.web.web_signer.TikTokSigner.sign_api_key"><code class="docutils literal notranslate"><span class="pre">TikTokSigner.sign_api_key</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.web.web_signer.TikTokSigner.webcast_sign"><code class="docutils literal notranslate"><span class="pre">TikTokSigner.webcast_sign()</span></code></a></li>
 </ul>
