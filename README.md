@@ -206,45 +206,44 @@ Both belong to the TikTokLive `Event` type and can be listened to. The following
 
 If you know what an event does, [make a pull request](https://github.com/isaackogan/TikTokLive/pulls) and add the description.
 
-- `GiftEvent` - Triggered when a gift is sent to the streamer
-- `GoalUpdateEvent` - Triggered when the subscriber goal is updated
-- `ControlEvent` - Triggered when a stream action occurs (e.g. Livestream start, end)
-- `LikeEvent` - Triggered when the stream receives a like
-- `SubscribeEvent` - Triggered when someone subscribes to the TikTok creator
-- `PollEvent` - Triggered when the creator launches a new poll
-- `CommentEvent` - Triggered when a comment is sent in the stream
-- `RoomEvent` - Messages broadcasted to all users in the room (e.g. "Welcome to TikTok LIVE!")
-- `EmoteChatEvent` - Triggered when a custom emote is sent in the chat
-- `EnvelopeEvent` - Triggered every time someone sends a treasure chest
-- `SocialEvent` - Triggered when a user shares the stream or follows the host
-- `QuestionNewEvent` - Triggered every time someone asks a new question via the question feature
-- `LiveIntroEvent` - Triggered when a live intro message appears
-- `LinkMicArmiesEvent` - Triggered when a TikTok battle user receives points
-- `LinkMicBattleEvent` - Triggered when a TikTok battle is started
-- `JoinEvent` - Triggered when a user joins the livestream
-- `LinkMicFanTicketMethodEvent`
-- `LinkMicMethodEvent`
-- `BarrageEvent` - Triggered when a "VIP" viewer (based on their gifting level) joins the live chat room
-- `CaptionEvent`
-- `ImDeleteEvent` - Triggered when a viewer's messages are deleted
-- `RoomUserSeqEvent` - Current viewer count information
-- `RankUpdateEvent`
-- `RankTextEvent` - Triggered when gift count makes a viewer one of the top three
-- `HourlyRankEvent`
-- `UnauthorizedMemberEvent`
-- `MessageDetectEvent`
-- `OecLiveShoppingEvent`
-- `RoomPinEvent` - Triggered when a message is pinned
-- `SystemEvent`
-- `LinkEvent`
-- `LinkLayerEvent`
 
-There are MANY more events available in the new version of TikTokLive released on March 18th, 2025.
-There are SO many more, that I have decided to put them into a collapsable. See them below:
+
 
 <details>
-<summary><h2>Other Events</h2></summary>
+<summary><h4>Proto Events</h4></summary>
 <ul>
+<li>GiftEvent</li> - Triggered when a gift is sent to the streamer
+<li>GoalUpdateEvent</li> - Triggered when the subscriber goal is updated
+<li>ControlEvent</li> - Triggered when a stream action occurs (e.g. Livestream start, end)
+<li>LikeEvent</li> - Triggered when the stream receives a like
+<li>SubscribeEvent</li> - Triggered when someone subscribes to the TikTok creator
+<li>PollEvent</li> - Triggered when the creator launches a new poll
+<li>CommentEvent</li> - Triggered when a comment is sent in the stream
+<li>RoomEvent</li> - Messages broadcasted to all users in the room (e.g. "Welcome to TikTok LIVE!")
+<li>EmoteChatEvent</li> - Triggered when a custom emote is sent in the chat
+<li>EnvelopeEvent</li> - Triggered every time someone sends a treasure chest
+<li>SocialEvent</li> - Triggered when a user shares the stream or follows the host
+<li>QuestionNewEvent</li> - Triggered every time someone asks a new question via the question feature
+<li>LiveIntroEvent</li> - Triggered when a live intro message appears
+<li>LinkMicArmiesEvent</li> - Triggered when a TikTok battle user receives points
+<li>LinkMicBattleEvent</li> - Triggered when a TikTok battle is started
+<li>JoinEvent</li> - Triggered when a user joins the livestream
+<li>LinkMicFanTicketMethodEvent</li>
+<li>LinkMicMethodEvent</li>
+<li>BarrageEvent</li> - Triggered when a "VIP" viewer (based on their gifting level) joins the live chat room
+<li>CaptionEvent</li>
+<li>ImDeleteEvent</li> - Triggered when a viewer's messages are deleted
+<li>RoomUserSeqEvent</li> - Current viewer count information
+<li>RankUpdateEvent</li>
+<li>RankTextEvent</li> - Triggered when gift count makes a viewer one of the top three
+<li>HourlyRankEvent</li>
+<li>UnauthorizedMemberEvent</li>
+<li>MessageDetectEvent</li>
+<li>OecLiveShoppingEvent</li>
+<li>RoomPinEvent</li> - Triggered when a message is pinned
+<li>SystemEvent</li>
+<li>LinkEvent</li>
+<li>LinkLayerEvent</li>
 <li>KaraokeQueueListEvent</li>
 <li>GroupLiveMemberNotifyEvent</li>
 <li>SubscriptionGuideEvent</li>
