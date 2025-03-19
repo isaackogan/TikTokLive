@@ -212,7 +212,7 @@ If you know what an event does, [make a pull request](https://github.com/isaacko
 <details>
 <summary><h4>Proto Events</h4></summary>
 <ul>
-<li>GiftEvent - Triggered when a gift is sent to the streamer</li>
+<li><code>GiftEvent</code> - Triggered when a gift is sent to the streamer</li>
 <li>GoalUpdateEvent - Triggered when the subscriber goal is updated</li>
 <li>ControlEvent - Triggered when a stream action occurs (e.g. Livestream start, end)</li>
 <li>LikeEvent - Triggered when the stream receives a like</li>
