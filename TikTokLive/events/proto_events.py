@@ -3,12 +3,10 @@
 # SERIOUSLY!
 # I MEAN IT!
 
-from TikTokLive.proto.tiktok_proto import *
+from typing import Union
+
 from TikTokLive.proto.custom_proto import *
 from .base_event import BaseEvent
-from typing import Type, Union, Dict
-from typing import Type, Dict
-from typing import Union
 
 
 class KaraokeQueueListEvent(BaseEvent, WebcastKaraokeQueueListMessage):

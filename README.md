@@ -217,7 +217,7 @@ If you know what an event does, [make a pull request](https://github.com/isaacko
 - `EmoteChatEvent` - Triggered when a custom emote is sent in the chat
 - `EnvelopeEvent` - Triggered every time someone sends a treasure chest
 - `SocialEvent` - Triggered when a user shares the stream or follows the host
-- `QuestionNewEvent` - Triggered every time someone asks a new question via the question feature.
+- `QuestionNewEvent` - Triggered every time someone asks a new question via the question feature
 - `LiveIntroEvent` - Triggered when a live intro message appears
 - `LinkMicArmiesEvent` - Triggered when a TikTok battle user receives points
 - `LinkMicBattleEvent` - Triggered when a TikTok battle is started
@@ -238,6 +238,169 @@ If you know what an event does, [make a pull request](https://github.com/isaacko
 - `SystemEvent`
 - `LinkEvent`
 - `LinkLayerEvent`
+
+There are MANY more events available in the new version of TikTokLive released on March 18th, 2025.
+There are SO many more, that I have decided to put them into a collapsable. See them below:
+
+<details>
+<summary>**Other Events**</summary>
+- `KaraokeQueueListEvent`
+- `GroupLiveMemberNotifyEvent`
+- `SubscriptionGuideEvent`
+- `NoticeboardReviewEvent`
+- `BottomEvent`
+- `CapsuleEvent`
+- `LinkMicBattleEvent`
+- `QuestionSelectedEvent`
+- `TrayEvent`
+- `AssetEvent`
+- `WalletLiveRewardsRatioEvent`
+- `LinkScreenChangeEvent`
+- `PartnershipPunishEvent`
+- `GiftPanelUpdateEvent`
+- `AnchorTaskReminderEvent`
+- `LinkBusinessEvent`
+- `MarqueeAnnouncementEvent`
+- `GiftDynamicRestrictionEvent`
+- `CommonPopupEvent`
+- `EcBarrageEvent`
+- `PromoteAdStatusEvent`
+- `InteractionHubGoalEvent`
+- `EpiEvent`
+- `LinkmicAnimationEvent`
+- `KaraokeYouSingReqEvent`
+- `RealTimePerformancePageEvent`
+- `StreamStatusEvent`
+- `GiftCollectionUpdateEvent`
+- `CommercialCustomEvent`
+- `GuideEvent`
+- `DonationEvent`
+- `LiveGameIntroEvent`
+- `PartnershipDropsCardChangeEvent`
+- `GameGuessWidgetsEvent`
+- `MiddleTouchEvent`
+- `UserStatsEvent`
+- `WallpaperReviewEvent`
+- `LinkMicAdEvent`
+- `SubTimerStickerEvent`
+- `GiftGalleryEvent`
+- `GiftUpdateEvent`
+- `NoticeboardEvent`
+- `UpgradeEvent`
+- `BackpackEvent`
+- `AvatarStyleResultEvent`
+- `GameSettingChangeEvent`
+- `PartnershipDropsUpdateEvent`
+- `QuestionSwitchEvent`
+- `LiveInfoAuditNoticeEvent`
+- `CommonToastEvent`
+- `ToastEvent`
+- `DonationStickerModifyMethodEvent`
+- `PollEvent`
+- `HighlightFragementReadyEvent`
+- `GiftPromptEvent`
+- `ForceFetchRecommendationsEvent`
+- `GameGuessPinCardEvent`
+- `LinkLayoutEvent`
+- `GameOcrPingEvent`
+- `AnchorGrowLevelEvent`
+- `EnvelopePortalEvent`
+- `CohostReserveEvent`
+- `BaLeadGenEvent`
+- `PictionaryEndEvent`
+- `RoomNotifyEvent`
+- `FansEventEvent`
+- `KaraokeQueueEvent`
+- `FollowCardEvent`
+- `ActivityQuizUserIdentityEvent`
+- `LiveJourneyEvent`
+- `CommentsEvent`
+- `WeeklyRankRewardEvent`
+- `LinkStateEvent`
+- `AccessRecallEvent`
+- `AiSummaryEvent`
+- `PerceptionEvent`
+- `RoomVerifyEvent`
+- `GuideTaskEvent`
+- `VideoLiveCouponRcmdEvent`
+- `VideoLiveGoodsRcmdEvent`
+- `KaraokeSwitchEvent`
+- `PrivilegeAdvanceEvent`
+- `LinkMicBattlePunishFinishEvent`
+- `BoostedUsersEvent`
+- `RankToastEvent`
+- `CommentTrayEvent`
+- `AnchorReminderWordEvent`
+- `PaidContentLiveShoppingEvent`
+- `RoomEventEvent`
+- `RoomBottomEvent`
+- `DonationInfoEvent`
+- `GameMomentEvent`
+- `HashtagEvent`
+- `LinkMicBattleItemCardEvent`
+- `PrivilegeDynamicEffectEvent`
+- `AnchorGetSubQuotaEvent`
+- `OecLiveHotRoomEvent`
+- `AudienceReserveUserStateEvent`
+- `RealtimeLiveCenterMethodEvent`
+- `WallpaperEvent`
+- `SubPinEventEvent`
+- `LinkmicBattleTaskEvent`
+- `StarCommentPushEvent`
+- `EcTaskRefreshCouponListEvent`
+- `ShortTouchEvent`
+- `EffectControlEvent`
+- `KaraokeRedDotEvent`
+- `QuestionDeleteEvent`
+- `InRoomBannerEvent`
+- `ShareGuideEvent`
+- `EventEvent`
+- `InRoomBannerEventEvent`
+- `PlayTogetherEvent`
+- `SubContractStatusEvent`
+- `HourlyRankRewardEvent`
+- `PictionaryStartEvent`
+- `GuestInviteEvent`
+- `NoticeEvent`
+- `PartnershipDownloadCountEvent`
+- `GreetingEvent`
+- `LiveShowEvent`
+- `SubWaveEvent`
+- `GameReqSetGuessEvent`
+- `SpeakerEvent`
+- `LinkMicAnchorGuideEvent`
+- `CompetitionEvent`
+- `AvatarReportDeleteEvent`
+- `EffectPreloadingEvent`
+- `ColdStartEvent`
+- `CountdownForAllEvent`
+- `GiftBroadcastEvent`
+- `PreviewGameMomentEvent`
+- `GameRecommendCreateGuessEvent`
+- `VideoLiveGoodsOrderEvent`
+- `StarCommentNotificationEvent`
+- `InRoomBannerRefreshEvent`
+- `RoomStickerEvent`
+- `GiftProgressEvent`
+- `OecLiveManagerEvent`
+- `DiggEvent`
+- `AiLiveSummaryEvent`
+- `AnchorToolModificationEvent`
+- `MgPunishCenterActionEvent`
+- `PictionaryExitEvent`
+- `CountdownEvent`
+- `GameServerFeatureEvent`
+- `PlaybookEvent`
+- `GiftRecordCapsuleEvent`
+- `QuickChatListEvent`
+- `PartnershipCardChangeEvent`
+- `ScreenChatEvent`
+- `GameEmoteUpdateEvent`
+- `BoostCardEvent`
+- `RoomStreamAdaptationEvent`
+- `LinkmicBattleNoticeEvent`
+- `GoodyBagEvent`
+</details>
 
 ### Special Events
 
