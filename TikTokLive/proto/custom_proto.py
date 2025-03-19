@@ -194,7 +194,7 @@ class ExtendedUser(User):
         )
 
         if len(matches) > 0:
-            return int(matches[0][1].combine.str)
+            return int(matches[0][1].combine_badge_struct.str)
 
         return None
 
