@@ -212,35 +212,35 @@ If you know what an event does, [make a pull request](https://github.com/isaacko
 <details>
 <summary><h4>Proto Events</h4></summary>
 <ul>
-<li>GiftEvent</li> - Triggered when a gift is sent to the streamer
-<li>GoalUpdateEvent</li> - Triggered when the subscriber goal is updated
-<li>ControlEvent</li> - Triggered when a stream action occurs (e.g. Livestream start, end)
-<li>LikeEvent</li> - Triggered when the stream receives a like
-<li>SubscribeEvent</li> - Triggered when someone subscribes to the TikTok creator
-<li>PollEvent</li> - Triggered when the creator launches a new poll
-<li>CommentEvent</li> - Triggered when a comment is sent in the stream
-<li>RoomEvent</li> - Messages broadcasted to all users in the room (e.g. "Welcome to TikTok LIVE!")
-<li>EmoteChatEvent</li> - Triggered when a custom emote is sent in the chat
-<li>EnvelopeEvent</li> - Triggered every time someone sends a treasure chest
-<li>SocialEvent</li> - Triggered when a user shares the stream or follows the host
-<li>QuestionNewEvent</li> - Triggered every time someone asks a new question via the question feature
-<li>LiveIntroEvent</li> - Triggered when a live intro message appears
-<li>LinkMicArmiesEvent</li> - Triggered when a TikTok battle user receives points
-<li>LinkMicBattleEvent</li> - Triggered when a TikTok battle is started
-<li>JoinEvent</li> - Triggered when a user joins the livestream
+<li>GiftEvent - Triggered when a gift is sent to the streamer</li>
+<li>GoalUpdateEvent - Triggered when the subscriber goal is updated</li>
+<li>ControlEvent - Triggered when a stream action occurs (e.g. Livestream start, end)</li>
+<li>LikeEvent - Triggered when the stream receives a like</li>
+<li>SubscribeEvent - Triggered when someone subscribes to the TikTok creator</li>
+<li>PollEvent - Triggered when the creator launches a new poll</li>
+<li>CommentEvent - Triggered when a comment is sent in the stream</li>
+<li>RoomEvent - Messages broadcasted to all users in the room (e.g. "Welcome to TikTok LIVE!")</li>
+<li>EmoteChatEvent - Triggered when a custom emote is sent in the chat</li>
+<li>EnvelopeEvent - Triggered every time someone sends a treasure chest</li>
+<li>SocialEvent - Triggered when a user shares the stream or follows the host</li>
+<li>QuestionNewEvent - Triggered every time someone asks a new question via the question feature</li>
+<li>LiveIntroEvent - Triggered when a live intro message appears</li>
+<li>LinkMicArmiesEvent - Triggered when a TikTok battle user receives points</li>
+<li>LinkMicBattleEvent - Triggered when a TikTok battle is started</li>
+<li>JoinEvent - Triggered when a user joins the livestream</li>
 <li>LinkMicFanTicketMethodEvent</li>
 <li>LinkMicMethodEvent</li>
-<li>BarrageEvent</li> - Triggered when a "VIP" viewer (based on their gifting level) joins the live chat room
+<li>BarrageEvent - Triggered when a "VIP" viewer (based on their gifting level) joins the live chat room</li>
 <li>CaptionEvent</li>
-<li>ImDeleteEvent</li> - Triggered when a viewer's messages are deleted
-<li>RoomUserSeqEvent</li> - Current viewer count information
+<li>ImDeleteEvent - Triggered when a viewer's messages are deleted</li>
+<li>RoomUserSeqEvent - Current viewer count information</li>
 <li>RankUpdateEvent</li>
-<li>RankTextEvent</li> - Triggered when gift count makes a viewer one of the top three
+<li>RankTextEvent - Triggered when gift count makes a viewer one of the top three</li>
 <li>HourlyRankEvent</li>
 <li>UnauthorizedMemberEvent</li>
 <li>MessageDetectEvent</li>
 <li>OecLiveShoppingEvent</li>
-<li>RoomPinEvent</li> - Triggered when a message is pinned
+<li>RoomPinEvent - Triggered when a message is pinned</li>
 <li>SystemEvent</li>
 <li>LinkEvent</li>
 <li>LinkLayerEvent</li>
