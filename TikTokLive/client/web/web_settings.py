@@ -70,7 +70,6 @@ DEFAULT_WS_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
     "live_id": "12",
     "sup_ws_ds_opt": "1",
     "update_version_code": "2.0.0",
-    "version_code": "180800",
     "screen_height": Screen["screen_height"],
     "screen_width": Screen["screen_width"],
 
