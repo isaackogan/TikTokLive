@@ -2,7 +2,6 @@
 # DO NOT EDIT!
 # SERIOUSLY!
 # I MEAN IT!
-
 from typing import Union
 
 from TikTokLive.proto.custom_proto import *
@@ -1209,7 +1208,16 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
 
     user_info: ExtendedUser
     at_user: ExtendedUser
-    user: ExtendedUser
+
+    @property
+    def user(self):
+        """Deprecated: Backwards compatibility alias for user_info"""
+        warnings.warn(
+            "CommentEvent.user is deprecated - use CommentEvent.user_info instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.user_info
 
     @property
     def comment(self) -> str:
@@ -1258,7 +1266,16 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
     from_user: ExtendedUser
     to_user: ExtendedUser
     user: ExtendedUser
-    gift: ExtendedGiftStruct
+
+    @property
+    def gift(self):
+        """Deprecated: Backwards compatibility alias for user_info"""
+        warnings.warn(
+            "GiftEvent.gift is deprecated",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self
 
     @property
     def streaking(self) -> bool:
