@@ -45,30 +45,30 @@ def badge_match(badge: BadgeStruct, p: re.Pattern) -> Optional[re.Match]:
 
     """
 
-    if badge.display_type == BadgeStructBadgeDisplayType.BADGEDISPLAYTYPE_STRING:
-        match: Optional[re.Match] = p.search(string=badge.str.str)
+    if badge.badge_display_type == BadgeStructBadgeDisplayType.BADGE_DISPLAY_TYPE_STRING:
+        match: Optional[re.Match] = p.search(string=badge.string_badge.content_str)
         return match
 
-    if badge.display_type == BadgeStructBadgeDisplayType.BADGEDISPLAYTYPE_TEXT:
-        match: Optional[re.Match] = p.search(string=badge.text.default_pattern)
+    if badge.badge_display_type == BadgeStructBadgeDisplayType.BADGE_DISPLAY_TYPE_TEXT:
+        match: Optional[re.Match] = p.search(string=badge.text_badge.default_pattern)
         return match
 
-    if badge.display_type == BadgeStructBadgeDisplayType.BADGEDISPLAYTYPE_IMAGE:
+    if badge.badge_display_type == BadgeStructBadgeDisplayType.BADGE_DISPLAY_TYPE_IMAGE:
 
-        for image_url in badge.image.image.url_list:
+        for image_url in badge.image_badge.image_model.m_urls:
             match: Optional[re.Match] = p.search(string=image_url)
             if match:
                 return match
 
         return None
 
-    if badge.display_type == BadgeStructBadgeDisplayType.BADGEDISPLAYTYPE_COMBINE:
+    if badge.badge_display_type == BadgeStructBadgeDisplayType.BADGE_DISPLAY_TYPE_COMBINE:
 
-        match: Optional[re.Match] = p.search(string=badge.combine.str)
+        match: Optional[re.Match] = p.search(string=badge.combine_badge_struct.str)
         if match:
             return match
 
-        for image_url in badge.combine.icon.url_list:
+        for image_url in badge.combine_badge_struct.icon.m_urls:
             match: Optional[re.Match] = p.search(string=image_url)
             if match:
                 return match
