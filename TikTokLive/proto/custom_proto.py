@@ -67,7 +67,7 @@ class ExtendedUser(User):
 
         """
 
-        return self.display_id
+        return self.username
 
     @property
     def is_friend(self) -> bool:

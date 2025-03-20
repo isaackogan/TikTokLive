@@ -58,6 +58,7 @@ class TrayEvent(BaseEvent, WebcastTrayMessage):
 
     user: ExtendedUser
 
+
 class AssetEvent(BaseEvent, WebcastAssetMessage):
     """
     AssetEvent
@@ -65,6 +66,7 @@ class AssetEvent(BaseEvent, WebcastAssetMessage):
 
     to_user: ExtendedUser
     from_user: ExtendedUser
+
 
 class WalletLiveRewardsRatioEvent(BaseEvent, WebcastWalletLiveRewardsRatioMessage):
     """
@@ -248,6 +250,7 @@ class GiftGalleryEvent(BaseEvent, WebcastGiftGalleryMessage):
     to_user: ExtendedUser
     user: ExtendedUser
 
+
 class GiftUpdateEvent(BaseEvent, WebcastGiftUpdateMessage):
     """
     GiftUpdateEvent
@@ -411,12 +414,14 @@ class RoomNotifyEvent(BaseEvent, WebcastRoomNotifyMessage):
 
     user: ExtendedUser
 
+
 class FansEventEvent(BaseEvent, WebcastFansEventMessage):
     """
     FansEventEvent
     """
 
     user: ExtendedUser
+
 
 class KaraokeQueueEvent(BaseEvent, WebcastKaraokeQueueMessage):
     """
@@ -448,6 +453,7 @@ class CommentsEvent(BaseEvent, WebcastCommentsMessage):
     """
 
     user: ExtendedUser
+
 
 class WeeklyRankRewardEvent(BaseEvent, WebcastWeeklyRankRewardMessage):
     """
@@ -756,6 +762,7 @@ class SubQueueEvent(BaseEvent, WebcastSubQueueMessage):
 
     current_user: ExtendedUser
 
+
 class RoomBottomEvent(BaseEvent, WebcastRoomBottomMessage):
     """
     RoomBottomEvent
@@ -973,6 +980,7 @@ class LinkMicAnchorGuideEvent(BaseEvent, WebcastLinkMicAnchorGuideMessage):
 
     user: ExtendedUser
 
+
 class CompetitionEvent(BaseEvent, WebcastCompetitionMessage):
     """
     CompetitionEvent
@@ -1028,12 +1036,14 @@ class VideoLiveGoodsOrderEvent(BaseEvent, WebcastVideoLiveGoodsOrderMessage):
 
     user: ExtendedUser
 
+
 class StarCommentNotificationEvent(BaseEvent, WebcastStarCommentNotificationMessage):
     """
     StarCommentNotificationEvent
     """
 
     operator: ExtendedUser
+
 
 class InRoomBannerRefreshEvent(BaseEvent, WebcastInRoomBannerRefreshMessage):
     """
@@ -1071,6 +1081,7 @@ class DiggEvent(BaseEvent, WebcastDiggMessage):
     """
 
     user: ExtendedUser
+
 
 class AiLiveSummaryEvent(BaseEvent, WebcastAiLiveSummaryMessage):
     """
@@ -1139,6 +1150,7 @@ class ScreenChatEvent(BaseEvent, WebcastScreenChatMessage):
 
     user_info: ExtendedUser
 
+
 class GameEmoteUpdateEvent(BaseEvent, WebcastGameEmoteUpdateMessage):
     """
     GameEmoteUpdateEvent
@@ -1173,7 +1185,6 @@ class GoodyBagEvent(BaseEvent, WebcastGoodyBagMessage):
     """
     GoodyBagEvent
     """
-
 
 
 class BarrageEvent(BaseEvent, WebcastBarrageMessage):
@@ -1296,6 +1307,7 @@ class ImDeleteEvent(BaseEvent, WebcastImDeleteMessage):
 class JoinEvent(BaseEvent, WebcastMemberMessage):
     """
     JoinEvent
+
     """
 
     operator: ExtendedUser
@@ -1412,6 +1424,7 @@ class RoomPinEvent(BaseEvent, WebcastRoomPinMessage):
     """
 
     operator: ExtendedUser
+
 
 class RoomUserSeqEvent(BaseEvent, WebcastRoomUserSeqMessage):
     """
