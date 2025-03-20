@@ -408,13 +408,13 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # LiveEndEvent, LivePauseEvent, LiveUnpauseEvent
         if isinstance(event, ControlEvent):
-            if event.action in {ControlAction.STREAM_ENDED, ControlAction.STREAM_SUSPENDED}:
+            if event.action in {ControlAction.CONTROL_ACTION_STREAM_ENDED, ControlAction.CONTROL_ACTION_STREAM_SUSPENDED}:
                 # If the stream is over, disconnect the client. Can't await due to circular dependency.
                 self._asyncio_loop.create_task(self.disconnect())
                 return LiveEndEvent().parse(response.payload)
-            elif event.action == ControlAction.STREAM_PAUSED:
+            elif event.action == ControlAction.CONTROL_ACTION_STREAM_PAUSED:
                 return LivePauseEvent().parse(response.payload)
-            elif event.action == ControlAction.STREAM_PAUSED:
+            elif event.action == ControlAction.CONTROL_ACTION_STREAM_PAUSED:
                 return LiveUnpauseEvent().parse(response.payload)
             return None
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 # noinspection PyUnresolvedReferences
 import re
+import warnings
 # noinspection PyUnresolvedReferences
 from typing import Optional, List, Type, TypeVar, Tuple
 
@@ -9,7 +10,7 @@ from typing import Optional, List, Type, TypeVar, Tuple
 import betterproto
 
 from TikTokLive.proto import *
-from TikTokLive.proto import User, BadgeStruct
+from TikTokLive.proto import User, BadgeStruct, Gift
 from TikTokLive.proto.proto_utils import badge_match_user, SUBSCRIBER_BADGE_PATTERN, MODERATOR_BADGE_PATTERN, \
     TOP_GIFTER_BADGE_PATTERN, MEMBER_LEVEL_BADGE_PATTERN, GIFTER_LEVEL_BADGE_PATTERN
 
@@ -57,6 +58,16 @@ class ExtendedUser(User):
         """
 
         return ExtendedUser(**user.to_pydict(**kwargs))
+
+    @property
+    def display_id(self):
+        """Deprecated: Backwards compatibility alias for nick_name"""
+        warnings.warn(
+            "User.display_id is deprecated - use User.nick_name instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return getattr(self, "nick_name", None) or getattr(self, "username", None) or None
 
     @property
     def unique_id(self) -> str:
