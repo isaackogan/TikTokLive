@@ -200,7 +200,7 @@ class ExtendedUser(User):
 
 
 @proto_extension
-class ExtendedGiftStruct(Gift):
+class ExtendedGift(Gift):
     """
     Extended gift object with clearer streak handling
 

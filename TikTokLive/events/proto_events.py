@@ -1258,7 +1258,7 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
     from_user: ExtendedUser
     to_user: ExtendedUser
     user: ExtendedUser
-    gift: ExtendedGiftStruct
+    gift: ExtendedGift
 
     @property
     def streaking(self) -> bool:
