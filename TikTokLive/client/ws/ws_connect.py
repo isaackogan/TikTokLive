@@ -98,7 +98,12 @@ class WebcastConnect(Connect):
 
             except InvalidStatusCode as ex:
                 if ex.status_code == 200:
-                    raise WebcastBlocked200Error("WebSocket rejected by TikTok with a 200 status code, implying detection.") from ex
+                    # Note from Isaac post-insanity...
+                    # IF the WebSockets are >>SIGNED<< WITH A SESSION ID
+                    # and you DO NOT pass a sessionid cookie in the header, it will reject for "illegal secret key"
+                    raise WebcastBlocked200Error(
+                        f"WebSocket rejected by TikTok due to \"{ex.headers.get('Handshake-Msg', 'an unknown reason')}\"."
+                    ) from ex
                 raise
 
             finally:
