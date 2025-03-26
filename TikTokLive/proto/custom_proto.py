@@ -218,8 +218,10 @@ class ExtendedGift(Gift):
     """
 
     def __init__(self, proto_gift: Gift):
-        self._proto_gift = proto_gift
-        self.name = proto_gift.name
+        self.m_gift = proto_gift
+
+        for attr, value in proto_gift.__dict__.items():
+            setattr(self, attr, value)
 
     @property
     def streakable(self) -> bool:
