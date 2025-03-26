@@ -1209,7 +1209,16 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
 
     user_info: ExtendedUser
     at_user: ExtendedUser
-    user: ExtendedUser
+
+    @property
+    def user(self):
+        """Backwards compatibility for user"""
+        warnings.warn(
+            "CommentEvent.user is deprecated - use CommentEvent.user_info instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.user_info
 
     @property
     def comment(self) -> str:
@@ -1257,8 +1266,26 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
 
     from_user: ExtendedUser
     to_user: ExtendedUser
-    user: ExtendedUser
-    gift: ExtendedGift
+
+    @property
+    def user(self):
+        """Backwards compatibility for user"""
+        warnings.warn(
+            "GiftEvent.user is deprecated - use GiftEvent.from_user instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.from_user
+
+    @property
+    def gift(self):
+        """Backwards compatibility for gift"""
+        warnings.warn(
+            "GiftEvent.gift is deprecated - use GiftEvent.m_gift instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return ExtendedGift(self.m_gift)
 
     @property
     def streaking(self) -> bool:
