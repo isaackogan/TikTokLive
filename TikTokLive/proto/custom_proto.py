@@ -2,6 +2,7 @@ from __future__ import annotations
 
 # noinspection PyUnresolvedReferences
 import re
+import warnings
 # noinspection PyUnresolvedReferences
 from typing import Optional, List, Type, TypeVar, Tuple
 
@@ -57,6 +58,16 @@ class ExtendedUser(User):
         """
 
         return ExtendedUser(**user.to_pydict(**kwargs))
+
+    @property
+    def display_id(self):
+        """Backwards compatibility for user"""
+        warnings.warn(
+            "ExtendedUser.display_id is deprecated - use ExtendedUser.username instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return getattr(self, "username", getattr(self, "nick_name", None))
 
     @property
     def unique_id(self) -> str:
@@ -205,6 +216,12 @@ class ExtendedGift(Gift):
     Extended gift object with clearer streak handling
 
     """
+
+    def __init__(self, proto_gift: Gift):
+        self.m_gift = proto_gift
+
+        for attr, value in proto_gift.__dict__.items():
+            setattr(self, attr, value)
 
     @property
     def streakable(self) -> bool:
