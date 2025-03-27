@@ -44,8 +44,9 @@ interactive = [
 Homepage = "https://github.com/isaackogan/TikTokLive"
 Download = "https://github.com/isaackogan/TikTokLive/releases/tag/v6.4.5.post2"
 
-[tool.setuptools]
-packages = ["TikTokLive"]  # Use find = {} for auto-discovery
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["TikTokLive*"]
 
 [tool.setuptools.package-data]
 "*" = ["*.txt", "*.rst", "*.md"]  # Proper wildcard for including package data
