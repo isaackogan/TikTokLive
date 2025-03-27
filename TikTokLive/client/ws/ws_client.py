@@ -18,7 +18,7 @@ from TikTokLive.proto.custom_extras import WebcastPushFrame
 class WebcastWSClient:
     """Websocket client responsible for connections to TikTok"""
 
-    DEFAULT_PING_INTERVAL: float = 1.0
+    DEFAULT_PING_INTERVAL: float = 5.0
     PING_MESSAGE: bytes = base64.b64decode(b'MgJwYjoCaGI=')  # Used to be '3A026862' aka ':\x02hb', now is '2\x02pb:\x02hb'.
 
     def __init__(
@@ -105,6 +105,14 @@ class WebcastWSClient:
         # Can't ack a dead websocket...
         if not self.connected:
             return
+
+        print('sending ack', WebcastPushFrame(
+            payload_type="ack",
+            # ID of the WebcastPushMessage for the acknowledgement
+            log_id=webcast_push_frame.log_id,
+            # [Unknown] Hypothesized to be an acknowledgement of the ProtoMessageFetchResult (& its messages) within the WebcastPushMessage
+            payload=(webcast_response.internal_ext or "-").encode()
+        ))
 
         # Send the ack
         await self.send(
@@ -316,14 +324,20 @@ class WebcastWSClient:
         if not self.connected:
             return
 
+        # Calculate the ping interval
+        ping_interval: float = self.DEFAULT_PING_INTERVAL
+        if self._connection_generator is not None and self._connection_generator.ws_options is not None:
+            ping_interval = float(self._connection_generator.ws_options.get("ping-interval", ping_interval))
+
         # Ping Loop
         try:
+            self._logger.debug(f"Starting ping loop with interval of {ping_interval} seconds.")
             while self.connected:
                 # Send the ping
                 await self.send(message=self.PING_MESSAGE)
 
                 # Every 10 seconds
-                await asyncio.sleep(self.DEFAULT_PING_INTERVAL)
+                await asyncio.sleep(ping_interval)
 
         except asyncio.CancelledError:
             self._logger.debug("Ping loop cancelled.")
