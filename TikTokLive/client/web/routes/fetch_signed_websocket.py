@@ -41,6 +41,7 @@ class FetchSignedWebSocketRoute(ClientRoute):
         sign_params: dict = {
             'client': CLIENT_NAME,
             'room_id': room_id or self._web.params.get('room_id', None),
+            'user_agent': self._web.headers['User-Agent']
         }
 
         if preferred_agent_id is not None:
