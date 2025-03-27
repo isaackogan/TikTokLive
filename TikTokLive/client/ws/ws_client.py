@@ -1,5 +1,4 @@
 import asyncio
-import base64
 import typing
 from asyncio import Task
 from typing import Optional, AsyncIterator, Union, Type
@@ -12,14 +11,13 @@ from TikTokLive.client.logger import TikTokLiveLogHandler
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_connect import WebcastProxyConnect, WebcastConnect, WebcastProxy, WebcastIterator
 from TikTokLive.proto import ProtoMessageFetchResult
-from TikTokLive.proto.custom_extras import WebcastPushFrame
+from TikTokLive.proto.custom_extras import WebcastPushFrame, HeartbeatFrame
 
 
 class WebcastWSClient:
     """Websocket client responsible for connections to TikTok"""
 
     DEFAULT_PING_INTERVAL: float = 5.0
-    PING_MESSAGE: bytes = base64.b64decode(b'MgJwYjoCaGI=')  # Used to be '3A026862' aka ':\x02hb', now is '2\x02pb:\x02hb'.
 
     def __init__(
             self,
@@ -279,9 +277,10 @@ class WebcastWSClient:
 
             # The first message does NOT need an ack since we perform the ack with the actual WebSocket connect URI
             if webcast_response.is_first:
-                self.restart_ping_loop()
+                self.restart_ping_loop(room_id=room_id)
 
             # Ack when necessary
+            # todo acks are not handled properly (or sent AT ALL!!)
             if webcast_response.need_ack:
                 await self.send_ack(webcast_response=webcast_response, webcast_push_frame=webcast_push_frame)
 
@@ -303,7 +302,7 @@ class WebcastWSClient:
         self._ping_loop = None
         self._connection_generator = None
 
-    def restart_ping_loop(self) -> None:
+    def restart_ping_loop(self, room_id: int) -> None:
         """
         Restart the WebSocket ping loop
 
@@ -312,29 +311,37 @@ class WebcastWSClient:
         if self._ping_loop:
             self._ping_loop.cancel()
 
-        self._ping_loop = asyncio.create_task(self._ping_loop_fn())
+        self._ping_loop = asyncio.create_task(self._ping_loop_fn(room_id))
 
-    async def _ping_loop_fn(self) -> None:
+    async def _ping_loop_fn(self, room_id: int) -> None:
         """
         Send a ping every 10 seconds to keep the connection alive
 
         """
 
-        # Must be connected to loop as ping_interval requires the WS be instantiated
-        if not self.connected:
-            return
+        try:
+            # Must be connected to loop as ping_interval requires the WS be instantiated
+            if not self.connected:
+                return
 
-        # Calculate the ping interval
-        ping_interval: float = self.DEFAULT_PING_INTERVAL
-        if self._connection_generator is not None and self._connection_generator.ws_options is not None:
-            ping_interval = float(self._connection_generator.ws_options.get("ping-interval", ping_interval))
+            # Calculate the ping interval
+            ping_interval: float = self.DEFAULT_PING_INTERVAL
+            if self._connection_generator is not None and self._connection_generator.ws_options is not None:
+                ping_interval = float(self._connection_generator.ws_options.get("ping-interval", ping_interval))
+
+            # Create the heartbeat message (it is always the same)
+            hb_message: bytes = bytes(HeartbeatFrame.from_defaults(room_id=room_id))
+
+        except:
+            self._logger.error("Failed to start ping loop!", exc_info=True)
+            return
 
         # Ping Loop
         try:
             self._logger.debug(f"Starting ping loop with interval of {ping_interval} seconds.")
             while self.connected:
                 # Send the ping
-                await self.send(message=self.PING_MESSAGE)
+                await self.send(message=hb_message)
 
                 # Every 10 seconds
                 await asyncio.sleep(ping_interval)

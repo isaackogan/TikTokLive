@@ -127,7 +127,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # <Required> Fetch room ID
         try:
-            self._room_id: int = room_id or await self._web.fetch_room_id_from_html(self._unique_id)
+            self._room_id: int = int(room_id or await self._web.fetch_room_id_from_html(self._unique_id))
         except Exception as base_ex:
 
             if isinstance(base_ex, UserOfflineError) or isinstance(base_ex, UserNotFoundError):
@@ -135,7 +135,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
             try:
                 self._logger.error("Failed to parse room ID from HTML. Using API fallback.")
-                self._room_id: int = await self._web.fetch_room_id_from_api(self.unique_id)
+                self._room_id: int = int(await self._web.fetch_room_id_from_api(self.unique_id))
             except Exception as super_ex:
                 raise super_ex from base_ex
 
