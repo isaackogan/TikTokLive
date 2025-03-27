@@ -9,7 +9,7 @@ from websockets_proxy import websockets_proxy
 from websockets_proxy.websockets_proxy import ProxyConnect
 
 from TikTokLive.client.errors import WebcastBlocked200Error
-from TikTokLive.client.ws.ws_utils import extract_webcast_response_message, build_webcast_uri
+from TikTokLive.client.ws.ws_utils import extract_webcast_response_message, build_webcast_uri, extract_websocket_options
 from TikTokLive.proto import ProtoMessageFetchResult
 from TikTokLive.proto.custom_extras import WebcastPushFrame
 
@@ -48,6 +48,7 @@ class WebcastConnect(Connect):
         self.logger = self._logger = logger
         self.logger.debug(f"Built Webcast URI: {uri}")
         self._ws: Optional[WebSocketClientProtocol] = None
+        self._ws_options: Optional[dict[str, str]] = None
         self._initial_response: ProtoMessageFetchResult = initial_webcast_response
 
     @property
@@ -56,11 +57,17 @@ class WebcastConnect(Connect):
 
         return self._ws
 
+    @property
+    def ws_options(self) -> Optional[dict[str, str]]:
+        """Get the WebSocket options as returned via the Handshake-Options header"""
+
+        return self._ws_options
+
     async def __aiter__(self) -> WebcastIterator:
         """
         Custom implementation of async iterator that disables exception ignoring & handles messages.
         We must disable the retry mechanism because websockets are signed and only work once, so reconnecting wouldn't work anyways.
-        Also the mechanism by the websockets library ignores the '200' error code and retries, even though this is a 'detected by TikTok' error & thus
+        Also, the mechanism by the websockets library ignores the '200' error code and retries, even though this is a 'detected by TikTok' error & thus
         retrying is useless.
 
         """
@@ -74,6 +81,7 @@ class WebcastConnect(Connect):
                 # The connection happens in the "async with", so if you enter the loop, that means it connected to the WebSocket
                 async with self as protocol:
                     self._ws = protocol
+                    self._ws_options = extract_websocket_options(self._ws.response_headers)
 
                     # Yield the first ProtoMessageFetchResult
                     if first_connect:
@@ -108,6 +116,7 @@ class WebcastConnect(Connect):
 
             finally:
                 self._ws = None
+                self._ws_options = None
 
 
 class WebcastProxyConnect(ProxyConnect, WebcastConnect):

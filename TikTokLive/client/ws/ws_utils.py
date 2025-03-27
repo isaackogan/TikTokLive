@@ -1,5 +1,6 @@
 import logging
 from gzip import GzipFile
+from http.cookies import SimpleCookie
 from io import BytesIO
 
 from TikTokLive.client.errors import InitialCursorMissingError, WebsocketURLMissingError
@@ -39,7 +40,8 @@ def build_webcast_uri(
         **base_uri_params,
         "internal_ext": initial_webcast_response.internal_ext,
         "cursor": initial_webcast_response.cursor,
-        "history_comment_cursor": initial_webcast_response.history_comment_cursor,
+        # todo gone from latest release
+        #  "history_comment_cursor": initial_webcast_response.history_comment_cursor,
     }
 
     # Build the URI
@@ -101,3 +103,15 @@ def extract_webcast_response_message(push_frame: WebcastPushFrame, logger: loggi
 
     # Parse the response from the decompressed data
     return ProtoMessageFetchResult().parse(decompressed_bytes)
+
+
+def extract_websocket_options(headers: dict) -> dict[str, str]:
+    """
+    Options are a cookie-style string, so we parse with SimpleCookie from the stdlib
+
+    """
+
+    options = SimpleCookie()
+    options.load(headers.get('Handshake-Options', ''))
+
+    return {key: value.value for key, value in options.items()}
