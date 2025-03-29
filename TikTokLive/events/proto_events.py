@@ -2,7 +2,7 @@
 # DO NOT EDIT!
 # SERIOUSLY!
 # I MEAN IT!
-
+import warnings
 from typing import Union
 
 from TikTokLive.proto.custom_proto import *
@@ -1209,7 +1209,16 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
 
     user_info: ExtendedUser
     at_user: ExtendedUser
-    user_info: ExtendedUser
+
+    @property
+    def user(self):
+        """Backwards compatibility for user"""
+        warnings.warn(
+            "CommentEvent.user is deprecated - use CommentEvent.user_info instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.user_info
 
     @property
     def comment(self) -> str:
@@ -1269,6 +1278,16 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
         """
 
         return self.m_gift
+
+    @property
+    def user(self):
+        """Backwards compatibility for user"""
+        warnings.warn(
+            "GiftEvent.user is deprecated - use GiftEvent.from_user instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.from_user
 
     @property
     def streaking(self) -> bool:
