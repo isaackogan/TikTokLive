@@ -1209,7 +1209,7 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
 
     user_info: ExtendedUser
     at_user: ExtendedUser
-    user: ExtendedUser
+    user_info: ExtendedUser
 
     @property
     def comment(self) -> str:
@@ -1257,8 +1257,18 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
 
     from_user: ExtendedUser
     to_user: ExtendedUser
-    user: ExtendedUser
-    gift: ExtendedGift
+    m_gift: ExtendedGift
+
+    @property
+    def gift(self) -> ExtendedGift:
+        """
+        Get the gift object. m_gift is kind of a weird name, so, we'll just call it gift
+
+        :return: The gift object
+
+        """
+
+        return self.m_gift
 
     @property
     def streaking(self) -> bool:
@@ -1372,7 +1382,6 @@ class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
     """
 
     user: ExtendedUser
-    host: ExtendedUser
 
 
 class MessageDetectEvent(BaseEvent, WebcastMsgDetectMessage):
