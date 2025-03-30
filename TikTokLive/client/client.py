@@ -130,9 +130,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         if self._ws.connected:
             raise AlreadyConnectedError("You can only make one connection per client!")
 
-        if self._unique_id.isdigit() and self._is_userid:
-            resolved_id = await self._web.resolve_user_id(self._unique_id)
-            self._unique_id = unique_id = resolved_id
+        self._unique_id = await self._resolve_user_id(self._unique_id)
 
         # <Required> Fetch room ID
         try:
@@ -406,13 +404,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         """
 
-        if self._unique_id.isdigit() and self._is_userid:
-            resolved_id = await self._web.resolve_user_id(self._unique_id)
-
-            if not resolved_id:
-                raise FailedResolveUserId(f"Resolved ID is invalid: {resolved_id}")
-
-            self._unique_id = unique_id = resolved_id
+        self._unique_id = unique_id = await self._resolve_user_id(unique_id or self.unique_id)
 
         return await self._web.fetch_is_live(unique_id=unique_id or self.unique_id)
 
@@ -450,6 +442,16 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # Not a custom event
         return None
+
+    async def _resolve_user_id(self, unique_id: str | int) -> str:
+        """Resolve a unique_id and return the resolved value"""
+        parsed_id = self.parse_unique_id(unique_id)
+        if parsed_id.isdigit() and self._is_userid:
+            resolved_id = await self._web.resolve_user_id(parsed_id)
+            if not resolved_id:
+                raise FailedResolveUserId(f"Resolved ID is invalid: {resolved_id}")
+            return resolved_id
+        return parsed_id
 
     @property
     def unique_id(self) -> str:
