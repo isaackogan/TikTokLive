@@ -104,7 +104,7 @@ class WebcastWSClient:
         if not self.connected:
             return
 
-        print('sending ack', WebcastPushFrame(
+        self._logger.debug('sending ack', WebcastPushFrame(
             payload_type="ack",
             # ID of the WebcastPushMessage for the acknowledgement
             log_id=webcast_push_frame.log_id,
