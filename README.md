@@ -46,7 +46,7 @@ COMING SOON:
 
 ## Author's Choice
 
-The following are my two favourite services that utilize the TikTok LIVE libraries under the hood. This is <strong>not</strong> paid promotion, and I receive nothing for these recommendations:
+The following are my two favourite enterprise use-cases for the TikTokLive family of libraries. This is <strong>not</strong> paid promotion, and I receive nothing for these recommendations:
 
 <table>
 <tr>
