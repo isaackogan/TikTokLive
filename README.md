@@ -46,7 +46,7 @@ COMING SOON:
 
 ## Author's Choice
 
-Disclaimer: The following are my personal favourite end-user applications that use the TikTok LIVE libraries. This is <strong>not</strong> paid promotion. 
+The following are my two favourite services that utilize the TikTok LIVE libraries under the hood. This is <strong>not</strong> paid promotion, and I receive nothing for these recommendations:
 
 <table>
 <tr>
