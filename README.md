@@ -70,8 +70,6 @@ Disclaimer: The following are my personal favourite end-user applications that u
 </tr>
 </table>
 
-https://cdn.casterlabs.co/branding/casterlabs/icon.svg
-
 ## Table of Contents
 
 - [Getting Started](#getting-started)
