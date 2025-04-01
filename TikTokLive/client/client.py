@@ -19,8 +19,8 @@ from TikTokLive.client.ws.ws_connect import WebcastProxy
 from TikTokLive.events import Event, EventHandler
 from TikTokLive.events.custom_events import WebsocketResponseEvent, FollowEvent, ShareEvent, LiveEndEvent, \
     DisconnectEvent, LivePauseEvent, LiveUnpauseEvent, UnknownEvent, CustomEvent, ConnectEvent
-from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, ControlEvent
-from TikTokLive.proto import ProtoMessageFetchResult, ProtoMessageFetchResultBaseProtoMessage
+from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent
+from TikTokLive.proto import ProtoMessageFetchResult, ProtoMessageFetchResultBaseProtoMessage, WebcastControlMessage
 from TikTokLive.proto.custom_proto import ControlAction
 
 
@@ -407,7 +407,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         """
 
         # LiveEndEvent, LivePauseEvent, LiveUnpauseEvent
-        if isinstance(event, ControlEvent):
+        if isinstance(event, WebcastControlMessage):
             if event.action in {ControlAction.CONTROL_ACTION_STREAM_ENDED, ControlAction.CONTROL_ACTION_STREAM_SUSPENDED}:
                 # If the stream is over, disconnect the client. Can't await due to circular dependency.
                 self._asyncio_loop.create_task(self.disconnect())
