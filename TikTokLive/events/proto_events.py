@@ -7,6 +7,7 @@ from typing import Union
 
 from TikTokLive.proto.custom_proto import *
 from .base_event import BaseEvent
+from ..proto import Gift
 
 
 class KaraokeQueueListEvent(BaseEvent, WebcastKaraokeQueueListMessage):
@@ -1211,13 +1212,8 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
     at_user: ExtendedUser
 
     @property
-    def user(self):
+    def user(self) -> ExtendedUser:
         """Backwards compatibility for user"""
-        warnings.warn(
-            "CommentEvent.user is deprecated - use CommentEvent.user_info instead.",
-            DeprecationWarning,
-            stacklevel=2
-        )
         return self.user_info
 
     @property
@@ -1269,7 +1265,7 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
     m_gift: ExtendedGift
 
     @property
-    def gift(self) -> ExtendedGift:
+    def gift(self) -> Gift:
         """
         Get the gift object. m_gift is kind of a weird name, so, we'll just call it gift
 
@@ -1282,11 +1278,6 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
     @property
     def user(self):
         """Backwards compatibility for user"""
-        warnings.warn(
-            "GiftEvent.user is deprecated - use GiftEvent.from_user instead.",
-            DeprecationWarning,
-            stacklevel=2
-        )
         return self.from_user
 
     @property
