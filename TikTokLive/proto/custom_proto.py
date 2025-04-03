@@ -53,10 +53,27 @@ class ExtendedUser(User):
         :param user: Original user object
         :param kwargs: Any kwargs to pass
         :return: ExtendedUser instance
-
         """
 
-        return ExtendedUser(**user.to_pydict(**kwargs))
+        if isinstance(user, ExtendedUser):
+            return user
+        try:
+            return ExtendedUser(**user.to_pydict(**kwargs))
+        except AttributeError:
+            user_dict = {}
+            for field in user.__class__.__dataclass_fields__:
+                try:
+                    user_dict[field] = getattr(user, field)
+                except AttributeError as e:
+                    if "is set to None" in str(e):
+                        underlying_attr = f"_{field}"
+                        if hasattr(user, underlying_attr):
+                            user_dict[field] = getattr(user, underlying_attr)
+                        else:
+                            user_dict[field] = None
+                    else:
+                        raise
+            return ExtendedUser(**user_dict)
 
     @property
     def display_id(self):
