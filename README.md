@@ -44,6 +44,32 @@ COMING SOON:
 </tr>
 </table>
 
+## Author's Choice
+
+The following are my two favourite enterprise use-cases for the TikTokLive family of libraries. This is <strong>not</strong> paid promotion, and I receive nothing for these recommendations:
+
+<table>
+<tr>
+    <td><br/><img width="180px" style="border-radius: 10px" src="https://tiktory.com/images/meta/favicon.svg"><br/><br/></td>
+    <td>
+        <a href="https://www.tiktory.com">
+            <strong>Tiktory</strong> provides highly advanced custom overlays, follower alerts, and real-time goal tracking. Seamlessly integrate with OBS and stand out from the crowd!
+        </a>
+    </td>
+</tr>
+</table>
+
+<table>
+<tr>
+    <td><br/><img width="180px" style="border-radius: 10px" src="https://cdn.casterlabs.co/branding/casterlabs/icon.svg"><br/><br/></td>
+    <td>
+        <a href="https://casterlabs.co/">
+            <strong>Casterlabs</strong> is a powerful tool that unifies chats from various streaming platforms, providing a combined chat view, customizable alerts, and handy on-screen widgets for streamers!
+        </a>
+    </td>
+</tr>
+</table>
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)

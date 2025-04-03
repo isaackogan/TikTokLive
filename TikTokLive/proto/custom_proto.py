@@ -2,7 +2,6 @@ from __future__ import annotations
 
 # noinspection PyUnresolvedReferences
 import re
-import warnings
 # noinspection PyUnresolvedReferences
 from typing import Optional, List, Type, TypeVar, Tuple
 
@@ -61,12 +60,7 @@ class ExtendedUser(User):
 
     @property
     def display_id(self):
-        """Backwards compatibility for user"""
-        warnings.warn(
-            "ExtendedUser.display_id is deprecated - use ExtendedUser.username instead.",
-            DeprecationWarning,
-            stacklevel=2
-        )
+        """Backwards compatibility for username"""
         return getattr(self, "username", getattr(self, "nick_name", None))
 
     @property
@@ -217,11 +211,15 @@ class ExtendedGift(Gift):
 
     """
 
-    def __init__(self, proto_gift: Gift):
-        self.m_gift = proto_gift
+    def __init__(self, proto_gift: Gift = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-        for attr, value in proto_gift.__dict__.items():
-            setattr(self, attr, value)
+        if proto_gift is not None:
+            self.m_gift = proto_gift
+            for attr, value in proto_gift.__dict__.items():
+                setattr(self, attr, value)
+        else:
+            self.m_gift = None
 
     @property
     def streakable(self) -> bool:
