@@ -1214,7 +1214,7 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
     @property
     def user(self) -> ExtendedUser:
         """Backwards compatibility for user"""
-        return self.user_info
+        return ExtendedUser.from_user(self.user_info)
 
     @property
     def comment(self) -> str:
