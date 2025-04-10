@@ -17,7 +17,7 @@ from TikTokLive.client.web.web_client import TikTokWebClient
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_client import WebcastWSClient
 from TikTokLive.client.ws.ws_connect import WebcastProxy
-from TikTokLive.events import Event, EventHandler
+from TikTokLive.events import Event, EventHandler, ControlEvent
 from TikTokLive.events.custom_events import WebsocketResponseEvent, FollowEvent, ShareEvent, LiveEndEvent, \
     DisconnectEvent, LivePauseEvent, LiveUnpauseEvent, UnknownEvent, CustomEvent, ConnectEvent
 from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent
