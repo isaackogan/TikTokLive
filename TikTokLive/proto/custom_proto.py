@@ -92,6 +92,16 @@ class ExtendedUser(User):
         return self.username
 
     @property
+    def nickname(self) -> str:
+        """
+        Retrieve the user's @nickname
+
+        :return: User's nickname
+        """
+
+        return getattr(self, "nick_name", getattr(self, "username", None))
+
+    @property
     def is_friend(self) -> bool:
         """
         Is the user friends with the streamer
