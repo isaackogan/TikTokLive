@@ -165,6 +165,10 @@ class FetchSignedWebSocketRoute(ClientRoute):
             )
 
         jar.load(cookies_header)
-
         for cookie, morsel in jar.items():
+
+            # If it has the cookie, delete the cookie first
+            if self._web.cookies.get(cookie):
+                self._web.cookies.delete(cookie)
+
             self._web.cookies.set(cookie, morsel.value, ".tiktok.com")

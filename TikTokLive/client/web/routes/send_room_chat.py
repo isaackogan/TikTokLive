@@ -27,6 +27,7 @@ class SendRoomChatRoute(ClientRoute):
             sign_url=True,
             url=WebDefaults.tiktok_webcast_url + "/room/chat/",
             extra_params=extra_params,
+            http_backend='curl_cffi'
         )
 
         return response.json()

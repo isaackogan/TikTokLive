@@ -59,7 +59,6 @@ class FetchRoomInfoRoute(ClientRoute):
                 url=url,
                 extra_params=extra_params
             )
-
             # Get data
             data: dict = response.json().get("data", dict())
 

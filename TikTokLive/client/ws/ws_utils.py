@@ -1,4 +1,6 @@
+import base64
 import logging
+import os
 from gzip import GzipFile
 from http.cookies import SimpleCookie
 from io import BytesIO
@@ -40,8 +42,6 @@ def build_webcast_uri(
         **base_uri_params,
         "internal_ext": initial_webcast_response.internal_ext,
         "cursor": initial_webcast_response.cursor,
-        # todo gone from latest release
-        #  "history_comment_cursor": initial_webcast_response.history_comment_cursor,
     }
 
     # Build the URI
