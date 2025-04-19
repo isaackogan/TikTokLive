@@ -21,6 +21,6 @@ class FetchImageDataRoute(ClientRoute):
 
         """
 
-        image_url: str = image.url_list[0] if isinstance(image, ImageModel) else image
+        image_url: str = image.m_urls[0] if isinstance(image, ImageModel) else image
         response: Response = await self._web.get(url=image_url)
         return response.read()
