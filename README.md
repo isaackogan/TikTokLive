@@ -3,7 +3,7 @@ TikTokLive API
 This is an unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`.
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/isaackogan/)
-[![LinkedIn](https://www.eulerstream.com/api/pips/patrons?v=002)](https://www.eulerstream.com/)
+[![Patrons](https://www.eulerstream.com/api/pips/patrons?v=002)](https://www.eulerstream.com/)
 ![Connections](https://tiktok.eulerstream.com/analytics/pips/1)
 ![Downloads](https://pepy.tech/badge/tiktoklive)
 ![Stars](https://img.shields.io/github/stars/isaackogan/TikTokLive?style=flat&color=0274b5)
