@@ -12,7 +12,7 @@ from pyee.base import Handler
 
 from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, UserNotFoundError
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
-from TikTokLive.client.web.routes.resolve_user_id import FailedResolveUserId
+from TikTokLive.client.web.routes.fetch_user_unique_id import FailedResolveUserId
 from TikTokLive.client.web.web_client import TikTokWebClient
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_client import WebcastWSClient
@@ -447,7 +447,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         """Resolve a unique_id and return the resolved value"""
         parsed_id = self.parse_unique_id(unique_id)
         if parsed_id.isdigit() and self._is_userid:
-            resolved_id = await self._web.resolve_user_id(parsed_id)
+            resolved_id = await self._web.fetch_user_unique_id(parsed_id)
             if not resolved_id:
                 raise FailedResolveUserId(f"Resolved ID is invalid: {resolved_id}")
             return resolved_id

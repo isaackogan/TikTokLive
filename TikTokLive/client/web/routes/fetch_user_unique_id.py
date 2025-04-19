@@ -24,7 +24,7 @@ class FailedResolveUserId(TikTokLiveError):
     """
 
 
-class ResolveUserId(ClientRoute):
+class FetchUserUniqueIdRoute(ClientRoute):
     """
     Route to retrieve the room ID for a user
 

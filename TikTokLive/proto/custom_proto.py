@@ -9,9 +9,7 @@ from typing import Optional, List, Type, TypeVar, Tuple
 import betterproto
 
 from TikTokLive.proto import *
-from TikTokLive.proto import User, BadgeStruct
-from TikTokLive.proto.proto_utils import badge_match_user, SUBSCRIBER_BADGE_PATTERN, MODERATOR_BADGE_PATTERN, \
-    TOP_GIFTER_BADGE_PATTERN, MEMBER_LEVEL_BADGE_PATTERN, GIFTER_LEVEL_BADGE_PATTERN
+from TikTokLive.proto import User
 
 # "MessageType" is a proto enum field.
 # This underscore is the difference between life & death, because if you shadow the proto field,

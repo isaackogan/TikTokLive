@@ -120,7 +120,8 @@ class TikTokSigner:
         if sign_response['code'] == 403:
             raise PremiumEndpointError(
                 "You do not have permission from the signature provider to sign this URL.",
-                api_message=sign_response['message']
+                api_message=sign_response['message'],
+                response=response
             )
 
         if "msToken" not in sign_response['response']['signedUrl']:
