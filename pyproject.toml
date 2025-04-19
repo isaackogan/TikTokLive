@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "TikTokLive"
-version = "6.5.0"
+version = "6.5.1"
 description = "TikTok Live Python Client"
 readme = "README.md"  # Corrected format
 requires-python = ">=3.10"
