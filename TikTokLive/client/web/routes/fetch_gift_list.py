@@ -2,11 +2,12 @@ from typing import Any, Dict, Optional
 
 from httpx import Response
 
+from TikTokLive.client.errors import TikTokLiveError
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
-class FailedFetchGiftListError(RuntimeError):
+class FailedFetchGiftListError(TikTokLiveError):
     """
     Thrown when a request to the gift list endpoint fails
 

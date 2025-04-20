@@ -7,7 +7,7 @@ import betterproto
 import jinja2
 
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
-from TikTokLive.proto.tiktok_proto import Common
+from TikTokLive.proto.tiktok_proto import CommonMessageData
 
 MESSAGE_OVERRIDES: Dict[str, str] = {
     "WebcastMsgDetectMessage": "MessageDetectEvent",
@@ -41,11 +41,11 @@ def is_proto_event(name: str, instance: Type[object]) -> bool:
         return False
 
     # Only Events have a common
-    if not hints.get('common'):
+    if not hints.get('base_message'):
         return False
 
     # Check, just in case...
-    if not issubclass(hints['common'], Common):
+    if not issubclass(hints['base_message'], CommonMessageData):
         return False
 
     return True

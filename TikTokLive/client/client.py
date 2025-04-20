@@ -12,15 +12,17 @@ from pyee.base import Handler
 
 from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, UserNotFoundError
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
+from TikTokLive.client.web.routes.fetch_user_unique_id import FailedResolveUserId
 from TikTokLive.client.web.web_client import TikTokWebClient
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_client import WebcastWSClient
 from TikTokLive.client.ws.ws_connect import WebcastProxy
-from TikTokLive.events import Event, EventHandler
+from TikTokLive.events import Event, EventHandler, ControlEvent
 from TikTokLive.events.custom_events import WebsocketResponseEvent, FollowEvent, ShareEvent, LiveEndEvent, \
     DisconnectEvent, LivePauseEvent, LiveUnpauseEvent, UnknownEvent, CustomEvent, ConnectEvent
-from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, ControlEvent
-from TikTokLive.proto import WebcastResponse, WebcastResponseMessage, ControlAction
+from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent
+from TikTokLive.proto import ProtoMessageFetchResult, ProtoMessageFetchResultBaseProtoMessage
+from TikTokLive.proto.custom_proto import ControlAction
 
 
 class TikTokLiveClient(AsyncIOEventEmitter):
@@ -32,7 +34,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
     def __init__(
             self,
             # User to connect to
-            unique_id: str,
+            unique_id: str | int,
 
             # Proxies
             web_proxy: Optional[httpx.Proxy] = None,
@@ -40,7 +42,9 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
             # Client kwargs
             web_kwargs: Optional[dict] = None,
-            ws_kwargs: Optional[dict] = None
+            ws_kwargs: Optional[dict] = None,
+
+            is_userid: Optional[bool] = False
     ):
         """
         Instantiate the TikTokLiveClient client
@@ -50,6 +54,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :param ws_proxy: An optional proxy used for the WebSocket connection
         :param web_kwargs: Optional arguments used by the HTTP client
         :param ws_kwargs: Optional arguments used by the WebSocket client
+        :param is_userid: Optional argument to resolve userid to unique_id
 
         """
 
@@ -73,6 +78,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         self.ignore_broken_payload: bool = False
 
         # Properties
+        self._is_userid: bool = is_userid
         self._unique_id: str = self.parse_unique_id(unique_id)
         self._room_id: Optional[int] = None
         self._room_info: Optional[Dict[str, Any]] = None
@@ -103,7 +109,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             fetch_room_info: bool = False,
             fetch_gift_info: bool = False,
             fetch_live_check: bool = True,
-            room_id: Optional[int] = None
+            room_id: Optional[int] = None,
+            preferred_agent_ids: Optional[list[str]] = None
     ) -> Task:
         """
         Create a non-blocking connection to TikTok LIVE and return the task
@@ -115,6 +122,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :param room_id: An override to the room ID to connect directly to the livestream and skip scraping the live.
                         Useful when trying to scale, as scraping the HTML can result in TikTok blocks.
         :param compress_ws_events: Whether to compress the WebSocket events using gzip compression (you should probably have this on)
+        :param preferred_agent_ids: The preferred agent IDs to use when connecting to the WebSocket
         :return: Task containing the heartbeat of the client
 
         """
@@ -122,9 +130,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         if self._ws.connected:
             raise AlreadyConnectedError("You can only make one connection per client!")
 
+        self._unique_id = await self._resolve_user_id(self._unique_id)
+
         # <Required> Fetch room ID
         try:
-            self._room_id: int = room_id or await self._web.fetch_room_id_from_html(self._unique_id)
+            self._room_id: int = int(room_id or await self._web.fetch_room_id_from_html(self._unique_id))
         except Exception as base_ex:
 
             if isinstance(base_ex, UserOfflineError) or isinstance(base_ex, UserNotFoundError):
@@ -132,7 +142,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
             try:
                 self._logger.error("Failed to parse room ID from HTML. Using API fallback.")
-                self._room_id: int = await self._web.fetch_room_id_from_api(self.unique_id)
+                self._room_id: int = int(await self._web.fetch_room_id_from_api(self.unique_id))
             except Exception as super_ex:
                 raise super_ex from base_ex
 
@@ -152,7 +162,9 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self._gift_info = await self._web.fetch_gift_list()
 
         # <Required> Fetch the first response
-        initial_webcast_response: WebcastResponse = await self._web.fetch_signed_websocket()
+        initial_webcast_response: ProtoMessageFetchResult = await self._web.fetch_signed_websocket(
+            preferred_agent_ids=preferred_agent_ids
+        )
 
         # Start the websocket connection & return it
         self._event_loop_task = self._asyncio_loop.create_task(
@@ -293,14 +305,14 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
     async def _ws_client_loop(
             self,
-            initial_webcast_response: WebcastResponse,
+            initial_webcast_response: ProtoMessageFetchResult,
             process_connect_events: bool,
             compress_ws_events: bool
     ) -> None:
         """
         Run the websocket loop to handle incoming WS events
 
-        :param initial_webcast_response: The WebcastResponse (as bytes) retrieved from the sign server with connection info
+        :param initial_webcast_response: The ProtoMessageFetchResult (as bytes) retrieved from the sign server with connection info
         :param process_connect_events: Whether to process initial events sent on room join
         :param compress_ws_events: Whether to compress the WebSocket events using gzip compression
         :return: None
@@ -314,7 +326,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 compress_ws_events=compress_ws_events,
                 cookies=self._web.cookies,
                 room_id=self._room_id,
-                user_agent=self._web.headers['User-Agent']
+                user_agent=self._web.headers['User-Agent'],
+                authenticate_websocket=self._web.authenticate_websocket
         ):
 
             # Iterate over the events extracted
@@ -326,11 +339,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         ev: DisconnectEvent = DisconnectEvent()
         self.emit(ev.type, ev)
 
-    async def _parse_webcast_response(self, webcast_response: WebcastResponse) -> AsyncIterator[Event]:
+    async def _parse_webcast_response(self, webcast_response: ProtoMessageFetchResult) -> AsyncIterator[Event]:
         """
         Parse incoming webcast responses into events that can be emitted
 
-        :param webcast_response: The WebcastResponse protobuf message
+        :param webcast_response: The ProtoMessageFetchResult protobuf message
         :return: A list of events that can be gleamed from this event
 
         """
@@ -345,18 +358,19 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 if event is not None:
                     yield event
 
-    async def _parse_webcast_response_message(self, webcast_response_message: Optional[WebcastResponseMessage]) -> List[Event]:
+    async def _parse_webcast_response_message(self, webcast_response_message: Optional[
+        ProtoMessageFetchResultBaseProtoMessage]) -> List[Event]:
         """
         Parse incoming webcast responses into events that can be emitted
 
-        :param webcast_response_message: The WebcastResponseMessage protobuf message
+        :param webcast_response_message: The ProtoMessageFetchResultMessage protobuf message
         :return: A list of events that can be gleamed from this event
 
         """
 
         # Invalid response handler
         if webcast_response_message is None:
-            self._logger.warning("Received a null WebcastResponseMessage from the Webcast server.")
+            self._logger.warning("Received a null ProtoMessageFetchResultMessage from the Webcast server.")
             return []
 
         # Get the proto mapping for proto-events
@@ -372,7 +386,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             proto_event: ProtoEvent = event_type().parse(webcast_response_message.payload)
         except Exception:
             if not self.ignore_broken_payload:
-                self._logger.error(traceback.format_exc() + "\nBroken Payload:\n" + str(webcast_response_message.payload))
+                self._logger.error(
+                    traceback.format_exc() + "\nBroken Payload:\n" + str(webcast_response_message.payload))
             return [response_event]
 
         parsed_events: List[Event] = [response_event, proto_event]
@@ -381,7 +396,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # Add the custom event IF not null
         return [custom_event, *parsed_events] if custom_event else parsed_events
 
-    async def is_live(self, unique_id: Optional[str] = None) -> bool:
+    async def is_live(self, unique_id: Optional[str | int] = None) -> bool:
         """
         Check if the client is currently live on TikTok
 
@@ -390,13 +405,16 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         """
 
+        self._unique_id = unique_id = await self._resolve_user_id(unique_id or self.unique_id)
+
         return await self._web.fetch_is_live(unique_id=unique_id or self.unique_id)
 
-    async def handle_custom_event(self, response: WebcastResponseMessage, event: ProtoEvent) -> Optional[CustomEvent]:
+    async def handle_custom_event(self, response: ProtoMessageFetchResultBaseProtoMessage, event: ProtoEvent) -> \
+            Optional[CustomEvent]:
         """
         Extract CustomEvent events from existing ProtoEvent events
 
-        :param response: The WebcastResponseMessage to parse for the custom event
+        :param response: The ProtoMessageFetchResultMessage to parse for the custom event
         :param event: The ProtoEvent to parse for the custom event
         :return: The event, if one exists
 
@@ -404,26 +422,37 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # LiveEndEvent, LivePauseEvent, LiveUnpauseEvent
         if isinstance(event, ControlEvent):
-            if event.action in {ControlAction.STREAM_ENDED, ControlAction.STREAM_SUSPENDED}:
+            if event.action in {ControlAction.CONTROL_ACTION_STREAM_ENDED,
+                                ControlAction.CONTROL_ACTION_STREAM_SUSPENDED}:
                 # If the stream is over, disconnect the client. Can't await due to circular dependency.
                 self._asyncio_loop.create_task(self.disconnect())
                 return LiveEndEvent().parse(response.payload)
-            elif event.action == ControlAction.STREAM_PAUSED:
+            elif event.action == ControlAction.CONTROL_ACTION_STREAM_PAUSED:
                 return LivePauseEvent().parse(response.payload)
-            elif event.action == ControlAction.STREAM_PAUSED:
+            elif event.action == ControlAction.CONTROL_ACTION_STREAM_PAUSED:
                 return LiveUnpauseEvent().parse(response.payload)
             return None
 
         # FollowEvent
-        if "follow" in event.common.display_text.key:
+        if "follow" in event.base_message.display_text.key:
             return FollowEvent().parse(response.payload)
 
         # ShareEvent
-        if "share" in event.common.display_text.key:
+        if "share" in event.base_message.display_text.key:
             return ShareEvent().parse(response.payload)
 
         # Not a custom event
         return None
+
+    async def _resolve_user_id(self, unique_id: str | int) -> str:
+        """Resolve a unique_id and return the resolved value"""
+        parsed_id = self.parse_unique_id(unique_id)
+        if parsed_id.isdigit() and self._is_userid:
+            resolved_id = await self._web.fetch_user_unique_id(parsed_id)
+            if not resolved_id:
+                raise FailedResolveUserId(f"Resolved ID is invalid: {resolved_id}")
+            return resolved_id
+        return parsed_id
 
     @property
     def unique_id(self) -> str:

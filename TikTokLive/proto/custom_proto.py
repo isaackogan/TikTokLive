@@ -9,9 +9,7 @@ from typing import Optional, List, Type, TypeVar, Tuple
 import betterproto
 
 from TikTokLive.proto import *
-from TikTokLive.proto import User, BadgeStruct
-from TikTokLive.proto.proto_utils import badge_match_user, SUBSCRIBER_BADGE_PATTERN, MODERATOR_BADGE_PATTERN, \
-    TOP_GIFTER_BADGE_PATTERN, MEMBER_LEVEL_BADGE_PATTERN, GIFTER_LEVEL_BADGE_PATTERN
+from TikTokLive.proto import User
 
 # "MessageType" is a proto enum field.
 # This underscore is the difference between life & death, because if you shadow the proto field,
@@ -53,10 +51,33 @@ class ExtendedUser(User):
         :param user: Original user object
         :param kwargs: Any kwargs to pass
         :return: ExtendedUser instance
-
         """
 
-        return ExtendedUser(**user.to_pydict(**kwargs))
+        if isinstance(user, ExtendedUser):
+            return user
+        try:
+            return ExtendedUser(**user.to_pydict(**kwargs))
+        except AttributeError:
+            user_dict = {}
+            for field in user.__class__.__dataclass_fields__:
+                try:
+                    user_dict[field] = getattr(user, field)
+                except AttributeError as e:
+                    if "is set to None" in str(e):
+                        underlying_attr = f"_{field}"
+                        if hasattr(user, underlying_attr):
+                            user_dict[field] = getattr(user, underlying_attr)
+                        else:
+                            user_dict[field] = None
+                    else:
+                        raise
+            return ExtendedUser(**user_dict)
+
+    @property
+    def display_id(self):
+        """Backwards compatibility for username"""
+
+        return getattr(self, "username", getattr(self, "nick_name", None))
 
     @property
     def unique_id(self) -> str:
@@ -64,10 +85,19 @@ class ExtendedUser(User):
         Retrieve the user's @unique_id
 
         :return: User's unique_id
-
         """
 
-        return self.display_id
+        return self.username
+
+    @property
+    def nickname(self) -> str:
+        """
+        Retrieve the user's @nickname
+
+        :return: User's nickname
+        """
+
+        return getattr(self, "nick_name", getattr(self, "username", None))
 
     @property
     def is_friend(self) -> bool:
@@ -83,21 +113,60 @@ class ExtendedUser(User):
 
         return (self.follow_info.follow_status or 0) >= 2
 
+    def _get_all_badge_info(self) -> List[Tuple[str, str]]:
+        """
+        Retrieve unique badge types with their levels.
+
+        :return: List of (badge_type, level) tuples, with unique badge types
+        """
+
+        badge_dict = {}
+        for badge in getattr(self, "badge_list", []):
+            scene = getattr(badge, "badge_scene", None)
+            log_extra = getattr(badge, "log_extra", None)
+            badge_level = getattr(log_extra, "level", None) if log_extra else None
+            if scene and badge_level:
+                scene_name = str(scene).replace("BADGE_SCENE_TYPE_", "").upper()
+                if scene_name not in badge_dict:
+                    badge_dict[scene_name] = str(badge_level)
+        return list(badge_dict.items())
+
+    def _get_badge_level(self, badge_type: str, level: Optional[str | int] = None) -> Optional[int]:
+        """
+        Retrieve the level of a specific badge type with optional validation.
+
+        :param badge_type: Badge type to check (e.g., "FANS", "SUBSCRIBER").
+        :param level: Optional level to validate.
+        :return: Level as int if found and validated, None otherwise.
+        """
+
+        target_badge = badge_type.replace("BADGE_SCENE_TYPE_", "").upper()
+        for badge_name, badge_level in self._get_all_badge_info():
+            if badge_name == target_badge:
+                if level is None or str(level) == badge_level:
+                    return int(badge_level)
+        return None
+
+    def has_badge(self, badge_type: str, level: Optional[str | int] = None) -> bool:
+        """
+        Check if the user has a specific badge type with optional level validation.
+
+        :param badge_type: Badge type to check (e.g., "SUBSCRIBER").
+        :param level: Optional level to validate.
+        :return: True if the badge exists with matching criteria, False otherwise.
+        """
+
+        return self._get_badge_level(badge_type, level) is not None
+
     @property
-    def subscriber_badge(self) -> Optional[BadgeStruct]:
+    def get_all_badges(self) -> List[Tuple[str, str]]:
         """
-        Retrieve the subscriber badge of a user
+        Retrieve all badges with their types and levels.
 
-        :return: The user's subscriber badge
-
+        :return: List of (badge_type, level) tuples
         """
 
-        matches: List[Tuple[re.Match, BadgeStruct]] = badge_match_user(
-            user=self,
-            p=SUBSCRIBER_BADGE_PATTERN
-        )
-
-        return matches[0] if matches else None
+        return self._get_all_badge_info()
 
     @property
     def is_subscriber(self) -> bool:
@@ -108,7 +177,7 @@ class ExtendedUser(User):
 
         """
 
-        return bool(self.subscriber_badge)
+        return bool(self.has_badge("SUBSCRIBER"))
 
     @property
     def is_moderator(self) -> bool:
@@ -119,12 +188,7 @@ class ExtendedUser(User):
 
         """
 
-        return bool(
-            badge_match_user(
-                user=self,
-                p=MODERATOR_BADGE_PATTERN
-            )
-        )
+        return bool(self._get_badge_level("ADMIN") == 0)
 
     @property
     def is_top_gifter(self) -> bool:
@@ -135,12 +199,7 @@ class ExtendedUser(User):
 
         """
 
-        return bool(
-            badge_match_user(
-                user=self,
-                p=TOP_GIFTER_BADGE_PATTERN
-            )
-        )
+        return bool(self._get_badge_level("RANK_LIST") == 0)
 
     @property
     def member_level(self) -> Optional[int]:
@@ -150,15 +209,7 @@ class ExtendedUser(User):
         :return: The parsed member level badge
         """
 
-        matches: list[tuple[re.Match, BadgeStruct]] = badge_match_user(
-            user=self,
-            p=MEMBER_LEVEL_BADGE_PATTERN
-        )
-
-        if len(matches) > 0:
-            return int(matches[0][0].group(1))
-
-        return None
+        return self._get_badge_level("FANS")
 
     @property
     def member_rank(self) -> Optional[str]:
@@ -169,42 +220,36 @@ class ExtendedUser(User):
 
         """
 
-        matches: list[tuple[re.Match, BadgeStruct]] = badge_match_user(
-            user=self,
-            p=MEMBER_LEVEL_BADGE_PATTERN
-        )
-
-        if len(matches) > 0:
-            return matches[0][1].combine.str
-
-        return None
+        return self.member_level
 
     @property
     def gifter_level(self) -> Optional[int]:
         """
-        What is the user's "gifter level" in the stream? An actual number specific to their level.
+        What is the user's "gifter level" overall? An actual number specific to their level.
 
         :return: The parsed gifter level from the gifter level badge
 
         """
 
-        matches: list[tuple[re.Match, BadgeStruct]] = badge_match_user(
-            user=self,
-            p=GIFTER_LEVEL_BADGE_PATTERN
-        )
-
-        if len(matches) > 0:
-            return int(matches[0][1].combine.str)
-
-        return None
+        return self._get_badge_level("USER_GRADE")
 
 
 @proto_extension
-class ExtendedGiftStruct(GiftStruct):
+class ExtendedGift(Gift):
     """
     Extended gift object with clearer streak handling
 
     """
+
+    def __init__(self, proto_gift: Gift = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if proto_gift is not None:
+            self.m_gift = proto_gift
+            for attr, value in proto_gift.__dict__.items():
+                setattr(self, attr, value)
+        else:
+            self.m_gift = None
 
     @property
     def streakable(self) -> bool:
@@ -216,3 +261,11 @@ class ExtendedGiftStruct(GiftStruct):
         """
 
         return self.type == 1
+
+
+class ControlAction(betterproto.Enum):
+    CONTROL_ACTION_FALLBACK_UNKNOWN = 0
+    CONTROL_ACTION_STREAM_PAUSED = 1
+    CONTROL_ACTION_STREAM_UNPAUSED = 2
+    CONTROL_ACTION_STREAM_ENDED = 3
+    CONTROL_ACTION_STREAM_SUSPENDED = 4

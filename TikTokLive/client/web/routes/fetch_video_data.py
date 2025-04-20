@@ -10,6 +10,7 @@ from typing import Optional, Union
 
 from ffmpy import FFmpeg, FFRuntimeError
 
+from TikTokLive.client.errors import TikTokLiveError
 from TikTokLive.client.web.web_base import ClientRoute, TikTokHTTPClient
 
 
@@ -46,7 +47,7 @@ class VideoFetchQuality(enum.Enum):
     """Original definition (N/A, vbrate-N/A)"""
 
 
-class DuplicateDownloadError(RuntimeError):
+class DuplicateDownloadError(TikTokLiveError):
     """
     Thrown when attempting to start a duplicate download on a video you are already downloading
 
@@ -72,6 +73,7 @@ class FetchVideoDataRoute(ClientRoute):
         # Storage for the thread / ffmpeg
         self._ffmpeg: Optional[FFmpeg] = None
         self._thread: Optional[Thread] = None
+        self._output_fp: Optional[str] = None
 
     @property
     def ffmpeg(self) -> Optional[FFmpeg]:
@@ -94,6 +96,17 @@ class FetchVideoDataRoute(ClientRoute):
         """
 
         return bool(self._ffmpeg) and self._thread and self._ffmpeg.process
+
+    @property
+    def output_filename(self) -> Optional[str]:
+        """
+        Get the output filename
+
+        :return: output filename or None
+
+        """
+
+        return self._output_fp
 
     def __call__(
             self,
@@ -118,6 +131,7 @@ class FetchVideoDataRoute(ClientRoute):
         :return: None
 
         """
+        self._output_fp = str(output_fp)
 
         unique_id: str = room_info['owner']['display_id']
         self._logger.info(f"Attempting to start download on stream for '{unique_id}'.")
@@ -125,7 +139,7 @@ class FetchVideoDataRoute(ClientRoute):
         if self._ffmpeg is not None:
             raise DuplicateDownloadError("You are already downloading this stream!")
 
-        record_time: Optional[str] = f"-t {record_for}" if record_for and record_for > 0 else None
+        record_time: dict = {str(record_for): "-t"} if record_for and record_for > 0 else {}
         record_data: dict = json.loads(room_info['stream_url']['live_core_sdk_data']['pull_data']['stream_data'])
         record_url_data: dict = record_data['data'][quality.value]['main']
         record_url: str = record_url_data.get(record_format.value) or record_url_data['flv']
@@ -133,11 +147,12 @@ class FetchVideoDataRoute(ClientRoute):
         self._ffmpeg = FFmpeg(
             inputs={**{record_url: None}, **kwargs.pop('inputs', dict())},
             outputs={
+                **{v: k for k, v in kwargs.pop('outputs', dict()).items()},
                 **{
-                    str(output_fp): record_time,
+                    **record_time,
+                    str(output_fp): None,
                     output_format or record_format.value: "-f"
-                },
-                **kwargs.pop('outputs', dict())
+                }
             },
             global_options=(
                 list(

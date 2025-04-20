@@ -2,7 +2,7 @@
 
 
 # Extract version from setup.py
-VERSION_TAG="6.3.1"
+VERSION_TAG="6.5.1.post1"
 
 echo "-> Starting build for version \"$VERSION_TAG\""
 
@@ -10,9 +10,9 @@ echo "-> Updating \"TikTokLive/__version__.py\""
 
 echo "PACKAGE_VERSION: str = \"$VERSION_TAG\"" > ../TikTokLive/__version__.py
 
-echo "-> Updating \"setup.py\""
+echo "-> Updating \"pyproject.toml\""
 
-sed -i '' "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION_TAG\"|" "../setup.py"
+sed -i '' "s/^version = \".*\"/version = \"$VERSION_TAG\"/" "../pyproject.toml"
 
 sed -i '' "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION_TAG\"|" "../scripts/docs/manifest.json"
 
@@ -30,4 +30,5 @@ python -m build
 
 echo "-> Finished build..."
 
-read -p "Press any key to continue..." x
+cd ./scripts
+python ./publish.py

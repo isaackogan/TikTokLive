@@ -2,12 +2,13 @@ from typing import Optional, List
 
 from httpx import Response
 
+from TikTokLive.client.errors import TikTokLiveError
 from TikTokLive.client.web.routes.fetch_room_id_api import FetchRoomIdAPIRoute
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
-class InvalidFetchIsLiveRequest(RuntimeError):
+class InvalidFetchIsLiveRequest(TikTokLiveError):
     """
     Thrown when the user fails to specify either a room ID or unique ID
 
@@ -16,7 +17,7 @@ class InvalidFetchIsLiveRequest(RuntimeError):
     pass
 
 
-class MissingRoomIdInResponse(RuntimeError):
+class MissingRoomIdInResponse(TikTokLiveError):
     """
     Thrown when no entries are returned from the Room ID live method. This occurs when passing a nonexistent Room ID or when being detected by TikTok.
 

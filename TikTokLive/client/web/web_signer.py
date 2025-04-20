@@ -52,14 +52,18 @@ class TikTokSigner:
 
         """
 
-        self._sign_api_key: Optional[str] = sign_api_key or os.environ.get("SIGN_API_KEY") or WebDefaults.tiktok_sign_api_key
-        self._sign_api_base: str = sign_api_base or os.environ.get("SIGN_API_URL") or WebDefaults.tiktok_sign_url
+        self._sign_api_key: Optional[str] = sign_api_key or WebDefaults.tiktok_sign_api_key or os.environ.get("SIGN_API_KEY")
+        self._sign_api_base: str = sign_api_base or WebDefaults.tiktok_sign_url or os.environ.get("SIGN_API_URL")
+
+        initial_headers: dict[str, str] = {
+            "User-Agent": f"TikTokLive.py/{PACKAGE_VERSION}"
+        }
+
+        if self._sign_api_key:
+            initial_headers['X-Api-Key'] = self._sign_api_key
 
         self._httpx: httpx.AsyncClient = httpx.AsyncClient(
-            headers={
-                "User-Agent": f"TikTokLive.py/{PACKAGE_VERSION}",
-                "X-Api-Key": self._sign_api_key or ""
-            },
+            headers=initial_headers,
             verify=False
         )
 
@@ -116,7 +120,8 @@ class TikTokSigner:
         if sign_response['code'] == 403:
             raise PremiumEndpointError(
                 "You do not have permission from the signature provider to sign this URL.",
-                api_message=sign_response['message']
+                api_message=sign_response['message'],
+                response=response
             )
 
         if "msToken" not in sign_response['response']['signedUrl']:
@@ -125,3 +130,8 @@ class TikTokSigner:
             )
 
         return sign_response
+
+    @property
+    def client(self) -> httpx.AsyncClient:
+        """The httpx client used to sign requests"""
+        return self._httpx

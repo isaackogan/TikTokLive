@@ -1,5 +1,4 @@
 import asyncio
-import base64
 import typing
 from asyncio import Task
 from typing import Optional, AsyncIterator, Union, Type
@@ -11,14 +10,14 @@ from websockets.legacy.client import WebSocketClientProtocol
 from TikTokLive.client.logger import TikTokLiveLogHandler
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_connect import WebcastProxyConnect, WebcastConnect, WebcastProxy, WebcastIterator
-from TikTokLive.proto import WebcastPushFrame, WebcastResponse
+from TikTokLive.proto import ProtoMessageFetchResult
+from TikTokLive.proto.custom_extras import WebcastPushFrame, HeartbeatFrame
 
 
 class WebcastWSClient:
     """Websocket client responsible for connections to TikTok"""
 
-    DEFAULT_PING_INTERVAL: float = 1.0
-    PING_MESSAGE: bytes = base64.b64decode(b'MgJwYjoCaGI=')  # Used to be '3A026862' aka ':\x02hb', now is '2\x02pb:\x02hb'.
+    DEFAULT_PING_INTERVAL: float = 5.0
 
     def __init__(
             self,
@@ -89,14 +88,14 @@ class WebcastWSClient:
 
     async def send_ack(
             self,
-            webcast_response: WebcastResponse,
+            webcast_response: ProtoMessageFetchResult,
             webcast_push_frame: WebcastPushFrame
     ) -> None:
         """
-        Acknowledge the receipt of a WebcastResponse message from TikTok, if necessary
+        Acknowledge the receipt of a ProtoMessageFetchResult message from TikTok, if necessary
 
-        :param webcast_response: The WebcastResponse to acknowledge
-        :param webcast_push_frame: The WebcastPushFrame containing the WebcastResponse
+        :param webcast_response: The ProtoMessageFetchResult to acknowledge
+        :param webcast_push_frame: The WebcastPushFrame containing the ProtoMessageFetchResult
         :return: None
 
         """
@@ -111,7 +110,7 @@ class WebcastWSClient:
                 payload_type="ack",
                 # ID of the WebcastPushMessage for the acknowledgement
                 log_id=webcast_push_frame.log_id,
-                # [Unknown] Hypothesized to be an acknowledgement of the WebcastResponse (& its messages) within the WebcastPushMessage
+                # [Unknown] Hypothesized to be an acknowledgement of the ProtoMessageFetchResult (& its messages) within the WebcastPushMessage
                 payload=(webcast_response.internal_ext or "-").encode()
             )
         )
@@ -128,15 +127,63 @@ class WebcastWSClient:
 
         await self.ws.close()
 
+    def get_ws_cookie_string(self, cookies: httpx.Cookies, authenticate_websocket: bool) -> str:
+        """
+        Get the cookie string for the WebSocket connection.
+
+        :param cookies: Cookies to pass to the WebSocket connection
+        :param authenticate_websocket: Whether the WebSocket is authenticated
+        :return: Cookie string
+        """
+
+        cookie_values = []
+        session_id: str | None = cookies.get("sessionid")
+
+        # If session_id is None and authentication is required, raise an error or handle appropriately
+        if authenticate_websocket and session_id is None:
+            self._logger.error("Session ID is required for WebSocket authentication, but none was found.")
+            raise ValueError("Session ID is required for WebSocket authentication.")
+
+        # Exclude all session ID's if session_id exists and authentication is not required
+        for key, value in cookies.items():
+            if session_id and not authenticate_websocket and session_id in value:
+                continue
+            cookie_values.append(f"{key}={value};")
+
+        cookie_string = " ".join(cookie_values)
+
+        # Handle session_id presence and create redacted cookie string
+        if session_id:
+            redacted_sid = session_id[:8] + "*" * (len(session_id) - 8)
+            redacted_cookie_string = cookie_string.replace(session_id, redacted_sid)
+
+            # Log that we're creating a cookie string for a logged-in session
+            if authenticate_websocket:
+                self._logger.warning(
+                    f"Created WS Cookie string for a LOGGED IN TikTok LIVE WebSocket session (Session ID: {redacted_sid}). "
+                    f"Cookies: {redacted_cookie_string}"
+                )
+            else:
+                self._logger.debug(
+                    f"Created WS Cookie string for an ANONYMOUS TikTok Live WebSocket session. Cookies: {redacted_cookie_string}"
+                )
+        else:
+            self._logger.debug(
+                f"Created WS Cookie string for an ANONYMOUS TikTok Live WebSocket session. Cookies: {cookie_string}"
+            )
+
+        return cookie_string
+
     async def connect(
             self,
             room_id: int,
             cookies: httpx.Cookies,
+            authenticate_websocket: bool,
             user_agent: str,
-            initial_webcast_response: WebcastResponse,
+            initial_webcast_response: ProtoMessageFetchResult,
             process_connect_events: bool = True,
             compress_ws_events: bool = True
-    ) -> AsyncIterator[WebcastResponse]:
+    ) -> AsyncIterator[ProtoMessageFetchResult]:
         """
         Connect to the Webcast server & iterate over response messages.
 
@@ -161,13 +208,14 @@ class WebcastWSClient:
 
         --- Parameters --
 
-        :param initial_webcast_response: The Initial WebcastResponse from the sign server - NOT a PushFrame
+        :param initial_webcast_response: The Initial ProtoMessageFetchResult from the sign server - NOT a PushFrame
         :param room_id: The room ID to connect to
         :param user_agent: The user agent to pass to the WebSocket connection
         :param cookies: The cookies to pass to the WebSocket connection
+        :param authenticate_websocket: Whether to authenticate the WebSocket connection
         :param process_connect_events: Whether to process the initial events sent in the first fetch
         :param compress_ws_events: Whether to ask TikTok to gzip the WebSocket events
-        :return: Yields WebcastResponseMessage, the messages within WebcastResponse.messages
+        :return: Yields ProtoMessageFetchResultMessage, the messages within ProtoMessageFetchResult.messages
 
         """
 
@@ -201,7 +249,7 @@ class WebcastWSClient:
             # Extra headers
             extra_headers={
                 # Must pass cookies to connect to the WebSocket
-                "Cookie": " ".join(f"{k}={v};" for k, v in cookies.items()),
+                "Cookie": self.get_ws_cookie_string(cookies=cookies, authenticate_websocket=authenticate_websocket),
                 "User-Agent": user_agent,
 
                 # Optional override for the headers
@@ -216,15 +264,16 @@ class WebcastWSClient:
             }
         )
 
-        # Open a connection & yield WebcastResponse items
+        # Open a connection & yield ProtoMessageFetchResult items
         async for webcast_push_frame, webcast_response in typing.cast(WebcastIterator, self._connection_generator):
 
             # The first message does NOT need an ack since we perform the ack with the actual WebSocket connect URI
             if webcast_response.is_first:
-                self.restart_ping_loop()
+                self.restart_ping_loop(room_id=room_id)
 
             # Ack when necessary
-            if webcast_response.needs_ack:
+            # todo acks are not handled properly (or sent AT ALL!!)
+            if webcast_response.need_ack:
                 await self.send_ack(webcast_response=webcast_response, webcast_push_frame=webcast_push_frame)
 
             # Yield the response
@@ -245,7 +294,7 @@ class WebcastWSClient:
         self._ping_loop = None
         self._connection_generator = None
 
-    def restart_ping_loop(self) -> None:
+    def restart_ping_loop(self, room_id: int) -> None:
         """
         Restart the WebSocket ping loop
 
@@ -254,27 +303,40 @@ class WebcastWSClient:
         if self._ping_loop:
             self._ping_loop.cancel()
 
-        self._ping_loop = asyncio.create_task(self._ping_loop_fn())
+        self._ping_loop = asyncio.create_task(self._ping_loop_fn(room_id))
 
-    async def _ping_loop_fn(self) -> None:
+    async def _ping_loop_fn(self, room_id: int) -> None:
         """
         Send a ping every 10 seconds to keep the connection alive
 
         """
 
-        # Must be connected to loop as ping_interval requires the WS be instantiated
-        if not self.connected:
+        try:
+            # Must be connected to loop as ping_interval requires the WS be instantiated
+            if not self.connected:
+                return
+
+            # Calculate the ping interval
+            ping_interval: float = self.DEFAULT_PING_INTERVAL
+            if self._connection_generator is not None and self._connection_generator.ws_options is not None:
+                ping_interval = float(self._connection_generator.ws_options.get("ping-interval", ping_interval))
+
+            # Create the heartbeat message (it is always the same)
+            hb_message: bytes = bytes(HeartbeatFrame.from_defaults(room_id=room_id))
+
+        except:
+            self._logger.error("Failed to start ping loop!", exc_info=True)
             return
 
         # Ping Loop
         try:
+            self._logger.debug(f"Starting ping loop with interval of {ping_interval} seconds.")
             while self.connected:
-
                 # Send the ping
-                await self.send(message=self.PING_MESSAGE)
+                await self.send(message=hb_message)
 
                 # Every 10 seconds
-                await asyncio.sleep(self.DEFAULT_PING_INTERVAL)
+                await asyncio.sleep(ping_interval)
 
         except asyncio.CancelledError:
             self._logger.debug("Ping loop cancelled.")

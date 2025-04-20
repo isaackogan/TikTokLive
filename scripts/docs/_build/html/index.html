@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="TikTokLive package" href="TikTokLive.html" />
 
     <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>TikTokLive v6.2.1.post1</title>
+        <title>TikTokLive v6.4.5</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css?v=e72958e9" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">TikTokLive v6.2.1.post1</div></a>
+      <a href="#"><div class="brand">TikTokLive v6.4.5</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -199,7 +199,7 @@
     <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">TikTokLive v6.2.1.post1</span>
+  <span class="sidebar-brand-text">TikTokLive v6.4.5</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -337,7 +337,7 @@ COMING SOON:
 <li><p><a class="reference external" href="https://github.com/isaackogan/TikTokLive/tree/master/examples">Examples</a></p></li>
 <li><p><a class="reference internal" href="#license"><span class="xref myst">Licensing</span></a></p></li>
 <li><p><a class="reference internal" href="#star-history"><span class="xref myst">Star History</span></a></p></li>
-<li><p><a class="reference internal" href="#contributors"><span class="xref myst">Contributors</span></a></p></li>
+<li><p><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.CompetitionResultsTeamInfo.contributors" title="TikTokLive.proto.tiktok_proto.CompetitionResultsTeamInfo.contributors"><span class="xref myst py py-attr">Contributors</span></a></p></li>
 </ul>
 </section>
 <section id="community">
@@ -544,19 +544,23 @@ the <a class="reference external" href="https://github.com/isaackogan/TikTokLive
 <td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
 <td><p>The headers added on to TikTok requests from the HTTP client.</p></td>
 </tr>
-<tr class="row-even"><td><p>ws_client_params</p></td>
+<tr class="row-even"><td><p>web_client_cookies</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
+<td><p>Custom cookies to initialize the http client with.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ws_client_params</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
 <td><p>The URL parameters added to the URI when connecting to TikTok’s Webcast WebSocket server.</p></td>
 </tr>
-<tr class="row-odd"><td><p>ws_client_params_append_str</p></td>
+<tr class="row-even"><td><p>ws_client_params_append_str</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
 <td><p>Extra string data to append to the TikTokLive WebSocket connection URI.</p></td>
 </tr>
-<tr class="row-even"><td><p>ws_client_headers</p></td>
+<tr class="row-odd"><td><p>ws_client_headers</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
 <td><p>Extra headers to append to the TikTokLive WebSocket client.</p></td>
 </tr>
-<tr class="row-odd"><td><p>ja3_impersonate</p></td>
+<tr class="row-even"><td><p>ja3_impersonate</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
 <td><p>The ja3 fingerprint to impersonate. This should match whatever the current version is on the Sign Server, or “privileged” methods will fail.</p></td>
 </tr>
@@ -618,17 +622,17 @@ Both belong to the TikTokLive <code class="docutils literal notranslate"><span c
 <li><p><code class="docutils literal notranslate"><span class="pre">JoinEvent</span></code> - Triggered when a user joins the livestream</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">LinkMicFanTicketMethodEvent</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">LinkMicMethodEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">BarrageEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BarrageEvent</span></code> - Triggered when a “VIP” viewer (based on their gifting level) joins the live chat room</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CaptionEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ImDeleteEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ImDeleteEvent</span></code> - Triggered when a viewer’s messages are deleted</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">RoomUserSeqEvent</span></code> - Current viewer count information</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">RankUpdateEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">RankTextEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RankTextEvent</span></code> - Triggered when gift count makes a viewer one of the top three</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">HourlyRankEvent</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">UnauthorizedMemberEvent</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">MessageDetectEvent</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">OecLiveShoppingEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">RoomPinEvent</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RoomPinEvent</span></code> - Triggered when a message is pinned</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">SystemEvent</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">LinkEvent</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">LinkLayerEvent</span></code></p></li>

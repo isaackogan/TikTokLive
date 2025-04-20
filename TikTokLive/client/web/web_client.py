@@ -8,6 +8,7 @@ from TikTokLive.client.web.routes.fetch_room_id_api import FetchRoomIdAPIRoute
 from TikTokLive.client.web.routes.fetch_room_id_live_html import FetchRoomIdLiveHTMLRoute
 from TikTokLive.client.web.routes.fetch_room_info import FetchRoomInfoRoute
 from TikTokLive.client.web.routes.fetch_signed_websocket import FetchSignedWebSocketRoute
+from TikTokLive.client.web.routes.fetch_user_unique_id import FetchUserUniqueIdRoute
 from TikTokLive.client.web.routes.fetch_video_data import FetchVideoDataRoute
 from TikTokLive.client.web.routes.send_room_chat import SendRoomChatRoute
 from TikTokLive.client.web.routes.send_room_gift import SendRoomGiftRoute
@@ -44,6 +45,7 @@ class TikTokWebClient(TikTokHTTPClient):
         self.send_room_chat: SendRoomChatRoute = SendRoomChatRoute(self)
         self.send_room_like: SendRoomLikeRoute = SendRoomLikeRoute(self)
         self.send_room_gift: SendRoomGiftRoute = SendRoomGiftRoute(self)
+        self.fetch_user_unique_id: FetchUserUniqueIdRoute = FetchUserUniqueIdRoute(self)
 
         self._logger = TikTokLiveLogHandler.get_logger()
 

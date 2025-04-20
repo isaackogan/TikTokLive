@@ -2,19 +2,19 @@ from typing import Any, Dict, Optional
 
 from httpx import Response
 
-from TikTokLive.client.errors import AgeRestrictedError
+from TikTokLive.client.errors import AgeRestrictedError, TikTokLiveError
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
-class FailedFetchRoomInfoError(RuntimeError):
+class FailedFetchRoomInfoError(TikTokLiveError):
     """
     Thrown if Room info request fails
 
     """
 
 
-class InvalidFetchRoomInfoPayload(RuntimeError):
+class InvalidFetchRoomInfoPayload(TikTokLiveError):
     pass
 
 
@@ -59,7 +59,6 @@ class FetchRoomInfoRoute(ClientRoute):
                 url=url,
                 extra_params=extra_params
             )
-
             # Get data
             data: dict = response.json().get("data", dict())
 

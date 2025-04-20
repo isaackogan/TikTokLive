@@ -1,15 +1,14 @@
 from __future__ import annotations
 
-import base64
 from dataclasses import dataclass
 from typing import Type, Union, Optional
 
 from TikTokLive.events.base_event import BaseEvent
 from TikTokLive.events.proto_events import SocialEvent, ControlEvent
-from TikTokLive.proto import WebcastResponseMessage
+from TikTokLive.proto import ProtoMessageFetchResult
 
 
-class WebsocketResponseEvent(WebcastResponseMessage, BaseEvent):
+class WebsocketResponseEvent(ProtoMessageFetchResult, BaseEvent):
     """
     Triggered when any event is received from the WebSocket
 
@@ -21,7 +20,6 @@ class UnknownEvent(WebsocketResponseEvent):
     Triggered when a Webcast message is received that is NOT tracked by TikTokLive yet.
 
     """
-
 
 
 @dataclass()
@@ -86,7 +84,7 @@ class ShareEvent(SocialEvent):
         """
 
         try:
-            display_text: str = self.common.display_text.key
+            display_text: str = self.base_message.display_text.key
             return int(display_text.split("pm_mt_guidance_viewer_")[1].split("_share")[0])
         except IndexError:
             return None

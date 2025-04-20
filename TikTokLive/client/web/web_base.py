@@ -53,6 +53,20 @@ class TikTokHTTPClient:
         # Special client for requests that check the TLS certificate
         self._curl_cffi: Optional[curl_cffi.requests.AsyncSession] = curl_cffi.requests.AsyncSession(**(curl_cffi_kwargs or {})) if SUPPORTS_CURL_CFFI else None
 
+        # Whether to allow using the session ID with the WebSocket connection
+        self._authenticate_websocket: bool = False
+
+    @property
+    def authenticate_websocket(self) -> bool:
+        """
+        Get whether to use the session ID with the WebSocket connection
+
+        :return: Whether to use the session ID with the WebSocket connection
+
+        """
+
+        return self._authenticate_websocket
+
     @property
     def httpx_client(self) -> AsyncClient:
         """
@@ -105,7 +119,6 @@ class TikTokHTTPClient:
             **httpx_kwargs.pop("cookies", {})
         })
 
-
         # Create the headers
         self.headers = {
             **WebDefaults.web_client_headers,
@@ -135,14 +148,26 @@ class TikTokHTTPClient:
         await self._httpx.aclose()
         await self._curl_cffi.close()
 
-    def set_session_id(self, session_id: str) -> None:
+    def set_session_id(
+            self,
+            session_id: str,
+            authenticate_websocket: bool = False
+    ) -> None:
         """
         Set the session id cookies for the HTTP client and Websocket connection
 
         :param session_id: The (must be valid) session ID
+
+        :param authenticate_websocket: Whether to use the session ID with the WebSocket connection.
+            Enable this at your own risk, as it passes the session ID to Euler Stream's servers.
+            This COULD lead to a hypothetical ban, but the odds are low & this has never occurred that we know of.
+
         :return: None
 
         """
+
+        # Set the authenticate WS setting
+        self._authenticate_websocket = authenticate_websocket
 
         self.cookies.set("sessionid", session_id)
         self.cookies.set("sessionid_ss", session_id)

@@ -5,12 +5,12 @@ from typing import Optional
 
 from httpx import Response
 
-from TikTokLive.client.errors import UserOfflineError, UserNotFoundError
+from TikTokLive.client.errors import UserOfflineError, UserNotFoundError, TikTokLiveError
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
-class FailedParseRoomIdError(RuntimeError):
+class FailedParseRoomIdError(TikTokLiveError):
     """
     Thrown when the Room ID cannot be parsed
 

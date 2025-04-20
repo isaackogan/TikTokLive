@@ -61,7 +61,6 @@ DEFAULT_WS_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
     "browser_version": Device["browser_version"],
     "browser_online": "true",
     "cookie_enabled": "true",
-    "imprp": "",
     "tz_name": Location["tz_name"],
     "device_platform": "web",
     "debug": "false",
@@ -71,8 +70,13 @@ DEFAULT_WS_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
     "sup_ws_ds_opt": "1",
     "update_version_code": "2.0.0",
     "version_code": "180800",
+    "did_rule": "3",
     "screen_height": Screen["screen_height"],
     "screen_width": Screen["screen_width"],
+    # "client_enter": "1",  <-- TODO figure out why this freezes WS data
+    "heartbeat_duration": "0",
+    "resp_content_type": "protobuf",
+    "history_comment_count": "6",
 
     # We think last_rtt means "last round trip time" in millis.
     "last_rtt": Last_RTT
@@ -99,7 +103,7 @@ DEFAULT_REQUEST_HEADERS: Dict[str, str] = {
 }
 
 DEFAULT_COOKIES: Dict[str, str] = {
-    "tt-target-idc": "useast2a"
+    "tt-target-idc": "useast1a"
 }
 
 """The unique identifier for ttlive-python"""

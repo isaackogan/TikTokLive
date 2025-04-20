@@ -3,7 +3,7 @@ from typing import Union
 from httpx import Response
 
 from TikTokLive.client.web.web_base import ClientRoute
-from TikTokLive.proto import Image
+from TikTokLive.proto import ImageModel
 
 
 class FetchImageDataRoute(ClientRoute):
@@ -12,7 +12,7 @@ class FetchImageDataRoute(ClientRoute):
 
     """
 
-    async def __call__(self, image: Union[str, Image]) -> bytes:
+    async def __call__(self, image: Union[str, ImageModel]) -> bytes:
         """
         Fetch the image from TikTok
 
@@ -21,6 +21,6 @@ class FetchImageDataRoute(ClientRoute):
 
         """
 
-        image_url: str = image.url_list[0] if isinstance(image, Image) else image
+        image_url: str = image.m_urls[0] if isinstance(image, ImageModel) else image
         response: Response = await self._web.get(url=image_url)
         return response.read()
