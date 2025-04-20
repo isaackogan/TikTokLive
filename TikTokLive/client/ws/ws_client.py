@@ -104,14 +104,6 @@ class WebcastWSClient:
         if not self.connected:
             return
 
-        self._logger.debug('sending ack', WebcastPushFrame(
-            payload_type="ack",
-            # ID of the WebcastPushMessage for the acknowledgement
-            log_id=webcast_push_frame.log_id,
-            # [Unknown] Hypothesized to be an acknowledgement of the ProtoMessageFetchResult (& its messages) within the WebcastPushMessage
-            payload=(webcast_response.internal_ext or "-").encode()
-        ))
-
         # Send the ack
         await self.send(
             message=WebcastPushFrame(
