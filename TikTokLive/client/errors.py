@@ -101,7 +101,7 @@ class SignAPIError(TikTokLiveError):
             self,
             reason: ErrorReason,
             *args: str,
-            response: Optional[httpx.Response],
+            response: Optional[httpx.Response] = None,
     ):
         """
         Initialize a sign API Error class
@@ -118,7 +118,7 @@ class SignAPIError(TikTokLiveError):
         super().__init__(" ".join(args))
 
     @property
-    def response(self) -> httpx.Response:
+    def response(self) -> httpx.Response | None:
         """
         The response object from the Sign API
 
@@ -133,6 +133,9 @@ class SignAPIError(TikTokLiveError):
 
         """
 
+        if not self.response:
+            return None
+
         log_id: Optional[str] = self.response.headers.get("X-Log-ID", None)
         return int(log_id) if log_id else log_id
 
@@ -142,6 +145,9 @@ class SignAPIError(TikTokLiveError):
         The agent ID from the response
 
         """
+
+        if not self.response:
+            return None
 
         return self.response.headers.get("X-Agent-ID", None)
 

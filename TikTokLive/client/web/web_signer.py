@@ -88,7 +88,7 @@ class TikTokSigner:
 
         must_remove_params = [
             "X-Bogus",
-            "_signature",
+            "X-Gnarly",
             "msToken",
         ]
 
@@ -102,7 +102,8 @@ class TikTokSigner:
                 url=f"{self._sign_api_base}/webcast/sign_url/",
                 data={
                     "url": url,
-                    "method": method
+                    "method": method,
+                    "userAgent": self._httpx.headers.get("User-Agent"),
                 },
             )
         except Exception as ex:
