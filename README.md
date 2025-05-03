@@ -33,6 +33,8 @@ COMING SOON:
 
 ## Enterprise Solutions
 
+For enterprise-level service & greater rate limits, we recommend <strong>Euler Stream</strong>.
+
 <table>
 <tr>
     <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
