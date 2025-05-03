@@ -33,7 +33,7 @@ COMING SOON:
 
 ## Enterprise Solutions
 
-For enterprise-level service & greater rate limits, sign up with <strong>Euler Stream</strong>:
+For enterprise-level service & greater rate limits, sign up with Euler Stream today:
 
 <table>
 <tr>
