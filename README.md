@@ -44,6 +44,9 @@ COMING SOON:
 </tr>
 </table>
 
+<!--
+Temporarily Removed May 3rd 2025
+
 ## Author's Choice
 
 The following are my two favourite enterprise use-cases for the TikTokLive family of libraries. This is <strong>not</strong> paid promotion, and I receive nothing for these recommendations:
@@ -69,6 +72,8 @@ The following are my two favourite enterprise use-cases for the TikTokLive famil
     </td>
 </tr>
 </table>
+
+-->
 
 ## Table of Contents
 
