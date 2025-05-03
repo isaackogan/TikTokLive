@@ -33,14 +33,15 @@ COMING SOON:
 
 ## Enterprise Solutions
 
-For enterprise-level service & greater rate limits, we recommend <strong>Euler Stream</strong>.
+For enterprise-level service & greater rate limits, sign up with <strong>Euler Stream</strong>:
 
 <table>
 <tr>
     <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
     <td>
         <a href="https://www.eulerstream.com">
-            <strong>Euler Stream</strong> provides increased rate limits, TikTok LIVE alerts, JWT authentication and more for enterprise customers.
+            <strong>Euler Stream</strong> provides increased rate limits, TikTok LIVE alerts, JWT authentication and more for enterprise customers. It offers generous tiers 
+            starting at $0.
         </a>
     </td>
 </tr>
