@@ -33,16 +33,22 @@ COMING SOON:
 
 ## Enterprise Solutions
 
+For enterprise-level service & greater rate limits, sign up with Euler Stream today:
+
 <table>
 <tr>
     <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
     <td>
         <a href="https://www.eulerstream.com">
-            <strong>Euler Stream</strong> is a paid TikTok LIVE service providing managed TikTok LIVE WebSocket connections, increased access, TikTok LIVE alerts, JWT authentication and more.
+            <strong>Euler Stream</strong> provides increased rate limits, TikTok LIVE alerts, JWT authentication and more for enterprise customers. It offers generous tiers 
+            starting at $0.
         </a>
     </td>
 </tr>
 </table>
+
+<!--
+Temporarily Removed May 3rd 2025
 
 ## Author's Choice
 
@@ -69,6 +75,8 @@ The following are my two favourite enterprise use-cases for the TikTokLive famil
     </td>
 </tr>
 </table>
+
+-->
 
 ## Table of Contents
 
