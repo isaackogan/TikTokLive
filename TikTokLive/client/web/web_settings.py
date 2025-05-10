@@ -26,15 +26,13 @@ DEFAULT_WEB_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
     "cookie_enabled": "true",
     "device_platform": "web_pc",
     "focus_state": "true",
-    "from_page": 'user',
+    "from_page": '',
     "history_len": random.randint(4, 14),
     "is_fullscreen": "false",
     "is_page_visible": "true",
     "screen_height": Screen["screen_height"],
     "screen_width": Screen["screen_width"],
     "tz_name": Location["tz_name"],
-    "referer": 'https://www.tiktok.com/',
-    "root_referer": 'https://www.tiktok.com/',
     "channel": "tiktok_web",
 
     # New Data
@@ -73,7 +71,6 @@ DEFAULT_WS_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
     "did_rule": "3",
     "screen_height": Screen["screen_height"],
     "screen_width": Screen["screen_width"],
-    # "client_enter": "1",  <-- TODO figure out why this freezes WS data
     "heartbeat_duration": "0",
     "resp_content_type": "protobuf",
     "history_comment_count": "6",

@@ -53,20 +53,6 @@ class TikTokHTTPClient:
         # Special client for requests that check the TLS certificate
         self._curl_cffi: Optional[curl_cffi.requests.AsyncSession] = curl_cffi.requests.AsyncSession(**(curl_cffi_kwargs or {})) if SUPPORTS_CURL_CFFI else None
 
-        # Whether to allow using the session ID with the WebSocket connection
-        self._authenticate_websocket: bool = False
-
-    @property
-    def authenticate_websocket(self) -> bool:
-        """
-        Get whether to use the session ID with the WebSocket connection
-
-        :return: Whether to use the session ID with the WebSocket connection
-
-        """
-
-        return self._authenticate_websocket
-
     @property
     def httpx_client(self) -> AsyncClient:
         """
@@ -148,27 +134,17 @@ class TikTokHTTPClient:
         await self._httpx.aclose()
         await self._curl_cffi.close()
 
-    def set_session_id(
-            self,
-            session_id: str,
-            authenticate_websocket: bool = False
-    ) -> None:
+    def set_session_id(self, session_id: str) -> None:
         """
         Set the session id cookies for the HTTP client and Websocket connection
 
         :param session_id: The (must be valid) session ID
-
-        :param authenticate_websocket: Whether to use the session ID with the WebSocket connection.
-            Enable this at your own risk, as it passes the session ID to Euler Stream's servers.
-            This COULD lead to a hypothetical ban, but the odds are low & this has never occurred that we know of.
 
         :return: None
 
         """
 
         # Set the authenticate WS setting
-        self._authenticate_websocket = authenticate_websocket
-
         self.cookies.set("sessionid", session_id)
         self.cookies.set("sessionid_ss", session_id)
         self.cookies.set("sid_tt", session_id)
@@ -228,6 +204,8 @@ class TikTokHTTPClient:
             base_headers: bool = True,
             sign_url: bool = False,
             sign_url_method: Optional[str] = None,
+            sign_url_type: Literal["xhr", "fetch"] = None,
+            sign_url_payload: str = None,
             **kwargs
     ) -> httpx.Request:
         """
@@ -243,6 +221,8 @@ class TikTokHTTPClient:
        :param sign_url_method: The HTTP method to sign with
        :param base_params: Whether to include the base params
        :param base_headers: Whether to include the base headers
+       :param sign_url_type: The type of signing to use
+       :param sign_url_payload: The payload to use for signing
        :return: An `httpx.Response` object
 
        """
@@ -264,7 +244,16 @@ class TikTokHTTPClient:
 
         # Sign the URL & update the request accordingly
         if sign_url:
-            sign_data: SignData = (await self._tiktok_signer.webcast_sign(url=request.url, method=sign_url_method or method))['response']
+            sign_data: SignData = (
+                await self._tiktok_signer.webcast_sign(
+                    url=request.url,
+                    method=sign_url_method or method,
+                    sign_url_type=sign_url_type if sign_url_type else "xhr",
+                    session_id=self.cookies.get('sessionid'),
+                    payload=sign_url_payload,
+                    user_agent=self.headers['User-Agent']
+                )
+            )['response']
             request.headers['User-Agent'] = sign_data['userAgent']
             request.url = httpx.URL(url=sign_data['signedUrl'])
 
@@ -281,6 +270,8 @@ class TikTokHTTPClient:
             base_params: bool = True,
             base_headers: bool = True,
             sign_url: bool = False,
+            sign_url_method: Optional[str] = None,
+            sign_url_type: Literal["xhr", "fetch"] = None,
             **kwargs
     ) -> Union[httpx.Response, curl_cffi.requests.Response]:
         """
@@ -296,6 +287,8 @@ class TikTokHTTPClient:
         :param kwargs: Optional keywords for the `httpx.AsyncClient.get` method
         :param base_params: Whether to include the base params
         :param base_headers: Whether to include the base headers
+        :param sign_url_method: The HTTP method to sign with
+        :param sign_url_type: The type of signing to use
         :return: An `httpx.Response` object
 
         """
@@ -310,6 +303,8 @@ class TikTokHTTPClient:
             base_headers=base_headers,
             sign_url=sign_url,
             httpx_client=http_client if isinstance(http_client, httpx.AsyncClient) else None,
+            sign_url_method=sign_url_method,
+            sign_url_type=sign_url_type,
             **kwargs
         )
 
@@ -355,6 +350,8 @@ class TikTokHTTPClient:
             base_params: bool = True,
             base_headers: bool = True,
             sign_url: bool = False,
+            sign_url_method: Optional[str] = None,
+            sign_url_type: Literal["xhr", "fetch"] = None,
             **kwargs
     ) -> httpx.Response:
         return await self.request(
@@ -367,6 +364,8 @@ class TikTokHTTPClient:
             base_params=base_params,
             base_headers=base_headers,
             sign_url=sign_url,
+            sign_url_method=sign_url_method,
+            sign_url_type=sign_url_type,
             **kwargs
         )
 
@@ -380,6 +379,8 @@ class TikTokHTTPClient:
             base_params: bool = True,
             base_headers: bool = True,
             sign_url: bool = False,
+            sign_url_method: Optional[str] = None,
+            sign_url_type: Literal["xhr", "fetch"] = None,
             **kwargs
     ) -> httpx.Response:
         return await self.request(
@@ -392,6 +393,8 @@ class TikTokHTTPClient:
             base_params=base_params,
             base_headers=base_headers,
             sign_url=sign_url,
+            sign_url_method=sign_url_method,
+            sign_url_type=sign_url_type,
             **kwargs
         )
 

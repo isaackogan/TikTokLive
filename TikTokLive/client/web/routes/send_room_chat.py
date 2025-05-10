@@ -4,6 +4,7 @@ import httpx
 
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults
+from TikTokLive.client.web.web_utils import check_authenticated_session_id
 
 
 class SendRoomChatRoute(ClientRoute):
@@ -14,6 +15,7 @@ class SendRoomChatRoute(ClientRoute):
             room_id: Optional[int] = None,
             session_id: Optional[str] = None,
     ) -> dict:
+        check_authenticated_session_id(session_id)
 
         payload: dict = {
             "roomId": room_id or self._web.params['room_id'],

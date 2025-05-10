@@ -70,6 +70,9 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             **(web_kwargs or {})
         )
 
+        self._web.params['referer'] = f"https://www.tiktok.com/@{unique_id}/live"
+        self._web.params['root_referer'] = f"https://www.tiktok.com/@{unique_id}/live"
+
         self._logger: Logger = TikTokLiveLogHandler.get_logger(
             level=LogLevel.ERROR
         )
@@ -326,8 +329,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 compress_ws_events=compress_ws_events,
                 cookies=self._web.cookies,
                 room_id=self._room_id,
-                user_agent=self._web.headers['User-Agent'],
-                authenticate_websocket=self._web.authenticate_websocket
+                user_agent=self._web.headers['User-Agent']
         ):
 
             # Iterate over the events extracted
@@ -422,8 +424,10 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # LiveEndEvent, LivePauseEvent, LiveUnpauseEvent
         if isinstance(event, ControlEvent):
-            if event.action in {ControlAction.CONTROL_ACTION_STREAM_ENDED,
-                                ControlAction.CONTROL_ACTION_STREAM_SUSPENDED}:
+            if event.action in {
+                ControlAction.CONTROL_ACTION_STREAM_ENDED,
+                ControlAction.CONTROL_ACTION_STREAM_SUSPENDED
+            }:
                 # If the stream is over, disconnect the client. Can't await due to circular dependency.
                 self._asyncio_loop.create_task(self.disconnect())
                 return LiveEndEvent().parse(response.payload)

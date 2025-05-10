@@ -1,7 +1,7 @@
 """API Url for euler sign services"""
 import os
 import re
-from typing import Optional, TypedDict
+from typing import Optional, TypedDict, Literal
 
 import httpx
 from httpx import URL
@@ -9,6 +9,7 @@ from httpx import URL
 from TikTokLive.__version__ import PACKAGE_VERSION
 from TikTokLive.client.errors import UnexpectedSignatureError, SignatureMissingTokensError, PremiumEndpointError
 from TikTokLive.client.web.web_settings import WebDefaults
+from TikTokLive.client.web.web_utils import check_authenticated_session_id
 
 
 class SignData(TypedDict):
@@ -75,13 +76,21 @@ class TikTokSigner:
     async def webcast_sign(
             self,
             url: str | URL,
-            method: str
+            method: str,
+            sign_url_type: Literal["xhr", "fetch"],
+            session_id: str,
+            payload: str,
+            user_agent: str
     ) -> SignResponse:
         """
         Fetch a signed URL for any /webcast/* route using the Sign Server
 
         :param url: The URL to sign
+        :param sign_url_type: The type of signing to use
+        :param session_id: The session ID to use for signing
+        :param payload: The payload to send with the request
         :param method: The HTTP method to sign with
+        :param user_agent: The user agent to use for signing
         :return: The signature response
 
         """
@@ -98,14 +107,24 @@ class TikTokSigner:
             url = re.sub(rf"({param}=[^&]*&?)", "", url).rstrip('&').rstrip('?')
 
         try:
+
+            payload: dict = {
+                "url": url,
+                "userAgent": user_agent,
+                "method": method,
+                "type": sign_url_type,
+                "payload": payload
+            }
+
+            if session_id:
+                check_authenticated_session_id(session_id)
+                payload['sessionId'] = session_id
+
             response: httpx.Response = await self._httpx.post(
                 url=f"{self._sign_api_base}/webcast/sign_url/",
-                data={
-                    "url": url,
-                    "method": method,
-                    "userAgent": self._httpx.headers.get("User-Agent"),
-                },
+                data=payload
             )
+
         except Exception as ex:
             raise UnexpectedSignatureError(
                 "Failed to sign a request due to an error."

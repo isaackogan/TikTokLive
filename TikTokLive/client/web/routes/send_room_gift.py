@@ -71,6 +71,7 @@ class SendRoomGiftRoute(ClientRoute):
             # For some reason the signing must be done with the GET method
             # for TikTok to reply with the requisite _signature parameter
             sign_url_method="GET",
+            sign_url_type="fetch"
         )
 
         try:

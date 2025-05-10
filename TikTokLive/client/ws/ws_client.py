@@ -127,27 +127,19 @@ class WebcastWSClient:
 
         await self.ws.close()
 
-    def get_ws_cookie_string(self, cookies: httpx.Cookies, authenticate_websocket: bool) -> str:
+    def get_ws_cookie_string(self, cookies: httpx.Cookies) -> str:
         """
         Get the cookie string for the WebSocket connection.
 
         :param cookies: Cookies to pass to the WebSocket connection
-        :param authenticate_websocket: Whether the WebSocket is authenticated
         :return: Cookie string
         """
 
         cookie_values = []
         session_id: str | None = cookies.get("sessionid")
 
-        # If session_id is None and authentication is required, raise an error or handle appropriately
-        if authenticate_websocket and session_id is None:
-            self._logger.error("Session ID is required for WebSocket authentication, but none was found.")
-            raise ValueError("Session ID is required for WebSocket authentication.")
-
         # Exclude all session ID's if session_id exists and authentication is not required
         for key, value in cookies.items():
-            if session_id and not authenticate_websocket and session_id in value:
-                continue
             cookie_values.append(f"{key}={value};")
 
         cookie_string = " ".join(cookie_values)
@@ -158,15 +150,11 @@ class WebcastWSClient:
             redacted_cookie_string = cookie_string.replace(session_id, redacted_sid)
 
             # Log that we're creating a cookie string for a logged-in session
-            if authenticate_websocket:
-                self._logger.warning(
-                    f"Created WS Cookie string for a LOGGED IN TikTok LIVE WebSocket session (Session ID: {redacted_sid}). "
-                    f"Cookies: {redacted_cookie_string}"
-                )
-            else:
-                self._logger.debug(
-                    f"Created WS Cookie string for an ANONYMOUS TikTok Live WebSocket session. Cookies: {redacted_cookie_string}"
-                )
+            self._logger.warning(
+                f"Created WS Cookie string for a LOGGED IN TikTok LIVE WebSocket session (Session ID: {redacted_sid}). "
+                f"Cookies: {redacted_cookie_string}"
+            )
+
         else:
             self._logger.debug(
                 f"Created WS Cookie string for an ANONYMOUS TikTok Live WebSocket session. Cookies: {cookie_string}"
@@ -178,7 +166,6 @@ class WebcastWSClient:
             self,
             room_id: int,
             cookies: httpx.Cookies,
-            authenticate_websocket: bool,
             user_agent: str,
             initial_webcast_response: ProtoMessageFetchResult,
             process_connect_events: bool = True,
@@ -212,7 +199,6 @@ class WebcastWSClient:
         :param room_id: The room ID to connect to
         :param user_agent: The user agent to pass to the WebSocket connection
         :param cookies: The cookies to pass to the WebSocket connection
-        :param authenticate_websocket: Whether to authenticate the WebSocket connection
         :param process_connect_events: Whether to process the initial events sent in the first fetch
         :param compress_ws_events: Whether to ask TikTok to gzip the WebSocket events
         :return: Yields ProtoMessageFetchResultMessage, the messages within ProtoMessageFetchResult.messages
@@ -249,7 +235,7 @@ class WebcastWSClient:
             # Extra headers
             extra_headers={
                 # Must pass cookies to connect to the WebSocket
-                "Cookie": self.get_ws_cookie_string(cookies=cookies, authenticate_websocket=authenticate_websocket),
+                "Cookie": self.get_ws_cookie_string(cookies=cookies),
                 "User-Agent": user_agent,
 
                 # Optional override for the headers
