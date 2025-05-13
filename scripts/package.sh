@@ -2,7 +2,7 @@
 
 
 # Extract version from setup.py
-VERSION_TAG="6.5.1.post1"
+VERSION_TAG="6.5.2"
 
 echo "-> Starting build for version \"$VERSION_TAG\""
 
