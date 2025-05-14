@@ -12,7 +12,7 @@ class SendRoomChatRoute(ClientRoute):
     async def __call__(
             self,
             content: str,
-            room_id: Optional[int] = None,
+            room_id: Optional[str] = None,
             session_id: Optional[str] = None,
     ) -> dict:
         check_authenticated_session_id(session_id)
@@ -20,7 +20,7 @@ class SendRoomChatRoute(ClientRoute):
         payload: dict = {
             "roomId": room_id or self._web.params['room_id'],
             "content": content,
-            "sessionId": ""
+            "sessionId": session_id or self._web.cookies['sessionid']
         }
 
         response: httpx.Response = await self._web.signer.client.post(
