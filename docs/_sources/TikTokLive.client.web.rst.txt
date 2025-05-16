@@ -52,6 +52,14 @@ TikTokLive.client.web.web\_signer module
    :undoc-members:
    :show-inheritance:
 
+TikTokLive.client.web.web\_utils module
+---------------------------------------
+
+.. automodule:: TikTokLive.client.web.web_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

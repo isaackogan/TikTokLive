@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="TikTokLive.client.ws package" href="TikTokLive.client.ws.html" /><link rel="prev" title="TikTokLive.client.web package" href="TikTokLive.client.web.html" />
 
     <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>TikTokLive.client.web.routes package - TikTokLive v6.4.5</title>
+        <title>TikTokLive.client.web.routes package - TikTokLive v6.5.3</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css?v=e72958e9" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">TikTokLive v6.4.5</div></a>
+      <a href="index.html"><div class="brand">TikTokLive v6.5.3</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -199,7 +199,7 @@
     <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">TikTokLive v6.4.5</span>
+  <span class="sidebar-brand-text">TikTokLive v6.5.3</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -467,6 +467,49 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.fetch_signed_websocket.</span></span><span class="sig-name descname"><span class="pre">FetchSignedWebSocketRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.fetch_signed_websocket.FetchSignedWebSocketRoute" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
 <p>Call the signature server to receive the TikTok websocket URL</p>
+</dd></dl>
+
+</section>
+<section id="module-TikTokLive.client.web.routes.fetch_user_unique_id">
+<span id="tiktoklive-client-web-routes-fetch-user-unique-id-module"></span><h2>TikTokLive.client.web.routes.fetch_user_unique_id module<a class="headerlink" href="#module-TikTokLive.client.web.routes.fetch_user_unique_id" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.fetch_user_unique_id.FailedParseAppInfo">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.fetch_user_unique_id.</span></span><span class="sig-name descname"><span class="pre">FailedParseAppInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.fetch_user_unique_id.FailedParseAppInfo" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.TikTokLiveError" title="TikTokLive.client.errors.TikTokLiveError"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></p>
+<p>Thrown when the App Info cannot be parsed</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.fetch_user_unique_id.FailedResolveUserId">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.fetch_user_unique_id.</span></span><span class="sig-name descname"><span class="pre">FailedResolveUserId</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.fetch_user_unique_id.FailedResolveUserId" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.html#TikTokLive.client.errors.TikTokLiveError" title="TikTokLive.client.errors.TikTokLiveError"><code class="xref py py-class docutils literal notranslate"><span class="pre">TikTokLiveError</span></code></a></p>
+<p>Thrown when the User ID cant be resolved</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.fetch_user_unique_id.FetchUserUniqueIdRoute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.fetch_user_unique_id.</span></span><span class="sig-name descname"><span class="pre">FetchUserUniqueIdRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.fetch_user_unique_id.FetchUserUniqueIdRoute" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
+<p>Route to retrieve the room ID for a user</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.fetch_user_unique_id.FetchUserUniqueIdRoute.APP_INFO_PATTERN">
+<span class="sig-name descname"><span class="pre">APP_INFO_PATTERN</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Pattern</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">re.compile('&lt;script</span> <span class="pre">id=&quot;__UNIVERSAL_DATA_FOR_REHYDRATION__&quot;</span> <span class="pre">type=&quot;application/json&quot;&gt;(.*?)&lt;/script&gt;')</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.fetch_user_unique_id.FetchUserUniqueIdRoute.APP_INFO_PATTERN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.fetch_user_unique_id.FetchUserUniqueIdRoute.parse_app_info">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_app_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#TikTokLive.client.web.routes.fetch_user_unique_id.FetchUserUniqueIdRoute.parse_app_info" title="Link to this definition"></a></dt>
+<dd><p>Parse the room ID from livestream HTML</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>html</strong> – The HTML to parse from <a class="reference external" href="https://tiktok.com">https://tiktok.com</a>/&#64;&lt;user_id&gt;</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The unique_id of a User ID</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -805,6 +848,16 @@ to_user_id: 7230478347297063942</p>
 </li>
 <li><a class="reference internal" href="#module-TikTokLive.client.web.routes.fetch_signed_websocket">TikTokLive.client.web.routes.fetch_signed_websocket module</a><ul>
 <li><a class="reference internal" href="#TikTokLive.client.web.routes.fetch_signed_websocket.FetchSignedWebSocketRoute"><code class="docutils literal notranslate"><span class="pre">FetchSignedWebSocketRoute</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-TikTokLive.client.web.routes.fetch_user_unique_id">TikTokLive.client.web.routes.fetch_user_unique_id module</a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.fetch_user_unique_id.FailedParseAppInfo"><code class="docutils literal notranslate"><span class="pre">FailedParseAppInfo</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.fetch_user_unique_id.FailedResolveUserId"><code class="docutils literal notranslate"><span class="pre">FailedResolveUserId</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.fetch_user_unique_id.FetchUserUniqueIdRoute"><code class="docutils literal notranslate"><span class="pre">FetchUserUniqueIdRoute</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.fetch_user_unique_id.FetchUserUniqueIdRoute.APP_INFO_PATTERN"><code class="docutils literal notranslate"><span class="pre">FetchUserUniqueIdRoute.APP_INFO_PATTERN</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.fetch_user_unique_id.FetchUserUniqueIdRoute.parse_app_info"><code class="docutils literal notranslate"><span class="pre">FetchUserUniqueIdRoute.parse_app_info()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-TikTokLive.client.web.routes.fetch_video_data">TikTokLive.client.web.routes.fetch_video_data module</a><ul>

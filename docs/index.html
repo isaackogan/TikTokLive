@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="TikTokLive package" href="TikTokLive.html" />
 
     <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>TikTokLive v6.4.5</title>
+        <title>TikTokLive v6.5.3</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css?v=e72958e9" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">TikTokLive v6.4.5</div></a>
+      <a href="#"><div class="brand">TikTokLive v6.5.3</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -199,7 +199,7 @@
     <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">TikTokLive v6.4.5</span>
+  <span class="sidebar-brand-text">TikTokLive v6.5.3</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -281,8 +281,7 @@
 <section id="tiktoklive-api">
 <h2>TikTokLive API<a class="headerlink" href="#tiktoklive-api" title="Link to this heading"></a></h2>
 <p>This is an unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator’s <code class="docutils literal notranslate"><span class="pre">&#64;unique_id</span></code>.</p>
-<p><a class="reference external" href="https://www.linkedin.com/in/isaackogan/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white&amp;style=flat-square" /></a>
-<a class="reference external" href="https://www.eulerstream.com/"><img alt="LinkedIn" src="https://www.eulerstream.com/api/pips/patrons?v=002" /></a>
+<p><a class="reference external" href="https://discord.gg/N3KSxzvDX8"><img alt="Discord" src="https://img.shields.io/discord/977648006063091742?logo=discord&amp;label=TikTokLive%20Discord&amp;labelColor=%23171717&amp;color=%231877af" /></a>
 <img alt="Connections" src="https://tiktok.eulerstream.com/analytics/pips/1" />
 <img alt="Downloads" src="https://pepy.tech/badge/tiktoklive" />
 <img alt="Stars" src="https://img.shields.io/github/stars/isaackogan/TikTokLive?style=flat&amp;color=0274b5" />
@@ -309,16 +308,48 @@ COMING SOON:
 -->
 <section id="enterprise-solutions">
 <h3>Enterprise Solutions<a class="headerlink" href="#enterprise-solutions" title="Link to this heading"></a></h3>
+<p>For enterprise-level service &amp; greater rate limits, sign up with Euler Stream today:</p>
 <table>
 <tr>
     <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
     <td>
         <a href="https://www.eulerstream.com">
-            <strong>Euler Stream</strong> is a paid TikTok LIVE service providing managed TikTok LIVE WebSocket connections, increased access, TikTok LIVE alerts, JWT authentication and more.
+            <strong>Euler Stream</strong> provides increased rate limits, TikTok LIVE alerts, JWT authentication and more for enterprise customers. It offers generous tiers
+            starting at $0.
         </a>
     </td>
 </tr>
 </table>
+<!--
+Temporarily Removed May 3rd 2025
+
+## Author's Choice
+
+The following are my two favourite enterprise use-cases for the TikTokLive family of libraries. This is <strong>not</strong> paid promotion, and I receive nothing for these recommendations:
+
+<table>
+<tr>
+    <td><br/><img width="180px" style="border-radius: 10px" src="https://tiktory.com/images/meta/favicon.svg"><br/><br/></td>
+    <td>
+        <a href="https://www.tiktory.com">
+            <strong>Tiktory</strong> provides highly advanced custom overlays, follower alerts, and real-time goal tracking. Seamlessly integrate with OBS and stand out from the crowd!
+        </a>
+    </td>
+</tr>
+</table>
+
+<table>
+<tr>
+    <td><br/><img width="180px" style="border-radius: 10px" src="https://cdn.casterlabs.co/branding/casterlabs/icon.svg"><br/><br/></td>
+    <td>
+        <a href="https://casterlabs.co/">
+            <strong>Casterlabs</strong> is a powerful tool that unifies chats from various streaming platforms, providing a combined chat view, customizable alerts, and handy on-screen widgets for streamers!
+        </a>
+    </td>
+</tr>
+</table>
+
+-->
 </section>
 <section id="table-of-contents">
 <h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
@@ -603,40 +634,199 @@ Both belong to the TikTokLive <code class="docutils literal notranslate"><span c
 <section id="proto-events">
 <h4>Proto Events<a class="headerlink" href="#proto-events" title="Link to this heading"></a></h4>
 <p>If you know what an event does, <a class="reference external" href="https://github.com/isaackogan/TikTokLive/pulls">make a pull request</a> and add the description.</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">GiftEvent</span></code> - Triggered when a gift is sent to the streamer</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">GoalUpdateEvent</span></code> - Triggered when the subscriber goal is updated</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ControlEvent</span></code> - Triggered when a stream action occurs (e.g. Livestream start, end)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LikeEvent</span></code> - Triggered when the stream receives a like</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SubscribeEvent</span></code> - Triggered when someone subscribes to the TikTok creator</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">PollEvent</span></code> - Triggered when the creator launches a new poll</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">CommentEvent</span></code> - Triggered when a comment is sent in the stream</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">RoomEvent</span></code> - Messages broadcasted to all users in the room (e.g. “Welcome to TikTok LIVE!”)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">EmoteChatEvent</span></code> - Triggered when a custom emote is sent in the chat</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">EnvelopeEvent</span></code> - Triggered every time someone sends a treasure chest</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SocialEvent</span></code> - Triggered when a user shares the stream or follows the host</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">QuestionNewEvent</span></code> - Triggered every time someone asks a new question via the question feature.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LiveIntroEvent</span></code> - Triggered when a live intro message appears</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LinkMicArmiesEvent</span></code> - Triggered when a TikTok battle user receives points</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LinkMicBattleEvent</span></code> - Triggered when a TikTok battle is started</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">JoinEvent</span></code> - Triggered when a user joins the livestream</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LinkMicFanTicketMethodEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LinkMicMethodEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">BarrageEvent</span></code> - Triggered when a “VIP” viewer (based on their gifting level) joins the live chat room</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">CaptionEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ImDeleteEvent</span></code> - Triggered when a viewer’s messages are deleted</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">RoomUserSeqEvent</span></code> - Current viewer count information</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">RankUpdateEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">RankTextEvent</span></code> - Triggered when gift count makes a viewer one of the top three</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">HourlyRankEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">UnauthorizedMemberEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MessageDetectEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">OecLiveShoppingEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">RoomPinEvent</span></code> - Triggered when a message is pinned</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SystemEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LinkEvent</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LinkLayerEvent</span></code></p></li>
+<details>
+<summary><h4>Proto Events</h4></summary>
+<ul>
+<li><code>GiftEvent</code> - Triggered when a gift is sent to the streamer</li>
+<li><code>GoalUpdateEvent</code> - Triggered when the subscriber goal is updated</li>
+<li><code>ControlEvent</code> - Triggered when a stream action occurs (e.g. Livestream start, end)</li>
+<li><code>LikeEvent</code> - Triggered when the stream receives a like</li>
+<li><code>SubscribeEvent</code> - Triggered when someone subscribes to the TikTok creator</li>
+<li><code>PollEvent</code> - Triggered when the creator launches a new poll</li>
+<li><code>CommentEvent</code> - Triggered when a comment is sent in the stream</li>
+<li><code>RoomEvent</code> - Messages broadcasted to all users in the room (e.g. "Welcome to TikTok LIVE!")</li>
+<li><code>EmoteChatEvent</code> - Triggered when a custom emote is sent in the chat</li>
+<li><code>EnvelopeEvent</code> - Triggered every time someone sends a treasure chest</li>
+<li><code>SocialEvent</code> - Triggered when a user shares the stream or follows the host</li>
+<li><code>QuestionNewEvent</code> - Triggered every time someone asks a new question via the question feature</li>
+<li><code>LiveIntroEvent</code> - Triggered when a live intro message appears</li>
+<li><code>LinkMicArmiesEvent</code> - Triggered when a TikTok battle user receives points</li>
+<li><code>LinkMicBattleEvent</code> - Triggered when a TikTok battle is started</li>
+<li><code>JoinEvent</code> - Triggered when a user joins the livestream</li>
+<li><code>LinkMicFanTicketMethodEvent</code></li>
+<li><code>LinkMicMethodEvent</code></li>
+<li><code>BarrageEvent</code> - Triggered when a "VIP" viewer (based on their gifting level) joins the live chat room</li>
+<li><code>CaptionEvent</code></li>
+<li><code>ImDeleteEvent</code> - Triggered when a viewer's messages are deleted</li>
+<li><code>RoomUserSeqEvent</code> - Current viewer count information</li>
+<li><code>RankUpdateEvent</code></li>
+<li><code>RankTextEvent</code> - Triggered when gift count makes a viewer one of the top three</li>
+<li><code>HourlyRankEvent</code></li>
+<li><code>UnauthorizedMemberEvent</code></li>
+<li><code>MessageDetectEvent</code></li>
+<li><code>OecLiveShoppingEvent</code></li>
+<li><code>RoomPinEvent</code> - Triggered when a message is pinned</li>
+<li><code>SystemEvent</code></li>
+<li><code>LinkEvent</code></li>
+<li><code>LinkLayerEvent</code></li>
+<li><code>KaraokeQueueListEvent</code></li>
+<li><code>GroupLiveMemberNotifyEvent</code></li>
+<li><code>SubscriptionGuideEvent</code></li>
+<li><code>NoticeboardReviewEvent</code></li>
+<li><code>BottomEvent</code></li>
+<li><code>CapsuleEvent</code></li>
+<li><code>LinkMicBattleEvent</code></li>
+<li><code>QuestionSelectedEvent</code></li>
+<li><code>TrayEvent</code></li>
+<li><code>AssetEvent</code></li>
+<li><code>WalletLiveRewardsRatioEvent</code></li>
+<li><code>LinkScreenChangeEvent</code></li>
+<li><code>PartnershipPunishEvent</code></li>
+<li><code>GiftPanelUpdateEvent</code></li>
+<li><code>AnchorTaskReminderEvent</code></li>
+<li><code>LinkBusinessEvent</code></li>
+<li><code>MarqueeAnnouncementEvent</code></li>
+<li><code>GiftDynamicRestrictionEvent</code></li>
+<li><code>CommonPopupEvent</code></li>
+<li><code>EcBarrageEvent</code></li>
+<li><code>PromoteAdStatusEvent</code></li>
+<li><code>InteractionHubGoalEvent</code></li>
+<li><code>EpiEvent</code></li>
+<li><code>LinkmicAnimationEvent</code></li>
+<li><code>KaraokeYouSingReqEvent</code></li>
+<li><code>RealTimePerformancePageEvent</code></li>
+<li><code>StreamStatusEvent</code></li>
+<li><code>GiftCollectionUpdateEvent</code></li>
+<li><code>CommercialCustomEvent</code></li>
+<li><code>GuideEvent</code></li>
+<li><code>DonationEvent</code></li>
+<li><code>LiveGameIntroEvent</code></li>
+<li><code>PartnershipDropsCardChangeEvent</code></li>
+<li><code>GameGuessWidgetsEvent</code></li>
+<li><code>MiddleTouchEvent</code></li>
+<li><code>UserStatsEvent</code></li>
+<li><code>WallpaperReviewEvent</code></li>
+<li><code>LinkMicAdEvent</code></li>
+<li><code>SubTimerStickerEvent</code></li>
+<li><code>GiftGalleryEvent</code></li>
+<li><code>GiftUpdateEvent</code></li>
+<li><code>NoticeboardEvent</code></li>
+<li><code>UpgradeEvent</code></li>
+<li><code>BackpackEvent</code></li>
+<li><code>AvatarStyleResultEvent</code></li>
+<li><code>GameSettingChangeEvent</code></li>
+<li><code>PartnershipDropsUpdateEvent</code></li>
+<li><code>QuestionSwitchEvent</code></li>
+<li><code>LiveInfoAuditNoticeEvent</code></li>
+<li><code>CommonToastEvent</code></li>
+<li><code>ToastEvent</code></li>
+<li><code>DonationStickerModifyMethodEvent</code></li>
+<li><code>PollEvent</code></li>
+<li><code>HighlightFragementReadyEvent</code></li>
+<li><code>GiftPromptEvent</code></li>
+<li><code>ForceFetchRecommendationsEvent</code></li>
+<li><code>GameGuessPinCardEvent</code></li>
+<li><code>LinkLayoutEvent</code></li>
+<li><code>GameOcrPingEvent</code></li>
+<li><code>AnchorGrowLevelEvent</code></li>
+<li><code>EnvelopePortalEvent</code></li>
+<li><code>CohostReserveEvent</code></li>
+<li><code>BaLeadGenEvent</code></li>
+<li><code>PictionaryEndEvent</code></li>
+<li><code>RoomNotifyEvent</code></li>
+<li><code>FansEventEvent</code></li>
+<li><code>KaraokeQueueEvent</code></li>
+<li><code>FollowCardEvent</code></li>
+<li><code>ActivityQuizUserIdentityEvent</code></li>
+<li><code>LiveJourneyEvent</code></li>
+<li><code>CommentsEvent</code></li>
+<li><code>WeeklyRankRewardEvent</code></li>
+<li><code>LinkStateEvent</code></li>
+<li><code>AccessRecallEvent</code></li>
+<li><code>AiSummaryEvent</code></li>
+<li><code>PerceptionEvent</code></li>
+<li><code>RoomVerifyEvent</code></li>
+<li><code>GuideTaskEvent</code></li>
+<li><code>VideoLiveCouponRcmdEvent</code></li>
+<li><code>VideoLiveGoodsRcmdEvent</code></li>
+<li><code>KaraokeSwitchEvent</code></li>
+<li><code>PrivilegeAdvanceEvent</code></li>
+<li><code>LinkMicBattlePunishFinishEvent</code></li>
+<li><code>BoostedUsersEvent</code></li>
+<li><code>RankToastEvent</code></li>
+<li><code>CommentTrayEvent</code></li>
+<li><code>AnchorReminderWordEvent</code></li>
+<li><code>PaidContentLiveShoppingEvent</code></li>
+<li><code>RoomEventEvent</code></li>
+<li><code>RoomBottomEvent</code></li>
+<li><code>DonationInfoEvent</code></li>
+<li><code>GameMomentEvent</code></li>
+<li><code>HashtagEvent</code></li>
+<li><code>LinkMicBattleItemCardEvent</code></li>
+<li><code>PrivilegeDynamicEffectEvent</code></li>
+<li><code>AnchorGetSubQuotaEvent</code></li>
+<li><code>OecLiveHotRoomEvent</code></li>
+<li><code>AudienceReserveUserStateEvent</code></li>
+<li><code>RealtimeLiveCenterMethodEvent</code></li>
+<li><code>WallpaperEvent</code></li>
+<li><code>SubPinEventEvent</code></li>
+<li><code>LinkmicBattleTaskEvent</code></li>
+<li><code>StarCommentPushEvent</code></li>
+<li><code>EcTaskRefreshCouponListEvent</code></li>
+<li><code>ShortTouchEvent</code></li>
+<li><code>EffectControlEvent</code></li>
+<li><code>KaraokeRedDotEvent</code></li>
+<li><code>QuestionDeleteEvent</code></li>
+<li><code>InRoomBannerEvent</code></li>
+<li><code>ShareGuideEvent</code></li>
+<li><code>EventEvent</code></li>
+<li><code>InRoomBannerEventEvent</code></li>
+<li><code>PlayTogetherEvent</code></li>
+<li><code>SubContractStatusEvent</code></li>
+<li><code>HourlyRankRewardEvent</code></li>
+<li><code>PictionaryStartEvent</code></li>
+<li><code>GuestInviteEvent</code></li>
+<li><code>NoticeEvent</code></li>
+<li><code>PartnershipDownloadCountEvent</code></li>
+<li><code>GreetingEvent</code></li>
+<li><code>LiveShowEvent</code></li>
+<li><code>SubWaveEvent</code></li>
+<li><code>GameReqSetGuessEvent</code></li>
+<li><code>SpeakerEvent</code></li>
+<li><code>LinkMicAnchorGuideEvent</code></li>
+<li><code>CompetitionEvent</code></li>
+<li><code>AvatarReportDeleteEvent</code></li>
+<li><code>EffectPreloadingEvent</code></li>
+<li><code>ColdStartEvent</code></li>
+<li><code>CountdownForAllEvent</code></li>
+<li><code>GiftBroadcastEvent</code></li>
+<li><code>PreviewGameMomentEvent</code></li>
+<li><code>GameRecommendCreateGuessEvent</code></li>
+<li><code>VideoLiveGoodsOrderEvent</code></li>
+<li><code>StarCommentNotificationEvent</code></li>
+<li><code>InRoomBannerRefreshEvent</code></li>
+<li><code>RoomStickerEvent</code></li>
+<li><code>GiftProgressEvent</code></li>
+<li><code>OecLiveManagerEvent</code></li>
+<li><code>DiggEvent</code></li>
+<li><code>AiLiveSummaryEvent</code></li>
+<li><code>AnchorToolModificationEvent</code></li>
+<li><code>MgPunishCenterActionEvent</code></li>
+<li><code>PictionaryExitEvent</code></li>
+<li><code>CountdownEvent</code></li>
+<li><code>GameServerFeatureEvent</code></li>
+<li><code>PlaybookEvent</code></li>
+<li><code>GiftRecordCapsuleEvent</code></li>
+<li><code>QuickChatListEvent</code></li>
+<li><code>PartnershipCardChangeEvent</code></li>
+<li><code>ScreenChatEvent</code></li>
+<li><code>GameEmoteUpdateEvent</code></li>
+<li><code>BoostCardEvent</code></li>
+<li><code>RoomStreamAdaptationEvent</code></li>
+<li><code>LinkmicBattleNoticeEvent</code></li>
+<li><code>GoodyBagEvent</code></li>
 </ul>
+</details>
 </section>
 <section id="special-events">
 <h4>Special Events<a class="headerlink" href="#special-events" title="Link to this heading"></a></h4>

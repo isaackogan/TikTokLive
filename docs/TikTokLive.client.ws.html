@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="TikTokLive.events package" href="TikTokLive.events.html" /><link rel="prev" title="TikTokLive.client.web.routes package" href="TikTokLive.client.web.routes.html" />
 
     <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>TikTokLive.client.ws package - TikTokLive v6.4.5</title>
+        <title>TikTokLive.client.ws package - TikTokLive v6.5.3</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css?v=e72958e9" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">TikTokLive v6.4.5</div></a>
+      <a href="index.html"><div class="brand">TikTokLive v6.5.3</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -199,7 +199,7 @@
     <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">TikTokLive v6.4.5</span>
+  <span class="sidebar-brand-text">TikTokLive v6.5.3</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -275,17 +275,12 @@
 <p>Websocket client responsible for connections to TikTok</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.DEFAULT_PING_INTERVAL">
-<span class="sig-name descname"><span class="pre">DEFAULT_PING_INTERVAL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.DEFAULT_PING_INTERVAL" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.PING_MESSAGE">
-<span class="sig-name descname"><span class="pre">PING_MESSAGE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bytes</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">b'2\x02pb:\x02hb'</span></em><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.PING_MESSAGE" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">DEFAULT_PING_INTERVAL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5.0</span></em><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.DEFAULT_PING_INTERVAL" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.connect">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cookies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Cookies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authenticate_websocket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_webcast_response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.ProtoMessageFetchResult" title="TikTokLive.proto.tiktok_proto.ProtoMessageFetchResult"><span class="pre">ProtoMessageFetchResult</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_connect_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_ws_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.ProtoMessageFetchResult" title="TikTokLive.proto.tiktok_proto.ProtoMessageFetchResult"><span class="pre">ProtoMessageFetchResult</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.connect" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cookies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Cookies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_webcast_response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.ProtoMessageFetchResult" title="TikTokLive.proto.tiktok_proto.ProtoMessageFetchResult"><span class="pre">ProtoMessageFetchResult</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_connect_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compress_ws_events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="TikTokLive.proto.html#TikTokLive.proto.tiktok_proto.ProtoMessageFetchResult" title="TikTokLive.proto.tiktok_proto.ProtoMessageFetchResult"><span class="pre">ProtoMessageFetchResult</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.connect" title="Link to this definition"></a></dt>
 <dd><p>Connect to the Webcast server &amp; iterate over response messages.</p>
 <p>— Message 1 —</p>
 <p>The iterator exits normally when the connection is closed with close code
@@ -307,7 +302,6 @@ It then throws the following infamous exception:</p>
 <li><p><strong>room_id</strong> – The room ID to connect to</p></li>
 <li><p><strong>user_agent</strong> – The user agent to pass to the WebSocket connection</p></li>
 <li><p><strong>cookies</strong> – The cookies to pass to the WebSocket connection</p></li>
-<li><p><strong>authenticate_websocket</strong> – Whether to authenticate the WebSocket connection</p></li>
 <li><p><strong>process_connect_events</strong> – Whether to process the initial events sent in the first fetch</p></li>
 <li><p><strong>compress_ws_events</strong> – Whether to ask TikTok to gzip the WebSocket events</p></li>
 </ul>
@@ -338,14 +332,11 @@ It then throws the following infamous exception:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.get_ws_cookie_string">
-<span class="sig-name descname"><span class="pre">get_ws_cookie_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cookies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Cookies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authenticate_websocket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.get_ws_cookie_string" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_ws_cookie_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cookies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Cookies</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.get_ws_cookie_string" title="Link to this definition"></a></dt>
 <dd><p>Get the cookie string for the WebSocket connection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cookies</strong> – Cookies to pass to the WebSocket connection</p></li>
-<li><p><strong>authenticate_websocket</strong> – Whether the WebSocket is authenticated</p></li>
-</ul>
+<dd class="field-odd"><p><strong>cookies</strong> – Cookies to pass to the WebSocket connection</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Cookie string</p>
@@ -355,7 +346,7 @@ It then throws the following infamous exception:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_client.WebcastWSClient.restart_ping_loop">
-<span class="sig-name descname"><span class="pre">restart_ping_loop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.restart_ping_loop" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">restart_ping_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.restart_ping_loop" title="Link to this definition"></a></dt>
 <dd><p>Restart the WebSocket ping loop</p>
 </dd></dl>
 
@@ -411,6 +402,12 @@ It then throws the following infamous exception:</p>
 <dt class="sig sig-object py" id="TikTokLive.client.ws.ws_connect.WebcastConnect.ws">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ws</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">WebSocketClientProtocol</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.client.ws.ws_connect.WebcastConnect.ws" title="Link to this definition"></a></dt>
 <dd><p>Get the current WebSocketClientProtocol</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="TikTokLive.client.ws.ws_connect.WebcastConnect.ws_options">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ws_options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#TikTokLive.client.ws.ws_connect.WebcastConnect.ws_options" title="Link to this definition"></a></dt>
+<dd><p>Get the WebSocket options as returned via the Handshake-Options header</p>
 </dd></dl>
 
 </dd></dl>
@@ -491,6 +488,12 @@ The gzip format allows for less bandwidth usage, at the cost of a slight CPU inc
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="TikTokLive.client.ws.ws_utils.extract_websocket_options">
+<span class="sig-prename descclassname"><span class="pre">TikTokLive.client.ws.ws_utils.</span></span><span class="sig-name descname"><span class="pre">extract_websocket_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#TikTokLive.client.ws.ws_utils.extract_websocket_options" title="Link to this definition"></a></dt>
+<dd><p>Options are a cookie-style string, so we parse with SimpleCookie from the stdlib</p>
+</dd></dl>
+
 </section>
 <section id="module-TikTokLive.client.ws">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TikTokLive.client.ws" title="Link to this heading"></a></h2>
@@ -557,7 +560,6 @@ The gzip format allows for less bandwidth usage, at the cost of a slight CPU inc
 <li><a class="reference internal" href="#module-TikTokLive.client.ws.ws_client">TikTokLive.client.ws.ws_client module</a><ul>
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_client.WebcastWSClient"><code class="docutils literal notranslate"><span class="pre">WebcastWSClient</span></code></a><ul>
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.DEFAULT_PING_INTERVAL"><code class="docutils literal notranslate"><span class="pre">WebcastWSClient.DEFAULT_PING_INTERVAL</span></code></a></li>
-<li><a class="reference internal" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.PING_MESSAGE"><code class="docutils literal notranslate"><span class="pre">WebcastWSClient.PING_MESSAGE</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.connect"><code class="docutils literal notranslate"><span class="pre">WebcastWSClient.connect()</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.connected"><code class="docutils literal notranslate"><span class="pre">WebcastWSClient.connected</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_client.WebcastWSClient.disconnect"><code class="docutils literal notranslate"><span class="pre">WebcastWSClient.disconnect()</span></code></a></li>
@@ -573,6 +575,7 @@ The gzip format allows for less bandwidth usage, at the cost of a slight CPU inc
 <li><a class="reference internal" href="#module-TikTokLive.client.ws.ws_connect">TikTokLive.client.ws.ws_connect module</a><ul>
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_connect.WebcastConnect"><code class="docutils literal notranslate"><span class="pre">WebcastConnect</span></code></a><ul>
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_connect.WebcastConnect.ws"><code class="docutils literal notranslate"><span class="pre">WebcastConnect.ws</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.ws.ws_connect.WebcastConnect.ws_options"><code class="docutils literal notranslate"><span class="pre">WebcastConnect.ws_options</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_connect.WebcastProxy"><code class="docutils literal notranslate"><span class="pre">WebcastProxy</span></code></a></li>
@@ -583,6 +586,7 @@ The gzip format allows for less bandwidth usage, at the cost of a slight CPU inc
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_utils.build_webcast_uri"><code class="docutils literal notranslate"><span class="pre">build_webcast_uri()</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_utils.extract_webcast_push_frame"><code class="docutils literal notranslate"><span class="pre">extract_webcast_push_frame()</span></code></a></li>
 <li><a class="reference internal" href="#TikTokLive.client.ws.ws_utils.extract_webcast_response_message"><code class="docutils literal notranslate"><span class="pre">extract_webcast_response_message()</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.ws.ws_utils.extract_websocket_options"><code class="docutils literal notranslate"><span class="pre">extract_websocket_options()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-TikTokLive.client.ws">Module contents</a></li>

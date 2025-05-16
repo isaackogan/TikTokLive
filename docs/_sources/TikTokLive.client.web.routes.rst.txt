@@ -60,6 +60,14 @@ TikTokLive.client.web.routes.fetch\_signed\_websocket module
    :undoc-members:
    :show-inheritance:
 
+TikTokLive.client.web.routes.fetch\_user\_unique\_id module
+-----------------------------------------------------------
+
+.. automodule:: TikTokLive.client.web.routes.fetch_user_unique_id
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 TikTokLive.client.web.routes.fetch\_video\_data module
 ------------------------------------------------------
 
