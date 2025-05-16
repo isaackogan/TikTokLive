@@ -10,7 +10,7 @@ from httpx import Response
 from TikTokLive.client.errors import SignAPIError, SignatureRateLimitError
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults, CLIENT_NAME
-from TikTokLive.client.web.web_utils import check_authenticated_session_id
+from TikTokLive.client.web.web_utils import check_authenticated_session
 from TikTokLive.client.ws.ws_utils import extract_webcast_response_message
 from TikTokLive.proto import ProtoMessageFetchResult
 from TikTokLive.proto.custom_extras import WebcastPushFrame
@@ -53,8 +53,7 @@ class FetchSignedWebSocketRoute(ClientRoute):
         session_id: str = session_id or self._web.cookies.get('sessionid')
         tt_target_idc: str = tt_target_idc or self._web.cookies.get('tt-target-idc')
 
-        if session_id:
-            check_authenticated_session_id(session_id, tt_target_idc)
+        if check_authenticated_session(session_id, tt_target_idc, session_required=False):
             sign_params['session_id'] = session_id
             sign_params['tt_target_idc'] = tt_target_idc
             self._logger.warning("Sending session ID to sign server for WebSocket connection. This is a risky operation.")

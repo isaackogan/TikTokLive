@@ -9,7 +9,7 @@ from httpx import URL
 from TikTokLive.__version__ import PACKAGE_VERSION
 from TikTokLive.client.errors import UnexpectedSignatureError, SignatureMissingTokensError, PremiumEndpointError
 from TikTokLive.client.web.web_settings import WebDefaults
-from TikTokLive.client.web.web_utils import check_authenticated_session_id
+from TikTokLive.client.web.web_utils import check_authenticated_session
 
 
 class SignData(TypedDict):
@@ -120,7 +120,7 @@ class TikTokSigner:
 
             # Authenticated signature
             if session_id:
-                check_authenticated_session_id(session_id, tt_target_idc)
+                check_authenticated_session(session_id, tt_target_idc, session_required=False)
                 payload['sessionId'] = session_id
                 payload['ttTargetIdc'] = tt_target_idc
 

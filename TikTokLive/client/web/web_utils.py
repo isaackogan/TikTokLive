@@ -5,9 +5,22 @@ from TikTokLive.client.errors import AuthenticatedWebSocketConnectionError
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
-def check_authenticated_session_id(session_id: Optional[str], tt_target_idc: Optional[str]) -> None:
+def check_authenticated_session(session_id: Optional[str], tt_target_idc: Optional[str], session_required: bool) -> bool:
+    """
+    Check if the session ID is set and if the target IDC is set when using a session ID.
+
+    :return: True if the session ID is set and the target IDC is set, False otherwise.
+
+    """
+
     if not session_id:
-        return
+
+        if session_required:
+            raise ValueError(
+                "Session ID required to use this function. Set a session id with client.web.set_session(...)"
+            )
+
+        return False
 
     if not tt_target_idc:
         raise ValueError(
@@ -34,3 +47,5 @@ def check_authenticated_session_id(session_id: Optional[str], tt_target_idc: Opt
             f"The host '{os.getenv('WHITELIST_AUTHENTICATED_SESSION_ID_HOST')}' you set in 'WHITELIST_AUTHENTICATED_SESSION_ID_HOST' does not match the host '{WebDefaults.tiktok_sign_url.split('://')[1]}' of the Sign Server. "
             f"Please set the correct host in 'WHITELIST_AUTHENTICATED_SESSION_ID_HOST' to authorize the Sign Server."
         )
+
+    return True

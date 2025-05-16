@@ -458,6 +458,20 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             return resolved_id
         return parsed_id
 
+    async def send_room_chat(
+            self,
+            content: str
+    ) -> Any:
+        """
+        Send a chat message to the room
+
+        :param content: The content of the message
+        :return: The response from TikTok
+
+        """
+
+        return await self._web.send_room_chat(content=content, room_id=self._room_id)
+
     @property
     def unique_id(self) -> str:
         """
