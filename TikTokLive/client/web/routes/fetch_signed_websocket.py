@@ -7,7 +7,7 @@ from typing import Optional
 import httpx
 from httpx import Response
 
-from TikTokLive.client.errors import SignAPIError, SignatureRateLimitError, AuthenticatedWebSocketConnectionError
+from TikTokLive.client.errors import SignAPIError, SignatureRateLimitError
 from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults, CLIENT_NAME
 from TikTokLive.client.web.web_utils import check_authenticated_session_id
@@ -26,7 +26,8 @@ class FetchSignedWebSocketRoute(ClientRoute):
             self,
             room_id: Optional[int] = None,
             preferred_agent_ids: list[str] = None,
-            session_id: Optional[str] = None
+            session_id: Optional[str] = None,
+            tt_target_idc: Optional[str] = None,
     ) -> ProtoMessageFetchResult:
         """
         Call the method to get the first ProtoMessageFetchResult (as bytes) to use to upgrade to WebSocket & perform the first ack
@@ -50,10 +51,12 @@ class FetchSignedWebSocketRoute(ClientRoute):
 
         # The session ID we want to add to the request
         session_id: str = session_id or self._web.cookies.get('sessionid')
+        tt_target_idc: str = tt_target_idc or self._web.cookies.get('tt-target-idc')
 
         if session_id:
-            check_authenticated_session_id(session_id)
+            check_authenticated_session_id(session_id, tt_target_idc)
             sign_params['session_id'] = session_id
+            sign_params['tt_target_idc'] = tt_target_idc
             self._logger.warning("Sending session ID to sign server for WebSocket connection. This is a risky operation.")
 
         try:

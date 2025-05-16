@@ -78,9 +78,10 @@ class TikTokSigner:
             url: str | URL,
             method: str,
             sign_url_type: Literal["xhr", "fetch"],
-            session_id: str,
             payload: str,
-            user_agent: str
+            user_agent: str,
+            session_id: Optional[str] = None,
+            tt_target_idc: Optional[str] = None,
     ) -> SignResponse:
         """
         Fetch a signed URL for any /webcast/* route using the Sign Server
@@ -89,6 +90,7 @@ class TikTokSigner:
         :param sign_url_type: The type of signing to use
         :param session_id: The session ID to use for signing
         :param payload: The payload to send with the request
+        :param tt_target_idc: The target IDC to use for signing
         :param method: The HTTP method to sign with
         :param user_agent: The user agent to use for signing
         :return: The signature response
@@ -116,9 +118,11 @@ class TikTokSigner:
                 "payload": payload
             }
 
+            # Authenticated signature
             if session_id:
-                check_authenticated_session_id(session_id)
+                check_authenticated_session_id(session_id, tt_target_idc)
                 payload['sessionId'] = session_id
+                payload['ttTargetIdc'] = tt_target_idc
 
             response: httpx.Response = await self._httpx.post(
                 url=f"{self._sign_api_base}/webcast/sign_url/",

@@ -17,7 +17,7 @@ if __name__ == '__main__':
     client.logger.setLevel(LogLevel.INFO.value)
 
     # Set the login session ID token BEFORE connecting
-    client.web.set_session_id("session-id-here")
+    client.web.set_session("session-id-here")
 
     # Connect
     client.run()

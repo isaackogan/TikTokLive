@@ -5,9 +5,14 @@ from TikTokLive.client.errors import AuthenticatedWebSocketConnectionError
 from TikTokLive.client.web.web_settings import WebDefaults
 
 
-def check_authenticated_session_id(session_id: Optional[str]):
-    if session_id is None:
+def check_authenticated_session_id(session_id: Optional[str], tt_target_idc: Optional[str]) -> None:
+    if not session_id:
         return
+
+    if not tt_target_idc:
+        raise ValueError(
+            "Target IDC must be passed when including a sessionId"
+        )
 
     if not os.getenv('WHITELIST_AUTHENTICATED_SESSION_ID_HOST'):
         raise AuthenticatedWebSocketConnectionError(

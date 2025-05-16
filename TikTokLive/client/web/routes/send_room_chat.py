@@ -14,8 +14,9 @@ class SendRoomChatRoute(ClientRoute):
             content: str,
             room_id: Optional[int] = None,
             session_id: Optional[str] = None,
+            tt_target_idc: Optional[str] = None,
     ) -> dict:
-        check_authenticated_session_id(session_id)
+        check_authenticated_session_id(session_id, tt_target_idc)
 
         payload: dict = {
             "roomId": room_id or self._web.params['room_id'],

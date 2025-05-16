@@ -134,17 +134,20 @@ class TikTokHTTPClient:
         await self._httpx.aclose()
         await self._curl_cffi.close()
 
-    def set_session_id(self, session_id: str) -> None:
+    def set_session(self, session_id: str | None, tt_target_idc: str | None) -> None:
         """
         Set the session id cookies for the HTTP client and Websocket connection
 
         :param session_id: The (must be valid) session ID
-
+        :param tt_target_idc: The tt-target-idc cookie, i.e. the data center holding the user's account credentials. (e.g. eu-ttp2)
         :return: None
 
         """
 
-        # Set the authenticate WS setting
+        # Set the target datacenter
+        self.cookies.set("tt-target-idc", tt_target_idc)
+
+        # Set the cookies
         self.cookies.set("sessionid", session_id)
         self.cookies.set("sessionid_ss", session_id)
         self.cookies.set("sid_tt", session_id)
@@ -249,9 +252,10 @@ class TikTokHTTPClient:
                     url=request.url,
                     method=sign_url_method or method,
                     sign_url_type=sign_url_type if sign_url_type else "xhr",
-                    session_id=self.cookies.get('sessionid'),
                     payload=sign_url_payload,
-                    user_agent=self.headers['User-Agent']
+                    user_agent=self.headers['User-Agent'],
+                    session_id=self.cookies.get('sessionid'),
+                    tt_target_idc=self.cookies.get('tt-target-idc'),
                 )
             )['response']
             request.headers['User-Agent'] = sign_data['userAgent']
