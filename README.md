@@ -15,10 +15,6 @@ An unofficial API wrapper for TikTok LIVE written in Python. With this API you c
 > [!NOTE]
 > For production use-cases, <strong>do not</strong> use this library. Connect via the [WebSocket API](https://www.eulerstream.com/websockets).
 
-## Enterprise Solutions
-
-For enterprise-level service & greater rate limits, sign up with Euler Stream today:
-
 <table>
 <tr>
     <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
