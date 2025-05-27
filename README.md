@@ -9,11 +9,11 @@ An unofficial API wrapper for TikTok LIVE written in Python. With this API you c
 ![Forks](https://img.shields.io/github/forks/isaackogan/TikTokLive?style=flat&color=0274b5)
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
 
-> [!NOTE]
-> This is not an official API. It is a reverse engineering project. You are responsible for your usage of this library.
+> [!WARNING]
+> For production use-cases, <strong>do not</strong> use this library. Connect via the [WebSocket API](https://www.eulerstream.com/websockets).
 
 > [!NOTE]
-> For production use-cases, <strong>do not</strong> use this library. Connect via the [WebSocket API](https://www.eulerstream.com/websockets).
+> This is not an official API. It is a reverse engineering project. You are responsible for your usage of this library.
 
 <table>
 <tr>
