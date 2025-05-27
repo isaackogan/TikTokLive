@@ -13,12 +13,7 @@ An unofficial API wrapper for TikTok LIVE written in Python. With this API you c
 > This is not an official API. It is a reverse engineering project. You are responsible for your usage of this library.
 
 > [!NOTE]
-> For production use-cases, <strong>do not</strong> use this library. Connect via the WebSocket API. [Read More](https://www.eulerstream.com/websockets)
-
-## WebSocket Server
-
-Ditch the TikTok Library and connect directly with a WebSocket: https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png
-
+> For production use-cases, <strong>do not</strong> use this library. Connect via the [WebSocket API](https://www.eulerstream.com/websockets).
 
 ## Enterprise Solutions
 
@@ -29,13 +24,12 @@ For enterprise-level service & greater rate limits, sign up with Euler Stream to
     <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
     <td>
         <a href="https://www.eulerstream.com">
-            <strong>Euler Stream</strong> provides increased rate limits, TikTok LIVE alerts, JWT authentication and more for enterprise customers. It offers generous tiers 
+            <strong>Euler Stream</strong> provides increased rate limits, library-free WebSockets, TikTok LIVE alerts, JWT authentication and more for enterprise customers. It offers generous tiers 
             starting at $0.
         </a>
     </td>
 </tr>
 </table>
-
 
 
 <!--
