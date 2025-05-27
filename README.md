@@ -30,6 +30,21 @@ COMING SOON:
 
 -->
 
+## WebSocket Server
+
+Ditch the TikTok Library and connect directly with a WebSocket:
+
+<table>
+<tr>
+    <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
+    <td>
+        <a href="https://www.eulerstream.com/docs/sign-server/websockets">
+            <strong>Euler WebSockets</strong> is a no-library auto-scaling WebSocket server that is rated for enterprise use-cases and can support any load.
+        </a>
+    </td>
+</tr>
+</table>
+
 ## Enterprise Solutions
 
 For enterprise-level service & greater rate limits, sign up with Euler Stream today:
@@ -45,6 +60,8 @@ For enterprise-level service & greater rate limits, sign up with Euler Stream to
     </td>
 </tr>
 </table>
+
+
 
 <!--
 Temporarily Removed May 3rd 2025
