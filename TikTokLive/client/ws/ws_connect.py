@@ -119,7 +119,7 @@ class WebcastConnect(Connect):
                 self._ws_options = None
 
 
-class WebcastProxyConnect(ProxyConnect, WebcastConnect):
+class WebcastProxyConnect(WebcastConnect, ProxyConnect):
     """
     Add Proxy support to the WebcastConnect class
 
