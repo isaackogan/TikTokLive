@@ -1,6 +1,6 @@
 TikTokLive API
 ==================
-This is an unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`.
+An unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`.
 
 [![Discord](https://img.shields.io/discord/977648006063091742?logo=discord&label=TikTokLive%20Discord&labelColor=%23171717&color=%231877af)](https://discord.gg/N3KSxzvDX8)
 ![Connections](https://tiktok.eulerstream.com/analytics/pips/1)
@@ -9,42 +9,24 @@ This is an unofficial API wrapper for TikTok LIVE written in Python. With this A
 ![Forks](https://img.shields.io/github/forks/isaackogan/TikTokLive?style=flat&color=0274b5)
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
 
-<!-- [![HitCount](https://hits.dwyl.com/isaackogan/TikTokLive.svg?style=flat)](http://hits.dwyl.com/isaackogan/TikTokLive) -->
+> [!WARNING]
+> For production use-cases, <strong>do not</strong> use this library. Connect via the [WebSocket API](https://www.eulerstream.com/websockets).
 
-<!--
-
-COMING SOON:
-
-## TikTok LIVE Interactive Bots
-
-<table>
-<tr>
-    <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/BotsLogo.png"><br/><br/></td>
-    <td>
-        <a href="https://www.github.com/isaackogan/TikTokLive.py">
-          Build interactive chatbots to increase retention & elevate user experience with the open source TikTokLive bot famework and a  <strong>Euler Stream</strong> API key.
-        </a>
-    </td>
-</tr>
-</table>
-
--->
-
-## Enterprise Solutions
-
-For enterprise-level service & greater rate limits, sign up with Euler Stream today:
+> [!NOTE]
+> This is not an official API. It is a reverse engineering project. You are responsible for your usage of this library.
 
 <table>
 <tr>
     <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
     <td>
         <a href="https://www.eulerstream.com">
-            <strong>Euler Stream</strong> provides increased rate limits, TikTok LIVE alerts, JWT authentication and more for enterprise customers. It offers generous tiers 
+            <strong>Euler Stream</strong> provides increased rate limits, library-free WebSockets, TikTok LIVE alerts, JWT authentication and more for enterprise customers. It offers generous tiers 
             starting at $0.
         </a>
     </td>
 </tr>
 </table>
+
 
 <!--
 Temporarily Removed May 3rd 2025
