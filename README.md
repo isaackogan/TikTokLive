@@ -12,7 +12,7 @@ TikTokLive is an unofficial Python API wrapper for TikTok LIVE written in Python
 > [!WARNING]
 
 > [!NOTE]
-> This is <strong>not</strong a production-ready API. It is a reverse engineering project. Use the [WebSocket API](https://www.eulerstream.com/websockets) for production.
+> This is <strong>not</strong> a production-ready API. It is a reverse engineering project. Use the [WebSocket API](https://www.eulerstream.com/websockets) for production.
 
 <a href="https://www.eulerstream.com/websockets">
     <img src="https://www.eulerstream.com/api/advert?l2=WebSocket+API&r=15&b=1.5&bc=404854&o=0.95"/>
