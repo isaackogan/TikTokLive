@@ -9,8 +9,6 @@ TikTokLive is an unofficial Python API wrapper for TikTok LIVE written in Python
 ![Forks](https://img.shields.io/github/forks/isaackogan/TikTokLive?style=flat&color=0274b5)
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
 
-> [!WARNING]
-
 > [!NOTE]
 > This is <strong>not</strong> a production-ready API. It is a reverse engineering project. Use the [WebSocket API](https://www.eulerstream.com/websockets) for production.
 
