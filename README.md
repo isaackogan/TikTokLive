@@ -1,6 +1,6 @@
-TikTokLive API
+TikTok LIVE Python API
 ==================
-An unofficial API wrapper for TikTok LIVE written in Python. With this API you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`.
+TikTokLive is an unofficial Python API wrapper for TikTok LIVE written in Python. With this library you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`.
 
 [![Discord](https://img.shields.io/discord/977648006063091742?logo=discord&label=TikTokLive%20Discord&labelColor=%23171717&color=%231877af)](https://discord.gg/N3KSxzvDX8)
 ![Connections](https://tiktok.eulerstream.com/analytics/pips/1)
@@ -10,7 +10,7 @@ An unofficial API wrapper for TikTok LIVE written in Python. With this API you c
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
 
 > [!WARNING]
-> For production use-cases, <strong>do not</strong> use this library. Connect via the [WebSocket API](https://www.eulerstream.com/websockets).
+> For production use-cases, <strong>do not</strong> use this library. I strongly recommend the [WebSocket API](https://www.eulerstream.com/websockets).
 
 > [!NOTE]
 > This is not an official API. It is a reverse engineering project. You are responsible for your usage of this library.
@@ -20,8 +20,7 @@ An unofficial API wrapper for TikTok LIVE written in Python. With this API you c
     <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
     <td>
         <a href="https://www.eulerstream.com">
-            <strong>Euler Stream</strong> provides increased rate limits, library-free WebSockets, TikTok LIVE alerts, JWT authentication and more for enterprise customers. It offers generous tiers 
-            starting at $0.
+            <img src="https://www.eulerstream.com/api/advert"/>
         </a>
     </td>
 </tr>
