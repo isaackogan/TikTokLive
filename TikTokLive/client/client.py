@@ -454,7 +454,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         """Resolve a unique_id and return the resolved value"""
         parsed_id = self.parse_unique_id(unique_id)
         if parsed_id.isdigit() and self._is_userid:
-            resolved_id = await self._web.fetch_user_unique_id(parsed_id)
+            resolved_id = await self._web.fetch_user_unique_id(int(parsed_id))
             if not resolved_id:
                 raise FailedResolveUserId(f"Resolved ID is invalid: {resolved_id}")
             return resolved_id
