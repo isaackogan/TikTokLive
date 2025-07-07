@@ -65,58 +65,57 @@ class WebcastConnect(Connect):
 
     async def __aiter__(self) -> WebcastIterator:
         """
-        Custom implementation of async iterator that disables exception ignoring & handles messages.
-        We must disable the retry mechanism because websockets are signed and only work once, so reconnecting wouldn't work anyways.
-        Also, the mechanism by the websockets library ignores the '200' error code and retries, even though this is a 'detected by TikTok' error & thus
-        retrying is useless.
+        Note as of Jul 6, 2025
+
+        - This is a custom implementation over the default iterator
+        - It disables retry mechanisms and **disallows** reconnects, since signed URLs expire after 30 seconds
+        - Also, the default mechanism by the websockets library ignores the '200' error code and retries, even though this is a 'detected by TikTok' error & thus
+          retrying is useless.
+
+        tl;dr This goes from an iterator of WebSockets -> an iterator of Events
 
         """
 
-        first_connect: bool = True
+        try:
 
-        while True:
-            try:
+            # "async with" yields a WebsocketClientProtocol
+            # The connection happens in the "async with", so if you enter the loop, that means it connected to the WebSocket
+            async with self as protocol:
+                self._ws = protocol
+                self._ws_options = extract_websocket_options(self._ws.response_headers)
 
-                # "async with" yields a WebsocketClientProtocol
-                # The connection happens in the "async with", so if you enter the loop, that means it connected to the WebSocket
-                async with self as protocol:
-                    self._ws = protocol
-                    self._ws_options = extract_websocket_options(self._ws.response_headers)
+                # Yield the first ProtoMessageFetchResult
+                yield None, self._initial_response
 
-                    # Yield the first ProtoMessageFetchResult
-                    if first_connect:
-                        first_connect = False
-                        yield None, self._initial_response
+                # "async for" yields "WebcastPushFrame" payloads as unparsed bytes
+                async for payload_bytes in protocol:
 
-                    # "async for" yields "WebcastPushFrame" payloads as unparsed bytes
-                    async for payload_bytes in protocol:
+                    # Extract push frame
+                    webcast_push_frame: WebcastPushFrame = WebcastPushFrame().parse(payload_bytes)
 
-                        # Extract push frame
-                        webcast_push_frame: WebcastPushFrame = WebcastPushFrame().parse(payload_bytes)
+                    # Only deal with messages
+                    if webcast_push_frame.payload_type != "msg":
+                        webcast_push_frame.payload = extract_webcast_response_message(webcast_push_frame, logger=self._logger)
+                        self._logger.debug(f"Received payload of type '{webcast_push_frame.payload_type}', not 'msg': {webcast_push_frame}")
+                        continue
 
-                        # Only deal with messages
-                        if webcast_push_frame.payload_type != "msg":
-                            webcast_push_frame.payload = extract_webcast_response_message(webcast_push_frame, logger=self._logger)
-                            self._logger.debug(f"Received payload of type '{webcast_push_frame.payload_type}', not 'msg': {webcast_push_frame}")
-                            continue
+                    # If it is of type msg, we can extract the ProtoMessageFetchResult item within
+                    webcast_response: ProtoMessageFetchResult = extract_webcast_response_message(webcast_push_frame, logger=self._logger)
+                    yield webcast_push_frame, webcast_response
 
-                        # If it is of type msg, we can extract the ProtoMessageFetchResult item within
-                        webcast_response: ProtoMessageFetchResult = extract_webcast_response_message(webcast_push_frame, logger=self._logger)
-                        yield webcast_push_frame, webcast_response
+        except InvalidStatusCode as ex:
+            if ex.status_code == 200:
+                # Note from Isaac post-insanity...
+                # IF the WebSockets are >>SIGNED<< WITH A SESSION ID
+                # and you DO NOT pass a sessionid cookie in the header, it will reject for "illegal secret key"
+                raise WebcastBlocked200Error(
+                    f"WebSocket rejected by TikTok due to \"{ex.headers.get('Handshake-Msg', 'an unknown reason')}\"."
+                ) from ex
+            raise
 
-            except InvalidStatusCode as ex:
-                if ex.status_code == 200:
-                    # Note from Isaac post-insanity...
-                    # IF the WebSockets are >>SIGNED<< WITH A SESSION ID
-                    # and you DO NOT pass a sessionid cookie in the header, it will reject for "illegal secret key"
-                    raise WebcastBlocked200Error(
-                        f"WebSocket rejected by TikTok due to \"{ex.headers.get('Handshake-Msg', 'an unknown reason')}\"."
-                    ) from ex
-                raise
-
-            finally:
-                self._ws = None
-                self._ws_options = None
+        finally:
+            self._ws = None
+            self._ws_options = None
 
 
 class WebcastProxyConnect(WebcastConnect, ProxyConnect):
