@@ -144,7 +144,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 raise base_ex
 
             try:
-                self._logger.error("Failed to parse room ID from HTML. Using API fallback.")
+                self._logger.debug("Failed to parse room ID from HTML. Using API fallback.")
                 self._room_id: int = int(await self._web.fetch_room_id_from_api(self.unique_id))
             except Exception as super_ex:
                 raise super_ex from base_ex
