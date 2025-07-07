@@ -251,6 +251,7 @@ class WebcastWSClient:
         )
 
         # Open a connection & yield ProtoMessageFetchResult items
+        # TODO prevent reconnects cuz they trigger illegal secret key errs
         async for webcast_push_frame, webcast_response in typing.cast(WebcastIterator, self._connection_generator):
 
             # The first message does NOT need an ack since we perform the ack with the actual WebSocket connect URI
@@ -258,7 +259,7 @@ class WebcastWSClient:
                 self.restart_ping_loop(room_id=room_id)
 
             # Ack when necessary
-            # todo acks are not handled properly (or sent AT ALL!!)
+            # TODO I >think< acks are not handled properly (or sent AT ALL!!) <- copy nodejs
             if webcast_response.need_ack:
                 await self.send_ack(webcast_response=webcast_response, webcast_push_frame=webcast_push_frame)
 
@@ -270,7 +271,7 @@ class WebcastWSClient:
                 break
 
         # Cancel the ping loop if it hasn't started to
-        if not self._ping_loop.done() and not self._ping_loop.cancelling():
+        if not self._ping_loop.done() and not self._ping_loop.cancelled():
             self._ping_loop.cancel()
 
         if not self._ping_loop.done():
