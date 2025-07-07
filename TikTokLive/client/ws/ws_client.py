@@ -251,7 +251,6 @@ class WebcastWSClient:
         )
 
         # Open a connection & yield ProtoMessageFetchResult items
-        # TODO prevent reconnects cuz they trigger illegal secret key errs
         async for webcast_push_frame, webcast_response in typing.cast(WebcastIterator, self._connection_generator):
 
             # The first message does NOT need an ack since we perform the ack with the actual WebSocket connect URI
