@@ -1,4 +1,4 @@
-TikTok LIVE Python API
+TikTokLive Python API (Unofficial)
 ==================
 TikTokLive is an unofficial Python API wrapper for TikTok LIVE written in Python. With this library you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`.
 
@@ -9,13 +9,10 @@ TikTokLive is an unofficial Python API wrapper for TikTok LIVE written in Python
 ![Forks](https://img.shields.io/github/forks/isaackogan/TikTokLive?style=flat&color=0274b5)
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
 
-> [!WARNING]
-> For production use-cases, <strong>do not</strong> use this library. I strongly recommend the [WebSocket API](https://www.eulerstream.com/websockets).
-
 > [!NOTE]
-> This is not an official API. It is a reverse engineering project. You are responsible for your usage of this library.
+> This is <strong>not</strong> a production-ready API. It is a reverse engineering project. Use the [WebSocket API](https://www.eulerstream.com/websockets) for production.
 
-<a href="https://www.eulerstream.com/websockets">
+<a href="https://www.eulerstream.com/websockets" target="_blank">
     <img src="https://www.eulerstream.com/api/advert?l2=WebSocket+API&r=15&b=1.5&bc=404854&o=0.95"/>
 </a>
 
