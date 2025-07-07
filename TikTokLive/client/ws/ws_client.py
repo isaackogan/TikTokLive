@@ -108,6 +108,7 @@ class WebcastWSClient:
         await self.send(
             message=WebcastPushFrame(
                 payload_type="ack",
+                payload_encoding="pb",
                 # ID of the WebcastPushMessage for the acknowledgement
                 log_id=webcast_push_frame.log_id,
                 # [Unknown] Hypothesized to be an acknowledgement of the ProtoMessageFetchResult (& its messages) within the WebcastPushMessage
