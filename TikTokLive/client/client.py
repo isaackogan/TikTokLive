@@ -360,8 +360,10 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 if event is not None:
                     yield event
 
-    async def _parse_webcast_response_message(self, webcast_response_message: Optional[
-        ProtoMessageFetchResultBaseProtoMessage]) -> List[Event]:
+    async def _parse_webcast_response_message(
+            self,
+            webcast_response_message: Optional[ProtoMessageFetchResultBaseProtoMessage]
+    ) -> List[Event]:
         """
         Parse incoming webcast responses into events that can be emitted
 
