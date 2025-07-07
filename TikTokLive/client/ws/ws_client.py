@@ -259,7 +259,6 @@ class WebcastWSClient:
                 self.restart_ping_loop(room_id=room_id)
 
             # Ack when necessary
-            # TODO I >think< acks are not handled properly (or sent AT ALL!!) <- copy nodejs
             if webcast_response.need_ack:
                 await self.send_ack(webcast_response=webcast_response, webcast_push_frame=webcast_push_frame)
 
