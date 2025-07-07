@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "TikTokLive"
-version = "6.5.3"
+version = "6.5.4"
 description = "TikTok Live Python Client"
 readme = "README.md"  # Corrected format
 requires-python = ">=3.10"
@@ -32,7 +32,8 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11"
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12"
 ]
 
 [project.optional-dependencies]
@@ -42,7 +43,6 @@ interactive = [
 
 [project.urls]
 Homepage = "https://github.com/isaackogan/TikTokLive"
-Download = "https://github.com/isaackogan/TikTokLive/releases/tag/v6.4.5.post2"
 
 [tool.setuptools]
 license-files = ['LICENSE']
