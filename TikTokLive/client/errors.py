@@ -19,7 +19,7 @@ class TikTokLiveError(RuntimeError):
 
         # If it was empty
         if len(args) == 1:
-            args.append("No Message Provided")
+            args.append(self.__class__.__name__)
 
         super().__init__(" ".join(args))
 
