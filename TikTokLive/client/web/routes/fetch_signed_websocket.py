@@ -25,7 +25,6 @@ class FetchSignedWebSocketRoute(ClientRoute):
     async def __call__(
             self,
             room_id: Optional[int] = None,
-            preferred_agent_ids: list[str] = None,
             session_id: Optional[str] = None,
             tt_target_idc: Optional[str] = None,
     ) -> ProtoMessageFetchResult:
@@ -33,7 +32,6 @@ class FetchSignedWebSocketRoute(ClientRoute):
         Call the method to get the first ProtoMessageFetchResult (as bytes) to use to upgrade to WebSocket & perform the first ack
 
         :param room_id: Override the room ID to fetch the webcast for
-        :param preferred_agent_ids: The preferred agent ID to use for the request
         :return: The ProtoMessageFetchResult forwarded from the sign server proxy, as raw bytes
 
         """
@@ -45,9 +43,6 @@ class FetchSignedWebSocketRoute(ClientRoute):
             'room_id': room_id or self._web.params.get('room_id', None),
             'user_agent': self._web.headers['User-Agent']
         }
-
-        if preferred_agent_ids is not None:
-            sign_params['preferred_agent_ids'] = ",".join(preferred_agent_ids)
 
         # The session ID we want to add to the request
         session_id: str = session_id or self._web.cookies.get('sessionid')
