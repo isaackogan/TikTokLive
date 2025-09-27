@@ -1212,6 +1212,11 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
     at_user: ExtendedUser
 
     @property
+    def user_is_super_fan(self) -> bool:
+        """Return whether the user is a TikTok super fan"""
+        return self.user_identity.is_subscriber_of_anchor
+
+    @property
     def user(self) -> ExtendedUser:
         """Backwards compatibility for user"""
         return ExtendedUser.from_user(self.user_info)
@@ -1263,6 +1268,11 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
     from_user: ExtendedUser
     to_user: ExtendedUser
     m_gift: ExtendedGift
+
+    @property
+    def user_is_super_fan(self) -> bool:
+        """Return whether the user is a TikTok super fan"""
+        return self.user_identity.is_subscriber_of_anchor
 
     @property
     def gift(self) -> Gift:

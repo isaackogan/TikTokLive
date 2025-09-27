@@ -127,7 +127,7 @@ class SignAPIError(TikTokLiveError):
         return self._response
 
     @cached_property
-    def log_id(self) -> int | None:
+    def log_id(self) -> str | None:
         """
         The log ID from the response
 
@@ -136,8 +136,7 @@ class SignAPIError(TikTokLiveError):
         if not self.response:
             return None
 
-        log_id: Optional[str] = self.response.headers.get("X-Log-ID", None)
-        return int(log_id) if log_id else log_id
+        return self.response.headers.get("X-Request-Id", None)
 
     @cached_property
     def agent_id(self) -> str | None:
@@ -149,7 +148,7 @@ class SignAPIError(TikTokLiveError):
         if not self.response:
             return None
 
-        return self.response.headers.get("X-Agent-ID", None)
+        return self.response.headers.get("X-Agent-Id", None)
 
     @classmethod
     def format_sign_server_message(cls, message: str) -> str:

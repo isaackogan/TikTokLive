@@ -69,7 +69,7 @@ class FetchSignedWebSocketRoute(ClientRoute):
             f"Attempted to fetch WebSocket information fetch from the Sign Server API! <-> "
             f"Status: {response.status_code} - "
             f"Agent ID: \"{response.headers.get('X-Agent-Id', 'N/A')}\" - "
-            f"Log ID: {response.headers.get('X-Log-Id')} - "
+            f"Log ID: {response.headers.get('X-Request-Id')} - "
             f"Log Code: {response.headers.get('X-Log-Code')} "
             f"<->"
         )

@@ -9,7 +9,7 @@ from typing import Optional, List, Type, TypeVar, Tuple
 import betterproto
 
 from TikTokLive.proto import *
-from TikTokLive.proto import User
+from TikTokLive.proto import User, Gift
 
 # "MessageType" is a proto enum field.
 # This underscore is the difference between life & death, because if you shadow the proto field,
@@ -167,17 +167,6 @@ class ExtendedUser(User):
         """
 
         return self._get_all_badge_info()
-
-    @property
-    def is_subscriber(self) -> bool:
-        """
-        Is the user subscribed to the streamer
-
-        :return: Whether the user has the subscriber badge
-
-        """
-
-        return bool(self.has_badge("SUBSCRIBER"))
 
     @property
     def is_moderator(self) -> bool:
