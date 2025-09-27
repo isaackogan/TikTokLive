@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Type, Union, Optional
 
 from TikTokLive.events.base_event import BaseEvent
-from TikTokLive.events.proto_events import SocialEvent, ControlEvent
+from TikTokLive.events.proto_events import SocialEvent, ControlEvent, BarrageEvent
 from TikTokLive.proto import ProtoMessageFetchResult
 
 
@@ -18,6 +18,13 @@ class WebsocketResponseEvent(ProtoMessageFetchResult, BaseEvent):
 class UnknownEvent(WebsocketResponseEvent):
     """
     Triggered when a Webcast message is received that is NOT tracked by TikTokLive yet.
+
+    """
+
+
+class SuperFanEvent(BarrageEvent):
+    """
+    A BarrageEvent, but we give it its own class for clarity's sake.
 
     """
 
@@ -100,6 +107,7 @@ CustomEvent: Type = Union[
     LivePauseEvent,
     LiveUnpauseEvent,
     DisconnectEvent,
+    SuperFanEvent
 ]
 
 __all__ = [

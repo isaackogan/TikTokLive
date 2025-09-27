@@ -19,8 +19,8 @@ from TikTokLive.client.ws.ws_client import WebcastWSClient
 from TikTokLive.client.ws.ws_connect import WebcastProxy
 from TikTokLive.events import Event, EventHandler, ControlEvent
 from TikTokLive.events.custom_events import WebsocketResponseEvent, FollowEvent, ShareEvent, LiveEndEvent, \
-    DisconnectEvent, LivePauseEvent, LiveUnpauseEvent, UnknownEvent, CustomEvent, ConnectEvent
-from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent
+    DisconnectEvent, LivePauseEvent, LiveUnpauseEvent, UnknownEvent, CustomEvent, ConnectEvent, SuperFanEvent
+from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, BarrageEvent
 from TikTokLive.proto import ProtoMessageFetchResult, ProtoMessageFetchResultBaseProtoMessage
 from TikTokLive.proto.custom_proto import ControlAction
 
@@ -419,6 +419,9 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :return: The event, if one exists
 
         """
+
+        if isinstance(event, BarrageEvent) and "ttlive_superFan" in event.content.key:
+            return SuperFanEvent().parse(response.payload)
 
         # LiveEndEvent, LivePauseEvent, LiveUnpauseEvent
         if isinstance(event, ControlEvent):
