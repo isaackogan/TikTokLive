@@ -7942,6 +7942,7 @@ message WebcastBarrageMessage {
     BarrageEvent event = 2;
     optional BarrageType msg_type = 3;
     ImageModel icon = 4;
+    Text content = 5;
     int64 duration = 6;
     ImageModel back_ground = 7;
     ImageModel right_icon = 8;
