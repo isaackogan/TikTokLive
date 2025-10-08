@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="TikTokLive.client.ws package" href="TikTokLive.client.ws.html" /><link rel="prev" title="TikTokLive.client.web package" href="TikTokLive.client.web.html" />
 
     <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
-        <title>TikTokLive.client.web.routes package - TikTokLive v6.5.3</title>
+        <title>TikTokLive.client.web.routes package - TikTokLive v6.6.5</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css?v=e72958e9" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">TikTokLive v6.5.3</div></a>
+      <a href="index.html"><div class="brand">TikTokLive v6.6.5</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -199,7 +199,7 @@
     <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">TikTokLive v6.5.3</span>
+  <span class="sidebar-brand-text">TikTokLive v6.6.5</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -467,6 +467,23 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.fetch_signed_websocket.</span></span><span class="sig-name descname"><span class="pre">FetchSignedWebSocketRoute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.TikTokHTTPClient" title="TikTokLive.client.web.web_base.TikTokHTTPClient"><span class="pre">TikTokHTTPClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.fetch_signed_websocket.FetchSignedWebSocketRoute" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="TikTokLive.client.web.html#TikTokLive.client.web.web_base.ClientRoute" title="TikTokLive.client.web.web_base.ClientRoute"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClientRoute</span></code></a></p>
 <p>Call the signature server to receive the TikTok websocket URL</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.fetch_signed_websocket.WebcastPlatform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TikTokLive.client.web.routes.fetch_signed_websocket.</span></span><span class="sig-name descname"><span class="pre">WebcastPlatform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TikTokLive.client.web.routes.fetch_signed_websocket.WebcastPlatform" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Enum for the platform to request the WebSocket URL for</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.fetch_signed_websocket.WebcastPlatform.MOBILE">
+<span class="sig-name descname"><span class="pre">MOBILE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mobile'</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.fetch_signed_websocket.WebcastPlatform.MOBILE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TikTokLive.client.web.routes.fetch_signed_websocket.WebcastPlatform.WEB">
+<span class="sig-name descname"><span class="pre">WEB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'web'</span></em><a class="headerlink" href="#TikTokLive.client.web.routes.fetch_signed_websocket.WebcastPlatform.WEB" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -848,6 +865,11 @@ to_user_id: 7230478347297063942</p>
 </li>
 <li><a class="reference internal" href="#module-TikTokLive.client.web.routes.fetch_signed_websocket">TikTokLive.client.web.routes.fetch_signed_websocket module</a><ul>
 <li><a class="reference internal" href="#TikTokLive.client.web.routes.fetch_signed_websocket.FetchSignedWebSocketRoute"><code class="docutils literal notranslate"><span class="pre">FetchSignedWebSocketRoute</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.fetch_signed_websocket.WebcastPlatform"><code class="docutils literal notranslate"><span class="pre">WebcastPlatform</span></code></a><ul>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.fetch_signed_websocket.WebcastPlatform.MOBILE"><code class="docutils literal notranslate"><span class="pre">WebcastPlatform.MOBILE</span></code></a></li>
+<li><a class="reference internal" href="#TikTokLive.client.web.routes.fetch_signed_websocket.WebcastPlatform.WEB"><code class="docutils literal notranslate"><span class="pre">WebcastPlatform.WEB</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-TikTokLive.client.web.routes.fetch_user_unique_id">TikTokLive.client.web.routes.fetch_user_unique_id module</a><ul>
