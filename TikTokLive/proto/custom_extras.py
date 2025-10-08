@@ -41,36 +41,24 @@ class WebcastPushFrame(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class HeartbeatFrameRoomInfo(betterproto.Message):
-    room_id: int = betterproto.uint64_field(1)
-
-
-@dataclass(eq=False, repr=False)
-class HeartbeatFrameMetadataField6(betterproto.Message):
-    unknown_1: int = betterproto.uint32_field(14)
-
-
-@dataclass(eq=False, repr=False)
-class HeartbeatFrameMetadataField7(betterproto.Message):
-    unknown_1: int = betterproto.uint32_field(13)
-
-
-@dataclass(eq=False, repr=False)
-class HeartbeatFrame(betterproto.Message):
+class HeartbeatMessage(betterproto.Message):
     """Heartbeat Keepalive Message"""
 
-    metadata_field_6: HeartbeatFrameMetadataField6 = betterproto.message_field(6)
-    metadata_field_7: HeartbeatFrameMetadataField7 = betterproto.message_field(7)
-    room_info: HeartbeatFrameRoomInfo = betterproto.message_field(8)
+    room_id: int = betterproto.uint64_field(1)
+    send_packet_seq_id: int = betterproto.uint64_field(2)
 
-    @classmethod
-    def from_defaults(cls, room_id: int) -> "HeartbeatFrame":
-        """
-        Generate a HeartbeatFrame with default values
-        """
 
-        return cls(
-            metadata_field_6=HeartbeatFrameMetadataField6(unknown_1=98),
-            metadata_field_7=HeartbeatFrameMetadataField7(unknown_1=98),
-            room_info=HeartbeatFrameRoomInfo(room_id=room_id)
-        )
+@dataclass(eq=False, repr=False)
+class WebcastImEnterRoomMessage(betterproto.Message):
+    """Message sent when entering a webcast room."""
+
+    room_id: int = betterproto.int64_field(1)  # sent
+    room_tag: str = betterproto.string_field(2)  # not sent
+    live_region: str = betterproto.string_field(3)  # not sent
+    live_id: int = betterproto.int64_field(4)  # "12" <- static value
+    identity: str = betterproto.string_field(5)  # "audience"
+    cursor: str = betterproto.string_field(6)  # ""
+    account_type: int = betterproto.int64_field(7)  # 0
+    enter_unique_id: int = betterproto.int64_field(8)  # not sent
+    filter_welcome_msg: str = betterproto.string_field(9)  # "0"
+    is_anchor_continue_keep_msg: bool = betterproto.bool_field(10)  # 0

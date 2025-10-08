@@ -12,6 +12,7 @@ from pyee.base import Handler
 
 from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, UserNotFoundError
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
+from TikTokLive.client.web.routes.fetch_signed_websocket import WebcastPlatform
 from TikTokLive.client.web.routes.fetch_user_unique_id import FailedResolveUserId
 from TikTokLive.client.web.web_client import TikTokWebClient
 from TikTokLive.client.web.web_settings import WebDefaults
@@ -35,6 +36,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self,
             # User to connect to
             unique_id: str | int,
+            platform: WebcastPlatform = WebcastPlatform.WEB,
 
             # Proxies
             web_proxy: Optional[httpx.Proxy] = None,
@@ -44,7 +46,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             web_kwargs: Optional[dict] = None,
             ws_kwargs: Optional[dict] = None,
 
-            is_userid: Optional[bool] = False
+            is_user_id: Optional[bool] = False
     ):
         """
         Instantiate the TikTokLiveClient client
@@ -54,7 +56,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :param ws_proxy: An optional proxy used for the WebSocket connection
         :param web_kwargs: Optional arguments used by the HTTP client
         :param ws_kwargs: Optional arguments used by the WebSocket client
-        :param is_userid: Optional argument to resolve userid to unique_id
+        :param is_user_id: Optional argument to resolve userid to unique_id
 
         """
 
@@ -81,7 +83,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         self.ignore_broken_payload: bool = False
 
         # Properties
-        self._is_userid: bool = is_userid
+        self._is_user_id: bool = is_user_id
+        self._ws_platform: WebcastPlatform = platform
         self._unique_id: str = self.parse_unique_id(unique_id)
         self._room_id: Optional[int] = None
         self._room_info: Optional[Dict[str, Any]] = None
@@ -163,7 +166,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self._gift_info = await self._web.fetch_gift_list()
 
         # <Required> Fetch the first response
-        initial_webcast_response: ProtoMessageFetchResult = await self._web.fetch_signed_websocket()
+        initial_webcast_response: ProtoMessageFetchResult = await self._web.fetch_signed_websocket(self._ws_platform)
 
         # Start the websocket connection & return it
         self._event_loop_task = self._asyncio_loop.create_task(
@@ -452,7 +455,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
     async def _resolve_user_id(self, unique_id: str | int) -> str:
         """Resolve a unique_id and return the resolved value"""
         parsed_id = self.parse_unique_id(unique_id)
-        if parsed_id.isdigit() and self._is_userid:
+        if parsed_id.isdigit() and self._is_user_id:
             resolved_id = await self._web.fetch_user_unique_id(int(parsed_id))
             if not resolved_id:
                 raise FailedResolveUserId(f"Resolved ID is invalid: {resolved_id}")

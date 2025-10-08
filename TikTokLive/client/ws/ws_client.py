@@ -11,7 +11,7 @@ from TikTokLive.client.logger import TikTokLiveLogHandler
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_connect import WebcastProxyConnect, WebcastConnect, WebcastProxy, WebcastIterator
 from TikTokLive.proto import ProtoMessageFetchResult
-from TikTokLive.proto.custom_extras import WebcastPushFrame, HeartbeatFrame
+from TikTokLive.proto.custom_extras import WebcastPushFrame, HeartbeatMessage, WebcastImEnterRoomMessage
 
 
 class WebcastWSClient:
@@ -31,6 +31,7 @@ class WebcastWSClient:
 
         """
 
+        self._seq_id: int = 1
         self._ws_kwargs: dict = ws_kwargs or {}
         self._logger = TikTokLiveLogHandler.get_logger()
         self._ping_loop: Optional[Task] = None
@@ -256,7 +257,7 @@ class WebcastWSClient:
 
             # The first message does NOT need an ack since we perform the ack with the actual WebSocket connect URI
             if webcast_response.is_first:
-                self.restart_ping_loop(room_id=room_id)
+                await self.switch_rooms(room_id=room_id)
 
             # Ack when necessary
             if webcast_response.need_ack:
@@ -289,7 +290,31 @@ class WebcastWSClient:
         if self._ping_loop:
             self._ping_loop.cancel()
 
+        self._seq_id = 1
         self._ping_loop = asyncio.create_task(self._ping_loop_fn(room_id))
+
+    async def switch_rooms(self, room_id: int) -> None:
+
+        im_enter_room_message = WebcastImEnterRoomMessage(
+            room_id=room_id,
+            room_tag="",
+            live_id=12,
+            identity="audience",
+            cursor="",
+            account_type=0,
+            enter_unique_id=0,
+            filter_welcome_msg="0",
+            is_anchor_continue_keep_msg=False
+        )
+
+        webcast_push_frame: WebcastPushFrame = WebcastPushFrame(
+            payload_type="im_enter_room",
+            payload_encoding="pb",
+            payload=bytes(im_enter_room_message)
+        )
+
+        await self.send(message=webcast_push_frame)
+        self.restart_ping_loop(room_id=room_id)
 
     async def _ping_loop_fn(self, room_id: int) -> None:
         """
@@ -307,9 +332,6 @@ class WebcastWSClient:
             if self._connection_generator is not None and self._connection_generator.ws_options is not None:
                 ping_interval = float(self._connection_generator.ws_options.get("ping-interval", ping_interval))
 
-            # Create the heartbeat message (it is always the same)
-            hb_message: bytes = bytes(HeartbeatFrame.from_defaults(room_id=room_id))
-
         except:
             self._logger.error("Failed to start ping loop!", exc_info=True)
             return
@@ -318,8 +340,19 @@ class WebcastWSClient:
         try:
             self._logger.debug(f"Starting ping loop with interval of {ping_interval} seconds.")
             while self.connected:
+                # Create the heartbeat message (it is always the same)
+                hb_message = HeartbeatMessage(room_id=room_id, send_packet_seq_id=self._seq_id)
+                self._seq_id += 1
+
+                webcast_push_frame: WebcastPushFrame = WebcastPushFrame(
+                    payload_encoding="pb",
+                    payload_type="hb",
+                    payload=bytes(hb_message),
+                    headers={}
+                )
+
                 # Send the ping
-                await self.send(message=hb_message)
+                await self.send(message=webcast_push_frame)
 
                 # Every 10 seconds
                 await asyncio.sleep(ping_interval)
