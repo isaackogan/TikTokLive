@@ -219,7 +219,7 @@ If you know what an event does, [make a pull request](https://github.com/isaacko
 <li><code>GoalUpdateEvent</code> - Triggered when the subscriber goal is updated</li>
 <li><code>ControlEvent</code> - Triggered when a stream action occurs (e.g. Livestream start, end)</li>
 <li><code>LikeEvent</code> - Triggered when the stream receives a like</li>
-<li><code>SubscribeEvent</code> - Triggered when someone subscribes to the TikTok creator</li>
+<li><code>SuperFanEvent</code> - Triggered when someone becomes a Super Fan of the TikTok creator</li>
 <li><code>PollEvent</code> - Triggered when the creator launches a new poll</li>
 <li><code>CommentEvent</code> - Triggered when a comment is sent in the stream</li>
 <li><code>RoomEvent</code> - Messages broadcasted to all users in the room (e.g. "Welcome to TikTok LIVE!")</li>
@@ -444,11 +444,6 @@ async def on_gift(event: GiftEvent):
     elif not event.gift.streakable:
         print(f"{event.user.unique_id} sent \"{event.gift.name}\"")
 ```
-
-### `SubscribeEvent`
-
-This event will only fire when a session ID (account login) is passed to the HTTP client *before* connecting to TikTok LIVE.
-You can set the session ID with [`client.web.set_session_id(...)`](https://github.com/isaackogan/TikTokLive/blob/master/examples/logged_in.py).
 
 ## Checking If A User Is Live
 

@@ -1471,15 +1471,6 @@ class SocialEvent(BaseEvent, WebcastSocialMessage):
     user: ExtendedUser
 
 
-class SubscribeEvent(BaseEvent, WebcastSubNotifyMessage):
-    """
-    SubscribeEvent
-
-    """
-
-    user: ExtendedUser
-
-
 class UnauthorizedMemberEvent(BaseEvent, WebcastUnauthorizedMemberMessage):
     """
     UnauthorizedMemberEvent
@@ -1511,7 +1502,6 @@ EVENT_MAPPINGS: Dict[str, BaseEvent] = {
     "WebcastMarqueeAnnouncementMessage": MarqueeAnnouncementEvent,
     "WebcastChatMessage": CommentEvent,
     "WebcastGiftDynamicRestrictionMessage": GiftDynamicRestrictionEvent,
-    "WebcastSubNotifyMessage": SubscribeEvent,
     "WebcastCommonPopupMessage": CommonPopupEvent,
     "WebcastEcBarrageMessage": EcBarrageEvent,
     "WebcastPromoteAdStatusMessage": PromoteAdStatusEvent,
@@ -1735,7 +1725,6 @@ ProtoEvent: Type = Union[
     MarqueeAnnouncementEvent,
     CommentEvent,
     GiftDynamicRestrictionEvent,
-    SubscribeEvent,
     CommonPopupEvent,
     EcBarrageEvent,
     PromoteAdStatusEvent,
@@ -1959,7 +1948,6 @@ __all__ = [
     "MarqueeAnnouncementEvent",
     "CommentEvent",
     "GiftDynamicRestrictionEvent",
-    "SubscribeEvent",
     "CommonPopupEvent",
     "EcBarrageEvent",
     "PromoteAdStatusEvent",
