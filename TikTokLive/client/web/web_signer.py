@@ -53,8 +53,8 @@ class TikTokSigner:
 
         """
 
-        self._sign_api_key: Optional[str] = sign_api_key or WebDefaults.tiktok_sign_api_key or os.environ.get("SIGN_API_KEY")
-        self._sign_api_base: str = sign_api_base or WebDefaults.tiktok_sign_url or os.environ.get("SIGN_API_URL")
+        self._sign_api_key: Optional[str] = sign_api_key or os.environ.get("SIGN_API_KEY") or WebDefaults.tiktok_sign_api_key
+        self._sign_api_base: str = sign_api_base or os.environ.get("SIGN_API_URL") or WebDefaults.tiktok_sign_url
 
         initial_headers: dict[str, str] = {
             "User-Agent": f"TikTokLive.py/{PACKAGE_VERSION}"
