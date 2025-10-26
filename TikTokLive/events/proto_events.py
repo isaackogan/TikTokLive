@@ -2,62 +2,82 @@
 # DO NOT EDIT!
 # SERIOUSLY!
 # I MEAN IT!
-import warnings
-from typing import Union
 
+from TikTokLive.proto.tiktok_proto import *
 from TikTokLive.proto.custom_proto import *
 from .base_event import BaseEvent
+from typing import Type, Union, Dict
+from typing_extensions import deprecated
+import warnings
+from typing import Union
 from ..proto import Gift
 
 
-class KaraokeQueueListEvent(BaseEvent, WebcastKaraokeQueueListMessage):
+
+class AccessControlEvent(BaseEvent, WebcastAccessControlMessage):
     """
-    KaraokeQueueListEvent
+    AccessControlEvent
     """
 
 
-class GroupLiveMemberNotifyEvent(BaseEvent, WebcastGroupLiveMemberNotifyMessage):
+class AccessRecallEvent(BaseEvent, WebcastAccessRecallMessage):
     """
-    GroupLiveMemberNotifyEvent
-    """
-
-
-class SubscriptionGuideEvent(BaseEvent, WebcastSubscriptionGuideMessage):
-    """
-    SubscriptionGuideEvent
+    AccessRecallEvent
     """
 
 
-class NoticeboardReviewEvent(BaseEvent, WebcastNoticeboardReviewMessage):
+class ActivityQuizCardEvent(BaseEvent, WebcastActivityQuizCardMessage):
     """
-    NoticeboardReviewEvent
-    """
-
-
-class BottomEvent(BaseEvent, WebcastBottomMessage):
-    """
-    BottomEvent
+    ActivityQuizCardEvent
     """
 
 
-class CapsuleEvent(BaseEvent, WebcastCapsuleMessage):
+class ActivityQuizUserIdentityEvent(BaseEvent, WebcastActivityQuizUserIdentityMessage):
     """
-    CapsuleEvent
-    """
-
-
-class QuestionSelectedEvent(BaseEvent, WebcastQuestionSelectedMessage):
-    """
-    QuestionSelectedEvent
+    ActivityQuizUserIdentityEvent
     """
 
 
-class TrayEvent(BaseEvent, WebcastTrayMessage):
+class AiLiveSummaryEvent(BaseEvent, WebcastAiLiveSummaryMessage):
     """
-    TrayEvent
+    AiLiveSummaryEvent
     """
 
-    user: ExtendedUser
+
+class AiSummaryEvent(BaseEvent, WebcastAiSummaryMessage):
+    """
+    AiSummaryEvent
+    """
+
+
+class AnchorGetSubQuotaEvent(BaseEvent, WebcastAnchorGetSubQuotaMessage):
+    """
+    AnchorGetSubQuotaEvent
+    """
+
+
+class AnchorGrowLevelEvent(BaseEvent, WebcastAnchorGrowLevelMessage):
+    """
+    AnchorGrowLevelEvent
+    """
+
+
+class AnchorReminderWordEvent(BaseEvent, WebcastAnchorReminderWordMessage):
+    """
+    AnchorReminderWordEvent
+    """
+
+
+class AnchorTaskReminderEvent(BaseEvent, WebcastAnchorTaskReminderMessage):
+    """
+    AnchorTaskReminderEvent
+    """
+
+
+class AnchorToolModificationEvent(BaseEvent, WebcastAnchorToolModificationMessage):
+    """
+    AnchorToolModificationEvent
+    """
 
 
 class AssetEvent(BaseEvent, WebcastAssetMessage):
@@ -69,612 +89,9 @@ class AssetEvent(BaseEvent, WebcastAssetMessage):
     from_user: ExtendedUser
 
 
-class WalletLiveRewardsRatioEvent(BaseEvent, WebcastWalletLiveRewardsRatioMessage):
+class AudienceReserveUserStateEvent(BaseEvent, WebcastAudienceReserveUserStateMessage):
     """
-    WalletLiveRewardsRatioEvent
-    """
-
-
-class LinkScreenChangeEvent(BaseEvent, WebcastLinkScreenChangeMessage):
-    """
-    LinkScreenChangeEvent
-    """
-
-
-class PartnershipPunishEvent(BaseEvent, WebcastPartnershipPunishMessage):
-    """
-    PartnershipPunishEvent
-    """
-
-
-class GiftPanelUpdateEvent(BaseEvent, WebcastGiftPanelUpdateMessage):
-    """
-    GiftPanelUpdateEvent
-    """
-
-
-class AnchorTaskReminderEvent(BaseEvent, WebcastAnchorTaskReminderMessage):
-    """
-    AnchorTaskReminderEvent
-    """
-
-
-class LinkBusinessEvent(BaseEvent, WebcastLinkBusinessMessage):
-    """
-    LinkBusinessEvent
-    """
-
-
-class MarqueeAnnouncementEvent(BaseEvent, WebcastMarqueeAnnouncementMessage):
-    """
-    MarqueeAnnouncementEvent
-    """
-
-
-class GiftDynamicRestrictionEvent(BaseEvent, WebcastGiftDynamicRestrictionMessage):
-    """
-    GiftDynamicRestrictionEvent
-    """
-
-
-class CommonPopupEvent(BaseEvent, WebcastCommonPopupMessage):
-    """
-    CommonPopupEvent
-    """
-
-
-class EcBarrageEvent(BaseEvent, WebcastEcBarrageMessage):
-    """
-    EcBarrageEvent
-    """
-
-
-class PromoteAdStatusEvent(BaseEvent, WebcastPromoteAdStatusMessage):
-    """
-    PromoteAdStatusEvent
-    """
-
-
-class InteractionHubGoalEvent(BaseEvent, WebcastInteractionHubGoalMessage):
-    """
-    InteractionHubGoalEvent
-    """
-
-
-class EpiEvent(BaseEvent, WebcastEpiMessage):
-    """
-    EpiEvent
-    """
-
-
-class LinkmicAnimationEvent(BaseEvent, WebcastLinkmicAnimationMessage):
-    """
-    LinkmicAnimationEvent
-    """
-
-
-class KaraokeYouSingReqEvent(BaseEvent, WebcastKaraokeYouSingReqMessage):
-    """
-    KaraokeYouSingReqEvent
-    """
-
-
-class RealTimePerformancePageEvent(BaseEvent, WebcastRealTimePerformancePageMessage):
-    """
-    RealTimePerformancePageEvent
-    """
-
-
-class StreamStatusEvent(BaseEvent, WebcastStreamStatusMessage):
-    """
-    StreamStatusEvent
-    """
-
-
-class GiftCollectionUpdateEvent(BaseEvent, WebcastGiftCollectionUpdateMessage):
-    """
-    GiftCollectionUpdateEvent
-    """
-
-
-class CommercialCustomEvent(BaseEvent, WebcastCommercialCustomMessage):
-    """
-    CommercialCustomEvent
-    """
-
-
-class GuideEvent(BaseEvent, WebcastGuideMessage):
-    """
-    GuideEvent
-    """
-
-
-class DonationEvent(BaseEvent, WebcastDonationMessage):
-    """
-    DonationEvent
-    """
-
-
-class LiveGameIntroEvent(BaseEvent, WebcastLiveGameIntroMessage):
-    """
-    LiveGameIntroEvent
-    """
-
-
-class PartnershipDropsCardChangeEvent(BaseEvent, WebcastPartnershipDropsCardChangeMessage):
-    """
-    PartnershipDropsCardChangeEvent
-    """
-
-
-class GameGuessWidgetsEvent(BaseEvent, WebcastGameGuessWidgetsMessage):
-    """
-    GameGuessWidgetsEvent
-    """
-
-
-class MiddleTouchEvent(BaseEvent, WebcastMiddleTouchMessage):
-    """
-    MiddleTouchEvent
-    """
-
-
-class UserStatsEvent(BaseEvent, WebcastUserStatsMessage):
-    """
-    UserStatsEvent
-    """
-
-
-class WallpaperReviewEvent(BaseEvent, WebcastWallpaperReviewMessage):
-    """
-    WallpaperReviewEvent
-    """
-
-
-class LinkMicAdEvent(BaseEvent, WebcastLinkMicAdMessage):
-    """
-    LinkMicAdEvent
-    """
-
-
-class SubTimerStickerEvent(BaseEvent, WebcastSubTimerStickerMessage):
-    """
-    SubTimerStickerEvent
-    """
-
-
-class GiftGalleryEvent(BaseEvent, WebcastGiftGalleryMessage):
-    """
-    GiftGalleryEvent
-    """
-
-    to_user: ExtendedUser
-    user: ExtendedUser
-
-
-class GiftUpdateEvent(BaseEvent, WebcastGiftUpdateMessage):
-    """
-    GiftUpdateEvent
-    """
-
-
-class NoticeboardEvent(BaseEvent, WebcastNoticeboardMessage):
-    """
-    NoticeboardEvent
-    """
-
-
-class RoomEventEvent(BaseEvent, WebcastRoomEventMessage):
-    """
-    RoomEventEvent
-    """
-
-
-class UpgradeEvent(BaseEvent, WebcastUpgradeMessage):
-    """
-    UpgradeEvent
-    """
-
-
-class BackpackEvent(BaseEvent, WebcastBackpackMessage):
-    """
-    BackpackEvent
-    """
-
-
-class AvatarStyleResultEvent(BaseEvent, WebcastAvatarStyleResultMessage):
-    """
-    AvatarStyleResultEvent
-    """
-
-
-class GameSettingChangeEvent(BaseEvent, WebcastGameSettingChangeMessage):
-    """
-    GameSettingChangeEvent
-    """
-
-
-class PartnershipDropsUpdateEvent(BaseEvent, WebcastPartnershipDropsUpdateMessage):
-    """
-    PartnershipDropsUpdateEvent
-    """
-
-
-class QuestionSwitchEvent(BaseEvent, WebcastQuestionSwitchMessage):
-    """
-    QuestionSwitchEvent
-    """
-
-
-class LiveInfoAuditNoticeEvent(BaseEvent, WebcastLiveInfoAuditNoticeMessage):
-    """
-    LiveInfoAuditNoticeEvent
-    """
-
-
-class LinkMicBattleVictoryLapEvent(BaseEvent, WebcastLinkMicBattleVictoryLap):
-    """
-    LinkMicBattleVictoryLapEvent
-    """
-
-
-class CommonToastEvent(BaseEvent, WebcastCommonToastMessage):
-    """
-    CommonToastEvent
-    """
-
-
-class ToastEvent(BaseEvent, WebcastToastMessage):
-    """
-    ToastEvent
-    """
-
-
-class DonationStickerModifyMethodEvent(BaseEvent, WebcastDonationStickerModifyMethod):
-    """
-    DonationStickerModifyMethodEvent
-    """
-
-
-class HighlightFragementReadyEvent(BaseEvent, WebcastHighlightFragementReady):
-    """
-    HighlightFragementReadyEvent
-    """
-
-
-class GiftPromptEvent(BaseEvent, WebcastGiftPromptMessage):
-    """
-    GiftPromptEvent
-    """
-
-
-class ForceFetchRecommendationsEvent(BaseEvent, WebcastForceFetchRecommendationsMessage):
-    """
-    ForceFetchRecommendationsEvent
-    """
-
-
-class GameGuessPinCardEvent(BaseEvent, WebcastGameGuessPinCardMessage):
-    """
-    GameGuessPinCardEvent
-    """
-
-
-class LinkLayoutEvent(BaseEvent, WebcastLinkLayoutMessage):
-    """
-    LinkLayoutEvent
-    """
-
-
-class GameOcrPingEvent(BaseEvent, WebcastGameOcrPingMessage):
-    """
-    GameOcrPingEvent
-    """
-
-
-class AnchorGrowLevelEvent(BaseEvent, WebcastAnchorGrowLevelMessage):
-    """
-    AnchorGrowLevelEvent
-    """
-
-
-class LinkMicSignalingMethodEvent(BaseEvent, WebcastLinkMicSignalingMethod):
-    """
-    LinkMicSignalingMethodEvent
-    """
-
-
-class EnvelopePortalEvent(BaseEvent, WebcastEnvelopePortalMessage):
-    """
-    EnvelopePortalEvent
-    """
-
-
-class CohostReserveEvent(BaseEvent, WebcastCohostReserveMessage):
-    """
-    CohostReserveEvent
-    """
-
-
-class BaLeadGenEvent(BaseEvent, WebcastBaLeadGenMessage):
-    """
-    BaLeadGenEvent
-    """
-
-
-class PictionaryEndEvent(BaseEvent, WebcastPictionaryEndMessage):
-    """
-    PictionaryEndEvent
-    """
-
-
-class RoomNotifyEvent(BaseEvent, WebcastRoomNotifyMessage):
-    """
-    RoomNotifyEvent
-    """
-
-    user: ExtendedUser
-
-
-class FansEventEvent(BaseEvent, WebcastFansEventMessage):
-    """
-    FansEventEvent
-    """
-
-    user: ExtendedUser
-
-
-class KaraokeQueueEvent(BaseEvent, WebcastKaraokeQueueMessage):
-    """
-    KaraokeQueueEvent
-    """
-
-
-class FollowCardEvent(BaseEvent, WebcastFollowCardMessage):
-    """
-    FollowCardEvent
-    """
-
-
-class ActivityQuizUserIdentityEvent(BaseEvent, WebcastActivityQuizUserIdentityMessage):
-    """
-    ActivityQuizUserIdentityEvent
-    """
-
-
-class LiveJourneyEvent(BaseEvent, WebcastLiveJourneyMessage):
-    """
-    LiveJourneyEvent
-    """
-
-
-class CommentsEvent(BaseEvent, WebcastCommentsMessage):
-    """
-    CommentsEvent
-    """
-
-    user: ExtendedUser
-
-
-class WeeklyRankRewardEvent(BaseEvent, WebcastWeeklyRankRewardMessage):
-    """
-    WeeklyRankRewardEvent
-    """
-
-
-class LinkStateEvent(BaseEvent, WebcastLinkStateMessage):
-    """
-    LinkStateEvent
-    """
-
-
-class AccessRecallEvent(BaseEvent, WebcastAccessRecallMessage):
-    """
-    AccessRecallEvent
-    """
-
-
-class AiSummaryEvent(BaseEvent, WebcastAiSummaryMessage):
-    """
-    AiSummaryEvent
-    """
-
-
-class PerceptionEvent(BaseEvent, WebcastPerceptionMessage):
-    """
-    PerceptionEvent
-    """
-
-
-class RoomVerifyEvent(BaseEvent, WebcastRoomVerifyMessage):
-    """
-    RoomVerifyEvent
-    """
-
-
-class GuideTaskEvent(BaseEvent, WebcastGuideTaskMessage):
-    """
-    GuideTaskEvent
-    """
-
-
-class VideoLiveCouponRcmdEvent(BaseEvent, WebcastVideoLiveCouponRcmdMessage):
-    """
-    VideoLiveCouponRcmdEvent
-    """
-
-
-class VideoLiveGoodsRcmdEvent(BaseEvent, WebcastVideoLiveGoodsRcmdMessage):
-    """
-    VideoLiveGoodsRcmdEvent
-    """
-
-
-class KaraokeSwitchEvent(BaseEvent, WebcastKaraokeSwitchMessage):
-    """
-    KaraokeSwitchEvent
-    """
-
-
-class PrivilegeAdvanceEvent(BaseEvent, WebcastPrivilegeAdvanceMessage):
-    """
-    PrivilegeAdvanceEvent
-    """
-
-
-class LinkMicBattlePunishFinishEvent(BaseEvent, WebcastLinkMicBattlePunishFinish):
-    """
-    LinkMicBattlePunishFinishEvent
-    """
-
-
-class BoostedUsersEvent(BaseEvent, WebcastBoostedUsersMessage):
-    """
-    BoostedUsersEvent
-    """
-
-
-class RankToastEvent(BaseEvent, WebcastRankToastMessage):
-    """
-    RankToastEvent
-    """
-
-
-class CommentTrayEvent(BaseEvent, WebcastCommentTrayMessage):
-    """
-    CommentTrayEvent
-    """
-
-
-class AnchorReminderWordEvent(BaseEvent, WebcastAnchorReminderWordMessage):
-    """
-    AnchorReminderWordEvent
-    """
-
-
-class PaidContentLiveShoppingEvent(BaseEvent, WebcastPaidContentLiveShoppingMessage):
-    """
-    PaidContentLiveShoppingEvent
-    """
-
-
-class GiftNoticeEvent(BaseEvent, WebcastGiftNoticeMessage):
-    """
-    GiftNoticeEvent
-    """
-
-
-class BizStickerEvent(BaseEvent, WebcastBizStickerMessage):
-    """
-    BizStickerEvent
-    """
-
-
-class NewAnchorGuideEvent(BaseEvent, WebcastNewAnchorGuideMessage):
-    """
-    NewAnchorGuideEvent
-    """
-
-
-class GuestShowdownEvent(BaseEvent, WebcastGuestShowdownMessage):
-    """
-    GuestShowdownEvent
-    """
-
-
-class QuestionSlideDownEvent(BaseEvent, WebcastQuestionSlideDownMessage):
-    """
-    QuestionSlideDownEvent
-    """
-
-
-class WishlistUpdateEvent(BaseEvent, WebcastWishlistUpdateMessage):
-    """
-    WishlistUpdateEvent
-    """
-
-
-class ActivityQuizCardEvent(BaseEvent, WebcastActivityQuizCardMessage):
-    """
-    ActivityQuizCardEvent
-    """
-
-
-class PortalEvent(BaseEvent, WebcastPortalMessage):
-    """
-    PortalEvent
-    """
-
-
-class PopularCardEvent(BaseEvent, WebcastPopularCardMessage):
-    """
-    PopularCardEvent
-    """
-
-
-class GameGuessToastEvent(BaseEvent, WebcastGameGuessToastMessage):
-    """
-    GameGuessToastEvent
-    """
-
-
-class FeedUserRoomMonitorEvent(BaseEvent, WebcastFeedUserRoomMonitorMessage):
-    """
-    FeedUserRoomMonitorEvent
-    """
-
-
-class GameRankNotifyEvent(BaseEvent, WebcastGameRankNotifyMessage):
-    """
-    GameRankNotifyEvent
-    """
-
-
-class KaraokeReqEvent(BaseEvent, WebcastKaraokeReqMessage):
-    """
-    KaraokeReqEvent
-    """
-
-
-class GuestInviteGuideEvent(BaseEvent, WebcastGuestInviteGuideMessage):
-    """
-    GuestInviteGuideEvent
-    """
-
-
-class SpecialPushEvent(BaseEvent, WebcastSpecialPushMessage):
-    """
-    SpecialPushEvent
-    """
-
-
-class MultiGuestSuggestEvent(BaseEvent, WebcastMultiGuestSuggestMessage):
-    """
-    MultiGuestSuggestEvent
-    """
-
-
-class HotRoomEvent(BaseEvent, WebcastHotRoomMessage):
-    """
-    HotRoomEvent
-    """
-
-
-class PartnershipDropsAnchorEvent(BaseEvent, WebcastPartnershipDropsAnchorMessage):
-    """
-    PartnershipDropsAnchorEvent
-    """
-
-
-class AccessControlEvent(BaseEvent, WebcastAccessControlMessage):
-    """
-    AccessControlEvent
-    """
-
-
-class GuessQuestionAuditEvent(BaseEvent, WebcastGuessQuestionAuditMessage):
-    """
-    GuessQuestionAuditEvent
+    AudienceReserveUserStateEvent
     """
 
 
@@ -690,501 +107,27 @@ class AvatarGenerateResultEvent(BaseEvent, WebcastAvatarGenerateResultMessage):
     """
 
 
-class OChannelModifyEvent(BaseEvent, WebcastOChannelModifyMessage):
-    """
-    OChannelModifyEvent
-    """
-
-
-class PictionaryUpdateEvent(BaseEvent, WebcastPictionaryUpdateMessage):
-    """
-    PictionaryUpdateEvent
-    """
-
-
-class GiftGuideEvent(BaseEvent, WebcastGiftGuideMessage):
-    """
-    GiftGuideEvent
-    """
-
-
-class PartnershipGameOfflineEvent(BaseEvent, WebcastPartnershipGameOfflineMessage):
-    """
-    PartnershipGameOfflineEvent
-    """
-
-
-class OChannelAnchorEvent(BaseEvent, WebcastOChannelAnchorMessage):
-    """
-    OChannelAnchorEvent
-    """
-
-
-class LinkmicAudienceNoticeEvent(BaseEvent, WebcastLinkmicAudienceNoticeMessage):
-    """
-    LinkmicAudienceNoticeEvent
-    """
-
-
-class PartnershipTaskShowEvent(BaseEvent, WebcastPartnershipTaskShowMessage):
-    """
-    PartnershipTaskShowEvent
-    """
-
-
-class InteractiveEffectEvent(BaseEvent, WebcastInteractiveEffectMessage):
-    """
-    InteractiveEffectEvent
-    """
-
-
-class CohostTopicEvent(BaseEvent, WebcastCohostTopicMessage):
-    """
-    CohostTopicEvent
-    """
-
-
-class GiftUnlockEvent(BaseEvent, WebcastGiftUnlockMessage):
-    """
-    GiftUnlockEvent
-    """
-
-
-class EcDrawEvent(BaseEvent, WebcastEcDrawMessage):
-    """
-    EcDrawEvent
-    """
-
-
-class SubQueueEvent(BaseEvent, WebcastSubQueueMessage):
-    """
-    SubQueueEvent
-    """
-
-    current_user: ExtendedUser
-
-
-class RoomBottomEvent(BaseEvent, WebcastRoomBottomMessage):
-    """
-    RoomBottomEvent
-    """
-
-
-class DonationInfoEvent(BaseEvent, WebcastDonationInfoMessage):
-    """
-    DonationInfoEvent
-    """
-
-
-class GameMomentEvent(BaseEvent, WebcastGameMomentMessage):
-    """
-    GameMomentEvent
-    """
-
-
-class HashtagEvent(BaseEvent, WebcastHashtagMessage):
-    """
-    HashtagEvent
-    """
-
-
-class LinkMicBattleItemCardEvent(BaseEvent, WebcastLinkMicBattleItemCard):
-    """
-    LinkMicBattleItemCardEvent
-    """
-
-
-class PrivilegeDynamicEffectEvent(BaseEvent, WebcastPrivilegeDynamicEffectMessage):
-    """
-    PrivilegeDynamicEffectEvent
-    """
-
-
-class AnchorGetSubQuotaEvent(BaseEvent, WebcastAnchorGetSubQuotaMessage):
-    """
-    AnchorGetSubQuotaEvent
-    """
-
-
-class OecLiveHotRoomEvent(BaseEvent, WebcastOecLiveHotRoomMessage):
-    """
-    OecLiveHotRoomEvent
-    """
-
-
-class AudienceReserveUserStateEvent(BaseEvent, WebcastAudienceReserveUserStateMessage):
-    """
-    AudienceReserveUserStateEvent
-    """
-
-
-class RealtimeLiveCenterMethodEvent(BaseEvent, WebcastRealtimeLiveCenterMethod):
-    """
-    RealtimeLiveCenterMethodEvent
-    """
-
-
-class WallpaperEvent(BaseEvent, WebcastWallpaperMessage):
-    """
-    WallpaperEvent
-    """
-
-
-class SubPinEventEvent(BaseEvent, WebcastSubPinEventMessage):
-    """
-    SubPinEventEvent
-    """
-
-
-class LinkmicBattleTaskEvent(BaseEvent, WebcastLinkmicBattleTaskMessage):
-    """
-    LinkmicBattleTaskEvent
-    """
-
-
-class StarCommentPushEvent(BaseEvent, WebcastStarCommentPushMessage):
-    """
-    StarCommentPushEvent
-    """
-
-
-class EcTaskRefreshCouponListEvent(BaseEvent, WebcastEcTaskRefreshCouponListMessage):
-    """
-    EcTaskRefreshCouponListEvent
-    """
-
-
-class ShortTouchEvent(BaseEvent, WebcastShortTouchMessage):
-    """
-    ShortTouchEvent
-    """
-
-
-class EffectControlEvent(BaseEvent, WebcastEffectControlMessage):
-    """
-    EffectControlEvent
-    """
-
-
-class KaraokeRedDotEvent(BaseEvent, WebcastKaraokeRedDotMessage):
-    """
-    KaraokeRedDotEvent
-    """
-
-
-class QuestionDeleteEvent(BaseEvent, WebcastQuestionDeleteMessage):
-    """
-    QuestionDeleteEvent
-    """
-
-
-class InRoomBannerEvent(BaseEvent, WebcastInRoomBannerMessage):
-    """
-    InRoomBannerEvent
-    """
-
-
-class ShareGuideEvent(BaseEvent, WebcastShareGuideMessage):
-    """
-    ShareGuideEvent
-    """
-
-
-class EventEvent(BaseEvent, WebcastEventMessage):
-    """
-    EventEvent
-    """
-
-
-class InRoomBannerEventEvent(BaseEvent, WebcastInRoomBannerEvent):
-    """
-    InRoomBannerEventEvent
-    """
-
-
-class PlayTogetherEvent(BaseEvent, WebcastPlayTogetherMessage):
-    """
-    PlayTogetherEvent
-    """
-
-
-class SubContractStatusEvent(BaseEvent, WebcastSubContractStatusMessage):
-    """
-    SubContractStatusEvent
-    """
-
-
-class HourlyRankRewardEvent(BaseEvent, WebcastHourlyRankRewardMessage):
-    """
-    HourlyRankRewardEvent
-    """
-
-
-class PictionaryStartEvent(BaseEvent, WebcastPictionaryStartMessage):
-    """
-    PictionaryStartEvent
-    """
-
-
-class GuestInviteEvent(BaseEvent, WebcastGuestInviteMessage):
-    """
-    GuestInviteEvent
-    """
-
-
-class NoticeEvent(BaseEvent, WebcastNoticeMessage):
-    """
-    NoticeEvent
-    """
-
-
-class PartnershipDownloadCountEvent(BaseEvent, WebcastPartnershipDownloadCountMessage):
-    """
-    PartnershipDownloadCountEvent
-    """
-
-
-class GreetingEvent(BaseEvent, WebcastGreetingMessage):
-    """
-    GreetingEvent
-    """
-
-
-class LiveShowEvent(BaseEvent, WebcastLiveShowMessage):
-    """
-    LiveShowEvent
-    """
-
-
-class SubWaveEvent(BaseEvent, WebcastSubWaveMessage):
-    """
-    SubWaveEvent
-    """
-
-
-class GameReqSetGuessEvent(BaseEvent, WebcastGameReqSetGuessMessage):
-    """
-    GameReqSetGuessEvent
-    """
-
-
-class SpeakerEvent(BaseEvent, WebcastSpeakerMessage):
-    """
-    SpeakerEvent
-    """
-
-
-class LinkMicAnchorGuideEvent(BaseEvent, WebcastLinkMicAnchorGuideMessage):
-    """
-    LinkMicAnchorGuideEvent
-    """
-
-    user: ExtendedUser
-
-
-class CompetitionEvent(BaseEvent, WebcastCompetitionMessage):
-    """
-    CompetitionEvent
-    """
-
-
 class AvatarReportDeleteEvent(BaseEvent, WebcastAvatarReportDeleteMessage):
     """
     AvatarReportDeleteEvent
     """
 
 
-class EffectPreloadingEvent(BaseEvent, WebcastEffectPreloadingMessage):
+class AvatarStyleResultEvent(BaseEvent, WebcastAvatarStyleResultMessage):
     """
-    EffectPreloadingEvent
-    """
-
-
-class ColdStartEvent(BaseEvent, WebcastColdStartMessage):
-    """
-    ColdStartEvent
+    AvatarStyleResultEvent
     """
 
 
-class CountdownForAllEvent(BaseEvent, WebcastCountdownForAllMessage):
+class BaLeadGenEvent(BaseEvent, WebcastBaLeadGenMessage):
     """
-    CountdownForAllEvent
-    """
-
-
-class GiftBroadcastEvent(BaseEvent, WebcastGiftBroadcastMessage):
-    """
-    GiftBroadcastEvent
+    BaLeadGenEvent
     """
 
 
-class PreviewGameMomentEvent(BaseEvent, WebcastPreviewGameMomentMessage):
+class BackpackEvent(BaseEvent, WebcastBackpackMessage):
     """
-    PreviewGameMomentEvent
-    """
-
-
-class GameRecommendCreateGuessEvent(BaseEvent, WebcastGameRecommendCreateGuessMessage):
-    """
-    GameRecommendCreateGuessEvent
-    """
-
-
-class VideoLiveGoodsOrderEvent(BaseEvent, WebcastVideoLiveGoodsOrderMessage):
-    """
-    VideoLiveGoodsOrderEvent
-    """
-
-    user: ExtendedUser
-
-
-class StarCommentNotificationEvent(BaseEvent, WebcastStarCommentNotificationMessage):
-    """
-    StarCommentNotificationEvent
-    """
-
-    operator: ExtendedUser
-
-
-class InRoomBannerRefreshEvent(BaseEvent, WebcastInRoomBannerRefreshMessage):
-    """
-    InRoomBannerRefreshEvent
-    """
-
-
-class RoomStickerEvent(BaseEvent, WebcastRoomStickerMessage):
-    """
-    RoomStickerEvent
-    """
-
-
-class OChannelUserEvent(BaseEvent, WebcastOChannelUserMessage):
-    """
-    OChannelUserEvent
-    """
-
-
-class GiftProgressEvent(BaseEvent, WebcastGiftProgressMessage):
-    """
-    GiftProgressEvent
-    """
-
-
-class OecLiveManagerEvent(BaseEvent, WebcastOecLiveManagerMessage):
-    """
-    OecLiveManagerEvent
-    """
-
-
-class DiggEvent(BaseEvent, WebcastDiggMessage):
-    """
-    DiggEvent
-    """
-
-    user: ExtendedUser
-
-
-class AiLiveSummaryEvent(BaseEvent, WebcastAiLiveSummaryMessage):
-    """
-    AiLiveSummaryEvent
-    """
-
-
-class AnchorToolModificationEvent(BaseEvent, WebcastAnchorToolModificationMessage):
-    """
-    AnchorToolModificationEvent
-    """
-
-
-class MgPunishCenterActionEvent(BaseEvent, WebcastMgPunishCenterActionMessage):
-    """
-    MgPunishCenterActionEvent
-    """
-
-
-class PictionaryExitEvent(BaseEvent, WebcastPictionaryExitMessage):
-    """
-    PictionaryExitEvent
-    """
-
-
-class CountdownEvent(BaseEvent, WebcastCountdownMessage):
-    """
-    CountdownEvent
-    """
-
-
-class GameServerFeatureEvent(BaseEvent, WebcastGameServerFeatureMessage):
-    """
-    GameServerFeatureEvent
-    """
-
-
-class PlaybookEvent(BaseEvent, WebcastPlaybookMessage):
-    """
-    PlaybookEvent
-    """
-
-
-class GiftRecordCapsuleEvent(BaseEvent, WebcastGiftRecordCapsuleMessage):
-    """
-    GiftRecordCapsuleEvent
-    """
-
-
-class QuickChatListEvent(BaseEvent, WebcastQuickChatListMessage):
-    """
-    QuickChatListEvent
-    """
-
-
-class PartnershipCardChangeEvent(BaseEvent, WebcastPartnershipCardChangeMessage):
-    """
-    PartnershipCardChangeEvent
-    """
-
-
-class ScreenChatEvent(BaseEvent, WebcastScreenChatMessage):
-    """
-    ScreenChatEvent
-    """
-
-    user_info: ExtendedUser
-
-
-class GameEmoteUpdateEvent(BaseEvent, WebcastGameEmoteUpdateMessage):
-    """
-    GameEmoteUpdateEvent
-    """
-
-
-class BoostCardEvent(BaseEvent, WebcastBoostCardMessage):
-    """
-    BoostCardEvent
-    """
-
-
-class ProjectDModifyH5Event(BaseEvent, WebcastProjectDModifyH5):
-    """
-    ProjectDModifyH5Event
-    """
-
-
-class RoomStreamAdaptationEvent(BaseEvent, WebcastRoomStreamAdaptationMessage):
-    """
-    RoomStreamAdaptationEvent
-    """
-
-
-class LinkmicBattleNoticeEvent(BaseEvent, WebcastLinkmicBattleNoticeMessage):
-    """
-    LinkmicBattleNoticeEvent
-    """
-
-
-class GoodyBagEvent(BaseEvent, WebcastGoodyBagMessage):
-    """
-    GoodyBagEvent
+    BackpackEvent
     """
 
 
@@ -1195,10 +138,58 @@ class BarrageEvent(BaseEvent, WebcastBarrageMessage):
     """
 
 
+class BizStickerEvent(BaseEvent, WebcastBizStickerMessage):
+    """
+    BizStickerEvent
+    """
+
+
+class BoostCardEvent(BaseEvent, WebcastBoostCardMessage):
+    """
+    BoostCardEvent
+    """
+
+
+class BoostedUsersEvent(BaseEvent, WebcastBoostedUsersMessage):
+    """
+    BoostedUsersEvent
+    """
+
+
+class BottomEvent(BaseEvent, WebcastBottomMessage):
+    """
+    BottomEvent
+    """
+
+
+class CapsuleEvent(BaseEvent, WebcastCapsuleMessage):
+    """
+    CapsuleEvent
+    """
+
+
 class CaptionEvent(BaseEvent, WebcastCaptionMessage):
     """
     CaptionEvent
 
+    """
+
+
+class CohostReserveEvent(BaseEvent, WebcastCohostReserveMessage):
+    """
+    CohostReserveEvent
+    """
+
+
+class CohostTopicEvent(BaseEvent, WebcastCohostTopicMessage):
+    """
+    CohostTopicEvent
+    """
+
+
+class ColdStartEvent(BaseEvent, WebcastColdStartMessage):
+    """
+    ColdStartEvent
     """
 
 
@@ -1217,6 +208,7 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
         return self.user_identity.is_subscriber_of_anchor
 
     @property
+    @deprecated("Use 'user_info' property instead.")
     def user(self) -> ExtendedUser:
         """Backwards compatibility for user"""
         return ExtendedUser.from_user(self.user_info)
@@ -1233,6 +225,44 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
         return self.content
 
 
+class CommentTrayEvent(BaseEvent, WebcastCommentTrayMessage):
+    """
+    CommentTrayEvent
+    """
+
+
+class CommentsEvent(BaseEvent, WebcastCommentsMessage):
+    """
+    CommentsEvent
+    """
+
+    user: ExtendedUser
+
+
+class CommercialCustomEvent(BaseEvent, WebcastCommercialCustomMessage):
+    """
+    CommercialCustomEvent
+    """
+
+
+class CommonPopupEvent(BaseEvent, WebcastCommonPopupMessage):
+    """
+    CommonPopupEvent
+    """
+
+
+class CommonToastEvent(BaseEvent, WebcastCommonToastMessage):
+    """
+    CommonToastEvent
+    """
+
+
+class CompetitionEvent(BaseEvent, WebcastCompetitionMessage):
+    """
+    CompetitionEvent
+    """
+
+
 class ControlEvent(BaseEvent, WebcastControlMessage):
     """
     ControlEvent
@@ -1241,6 +271,74 @@ class ControlEvent(BaseEvent, WebcastControlMessage):
 
     # Override the action field to use the ControlAction enum
     action: ControlAction = betterproto.enum_field(2)
+
+
+class CountdownEvent(BaseEvent, WebcastCountdownMessage):
+    """
+    CountdownEvent
+    """
+
+
+class CountdownForAllEvent(BaseEvent, WebcastCountdownForAllMessage):
+    """
+    CountdownForAllEvent
+    """
+
+
+class DiggEvent(BaseEvent, WebcastDiggMessage):
+    """
+    DiggEvent
+    """
+
+    user: ExtendedUser
+
+
+class DonationEvent(BaseEvent, WebcastDonationMessage):
+    """
+    DonationEvent
+    """
+
+
+class DonationInfoEvent(BaseEvent, WebcastDonationInfoMessage):
+    """
+    DonationInfoEvent
+    """
+
+
+class DonationStickerModifyMethodEvent(BaseEvent, WebcastDonationStickerModifyMethod):
+    """
+    DonationStickerModifyMethodEvent
+    """
+
+
+class EcBarrageEvent(BaseEvent, WebcastEcBarrageMessage):
+    """
+    EcBarrageEvent
+    """
+
+
+class EcDrawEvent(BaseEvent, WebcastEcDrawMessage):
+    """
+    EcDrawEvent
+    """
+
+
+class EcTaskRefreshCouponListEvent(BaseEvent, WebcastEcTaskRefreshCouponListMessage):
+    """
+    EcTaskRefreshCouponListEvent
+    """
+
+
+class EffectControlEvent(BaseEvent, WebcastEffectControlMessage):
+    """
+    EffectControlEvent
+    """
+
+
+class EffectPreloadingEvent(BaseEvent, WebcastEffectPreloadingMessage):
+    """
+    EffectPreloadingEvent
+    """
 
 
 class EmoteChatEvent(BaseEvent, WebcastEmoteChatMessage):
@@ -1256,6 +354,134 @@ class EnvelopeEvent(BaseEvent, WebcastEnvelopeMessage):
     """
     EnvelopeEvent
 
+    """
+
+
+class EnvelopePortalEvent(BaseEvent, WebcastEnvelopePortalMessage):
+    """
+    EnvelopePortalEvent
+    """
+
+
+class EpiEvent(BaseEvent, WebcastEpiMessage):
+    """
+    EpiEvent
+    """
+
+
+class EventEvent(BaseEvent, WebcastEventMessage):
+    """
+    EventEvent
+    """
+
+
+class FansEventEvent(BaseEvent, WebcastFansEventMessage):
+    """
+    FansEventEvent
+    """
+
+    user: ExtendedUser
+
+
+class FeedUserRoomMonitorEvent(BaseEvent, WebcastFeedUserRoomMonitorMessage):
+    """
+    FeedUserRoomMonitorEvent
+    """
+
+
+class FollowCardEvent(BaseEvent, WebcastFollowCardMessage):
+    """
+    FollowCardEvent
+    """
+
+
+class ForceFetchRecommendationsEvent(BaseEvent, WebcastForceFetchRecommendationsMessage):
+    """
+    ForceFetchRecommendationsEvent
+    """
+
+
+class GameEmoteUpdateEvent(BaseEvent, WebcastGameEmoteUpdateMessage):
+    """
+    GameEmoteUpdateEvent
+    """
+
+
+class GameGuessPinCardEvent(BaseEvent, WebcastGameGuessPinCardMessage):
+    """
+    GameGuessPinCardEvent
+    """
+
+
+class GameGuessToastEvent(BaseEvent, WebcastGameGuessToastMessage):
+    """
+    GameGuessToastEvent
+    """
+
+
+class GameGuessWidgetsEvent(BaseEvent, WebcastGameGuessWidgetsMessage):
+    """
+    GameGuessWidgetsEvent
+    """
+
+
+class GameMomentEvent(BaseEvent, WebcastGameMomentMessage):
+    """
+    GameMomentEvent
+    """
+
+
+class GameOcrPingEvent(BaseEvent, WebcastGameOcrPingMessage):
+    """
+    GameOcrPingEvent
+    """
+
+
+class GameRankNotifyEvent(BaseEvent, WebcastGameRankNotifyMessage):
+    """
+    GameRankNotifyEvent
+    """
+
+
+class GameRecommendCreateGuessEvent(BaseEvent, WebcastGameRecommendCreateGuessMessage):
+    """
+    GameRecommendCreateGuessEvent
+    """
+
+
+class GameReqSetGuessEvent(BaseEvent, WebcastGameReqSetGuessMessage):
+    """
+    GameReqSetGuessEvent
+    """
+
+
+class GameServerFeatureEvent(BaseEvent, WebcastGameServerFeatureMessage):
+    """
+    GameServerFeatureEvent
+    """
+
+
+class GameSettingChangeEvent(BaseEvent, WebcastGameSettingChangeMessage):
+    """
+    GameSettingChangeEvent
+    """
+
+
+class GiftBroadcastEvent(BaseEvent, WebcastGiftBroadcastMessage):
+    """
+    GiftBroadcastEvent
+    """
+
+
+class GiftCollectionUpdateEvent(BaseEvent, WebcastGiftCollectionUpdateMessage):
+    """
+    GiftCollectionUpdateEvent
+    """
+
+
+class GiftDynamicRestrictionEvent(BaseEvent, WebcastGiftDynamicRestrictionMessage):
+    """
+    GiftDynamicRestrictionEvent
     """
 
 
@@ -1320,6 +546,63 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
         return self.repeat_count * self.gift.diamond_count * 0.005  # 0.005 is the conversion
 
 
+class GiftGalleryEvent(BaseEvent, WebcastGiftGalleryMessage):
+    """
+    GiftGalleryEvent
+    """
+
+    to_user: ExtendedUser
+    user: ExtendedUser
+
+
+class GiftGuideEvent(BaseEvent, WebcastGiftGuideMessage):
+    """
+    GiftGuideEvent
+    """
+
+
+class GiftNoticeEvent(BaseEvent, WebcastGiftNoticeMessage):
+    """
+    GiftNoticeEvent
+    """
+
+
+class GiftPanelUpdateEvent(BaseEvent, WebcastGiftPanelUpdateMessage):
+    """
+    GiftPanelUpdateEvent
+    """
+
+
+class GiftProgressEvent(BaseEvent, WebcastGiftProgressMessage):
+    """
+    GiftProgressEvent
+    """
+
+
+class GiftPromptEvent(BaseEvent, WebcastGiftPromptMessage):
+    """
+    GiftPromptEvent
+    """
+
+
+class GiftRecordCapsuleEvent(BaseEvent, WebcastGiftRecordCapsuleMessage):
+    """
+    GiftRecordCapsuleEvent
+    """
+
+
+class GiftUnlockEvent(BaseEvent, WebcastGiftUnlockMessage):
+    """
+    GiftUnlockEvent
+    """
+
+
+class GiftUpdateEvent(BaseEvent, WebcastGiftUpdateMessage):
+    """
+    GiftUpdateEvent
+    """
+
+
 class GoalUpdateEvent(BaseEvent, WebcastGoalUpdateMessage):
     """
     GoalUpdateEvent
@@ -1327,10 +610,118 @@ class GoalUpdateEvent(BaseEvent, WebcastGoalUpdateMessage):
     """
 
 
+class GoodyBagEvent(BaseEvent, WebcastGoodyBagMessage):
+    """
+    GoodyBagEvent
+    """
+
+
+class GreetingEvent(BaseEvent, WebcastGreetingMessage):
+    """
+    GreetingEvent
+    """
+
+
+class GroupLiveMemberNotifyEvent(BaseEvent, WebcastGroupLiveMemberNotifyMessage):
+    """
+    GroupLiveMemberNotifyEvent
+    """
+
+
+class GuessQuestionAuditEvent(BaseEvent, WebcastGuessQuestionAuditMessage):
+    """
+    GuessQuestionAuditEvent
+    """
+
+
+class GuestInviteEvent(BaseEvent, WebcastGuestInviteMessage):
+    """
+    GuestInviteEvent
+    """
+
+
+class GuestInviteGuideEvent(BaseEvent, WebcastGuestInviteGuideMessage):
+    """
+    GuestInviteGuideEvent
+    """
+
+
+class GuestShowdownEvent(BaseEvent, WebcastGuestShowdownMessage):
+    """
+    GuestShowdownEvent
+    """
+
+
+class GuideEvent(BaseEvent, WebcastGuideMessage):
+    """
+    GuideEvent
+    """
+
+
+class GuideTaskEvent(BaseEvent, WebcastGuideTaskMessage):
+    """
+    GuideTaskEvent
+    """
+
+
+class HashtagEvent(BaseEvent, WebcastHashtagMessage):
+    """
+    HashtagEvent
+    """
+
+
+class HighlightFragementReadyEvent(BaseEvent, WebcastHighlightFragementReady):
+    """
+    HighlightFragementReadyEvent
+    """
+
+
+class HotRoomEvent(BaseEvent, WebcastHotRoomMessage):
+    """
+    HotRoomEvent
+    """
+
+
+class HourlyRankRewardEvent(BaseEvent, WebcastHourlyRankRewardMessage):
+    """
+    HourlyRankRewardEvent
+    """
+
+
 class ImDeleteEvent(BaseEvent, WebcastImDeleteMessage):
     """
     ImDeleteEvent
 
+    """
+
+
+class InRoomBannerEvent(BaseEvent, WebcastInRoomBannerMessage):
+    """
+    InRoomBannerEvent
+    """
+
+
+class InRoomBannerEventEvent(BaseEvent, WebcastInRoomBannerEvent):
+    """
+    InRoomBannerEventEvent
+    """
+
+
+class InRoomBannerRefreshEvent(BaseEvent, WebcastInRoomBannerRefreshMessage):
+    """
+    InRoomBannerRefreshEvent
+    """
+
+
+class InteractionHubGoalEvent(BaseEvent, WebcastInteractionHubGoalMessage):
+    """
+    InteractionHubGoalEvent
+    """
+
+
+class InteractiveEffectEvent(BaseEvent, WebcastInteractiveEffectMessage):
+    """
+    InteractiveEffectEvent
     """
 
 
@@ -1344,6 +735,42 @@ class JoinEvent(BaseEvent, WebcastMemberMessage):
     user: ExtendedUser
 
 
+class KaraokeQueueEvent(BaseEvent, WebcastKaraokeQueueMessage):
+    """
+    KaraokeQueueEvent
+    """
+
+
+class KaraokeQueueListEvent(BaseEvent, WebcastKaraokeQueueListMessage):
+    """
+    KaraokeQueueListEvent
+    """
+
+
+class KaraokeRedDotEvent(BaseEvent, WebcastKaraokeRedDotMessage):
+    """
+    KaraokeRedDotEvent
+    """
+
+
+class KaraokeReqEvent(BaseEvent, WebcastKaraokeReqMessage):
+    """
+    KaraokeReqEvent
+    """
+
+
+class KaraokeSwitchEvent(BaseEvent, WebcastKaraokeSwitchMessage):
+    """
+    KaraokeSwitchEvent
+    """
+
+
+class KaraokeYouSingReqEvent(BaseEvent, WebcastKaraokeYouSingReqMessage):
+    """
+    KaraokeYouSingReqEvent
+    """
+
+
 class LikeEvent(BaseEvent, WebcastLikeMessage):
     """
     LikeEvent
@@ -1351,6 +778,12 @@ class LikeEvent(BaseEvent, WebcastLikeMessage):
     """
 
     user: ExtendedUser
+
+
+class LinkBusinessEvent(BaseEvent, WebcastLinkBusinessMessage):
+    """
+    LinkBusinessEvent
+    """
 
 
 class LinkEvent(BaseEvent, WebcastLinkMessage):
@@ -1367,6 +800,26 @@ class LinkLayerEvent(BaseEvent, WebcastLinkLayerMessage):
     """
 
 
+class LinkLayoutEvent(BaseEvent, WebcastLinkLayoutMessage):
+    """
+    LinkLayoutEvent
+    """
+
+
+class LinkMicAdEvent(BaseEvent, WebcastLinkMicAdMessage):
+    """
+    LinkMicAdEvent
+    """
+
+
+class LinkMicAnchorGuideEvent(BaseEvent, WebcastLinkMicAnchorGuideMessage):
+    """
+    LinkMicAnchorGuideEvent
+    """
+
+    user: ExtendedUser
+
+
 class LinkMicArmiesEvent(BaseEvent, WebcastLinkMicArmies):
     """
     LinkMicArmiesEvent
@@ -1378,6 +831,24 @@ class LinkMicBattleEvent(BaseEvent, WebcastLinkMicBattle):
     """
     LinkMicBattleEvent
 
+    """
+
+
+class LinkMicBattleItemCardEvent(BaseEvent, WebcastLinkMicBattleItemCard):
+    """
+    LinkMicBattleItemCardEvent
+    """
+
+
+class LinkMicBattlePunishFinishEvent(BaseEvent, WebcastLinkMicBattlePunishFinish):
+    """
+    LinkMicBattlePunishFinishEvent
+    """
+
+
+class LinkMicBattleVictoryLapEvent(BaseEvent, WebcastLinkMicBattleVictoryLap):
+    """
+    LinkMicBattleVictoryLapEvent
     """
 
 
@@ -1395,6 +866,60 @@ class LinkMicMethodEvent(BaseEvent, WebcastLinkMicMethod):
     """
 
 
+class LinkMicSignalingMethodEvent(BaseEvent, WebcastLinkMicSignalingMethod):
+    """
+    LinkMicSignalingMethodEvent
+    """
+
+
+class LinkScreenChangeEvent(BaseEvent, WebcastLinkScreenChangeMessage):
+    """
+    LinkScreenChangeEvent
+    """
+
+
+class LinkStateEvent(BaseEvent, WebcastLinkStateMessage):
+    """
+    LinkStateEvent
+    """
+
+
+class LinkmicAnimationEvent(BaseEvent, WebcastLinkmicAnimationMessage):
+    """
+    LinkmicAnimationEvent
+    """
+
+
+class LinkmicAudienceNoticeEvent(BaseEvent, WebcastLinkmicAudienceNoticeMessage):
+    """
+    LinkmicAudienceNoticeEvent
+    """
+
+
+class LinkmicBattleNoticeEvent(BaseEvent, WebcastLinkmicBattleNoticeMessage):
+    """
+    LinkmicBattleNoticeEvent
+    """
+
+
+class LinkmicBattleTaskEvent(BaseEvent, WebcastLinkmicBattleTaskMessage):
+    """
+    LinkmicBattleTaskEvent
+    """
+
+
+class LiveGameIntroEvent(BaseEvent, WebcastLiveGameIntroMessage):
+    """
+    LiveGameIntroEvent
+    """
+
+
+class LiveInfoAuditNoticeEvent(BaseEvent, WebcastLiveInfoAuditNoticeMessage):
+    """
+    LiveInfoAuditNoticeEvent
+    """
+
+
 class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
     """
     LiveIntroEvent
@@ -1404,10 +929,196 @@ class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
     user: ExtendedUser
 
 
+class LiveJourneyEvent(BaseEvent, WebcastLiveJourneyMessage):
+    """
+    LiveJourneyEvent
+    """
+
+
+class LiveShowEvent(BaseEvent, WebcastLiveShowMessage):
+    """
+    LiveShowEvent
+    """
+
+
+class MarqueeAnnouncementEvent(BaseEvent, WebcastMarqueeAnnouncementMessage):
+    """
+    MarqueeAnnouncementEvent
+    """
+
+
 class MessageDetectEvent(BaseEvent, WebcastMsgDetectMessage):
     """
     MessageDetectEvent
 
+    """
+
+
+class MgPunishCenterActionEvent(BaseEvent, WebcastMgPunishCenterActionMessage):
+    """
+    MgPunishCenterActionEvent
+    """
+
+
+class MiddleTouchEvent(BaseEvent, WebcastMiddleTouchMessage):
+    """
+    MiddleTouchEvent
+    """
+
+
+class MultiGuestSuggestEvent(BaseEvent, WebcastMultiGuestSuggestMessage):
+    """
+    MultiGuestSuggestEvent
+    """
+
+
+class NewAnchorGuideEvent(BaseEvent, WebcastNewAnchorGuideMessage):
+    """
+    NewAnchorGuideEvent
+    """
+
+
+class NoticeEvent(BaseEvent, WebcastNoticeMessage):
+    """
+    NoticeEvent
+    """
+
+
+class NoticeboardEvent(BaseEvent, WebcastNoticeboardMessage):
+    """
+    NoticeboardEvent
+    """
+
+
+class NoticeboardReviewEvent(BaseEvent, WebcastNoticeboardReviewMessage):
+    """
+    NoticeboardReviewEvent
+    """
+
+
+class OChannelAnchorEvent(BaseEvent, WebcastOChannelAnchorMessage):
+    """
+    OChannelAnchorEvent
+    """
+
+
+class OChannelModifyEvent(BaseEvent, WebcastOChannelModifyMessage):
+    """
+    OChannelModifyEvent
+    """
+
+
+class OChannelUserEvent(BaseEvent, WebcastOChannelUserMessage):
+    """
+    OChannelUserEvent
+    """
+
+
+class OecLiveHotRoomEvent(BaseEvent, WebcastOecLiveHotRoomMessage):
+    """
+    OecLiveHotRoomEvent
+    """
+
+
+class OecLiveManagerEvent(BaseEvent, WebcastOecLiveManagerMessage):
+    """
+    OecLiveManagerEvent
+    """
+
+
+class PaidContentLiveShoppingEvent(BaseEvent, WebcastPaidContentLiveShoppingMessage):
+    """
+    PaidContentLiveShoppingEvent
+    """
+
+
+class PartnershipCardChangeEvent(BaseEvent, WebcastPartnershipCardChangeMessage):
+    """
+    PartnershipCardChangeEvent
+    """
+
+
+class PartnershipDownloadCountEvent(BaseEvent, WebcastPartnershipDownloadCountMessage):
+    """
+    PartnershipDownloadCountEvent
+    """
+
+
+class PartnershipDropsAnchorEvent(BaseEvent, WebcastPartnershipDropsAnchorMessage):
+    """
+    PartnershipDropsAnchorEvent
+    """
+
+
+class PartnershipDropsCardChangeEvent(BaseEvent, WebcastPartnershipDropsCardChangeMessage):
+    """
+    PartnershipDropsCardChangeEvent
+    """
+
+
+class PartnershipDropsUpdateEvent(BaseEvent, WebcastPartnershipDropsUpdateMessage):
+    """
+    PartnershipDropsUpdateEvent
+    """
+
+
+class PartnershipGameOfflineEvent(BaseEvent, WebcastPartnershipGameOfflineMessage):
+    """
+    PartnershipGameOfflineEvent
+    """
+
+
+class PartnershipPunishEvent(BaseEvent, WebcastPartnershipPunishMessage):
+    """
+    PartnershipPunishEvent
+    """
+
+
+class PartnershipTaskShowEvent(BaseEvent, WebcastPartnershipTaskShowMessage):
+    """
+    PartnershipTaskShowEvent
+    """
+
+
+class PerceptionEvent(BaseEvent, WebcastPerceptionMessage):
+    """
+    PerceptionEvent
+    """
+
+
+class PictionaryEndEvent(BaseEvent, WebcastPictionaryEndMessage):
+    """
+    PictionaryEndEvent
+    """
+
+
+class PictionaryExitEvent(BaseEvent, WebcastPictionaryExitMessage):
+    """
+    PictionaryExitEvent
+    """
+
+
+class PictionaryStartEvent(BaseEvent, WebcastPictionaryStartMessage):
+    """
+    PictionaryStartEvent
+    """
+
+
+class PictionaryUpdateEvent(BaseEvent, WebcastPictionaryUpdateMessage):
+    """
+    PictionaryUpdateEvent
+    """
+
+
+class PlayTogetherEvent(BaseEvent, WebcastPlayTogetherMessage):
+    """
+    PlayTogetherEvent
+    """
+
+
+class PlaybookEvent(BaseEvent, WebcastPlaybookMessage):
+    """
+    PlaybookEvent
     """
 
 
@@ -1418,10 +1129,82 @@ class PollEvent(BaseEvent, WebcastPollMessage):
     """
 
 
+class PopularCardEvent(BaseEvent, WebcastPopularCardMessage):
+    """
+    PopularCardEvent
+    """
+
+
+class PortalEvent(BaseEvent, WebcastPortalMessage):
+    """
+    PortalEvent
+    """
+
+
+class PreviewGameMomentEvent(BaseEvent, WebcastPreviewGameMomentMessage):
+    """
+    PreviewGameMomentEvent
+    """
+
+
+class PrivilegeAdvanceEvent(BaseEvent, WebcastPrivilegeAdvanceMessage):
+    """
+    PrivilegeAdvanceEvent
+    """
+
+
+class PrivilegeDynamicEffectEvent(BaseEvent, WebcastPrivilegeDynamicEffectMessage):
+    """
+    PrivilegeDynamicEffectEvent
+    """
+
+
+class ProjectDModifyH5Event(BaseEvent, WebcastProjectDModifyH5):
+    """
+    ProjectDModifyH5Event
+    """
+
+
+class PromoteAdStatusEvent(BaseEvent, WebcastPromoteAdStatusMessage):
+    """
+    PromoteAdStatusEvent
+    """
+
+
+class QuestionDeleteEvent(BaseEvent, WebcastQuestionDeleteMessage):
+    """
+    QuestionDeleteEvent
+    """
+
+
 class QuestionNewEvent(BaseEvent, WebcastQuestionNewMessage):
     """
     QuestionNewEvent
 
+    """
+
+
+class QuestionSelectedEvent(BaseEvent, WebcastQuestionSelectedMessage):
+    """
+    QuestionSelectedEvent
+    """
+
+
+class QuestionSlideDownEvent(BaseEvent, WebcastQuestionSlideDownMessage):
+    """
+    QuestionSlideDownEvent
+    """
+
+
+class QuestionSwitchEvent(BaseEvent, WebcastQuestionSwitchMessage):
+    """
+    QuestionSwitchEvent
+    """
+
+
+class QuickChatListEvent(BaseEvent, WebcastQuickChatListMessage):
+    """
+    QuickChatListEvent
     """
 
 
@@ -1432,10 +1215,34 @@ class RankTextEvent(BaseEvent, WebcastRankTextMessage):
     """
 
 
+class RankToastEvent(BaseEvent, WebcastRankToastMessage):
+    """
+    RankToastEvent
+    """
+
+
 class RankUpdateEvent(BaseEvent, WebcastRankUpdateMessage):
     """
     RankUpdateEvent
 
+    """
+
+
+class RealTimePerformancePageEvent(BaseEvent, WebcastRealTimePerformancePageMessage):
+    """
+    RealTimePerformancePageEvent
+    """
+
+
+class RealtimeLiveCenterMethodEvent(BaseEvent, WebcastRealtimeLiveCenterMethod):
+    """
+    RealtimeLiveCenterMethodEvent
+    """
+
+
+class RoomBottomEvent(BaseEvent, WebcastRoomBottomMessage):
+    """
+    RoomBottomEvent
     """
 
 
@@ -1444,6 +1251,20 @@ class RoomEvent(BaseEvent, WebcastRoomMessage):
     RoomEvent
 
     """
+
+
+class RoomEventEvent(BaseEvent, WebcastRoomEventMessage):
+    """
+    RoomEventEvent
+    """
+
+
+class RoomNotifyEvent(BaseEvent, WebcastRoomNotifyMessage):
+    """
+    RoomNotifyEvent
+    """
+
+    user: ExtendedUser
 
 
 class RoomPinEvent(BaseEvent, WebcastRoomPinMessage):
@@ -1455,10 +1276,48 @@ class RoomPinEvent(BaseEvent, WebcastRoomPinMessage):
     operator: ExtendedUser
 
 
+class RoomStickerEvent(BaseEvent, WebcastRoomStickerMessage):
+    """
+    RoomStickerEvent
+    """
+
+
+class RoomStreamAdaptationEvent(BaseEvent, WebcastRoomStreamAdaptationMessage):
+    """
+    RoomStreamAdaptationEvent
+    """
+
+
 class RoomUserSeqEvent(BaseEvent, WebcastRoomUserSeqMessage):
     """
     RoomUserSeqEvent
 
+    """
+
+
+class RoomVerifyEvent(BaseEvent, WebcastRoomVerifyMessage):
+    """
+    RoomVerifyEvent
+    """
+
+
+class ScreenChatEvent(BaseEvent, WebcastScreenChatMessage):
+    """
+    ScreenChatEvent
+    """
+
+    user_info: ExtendedUser
+
+
+class ShareGuideEvent(BaseEvent, WebcastShareGuideMessage):
+    """
+    ShareGuideEvent
+    """
+
+
+class ShortTouchEvent(BaseEvent, WebcastShortTouchMessage):
+    """
+    ShortTouchEvent
     """
 
 
@@ -1471,10 +1330,164 @@ class SocialEvent(BaseEvent, WebcastSocialMessage):
     user: ExtendedUser
 
 
+class SpeakerEvent(BaseEvent, WebcastSpeakerMessage):
+    """
+    SpeakerEvent
+    """
+
+
+class SpecialPushEvent(BaseEvent, WebcastSpecialPushMessage):
+    """
+    SpecialPushEvent
+    """
+
+
+class StarCommentNotificationEvent(BaseEvent, WebcastStarCommentNotificationMessage):
+    """
+    StarCommentNotificationEvent
+    """
+
+    operator: ExtendedUser
+
+
+class StarCommentPushEvent(BaseEvent, WebcastStarCommentPushMessage):
+    """
+    StarCommentPushEvent
+    """
+
+
+class StreamStatusEvent(BaseEvent, WebcastStreamStatusMessage):
+    """
+    StreamStatusEvent
+    """
+
+
+class SubContractStatusEvent(BaseEvent, WebcastSubContractStatusMessage):
+    """
+    SubContractStatusEvent
+    """
+
+
+class SubNotifyEvent(BaseEvent, WebcastSubNotifyMessage):
+    """
+    SubNotifyEvent
+    """
+
+    user: ExtendedUser
+
+
+class SubPinEventEvent(BaseEvent, WebcastSubPinEventMessage):
+    """
+    SubPinEventEvent
+    """
+
+
+class SubQueueEvent(BaseEvent, WebcastSubQueueMessage):
+    """
+    SubQueueEvent
+    """
+
+    current_user: ExtendedUser
+
+
+class SubTimerStickerEvent(BaseEvent, WebcastSubTimerStickerMessage):
+    """
+    SubTimerStickerEvent
+    """
+
+
+class SubWaveEvent(BaseEvent, WebcastSubWaveMessage):
+    """
+    SubWaveEvent
+    """
+
+
+class SubscriptionGuideEvent(BaseEvent, WebcastSubscriptionGuideMessage):
+    """
+    SubscriptionGuideEvent
+    """
+
+
+class ToastEvent(BaseEvent, WebcastToastMessage):
+    """
+    ToastEvent
+    """
+
+
+class TrayEvent(BaseEvent, WebcastTrayMessage):
+    """
+    TrayEvent
+    """
+
+    user: ExtendedUser
+
+
 class UnauthorizedMemberEvent(BaseEvent, WebcastUnauthorizedMemberMessage):
     """
     UnauthorizedMemberEvent
 
+    """
+
+
+class UpgradeEvent(BaseEvent, WebcastUpgradeMessage):
+    """
+    UpgradeEvent
+    """
+
+
+class UserStatsEvent(BaseEvent, WebcastUserStatsMessage):
+    """
+    UserStatsEvent
+    """
+
+
+class VideoLiveCouponRcmdEvent(BaseEvent, WebcastVideoLiveCouponRcmdMessage):
+    """
+    VideoLiveCouponRcmdEvent
+    """
+
+
+class VideoLiveGoodsOrderEvent(BaseEvent, WebcastVideoLiveGoodsOrderMessage):
+    """
+    VideoLiveGoodsOrderEvent
+    """
+
+    user: ExtendedUser
+
+
+class VideoLiveGoodsRcmdEvent(BaseEvent, WebcastVideoLiveGoodsRcmdMessage):
+    """
+    VideoLiveGoodsRcmdEvent
+    """
+
+
+class WalletLiveRewardsRatioEvent(BaseEvent, WebcastWalletLiveRewardsRatioMessage):
+    """
+    WalletLiveRewardsRatioEvent
+    """
+
+
+class WallpaperEvent(BaseEvent, WebcastWallpaperMessage):
+    """
+    WallpaperEvent
+    """
+
+
+class WallpaperReviewEvent(BaseEvent, WebcastWallpaperReviewMessage):
+    """
+    WallpaperReviewEvent
+    """
+
+
+class WeeklyRankRewardEvent(BaseEvent, WebcastWeeklyRankRewardMessage):
+    """
+    WeeklyRankRewardEvent
+    """
+
+
+class WishlistUpdateEvent(BaseEvent, WebcastWishlistUpdateMessage):
+    """
+    WishlistUpdateEvent
     """
 
 
@@ -1502,6 +1515,7 @@ EVENT_MAPPINGS: Dict[str, BaseEvent] = {
     "WebcastMarqueeAnnouncementMessage": MarqueeAnnouncementEvent,
     "WebcastChatMessage": CommentEvent,
     "WebcastGiftDynamicRestrictionMessage": GiftDynamicRestrictionEvent,
+    "WebcastSubNotifyMessage": SubNotifyEvent,
     "WebcastCommonPopupMessage": CommonPopupEvent,
     "WebcastEcBarrageMessage": EcBarrageEvent,
     "WebcastPromoteAdStatusMessage": PromoteAdStatusEvent,
@@ -1725,6 +1739,7 @@ ProtoEvent: Type = Union[
     MarqueeAnnouncementEvent,
     CommentEvent,
     GiftDynamicRestrictionEvent,
+    SubNotifyEvent,
     CommonPopupEvent,
     EcBarrageEvent,
     PromoteAdStatusEvent,
@@ -1948,6 +1963,7 @@ __all__ = [
     "MarqueeAnnouncementEvent",
     "CommentEvent",
     "GiftDynamicRestrictionEvent",
+    "SubNotifyEvent",
     "CommonPopupEvent",
     "EcBarrageEvent",
     "PromoteAdStatusEvent",

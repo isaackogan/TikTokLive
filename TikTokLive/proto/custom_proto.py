@@ -44,19 +44,18 @@ class ExtendedUser(User):
     """
 
     @classmethod
-    def from_user(cls, user: User, **kwargs) -> ExtendedUser:
+    def from_user(cls, user: User) -> ExtendedUser:
         """
         Convert a user to an ExtendedUser object
 
         :param user: Original user object
-        :param kwargs: Any kwargs to pass
         :return: ExtendedUser instance
         """
 
         if isinstance(user, ExtendedUser):
             return user
         try:
-            return ExtendedUser(**user.to_pydict(**kwargs))
+            return ExtendedUser(**user.to_pydict(casing=betterproto.Casing.SNAKE))
         except AttributeError:
             user_dict = {}
             for field in user.__class__.__dataclass_fields__:
