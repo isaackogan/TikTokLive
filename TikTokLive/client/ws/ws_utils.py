@@ -1,6 +1,4 @@
-import base64
 import logging
-import os
 from gzip import GzipFile
 from http.cookies import SimpleCookie
 from io import BytesIO
@@ -38,10 +36,8 @@ def build_webcast_uri(
 
     # Build the URI parameters dict
     uri_params: dict = {
-        **initial_webcast_response.route_params,
+        **{k: v for k, v in initial_webcast_response.route_params.items() if v},
         **base_uri_params,
-        "internal_ext": initial_webcast_response.internal_ext,
-        "cursor": initial_webcast_response.cursor,
     }
 
     # Build the URI
