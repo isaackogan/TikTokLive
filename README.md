@@ -12,9 +12,24 @@ TikTokLive is an unofficial Python API wrapper for TikTok LIVE written in Python
 > [!NOTE]
 > This is <strong>not</strong> a production-ready API. It is a reverse engineering project. Use the [WebSocket API](https://www.eulerstream.com/websockets) for production.
 
+<!--
 <a href="https://www.eulerstream.com/websockets" target="_blank">
     <img src="https://www.eulerstream.com/api/advert?l2=WebSocket+API&r=15&b=1.5&bc=404854&o=0.95"/>
 </a>
+-->
+
+## Captcha Service
+
+<table>
+<tr>
+    <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
+    <td>
+        <a href="https://www.eulerstream.com/captchas">
+            <strong>Euler Stream</strong> offers TikTok captcha solutions powered by the latest 2025 LLMs, CNNs, and computer vision AI models.
+        </a>
+    </td>
+</tr>
+</table>
 
 <!--
 Temporarily Removed May 3rd 2025
