@@ -18,14 +18,14 @@ TikTokLive is an unofficial Python API wrapper for TikTok LIVE written in Python
 </a>
 -->
 
-## Captcha Service
+## TikTok LIVE API
 
 <table>
 <tr>
     <td><br/><img width="180px" style="border-radius: 10px" src="https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png"><br/><br/></td>
     <td>
-        <a href="https://www.eulerstream.com/captchas">
-            <strong>Euler Stream</strong> offers TikTok CAPTCHA solutions powered by the latest 2025 LLMs, CNNs, and computer vision AI models.
+        <a href="https://www.eulerstream.com/">
+            <strong>Euler Stream</strong> offers a comprehensive TikTok LIVE API, WebSocket Server, CAPTCHA Solutions and much more!
         </a>
     </td>
 </tr>
