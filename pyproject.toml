@@ -22,7 +22,8 @@ dependencies = [
     "async-timeout>=4.0.3",
     "mashumaro>=3.5",
     "protobuf3-to-dict>=0.1.5",
-    "protobuf>=3.19.4"
+    "protobuf>=3.19.4",
+    "EulerApiSdk>=0.0.1,<0.2.0"
 ]
 
 classifiers = [
