@@ -2,6 +2,8 @@ import asyncio
 import inspect
 import logging
 import traceback
+import re
+from html import unescape
 from asyncio import AbstractEventLoop, Task, CancelledError
 from logging import Logger
 from typing import Optional, Type, Dict, Any, Union, Callable, List, Coroutine, AsyncIterator
@@ -411,6 +413,58 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         self._unique_id = unique_id = await self._resolve_user_id(unique_id or self.unique_id)
 
         return await self._web.fetch_is_live(unique_id=unique_id or self.unique_id)
+
+    async def get_avatar_url(
+            self,
+            unique_id: str | int | None = None,
+    ) -> Optional[str]:
+        """
+        Fetch the profile avatar URL for a user by their unique_id.
+
+        This uses the public profile HTML (same source as visiting
+        https://www.tiktok.com/@username in a browser) and parses
+        the CDN avatar URL from it.
+
+        Args:
+            unique_id: Optional override; defaults to this client's unique_id.
+
+        Returns:
+            CDN avatar URL string, or None if it could not be found.
+        """
+
+        # Resolve ID the same way other helpers do
+        resolved = await self._resolve_user_id(unique_id or self.unique_id)
+        profile_url = f"https://www.tiktok.com/@{resolved}"
+
+        # Use the existing web client so headers / cookies / proxies are reused
+        response = await self._web.get(
+            url=profile_url,
+            # We don't need signed params here just basically like just raw HTML
+            base_params=False,
+            base_headers=False,
+            extra_headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0 Safari/537.36"
+                ),
+                "Accept-Language": "en-US,en;q=0.9",
+            },
+        )
+
+        html = response.text
+
+        # Match the JSON-encoded avatar field used on profile pages:
+        #   "avatarLarger":"https:\/\/...tiktokcdn...jpeg"
+        match = re.search(r'"avatarLarger":"([^"]+)"', html)
+        if not match:
+            return None
+
+        raw = match.group(1)
+        # TikTok often encodes "/" as "\u002F" in this JSON blob
+        avatar_url = raw.replace(r"\\u002F", "/")
+        avatar_url = unescape(avatar_url)
+        return avatar_url
 
     async def handle_custom_event(self, response: ProtoMessageFetchResultBaseProtoMessage, event: ProtoEvent) -> \
             Optional[CustomEvent]:
