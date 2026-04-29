@@ -1,5 +1,0 @@
-sphinx
-sphinx-rtd-theme
-myst-parser
-furo
-readthedocs-sphinx-search

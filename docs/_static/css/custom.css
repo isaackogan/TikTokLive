@@ -1,8 +1,0 @@
-
-:root {
-    --sidebar-filter: invert(0.1);
-}
-
-img.sidebar-logo {
-    filter: var(--sidebar-filter);
-}
