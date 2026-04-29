@@ -10,8 +10,7 @@ from websockets_proxy.websockets_proxy import ProxyConnect
 
 from TikTokLive.client.errors import WebcastBlocked200Error
 from TikTokLive.client.ws.ws_utils import extract_webcast_response_message, build_webcast_uri, extract_websocket_options
-from TikTokLive.proto import ProtoMessageFetchResult
-from TikTokLive.proto.custom_extras import WebcastPushFrame
+from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame
 
 """Type hint for a WebcastProxy, which can be either an HTTPX Proxy or a Websockets Proxy"""
 WebcastProxy: Type = Union[httpx.Proxy, websockets_proxy.Proxy]

@@ -5,8 +5,7 @@ from io import BytesIO
 
 from TikTokLive.client.errors import InitialCursorMissingError, WebsocketURLMissingError
 from TikTokLive.client.logger import TikTokLiveLogHandler
-from TikTokLive.proto import ProtoMessageFetchResult
-from TikTokLive.proto.custom_extras import WebcastPushFrame
+from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame
 
 
 def build_webcast_uri(
