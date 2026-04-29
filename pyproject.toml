@@ -22,7 +22,8 @@ dependencies = [
     "async-timeout>=4.0.3",
     "mashumaro>=3.5",
     "protobuf3-to-dict>=0.1.5",
-    "protobuf>=3.19.4"
+    "protobuf>=3.19.4",
+    "TikTokLiveProto==0.0.2"
 ]
 
 classifiers = [
@@ -40,6 +41,57 @@ classifiers = [
 interactive = [
     "curl_cffi==v0.8.0b7"
 ]
+
+[dependency-groups]
+# Maintainer-only tooling. Not shipped with the wheel — these are local-dev
+# dependencies for running the codegen scripts under scripts/proto/. Build
+# and publish dependencies live in .github/workflows/publish.yml, not here.
+dev = [
+    "jinja2",
+    "pyyaml",
+    "types-PyYAML",   # mypy stubs for pyyaml (the package itself is untyped)
+    "mypy>=1.10",
+]
+
+[tool.mypy]
+# Pinned to the project's runtime floor (see ``requires-python``). Bump in
+# lockstep with that value.
+python_version = "3.10"
+
+# Existing codebase: don't fail on every untyped helper. We still get coverage
+# on annotated functions (which includes the proto/client surface where
+# field-rename mistakes land), and ``check_untyped_defs`` lets us flag those
+# inside untyped helpers too.
+check_untyped_defs = true
+disallow_untyped_defs = false
+
+# Third-party deps without type stubs would otherwise drown the report. The
+# per-module ``follow_imports`` overrides below keep this from masking real
+# issues inside our own code.
+ignore_missing_imports = true
+
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unreachable = true
+no_implicit_optional = true
+show_error_codes = true
+
+# Generated outputs are mypy-clean by construction; checking them just adds
+# noise to the CLI report and the IDE plugin.
+exclude = [
+    "TikTokLive/events/proto_events\\.py",
+    "TikTokLive/proto/_aliases\\.py",
+    "build/",
+    "dist/",
+]
+
+# TikTokLiveProto exposes ``TikTokLiveProto.v2`` via a runtime ``sys.modules``
+# injection that mypy cannot follow. Internal code therefore imports from
+# ``TikTokLiveProto.generated.v2`` (the canonical, statically-resolvable path).
+# This rule keeps a friendly hint if anyone reverts to the runtime shortcut.
+[[tool.mypy.overrides]]
+module = "TikTokLiveProto.v2"
+ignore_missing_imports = true
 
 [project.urls]
 Homepage = "https://github.com/isaackogan/TikTokLive"

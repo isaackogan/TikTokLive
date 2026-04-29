@@ -10,4 +10,4 @@ class curl_cffi_dummy:
                 pass
 
             async def request(self, *args, **kwargs) -> "curl_cffi_dummy.requests.Response":
-                pass
+                ...
