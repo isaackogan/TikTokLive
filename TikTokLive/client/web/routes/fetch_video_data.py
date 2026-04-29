@@ -95,7 +95,7 @@ class FetchVideoDataRoute(ClientRoute):
 
         """
 
-        return bool(self._ffmpeg) and self._thread and self._ffmpeg.process
+        return bool(self._ffmpeg and self._thread and self._ffmpeg.process)
 
     @property
     def output_filename(self) -> Optional[str]:
@@ -194,6 +194,8 @@ class FetchVideoDataRoute(ClientRoute):
             self._logger.warning("Attempted to stop a stream that does not exist or has not started.")
             return
 
+        # ``is_recording`` guarantees both _ffmpeg and its process are set.
+        assert self._ffmpeg is not None and self._ffmpeg.process is not None
         os.kill(self._ffmpeg.process.pid, signal.SIGTERM)
 
         self._ffmpeg = None
@@ -210,6 +212,9 @@ class FetchVideoDataRoute(ClientRoute):
 
         started_at: int = int(datetime.utcnow().timestamp())
 
+        # _threaded_recording is only spawned from __call__ after _ffmpeg is
+        # constructed, so it's guaranteed to be set here.
+        assert self._ffmpeg is not None
         try:
             self._ffmpeg.run()
         except FFRuntimeError as ex:

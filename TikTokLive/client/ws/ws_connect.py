@@ -3,8 +3,7 @@ from typing import Any, AsyncIterator, Dict, Optional, Tuple, Type, TypeAlias, U
 
 import httpx
 from python_socks import ProxyType, parse_proxy_url
-# noinspection PyUnresolvedReferences
-from websockets.exceptions import InvalidStatusCode
+from websockets.exceptions import InvalidStatusCode  # type: ignore[attr-defined]
 from websockets.legacy.client import Connect, WebSocketClientProtocol
 from websockets_proxy import websockets_proxy
 from websockets_proxy.websockets_proxy import ProxyConnect
@@ -94,13 +93,18 @@ class WebcastConnect(Connect):
                 # "async for" yields "WebcastPushFrame" payloads as unparsed bytes
                 async for payload_bytes in protocol:
 
+                    # websockets returns ``str | bytes``; betterproto's parse only
+                    # accepts bytes, so coerce strings up-front.
+                    if isinstance(payload_bytes, str):
+                        payload_bytes = payload_bytes.encode()
+
                     # Extract push frame
                     webcast_push_frame: WebcastPushFrame = WebcastPushFrame().parse(payload_bytes)
 
                     # Only deal with messages
                     if webcast_push_frame.payload_type != "msg":
-                        webcast_push_frame.payload = extract_webcast_response_message(webcast_push_frame, logger=self._logger)
-                        self._logger.debug(f"Received payload of type '{webcast_push_frame.payload_type}', not 'msg': {webcast_push_frame}")
+                        parsed_payload = extract_webcast_response_message(webcast_push_frame, logger=self._logger)
+                        self._logger.debug(f"Received payload of type '{webcast_push_frame.payload_type}', not 'msg': {parsed_payload}")
                         continue
 
                     # If it is of type msg, we can extract the ProtoMessageFetchResult item within
@@ -143,8 +147,9 @@ class WebcastProxyConnect(WebcastConnect, ProxyConnect):
         """Convert an HTTPX proxy to a websockets_proxy Proxy"""
         parsed: list = list(parse_proxy_url(str(proxy.url)))
 
-        # Add auth back
-        parsed[3] = proxy.auth[0]
-        parsed[4] = proxy.auth[1]
+        # Add auth back if the source proxy carried any
+        if proxy.auth is not None:
+            parsed[3] = proxy.auth[0]
+            parsed[4] = proxy.auth[1]
 
         return websockets_proxy.Proxy(*parsed)

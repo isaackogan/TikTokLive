@@ -61,6 +61,9 @@ class FetchIsLiveRoute(ClientRoute):
                     f"Room ID {room_id} did not return any entries. This may be due to a nonexistent Room ID or being detected by TikTok."
                 )
 
+        # Either ``unique_id`` or ``room_id`` must be provided (guarded above);
+        # at this point ``room_id`` is None, so ``unique_id`` is set.
+        assert unique_id is not None
         return await self.fetch_is_live_unique_id(unique_id)
 
     async def fetch_is_live_room_ids(self, *room_ids: int) -> List[bool]:

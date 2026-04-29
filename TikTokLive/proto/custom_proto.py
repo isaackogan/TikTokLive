@@ -32,7 +32,7 @@ def proto_extension(cls: Type[_MessageType]) -> Type[_MessageType]:
             # ``_betterproto`` metadata onto the subclass so betterproto's
             # serialiser uses the inherited proto schema.
             # noinspection PyProtectedMember
-            cls._betterproto = obj()._betterproto  # type: ignore[method-assign,assignment]
+            cls._betterproto = obj()._betterproto  # type: ignore[method-assign,assignment,arg-type]
             return cls
 
     return cls
@@ -57,7 +57,7 @@ class ExtendedUser(User):
         if isinstance(user, ExtendedUser):
             return user
         try:
-            return ExtendedUser(**user.to_pydict(casing=betterproto.Casing.SNAKE))
+            return ExtendedUser(**user.to_pydict(casing=betterproto.Casing.SNAKE))  # type: ignore[arg-type]
         except AttributeError:
             user_dict = {}
             for field in user.__class__.__dataclass_fields__:
@@ -89,10 +89,10 @@ class ExtendedUser(User):
 
         """
 
-        if self.follow_info.follow_status is None:
-            return False
-
-        return (self.follow_info.follow_status or 0) >= 2
+        # ``follow_status`` is typed ``int`` (not Optional) in v2; the legacy
+        # None-guard is redundant. ``follow_status >= 2`` matches the
+        # MUTUAL_FOLLOW value.
+        return self.follow_info.follow_status >= 2
 
     def _get_all_badge_info(self) -> List[Tuple[str, str]]:
         """
@@ -182,11 +182,13 @@ class ExtendedUser(User):
         return self._get_badge_level("FANS")
 
     @property
-    def member_rank(self) -> Optional[str]:
+    def member_rank(self) -> Optional[int]:
         """
-        What is the user's "member rank" in the stream? These are roman numerals.
+        What is the user's "member rank" in the stream?
 
-        :return: The parsed member rank from the member level badge
+        Historically these were roman-numeral strings; in v2 the badge
+        carries the integer level directly, so this returns the parsed
+        level (an alias of ``member_level``).
 
         """
 

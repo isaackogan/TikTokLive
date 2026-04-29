@@ -40,13 +40,13 @@ class BaseEvent:
     @property
     def as_base64(self) -> str:
         """
-        Base64 encoded bytes
+        Base64 encoded bytes (empty string if no payload)
 
         :return: Base64 encoded bytes
 
         """
 
-        return base64.b64encode(self.bytes).decode()
+        return base64.b64encode(self.bytes or b"").decode()
 
     @property
     def size(self) -> int:

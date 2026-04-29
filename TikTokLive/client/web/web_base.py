@@ -6,6 +6,7 @@ from typing import Any, Dict, Literal, Optional
 import httpx
 from httpx import Cookies, AsyncClient, Proxy, URL
 
+from TikTokLive.client.errors import UnexpectedSignatureError
 from TikTokLive.client.logger import TikTokLiveLogHandler
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.web.web_signer import TikTokSigner, SignData
@@ -120,13 +121,13 @@ class TikTokHTTPClient:
 
         """
 
-        # Set the target datacenter
-        self.cookies.set("tt-target-idc", tt_target_idc)
-
-        # Set the cookies
-        self.cookies.set("sessionid", session_id)
-        self.cookies.set("sessionid_ss", session_id)
-        self.cookies.set("sid_tt", session_id)
+        # ``set_session(None, None)`` clears the cookies; httpx's Cookies.set
+        # only accepts ``str``, so coerce to empty string when None. Empty
+        # string clears the cookie value just like None would.
+        self.cookies.set("tt-target-idc", tt_target_idc or "")
+        self.cookies.set("sessionid", session_id or "")
+        self.cookies.set("sessionid_ss", session_id or "")
+        self.cookies.set("sid_tt", session_id or "")
 
         # Set logged in status
         self.params['user_is_login'] = "true" if session_id else "false"
@@ -149,28 +150,33 @@ class TikTokHTTPClient:
             base_params: bool = True
     ) -> URL:
 
-        # Built the dict of URL params that were PASSED
+        # ``url`` may be either a string or an httpx URL; coerce once so the
+        # downstream string ops are well-typed.
+        url_str: str = str(url)
+
+        # Build the dict of URL params that were PASSED
+        url_params: Dict[str, Any] = {}
         try:
-            url_params = url.split("?")[1].split("&")
-            url_params = {param.split("=")[0]: param.split("=")[1] for param in url_params}
+            for pair in url_str.split("?")[1].split("&"):
+                key, _, value = pair.partition("=")
+                url_params[key] = value
         except IndexError:
-            url_params = {}
+            pass
 
         try:
-            url_base = url.split("?")[0]
+            url_base = url_str.split("?")[0]
         except IndexError:
-            url_base = url
+            url_base = url_str
 
         # If base_params is True, include them, but make sure the current url_params override
         if base_params:
-            url_params = {**(self.params if base_params else {}), **url_params}
+            url_params = {**self.params, **url_params}
 
         # Now include extra params
-        url_params = {**url_params, **(extra_params or dict())}
+        url_params = {**url_params, **(extra_params or {})}
 
         # Rebuild the URL
-        url = url_base + "?" + "&".join([f"{key}={value}" for key, value in url_params.items()])
-        return httpx.URL(url)
+        return httpx.URL(url_base + "?" + "&".join(f"{k}={v}" for k, v in url_params.items()))
 
     async def build_request(
             self,
@@ -223,17 +229,21 @@ class TikTokHTTPClient:
 
         # Sign the URL & update the request accordingly
         if sign_url:
-            sign_data: SignData = (
-                await self._tiktok_signer.webcast_sign(
-                    url=request.url,
-                    method=sign_url_method or method,
-                    sign_url_type=sign_url_type if sign_url_type else "xhr",
-                    payload=sign_url_payload,
-                    user_agent=self.headers['User-Agent'],
-                    session_id=self.cookies.get('sessionid'),
-                    tt_target_idc=self.cookies.get('tt-target-idc'),
+            sign_response = await self._tiktok_signer.webcast_sign(
+                url=request.url,
+                method=sign_url_method or method,
+                sign_url_type=sign_url_type if sign_url_type else "xhr",
+                payload=sign_url_payload or "",
+                user_agent=self.headers['User-Agent'],
+                session_id=self.cookies.get('sessionid'),
+                tt_target_idc=self.cookies.get('tt-target-idc'),
+            )
+            sign_data: Optional[SignData] = sign_response['response']
+            if sign_data is None:
+                raise UnexpectedSignatureError(
+                    f"Sign server returned no signature payload (code={sign_response.get('code')}, "
+                    f"message={sign_response.get('message')!r})."
                 )
-            )['response']
             request.headers['User-Agent'] = sign_data['userAgent']
             request.url = httpx.URL(url=sign_data['signedUrl'])
 

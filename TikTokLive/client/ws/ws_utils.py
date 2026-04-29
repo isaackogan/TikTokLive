@@ -2,6 +2,7 @@ import logging
 from gzip import GzipFile
 from http.cookies import SimpleCookie
 from io import BytesIO
+from typing import Mapping
 
 from TikTokLive.client.errors import InitialCursorMissingError, WebsocketURLMissingError
 from TikTokLive.client.logger import TikTokLiveLogHandler
@@ -100,9 +101,12 @@ def extract_webcast_response_message(push_frame: WebcastPushFrame, logger: loggi
     return ProtoMessageFetchResult().parse(decompressed_bytes)
 
 
-def extract_websocket_options(headers: dict) -> dict[str, str]:
+def extract_websocket_options(headers: Mapping[str, str]) -> dict[str, str]:
     """
-    Options are a cookie-style string, so we parse with SimpleCookie from the stdlib
+    Options are a cookie-style string, so we parse with SimpleCookie from the stdlib.
+
+    Accepts any string→string mapping so this works with raw dicts as well as
+    websockets' ``Headers`` / httpx ``Headers`` objects.
 
     """
 

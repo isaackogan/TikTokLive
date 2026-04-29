@@ -211,6 +211,10 @@ class SignatureRateLimitError(SignAPIError):
 
         """
 
+        # ``self.response`` comes from the SignAPIError base which types it
+        # as Optional. SignatureRateLimitError always constructs with a
+        # response (see __init__ signature), so the assertion is honest.
+        assert self.response is not None
         return self.calculate_retry_after(response=self.response)
 
     @cached_property
@@ -220,7 +224,8 @@ class SignatureRateLimitError(SignAPIError):
 
         """
 
-        return self.response.headers.get("RateLimit-Reset")
+        assert self.response is not None
+        return int(self.response.headers["RateLimit-Reset"])
 
 
 class UnexpectedSignatureError(SignAPIError):

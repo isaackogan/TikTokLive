@@ -3,7 +3,7 @@ import logging
 import os
 import sys
 import traceback
-from typing import Optional, List, Any, cast, Dict
+from typing import Optional, List, Any, Dict
 
 
 class LogLevel(enum.Enum):
@@ -28,7 +28,7 @@ class LogLevel(enum.Enum):
 
         """
 
-        return cast(int, super().value)
+        return super().value
 
 
 class TikTokLiveLogHandler(logging.StreamHandler):

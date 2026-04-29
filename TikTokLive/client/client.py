@@ -84,7 +84,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         self.ignore_broken_payload: bool = False
 
         # Properties
-        self._is_user_id: bool = is_user_id
+        self._is_user_id: bool = bool(is_user_id)
         self._ws_platform: WebcastPlatform = platform
         self._unique_id: str = self.parse_unique_id(unique_id)
         self._room_id: Optional[int] = None
@@ -93,16 +93,18 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         self._event_loop_task: Optional[Task] = None
 
     @classmethod
-    def parse_unique_id(cls, unique_id: str) -> str:
+    def parse_unique_id(cls, unique_id: str | int) -> str:
         """
-        Parse unique ID from a generic string
+        Parse unique ID from a generic string. Numeric ids (int or numeric
+        string) are stringified verbatim; URL-style strings are stripped to
+        the bare ``unique_id``.
 
         :param unique_id: The unique_id to parse
         :return: The parsed unique_id
 
         """
 
-        return unique_id \
+        return str(unique_id) \
             .replace(WebDefaults.tiktok_app_url + "/", "") \
             .replace("/live", "") \
             .replace("@", "", 1) \
@@ -294,7 +296,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         self,
         event: Type[Event],
         f: EventHandler,
-    ) -> Handler:
+    ) -> Handler:  # type: ignore[type-var]
         """
         Method that can be used to register a Python function as an event listener
 
@@ -333,6 +335,9 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         """
 
+        # By this point ``start`` has resolved the room ID; mypy can't follow.
+        assert self._room_id is not None
+
         # Handle websocket connection
         async for webcast_response in self._ws.connect(
                 initial_webcast_response=initial_webcast_response,
@@ -363,6 +368,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # The first event means we connected
         if webcast_response.is_first:
+            assert self._room_id is not None
             yield ConnectEvent(unique_id=self._unique_id, room_id=self._room_id)
 
         # Yield events
@@ -388,8 +394,12 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self._logger.warning("Received a null ProtoMessageFetchResultMessage from the Webcast server.")
             return []
 
-        # Get the proto mapping for proto-events
-        event_type: Optional[Type[ProtoEvent]] = EVENT_MAPPINGS.get(webcast_response_message.type)
+        # ``EVENT_MAPPINGS`` is annotated as ``Dict[str, Type[BaseEvent]]`` for
+        # the codegen template's sake; every value is in fact a ProtoEvent
+        # subclass, so the cast at use-time is honest.
+        event_type: Optional[Type[ProtoEvent]] = (
+            EVENT_MAPPINGS.get(webcast_response_message.type)  # type: ignore[assignment]
+        )
         response_event: Event = WebsocketResponseEvent().from_dict(webcast_response_message.to_dict())
 
         # If the event is not tracked, return

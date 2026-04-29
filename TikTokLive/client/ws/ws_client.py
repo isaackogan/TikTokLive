@@ -34,7 +34,7 @@ class WebcastWSClient:
         self._ws_kwargs: dict = ws_kwargs or {}
         self._logger = TikTokLiveLogHandler.get_logger()
         self._ping_loop: Optional[Task] = None
-        self._ws_proxy: Optional[WebcastProxy] = ws_proxy or ws_kwargs.get("proxy")
+        self._ws_proxy: Optional[WebcastProxy] = ws_proxy or self._ws_kwargs.get("proxy")
         self._connect_generator_class: Union[Type[WebcastConnect], Type[WebcastProxyConnect]] = WebcastProxyConnect if self._ws_proxy else WebcastConnect
         self._connection_generator: Optional[WebcastConnect] = None
 
@@ -63,7 +63,7 @@ class WebcastWSClient:
 
         """
 
-        return self.ws and self.ws.open
+        return bool(self.ws and self.ws.open)
 
     async def send(self, message: Union[bytes, Message]) -> None:
         """
@@ -78,10 +78,13 @@ class WebcastWSClient:
             self._logger.warning("Attempted to send a message without an open WebSocket connection.")
             return
 
-        # Log outbound data
-        self._logger.debug(f"Sending data to Webcast Server... {message}")
+        # Log outbound data (use !r for bytes so we get the literal repr)
+        self._logger.debug(f"Sending data to Webcast Server... {message!r}")
 
-        # Send the data (+ Serialize the data if it's a protobuf message)
+        # Send the data (+ Serialize the data if it's a protobuf message).
+        # ``connected`` above guarantees self.ws is not None at this point;
+        # mypy can't follow the property-based guard.
+        assert self.ws is not None
         await self.ws.send(
             message=bytes(message) if isinstance(message, Message) else message
         )
@@ -126,6 +129,8 @@ class WebcastWSClient:
         if not self.connected:
             return
 
+        # ``connected`` guarantees self.ws is not None; mypy can't follow.
+        assert self.ws is not None
         await self.ws.close()
 
     def get_ws_cookie_string(self, cookies: httpx.Cookies) -> str:
@@ -258,8 +263,10 @@ class WebcastWSClient:
             if webcast_response.is_first:
                 await self.switch_rooms(room_id=room_id)
 
-            # Ack when necessary
-            if webcast_response.needs_ack:
+            # Ack when necessary. The very first iteration yields the initial
+            # response from the sign server with ``webcast_push_frame=None`` —
+            # there's nothing to ack against in that case.
+            if webcast_response.needs_ack and webcast_push_frame is not None:
                 await self.send_ack(webcast_response=webcast_response, webcast_push_frame=webcast_push_frame)
 
             # Yield the response
@@ -269,12 +276,15 @@ class WebcastWSClient:
             if not self.connected:
                 break
 
-        # Cancel the ping loop if it hasn't started to
-        if not self._ping_loop.done() and not self._ping_loop.cancelled():
-            self._ping_loop.cancel()
+        # The ping loop is started by switch_rooms() during the first
+        # iteration of the loop above, so by the time we get here it's
+        # always set. mypy can't infer that across method calls.
+        if self._ping_loop is not None:
+            if not self._ping_loop.done() and not self._ping_loop.cancelled():
+                self._ping_loop.cancel()
 
-        if not self._ping_loop.done():
-            await self._ping_loop
+            if not self._ping_loop.done():
+                await self._ping_loop
 
         # Reset internal state
         self._ping_loop = None
