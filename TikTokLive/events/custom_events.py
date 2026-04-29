@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Type, Union, Optional
 
 from TikTokLive.events.base_event import BaseEvent
-from TikTokLive.events.proto_events import SocialEvent, ControlEvent, BarrageEvent
+from TikTokLive.events.proto_events import SocialEvent, ControlEvent, BarrageEvent, EnvelopeEvent
 from TikTokLive.proto import ProtoMessageFetchResult
 
 
@@ -24,7 +24,32 @@ class UnknownEvent(WebsocketResponseEvent):
 
 class SuperFanEvent(BarrageEvent):
     """
-    A BarrageEvent, but we give it its own class for clarity's sake.
+    Emitted when a viewer becomes a super fan of the streamer.
+
+    Subset of ``BarrageEvent`` whose ``content.display_type`` carries the
+    ``ttlive_superfan`` marker without the ``join`` qualifier.
+
+    """
+
+
+class SuperFanJoinEvent(BarrageEvent):
+    """
+    Emitted when an existing super fan joins the live (distinct from
+    ``SuperFanEvent`` which fires when a viewer first becomes a super fan).
+
+    Subset of ``BarrageEvent`` whose ``content.display_type`` carries
+    ``ttlive_superfan`` together with a ``join`` qualifier.
+
+    """
+
+
+class SuperFanBoxEvent(EnvelopeEvent):
+    """
+    Emitted when a super-fan envelope (gift box) is delivered.
+
+    Subset of ``EnvelopeEvent`` matched either by
+    ``common.display_text.display_type`` carrying ``ttlive_superfanbox``,
+    or by ``envelope_info.business_type == BusinessTypeSuperFanBox`` (= 19).
 
     """
 
@@ -107,7 +132,9 @@ CustomEvent: Type = Union[
     LivePauseEvent,
     LiveUnpauseEvent,
     DisconnectEvent,
-    SuperFanEvent
+    SuperFanEvent,
+    SuperFanJoinEvent,
+    SuperFanBoxEvent,
 ]
 
 __all__ = [
@@ -120,5 +147,8 @@ __all__ = [
     "LivePauseEvent",
     "LiveUnpauseEvent",
     "CustomEvent",
-    "DisconnectEvent"
+    "DisconnectEvent",
+    "SuperFanEvent",
+    "SuperFanJoinEvent",
+    "SuperFanBoxEvent",
 ]
