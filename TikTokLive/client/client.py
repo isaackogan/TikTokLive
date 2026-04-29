@@ -7,6 +7,7 @@ from logging import Logger
 from typing import Optional, Type, Dict, Any, Union, Callable, List, Coroutine, AsyncIterator
 
 import httpx
+from TikTokLiveProto.generated.v2 import EnvelopeBusinessType
 from pyee.asyncio import AsyncIOEventEmitter
 from pyee.base import Handler
 
@@ -20,11 +21,11 @@ from TikTokLive.client.ws.ws_client import WebcastWSClient
 from TikTokLive.client.ws.ws_connect import WebcastProxy
 from TikTokLive.events import Event, EventHandler, ControlEvent
 from TikTokLive.events.custom_events import WebsocketResponseEvent, FollowEvent, ShareEvent, LiveEndEvent, \
-    DisconnectEvent, LivePauseEvent, LiveUnpauseEvent, UnknownEvent, CustomEvent, ConnectEvent, SuperFanEvent
-from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, BarrageEvent
+    DisconnectEvent, LivePauseEvent, LiveUnpauseEvent, UnknownEvent, CustomEvent, ConnectEvent, SuperFanEvent, \
+    SuperFanJoinEvent, SuperFanBoxEvent
+from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, BarrageEvent, EnvelopeEvent
 from TikTokLive.proto import ProtoMessageFetchResult, ProtoMessageFetchResultBaseProtoMessage
 from TikTokLive.proto.custom_proto import ControlAction
-
 
 class TikTokLiveClient(AsyncIOEventEmitter):
     """
@@ -377,7 +378,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             return []
 
         # Get the proto mapping for proto-events
-        event_type: Optional[Type[ProtoEvent]] = EVENT_MAPPINGS.get(webcast_response_message.method)
+        event_type: Optional[Type[ProtoEvent]] = EVENT_MAPPINGS.get(webcast_response_message.type)
         response_event: Event = WebsocketResponseEvent().from_dict(webcast_response_message.to_dict())
 
         # If the event is not tracked, return
@@ -423,8 +424,36 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         """
 
-        if isinstance(event, BarrageEvent) and "ttlive_superFan" in event.content.key:
-            return SuperFanEvent().parse(response.payload)
+        # SuperFanEvent / SuperFanJoinEvent — rooted in BarrageMessage. The
+        # marker can land on either ``content.display_type`` or
+        # ``common_barrage_content.display_type``, so we scan both. The more
+        # specific ``ttlive_superfan_commentnotif_superfanjoined`` is checked
+        # first; everything else carrying ``ttlive_superfan`` is the generic
+        # "became a super fan" event. Mirrors the JS connector exactly.
+        if isinstance(event, BarrageEvent):
+            display_types = [
+                dt.lower()
+                for dt in (
+                    getattr(event.content, "display_type", None),
+                    getattr(event.common_barrage_content, "display_type", None),
+                )
+                if isinstance(dt, str) and dt
+            ]
+            if any("ttlive_superfan_commentnotif_superfanjoined" in dt for dt in display_types):
+                return SuperFanJoinEvent().parse(response.payload)
+            if any("ttlive_superfan" in dt for dt in display_types):
+                return SuperFanEvent().parse(response.payload)
+
+        # SuperFanBoxEvent — envelope variant. Match either the displayType
+        # marker or the explicit business_type enum, mirroring the JS connector.
+        if isinstance(event, EnvelopeEvent):
+            envelope_dt = (event.common.display_text.display_type or "").lower()
+            business_type = getattr(event.envelope_info, "business_type", None)
+            if (
+                "ttlive_superfanbox" in envelope_dt
+                or business_type == EnvelopeBusinessType.BusinessTypeSuperFanBox
+            ):
+                return SuperFanBoxEvent().parse(response.payload)
 
         # LiveEndEvent, LivePauseEvent, LiveUnpauseEvent
         if isinstance(event, ControlEvent):
@@ -442,11 +471,11 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             return None
 
         # FollowEvent
-        if "follow" in event.base_message.display_text.key:
+        if "follow" in (event.common.display_text.display_type or ""):
             return FollowEvent().parse(response.payload)
 
         # ShareEvent
-        if "share" in event.base_message.display_text.key:
+        if "share" in (event.common.display_text.display_type or ""):
             return ShareEvent().parse(response.payload)
 
         # Not a custom event

@@ -26,8 +26,9 @@ class SuperFanEvent(BarrageEvent):
     """
     Emitted when a viewer becomes a super fan of the streamer.
 
-    Subset of ``BarrageEvent`` whose ``content.display_type`` carries the
-    ``ttlive_superfan`` marker without the ``join`` qualifier.
+    Subset of ``BarrageEvent`` matched when ``content.display_type`` or
+    ``common_barrage_content.display_type`` carries the ``ttlive_superfan``
+    marker (and is not the more specific "joined" variant).
 
     """
 
@@ -37,8 +38,9 @@ class SuperFanJoinEvent(BarrageEvent):
     Emitted when an existing super fan joins the live (distinct from
     ``SuperFanEvent`` which fires when a viewer first becomes a super fan).
 
-    Subset of ``BarrageEvent`` whose ``content.display_type`` carries
-    ``ttlive_superfan`` together with a ``join`` qualifier.
+    Subset of ``BarrageEvent`` matched when ``content.display_type`` or
+    ``common_barrage_content.display_type`` contains
+    ``ttlive_superfan_commentnotif_superfanjoined``.
 
     """
 

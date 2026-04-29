@@ -13,8 +13,7 @@ from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults, CLIENT_NAME
 from TikTokLive.client.web.web_utils import check_authenticated_session
 from TikTokLive.client.ws.ws_utils import extract_webcast_response_message
-from TikTokLive.proto import ProtoMessageFetchResult
-from TikTokLive.proto.custom_extras import WebcastPushFrame
+from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame
 
 
 class WebcastPlatform(enum.Enum):

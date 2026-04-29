@@ -3,2164 +3,318 @@
 # SERIOUSLY!
 # I MEAN IT!
 
-from TikTokLive.proto.tiktok_proto import *
-from TikTokLive.proto.custom_proto import *
+from typing import Dict, Optional, Type, Union
+
+import betterproto
+
 from .base_event import BaseEvent
-from typing import Type, Union, Dict
-from typing_extensions import deprecated
-import warnings
-from typing import Union
-from ..proto import Gift
+from TikTokLive.proto import *  # noqa: F401,F403
 
-
-
-class AccessControlEvent(BaseEvent, WebcastAccessControlMessage):
-    """
-    AccessControlEvent
-    """
-
-
-class AccessRecallEvent(BaseEvent, WebcastAccessRecallMessage):
-    """
-    AccessRecallEvent
-    """
-
-
-class ActivityQuizCardEvent(BaseEvent, WebcastActivityQuizCardMessage):
-    """
-    ActivityQuizCardEvent
-    """
-
-
-class ActivityQuizUserIdentityEvent(BaseEvent, WebcastActivityQuizUserIdentityMessage):
-    """
-    ActivityQuizUserIdentityEvent
-    """
-
-
-class AiLiveSummaryEvent(BaseEvent, WebcastAiLiveSummaryMessage):
-    """
-    AiLiveSummaryEvent
-    """
-
-
-class AiSummaryEvent(BaseEvent, WebcastAiSummaryMessage):
-    """
-    AiSummaryEvent
-    """
-
-
-class AnchorGetSubQuotaEvent(BaseEvent, WebcastAnchorGetSubQuotaMessage):
-    """
-    AnchorGetSubQuotaEvent
-    """
-
-
-class AnchorGrowLevelEvent(BaseEvent, WebcastAnchorGrowLevelMessage):
-    """
-    AnchorGrowLevelEvent
-    """
-
-
-class AnchorReminderWordEvent(BaseEvent, WebcastAnchorReminderWordMessage):
-    """
-    AnchorReminderWordEvent
-    """
-
-
-class AnchorTaskReminderEvent(BaseEvent, WebcastAnchorTaskReminderMessage):
-    """
-    AnchorTaskReminderEvent
-    """
-
-
-class AnchorToolModificationEvent(BaseEvent, WebcastAnchorToolModificationMessage):
-    """
-    AnchorToolModificationEvent
-    """
-
-
-class AssetEvent(BaseEvent, WebcastAssetMessage):
-    """
-    AssetEvent
-    """
-
-    to_user: ExtendedUser
-    from_user: ExtendedUser
-
-
-class AudienceReserveUserStateEvent(BaseEvent, WebcastAudienceReserveUserStateMessage):
-    """
-    AudienceReserveUserStateEvent
-    """
-
-
-class AuthorizationNotifyEvent(BaseEvent, WebcastAuthorizationNotifyMessage):
-    """
-    AuthorizationNotifyEvent
-    """
-
-
-class AvatarGenerateResultEvent(BaseEvent, WebcastAvatarGenerateResultMessage):
-    """
-    AvatarGenerateResultEvent
-    """
-
-
-class AvatarReportDeleteEvent(BaseEvent, WebcastAvatarReportDeleteMessage):
-    """
-    AvatarReportDeleteEvent
-    """
-
-
-class AvatarStyleResultEvent(BaseEvent, WebcastAvatarStyleResultMessage):
-    """
-    AvatarStyleResultEvent
-    """
-
-
-class BaLeadGenEvent(BaseEvent, WebcastBaLeadGenMessage):
-    """
-    BaLeadGenEvent
-    """
-
-
-class BackpackEvent(BaseEvent, WebcastBackpackMessage):
-    """
-    BackpackEvent
-    """
 
 
 class BarrageEvent(BaseEvent, WebcastBarrageMessage):
-    """
-    BarrageEvent
-
-    """
-
-
-class BizStickerEvent(BaseEvent, WebcastBizStickerMessage):
-    """
-    BizStickerEvent
-    """
-
-
-class BoostCardEvent(BaseEvent, WebcastBoostCardMessage):
-    """
-    BoostCardEvent
-    """
-
-
-class BoostedUsersEvent(BaseEvent, WebcastBoostedUsersMessage):
-    """
-    BoostedUsersEvent
-    """
-
-
-class BottomEvent(BaseEvent, WebcastBottomMessage):
-    """
-    BottomEvent
-    """
-
-
-class CapsuleEvent(BaseEvent, WebcastCapsuleMessage):
-    """
-    CapsuleEvent
-    """
+    """BarrageEvent."""
 
 
 class CaptionEvent(BaseEvent, WebcastCaptionMessage):
-    """
-    CaptionEvent
-
-    """
-
-
-class CohostReserveEvent(BaseEvent, WebcastCohostReserveMessage):
-    """
-    CohostReserveEvent
-    """
-
-
-class CohostTopicEvent(BaseEvent, WebcastCohostTopicMessage):
-    """
-    CohostTopicEvent
-    """
-
-
-class ColdStartEvent(BaseEvent, WebcastColdStartMessage):
-    """
-    ColdStartEvent
-    """
+    """CaptionEvent."""
 
 
 class CommentEvent(BaseEvent, WebcastChatMessage):
-    """
-    CommentEvent
-
-    """
-
-    user_info: ExtendedUser
+    """CommentEvent."""
+    user: ExtendedUser
     at_user: ExtendedUser
 
     @property
     def user_is_super_fan(self) -> bool:
-        """Return whether the user is a TikTok super fan"""
+        """
+        Return whether the user is a TikTok super fan.
+        """
         return self.user_identity.is_subscriber_of_anchor
-
-    @property
-    @deprecated("Use 'user_info' property instead.")
-    def user(self) -> ExtendedUser:
-        """Backwards compatibility for user"""
-        return ExtendedUser.from_user(self.user_info)
-
-    @property
-    def comment(self) -> str:
-        """
-        The user comment content
-
-        :return: Comment string
-
-        """
-
-        return self.content
-
-
-class CommentTrayEvent(BaseEvent, WebcastCommentTrayMessage):
-    """
-    CommentTrayEvent
-    """
-
-
-class CommentsEvent(BaseEvent, WebcastCommentsMessage):
-    """
-    CommentsEvent
-    """
-
-    user: ExtendedUser
-
-
-class CommercialCustomEvent(BaseEvent, WebcastCommercialCustomMessage):
-    """
-    CommercialCustomEvent
-    """
-
-
-class CommonPopupEvent(BaseEvent, WebcastCommonPopupMessage):
-    """
-    CommonPopupEvent
-    """
-
-
-class CommonToastEvent(BaseEvent, WebcastCommonToastMessage):
-    """
-    CommonToastEvent
-    """
-
-
-class CompetitionEvent(BaseEvent, WebcastCompetitionMessage):
-    """
-    CompetitionEvent
-    """
 
 
 class ControlEvent(BaseEvent, WebcastControlMessage):
-    """
-    ControlEvent
-
-    """
-
-    # Override the action field to use the ControlAction enum
+    """ControlEvent."""
     action: ControlAction = betterproto.enum_field(2)
 
 
-class CountdownEvent(BaseEvent, WebcastCountdownMessage):
-    """
-    CountdownEvent
-    """
-
-
-class CountdownForAllEvent(BaseEvent, WebcastCountdownForAllMessage):
-    """
-    CountdownForAllEvent
-    """
-
-
-class DiggEvent(BaseEvent, WebcastDiggMessage):
-    """
-    DiggEvent
-    """
-
-    user: ExtendedUser
-
-
-class DonationEvent(BaseEvent, WebcastDonationMessage):
-    """
-    DonationEvent
-    """
-
-
-class DonationInfoEvent(BaseEvent, WebcastDonationInfoMessage):
-    """
-    DonationInfoEvent
-    """
-
-
-class DonationStickerModifyMethodEvent(BaseEvent, WebcastDonationStickerModifyMethod):
-    """
-    DonationStickerModifyMethodEvent
-    """
-
-
-class EcBarrageEvent(BaseEvent, WebcastEcBarrageMessage):
-    """
-    EcBarrageEvent
-    """
-
-
-class EcDrawEvent(BaseEvent, WebcastEcDrawMessage):
-    """
-    EcDrawEvent
-    """
-
-
-class EcTaskRefreshCouponListEvent(BaseEvent, WebcastEcTaskRefreshCouponListMessage):
-    """
-    EcTaskRefreshCouponListEvent
-    """
-
-
-class EffectControlEvent(BaseEvent, WebcastEffectControlMessage):
-    """
-    EffectControlEvent
-    """
-
-
-class EffectPreloadingEvent(BaseEvent, WebcastEffectPreloadingMessage):
-    """
-    EffectPreloadingEvent
-    """
-
-
 class EmoteChatEvent(BaseEvent, WebcastEmoteChatMessage):
-    """
-    EmoteChatEvent
-
-    """
-
+    """EmoteChatEvent."""
     user: ExtendedUser
 
 
 class EnvelopeEvent(BaseEvent, WebcastEnvelopeMessage):
-    """
-    EnvelopeEvent
-
-    """
-
-
-class EnvelopePortalEvent(BaseEvent, WebcastEnvelopePortalMessage):
-    """
-    EnvelopePortalEvent
-    """
-
-
-class EpiEvent(BaseEvent, WebcastEpiMessage):
-    """
-    EpiEvent
-    """
-
-
-class EventEvent(BaseEvent, WebcastEventMessage):
-    """
-    EventEvent
-    """
-
-
-class FansEventEvent(BaseEvent, WebcastFansEventMessage):
-    """
-    FansEventEvent
-    """
-
-    user: ExtendedUser
-
-
-class FeedUserRoomMonitorEvent(BaseEvent, WebcastFeedUserRoomMonitorMessage):
-    """
-    FeedUserRoomMonitorEvent
-    """
-
-
-class FollowCardEvent(BaseEvent, WebcastFollowCardMessage):
-    """
-    FollowCardEvent
-    """
-
-
-class ForceFetchRecommendationsEvent(BaseEvent, WebcastForceFetchRecommendationsMessage):
-    """
-    ForceFetchRecommendationsEvent
-    """
-
-
-class GameEmoteUpdateEvent(BaseEvent, WebcastGameEmoteUpdateMessage):
-    """
-    GameEmoteUpdateEvent
-    """
-
-
-class GameGuessPinCardEvent(BaseEvent, WebcastGameGuessPinCardMessage):
-    """
-    GameGuessPinCardEvent
-    """
-
-
-class GameGuessToastEvent(BaseEvent, WebcastGameGuessToastMessage):
-    """
-    GameGuessToastEvent
-    """
-
-
-class GameGuessWidgetsEvent(BaseEvent, WebcastGameGuessWidgetsMessage):
-    """
-    GameGuessWidgetsEvent
-    """
-
-
-class GameMomentEvent(BaseEvent, WebcastGameMomentMessage):
-    """
-    GameMomentEvent
-    """
-
-
-class GameOcrPingEvent(BaseEvent, WebcastGameOcrPingMessage):
-    """
-    GameOcrPingEvent
-    """
-
-
-class GameRankNotifyEvent(BaseEvent, WebcastGameRankNotifyMessage):
-    """
-    GameRankNotifyEvent
-    """
-
-
-class GameRecommendCreateGuessEvent(BaseEvent, WebcastGameRecommendCreateGuessMessage):
-    """
-    GameRecommendCreateGuessEvent
-    """
-
-
-class GameReqSetGuessEvent(BaseEvent, WebcastGameReqSetGuessMessage):
-    """
-    GameReqSetGuessEvent
-    """
-
-
-class GameServerFeatureEvent(BaseEvent, WebcastGameServerFeatureMessage):
-    """
-    GameServerFeatureEvent
-    """
-
-
-class GameSettingChangeEvent(BaseEvent, WebcastGameSettingChangeMessage):
-    """
-    GameSettingChangeEvent
-    """
-
-
-class GiftBroadcastEvent(BaseEvent, WebcastGiftBroadcastMessage):
-    """
-    GiftBroadcastEvent
-    """
-
-
-class GiftCollectionUpdateEvent(BaseEvent, WebcastGiftCollectionUpdateMessage):
-    """
-    GiftCollectionUpdateEvent
-    """
-
-
-class GiftDynamicRestrictionEvent(BaseEvent, WebcastGiftDynamicRestrictionMessage):
-    """
-    GiftDynamicRestrictionEvent
-    """
+    """EnvelopeEvent."""
 
 
 class GiftEvent(BaseEvent, WebcastGiftMessage):
-    """
-    GiftEvent
-
-    """
-
-    from_user: ExtendedUser
+    """GiftEvent."""
+    user: ExtendedUser
+    gift_details: ExtendedGift
     to_user: ExtendedUser
-    m_gift: ExtendedGift
 
     @property
     def user_is_super_fan(self) -> bool:
-        """Return whether the user is a TikTok super fan"""
+        """
+        Return whether the user is a TikTok super fan.
+        """
         return self.user_identity.is_subscriber_of_anchor
 
     @property
     def gift(self) -> Gift:
         """
-        Get the gift object. m_gift is kind of a weird name, so, we'll just call it gift
-
-        :return: The gift object
-
+        Convenience accessor for the gift definition. v2 exposes it as
+        ``gift_details``; we keep ``gift`` for ergonomics.
         """
-
-        return self.m_gift
-
-    @property
-    def user(self):
-        """Backwards compatibility for user"""
-        return self.from_user
+        return self.gift_details
 
     @property
     def streaking(self) -> bool:
         """
-        Read the repeat_end to tell a user whether the gift is part of an ongoing streak
-
-        :return: Whether the user is currently engaged in a streak
-
+        Whether the user is currently engaged in a streak. False for
+        non-streakable gifts; otherwise the inverse of ``repeat_end``.
         """
-
         if not self.gift.streakable:
             return False
-
         return not bool(self.repeat_end)
 
     @property
     def value(self) -> Optional[float]:
         """
-        Get the USD value of a GiftEvent. If the gift is streakable, this will return None until the streak is over
-
-        :return: The value of the gift
-
+        USD value of this gift event. Returns None mid-streak so callers
+        do not double-count; the final non-streaking event carries the
+        full repeat_count.
         """
-
-        # Prevent double-count by only calculating for non-streaking gifts
         if self.streaking:
             return None
-
-        return self.repeat_count * self.gift.diamond_count * 0.005  # 0.005 is the conversion
-
-
-class GiftGalleryEvent(BaseEvent, WebcastGiftGalleryMessage):
-    """
-    GiftGalleryEvent
-    """
-
-    to_user: ExtendedUser
-    user: ExtendedUser
-
-
-class GiftGuideEvent(BaseEvent, WebcastGiftGuideMessage):
-    """
-    GiftGuideEvent
-    """
-
-
-class GiftNoticeEvent(BaseEvent, WebcastGiftNoticeMessage):
-    """
-    GiftNoticeEvent
-    """
-
-
-class GiftPanelUpdateEvent(BaseEvent, WebcastGiftPanelUpdateMessage):
-    """
-    GiftPanelUpdateEvent
-    """
-
-
-class GiftProgressEvent(BaseEvent, WebcastGiftProgressMessage):
-    """
-    GiftProgressEvent
-    """
-
-
-class GiftPromptEvent(BaseEvent, WebcastGiftPromptMessage):
-    """
-    GiftPromptEvent
-    """
-
-
-class GiftRecordCapsuleEvent(BaseEvent, WebcastGiftRecordCapsuleMessage):
-    """
-    GiftRecordCapsuleEvent
-    """
-
-
-class GiftUnlockEvent(BaseEvent, WebcastGiftUnlockMessage):
-    """
-    GiftUnlockEvent
-    """
-
-
-class GiftUpdateEvent(BaseEvent, WebcastGiftUpdateMessage):
-    """
-    GiftUpdateEvent
-    """
+        return self.repeat_count * self.gift.diamond_count * 0.005
 
 
 class GoalUpdateEvent(BaseEvent, WebcastGoalUpdateMessage):
-    """
-    GoalUpdateEvent
-
-    """
+    """GoalUpdateEvent."""
 
 
-class GoodyBagEvent(BaseEvent, WebcastGoodyBagMessage):
-    """
-    GoodyBagEvent
-    """
-
-
-class GreetingEvent(BaseEvent, WebcastGreetingMessage):
-    """
-    GreetingEvent
-    """
-
-
-class GroupLiveMemberNotifyEvent(BaseEvent, WebcastGroupLiveMemberNotifyMessage):
-    """
-    GroupLiveMemberNotifyEvent
-    """
-
-
-class GuessQuestionAuditEvent(BaseEvent, WebcastGuessQuestionAuditMessage):
-    """
-    GuessQuestionAuditEvent
-    """
-
-
-class GuestInviteEvent(BaseEvent, WebcastGuestInviteMessage):
-    """
-    GuestInviteEvent
-    """
-
-
-class GuestInviteGuideEvent(BaseEvent, WebcastGuestInviteGuideMessage):
-    """
-    GuestInviteGuideEvent
-    """
-
-
-class GuestShowdownEvent(BaseEvent, WebcastGuestShowdownMessage):
-    """
-    GuestShowdownEvent
-    """
-
-
-class GuideEvent(BaseEvent, WebcastGuideMessage):
-    """
-    GuideEvent
-    """
-
-
-class GuideTaskEvent(BaseEvent, WebcastGuideTaskMessage):
-    """
-    GuideTaskEvent
-    """
-
-
-class HashtagEvent(BaseEvent, WebcastHashtagMessage):
-    """
-    HashtagEvent
-    """
-
-
-class HighlightFragementReadyEvent(BaseEvent, WebcastHighlightFragementReady):
-    """
-    HighlightFragementReadyEvent
-    """
-
-
-class HotRoomEvent(BaseEvent, WebcastHotRoomMessage):
-    """
-    HotRoomEvent
-    """
-
-
-class HourlyRankRewardEvent(BaseEvent, WebcastHourlyRankRewardMessage):
-    """
-    HourlyRankRewardEvent
-    """
+class HourlyRankEvent(BaseEvent, WebcastHourlyRankMessage):
+    """HourlyRankEvent."""
 
 
 class ImDeleteEvent(BaseEvent, WebcastImDeleteMessage):
-    """
-    ImDeleteEvent
-
-    """
+    """ImDeleteEvent."""
 
 
 class InRoomBannerEvent(BaseEvent, WebcastInRoomBannerMessage):
-    """
-    InRoomBannerEvent
-    """
-
-
-class InRoomBannerEventEvent(BaseEvent, WebcastInRoomBannerEvent):
-    """
-    InRoomBannerEventEvent
-    """
-
-
-class InRoomBannerRefreshEvent(BaseEvent, WebcastInRoomBannerRefreshMessage):
-    """
-    InRoomBannerRefreshEvent
-    """
-
-
-class InteractionHubGoalEvent(BaseEvent, WebcastInteractionHubGoalMessage):
-    """
-    InteractionHubGoalEvent
-    """
-
-
-class InteractiveEffectEvent(BaseEvent, WebcastInteractiveEffectMessage):
-    """
-    InteractiveEffectEvent
-    """
+    """InRoomBannerEvent."""
 
 
 class JoinEvent(BaseEvent, WebcastMemberMessage):
-    """
-    JoinEvent
-
-    """
-
-    operator: ExtendedUser
+    """JoinEvent."""
     user: ExtendedUser
-
-
-class KaraokeQueueEvent(BaseEvent, WebcastKaraokeQueueMessage):
-    """
-    KaraokeQueueEvent
-    """
-
-
-class KaraokeQueueListEvent(BaseEvent, WebcastKaraokeQueueListMessage):
-    """
-    KaraokeQueueListEvent
-    """
-
-
-class KaraokeRedDotEvent(BaseEvent, WebcastKaraokeRedDotMessage):
-    """
-    KaraokeRedDotEvent
-    """
-
-
-class KaraokeReqEvent(BaseEvent, WebcastKaraokeReqMessage):
-    """
-    KaraokeReqEvent
-    """
-
-
-class KaraokeSwitchEvent(BaseEvent, WebcastKaraokeSwitchMessage):
-    """
-    KaraokeSwitchEvent
-    """
-
-
-class KaraokeYouSingReqEvent(BaseEvent, WebcastKaraokeYouSingReqMessage):
-    """
-    KaraokeYouSingReqEvent
-    """
+    operator: ExtendedUser
 
 
 class LikeEvent(BaseEvent, WebcastLikeMessage):
-    """
-    LikeEvent
-
-    """
-
+    """LikeEvent."""
     user: ExtendedUser
-
-
-class LinkBusinessEvent(BaseEvent, WebcastLinkBusinessMessage):
-    """
-    LinkBusinessEvent
-    """
 
 
 class LinkEvent(BaseEvent, WebcastLinkMessage):
-    """
-    LinkEvent
-
-    """
+    """LinkEvent."""
 
 
 class LinkLayerEvent(BaseEvent, WebcastLinkLayerMessage):
-    """
-    LinkLayerEvent
-
-    """
-
-
-class LinkLayoutEvent(BaseEvent, WebcastLinkLayoutMessage):
-    """
-    LinkLayoutEvent
-    """
-
-
-class LinkMicAdEvent(BaseEvent, WebcastLinkMicAdMessage):
-    """
-    LinkMicAdEvent
-    """
-
-
-class LinkMicAnchorGuideEvent(BaseEvent, WebcastLinkMicAnchorGuideMessage):
-    """
-    LinkMicAnchorGuideEvent
-    """
-
-    user: ExtendedUser
+    """LinkLayerEvent."""
 
 
 class LinkMicArmiesEvent(BaseEvent, WebcastLinkMicArmies):
-    """
-    LinkMicArmiesEvent
-
-    """
+    """LinkMicArmiesEvent."""
 
 
 class LinkMicBattleEvent(BaseEvent, WebcastLinkMicBattle):
-    """
-    LinkMicBattleEvent
-
-    """
-
-
-class LinkMicBattleItemCardEvent(BaseEvent, WebcastLinkMicBattleItemCard):
-    """
-    LinkMicBattleItemCardEvent
-    """
+    """LinkMicBattleEvent."""
 
 
 class LinkMicBattlePunishFinishEvent(BaseEvent, WebcastLinkMicBattlePunishFinish):
-    """
-    LinkMicBattlePunishFinishEvent
-    """
-
-
-class LinkMicBattleVictoryLapEvent(BaseEvent, WebcastLinkMicBattleVictoryLap):
-    """
-    LinkMicBattleVictoryLapEvent
-    """
+    """LinkMicBattlePunishFinishEvent."""
 
 
 class LinkMicFanTicketMethodEvent(BaseEvent, WebcastLinkMicFanTicketMethod):
-    """
-    LinkMicFanTicketMethodEvent
-
-    """
+    """LinkMicFanTicketMethodEvent."""
 
 
 class LinkMicMethodEvent(BaseEvent, WebcastLinkMicMethod):
-    """
-    LinkMicMethodEvent
-
-    """
-
-
-class LinkMicSignalingMethodEvent(BaseEvent, WebcastLinkMicSignalingMethod):
-    """
-    LinkMicSignalingMethodEvent
-    """
-
-
-class LinkScreenChangeEvent(BaseEvent, WebcastLinkScreenChangeMessage):
-    """
-    LinkScreenChangeEvent
-    """
-
-
-class LinkStateEvent(BaseEvent, WebcastLinkStateMessage):
-    """
-    LinkStateEvent
-    """
-
-
-class LinkmicAnimationEvent(BaseEvent, WebcastLinkmicAnimationMessage):
-    """
-    LinkmicAnimationEvent
-    """
-
-
-class LinkmicAudienceNoticeEvent(BaseEvent, WebcastLinkmicAudienceNoticeMessage):
-    """
-    LinkmicAudienceNoticeEvent
-    """
-
-
-class LinkmicBattleNoticeEvent(BaseEvent, WebcastLinkmicBattleNoticeMessage):
-    """
-    LinkmicBattleNoticeEvent
-    """
+    """LinkMicMethodEvent."""
 
 
 class LinkmicBattleTaskEvent(BaseEvent, WebcastLinkmicBattleTaskMessage):
-    """
-    LinkmicBattleTaskEvent
-    """
-
-
-class LiveGameIntroEvent(BaseEvent, WebcastLiveGameIntroMessage):
-    """
-    LiveGameIntroEvent
-    """
-
-
-class LiveInfoAuditNoticeEvent(BaseEvent, WebcastLiveInfoAuditNoticeMessage):
-    """
-    LiveInfoAuditNoticeEvent
-    """
+    """LinkmicBattleTaskEvent."""
 
 
 class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
-    """
-    LiveIntroEvent
-
-    """
-
-    user: ExtendedUser
-
-
-class LiveJourneyEvent(BaseEvent, WebcastLiveJourneyMessage):
-    """
-    LiveJourneyEvent
-    """
-
-
-class LiveShowEvent(BaseEvent, WebcastLiveShowMessage):
-    """
-    LiveShowEvent
-    """
-
-
-class MarqueeAnnouncementEvent(BaseEvent, WebcastMarqueeAnnouncementMessage):
-    """
-    MarqueeAnnouncementEvent
-    """
+    """LiveIntroEvent."""
+    host: ExtendedUser
 
 
 class MessageDetectEvent(BaseEvent, WebcastMsgDetectMessage):
-    """
-    MessageDetectEvent
-
-    """
+    """MessageDetectEvent."""
 
 
-class MgPunishCenterActionEvent(BaseEvent, WebcastMgPunishCenterActionMessage):
-    """
-    MgPunishCenterActionEvent
-    """
-
-
-class MiddleTouchEvent(BaseEvent, WebcastMiddleTouchMessage):
-    """
-    MiddleTouchEvent
-    """
-
-
-class MultiGuestSuggestEvent(BaseEvent, WebcastMultiGuestSuggestMessage):
-    """
-    MultiGuestSuggestEvent
-    """
-
-
-class NewAnchorGuideEvent(BaseEvent, WebcastNewAnchorGuideMessage):
-    """
-    NewAnchorGuideEvent
-    """
-
-
-class NoticeEvent(BaseEvent, WebcastNoticeMessage):
-    """
-    NoticeEvent
-    """
-
-
-class NoticeboardEvent(BaseEvent, WebcastNoticeboardMessage):
-    """
-    NoticeboardEvent
-    """
-
-
-class NoticeboardReviewEvent(BaseEvent, WebcastNoticeboardReviewMessage):
-    """
-    NoticeboardReviewEvent
-    """
-
-
-class OChannelAnchorEvent(BaseEvent, WebcastOChannelAnchorMessage):
-    """
-    OChannelAnchorEvent
-    """
-
-
-class OChannelModifyEvent(BaseEvent, WebcastOChannelModifyMessage):
-    """
-    OChannelModifyEvent
-    """
-
-
-class OChannelUserEvent(BaseEvent, WebcastOChannelUserMessage):
-    """
-    OChannelUserEvent
-    """
-
-
-class OecLiveHotRoomEvent(BaseEvent, WebcastOecLiveHotRoomMessage):
-    """
-    OecLiveHotRoomEvent
-    """
-
-
-class OecLiveManagerEvent(BaseEvent, WebcastOecLiveManagerMessage):
-    """
-    OecLiveManagerEvent
-    """
-
-
-class PaidContentLiveShoppingEvent(BaseEvent, WebcastPaidContentLiveShoppingMessage):
-    """
-    PaidContentLiveShoppingEvent
-    """
-
-
-class PartnershipCardChangeEvent(BaseEvent, WebcastPartnershipCardChangeMessage):
-    """
-    PartnershipCardChangeEvent
-    """
-
-
-class PartnershipDownloadCountEvent(BaseEvent, WebcastPartnershipDownloadCountMessage):
-    """
-    PartnershipDownloadCountEvent
-    """
-
-
-class PartnershipDropsAnchorEvent(BaseEvent, WebcastPartnershipDropsAnchorMessage):
-    """
-    PartnershipDropsAnchorEvent
-    """
-
-
-class PartnershipDropsCardChangeEvent(BaseEvent, WebcastPartnershipDropsCardChangeMessage):
-    """
-    PartnershipDropsCardChangeEvent
-    """
-
-
-class PartnershipDropsUpdateEvent(BaseEvent, WebcastPartnershipDropsUpdateMessage):
-    """
-    PartnershipDropsUpdateEvent
-    """
-
-
-class PartnershipGameOfflineEvent(BaseEvent, WebcastPartnershipGameOfflineMessage):
-    """
-    PartnershipGameOfflineEvent
-    """
-
-
-class PartnershipPunishEvent(BaseEvent, WebcastPartnershipPunishMessage):
-    """
-    PartnershipPunishEvent
-    """
-
-
-class PartnershipTaskShowEvent(BaseEvent, WebcastPartnershipTaskShowMessage):
-    """
-    PartnershipTaskShowEvent
-    """
-
-
-class PerceptionEvent(BaseEvent, WebcastPerceptionMessage):
-    """
-    PerceptionEvent
-    """
-
-
-class PictionaryEndEvent(BaseEvent, WebcastPictionaryEndMessage):
-    """
-    PictionaryEndEvent
-    """
-
-
-class PictionaryExitEvent(BaseEvent, WebcastPictionaryExitMessage):
-    """
-    PictionaryExitEvent
-    """
-
-
-class PictionaryStartEvent(BaseEvent, WebcastPictionaryStartMessage):
-    """
-    PictionaryStartEvent
-    """
-
-
-class PictionaryUpdateEvent(BaseEvent, WebcastPictionaryUpdateMessage):
-    """
-    PictionaryUpdateEvent
-    """
-
-
-class PlayTogetherEvent(BaseEvent, WebcastPlayTogetherMessage):
-    """
-    PlayTogetherEvent
-    """
-
-
-class PlaybookEvent(BaseEvent, WebcastPlaybookMessage):
-    """
-    PlaybookEvent
-    """
+class OecLiveShoppingEvent(BaseEvent, WebcastOecLiveShoppingMessage):
+    """OecLiveShoppingEvent."""
 
 
 class PollEvent(BaseEvent, WebcastPollMessage):
-    """
-    PollEvent
-
-    """
-
-
-class PopularCardEvent(BaseEvent, WebcastPopularCardMessage):
-    """
-    PopularCardEvent
-    """
-
-
-class PortalEvent(BaseEvent, WebcastPortalMessage):
-    """
-    PortalEvent
-    """
-
-
-class PreviewGameMomentEvent(BaseEvent, WebcastPreviewGameMomentMessage):
-    """
-    PreviewGameMomentEvent
-    """
-
-
-class PrivilegeAdvanceEvent(BaseEvent, WebcastPrivilegeAdvanceMessage):
-    """
-    PrivilegeAdvanceEvent
-    """
-
-
-class PrivilegeDynamicEffectEvent(BaseEvent, WebcastPrivilegeDynamicEffectMessage):
-    """
-    PrivilegeDynamicEffectEvent
-    """
-
-
-class ProjectDModifyH5Event(BaseEvent, WebcastProjectDModifyH5):
-    """
-    ProjectDModifyH5Event
-    """
-
-
-class PromoteAdStatusEvent(BaseEvent, WebcastPromoteAdStatusMessage):
-    """
-    PromoteAdStatusEvent
-    """
-
-
-class QuestionDeleteEvent(BaseEvent, WebcastQuestionDeleteMessage):
-    """
-    QuestionDeleteEvent
-    """
+    """PollEvent."""
 
 
 class QuestionNewEvent(BaseEvent, WebcastQuestionNewMessage):
-    """
-    QuestionNewEvent
-
-    """
-
-
-class QuestionSelectedEvent(BaseEvent, WebcastQuestionSelectedMessage):
-    """
-    QuestionSelectedEvent
-    """
-
-
-class QuestionSlideDownEvent(BaseEvent, WebcastQuestionSlideDownMessage):
-    """
-    QuestionSlideDownEvent
-    """
-
-
-class QuestionSwitchEvent(BaseEvent, WebcastQuestionSwitchMessage):
-    """
-    QuestionSwitchEvent
-    """
-
-
-class QuickChatListEvent(BaseEvent, WebcastQuickChatListMessage):
-    """
-    QuickChatListEvent
-    """
+    """QuestionNewEvent."""
 
 
 class RankTextEvent(BaseEvent, WebcastRankTextMessage):
-    """
-    RankTextEvent
-
-    """
-
-
-class RankToastEvent(BaseEvent, WebcastRankToastMessage):
-    """
-    RankToastEvent
-    """
+    """RankTextEvent."""
 
 
 class RankUpdateEvent(BaseEvent, WebcastRankUpdateMessage):
-    """
-    RankUpdateEvent
-
-    """
-
-
-class RealTimePerformancePageEvent(BaseEvent, WebcastRealTimePerformancePageMessage):
-    """
-    RealTimePerformancePageEvent
-    """
-
-
-class RealtimeLiveCenterMethodEvent(BaseEvent, WebcastRealtimeLiveCenterMethod):
-    """
-    RealtimeLiveCenterMethodEvent
-    """
-
-
-class RoomBottomEvent(BaseEvent, WebcastRoomBottomMessage):
-    """
-    RoomBottomEvent
-    """
+    """RankUpdateEvent."""
 
 
 class RoomEvent(BaseEvent, WebcastRoomMessage):
-    """
-    RoomEvent
-
-    """
-
-
-class RoomEventEvent(BaseEvent, WebcastRoomEventMessage):
-    """
-    RoomEventEvent
-    """
-
-
-class RoomNotifyEvent(BaseEvent, WebcastRoomNotifyMessage):
-    """
-    RoomNotifyEvent
-    """
-
-    user: ExtendedUser
+    """RoomEvent."""
 
 
 class RoomPinEvent(BaseEvent, WebcastRoomPinMessage):
-    """
-    RoomPinEvent
-
-    """
-
+    """RoomPinEvent."""
     operator: ExtendedUser
-
-
-class RoomStickerEvent(BaseEvent, WebcastRoomStickerMessage):
-    """
-    RoomStickerEvent
-    """
-
-
-class RoomStreamAdaptationEvent(BaseEvent, WebcastRoomStreamAdaptationMessage):
-    """
-    RoomStreamAdaptationEvent
-    """
 
 
 class RoomUserSeqEvent(BaseEvent, WebcastRoomUserSeqMessage):
-    """
-    RoomUserSeqEvent
-
-    """
-
-
-class RoomVerifyEvent(BaseEvent, WebcastRoomVerifyMessage):
-    """
-    RoomVerifyEvent
-    """
-
-
-class ScreenChatEvent(BaseEvent, WebcastScreenChatMessage):
-    """
-    ScreenChatEvent
-    """
-
-    user_info: ExtendedUser
-
-
-class ShareGuideEvent(BaseEvent, WebcastShareGuideMessage):
-    """
-    ShareGuideEvent
-    """
-
-
-class ShortTouchEvent(BaseEvent, WebcastShortTouchMessage):
-    """
-    ShortTouchEvent
-    """
+    """RoomUserSeqEvent."""
 
 
 class SocialEvent(BaseEvent, WebcastSocialMessage):
-    """
-    SocialEvent
-
-    """
-
+    """SocialEvent."""
     user: ExtendedUser
 
 
-class SpeakerEvent(BaseEvent, WebcastSpeakerMessage):
-    """
-    SpeakerEvent
-    """
-
-
-class SpecialPushEvent(BaseEvent, WebcastSpecialPushMessage):
-    """
-    SpecialPushEvent
-    """
-
-
-class StarCommentNotificationEvent(BaseEvent, WebcastStarCommentNotificationMessage):
-    """
-    StarCommentNotificationEvent
-    """
-
-    operator: ExtendedUser
-
-
-class StarCommentPushEvent(BaseEvent, WebcastStarCommentPushMessage):
-    """
-    StarCommentPushEvent
-    """
-
-
-class StreamStatusEvent(BaseEvent, WebcastStreamStatusMessage):
-    """
-    StreamStatusEvent
-    """
-
-
-class SubContractStatusEvent(BaseEvent, WebcastSubContractStatusMessage):
-    """
-    SubContractStatusEvent
-    """
-
-
-class SubNotifyEvent(BaseEvent, WebcastSubNotifyMessage):
-    """
-    SubNotifyEvent
-    """
-
-    user: ExtendedUser
-
-
-class SubPinEventEvent(BaseEvent, WebcastSubPinEventMessage):
-    """
-    SubPinEventEvent
-    """
-
-
-class SubQueueEvent(BaseEvent, WebcastSubQueueMessage):
-    """
-    SubQueueEvent
-    """
-
-    current_user: ExtendedUser
-
-
-class SubTimerStickerEvent(BaseEvent, WebcastSubTimerStickerMessage):
-    """
-    SubTimerStickerEvent
-    """
-
-
-class SubWaveEvent(BaseEvent, WebcastSubWaveMessage):
-    """
-    SubWaveEvent
-    """
-
-
-class SubscriptionGuideEvent(BaseEvent, WebcastSubscriptionGuideMessage):
-    """
-    SubscriptionGuideEvent
-    """
-
-
-class ToastEvent(BaseEvent, WebcastToastMessage):
-    """
-    ToastEvent
-    """
-
-
-class TrayEvent(BaseEvent, WebcastTrayMessage):
-    """
-    TrayEvent
-    """
-
-    user: ExtendedUser
+class SystemEvent(BaseEvent, WebcastSystemMessage):
+    """SystemEvent."""
 
 
 class UnauthorizedMemberEvent(BaseEvent, WebcastUnauthorizedMemberMessage):
-    """
-    UnauthorizedMemberEvent
-
-    """
+    """UnauthorizedMemberEvent."""
 
 
-class UpgradeEvent(BaseEvent, WebcastUpgradeMessage):
-    """
-    UpgradeEvent
-    """
-
-
-class UserStatsEvent(BaseEvent, WebcastUserStatsMessage):
-    """
-    UserStatsEvent
-    """
-
-
-class VideoLiveCouponRcmdEvent(BaseEvent, WebcastVideoLiveCouponRcmdMessage):
-    """
-    VideoLiveCouponRcmdEvent
-    """
-
-
-class VideoLiveGoodsOrderEvent(BaseEvent, WebcastVideoLiveGoodsOrderMessage):
-    """
-    VideoLiveGoodsOrderEvent
-    """
-
-    user: ExtendedUser
-
-
-class VideoLiveGoodsRcmdEvent(BaseEvent, WebcastVideoLiveGoodsRcmdMessage):
-    """
-    VideoLiveGoodsRcmdEvent
-    """
-
-
-class WalletLiveRewardsRatioEvent(BaseEvent, WebcastWalletLiveRewardsRatioMessage):
-    """
-    WalletLiveRewardsRatioEvent
-    """
-
-
-class WallpaperEvent(BaseEvent, WebcastWallpaperMessage):
-    """
-    WallpaperEvent
-    """
-
-
-class WallpaperReviewEvent(BaseEvent, WebcastWallpaperReviewMessage):
-    """
-    WallpaperReviewEvent
-    """
-
-
-class WeeklyRankRewardEvent(BaseEvent, WebcastWeeklyRankRewardMessage):
-    """
-    WeeklyRankRewardEvent
-    """
-
-
-class WishlistUpdateEvent(BaseEvent, WebcastWishlistUpdateMessage):
-    """
-    WishlistUpdateEvent
-    """
-
-
-EVENT_MAPPINGS: Dict[str, BaseEvent] = {
-    "WebcastKaraokeQueueListMessage": KaraokeQueueListEvent,
-    "WebcastGroupLiveMemberNotifyMessage": GroupLiveMemberNotifyEvent,
-    "WebcastGoalUpdateMessage": GoalUpdateEvent,
-    "WebcastSubscriptionGuideMessage": SubscriptionGuideEvent,
-    "WebcastNoticeboardReviewMessage": NoticeboardReviewEvent,
-    "WebcastMemberMessage": JoinEvent,
-    "WebcastBottomMessage": BottomEvent,
-    "WebcastCapsuleMessage": CapsuleEvent,
-    "WebcastLinkMicBattle": LinkMicBattleEvent,
-    "WebcastQuestionSelectedMessage": QuestionSelectedEvent,
-    "WebcastTrayMessage": TrayEvent,
-    "WebcastAssetMessage": AssetEvent,
-    "WebcastWalletLiveRewardsRatioMessage": WalletLiveRewardsRatioEvent,
-    "WebcastLinkScreenChangeMessage": LinkScreenChangeEvent,
-    "WebcastPartnershipPunishMessage": PartnershipPunishEvent,
-    "WebcastGiftPanelUpdateMessage": GiftPanelUpdateEvent,
-    "WebcastAnchorTaskReminderMessage": AnchorTaskReminderEvent,
-    "WebcastLinkBusinessMessage": LinkBusinessEvent,
-    "WebcastLinkLayerMessage": LinkLayerEvent,
-    "WebcastControlMessage": ControlEvent,
-    "WebcastMarqueeAnnouncementMessage": MarqueeAnnouncementEvent,
-    "WebcastChatMessage": CommentEvent,
-    "WebcastGiftDynamicRestrictionMessage": GiftDynamicRestrictionEvent,
-    "WebcastSubNotifyMessage": SubNotifyEvent,
-    "WebcastCommonPopupMessage": CommonPopupEvent,
-    "WebcastEcBarrageMessage": EcBarrageEvent,
-    "WebcastPromoteAdStatusMessage": PromoteAdStatusEvent,
-    "WebcastInteractionHubGoalMessage": InteractionHubGoalEvent,
-    "WebcastEpiMessage": EpiEvent,
-    "WebcastLinkmicAnimationMessage": LinkmicAnimationEvent,
-    "WebcastKaraokeYouSingReqMessage": KaraokeYouSingReqEvent,
-    "WebcastRealTimePerformancePageMessage": RealTimePerformancePageEvent,
-    "WebcastStreamStatusMessage": StreamStatusEvent,
-    "WebcastGiftCollectionUpdateMessage": GiftCollectionUpdateEvent,
-    "WebcastCommercialCustomMessage": CommercialCustomEvent,
-    "WebcastGuideMessage": GuideEvent,
-    "WebcastDonationMessage": DonationEvent,
-    "WebcastLiveGameIntroMessage": LiveGameIntroEvent,
-    "WebcastPartnershipDropsCardChangeMessage": PartnershipDropsCardChangeEvent,
-    "WebcastGameGuessWidgetsMessage": GameGuessWidgetsEvent,
-    "WebcastMiddleTouchMessage": MiddleTouchEvent,
-    "WebcastUserStatsMessage": UserStatsEvent,
-    "WebcastWallpaperReviewMessage": WallpaperReviewEvent,
-    "WebcastLinkMicAdMessage": LinkMicAdEvent,
-    "WebcastSubTimerStickerMessage": SubTimerStickerEvent,
-    "WebcastGiftGalleryMessage": GiftGalleryEvent,
-    "WebcastGiftUpdateMessage": GiftUpdateEvent,
-    "WebcastNoticeboardMessage": NoticeboardEvent,
-    "WebcastRoomEventMessage": RoomEventEvent,
-    "WebcastUpgradeMessage": UpgradeEvent,
-    "WebcastBackpackMessage": BackpackEvent,
-    "WebcastAvatarStyleResultMessage": AvatarStyleResultEvent,
-    "WebcastGameSettingChangeMessage": GameSettingChangeEvent,
-    "WebcastPartnershipDropsUpdateMessage": PartnershipDropsUpdateEvent,
-    "WebcastQuestionSwitchMessage": QuestionSwitchEvent,
-    "WebcastLiveInfoAuditNoticeMessage": LiveInfoAuditNoticeEvent,
-    "WebcastLinkMicBattleVictoryLap": LinkMicBattleVictoryLapEvent,
-    "WebcastCommonToastMessage": CommonToastEvent,
-    "WebcastToastMessage": ToastEvent,
-    "WebcastDonationStickerModifyMethod": DonationStickerModifyMethodEvent,
-    "WebcastRoomMessage": RoomEvent,
-    "WebcastPollMessage": PollEvent,
-    "WebcastHighlightFragementReady": HighlightFragementReadyEvent,
-    "WebcastGiftPromptMessage": GiftPromptEvent,
-    "WebcastForceFetchRecommendationsMessage": ForceFetchRecommendationsEvent,
-    "WebcastGameGuessPinCardMessage": GameGuessPinCardEvent,
-    "WebcastLinkLayoutMessage": LinkLayoutEvent,
-    "WebcastGameOcrPingMessage": GameOcrPingEvent,
-    "WebcastAnchorGrowLevelMessage": AnchorGrowLevelEvent,
-    "WebcastCaptionMessage": CaptionEvent,
-    "WebcastLinkMicSignalingMethod": LinkMicSignalingMethodEvent,
-    "WebcastEnvelopePortalMessage": EnvelopePortalEvent,
-    "WebcastCohostReserveMessage": CohostReserveEvent,
-    "WebcastBaLeadGenMessage": BaLeadGenEvent,
-    "WebcastLinkMicArmies": LinkMicArmiesEvent,
-    "WebcastPictionaryEndMessage": PictionaryEndEvent,
-    "WebcastRoomNotifyMessage": RoomNotifyEvent,
-    "WebcastFansEventMessage": FansEventEvent,
-    "WebcastKaraokeQueueMessage": KaraokeQueueEvent,
-    "WebcastFollowCardMessage": FollowCardEvent,
-    "WebcastActivityQuizUserIdentityMessage": ActivityQuizUserIdentityEvent,
-    "WebcastLiveJourneyMessage": LiveJourneyEvent,
-    "WebcastCommentsMessage": CommentsEvent,
-    "WebcastWeeklyRankRewardMessage": WeeklyRankRewardEvent,
-    "WebcastLinkStateMessage": LinkStateEvent,
-    "WebcastAccessRecallMessage": AccessRecallEvent,
-    "WebcastAiSummaryMessage": AiSummaryEvent,
-    "WebcastPerceptionMessage": PerceptionEvent,
-    "WebcastRoomVerifyMessage": RoomVerifyEvent,
-    "WebcastGuideTaskMessage": GuideTaskEvent,
-    "WebcastEmoteChatMessage": EmoteChatEvent,
-    "WebcastVideoLiveCouponRcmdMessage": VideoLiveCouponRcmdEvent,
-    "WebcastVideoLiveGoodsRcmdMessage": VideoLiveGoodsRcmdEvent,
-    "WebcastKaraokeSwitchMessage": KaraokeSwitchEvent,
-    "WebcastSocialMessage": SocialEvent,
-    "WebcastPrivilegeAdvanceMessage": PrivilegeAdvanceEvent,
-    "WebcastLinkMicBattlePunishFinish": LinkMicBattlePunishFinishEvent,
-    "WebcastBoostedUsersMessage": BoostedUsersEvent,
-    "WebcastRankToastMessage": RankToastEvent,
-    "WebcastUnauthorizedMemberMessage": UnauthorizedMemberEvent,
-    "WebcastRankUpdateMessage": RankUpdateEvent,
-    "WebcastCommentTrayMessage": CommentTrayEvent,
-    "WebcastLikeMessage": LikeEvent,
-    "WebcastMsgDetectMessage": MessageDetectEvent,
-    "WebcastAnchorReminderWordMessage": AnchorReminderWordEvent,
-    "WebcastPaidContentLiveShoppingMessage": PaidContentLiveShoppingEvent,
-    "WebcastRoomUserSeqMessage": RoomUserSeqEvent,
-    "WebcastLinkMessage": LinkEvent,
+EVENT_MAPPINGS: Dict[str, Type[BaseEvent]] = {
     "WebcastBarrageMessage": BarrageEvent,
-    "WebcastGiftNoticeMessage": GiftNoticeEvent,
-    "WebcastBizStickerMessage": BizStickerEvent,
-    "WebcastNewAnchorGuideMessage": NewAnchorGuideEvent,
-    "WebcastGuestShowdownMessage": GuestShowdownEvent,
-    "WebcastQuestionSlideDownMessage": QuestionSlideDownEvent,
-    "WebcastWishlistUpdateMessage": WishlistUpdateEvent,
-    "WebcastActivityQuizCardMessage": ActivityQuizCardEvent,
-    "WebcastPortalMessage": PortalEvent,
-    "WebcastPopularCardMessage": PopularCardEvent,
-    "WebcastGameGuessToastMessage": GameGuessToastEvent,
-    "WebcastFeedUserRoomMonitorMessage": FeedUserRoomMonitorEvent,
-    "WebcastGameRankNotifyMessage": GameRankNotifyEvent,
-    "WebcastKaraokeReqMessage": KaraokeReqEvent,
-    "WebcastGuestInviteGuideMessage": GuestInviteGuideEvent,
-    "WebcastSpecialPushMessage": SpecialPushEvent,
-    "WebcastMultiGuestSuggestMessage": MultiGuestSuggestEvent,
-    "WebcastHotRoomMessage": HotRoomEvent,
-    "WebcastPartnershipDropsAnchorMessage": PartnershipDropsAnchorEvent,
-    "WebcastAccessControlMessage": AccessControlEvent,
-    "WebcastGuessQuestionAuditMessage": GuessQuestionAuditEvent,
-    "WebcastAuthorizationNotifyMessage": AuthorizationNotifyEvent,
-    "WebcastLinkMicMethod": LinkMicMethodEvent,
-    "WebcastAvatarGenerateResultMessage": AvatarGenerateResultEvent,
-    "WebcastRankTextMessage": RankTextEvent,
-    "WebcastOChannelModifyMessage": OChannelModifyEvent,
-    "WebcastPictionaryUpdateMessage": PictionaryUpdateEvent,
-    "WebcastGiftGuideMessage": GiftGuideEvent,
-    "WebcastPartnershipGameOfflineMessage": PartnershipGameOfflineEvent,
-    "WebcastOChannelAnchorMessage": OChannelAnchorEvent,
-    "WebcastLinkmicAudienceNoticeMessage": LinkmicAudienceNoticeEvent,
-    "WebcastPartnershipTaskShowMessage": PartnershipTaskShowEvent,
-    "WebcastInteractiveEffectMessage": InteractiveEffectEvent,
-    "WebcastCohostTopicMessage": CohostTopicEvent,
-    "WebcastGiftUnlockMessage": GiftUnlockEvent,
-    "WebcastEcDrawMessage": EcDrawEvent,
-    "WebcastGiftMessage": GiftEvent,
-    "WebcastSubQueueMessage": SubQueueEvent,
-    "WebcastRoomBottomMessage": RoomBottomEvent,
-    "WebcastDonationInfoMessage": DonationInfoEvent,
-    "WebcastGameMomentMessage": GameMomentEvent,
-    "WebcastImDeleteMessage": ImDeleteEvent,
-    "WebcastHashtagMessage": HashtagEvent,
-    "WebcastLinkMicBattleItemCard": LinkMicBattleItemCardEvent,
-    "WebcastPrivilegeDynamicEffectMessage": PrivilegeDynamicEffectEvent,
-    "WebcastAnchorGetSubQuotaMessage": AnchorGetSubQuotaEvent,
-    "WebcastOecLiveHotRoomMessage": OecLiveHotRoomEvent,
-    "WebcastAudienceReserveUserStateMessage": AudienceReserveUserStateEvent,
-    "WebcastRealtimeLiveCenterMethod": RealtimeLiveCenterMethodEvent,
-    "WebcastWallpaperMessage": WallpaperEvent,
-    "WebcastSubPinEventMessage": SubPinEventEvent,
-    "WebcastLinkmicBattleTaskMessage": LinkmicBattleTaskEvent,
-    "WebcastStarCommentPushMessage": StarCommentPushEvent,
-    "WebcastEcTaskRefreshCouponListMessage": EcTaskRefreshCouponListEvent,
-    "WebcastShortTouchMessage": ShortTouchEvent,
-    "WebcastEffectControlMessage": EffectControlEvent,
-    "WebcastKaraokeRedDotMessage": KaraokeRedDotEvent,
-    "WebcastQuestionDeleteMessage": QuestionDeleteEvent,
-    "WebcastInRoomBannerMessage": InRoomBannerEvent,
-    "WebcastShareGuideMessage": ShareGuideEvent,
-    "WebcastEventMessage": EventEvent,
-    "WebcastInRoomBannerEvent": InRoomBannerEventEvent,
-    "WebcastPlayTogetherMessage": PlayTogetherEvent,
-    "WebcastSubContractStatusMessage": SubContractStatusEvent,
-    "WebcastHourlyRankRewardMessage": HourlyRankRewardEvent,
-    "WebcastPictionaryStartMessage": PictionaryStartEvent,
-    "WebcastGuestInviteMessage": GuestInviteEvent,
-    "WebcastNoticeMessage": NoticeEvent,
-    "WebcastPartnershipDownloadCountMessage": PartnershipDownloadCountEvent,
-    "WebcastGreetingMessage": GreetingEvent,
-    "WebcastLiveShowMessage": LiveShowEvent,
-    "WebcastSubWaveMessage": SubWaveEvent,
-    "WebcastGameReqSetGuessMessage": GameReqSetGuessEvent,
-    "WebcastLinkMicFanTicketMethod": LinkMicFanTicketMethodEvent,
-    "WebcastSpeakerMessage": SpeakerEvent,
-    "WebcastLinkMicAnchorGuideMessage": LinkMicAnchorGuideEvent,
-    "WebcastCompetitionMessage": CompetitionEvent,
-    "WebcastAvatarReportDeleteMessage": AvatarReportDeleteEvent,
-    "WebcastEffectPreloadingMessage": EffectPreloadingEvent,
+    "WebcastCaptionMessage": CaptionEvent,
+    "WebcastChatMessage": CommentEvent,
+    "WebcastControlMessage": ControlEvent,
+    "WebcastEmoteChatMessage": EmoteChatEvent,
     "WebcastEnvelopeMessage": EnvelopeEvent,
-    "WebcastColdStartMessage": ColdStartEvent,
-    "WebcastCountdownForAllMessage": CountdownForAllEvent,
-    "WebcastGiftBroadcastMessage": GiftBroadcastEvent,
-    "WebcastPreviewGameMomentMessage": PreviewGameMomentEvent,
-    "WebcastGameRecommendCreateGuessMessage": GameRecommendCreateGuessEvent,
-    "WebcastVideoLiveGoodsOrderMessage": VideoLiveGoodsOrderEvent,
-    "WebcastStarCommentNotificationMessage": StarCommentNotificationEvent,
-    "WebcastInRoomBannerRefreshMessage": InRoomBannerRefreshEvent,
-    "WebcastRoomStickerMessage": RoomStickerEvent,
-    "WebcastOChannelUserMessage": OChannelUserEvent,
-    "WebcastGiftProgressMessage": GiftProgressEvent,
-    "WebcastOecLiveManagerMessage": OecLiveManagerEvent,
-    "WebcastDiggMessage": DiggEvent,
-    "WebcastAiLiveSummaryMessage": AiLiveSummaryEvent,
-    "WebcastAnchorToolModificationMessage": AnchorToolModificationEvent,
+    "WebcastGiftMessage": GiftEvent,
+    "WebcastGoalUpdateMessage": GoalUpdateEvent,
+    "WebcastHourlyRankMessage": HourlyRankEvent,
+    "WebcastImDeleteMessage": ImDeleteEvent,
+    "WebcastInRoomBannerMessage": InRoomBannerEvent,
+    "WebcastMemberMessage": JoinEvent,
+    "WebcastLikeMessage": LikeEvent,
+    "WebcastLinkMessage": LinkEvent,
+    "WebcastLinkLayerMessage": LinkLayerEvent,
+    "WebcastLinkMicArmies": LinkMicArmiesEvent,
+    "WebcastLinkMicBattle": LinkMicBattleEvent,
+    "WebcastLinkMicBattlePunishFinish": LinkMicBattlePunishFinishEvent,
+    "WebcastLinkMicFanTicketMethod": LinkMicFanTicketMethodEvent,
+    "WebcastLinkMicMethod": LinkMicMethodEvent,
+    "WebcastLinkmicBattleTaskMessage": LinkmicBattleTaskEvent,
     "WebcastLiveIntroMessage": LiveIntroEvent,
-    "WebcastMgPunishCenterActionMessage": MgPunishCenterActionEvent,
-    "WebcastPictionaryExitMessage": PictionaryExitEvent,
+    "WebcastMsgDetectMessage": MessageDetectEvent,
+    "WebcastOecLiveShoppingMessage": OecLiveShoppingEvent,
+    "WebcastPollMessage": PollEvent,
     "WebcastQuestionNewMessage": QuestionNewEvent,
-    "WebcastCountdownMessage": CountdownEvent,
-    "WebcastGameServerFeatureMessage": GameServerFeatureEvent,
-    "WebcastPlaybookMessage": PlaybookEvent,
-    "WebcastGiftRecordCapsuleMessage": GiftRecordCapsuleEvent,
-    "WebcastQuickChatListMessage": QuickChatListEvent,
-    "WebcastPartnershipCardChangeMessage": PartnershipCardChangeEvent,
-    "WebcastScreenChatMessage": ScreenChatEvent,
-    "WebcastGameEmoteUpdateMessage": GameEmoteUpdateEvent,
-    "WebcastBoostCardMessage": BoostCardEvent,
+    "WebcastRankTextMessage": RankTextEvent,
+    "WebcastRankUpdateMessage": RankUpdateEvent,
+    "WebcastRoomMessage": RoomEvent,
     "WebcastRoomPinMessage": RoomPinEvent,
-    "WebcastProjectDModifyH5": ProjectDModifyH5Event,
-    "WebcastRoomStreamAdaptationMessage": RoomStreamAdaptationEvent,
-    "WebcastLinkmicBattleNoticeMessage": LinkmicBattleNoticeEvent,
-    "WebcastGoodyBagMessage": GoodyBagEvent,
+    "WebcastRoomUserSeqMessage": RoomUserSeqEvent,
+    "WebcastSocialMessage": SocialEvent,
+    "WebcastSystemMessage": SystemEvent,
+    "WebcastUnauthorizedMemberMessage": UnauthorizedMemberEvent,
 }
 
+
 ProtoEvent: Type = Union[
-    KaraokeQueueListEvent,
-    GroupLiveMemberNotifyEvent,
-    GoalUpdateEvent,
-    SubscriptionGuideEvent,
-    NoticeboardReviewEvent,
-    JoinEvent,
-    BottomEvent,
-    CapsuleEvent,
-    LinkMicBattleEvent,
-    QuestionSelectedEvent,
-    TrayEvent,
-    AssetEvent,
-    WalletLiveRewardsRatioEvent,
-    LinkScreenChangeEvent,
-    PartnershipPunishEvent,
-    GiftPanelUpdateEvent,
-    AnchorTaskReminderEvent,
-    LinkBusinessEvent,
-    LinkLayerEvent,
-    ControlEvent,
-    MarqueeAnnouncementEvent,
-    CommentEvent,
-    GiftDynamicRestrictionEvent,
-    SubNotifyEvent,
-    CommonPopupEvent,
-    EcBarrageEvent,
-    PromoteAdStatusEvent,
-    InteractionHubGoalEvent,
-    EpiEvent,
-    LinkmicAnimationEvent,
-    KaraokeYouSingReqEvent,
-    RealTimePerformancePageEvent,
-    StreamStatusEvent,
-    GiftCollectionUpdateEvent,
-    CommercialCustomEvent,
-    GuideEvent,
-    DonationEvent,
-    LiveGameIntroEvent,
-    PartnershipDropsCardChangeEvent,
-    GameGuessWidgetsEvent,
-    MiddleTouchEvent,
-    UserStatsEvent,
-    WallpaperReviewEvent,
-    LinkMicAdEvent,
-    SubTimerStickerEvent,
-    GiftGalleryEvent,
-    GiftUpdateEvent,
-    NoticeboardEvent,
-    RoomEventEvent,
-    UpgradeEvent,
-    BackpackEvent,
-    AvatarStyleResultEvent,
-    GameSettingChangeEvent,
-    PartnershipDropsUpdateEvent,
-    QuestionSwitchEvent,
-    LiveInfoAuditNoticeEvent,
-    LinkMicBattleVictoryLapEvent,
-    CommonToastEvent,
-    ToastEvent,
-    DonationStickerModifyMethodEvent,
-    RoomEvent,
-    PollEvent,
-    HighlightFragementReadyEvent,
-    GiftPromptEvent,
-    ForceFetchRecommendationsEvent,
-    GameGuessPinCardEvent,
-    LinkLayoutEvent,
-    GameOcrPingEvent,
-    AnchorGrowLevelEvent,
-    CaptionEvent,
-    LinkMicSignalingMethodEvent,
-    EnvelopePortalEvent,
-    CohostReserveEvent,
-    BaLeadGenEvent,
-    LinkMicArmiesEvent,
-    PictionaryEndEvent,
-    RoomNotifyEvent,
-    FansEventEvent,
-    KaraokeQueueEvent,
-    FollowCardEvent,
-    ActivityQuizUserIdentityEvent,
-    LiveJourneyEvent,
-    CommentsEvent,
-    WeeklyRankRewardEvent,
-    LinkStateEvent,
-    AccessRecallEvent,
-    AiSummaryEvent,
-    PerceptionEvent,
-    RoomVerifyEvent,
-    GuideTaskEvent,
-    EmoteChatEvent,
-    VideoLiveCouponRcmdEvent,
-    VideoLiveGoodsRcmdEvent,
-    KaraokeSwitchEvent,
-    SocialEvent,
-    PrivilegeAdvanceEvent,
-    LinkMicBattlePunishFinishEvent,
-    BoostedUsersEvent,
-    RankToastEvent,
-    UnauthorizedMemberEvent,
-    RankUpdateEvent,
-    CommentTrayEvent,
-    LikeEvent,
-    MessageDetectEvent,
-    AnchorReminderWordEvent,
-    PaidContentLiveShoppingEvent,
-    RoomUserSeqEvent,
-    LinkEvent,
     BarrageEvent,
-    GiftNoticeEvent,
-    BizStickerEvent,
-    NewAnchorGuideEvent,
-    GuestShowdownEvent,
-    QuestionSlideDownEvent,
-    WishlistUpdateEvent,
-    ActivityQuizCardEvent,
-    PortalEvent,
-    PopularCardEvent,
-    GameGuessToastEvent,
-    FeedUserRoomMonitorEvent,
-    GameRankNotifyEvent,
-    KaraokeReqEvent,
-    GuestInviteGuideEvent,
-    SpecialPushEvent,
-    MultiGuestSuggestEvent,
-    HotRoomEvent,
-    PartnershipDropsAnchorEvent,
-    AccessControlEvent,
-    GuessQuestionAuditEvent,
-    AuthorizationNotifyEvent,
-    LinkMicMethodEvent,
-    AvatarGenerateResultEvent,
-    RankTextEvent,
-    OChannelModifyEvent,
-    PictionaryUpdateEvent,
-    GiftGuideEvent,
-    PartnershipGameOfflineEvent,
-    OChannelAnchorEvent,
-    LinkmicAudienceNoticeEvent,
-    PartnershipTaskShowEvent,
-    InteractiveEffectEvent,
-    CohostTopicEvent,
-    GiftUnlockEvent,
-    EcDrawEvent,
-    GiftEvent,
-    SubQueueEvent,
-    RoomBottomEvent,
-    DonationInfoEvent,
-    GameMomentEvent,
-    ImDeleteEvent,
-    HashtagEvent,
-    LinkMicBattleItemCardEvent,
-    PrivilegeDynamicEffectEvent,
-    AnchorGetSubQuotaEvent,
-    OecLiveHotRoomEvent,
-    AudienceReserveUserStateEvent,
-    RealtimeLiveCenterMethodEvent,
-    WallpaperEvent,
-    SubPinEventEvent,
-    LinkmicBattleTaskEvent,
-    StarCommentPushEvent,
-    EcTaskRefreshCouponListEvent,
-    ShortTouchEvent,
-    EffectControlEvent,
-    KaraokeRedDotEvent,
-    QuestionDeleteEvent,
-    InRoomBannerEvent,
-    ShareGuideEvent,
-    EventEvent,
-    InRoomBannerEventEvent,
-    PlayTogetherEvent,
-    SubContractStatusEvent,
-    HourlyRankRewardEvent,
-    PictionaryStartEvent,
-    GuestInviteEvent,
-    NoticeEvent,
-    PartnershipDownloadCountEvent,
-    GreetingEvent,
-    LiveShowEvent,
-    SubWaveEvent,
-    GameReqSetGuessEvent,
-    LinkMicFanTicketMethodEvent,
-    SpeakerEvent,
-    LinkMicAnchorGuideEvent,
-    CompetitionEvent,
-    AvatarReportDeleteEvent,
-    EffectPreloadingEvent,
+    CaptionEvent,
+    CommentEvent,
+    ControlEvent,
+    EmoteChatEvent,
     EnvelopeEvent,
-    ColdStartEvent,
-    CountdownForAllEvent,
-    GiftBroadcastEvent,
-    PreviewGameMomentEvent,
-    GameRecommendCreateGuessEvent,
-    VideoLiveGoodsOrderEvent,
-    StarCommentNotificationEvent,
-    InRoomBannerRefreshEvent,
-    RoomStickerEvent,
-    OChannelUserEvent,
-    GiftProgressEvent,
-    OecLiveManagerEvent,
-    DiggEvent,
-    AiLiveSummaryEvent,
-    AnchorToolModificationEvent,
+    GiftEvent,
+    GoalUpdateEvent,
+    HourlyRankEvent,
+    ImDeleteEvent,
+    InRoomBannerEvent,
+    JoinEvent,
+    LikeEvent,
+    LinkEvent,
+    LinkLayerEvent,
+    LinkMicArmiesEvent,
+    LinkMicBattleEvent,
+    LinkMicBattlePunishFinishEvent,
+    LinkMicFanTicketMethodEvent,
+    LinkMicMethodEvent,
+    LinkmicBattleTaskEvent,
     LiveIntroEvent,
-    MgPunishCenterActionEvent,
-    PictionaryExitEvent,
+    MessageDetectEvent,
+    OecLiveShoppingEvent,
+    PollEvent,
     QuestionNewEvent,
-    CountdownEvent,
-    GameServerFeatureEvent,
-    PlaybookEvent,
-    GiftRecordCapsuleEvent,
-    QuickChatListEvent,
-    PartnershipCardChangeEvent,
-    ScreenChatEvent,
-    GameEmoteUpdateEvent,
-    BoostCardEvent,
+    RankTextEvent,
+    RankUpdateEvent,
+    RoomEvent,
     RoomPinEvent,
-    ProjectDModifyH5Event,
-    RoomStreamAdaptationEvent,
-    LinkmicBattleNoticeEvent,
-    GoodyBagEvent,
+    RoomUserSeqEvent,
+    SocialEvent,
+    SystemEvent,
+    UnauthorizedMemberEvent,
 ]
 
+
 __all__ = [
-    "KaraokeQueueListEvent",
-    "GroupLiveMemberNotifyEvent",
-    "GoalUpdateEvent",
-    "SubscriptionGuideEvent",
-    "NoticeboardReviewEvent",
-    "JoinEvent",
-    "BottomEvent",
-    "CapsuleEvent",
-    "LinkMicBattleEvent",
-    "QuestionSelectedEvent",
-    "TrayEvent",
-    "AssetEvent",
-    "WalletLiveRewardsRatioEvent",
-    "LinkScreenChangeEvent",
-    "PartnershipPunishEvent",
-    "GiftPanelUpdateEvent",
-    "AnchorTaskReminderEvent",
-    "LinkBusinessEvent",
-    "LinkLayerEvent",
-    "ControlEvent",
-    "MarqueeAnnouncementEvent",
-    "CommentEvent",
-    "GiftDynamicRestrictionEvent",
-    "SubNotifyEvent",
-    "CommonPopupEvent",
-    "EcBarrageEvent",
-    "PromoteAdStatusEvent",
-    "InteractionHubGoalEvent",
-    "EpiEvent",
-    "LinkmicAnimationEvent",
-    "KaraokeYouSingReqEvent",
-    "RealTimePerformancePageEvent",
-    "StreamStatusEvent",
-    "GiftCollectionUpdateEvent",
-    "CommercialCustomEvent",
-    "GuideEvent",
-    "DonationEvent",
-    "LiveGameIntroEvent",
-    "PartnershipDropsCardChangeEvent",
-    "GameGuessWidgetsEvent",
-    "MiddleTouchEvent",
-    "UserStatsEvent",
-    "WallpaperReviewEvent",
-    "LinkMicAdEvent",
-    "SubTimerStickerEvent",
-    "GiftGalleryEvent",
-    "GiftUpdateEvent",
-    "NoticeboardEvent",
-    "RoomEventEvent",
-    "UpgradeEvent",
-    "BackpackEvent",
-    "AvatarStyleResultEvent",
-    "GameSettingChangeEvent",
-    "PartnershipDropsUpdateEvent",
-    "QuestionSwitchEvent",
-    "LiveInfoAuditNoticeEvent",
-    "LinkMicBattleVictoryLapEvent",
-    "CommonToastEvent",
-    "ToastEvent",
-    "DonationStickerModifyMethodEvent",
-    "RoomEvent",
-    "PollEvent",
-    "HighlightFragementReadyEvent",
-    "GiftPromptEvent",
-    "ForceFetchRecommendationsEvent",
-    "GameGuessPinCardEvent",
-    "LinkLayoutEvent",
-    "GameOcrPingEvent",
-    "AnchorGrowLevelEvent",
-    "CaptionEvent",
-    "LinkMicSignalingMethodEvent",
-    "EnvelopePortalEvent",
-    "CohostReserveEvent",
-    "BaLeadGenEvent",
-    "LinkMicArmiesEvent",
-    "PictionaryEndEvent",
-    "RoomNotifyEvent",
-    "FansEventEvent",
-    "KaraokeQueueEvent",
-    "FollowCardEvent",
-    "ActivityQuizUserIdentityEvent",
-    "LiveJourneyEvent",
-    "CommentsEvent",
-    "WeeklyRankRewardEvent",
-    "LinkStateEvent",
-    "AccessRecallEvent",
-    "AiSummaryEvent",
-    "PerceptionEvent",
-    "RoomVerifyEvent",
-    "GuideTaskEvent",
-    "EmoteChatEvent",
-    "VideoLiveCouponRcmdEvent",
-    "VideoLiveGoodsRcmdEvent",
-    "KaraokeSwitchEvent",
-    "SocialEvent",
-    "PrivilegeAdvanceEvent",
-    "LinkMicBattlePunishFinishEvent",
-    "BoostedUsersEvent",
-    "RankToastEvent",
-    "UnauthorizedMemberEvent",
-    "RankUpdateEvent",
-    "CommentTrayEvent",
-    "LikeEvent",
-    "MessageDetectEvent",
-    "AnchorReminderWordEvent",
-    "PaidContentLiveShoppingEvent",
-    "RoomUserSeqEvent",
-    "LinkEvent",
     "BarrageEvent",
-    "GiftNoticeEvent",
-    "BizStickerEvent",
-    "NewAnchorGuideEvent",
-    "GuestShowdownEvent",
-    "QuestionSlideDownEvent",
-    "WishlistUpdateEvent",
-    "ActivityQuizCardEvent",
-    "PortalEvent",
-    "PopularCardEvent",
-    "GameGuessToastEvent",
-    "FeedUserRoomMonitorEvent",
-    "GameRankNotifyEvent",
-    "KaraokeReqEvent",
-    "GuestInviteGuideEvent",
-    "SpecialPushEvent",
-    "MultiGuestSuggestEvent",
-    "HotRoomEvent",
-    "PartnershipDropsAnchorEvent",
-    "AccessControlEvent",
-    "GuessQuestionAuditEvent",
-    "AuthorizationNotifyEvent",
-    "LinkMicMethodEvent",
-    "AvatarGenerateResultEvent",
-    "RankTextEvent",
-    "OChannelModifyEvent",
-    "PictionaryUpdateEvent",
-    "GiftGuideEvent",
-    "PartnershipGameOfflineEvent",
-    "OChannelAnchorEvent",
-    "LinkmicAudienceNoticeEvent",
-    "PartnershipTaskShowEvent",
-    "InteractiveEffectEvent",
-    "CohostTopicEvent",
-    "GiftUnlockEvent",
-    "EcDrawEvent",
-    "GiftEvent",
-    "SubQueueEvent",
-    "RoomBottomEvent",
-    "DonationInfoEvent",
-    "GameMomentEvent",
-    "ImDeleteEvent",
-    "HashtagEvent",
-    "LinkMicBattleItemCardEvent",
-    "PrivilegeDynamicEffectEvent",
-    "AnchorGetSubQuotaEvent",
-    "OecLiveHotRoomEvent",
-    "AudienceReserveUserStateEvent",
-    "RealtimeLiveCenterMethodEvent",
-    "WallpaperEvent",
-    "SubPinEventEvent",
-    "LinkmicBattleTaskEvent",
-    "StarCommentPushEvent",
-    "EcTaskRefreshCouponListEvent",
-    "ShortTouchEvent",
-    "EffectControlEvent",
-    "KaraokeRedDotEvent",
-    "QuestionDeleteEvent",
-    "InRoomBannerEvent",
-    "ShareGuideEvent",
-    "EventEvent",
-    "InRoomBannerEventEvent",
-    "PlayTogetherEvent",
-    "SubContractStatusEvent",
-    "HourlyRankRewardEvent",
-    "PictionaryStartEvent",
-    "GuestInviteEvent",
-    "NoticeEvent",
-    "PartnershipDownloadCountEvent",
-    "GreetingEvent",
-    "LiveShowEvent",
-    "SubWaveEvent",
-    "GameReqSetGuessEvent",
-    "LinkMicFanTicketMethodEvent",
-    "SpeakerEvent",
-    "LinkMicAnchorGuideEvent",
-    "CompetitionEvent",
-    "AvatarReportDeleteEvent",
-    "EffectPreloadingEvent",
+    "CaptionEvent",
+    "CommentEvent",
+    "ControlEvent",
+    "EmoteChatEvent",
     "EnvelopeEvent",
-    "ColdStartEvent",
-    "CountdownForAllEvent",
-    "GiftBroadcastEvent",
-    "PreviewGameMomentEvent",
-    "GameRecommendCreateGuessEvent",
-    "VideoLiveGoodsOrderEvent",
-    "StarCommentNotificationEvent",
-    "InRoomBannerRefreshEvent",
-    "RoomStickerEvent",
-    "OChannelUserEvent",
-    "GiftProgressEvent",
-    "OecLiveManagerEvent",
-    "DiggEvent",
-    "AiLiveSummaryEvent",
-    "AnchorToolModificationEvent",
+    "GiftEvent",
+    "GoalUpdateEvent",
+    "HourlyRankEvent",
+    "ImDeleteEvent",
+    "InRoomBannerEvent",
+    "JoinEvent",
+    "LikeEvent",
+    "LinkEvent",
+    "LinkLayerEvent",
+    "LinkMicArmiesEvent",
+    "LinkMicBattleEvent",
+    "LinkMicBattlePunishFinishEvent",
+    "LinkMicFanTicketMethodEvent",
+    "LinkMicMethodEvent",
+    "LinkmicBattleTaskEvent",
     "LiveIntroEvent",
-    "MgPunishCenterActionEvent",
-    "PictionaryExitEvent",
+    "MessageDetectEvent",
+    "OecLiveShoppingEvent",
+    "PollEvent",
     "QuestionNewEvent",
-    "CountdownEvent",
-    "GameServerFeatureEvent",
-    "PlaybookEvent",
-    "GiftRecordCapsuleEvent",
-    "QuickChatListEvent",
-    "PartnershipCardChangeEvent",
-    "ScreenChatEvent",
-    "GameEmoteUpdateEvent",
-    "BoostCardEvent",
+    "RankTextEvent",
+    "RankUpdateEvent",
+    "RoomEvent",
     "RoomPinEvent",
-    "ProjectDModifyH5Event",
-    "RoomStreamAdaptationEvent",
-    "LinkmicBattleNoticeEvent",
-    "GoodyBagEvent",
+    "RoomUserSeqEvent",
+    "SocialEvent",
+    "SystemEvent",
+    "UnauthorizedMemberEvent",
+    "EVENT_MAPPINGS",
     "ProtoEvent",
-    "EVENT_MAPPINGS"
 ]

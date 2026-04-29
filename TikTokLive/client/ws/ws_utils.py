@@ -27,21 +27,21 @@ def build_webcast_uri(
     if not initial_webcast_response.cursor:
         raise InitialCursorMissingError("Missing cursor in initial fetch response.")
 
-    if not initial_webcast_response.push_server:
+    if not initial_webcast_response.ws_url:
         raise WebsocketURLMissingError("No websocket URL received from TikTok.")
 
-    if not initial_webcast_response.route_params:
+    if not initial_webcast_response.ws_params:
         raise WebsocketURLMissingError("Websocket parameters missing.")
 
     # Build the URI parameters dict
     uri_params: dict = {
-        **{k: v for k, v in initial_webcast_response.route_params.items() if v},
+        **{k: v for k, v in initial_webcast_response.ws_params.items() if v},
         **base_uri_params,
     }
 
     # Build the URI
     connect_uri: str = (
-            initial_webcast_response.push_server
+            initial_webcast_response.ws_url
             + "?"
             + '&'.join(f"{key}={value}" for key, value in uri_params.items())
             + base_uri_append_str
