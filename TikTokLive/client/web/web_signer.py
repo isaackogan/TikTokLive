@@ -110,23 +110,23 @@ class TikTokSigner:
 
         try:
 
-            payload: dict = {
+            sign_payload: dict = {
                 "url": url,
                 "userAgent": user_agent,
                 "method": method,
                 "type": sign_url_type,
-                "payload": payload
+                "payload": payload,
             }
 
             # Authenticated signature
             if session_id:
                 check_authenticated_session(session_id, tt_target_idc, session_required=False)
-                payload['sessionId'] = session_id
-                payload['ttTargetIdc'] = tt_target_idc
+                sign_payload['sessionId'] = session_id
+                sign_payload['ttTargetIdc'] = tt_target_idc
 
             response: httpx.Response = await self._httpx.post(
                 url=f"{self._sign_api_base}/webcast/sign_url/",
-                data=payload
+                data=sign_payload,
             )
 
         except Exception as ex:

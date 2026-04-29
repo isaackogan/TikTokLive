@@ -259,7 +259,7 @@ class WebcastWSClient:
                 await self.switch_rooms(room_id=room_id)
 
             # Ack when necessary
-            if webcast_response.need_ack:
+            if webcast_response.needs_ack:
                 await self.send_ack(webcast_response=webcast_response, webcast_push_frame=webcast_push_frame)
 
             # Yield the response

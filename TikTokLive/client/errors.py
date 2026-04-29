@@ -13,15 +13,14 @@ class TikTokLiveError(RuntimeError):
 
     """
 
-    def __init__(self, *args):
-        args = list(args)
-        args.insert(0, f"TikTokLive v{PACKAGE_VERSION} ->")
+    def __init__(self, *args: str) -> None:
+        parts: list[str] = [f"TikTokLive v{PACKAGE_VERSION} ->", *args]
 
-        # If it was empty
-        if len(args) == 1:
-            args.append(self.__class__.__name__)
+        # If no args were supplied, fall back to the class name
+        if len(parts) == 1:
+            parts.append(self.__class__.__name__)
 
-        super().__init__(" ".join(args))
+        super().__init__(" ".join(parts))
 
 
 class AlreadyConnectedError(TikTokLiveError):
@@ -113,9 +112,7 @@ class SignAPIError(TikTokLiveError):
 
         self._response = response
         self.reason = reason
-        args = list(args)
-        args.insert(0, f"[{reason.name}]")
-        super().__init__(" ".join(args))
+        super().__init__(f"[{reason.name}]", *args)
 
     @property
     def response(self) -> httpx.Response | None:

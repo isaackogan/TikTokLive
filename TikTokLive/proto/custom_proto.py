@@ -13,10 +13,10 @@ from TikTokLiveProto.generated.v2 import User, Gift
 # "MessageType" is a proto enum field.
 # This underscore is the difference between life & death, because if you shadow the proto field,
 # everything crashes & burns in a fiery hell.
-_MessageType: Type = TypeVar('_MessageType', bound=betterproto.Message)
+_MessageType = TypeVar('_MessageType', bound=betterproto.Message)
 
 
-def proto_extension(cls: _MessageType):
+def proto_extension(cls: Type[_MessageType]) -> Type[_MessageType]:
     """
     Betterproto doesn't properly handle inheriting existing messages.
     This method takes the superclass proto metadata and assigns that to this one.
@@ -28,8 +28,11 @@ def proto_extension(cls: _MessageType):
 
     for obj in cls.__mro__[1:]:
         if issubclass(obj, betterproto.Message):
+            # Intentional metaclass-level mutation: copy the parent's
+            # ``_betterproto`` metadata onto the subclass so betterproto's
+            # serialiser uses the inherited proto schema.
             # noinspection PyProtectedMember
-            cls._betterproto = obj()._betterproto
+            cls._betterproto = obj()._betterproto  # type: ignore[method-assign]
             return cls
 
     return cls
