@@ -162,7 +162,7 @@ class FetchVideoDataRoute(ClientRoute):
             **kwargs
         )
 
-        self._thread: Thread = Thread(target=functools.partial(self._threaded_recording, unique_id))
+        self._thread = Thread(target=functools.partial(self._threaded_recording, unique_id))
         self._thread.start()
 
         self._logger.info(

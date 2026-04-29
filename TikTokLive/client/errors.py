@@ -162,9 +162,9 @@ class SignAPIError(TikTokLiveError):
         # Center header text in header
         footer: str = "+" + "-" * (msg_len + 2) + "+"
         header: str = "+" + "-" * header_len + " " + header_text + " " + "-" * (header_len + padding_len) + "+"
-        message: str = "| " + message + " |"
+        framed_message: str = "| " + message + " |"
 
-        return f"\n\t|\n\t{header}\n\t{message}\n\t{footer}"
+        return f"\n\t|\n\t{header}\n\t{framed_message}\n\t{footer}"
 
 
 class SignatureRateLimitError(SignAPIError):

@@ -218,7 +218,7 @@ class WebcastWSClient:
             initial_webcast_response.messages = []
 
         # Initialize the WebcastConnect class
-        self._connection_generator: WebcastConnect = self._connect_generator_class(
+        self._connection_generator = self._connect_generator_class(
             initial_webcast_response=initial_webcast_response,
             subprotocols=ws_kwargs.pop("subprotocols", ["echo-protocol"]),
             logger=self._logger,

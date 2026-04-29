@@ -38,7 +38,7 @@ class WebcastConnect(Connect):
 
         # If uri is provided (it should normally never be), bypass the construction
         if uri is None:
-            uri: str = build_webcast_uri(
+            uri = build_webcast_uri(
                 initial_webcast_response=initial_webcast_response,
                 base_uri_params=base_uri_params,
                 base_uri_append_str=base_uri_append_str
@@ -141,8 +141,7 @@ class WebcastProxyConnect(WebcastConnect, ProxyConnect):
     @classmethod
     def _convert_proxy(cls, proxy: httpx.Proxy) -> websockets_proxy.Proxy:
         """Convert an HTTPX proxy to a websockets_proxy Proxy"""
-        parsed: Tuple[ProxyType, str, int, Optional[str], Optional[str]] = parse_proxy_url(str(proxy.url))
-        parsed: list = list(parsed)
+        parsed: list = list(parse_proxy_url(str(proxy.url)))
 
         # Add auth back
         parsed[3] = proxy.auth[0]

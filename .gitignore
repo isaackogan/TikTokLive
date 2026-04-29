@@ -11,6 +11,7 @@ badges.py
 proto-testing
 all-proto
 headers.py.orphaned/
-.orphaned__pycache__/
+.orphaned
+__pycache__/
 *.pyc
 .DS_Store

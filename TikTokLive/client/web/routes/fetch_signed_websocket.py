@@ -58,8 +58,8 @@ class FetchSignedWebSocketRoute(ClientRoute):
         }
 
         # The session ID we want to add to the request
-        session_id: str = session_id or self._web.cookies.get('sessionid')
-        tt_target_idc: str = tt_target_idc or self._web.cookies.get('tt-target-idc')
+        session_id = session_id or self._web.cookies.get('sessionid')
+        tt_target_idc = tt_target_idc or self._web.cookies.get('tt-target-idc')
 
         if check_authenticated_session(session_id, tt_target_idc, session_required=False):
             sign_params['session_id'] = session_id
@@ -118,7 +118,7 @@ class FetchSignedWebSocketRoute(ClientRoute):
             try:
                 payload: str = json.dumps(response.json(), indent=2)
             except JSONDecodeError:
-                payload: str = f'"{response.text}"'
+                payload = f'"{response.text}"'
 
             raise SignAPIError(
                 SignAPIError.ErrorReason.SIGN_NOT_200,
