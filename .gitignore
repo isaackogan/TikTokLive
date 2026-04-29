@@ -13,3 +13,4 @@ all-proto
 headers.py.orphaned/
 .orphaned__pycache__/
 *.pyc
+.DS_Store
