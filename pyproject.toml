@@ -37,11 +37,6 @@ classifiers = [
     "Programming Language :: Python :: 3.12"
 ]
 
-[project.optional-dependencies]
-interactive = [
-    "curl_cffi==v0.8.0b7"
-]
-
 [dependency-groups]
 # Maintainer-only tooling. Not shipped with the wheel — these are local-dev
 # dependencies for running the codegen scripts under scripts/proto/. Build
@@ -51,6 +46,7 @@ dev = [
     "pyyaml",
     "types-PyYAML",   # mypy stubs for pyyaml (the package itself is untyped)
     "mypy>=1.10",
+    "pre-commit>=3.7",
 ]
 
 [tool.mypy]

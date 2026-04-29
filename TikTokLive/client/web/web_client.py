@@ -11,8 +11,6 @@ from TikTokLive.client.web.routes.fetch_signed_websocket import FetchSignedWebSo
 from TikTokLive.client.web.routes.fetch_user_unique_id import FetchUserUniqueIdRoute
 from TikTokLive.client.web.routes.fetch_video_data import FetchVideoDataRoute
 from TikTokLive.client.web.routes.send_room_chat import SendRoomChatRoute
-from TikTokLive.client.web.routes.send_room_gift import SendRoomGiftRoute
-from TikTokLive.client.web.routes.send_room_like import SendRoomLikeRoute
 from TikTokLive.client.web.web_base import TikTokHTTPClient
 
 SEND_DEPRECATION_WARNINGS = os.environ.get('SEND_DEPRECATION_WARNINGS', 'true').lower() == 'true'
@@ -43,8 +41,6 @@ class TikTokWebClient(TikTokHTTPClient):
         self.fetch_is_live: FetchIsLiveRoute = FetchIsLiveRoute(self)
         self.fetch_signed_websocket: FetchSignedWebSocketRoute = FetchSignedWebSocketRoute(self)
         self.send_room_chat: SendRoomChatRoute = SendRoomChatRoute(self)
-        self.send_room_like: SendRoomLikeRoute = SendRoomLikeRoute(self)
-        self.send_room_gift: SendRoomGiftRoute = SendRoomGiftRoute(self)
         self.fetch_user_unique_id: FetchUserUniqueIdRoute = FetchUserUniqueIdRoute(self)
 
         self._logger = TikTokLiveLogHandler.get_logger()

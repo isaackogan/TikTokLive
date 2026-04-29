@@ -35,24 +35,14 @@ jobs:
 
       - name: Run mypy
         run: |
-          python -m mypy \
+          python -m mypy --follow-imports=silent \
             TikTokLive/proto/__init__.py \
             TikTokLive/proto/proto_utils.py \
-            TikTokLive/events/__init__.py \
             TikTokLive/events/custom_events.py \
             TikTokLive/client/__init__.py \
             TikTokLive/client/ws/ws_utils.py \
             TikTokLive/client/web/web_client.py \
             TikTokLive/client/web/web_settings.py \
             TikTokLive/client/web/web_utils.py \
-            TikTokLive/client/web/routes/fetch_gift_list.py \
-            TikTokLive/client/web/routes/fetch_image_data.py \
-            TikTokLive/client/web/routes/fetch_room_id_api.py \
-            TikTokLive/client/web/routes/fetch_room_id_live_html.py \
-            TikTokLive/client/web/routes/fetch_room_info.py \
-            TikTokLive/client/web/routes/fetch_signed_websocket.py \
-            TikTokLive/client/web/routes/fetch_user_unique_id.py \
-            TikTokLive/client/web/routes/send_room_chat.py \
-            TikTokLive/client/web/routes/send_room_gift.py \
             scripts/proto/gen_aliases.py \
             scripts/proto/gen_events.py

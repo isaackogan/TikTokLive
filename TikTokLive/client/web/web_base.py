@@ -1,21 +1,14 @@
 import logging
 import random
 from abc import ABC, abstractmethod
-from typing import Optional, Any, Awaitable, Dict, Literal, Union
+from typing import Any, Awaitable, Dict, Literal, Optional
 
 import httpx
 from httpx import Cookies, AsyncClient, Proxy, URL
 
 from TikTokLive.client.logger import TikTokLiveLogHandler
-from TikTokLive.client.web.web_settings import WebDefaults, SUPPORTS_CURL_CFFI
+from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.web.web_signer import TikTokSigner, SignData
-
-# Import the curl_cffi module if it is supported
-try:
-    import curl_cffi.requests
-# Otherwise, import a dummy class
-except:
-    from . import curl_cffi_dummy as curl_cffi
 
 
 class TikTokHTTPClient:
@@ -28,7 +21,6 @@ class TikTokHTTPClient:
             self,
             web_proxy: Optional[Proxy] = None,
             httpx_kwargs: Optional[dict] = None,
-            curl_cffi_kwargs: Optional[dict] = None,
             signer_kwargs: Optional[dict] = None
     ):
         """
@@ -36,7 +28,6 @@ class TikTokHTTPClient:
 
         :param web_proxy: An optional proxy for the HTTP client
         :param httpx_kwargs: Additional httpx kwargs
-        :param curl_cffi_kwargs: Additional curl_cffi kwargs
         :param signer_kwargs: Additional signer kwargs
 
         """
@@ -50,10 +41,6 @@ class TikTokHTTPClient:
         # The URL signer
         self._tiktok_signer: TikTokSigner = TikTokSigner(**(signer_kwargs or dict()))
 
-        # Special client for requests that check the TLS certificate
-        self._curl_cffi: Optional[curl_cffi.requests.AsyncSession] = curl_cffi.requests.AsyncSession(
-            **(curl_cffi_kwargs or {})) if SUPPORTS_CURL_CFFI else None
-
     @property
     def httpx_client(self) -> AsyncClient:
         """
@@ -64,17 +51,6 @@ class TikTokHTTPClient:
         """
 
         return self._httpx
-
-    @property
-    def curl_cffi_client(self) -> curl_cffi.requests.AsyncSession:
-        """
-        Get the underlying `curl_cffi.requests.AsyncSession` instance
-
-        :return: The `curl_cffi.requests.AsyncSession` instance
-
-        """
-
-        return self._curl_cffi
 
     @property
     def signer(self) -> TikTokSigner:
@@ -133,7 +109,6 @@ class TikTokHTTPClient:
         """
 
         await self._httpx.aclose()
-        await self._curl_cffi.close()
 
     def set_session(self, session_id: str | None, tt_target_idc: str | None) -> None:
         """
@@ -268,8 +243,7 @@ class TikTokHTTPClient:
             self,
             url: str,
             method: str,
-            http_client: Optional[Union[httpx.AsyncClient, curl_cffi.requests.AsyncSession]] = None,
-            http_backend: Literal["httpx", "curl_cffi"] = "httpx",
+            http_client: Optional[httpx.AsyncClient] = None,
             extra_params: Optional[Dict] = None,
             extra_headers: Optional[Dict] = None,
             base_params: bool = True,
@@ -278,14 +252,13 @@ class TikTokHTTPClient:
             sign_url_method: Optional[str] = None,
             sign_url_type: Optional[Literal["xhr", "fetch"]] = None,
             **kwargs
-    ) -> Union[httpx.Response, curl_cffi.requests.Response]:
+    ) -> httpx.Response:
         """
         Request a response from the underlying `httpx.AsyncClient` client.
 
         :param url: The URL to request
         :param sign_url: Whether to sign the URL before requesting
         :param method: The HTTP method to use
-        :param http_backend: The backend to use for the request
         :param extra_params: Extra parameters to append to the globals
         :param extra_headers: Extra headers to append to the globals
         :param http_client: An optional override for the `httpx.AsyncClient` client
@@ -307,51 +280,21 @@ class TikTokHTTPClient:
             base_params=base_params,
             base_headers=base_headers,
             sign_url=sign_url,
-            httpx_client=http_client if isinstance(http_client, httpx.AsyncClient) else None,
+            httpx_client=http_client,
             sign_url_method=sign_url_method,
             sign_url_type=sign_url_type,
             **kwargs
         )
 
-        if http_backend == "httpx":
-
-            if SUPPORTS_CURL_CFFI and isinstance(http_client, curl_cffi.requests.AsyncSession):
-                raise ValueError("Cannot use the curl_cffi client with httpx backend!")
-
-            http_client = http_client or self._httpx
-            return await http_client.send(request)
-
-        elif http_backend == "curl_cffi":
-
-            if not SUPPORTS_CURL_CFFI:
-                raise ImportError(
-                    'Cannot perform this request without the "interactive" package extension for curl_cffi. '
-                    'To install it, type "pip install TikTokLive[interactive]".'
-                )
-
-            if isinstance(http_client, httpx.AsyncClient):
-                raise ValueError("Cannot use the httpx client with curl_cffi backend!")
-
-            http_client = http_client or self._curl_cffi
-            return await http_client.request(
-                url=str(request.url),
-                headers=request.headers,
-                method=request.method,
-                impersonate=WebDefaults.ja3_impersonate,
-                data=kwargs.pop('data', None)
-            )
-
-        else:
-
-            raise ValueError("Invalid HTTP backend specified!")
+        http_client = http_client or self._httpx
+        return await http_client.send(request)
 
     async def get(
             self,
             url: str,
             extra_params: Optional[Dict] = None,
             extra_headers: Optional[Dict] = None,
-            http_client: Optional[Union[httpx.AsyncClient, curl_cffi.requests.AsyncSession]] = None,
-            http_backend: Literal["httpx", "curl_cffi"] = "httpx",
+            http_client: Optional[httpx.AsyncClient] = None,
             base_params: bool = True,
             base_headers: bool = True,
             sign_url: bool = False,
@@ -365,7 +308,6 @@ class TikTokHTTPClient:
             extra_params=extra_params,
             extra_headers=extra_headers,
             http_client=http_client,
-            http_backend=http_backend,
             base_params=base_params,
             base_headers=base_headers,
             sign_url=sign_url,
@@ -379,8 +321,7 @@ class TikTokHTTPClient:
             url: str,
             extra_params: Optional[Dict] = None,
             extra_headers: Optional[Dict] = None,
-            http_client: Optional[Union[httpx.AsyncClient, curl_cffi.requests.AsyncSession]] = None,
-            http_backend: Literal["httpx", "curl_cffi"] = "httpx",
+            http_client: Optional[httpx.AsyncClient] = None,
             base_params: bool = True,
             base_headers: bool = True,
             sign_url: bool = False,
@@ -394,7 +335,6 @@ class TikTokHTTPClient:
             extra_params=extra_params,
             extra_headers=extra_headers,
             http_client=http_client,
-            http_backend=http_backend,
             base_params=base_params,
             base_headers=base_headers,
             sign_url=sign_url,

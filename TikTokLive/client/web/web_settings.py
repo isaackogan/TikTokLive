@@ -106,14 +106,6 @@ DEFAULT_COOKIES: Dict[str, str] = {
 """The unique identifier for ttlive-python"""
 CLIENT_NAME: str = "ttlive-python"
 
-"""Whether the curl cffi library is installed"""
-try:
-    import curl_cffi
-
-    SUPPORTS_CURL_CFFI: bool = True
-except ImportError:
-    SUPPORTS_CURL_CFFI: bool = False
-
 
 @dataclass()
 class _WebDefaults:
@@ -138,7 +130,6 @@ class _WebDefaults:
 
     # Other
     tiktok_sign_api_key: Optional[str] = None
-    ja3_impersonate: str = "chrome131"
 
 
 """The modifiable settings global for web defaults"""
@@ -147,5 +138,4 @@ WebDefaults: _WebDefaults = _WebDefaults()
 __all__ = [
     "WebDefaults",
     "CLIENT_NAME",
-    "SUPPORTS_CURL_CFFI"
 ]

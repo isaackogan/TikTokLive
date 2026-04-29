@@ -3,6 +3,7 @@ from typing import Any, AsyncIterator, Dict, Optional, Tuple, Type, TypeAlias, U
 
 import httpx
 from python_socks import ProxyType, parse_proxy_url
+# noinspection PyUnresolvedReferences
 from websockets.exceptions import InvalidStatusCode
 from websockets.legacy.client import Connect, WebSocketClientProtocol
 from websockets_proxy import websockets_proxy
