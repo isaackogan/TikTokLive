@@ -1,0 +1,69 @@
+name: Regenerate Proto Bindings
+
+# Mirrors TikTokLiveProto's generate-python.yml. Whenever any input to the
+# proto codegen changes on master (the YAML specs, the templates, the
+# generator scripts, or the pinned TikTokLiveProto version in pyproject.toml),
+# regenerate TikTokLive/proto/_aliases.py and TikTokLive/events/proto_events.py
+# and commit any drift back to master.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "scripts/proto/**"
+      - "pyproject.toml"
+      - ".github/workflows/generate.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: generate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package + dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # Runtime deps are needed because the generators import
+          # TikTokLive.proto (for legacy_aliases validation) and the
+          # TikTokLiveProto package (the introspection target).
+          python -m pip install -e .
+          python -m pip install jinja2 pyyaml
+
+      - name: Regenerate aliases
+        run: python scripts/proto/gen_aliases.py
+
+      - name: Regenerate proto events
+        run: python scripts/proto/gen_events.py
+
+      - name: Check for drift
+        id: diff
+        run: |
+          if git diff --quiet -- TikTokLive/proto/_aliases.py TikTokLive/events/proto_events.py; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add TikTokLive/proto/_aliases.py TikTokLive/events/proto_events.py
+          git commit -m "chore(proto): regenerate bindings
+
+          Source: ${{ github.sha }}"
+          git push
