@@ -1,6 +1,6 @@
-"""Render TikTokLive/events/proto_events.py from events.yaml + TikTokLiveProto.generated.v2.
+"""Render TikTokLive/events/proto_events.py from events.yaml + TikTokLiveProto.v2.
 
-Pure spec-driven generator: input is (events.yaml, TikTokLiveProto.generated.v2), output
+Pure spec-driven generator: input is (events.yaml, TikTokLiveProto.v2), output
 is proto_events.py. Does not read the existing proto_events.py — drift between
 the spec and what's checked in is therefore impossible.
 
@@ -16,9 +16,9 @@ import logging
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Type, get_type_hints
+from typing import Dict, List, Optional, Type, get_args, get_type_hints
 
-import betterproto
+import betterproto2
 import jinja2
 import yaml
 
@@ -36,8 +36,8 @@ OUTPUT_PATH = REPO_ROOT / "TikTokLive" / "events" / "proto_events.py"
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from TikTokLiveProto.generated.v2 import CommonMessageData  # noqa: E402
-import TikTokLiveProto.generated.v2 as v2  # noqa: E402
+from TikTokLiveProto.v2 import CommonMessageData  # noqa: E402
+import TikTokLiveProto.v2 as v2  # noqa: E402
 
 
 logger = logging.getLogger("gen-events")
@@ -59,16 +59,22 @@ class EventClass:
 def is_proto_event(name: str, instance: Type[object]) -> bool:
     """A v2 message qualifies as an event when it embeds CommonMessageData."""
     try:
-        if not issubclass(instance, betterproto.Message):
+        if not issubclass(instance, betterproto2.Message):
             return False
     except TypeError:
         return False
     if not name.startswith("Webcast"):
         return False
+
+    # betterproto2 fields are now annotated as ``CommonMessageData | None``
+    # (proto3 implicit-optional). Unwrap the union before testing.
     common_hint = get_type_hints(instance).get("common")
-    if not common_hint:
+    if common_hint is None:
         return False
-    return issubclass(common_hint, CommonMessageData)
+    candidates = [t for t in get_args(common_hint) if isinstance(t, type)] or (
+        [common_hint] if isinstance(common_hint, type) else []
+    )
+    return any(issubclass(t, CommonMessageData) for t in candidates)
 
 
 def default_event_name(proto_name: str) -> str:
@@ -78,9 +84,9 @@ def default_event_name(proto_name: str) -> str:
     return proto_name.removeprefix("Webcast") + "Event"
 
 
-def _proto_field_type(message_cls: Type[betterproto.Message], field_name: str) -> Optional[str]:
+def _proto_field_type(message_cls: Type[betterproto2.Message], field_name: str) -> Optional[str]:
     """Return the proto type-name for a betterproto field, or None."""
-    # ``betterproto.Message`` subclasses are all ``@dataclass``-decorated by
+    # ``betterproto2.Message`` subclasses are all ``@dataclass``-decorated by
     # the generated code, but mypy can't see the decorator on the parent so
     # rejects the call. Safe at runtime.
     fields = {f.name: f for f in dataclasses.fields(message_cls)}  # type: ignore[arg-type]
@@ -138,7 +144,7 @@ def discover_events(spec: dict) -> List[EventClass]:
     yaml_only = set(per_event) - {e.proto_name for e in discovered}
     if yaml_only:
         raise SystemExit(
-            "events.yaml references proto messages not present in TikTokLiveProto.generated.v2:\n  - "
+            "events.yaml references proto messages not present in TikTokLiveProto.v2:\n  - "
             + "\n  - ".join(sorted(yaml_only))
         )
 

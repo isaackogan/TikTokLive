@@ -1,6 +1,6 @@
 # Spec-driven generation of TikTokLive/events/proto_events.py.
 #
-# The generator (scripts/proto/gen_events.py) walks TikTokLiveProto.generated.v2 for
+# The generator (scripts/proto/gen_events.py) walks TikTokLiveProto.v2 for
 # every Webcast*Message that carries a `common: CommonMessageData` field and
 # renders one BaseEvent subclass per match. Customizations below override or
 # extend the default class.
@@ -8,7 +8,7 @@
 # Schema:
 #   field_type_overrides:    proto-type → replacement annotation, applied to
 #                            *every* generated event whose proto field has that
-#                            type. Used to swap the bare betterproto User/Gift
+#                            type. Used to swap the bare betterproto2 User/Gift
 #                            for the ExtendedUser/ExtendedGift wrappers.
 #   events.<ProtoMessage>.name             event class name (default: WebcastFooMessage → FooEvent)
 #   events.<ProtoMessage>.fields           extra dataclass fields. Each entry:
@@ -30,6 +30,8 @@ events:
         return_type: bool
         doc: Return whether the user is a TikTok super fan.
         body: |
+          if self.user_identity is None:
+              return False
           return self.user_identity.is_subscriber_of_anchor
 
   WebcastControlMessage:
@@ -37,7 +39,7 @@ events:
     fields:
       action:
         type: ControlAction
-        value: betterproto.enum_field(2)
+        value: betterproto2.field(2, "enum")
 
   WebcastGiftMessage:
     name: GiftEvent
@@ -46,16 +48,18 @@ events:
         return_type: bool
         doc: Return whether the user is a TikTok super fan.
         body: |
+          if self.user_identity is None:
+              return False
           return self.user_identity.is_subscriber_of_anchor
       - name: gift
         return_type: ExtendedGift
         doc: |
           Convenience accessor for the gift definition. v2 exposes it as
-          ``gift_details``; we keep ``gift`` for ergonomics. Returns
-          ``ExtendedGift`` (not the bare proto ``Gift``) so callers can use
-          ``.streakable`` and other extensions without re-wrapping.
+          ``gift_details`` (Optional); we keep ``gift`` for ergonomics and
+          always return an ``ExtendedGift`` (wrapping the underlying Gift
+          so callers can use ``.streakable`` and other extensions).
         body: |
-          return self.gift_details
+          return ExtendedGift(self.gift_details)
       - name: streaking
         return_type: bool
         doc: |

@@ -6,7 +6,7 @@
 # ``setattr``-style mutation, which mypy can't model statically.
 # mypy: ignore-errors
 
-from TikTokLiveProto.generated.v2 import BaseProtoMessage as ProtoMessageFetchResultBaseProtoMessage
+from TikTokLiveProto.v2 import BaseProtoMessage as ProtoMessageFetchResultBaseProtoMessage
 from TikTokLive.proto.custom_proto import ExtendedUser as _ExtendedUser
 from TikTokLive.proto.custom_proto import ExtendedGift as _ExtendedGift
 

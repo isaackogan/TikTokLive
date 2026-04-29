@@ -103,8 +103,25 @@ class WebcastConnect(Connect):
 
                     # Only deal with messages
                     if webcast_push_frame.payload_type != "msg":
-                        parsed_payload = extract_webcast_response_message(webcast_push_frame, logger=self._logger)
-                        self._logger.debug(f"Received payload of type '{webcast_push_frame.payload_type}', not 'msg': {parsed_payload}")
+                        # Non-msg frames (acks, control frames, etc.) aren't
+                        # ProtoMessageFetchResult-shaped. Try a best-effort
+                        # parse purely for the debug log; surface the parse
+                        # failure with exc_info so debug runs see the cause
+                        # rather than swallowing it.
+                        try:
+                            parsed_payload = extract_webcast_response_message(webcast_push_frame, logger=self._logger)
+                            self._logger.debug(
+                                "Received payload of type '%s', not 'msg': %s",
+                                webcast_push_frame.payload_type,
+                                parsed_payload,
+                            )
+                        except Exception:
+                            self._logger.debug(
+                                "Failed to debug-parse non-msg push frame (type=%r, len=%d)",
+                                webcast_push_frame.payload_type,
+                                len(webcast_push_frame.payload),
+                                exc_info=True,
+                            )
                         continue
 
                     # If it is of type msg, we can extract the ProtoMessageFetchResult item within

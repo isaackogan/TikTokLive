@@ -4,7 +4,7 @@ from asyncio import Task
 from typing import Optional, AsyncIterator, Union, Type
 
 import httpx
-from betterproto import Message
+from betterproto2 import Message
 from websockets.legacy.client import WebSocketClientProtocol
 
 from TikTokLive.client.logger import TikTokLiveLogHandler

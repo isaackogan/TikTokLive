@@ -5,7 +5,17 @@
 
 from typing import Dict, Optional, Type, TypeAlias, Union
 
-import betterproto
+# These look unused but are required: betterproto2-generated parent classes
+# carry forward-ref string annotations referencing ``typing``, ``builtins``,
+# ``pydantic``, ``betterproto2`` and the upstream message types. The refs are
+# evaluated against the *subclass*'s module globals when ``parse``/``from_dict``
+# triggers metadata building, so every name they touch must be importable
+# from this module.
+import builtins  # noqa: F401
+import typing  # noqa: F401
+
+import betterproto2
+import pydantic  # noqa: F401
 
 from .base_event import BaseEvent
 from TikTokLive.proto import *  # noqa: F401,F403
@@ -22,25 +32,24 @@ class CaptionEvent(BaseEvent, WebcastCaptionMessage):
 
 class CommentEvent(BaseEvent, WebcastChatMessage):
     """CommentEvent."""
-    user: ExtendedUser
-    at_user: ExtendedUser
 
     @property
     def user_is_super_fan(self) -> bool:
         """
         Return whether the user is a TikTok super fan.
         """
+        if self.user_identity is None:
+            return False
         return self.user_identity.is_subscriber_of_anchor
 
 
 class ControlEvent(BaseEvent, WebcastControlMessage):
     """ControlEvent."""
-    action: ControlAction = betterproto.enum_field(2)
+    action: ControlAction = betterproto2.field(2, "enum")
 
 
 class EmoteChatEvent(BaseEvent, WebcastEmoteChatMessage):
     """EmoteChatEvent."""
-    user: ExtendedUser
 
 
 class EnvelopeEvent(BaseEvent, WebcastEnvelopeMessage):
@@ -49,26 +58,25 @@ class EnvelopeEvent(BaseEvent, WebcastEnvelopeMessage):
 
 class GiftEvent(BaseEvent, WebcastGiftMessage):
     """GiftEvent."""
-    user: ExtendedUser
-    gift_details: ExtendedGift
-    to_user: ExtendedUser
 
     @property
     def user_is_super_fan(self) -> bool:
         """
         Return whether the user is a TikTok super fan.
         """
+        if self.user_identity is None:
+            return False
         return self.user_identity.is_subscriber_of_anchor
 
     @property
     def gift(self) -> ExtendedGift:
         """
         Convenience accessor for the gift definition. v2 exposes it as
-        ``gift_details``; we keep ``gift`` for ergonomics. Returns
-        ``ExtendedGift`` (not the bare proto ``Gift``) so callers can use
-        ``.streakable`` and other extensions without re-wrapping.
+        ``gift_details`` (Optional); we keep ``gift`` for ergonomics and
+        always return an ``ExtendedGift`` (wrapping the underlying Gift
+        so callers can use ``.streakable`` and other extensions).
         """
-        return self.gift_details
+        return ExtendedGift(self.gift_details)
 
     @property
     def streaking(self) -> bool:
@@ -110,13 +118,10 @@ class InRoomBannerEvent(BaseEvent, WebcastInRoomBannerMessage):
 
 class JoinEvent(BaseEvent, WebcastMemberMessage):
     """JoinEvent."""
-    user: ExtendedUser
-    operator: ExtendedUser
 
 
 class LikeEvent(BaseEvent, WebcastLikeMessage):
     """LikeEvent."""
-    user: ExtendedUser
 
 
 class LinkEvent(BaseEvent, WebcastLinkMessage):
@@ -153,7 +158,6 @@ class LinkmicBattleTaskEvent(BaseEvent, WebcastLinkmicBattleTaskMessage):
 
 class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
     """LiveIntroEvent."""
-    host: ExtendedUser
 
 
 class MessageDetectEvent(BaseEvent, WebcastMsgDetectMessage):
@@ -186,7 +190,6 @@ class RoomEvent(BaseEvent, WebcastRoomMessage):
 
 class RoomPinEvent(BaseEvent, WebcastRoomPinMessage):
     """RoomPinEvent."""
-    operator: ExtendedUser
 
 
 class RoomUserSeqEvent(BaseEvent, WebcastRoomUserSeqMessage):
@@ -195,7 +198,6 @@ class RoomUserSeqEvent(BaseEvent, WebcastRoomUserSeqMessage):
 
 class SocialEvent(BaseEvent, WebcastSocialMessage):
     """SocialEvent."""
-    user: ExtendedUser
 
 
 class SystemEvent(BaseEvent, WebcastSystemMessage):

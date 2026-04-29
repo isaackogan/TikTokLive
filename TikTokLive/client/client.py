@@ -7,7 +7,14 @@ from logging import Logger
 from typing import Optional, Type, Dict, Any, Union, Callable, List, Coroutine, AsyncIterator
 
 import httpx
-from TikTokLiveProto.generated.v2 import EnvelopeBusinessType
+from TikTokLiveProto.v2 import CommonMessageData, EnvelopeBusinessType
+
+
+def _common_display_type(common: Optional[CommonMessageData]) -> str:
+    """Safely read ``common.display_text.display_type`` through the v2 nullable chain."""
+    if common is None or common.display_text is None:
+        return ""
+    return common.display_text.display_type or ""
 from pyee.asyncio import AsyncIOEventEmitter
 from pyee.base import Handler
 
@@ -26,6 +33,34 @@ from TikTokLive.events.custom_events import WebsocketResponseEvent, FollowEvent,
 from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, BarrageEvent, EnvelopeEvent
 from TikTokLive.proto import ProtoMessageFetchResult, ProtoMessageFetchResultBaseProtoMessage
 from TikTokLive.proto.custom_proto import ControlAction
+
+
+# Default fingerprints of parse failures rooted in upstream proto schema
+# bugs. These are substring-matched against the exception's ``str(...)`` and
+# any matching parse error is logged at DEBUG instead of ERROR. Clients can
+# extend the list at runtime via ``client.parse_error_ignorelist``.
+DEFAULT_PARSE_ERROR_IGNORELIST: List[str] = [
+    # LinkLayerListUser.linkmic_id is declared int64 in v2 but TikTok wires
+    # it as bytes-of-an-ASCII-numeric-string. pydantic refuses; affects
+    # WebcastLinkLayerMessage and WebcastLinkMessage.
+    "LinkLayerListUser\nlinkmic_id",
+]
+
+# Maximum number of bytes to include from the raw payload when logging a
+# parse failure. Anything over this gets truncated with a "(N more)" suffix
+# to keep the log readable while still being diagnostic.
+_PARSE_ERROR_PAYLOAD_PREVIEW_BYTES: int = 32
+
+
+def _truncate_payload(payload: Optional[bytes]) -> str:
+    """Format raw payload for log output, truncated to a small preview."""
+    if not payload:
+        return repr(payload)
+    if len(payload) <= _PARSE_ERROR_PAYLOAD_PREVIEW_BYTES:
+        return repr(payload)
+    head = payload[:_PARSE_ERROR_PAYLOAD_PREVIEW_BYTES]
+    return f"{head!r}...(+{len(payload) - _PARSE_ERROR_PAYLOAD_PREVIEW_BYTES} more bytes)"
+
 
 class TikTokLiveClient(AsyncIOEventEmitter):
     """
@@ -82,6 +117,12 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # Overridable properties
         self.ignore_broken_payload: bool = False
+
+        # Substring fingerprints of parse errors we silently demote to DEBUG
+        # because the underlying schema bug lives upstream in TikTokLiveProto
+        # rather than in this codebase. Append to extend; clear to make every
+        # parse failure ERROR-level again.
+        self.parse_error_ignorelist: List[str] = list(DEFAULT_PARSE_ERROR_IGNORELIST)
 
         # Properties
         self._is_user_id: bool = bool(is_user_id)
@@ -373,13 +414,17 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # Yield events
         for message in webcast_response.messages:
-            for event in await self._parse_webcast_response_message(webcast_response_message=message):
+            for event in await self._parse_webcast_response_message(
+                webcast_response=webcast_response,
+                webcast_response_message=message,
+            ):
                 if event is not None:
                     yield event
 
     async def _parse_webcast_response_message(
             self,
-            webcast_response_message: Optional[ProtoMessageFetchResultBaseProtoMessage]
+            webcast_response: ProtoMessageFetchResult,
+            webcast_response_message: Optional[ProtoMessageFetchResultBaseProtoMessage],
     ) -> List[Event]:
         """
         Parse incoming webcast responses into events that can be emitted
@@ -400,19 +445,41 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         event_type: Optional[Type[ProtoEvent]] = (
             EVENT_MAPPINGS.get(webcast_response_message.type)  # type: ignore[assignment]
         )
-        response_event: Event = WebsocketResponseEvent().from_dict(webcast_response_message.to_dict())
+        # ``WebsocketResponseEvent`` carries the outer fetch result by
+        # composition (``raw``); subscribers can inspect cursor, ws_params,
+        # the full message list, etc. through that field.
+        response_event: Event = WebsocketResponseEvent(raw=webcast_response)
 
         # If the event is not tracked, return
         if event_type is None:
-            return [response_event, UnknownEvent().from_dict(webcast_response_message.to_dict())]
+            return [response_event, UnknownEvent(raw=webcast_response)]
 
         # Get the underlying events
         try:
             proto_event: ProtoEvent = event_type().parse(webcast_response_message.payload)
-        except Exception:
-            if not self.ignore_broken_payload:
+        except Exception as ex:
+            # Known upstream-schema bugs are demoted to DEBUG so they don't
+            # drown the operator's log. Match by substring against the
+            # error's str() representation.
+            ex_repr = str(ex)
+            is_known_schema_bug = any(token in ex_repr for token in self.parse_error_ignorelist)
+
+            if is_known_schema_bug:
+                self._logger.debug(
+                    "Skipped %s payload (known upstream schema mismatch): %s",
+                    webcast_response_message.type,
+                    ex.__class__.__name__,
+                )
+            elif not self.ignore_broken_payload:
+                # Truncate raw bytes preview so a single 8KB payload doesn't
+                # blow up the log; full traceback is in exc_info.
                 self._logger.error(
-                    traceback.format_exc() + "\nBroken Payload:\n" + str(webcast_response_message.payload))
+                    "Failed to parse %s payload (%d bytes); raw=%s",
+                    webcast_response_message.type,
+                    len(webcast_response_message.payload or b""),
+                    _truncate_payload(webcast_response_message.payload),
+                    exc_info=True,
+                )
             return [response_event]
 
         parsed_events: List[Event] = [response_event, proto_event]
@@ -468,7 +535,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # SuperFanBoxEvent — envelope variant. Match either the displayType
         # marker or the explicit business_type enum, mirroring the JS connector.
         if isinstance(event, EnvelopeEvent):
-            envelope_dt = (event.common.display_text.display_type or "").lower()
+            envelope_dt = _common_display_type(event.common).lower()
             business_type = getattr(event.envelope_info, "business_type", None)
             if (
                 "ttlive_superfanbox" in envelope_dt
@@ -479,24 +546,23 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # LiveEndEvent, LivePauseEvent, LiveUnpauseEvent
         if isinstance(event, ControlEvent):
             if event.action in {
-                ControlAction.CONTROL_ACTION_STREAM_ENDED,
-                ControlAction.CONTROL_ACTION_STREAM_SUSPENDED
+                ControlAction.STREAM_ENDED,
+                ControlAction.STREAM_SUSPENDED,
             }:
                 # If the stream is over, disconnect the client. Can't await due to circular dependency.
                 self._asyncio_loop.create_task(self.disconnect())
                 return LiveEndEvent().parse(response.payload)
-            elif event.action == ControlAction.CONTROL_ACTION_STREAM_PAUSED:
+            elif event.action == ControlAction.STREAM_PAUSED:
                 return LivePauseEvent().parse(response.payload)
-            elif event.action == ControlAction.CONTROL_ACTION_STREAM_PAUSED:
+            elif event.action == ControlAction.STREAM_UNPAUSED:
                 return LiveUnpauseEvent().parse(response.payload)
             return None
 
-        # FollowEvent
-        if "follow" in (event.common.display_text.display_type or ""):
+        # FollowEvent / ShareEvent — keyed off the common display-text marker.
+        common_dt = _common_display_type(event.common)
+        if "follow" in common_dt:
             return FollowEvent().parse(response.payload)
-
-        # ShareEvent
-        if "share" in (event.common.display_text.display_type or ""):
+        if "share" in common_dt:
             return ShareEvent().parse(response.payload)
 
         # Not a custom event

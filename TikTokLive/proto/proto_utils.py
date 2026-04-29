@@ -4,13 +4,21 @@ from typing import List, Tuple, Optional
 from TikTokLive.proto import User, BadgeStruct
 
 
-_BADGE_ONEOF_GROUP = "badgeType"
+_BADGE_ONEOF_FIELDS = ("str", "text", "image", "combine")
 
 
 def _badge_kind(badge: BadgeStruct) -> Optional[str]:
-    """Return which oneof field of ``badgeType`` is populated, or None."""
+    """Return which oneof field of ``badgeType`` is populated, or None.
 
-    return getattr(badge, "_group_current", {}).get(_BADGE_ONEOF_GROUP)
+    betterproto2 exposes oneof state via ``Message.is_set(field_name)``;
+    we walk the four ``badgeType`` members and return the first one set.
+
+    """
+
+    for field_name in _BADGE_ONEOF_FIELDS:
+        if badge.is_set(field_name):
+            return field_name
+    return None
 
 
 def badge_match_user(user: User, p: re.Pattern) -> List[Tuple[re.Match, BadgeStruct]]:
@@ -33,20 +41,27 @@ def badge_match(badge: BadgeStruct, p: re.Pattern) -> Optional[re.Match]:
     """
     Search & extract text from any TikTok badge variant.
 
-    v2 represents badge contents as a ``betterproto`` oneof under the
+    v2 represents badge contents as a ``betterproto2`` oneof under the
     ``badgeType`` group (``image``/``text``/``str``/``combine``).
 
     """
 
     kind = _badge_kind(badge)
 
+    # ``_badge_kind`` only returns the field name when ``is_set`` confirms it,
+    # so the typed-Optional accesses below are safe at runtime; the asserts
+    # narrow for the type checker.
+
     if kind == "str":
+        assert badge.str is not None
         return p.search(badge.str.str)
 
     if kind == "text":
+        assert badge.text is not None
         return p.search(badge.text.default_pattern)
 
     if kind == "image":
+        assert badge.image is not None and badge.image.image is not None
         for image_url in badge.image.image.url:
             match = p.search(image_url)
             if match:
@@ -54,14 +69,16 @@ def badge_match(badge: BadgeStruct, p: re.Pattern) -> Optional[re.Match]:
         return None
 
     if kind == "combine":
+        assert badge.combine is not None
         if badge.combine.str:
             match = p.search(badge.combine.str)
             if match:
                 return match
-        for image_url in badge.combine.icon.url:
-            match = p.search(image_url)
-            if match:
-                return match
+        if badge.combine.icon is not None:
+            for image_url in badge.combine.icon.url:
+                match = p.search(image_url)
+                if match:
+                    return match
         return None
 
     return None

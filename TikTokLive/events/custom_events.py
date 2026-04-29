@@ -8,11 +8,23 @@ from TikTokLive.events.proto_events import SocialEvent, ControlEvent, BarrageEve
 from TikTokLive.proto import ProtoMessageFetchResult
 
 
-class WebsocketResponseEvent(ProtoMessageFetchResult, BaseEvent):
+class WebsocketResponseEvent(BaseEvent):
     """
-    Triggered when any event is received from the WebSocket
+    Triggered when any event is received from the WebSocket. Carries the raw
+    ``ProtoMessageFetchResult`` envelope this event was extracted from on
+    ``self.raw`` for callers that want to inspect the underlying response
+    fields (cursor, fetch_interval, ws_params, etc.).
+
+    The previous design subclassed ``ProtoMessageFetchResult`` directly;
+    that produced empty fields in practice (the constructor was fed the
+    inner per-message envelope, not the outer fetch result) and
+    additionally tripped betterproto2's metadata machinery whenever the
+    subclass lived in a different module from the upstream definition.
 
     """
+
+    def __init__(self, raw: Optional[ProtoMessageFetchResult] = None):
+        self.raw: ProtoMessageFetchResult = raw if raw is not None else ProtoMessageFetchResult()
 
 
 class UnknownEvent(WebsocketResponseEvent):
@@ -118,7 +130,9 @@ class ShareEvent(SocialEvent):
         """
 
         try:
-            display_text: str = (self.common.display_text.display_type or "")
+            if self.common is None or self.common.display_text is None:
+                return None
+            display_text: str = self.common.display_text.display_type or ""
             return int(display_text.split("pm_mt_guidance_viewer_")[1].split("_share")[0])
         except IndexError:
             return None

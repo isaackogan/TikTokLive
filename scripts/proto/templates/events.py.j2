@@ -7,7 +7,17 @@
 
 from typing import Dict, Optional, Type, TypeAlias, Union
 
-import betterproto
+# These look unused but are required: betterproto2-generated parent classes
+# carry forward-ref string annotations referencing ``typing``, ``builtins``,
+# ``pydantic``, ``betterproto2`` and the upstream message types. The refs are
+# evaluated against the *subclass*'s module globals when ``parse``/``from_dict``
+# triggers metadata building, so every name they touch must be importable
+# from this module.
+import builtins  # noqa: F401
+import typing  # noqa: F401
+
+import betterproto2
+import pydantic  # noqa: F401
 
 from .base_event import BaseEvent
 from TikTokLive.proto import *  # noqa: F401,F403
