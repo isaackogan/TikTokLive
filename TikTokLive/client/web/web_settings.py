@@ -1,6 +1,4 @@
-import os
 import random
-import urllib.parse
 from dataclasses import dataclass, field
 from typing import Dict, Union, Optional
 

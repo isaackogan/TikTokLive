@@ -25,7 +25,8 @@ class SendRoomChatRoute(ClientRoute):
         room_id: int = room_id or self._web.params.get('room_id')
 
         if not room_id:
-            raise ValueError("Room ID is required to send a chat message. Use client.web.send_room_chat if you want to use this function without connecting.")
+            raise ValueError(
+                "Room ID is required to send a chat message. Use client.web.send_room_chat if you want to use this function without connecting.")
 
         payload: dict = {
             "roomId": str(room_id),

@@ -51,7 +51,8 @@ class TikTokHTTPClient:
         self._tiktok_signer: TikTokSigner = TikTokSigner(**(signer_kwargs or dict()))
 
         # Special client for requests that check the TLS certificate
-        self._curl_cffi: Optional[curl_cffi.requests.AsyncSession] = curl_cffi.requests.AsyncSession(**(curl_cffi_kwargs or {})) if SUPPORTS_CURL_CFFI else None
+        self._curl_cffi: Optional[curl_cffi.requests.AsyncSession] = curl_cffi.requests.AsyncSession(
+            **(curl_cffi_kwargs or {})) if SUPPORTS_CURL_CFFI else None
 
     @property
     def httpx_client(self) -> AsyncClient:
