@@ -76,10 +76,10 @@ warn_unreachable = true
 no_implicit_optional = true
 show_error_codes = true
 
-# Generated outputs are mypy-clean by construction; checking them just adds
-# noise to the CLI report and the IDE plugin.
+# Generated outputs are held to the same bar as hand-written code, except
+# ``_aliases.py`` which intentionally attaches @property hooks to existing
+# classes via ``setattr``-style mutation that mypy can't model.
 exclude = [
-    "TikTokLive/events/proto_events\\.py",
     "TikTokLive/proto/_aliases\\.py",
     "build/",
     "dist/",

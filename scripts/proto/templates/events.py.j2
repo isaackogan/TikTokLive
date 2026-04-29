@@ -5,7 +5,7 @@
 # SERIOUSLY!
 # I MEAN IT!
 
-from typing import Dict, Optional, Type, Union
+from typing import Dict, Optional, Type, TypeAlias, Union
 
 import betterproto
 
@@ -42,7 +42,7 @@ EVENT_MAPPINGS: Dict[str, Type[BaseEvent]] = {
 {% endfor %}}
 
 
-ProtoEvent: Type = Union[
+ProtoEvent: TypeAlias = Union[
 {% for ev in events %}    {{ ev.class_name }},
 {% endfor %}]
 

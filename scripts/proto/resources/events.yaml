@@ -48,10 +48,12 @@ events:
         body: |
           return self.user_identity.is_subscriber_of_anchor
       - name: gift
-        return_type: Gift
+        return_type: ExtendedGift
         doc: |
           Convenience accessor for the gift definition. v2 exposes it as
-          ``gift_details``; we keep ``gift`` for ergonomics.
+          ``gift_details``; we keep ``gift`` for ergonomics. Returns
+          ``ExtendedGift`` (not the bare proto ``Gift``) so callers can use
+          ``.streakable`` and other extensions without re-wrapping.
         body: |
           return self.gift_details
       - name: streaking

@@ -3,7 +3,7 @@
 # SERIOUSLY!
 # I MEAN IT!
 
-from typing import Dict, Optional, Type, Union
+from typing import Dict, Optional, Type, TypeAlias, Union
 
 import betterproto
 
@@ -61,10 +61,12 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
         return self.user_identity.is_subscriber_of_anchor
 
     @property
-    def gift(self) -> Gift:
+    def gift(self) -> ExtendedGift:
         """
         Convenience accessor for the gift definition. v2 exposes it as
-        ``gift_details``; we keep ``gift`` for ergonomics.
+        ``gift_details``; we keep ``gift`` for ergonomics. Returns
+        ``ExtendedGift`` (not the bare proto ``Gift``) so callers can use
+        ``.streakable`` and other extensions without re-wrapping.
         """
         return self.gift_details
 
@@ -242,7 +244,7 @@ EVENT_MAPPINGS: Dict[str, Type[BaseEvent]] = {
 }
 
 
-ProtoEvent: Type = Union[
+ProtoEvent: TypeAlias = Union[
     BarrageEvent,
     CaptionEvent,
     CommentEvent,

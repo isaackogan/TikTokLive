@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Tuple, Union, Type, AsyncIterator, Dict, Any
+from typing import Any, AsyncIterator, Dict, Optional, Tuple, Type, TypeAlias, Union
 
 import httpx
 from python_socks import ProxyType, parse_proxy_url
@@ -13,14 +13,14 @@ from TikTokLive.client.ws.ws_utils import extract_webcast_response_message, buil
 from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame
 
 """Type hint for a WebcastProxy, which can be either an HTTPX Proxy or a Websockets Proxy"""
-WebcastProxy: Type = Union[httpx.Proxy, websockets_proxy.Proxy]
+WebcastProxy: TypeAlias = Union[httpx.Proxy, websockets_proxy.Proxy]
 
 """
 Type hint for a WebcastIterator, which yields a tuple of WebcastPushFrame and ProtoMessageFetchResult.
 WebcastPushFrame is Optional because the first yielded item is from the initial response
 which is from /im/fetch (from the sign server), so it is not encapsulated by a WebcastPushFrame.
 """
-WebcastIterator: Type = AsyncIterator[Tuple[Optional[WebcastPushFrame], ProtoMessageFetchResult]]
+WebcastIterator: TypeAlias = AsyncIterator[Tuple[Optional[WebcastPushFrame], ProtoMessageFetchResult]]
 
 
 class WebcastConnect(Connect):
