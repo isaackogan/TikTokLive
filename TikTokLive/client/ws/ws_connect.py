@@ -63,7 +63,11 @@ class WebcastConnect(Connect):
 
         return self._ws_options
 
-    async def __aiter__(self) -> WebcastIterator:
+    # Liskov override: parent yields ``WebSocketClientProtocol`` instances; we
+    # wrap the websocket and yield parsed ``(WebcastPushFrame, ProtoMessageFetchResult)``
+    # tuples. The shape divergence is intentional — this iterator is the public
+    # event stream, not a passthrough of the underlying socket.
+    async def __aiter__(self) -> WebcastIterator:  # type: ignore[override]
         """
         Note as of Jul 6, 2025
 

@@ -269,7 +269,16 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         await self._web.close()
 
-    def on(self, event: Type[Event], f: Optional[EventHandler] = None) -> Union[Handler, Callable[[Handler], Handler]]:
+    # Liskov overrides of pyee.EventEmitter.on/add_listener: pyee keys events
+    # by string; we accept an Event class and convert internally via
+    # event.get_type(). The deviation is deliberate — class-based subscription
+    # is the documented public API. The cascading [type-var, misc, return-value]
+    # errors all stem from the same intentional contract change.
+    def on(  # type: ignore[override]
+        self,
+        event: Type[Event],
+        f: Optional[EventHandler] = None,
+    ) -> Union[Handler, Callable[[Handler], Handler]]:
         """
         Decorator that can be used to register a Python function as an event listener
 
@@ -279,9 +288,13 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         """
 
-        return super(TikTokLiveClient, self).on(event.get_type(), f)
+        return super(TikTokLiveClient, self).on(event.get_type(), f)  # type: ignore[type-var,return-value]
 
-    def add_listener(self, event: Type[Event], f: EventHandler) -> Handler:
+    def add_listener(  # type: ignore[override]
+        self,
+        event: Type[Event],
+        f: EventHandler,
+    ) -> Handler:
         """
         Method that can be used to register a Python function as an event listener
 
@@ -290,10 +303,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         :return: The generated `pyee.Handler` object
 
         """
-        if isinstance(event, str):
-            return super().add_listener(event=event, f=f)
 
-        return super().add_listener(event=event.get_type(), f=f)
+        return super().add_listener(event=event.get_type(), f=f)  # type: ignore[return-value]
 
     def has_listener(self, event: Type[Event]) -> bool:
         """

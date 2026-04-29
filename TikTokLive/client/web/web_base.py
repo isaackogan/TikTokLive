@@ -1,7 +1,7 @@
 import logging
 import random
-from abc import ABC, abstractmethod
-from typing import Any, Awaitable, Dict, Literal, Optional
+from abc import ABC
+from typing import Any, Dict, Literal, Optional
 
 import httpx
 from httpx import Cookies, AsyncClient, Proxy, URL
@@ -346,7 +346,9 @@ class TikTokHTTPClient:
 
 class ClientRoute(ABC):
     """
-    A callable API route for TikTok
+    Base class for callable API routes. Provides dependency injection of the
+    shared ``TikTokHTTPClient`` and a logger; each subclass defines its own
+    ``__call__`` signature with concrete parameter and return types.
 
     """
 
@@ -360,15 +362,3 @@ class ClientRoute(ABC):
 
         self._web: TikTokHTTPClient = web
         self._logger: logging.Logger = TikTokLiveLogHandler.get_logger()
-
-    @abstractmethod
-    def __call__(self, **kwargs: Any) -> Awaitable[Any]:
-        """
-        Method used for calling the route as a function
-
-        :param kwargs: Arguments to be overridden
-        :return: Return to be overridden
-
-        """
-
-        raise NotImplementedError
