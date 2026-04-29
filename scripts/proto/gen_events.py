@@ -11,6 +11,7 @@ entrypoint pattern.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import logging
 import sys
 from dataclasses import dataclass, field
@@ -79,7 +80,11 @@ def default_event_name(proto_name: str) -> str:
 
 def _proto_field_type(message_cls: Type[betterproto.Message], field_name: str) -> Optional[str]:
     """Return the proto type-name for a betterproto field, or None."""
-    f = message_cls.__dataclass_fields__.get(field_name)
+    # ``betterproto.Message`` subclasses are all ``@dataclass``-decorated by
+    # the generated code, but mypy can't see the decorator on the parent so
+    # rejects the call. Safe at runtime.
+    fields = {f.name: f for f in dataclasses.fields(message_cls)}  # type: ignore[arg-type]
+    f = fields.get(field_name)
     if f is None:
         return None
     # ``f.type`` is the python source string (e.g. ``"User"`` or ``List["User"]``).
