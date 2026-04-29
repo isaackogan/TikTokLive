@@ -32,7 +32,7 @@ def proto_extension(cls: Type[_MessageType]) -> Type[_MessageType]:
             # ``_betterproto`` metadata onto the subclass so betterproto's
             # serialiser uses the inherited proto schema.
             # noinspection PyProtectedMember
-            cls._betterproto = obj()._betterproto  # type: ignore[method-assign]
+            cls._betterproto = obj()._betterproto  # type: ignore[method-assign,assignment]
             return cls
 
     return cls
@@ -211,15 +211,13 @@ class ExtendedGift(Gift):
 
     """
 
-    def __init__(self, proto_gift: Gift = None, *args, **kwargs):
+    def __init__(self, proto_gift: Optional[Gift] = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.m_gift: Optional[Gift] = proto_gift
         if proto_gift is not None:
-            self.m_gift = proto_gift
             for attr, value in proto_gift.__dict__.items():
                 setattr(self, attr, value)
-        else:
-            self.m_gift = None
 
     @property
     def streakable(self) -> bool:

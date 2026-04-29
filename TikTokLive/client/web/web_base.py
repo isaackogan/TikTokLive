@@ -208,8 +208,8 @@ class TikTokHTTPClient:
             base_headers: bool = True,
             sign_url: bool = False,
             sign_url_method: Optional[str] = None,
-            sign_url_type: Literal["xhr", "fetch"] = None,
-            sign_url_payload: str = None,
+            sign_url_type: Optional[Literal["xhr", "fetch"]] = None,
+            sign_url_payload: Optional[str] = None,
             **kwargs
     ) -> httpx.Request:
         """
@@ -276,7 +276,7 @@ class TikTokHTTPClient:
             base_headers: bool = True,
             sign_url: bool = False,
             sign_url_method: Optional[str] = None,
-            sign_url_type: Literal["xhr", "fetch"] = None,
+            sign_url_type: Optional[Literal["xhr", "fetch"]] = None,
             **kwargs
     ) -> Union[httpx.Response, curl_cffi.requests.Response]:
         """
@@ -356,7 +356,7 @@ class TikTokHTTPClient:
             base_headers: bool = True,
             sign_url: bool = False,
             sign_url_method: Optional[str] = None,
-            sign_url_type: Literal["xhr", "fetch"] = None,
+            sign_url_type: Optional[Literal["xhr", "fetch"]] = None,
             **kwargs
     ) -> httpx.Response:
         return await self.request(
@@ -385,7 +385,7 @@ class TikTokHTTPClient:
             base_headers: bool = True,
             sign_url: bool = False,
             sign_url_method: Optional[str] = None,
-            sign_url_type: Literal["xhr", "fetch"] = None,
+            sign_url_type: Optional[Literal["xhr", "fetch"]] = None,
             **kwargs
     ) -> httpx.Response:
         return await self.request(
