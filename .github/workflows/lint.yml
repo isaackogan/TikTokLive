@@ -1,0 +1,58 @@
+name: Lint (mypy)
+
+# Runs mypy against the curated list of modules below. The list intentionally
+# starts narrow: every file here passes today, so a regression that
+# reintroduces a "missing proto attribute" mistake (e.g. ``response.method``
+# vs ``.type``, ``response.route_params`` vs ``.ws_params``) fails the build.
+#
+# Expand the list as more modules are cleaned up. ``follow_imports = silent``
+# in pyproject.toml means mypy still reads types from upstream imports but
+# only reports errors on the files passed in here, so the scope grows
+# incrementally without each addition fighting the current baseline.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package + dev tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install "mypy>=1.10" types-PyYAML jinja2 pyyaml
+
+      - name: Run mypy
+        run: |
+          python -m mypy \
+            TikTokLive/proto/__init__.py \
+            TikTokLive/proto/proto_utils.py \
+            TikTokLive/events/__init__.py \
+            TikTokLive/events/custom_events.py \
+            TikTokLive/client/__init__.py \
+            TikTokLive/client/ws/ws_utils.py \
+            TikTokLive/client/web/web_client.py \
+            TikTokLive/client/web/web_settings.py \
+            TikTokLive/client/web/web_utils.py \
+            TikTokLive/client/web/routes/fetch_gift_list.py \
+            TikTokLive/client/web/routes/fetch_image_data.py \
+            TikTokLive/client/web/routes/fetch_room_id_api.py \
+            TikTokLive/client/web/routes/fetch_room_id_live_html.py \
+            TikTokLive/client/web/routes/fetch_room_info.py \
+            TikTokLive/client/web/routes/fetch_signed_websocket.py \
+            TikTokLive/client/web/routes/fetch_user_unique_id.py \
+            TikTokLive/client/web/routes/send_room_chat.py \
+            TikTokLive/client/web/routes/send_room_gift.py \
+            scripts/proto/gen_aliases.py \
+            scripts/proto/gen_events.py
