@@ -10,8 +10,7 @@ from websockets.legacy.client import WebSocketClientProtocol
 from TikTokLive.client.logger import TikTokLiveLogHandler
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_connect import WebcastProxyConnect, WebcastConnect, WebcastProxy, WebcastIterator
-from TikTokLive.proto import ProtoMessageFetchResult
-from TikTokLive.proto.custom_extras import WebcastPushFrame, HeartbeatMessage, WebcastImEnterRoomMessage
+from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame, HeartbeatMessage, WebcastImEnterRoomMessage
 
 
 class WebcastWSClient:
