@@ -1,31 +1,57 @@
+"""Regenerate TikTokLive/events/proto_events.py from scripts/events/events.yaml.
+
+The generator is pure: input is (events.yaml, TikTokLiveProto.v2), output is
+proto_events.py. It does not read the previous proto_events.py — drift between
+the spec and what's checked in is therefore impossible.
+"""
+
+from __future__ import annotations
+
+import argparse
 import logging
+import sys
+from pathlib import Path
 
-from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
-from TikTokLive.proto import User, ExtendedUser
-from overrides import InsertOverrides
-from transcribe import EventsTranscriber
+from transcribe import discover_events, load_spec, render
 
-if __name__ == '__main__':
 
-    logger: logging.Logger = TikTokLiveLogHandler.get_logger(level=LogLevel.INFO)
-    logger.info("Starting events transcription...")
+logger = logging.getLogger("events-build")
+logging.basicConfig(level=logging.INFO, format="[%(name)s] %(levelname)s — %(message)s")
 
-    # Transcribe the events
-    EventsTranscriber(
-        template_dir="./",
-        template_name="events_template.jinja2",
-        output_path="../../TikTokLive/events/proto_events.py",
-        merge_import="TikTokLive.events.proto_events",
-        merge_path="../../TikTokLive/events/proto_events.py"
-    )()
 
-    logger.info("Starting events class overriding...")
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent.parent
+SPEC_PATH = SCRIPT_DIR / "events.yaml"
+TEMPLATE_PATH = SCRIPT_DIR / "events_template.jinja2"
+OUTPUT_PATH = REPO_ROOT / "TikTokLive" / "events" / "proto_events.py"
 
-    # Then insert the class overrides
-    InsertOverrides(
-        event_module="TikTokLive.events.proto_events",
-        overrides_module="TikTokLive.proto.custom_proto",
-        override_map={
-            User: ExtendedUser
-        }
-    )()
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Verify the generated file is up to date; exit 1 if stale.",
+    )
+    args = parser.parse_args()
+
+    spec = load_spec(SPEC_PATH)
+    events = discover_events(spec)
+    rendered = render(events, TEMPLATE_PATH)
+
+    logger.info("Generated %d events from %s", len(events), SPEC_PATH.name)
+
+    if args.check:
+        existing = OUTPUT_PATH.read_text(encoding="utf-8") if OUTPUT_PATH.exists() else ""
+        if existing != rendered:
+            print(f"{OUTPUT_PATH} is stale. Run scripts/events/__build__.py.", file=sys.stderr)
+            return 1
+        return 0
+
+    OUTPUT_PATH.write_text(rendered, encoding="utf-8")
+    logger.info("Wrote %s", OUTPUT_PATH)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
