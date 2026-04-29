@@ -101,27 +101,18 @@ class WebcastConnect(Connect):
                     # Extract push frame
                     webcast_push_frame: WebcastPushFrame = WebcastPushFrame().parse(payload_bytes)
 
-                    # Only deal with messages
+                    # Only ``msg`` frames carry the event stream. Everything
+                    # else (``hb`` server heartbeat, ``ack`` receipt signal,
+                    # ``im_enter_room_resp`` room-switch ack, etc.) is
+                    # transport-level and intentionally discarded — matching
+                    # how the JS connector handles them. Log at DEBUG for
+                    # visibility, no parse attempt.
                     if webcast_push_frame.payload_type != "msg":
-                        # Non-msg frames (acks, control frames, etc.) aren't
-                        # ProtoMessageFetchResult-shaped. Try a best-effort
-                        # parse purely for the debug log; surface the parse
-                        # failure with exc_info so debug runs see the cause
-                        # rather than swallowing it.
-                        try:
-                            parsed_payload = extract_webcast_response_message(webcast_push_frame, logger=self._logger)
-                            self._logger.debug(
-                                "Received payload of type '%s', not 'msg': %s",
-                                webcast_push_frame.payload_type,
-                                parsed_payload,
-                            )
-                        except Exception:
-                            self._logger.debug(
-                                "Failed to debug-parse non-msg push frame (type=%r, len=%d)",
-                                webcast_push_frame.payload_type,
-                                len(webcast_push_frame.payload),
-                                exc_info=True,
-                            )
+                        self._logger.debug(
+                            "Discarded non-msg push frame (type=%r, len=%d)",
+                            webcast_push_frame.payload_type,
+                            len(webcast_push_frame.payload),
+                        )
                         continue
 
                     # If it is of type msg, we can extract the ProtoMessageFetchResult item within
