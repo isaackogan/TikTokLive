@@ -25,8 +25,9 @@ import yaml
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-ALIASES_YAML = Path(__file__).resolve().parent / "aliases.yaml"
-TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"
+SCRIPT_DIR = Path(__file__).resolve().parent
+ALIASES_YAML = SCRIPT_DIR / "resources" / "aliases.yaml"
+TEMPLATE_DIR = SCRIPT_DIR / "templates"
 TEMPLATE_NAME = "aliases.py.j2"
 OUTPUT_PATH = REPO_ROOT / "TikTokLive" / "proto" / "_aliases.py"
 

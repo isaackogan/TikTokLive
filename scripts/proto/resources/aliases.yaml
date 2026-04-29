@@ -16,7 +16,7 @@
 
 module_aliases:
   ProtoMessageFetchResultBaseProtoMessage:
-    module: TikTokLiveProto.v2
+    module: TikTokLiveProto.generated.v2
     name: BaseProtoMessage
 
 legacy_aliases:

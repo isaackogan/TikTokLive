@@ -1,78 +1,67 @@
 import re
 from typing import List, Tuple, Optional
 
-from TikTokLive.proto import User, BadgeStruct, BadgeStructBadgeDisplayType
+from TikTokLive.proto import User, BadgeStruct
+
+
+_BADGE_ONEOF_GROUP = "badgeType"
+
+
+def _badge_kind(badge: BadgeStruct) -> Optional[str]:
+    """Return which oneof field of ``badgeType`` is populated, or None."""
+
+    return getattr(badge, "_group_current", {}).get(_BADGE_ONEOF_GROUP)
 
 
 def badge_match_user(user: User, p: re.Pattern) -> List[Tuple[re.Match, BadgeStruct]]:
     """
-    Search a user's badges for a given regex pattern, and return the matches
-
-    :rtype: object
-    :param user: The user to analyze
-    :param p: The pattern to check with
-    :return: List of matches & their associated badge
+    Search a user's badges for a given regex pattern, and return the matches.
 
     """
 
     badge_matches: List[Tuple[re.Match, BadgeStruct]] = []
 
-    for badge in user.badge_list:
-
-        found_match: Optional[re.Match] = badge_match(
-            badge=badge,
-            p=p
-        )
-
+    for badge in getattr(user, "badges", []) or []:
+        found_match: Optional[re.Match] = badge_match(badge=badge, p=p)
         if found_match is not None:
-            badge_matches.append(
-                (
-                    found_match,
-                    badge
-                )
-            )
+            badge_matches.append((found_match, badge))
 
     return badge_matches
 
 
 def badge_match(badge: BadgeStruct, p: re.Pattern) -> Optional[re.Match]:
     """
-    Complex utility function to search & extract text from ANY type of TikTok badge
+    Search & extract text from any TikTok badge variant.
 
-    :param badge: The badge to check
-    :param p: The pattern to check against
-    :return: Matches in the string
+    v2 represents badge contents as a ``betterproto`` oneof under the
+    ``badgeType`` group (``image``/``text``/``str``/``combine``).
 
     """
 
-    if badge.badge_display_type == BadgeStructBadgeDisplayType.BADGE_DISPLAY_TYPE_STRING:
-        match: Optional[re.Match] = p.search(string=badge.string_badge.content_str)
-        return match
+    kind = _badge_kind(badge)
 
-    if badge.badge_display_type == BadgeStructBadgeDisplayType.BADGE_DISPLAY_TYPE_TEXT:
-        match: Optional[re.Match] = p.search(string=badge.text_badge.default_pattern)
-        return match
+    if kind == "str":
+        return p.search(badge.str.str)
 
-    if badge.badge_display_type == BadgeStructBadgeDisplayType.BADGE_DISPLAY_TYPE_IMAGE:
+    if kind == "text":
+        return p.search(badge.text.default_pattern)
 
-        for image_url in badge.image_badge.image_model.m_urls:
-            match: Optional[re.Match] = p.search(string=image_url)
+    if kind == "image":
+        for image_url in badge.image.image.url:
+            match = p.search(image_url)
             if match:
                 return match
-
         return None
 
-    if badge.badge_display_type == BadgeStructBadgeDisplayType.BADGE_DISPLAY_TYPE_COMBINE:
-
-        match: Optional[re.Match] = p.search(string=badge.combine_badge_struct.str)
-        if match:
-            return match
-
-        for image_url in badge.combine_badge_struct.icon.m_urls:
-            match: Optional[re.Match] = p.search(string=image_url)
+    if kind == "combine":
+        if badge.combine.str:
+            match = p.search(badge.combine.str)
             if match:
                 return match
-
+        for image_url in badge.combine.icon.url:
+            match = p.search(image_url)
+            if match:
+                return match
         return None
 
     return None
@@ -81,5 +70,5 @@ def badge_match(badge: BadgeStruct, p: re.Pattern) -> Optional[re.Match]:
 SUBSCRIBER_BADGE_PATTERN: re.Pattern = re.compile("/sub_")
 MODERATOR_BADGE_PATTERN: re.Pattern = re.compile("moderator", flags=re.IGNORECASE)
 TOP_GIFTER_BADGE_PATTERN: re.Pattern = re.compile("/new_top_gifter", flags=re.IGNORECASE)
-MEMBER_LEVEL_BADGE_PATTERN: re.Pattern = re.compile("fans_badge_icon_lv(\\d+)_v")
-GIFTER_LEVEL_BADGE_PATTERN: re.Pattern = re.compile("grade_badge_icon_lite_lv(\\d+)_v")
+MEMBER_LEVEL_BADGE_PATTERN: re.Pattern = re.compile(r"fans_badge_icon_lv(\d+)_v")
+GIFTER_LEVEL_BADGE_PATTERN: re.Pattern = re.compile(r"grade_badge_icon_lite_lv(\d+)_v")

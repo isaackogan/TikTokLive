@@ -8,8 +8,7 @@ from typing import Optional, List, Type, TypeVar, Tuple
 # noinspection PyUnresolvedReferences
 import betterproto
 
-from TikTokLive.proto import *
-from TikTokLive.proto import User, Gift
+from TikTokLiveProto.generated.v2 import User, Gift
 
 # "MessageType" is a proto enum field.
 # This underscore is the difference between life & death, because if you shadow the proto field,
@@ -73,30 +72,10 @@ class ExtendedUser(User):
             return ExtendedUser(**user_dict)
 
     @property
-    def display_id(self):
-        """Backwards compatibility for username"""
+    def display_id(self) -> Optional[str]:
+        """Legacy alias for the @-handle. v2 exposes it as ``unique_id``."""
 
-        return getattr(self, "username", getattr(self, "nick_name", None))
-
-    @property
-    def unique_id(self) -> str:
-        """
-        Retrieve the user's @unique_id
-
-        :return: User's unique_id
-        """
-
-        return self.username
-
-    @property
-    def nickname(self) -> str:
-        """
-        Retrieve the user's @nickname
-
-        :return: User's nickname
-        """
-
-        return getattr(self, "nick_name", getattr(self, "username", None))
+        return self.unique_id or self.nickname or None
 
     @property
     def is_friend(self) -> bool:
@@ -120,7 +99,7 @@ class ExtendedUser(User):
         """
 
         badge_dict = {}
-        for badge in getattr(self, "badge_list", []):
+        for badge in getattr(self, "badges", []) or []:
             scene = getattr(badge, "badge_scene", None)
             log_extra = getattr(badge, "log_extra", None)
             badge_level = getattr(log_extra, "level", None) if log_extra else None
@@ -241,14 +220,9 @@ class ExtendedGift(Gift):
 
     @property
     def streakable(self) -> bool:
-        """
-        Whether a gift is capable of streaking
+        """Whether a gift is capable of streaking. v2 renamed ``type`` to ``gift_type``."""
 
-        :return: The gift
-
-        """
-
-        return self.type == 1
+        return self.gift_type == 1
 
 
 class ControlAction(betterproto.Enum):
