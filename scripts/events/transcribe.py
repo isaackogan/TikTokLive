@@ -1,197 +1,137 @@
-import importlib
-import inspect
-from types import ModuleType
-from typing import List, get_type_hints, Dict, Optional, Type, Tuple, Generator
+"""Render TikTokLive/events/proto_events.py from events.yaml + TikTokLiveProto.v2.
+
+This is a pure spec-driven generator: it does NOT read the existing
+proto_events.py. The YAML is the only source of customizations; the v2 proto
+package is the only source of message classes. Output is fully reproducible.
+"""
+
+from __future__ import annotations
+
+import logging
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Dict, Iterable, List, Optional, Type, get_type_hints
 
 import betterproto
 import jinja2
+import yaml
 
-from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
-from TikTokLive.proto.tiktok_proto import CommonMessageData
+from TikTokLiveProto.v2 import CommonMessageData
+import TikTokLiveProto.v2 as v2
 
-MESSAGE_OVERRIDES: Dict[str, str] = {
-    "WebcastMsgDetectMessage": "MessageDetectEvent",
-    "WebcastChatMessage": "CommentEvent",
-    "WebcastMemberMessage": "JoinEvent"
-}
 
-BASE_IMPORTS: List[str] = [
-    "from TikTokLive.proto.tiktok_proto import *",
-    "from TikTokLive.proto.custom_proto import *",
-    "from .base_event import BaseEvent",
-    "from typing import Type, Union, Dict",
-    "from typing_extensions import deprecated"
-]
+logger = logging.getLogger("transcribe")
+if not logger.handlers:
+    logging.basicConfig(level=logging.INFO, format="[%(name)s] %(levelname)s — %(message)s")
+
+
+@dataclass
+class EventClass:
+    """Resolved event-class spec ready to hand to the jinja template."""
+
+    proto_name: str
+    class_name: str
+    annotations: Dict[str, str] = field(default_factory=dict)
+    fields: Dict[str, Dict[str, str]] = field(default_factory=dict)
+    properties: List[Dict[str, str]] = field(default_factory=list)
 
 
 def is_proto_event(name: str, instance: Type[object]) -> bool:
-
-    # Must be a betterproto message
+    """A v2 message qualifies as an event when it embeds CommonMessageData."""
     try:
         if not issubclass(instance, betterproto.Message):
             return False
     except TypeError:
         return False
-
-    # Retrieve hints
-    hints: dict = get_type_hints(instance)
-
-    # Must start with "Webcast"
     if not name.startswith("Webcast"):
         return False
-
-    # Only Events have a common
-    if not hints.get('base_message'):
+    common_hint = get_type_hints(instance).get("common")
+    if not common_hint:
         return False
-
-    # Check, just in case...
-    if not issubclass(hints['base_message'], CommonMessageData):
-        return False
-
-    return True
+    return issubclass(common_hint, CommonMessageData)
 
 
-class EventsTranscriber:
+def default_event_name(proto_name: str) -> str:
+    """``WebcastFooMessage`` → ``FooEvent``; otherwise strip ``Webcast`` and append ``Event``."""
+    if proto_name.endswith("Message"):
+        return proto_name.removeprefix("Webcast").removesuffix("Message") + "Event"
+    return proto_name.removeprefix("Webcast") + "Event"
 
-    def __init__(
-        self,
-        template_dir: str,
-        template_name: str,
-        output_path: str,
-        merge_import: str,
-        merge_path: str
-    ):
 
-        self._env: jinja2.Environment = jinja2.Environment(
-            trim_blocks=True,
-            lstrip_blocks=True,
-            loader=jinja2.FileSystemLoader(template_dir),
+def _proto_field_type(message_cls: Type[betterproto.Message], field_name: str) -> Optional[str]:
+    """Return the proto type-name for a betterproto field, or None."""
+    f = message_cls.__dataclass_fields__.get(field_name)
+    if f is None:
+        return None
+    # ``f.type`` is the python source string (e.g. ``"User"`` or ``List["User"]``).
+    return str(f.type).strip("\"' ")
+
+
+def discover_events(spec: dict) -> List[EventClass]:
+    """Walk v2 once, materialise an EventClass per qualifying message."""
+
+    field_type_overrides: Dict[str, str] = spec.get("field_type_overrides", {}) or {}
+    per_event: Dict[str, dict] = spec.get("events", {}) or {}
+
+    discovered: List[EventClass] = []
+
+    for proto_name, obj in vars(v2).items():
+        if not is_proto_event(proto_name, obj):
+            continue
+
+        cfg = per_event.get(proto_name, {}) or {}
+        class_name = cfg.get("name") or default_event_name(proto_name)
+
+        # Auto-substitute annotations on every field whose proto type matches
+        # the override map (e.g. ``user: User`` → ``user: ExtendedUser``).
+        annotations: Dict[str, str] = {}
+        for fname, dfield in obj.__dataclass_fields__.items():
+            ftype = _proto_field_type(obj, fname)
+            if ftype and ftype in field_type_overrides:
+                annotations[fname] = field_type_overrides[ftype]
+
+        ev = EventClass(
+            proto_name=proto_name,
+            class_name=class_name,
+            annotations=annotations,
+            fields=cfg.get("fields", {}) or {},
+            properties=[
+                {
+                    "name": p["name"],
+                    "return_type": p["return_type"],
+                    "doc": (p.get("doc") or "").strip(),
+                    "body": p["body"].rstrip(),
+                }
+                for p in (cfg.get("properties") or [])
+            ],
+        )
+        discovered.append(ev)
+
+    discovered.sort(key=lambda e: e.class_name)
+
+    # Validate: every YAML-listed proto message must actually exist in v2,
+    # otherwise the spec is stale and we want to know loudly.
+    yaml_only = set(per_event) - {e.proto_name for e in discovered}
+    if yaml_only:
+        raise SystemExit(
+            "events.yaml references proto messages not present in TikTokLiveProto.v2:\n  - "
+            + "\n  - ".join(sorted(yaml_only))
         )
 
-        self._template: jinja2.Template = self._env.get_template(template_name)
-        self._output_path: str = output_path
-        self._proto_mod: PreviousMod = PreviousMod(merge_import, merge_path)
-        self._import_name: str = merge_import
-
-    def __call__(self, *args, **kwargs):
-
-        output: str = self._template.render(**self.build_config())
-
-        with open(self._output_path, "w", encoding="utf-8") as file:
-            file.write(output)
-
-        # Reload the file for other scripts
-        importlib.reload(importlib.import_module(self._import_name))
-
-    def generate_events(self) -> Generator[dict, None, None]:
-        from TikTokLive.proto import tiktok_proto
-
-        for name, item in tiktok_proto.__dict__.items():
-
-            # Must be an event message
-            if not is_proto_event(name, item):
-                continue
-
-            # Must not be currently registered
-            event_name: str = self.event_name(name)
-
-            yield (
-                {
-                    "class_name": event_name,
-                    "proto_name": name,
-                    "write_class": not self._proto_mod.exists_class(event_name)
-                }
-            )
-
-    @classmethod
-    def print_changelog(cls, events, existing_classes) -> None:
-        new_events: List[str] = [e["class_name"] for e in events if bool(e["write_class"])]
-        all_events: List[str] = [e["class_name"] for e in events]
-        unregistered_classes: List[str] = [t[0] for t in existing_classes if t[0] not in all_events]
-
-        logger = TikTokLiveLogHandler.get_logger(level=LogLevel.INFO)
-
-        logger.info(f"Merged {len(existing_classes)} Previous: " + (", ".join([e[0] for e in existing_classes] or "N/A")))
-        logger.info(f"Added {len(new_events)} New Events: " + (", ".join(new_events) or "N/A"))
-        logger.info(f"Logged {len(unregistered_classes)} Unregistered Classes: " + (", ".join(unregistered_classes) or "N/A"))
-
-    def build_config(self) -> dict:
-
-        events: List[dict] = list(self.generate_events())
-        imports: List[str] = [*BASE_IMPORTS, *self._proto_mod.filter_imports(BASE_IMPORTS)]
-        existing_classes: List[Tuple[str, str]] = list(self._proto_mod.get_classes())
-
-        self.print_changelog(events, existing_classes)
-
-        return {
-            "events": events,
-            "imports": imports,
-            "classes": existing_classes
-        }
-
-    @classmethod
-    def event_name(cls, subclass_name: str) -> str:
-
-        # Handle Overrides
-        if subclass_name in MESSAGE_OVERRIDES:
-            return MESSAGE_OVERRIDES[subclass_name]
-
-        if subclass_name.endswith("Message"):
-            return subclass_name \
-                .replace("Message", "Event") \
-                .replace("Webcast", "")
-        else:
-            return subclass_name \
-                .replace("Webcast", "") \
-                + "Event"
+    return discovered
 
 
-class PreviousMod:
+def render(events: List[EventClass], template_path: Path) -> str:
+    env = jinja2.Environment(
+        loader=jinja2.FileSystemLoader(str(template_path.parent)),
+        trim_blocks=True,
+        lstrip_blocks=True,
+        keep_trailing_newline=True,
+    )
+    template = env.get_template(template_path.name)
+    return template.render(events=events)
 
-    def __init__(self, name: str, path: str):
-        try:
-            self._input: ModuleType = importlib.import_module(name=name)
-        except ModuleNotFoundError:
-            open(path, mode="w", encoding="utf-8").write("")
-            self._input: ModuleType = importlib.import_module(name=name)
-        try:
-            self._src: str = inspect.getsource(self._input)
-        except OSError:
-            self._src: str = ""
 
-    def get_class_text(self, class_name: str) -> Optional[str]:
-        c: Optional[Type] = getattr(self._input, class_name, None)
-
-        if c is None:
-            return None
-
-        return inspect.getsource(c)
-
-    def exists_class(self, class_name: str) -> bool:
-        return bool(getattr(self._input, class_name, None))
-
-    def get_classes(self) -> Generator[Tuple[str, str], None, None]:
-        input_mod = inspect.getmodule(self._input)
-
-        for name, obj in inspect.getmembers(self._input):
-
-            if inspect.isclass(obj) and inspect.getmodule(obj) == input_mod:
-                yield name, inspect.getsource(obj)
-
-    def filter_imports(self, base_imports: List[str]) -> List[str]:
-        src_lines: List[str] = self._src.split("\n")
-        imports: List[str] = []
-
-        for line in src_lines:
-
-            if "import " not in line:
-                continue
-
-            # Check against base imports
-            if any([i in line for i in base_imports]):
-                continue
-
-            imports.append(line)
-
-        return imports
-
+def load_spec(spec_path: Path) -> dict:
+    with open(spec_path, "r", encoding="utf-8") as fh:
+        return yaml.safe_load(fh) or {}
