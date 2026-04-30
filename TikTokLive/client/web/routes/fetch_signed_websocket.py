@@ -148,7 +148,7 @@ class FetchSignedWebSocketRoute(ClientRoute):
         return extract_webcast_response_message(
             logger=self._logger,
             push_frame=WebcastPushFrame(
-                log_id=-1,
+                log_id=1,
                 payload=data,
                 payload_type="msg"
             ),
