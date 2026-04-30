@@ -28,21 +28,21 @@ def build_webcast_uri(
     if not initial_webcast_response.cursor:
         raise InitialCursorMissingError("Missing cursor in initial fetch response.")
 
-    if not initial_webcast_response.ws_url:
+    if not initial_webcast_response.push_server:
         raise WebsocketURLMissingError("No websocket URL received from TikTok.")
 
-    if not initial_webcast_response.ws_params:
+    if not initial_webcast_response.route_params:
         raise WebsocketURLMissingError("Websocket parameters missing.")
 
     # Build the URI parameters dict
     uri_params: dict = {
-        **{k: v for k, v in initial_webcast_response.ws_params.items() if v},
+        **{k: v for k, v in initial_webcast_response.route_params.items() if v},
         **base_uri_params,
     }
 
     # Build the URI
     connect_uri: str = (
-            initial_webcast_response.ws_url
+            initial_webcast_response.push_server
             + "?"
             + '&'.join(f"{key}={value}" for key, value in uri_params.items())
             + base_uri_append_str
@@ -79,13 +79,17 @@ def extract_webcast_response_message(push_frame: WebcastPushFrame, logger: loggi
 
     """
 
+    # v3 ``WebcastPushFrame.headers`` is ``list[PushHeader]`` (each header is a
+    # ``{key, value}`` message), not a dict.
+    compress_type = next((h.value for h in push_frame.headers or [] if h.key == 'compress_type'), None)
+
     # If there is no compression header, return the payload parsed as-is
-    if not push_frame.headers or 'compress_type' not in push_frame.headers or push_frame.headers['compress_type'] == 'none':
+    if not compress_type or compress_type == 'none':
         return ProtoMessageFetchResult().parse(push_frame.payload)
 
     # If there is a compression type, but it's NOT gzip (should never happen, if it does, represents a TikTok update)
-    if push_frame.headers.get('compress_type', None) != 'gzip':
-        logger.error(f"Unknown compression type: {push_frame.headers.get('compress_type', None)}")
+    if compress_type != 'gzip':
+        logger.error(f"Unknown compression type: {compress_type}")
         return ProtoMessageFetchResult().parse(push_frame.payload)  # Just pray it works
 
     # If the compress type is gzip, we need to decompress the payload

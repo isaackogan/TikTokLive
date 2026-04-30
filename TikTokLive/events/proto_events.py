@@ -3,7 +3,7 @@
 # SERIOUSLY!
 # I MEAN IT!
 
-from typing import Dict, Optional, Type, TypeAlias, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Type, TypeAlias, Union
 
 # These look unused but are required: betterproto2-generated parent classes
 # carry forward-ref string annotations referencing ``typing``, ``builtins``,
@@ -18,20 +18,511 @@ import betterproto2
 import pydantic  # noqa: F401
 
 from .base_event import BaseEvent
-from TikTokLive.proto import *  # noqa: F401,F403
+from TikTokLive.proto.custom_proto import ExtendedUser, ExtendedGift  # noqa: F401
+from TikTokLiveProto.v3.webcast.im import ControlAction  # noqa: F401
+from TikTokLiveProto.v3.webcast.im import (
+    WebcastLinkMicLayoutStateMessage,
+    WebcastLinkStateMessage,
+    WebcastSystemMessage,
+)
+from TikTokLiveProto.v3.webcast.model.game import (
+    WebcastAccessRecallMessage,
+)
+from TikTokLiveProto.v3.webcast.model.gift.model import (
+    WebcastGoalUpdateMessage,
+)
+from TikTokLiveProto.v3.webcast.model.message import (
+    WebcastAccessControlMessage,
+    WebcastBarrageMessage,
+    WebcastBoostCardMessage,
+    WebcastBottomMessage,
+    WebcastCapsuleMessage,
+    WebcastCaptionMessage,
+    WebcastChatMessage,
+    WebcastControlMessage,
+    WebcastEmoteChatMessage,
+    WebcastGameRankNotifyMessage,
+    WebcastGiftBroadcastMessage,
+    WebcastGiftDynamicRestrictionMessage,
+    WebcastGiftMessage,
+    WebcastGiftPanelUpdateMessage,
+    WebcastGiftPromptMessage,
+    WebcastGuideMessage,
+    WebcastHourlyRankRewardMessage,
+    WebcastImDeleteMessage,
+    WebcastInRoomBannerMessage,
+    WebcastLikeMessage,
+    WebcastLinkMessage,
+    WebcastLinkMicArmies,
+    WebcastLinkMicBattle,
+    WebcastLinkMicBattlePunishFinish,
+    WebcastLinkMicFanTicketMethod,
+    WebcastLinkMicMethod,
+    WebcastLinkmicBattleTaskMessage,
+    WebcastLiveGameIntroMessage,
+    WebcastLiveIntroMessage,
+    WebcastMarqueeAnnouncementMessage,
+    WebcastMemberMessage,
+    WebcastMsgDetectMessage,
+    WebcastNoticeMessage,
+    WebcastPartnershipDropsUpdateMessage,
+    WebcastPartnershipGameOfflineMessage,
+    WebcastPartnershipPunishMessage,
+    WebcastPerceptionMessage,
+    WebcastPollMessage,
+    WebcastQuestionNewMessage,
+    WebcastRankTextMessage,
+    WebcastRankUpdateMessage,
+    WebcastRoomMessage,
+    WebcastRoomNotifyMessage,
+    WebcastRoomPinMessage,
+    WebcastRoomUserSeqMessage,
+    WebcastRoomVerifyMessage,
+    WebcastSocialMessage,
+    WebcastSpeakerMessage,
+    WebcastSubNotifyMessage,
+    WebcastSubPinEventMessage,
+    WebcastToastMessage,
+    WebcastUnauthorizedMemberMessage,
+    WebcastViewerPicksUpdateMessage,
+)
+from TikTokLiveProto.v3.webcast.model.message.ext import (
+    WebcastOecLiveShoppingMessage,
+)
+from TikTokLiveProto.v3.webcast.model.message.linkcore import (
+    WebcastLinkLayerMessage,
+)
+from TikTokLiveProto.v3.webcast.model.message.redenvelope import (
+    WebcastEnvelopeMessage,
+)
+if TYPE_CHECKING:
+    from TikTokLiveProto.v3.webcast.chatroom.api import (
+        SubPinCard,
+    )
+    from TikTokLiveProto.v3.webcast.chatroom.interact.model import (
+        RivalExtraInfo,
+    )
+    from TikTokLiveProto.v3.webcast.chatroom.model.interact import (
+        GiftGalleryBadgeInfo,
+    )
+    from TikTokLiveProto.v3.webcast.chatroom.model.multiguestv3 import (
+        BusinessContent,
+    )
+    from TikTokLiveProto.v3.webcast.im import (
+        BarrageMessageBarrageType,
+        BarrageMessageIconDisplayType,
+        BarrageMessageRenderType,
+        BarrageMessageShowType,
+        BattleTaskMessageType,
+        BizLayoutState,
+        BizSpotInfo,
+        BizType,
+        CancelJoinGroupContent,
+        CommentTag,
+        ControlAction,
+        DisplayStyle,
+        ExhibitionType,
+        GameRankNotifyMessageMsgType,
+        GiftMessageVersion,
+        GiftSource,
+        GroupChangeContent,
+        HitAbStatus,
+        JoinGroupContent,
+        JoinGroupDirectContent,
+        JoinRoomDirectContent,
+        LeaveJoinGroupContent,
+        LinkLayerMessageType,
+        LinkMicArmiesTriggerReason,
+        LinkMicBattleBattleAction,
+        LinkMicBattlePunishFinishReason,
+        MemberMessageAction,
+        MessageDisplayStyle,
+        MessageType,
+        OldSubscribeStatus,
+        OpType,
+        P2PGroupChangeContent,
+        PartnershipDropsUpdateMessageChangeMode,
+        PermitJoinGroupContent,
+        PinMessageActionType,
+        RankTextMessageRankTestMessageScene,
+        ShowType,
+        SubPinEventMessageActionType,
+        SubscribeType,
+        SubscribingStatus,
+        TextType,
+    )
+    from TikTokLiveProto.v3.webcast.linkmic.common import (
+        BackGroundImageState,
+        LayoutState,
+        LinkUserState,
+        LinkerMode,
+        PosIdentity,
+        Scene,
+        SpotInfo,
+        StateType,
+    )
+    from TikTokLiveProto.v3.webcast.message.proto import (
+        DisplayControl,
+        PerceptionSheetInfo,
+        RankUserEnigmaInfo,
+    )
+    from TikTokLiveProto.v3.webcast.model import (
+        Gift,
+        GiftTrayInfo,
+        GiftsBoxInfo,
+        LikeEffect,
+    )
+    from TikTokLiveProto.v3.webcast.model.base import (
+        ImageModel,
+    )
+    from TikTokLiveProto.v3.webcast.model.base.emoji import (
+        EmoteModel,
+        EmoteWithIndex,
+    )
+    from TikTokLiveProto.v3.webcast.model.base.user import (
+        BadgeStruct,
+        PrivilegeLogExtra,
+        User,
+    )
+    from TikTokLiveProto.v3.webcast.model.data import (
+        EntranceGroupType,
+        EnvelopeDisplay,
+        GiftPermissionType,
+        GoalMessageSource,
+        LinkmicGiftExpressionStrategy,
+        LinkmicReplyType,
+        MsgFilter,
+        PerceptionDialogIconType,
+        PollKind,
+        ProfitRankType,
+        UserIdentity,
+    )
+    from TikTokLiveProto.v3.webcast.model.data.oec_msg import (
+        OecLiveShoppingMessageV2,
+    )
+    from TikTokLiveProto.v3.webcast.model.gift.assets import (
+        AssetsModel,
+    )
+    from TikTokLiveProto.v3.webcast.model.gift.model import (
+        AssetBundle,
+        DynamicRestriction,
+        FlyingMicResources,
+        LiveStreamGoal,
+        LiveStreamGoalIndicator,
+        LiveStreamSubGoal,
+        LynxGiftExtra,
+        MatchInfo,
+    )
+    from TikTokLiveProto.v3.webcast.model.goal import (
+        GoalPinInfo,
+    )
+    from TikTokLiveProto.v3.webcast.model.linksetting import (
+        MultiLiveUpdateUserSettingContent,
+    )
+    from TikTokLiveProto.v3.webcast.model.live.match import (
+        AnchorMatchSettings,
+        BattleAbTestSetting,
+        BattleComboInfo,
+        BattleEffectInfos,
+        BattleFeatureFlags,
+        BattleTeamResult,
+        BattleTeamUserArmies,
+        EnigmaBattleExtraInfo,
+        EnigmaBattleSetting,
+        HighScoreControlCfg,
+        LeagueScoreInfo,
+        MatchPunishExtraInfo,
+        TeamMatchCampaign,
+    )
+    from TikTokLiveProto.v3.webcast.model.message import (
+        AccessControlCaptcha,
+        AnimationData,
+        AtmosphereTagInfo,
+        BarrageEvent as _proto_BarrageEvent_,
+        BarrageTypeEcomLiveParam,
+        BarrageTypeFansLevelParam,
+        BarrageTypeGiftGalleryParam,
+        BarrageTypeSubscribeGiftParam,
+        BarrageTypeUserGradeParam,
+        BattleInviteeGiftPermission,
+        BillboardDisplayResult,
+        BillboardInfo,
+        BoostCard,
+        CampaignBannerDisplay,
+        CampaignBannerDisplayResult,
+        CapsuleBizParams,
+        CaptionContent,
+        CohostListChangeContent,
+        CommentLabelScore,
+        CommentQualityScore,
+        Contributor,
+        DispersionInfo,
+        EffectConfigBean,
+        Extra,
+        FanTicketRoomNoticeContent,
+        FlashSaleAtmosphereInfo,
+        GalleryData,
+        GiftImPriority,
+        GiftMonitorInfo,
+        GoalData,
+        HourlyRankRewardInfo,
+        InteractiveGiftInfo,
+        LinkerCloseContent,
+        LinkerCreateContent,
+        LinkerMediaChangeContent,
+        LinkerSysKickOutContent,
+        LinkerUpdateUserContent,
+        LinkerWaitingListChangeContent,
+        LinkmicUserToastContent,
+        LivePermissionInfo,
+        MessageEntity,
+        OfflineGameInfo,
+        PerceptionDialogInfo,
+        PollBasicInfo,
+        PollEndContent,
+        PollStartContent,
+        PollUpdateVotesContent,
+        ProductSnapShot,
+        PromotionInfo,
+        PublicAreaCommon,
+        PublicAreaMessageCommon,
+        PunishEventInfo,
+        Question,
+        RankListTabInfo,
+        RankUpdate,
+        RefreshLiveBagInfo,
+        RightLabel,
+        RoomBasedGiftData,
+        RoomNotifyMessageEventTracking,
+        RoomNotifyMessageExtra,
+        SpecifiedDisplayText,
+        SponsorshipInfo,
+        TeamUsersInfo,
+        TemplateContent,
+        TextEffect,
+        TimeInfo,
+        TriggerCondition,
+        UnionAnimationInfo,
+        ValidRanks,
+        Voucher,
+        WaveAlgorithmData,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.battle import (
+        BattleDisplayConfig,
+        BattleResult,
+        BattleRewardSettle,
+        BattleSetting,
+        BattleTaskSettle,
+        BattleTaskStart,
+        BattleTaskUpdate,
+        BattleUserArmies,
+        BattleUserInfoWrapper,
+        SupportedActionsWrapper,
+        UserArmiesWrapper,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.common import (
+        Text,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.ext import (
+        HotTag,
+        PopProduct,
+        TraceInfo,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.linkcore import (
+        ApplyContent,
+        CancelApplyContent,
+        CancelInviteContent,
+        CreateChannelContent,
+        FinishChannelContent,
+        InviteContent,
+        JoinDirectContent,
+        KickOutContent,
+        LeaveContent,
+        LinkListChangeContent,
+        PermitApplyContent,
+        ReplyInviteContent,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.linker import (
+        LinkerAcceptNoticeContent,
+        LinkerCancelContent,
+        LinkerEnterContent,
+        LinkerKickOutContent,
+        LinkerLeaveContent,
+        LinkerMuteContent,
+        LinkerRandomMatchContent,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.linker.invite_message import (
+        LinkerInviteContent,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.linker.linked_list_change_message import (
+        LinkedListChangeContent,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.linker.listchangemessage import (
+        LinkerListChangeContent,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.linker.mic_update import (
+        LinkerMicIdxUpdateContent,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.linker.reply_message import (
+        LinkerReplyContent,
+    )
+    from TikTokLiveProto.v3.webcast.model.message.redenvelope import (
+        MessageRedEnvelopInfo,
+    )
+    from TikTokLiveProto.v3.webcast.model.rank import (
+        RankTabInfo,
+    )
+    from TikTokLiveProto.v3.webcast.model.viewer_picks import (
+        ViewerPicksInfo,
+    )
+    from TikTokLiveProto.v3.webcast.shared.message import (
+        CommonMessageData,
+    )
 
+
+
+class AccessControlEvent(BaseEvent, WebcastAccessControlMessage):
+    """AccessControlEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        captcha: Optional[AccessControlCaptcha]
+
+
+class AccessRecallEvent(BaseEvent, WebcastAccessRecallMessage):
+    """AccessRecallEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        status: int
+        duration: int
+        end_time: int
+        scene: str
+        notice: Optional[Text]
+        content: Optional[Text]
+        punish_info: Optional[PunishEventInfo]
 
 
 class BarrageEvent(BaseEvent, WebcastBarrageMessage):
     """BarrageEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        event: Optional[_proto_BarrageEvent_]
+        msg_type: BarrageMessageBarrageType
+        icon: Optional[ImageModel]
+        content: Optional[Text]
+        duration: int
+        background: Optional[ImageModel]
+        right_icon: Optional[ImageModel]
+        display_config: int
+        gallery_gift_id: int
+        scene: str
+        control: Optional[DisplayControl]
+        right_label: Optional[RightLabel]
+        use_marquee: bool
+        show_type: BarrageMessageShowType
+        badge: Optional[BadgeStruct]
+        render_type: BarrageMessageRenderType
+        left_icon_display_type: BarrageMessageIconDisplayType
+        ribbon_animation: Optional[ImageModel]
+        animation_data: Optional[AnimationData]
+        hybrid_url: str
+        schema: str
+        sub_type: str
+        common_barrage_content: Optional[Text]
+        user_grade_param: Optional[BarrageTypeUserGradeParam]
+        fans_level_param: Optional[BarrageTypeFansLevelParam]
+        subscribe_gift_param: Optional[BarrageTypeSubscribeGiftParam]
+        privilege_log_extra: Optional[PrivilegeLogExtra]
+        gift_gallery_params: Optional[BarrageTypeGiftGalleryParam]
+        public_area_message_common: Optional[PublicAreaMessageCommon]
+        ecom_live_param: Optional[BarrageTypeEcomLiveParam]
+    user: Optional[ExtendedUser]
+
+
+class BoostCardEvent(BaseEvent, WebcastBoostCardMessage):
+    """BoostCardEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        cards: List[BoostCard]
+
+
+class BottomEvent(BaseEvent, WebcastBottomMessage):
+    """BottomEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        content: str
+        show_type: ShowType
+        text_type: TextType
+        duration: int
+        biz_type: BizType
+        violation_user_id: int
+        punish_info: Optional[PunishEventInfo]
+        style: int
+        detail_url: str
+        float_style: int
+        float_icon_type: PerceptionDialogIconType
+
+
+class CapsuleEvent(BaseEvent, WebcastCapsuleMessage):
+    """CapsuleEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        icon: Optional[ImageModel]
+        desc: Optional[Text]
+        button_text: Optional[Text]
+        schema: str
+        type: int
+        scene: str
+        biz_params: Optional[CapsuleBizParams]
+        sub_scene: str
+        style: int
+        skip_fc: bool
+        public_area_message_common: Optional[PublicAreaMessageCommon]
+        report_action: bool
 
 
 class CaptionEvent(BaseEvent, WebcastCaptionMessage):
     """CaptionEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        timestamp_ms: int
+        duration_ms: int
+        content: List[CaptionContent]
+        sentence_id: int
+        sequence_id: int
+        definite: bool
 
 
 class CommentEvent(BaseEvent, WebcastChatMessage):
     """CommentEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        content: str
+        visible_to_sender: bool
+        background_image: Optional[ImageModel]
+        full_screen_text_color: str
+        background_image_v2: Optional[ImageModel]
+        public_area_common: Optional[PublicAreaCommon]
+        gift_image: Optional[ImageModel]
+        input_type: int
+        emotes: List[EmoteWithIndex]
+        content_language: str
+        msg_filter: Optional[MsgFilter]
+        quick_chat_scene: int
+        community_flagged_status: int
+        user_identity: Optional[UserIdentity]
+        comment_quality_scores: List[CommentQualityScore]
+        comment_tag: List[CommentTag]
+        public_area_message_common: Optional[PublicAreaMessageCommon]
+        screen_time: int
+        signature: str
+        signature_version: str
+        ec_streamer_key: str
+        comment_label_scores: List[CommentLabelScore]
+        mention_user_list: List[int]
+        mention_users: List[User]
+        is_on_comment_tray: bool
+    user: Optional[ExtendedUser]
+    at_user: Optional[ExtendedUser]
 
     @property
     def user_is_super_fan(self) -> bool:
@@ -41,23 +532,127 @@ class CommentEvent(BaseEvent, WebcastChatMessage):
         if self.user_identity is None:
             return False
         return self.user_identity.is_subscriber_of_anchor
+
+    @property
+    def comment(self) -> str:
+        """
+        Legacy alias; v2 named this ``comment``, v3 renamed it to ``content``.
+        """
+        return self.content
 
 
 class ControlEvent(BaseEvent, WebcastControlMessage):
     """ControlEvent."""
     action: ControlAction = betterproto2.field(2, "enum")
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        tips: str
+        extra: Optional[Extra]
+        perception_dialog: Optional[PerceptionDialogInfo]
+        perception_audience_text: Optional[Text]
+        punish_info: Optional[PunishEventInfo]
+        float_text: Optional[Text]
+        float_style: int
 
 
 class EmoteChatEvent(BaseEvent, WebcastEmoteChatMessage):
     """EmoteChatEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        emote_list: List[EmoteModel]
+        msg_filter: Optional[MsgFilter]
+        user_identity: Optional[UserIdentity]
+    user: Optional[ExtendedUser]
 
 
 class EnvelopeEvent(BaseEvent, WebcastEnvelopeMessage):
     """EnvelopeEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        envelope_info: Optional[MessageRedEnvelopInfo]
+        display: EnvelopeDisplay
+
+
+class GameRankNotifyEvent(BaseEvent, WebcastGameRankNotifyMessage):
+    """GameRankNotifyEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        msg_type: GameRankNotifyMessageMsgType
+        notify_text: Optional[Text]
+
+
+class GiftBroadcastEvent(BaseEvent, WebcastGiftBroadcastMessage):
+    """GiftBroadcastEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        from_user_id: int
+        left_icon: Optional[ImageModel]
+        notify: Optional[WebcastRoomNotifyMessage]
+
+
+class GiftDynamicRestrictionEvent(BaseEvent, WebcastGiftDynamicRestrictionMessage):
+    """GiftDynamicRestrictionEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        dynamic_restriction: Optional[DynamicRestriction]
 
 
 class GiftEvent(BaseEvent, WebcastGiftMessage):
     """GiftEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        gift_id: int
+        fan_ticket_count: int
+        group_count: int
+        repeat_count: int
+        combo_count: int
+        repeat_end: int
+        text_effect: Optional[TextEffect]
+        group_id: int
+        income_taskgifts: int
+        room_fan_ticket_count: int
+        priority: Optional[GiftImPriority]
+        log_id: str
+        send_type: int
+        public_area_common: Optional[PublicAreaCommon]
+        tray_display_text: Optional[Text]
+        banned_display_effects: int
+        tray_info: Optional[GiftTrayInfo]
+        monitor_extra: str
+        monitor_info: Optional[GiftMonitorInfo]
+        color_id: int
+        is_first_sent: bool
+        display_text_for_anchor: Optional[Text]
+        display_text_for_audience: Optional[Text]
+        order_id: str
+        gifts_in_box: Optional[GiftsBoxInfo]
+        msg_filter: Optional[MsgFilter]
+        lynx_extra: List[LynxGiftExtra]
+        user_identity: Optional[UserIdentity]
+        match_info: Optional[MatchInfo]
+        linkmic_gift_expression_strategy: LinkmicGiftExpressionStrategy
+        flying_mic_resources: Optional[FlyingMicResources]
+        disable_gift_tracking: bool
+        asset: Optional[AssetsModel]
+        version: GiftMessageVersion
+        sponsorship_info: List[SponsorshipInfo]
+        flying_mic_resources_v2: Optional[FlyingMicResources]
+        public_area_message_common: Optional[PublicAreaMessageCommon]
+        signature: str
+        signature_version: str
+        multi_generate_message: bool
+        to_member_id: str
+        to_member_id_int: int
+        to_member_nickname: str
+        interactive_gift_info: Optional[InteractiveGiftInfo]
+        display_duration_ms: int
+        display_text_for_sender: Optional[Text]
+        is_asset_bundle_gift: bool
+        asset_bundle: Optional[AssetBundle]
+        effect_extra: str
+    user: Optional[ExtendedUser]
+    to_user: Optional[ExtendedUser]
+    gift: Optional[ExtendedGift]
 
     @property
     def user_is_super_fan(self) -> bool:
@@ -67,16 +662,6 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
         if self.user_identity is None:
             return False
         return self.user_identity.is_subscriber_of_anchor
-
-    @property
-    def gift(self) -> ExtendedGift:
-        """
-        Convenience accessor for the gift definition. v2 exposes it as
-        ``gift_details`` (Optional); we keep ``gift`` for ergonomics and
-        always return an ``ExtendedGift`` (wrapping the underlying Gift
-        so callers can use ``.streakable`` and other extensions).
-        """
-        return ExtendedGift(self.gift_details)
 
     @property
     def streaking(self) -> bool:
@@ -84,7 +669,7 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
         Whether the user is currently engaged in a streak. False for
         non-streakable gifts; otherwise the inverse of ``repeat_end``.
         """
-        if not self.gift.streakable:
+        if self.gift is None or not ExtendedGift(self.gift).streakable:
             return False
         return not bool(self.repeat_end)
 
@@ -95,129 +680,755 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
         do not double-count; the final non-streaking event carries the
         full repeat_count.
         """
-        if self.streaking:
+        if self.streaking or self.gift is None:
             return None
         return self.repeat_count * self.gift.diamond_count * 0.005
 
 
+class GiftPanelUpdateEvent(BaseEvent, WebcastGiftPanelUpdateMessage):
+    """GiftPanelUpdateEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        room_id: int
+        timestamp: int
+        gallery_data: Optional[GalleryData]
+        goal_data: Optional[GoalData]
+        room_based_gift_data: Optional[RoomBasedGiftData]
+        strategy_context: str
+
+
+class GiftPromptEvent(BaseEvent, WebcastGiftPromptMessage):
+    """GiftPromptEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        title: str
+        body: str
+        block_num_days: int
+        order_id: str
+        order_timestamp: int
+        in_user_gifting_addiction_expr: bool
+        pop_up_schema: str
+
+
 class GoalUpdateEvent(BaseEvent, WebcastGoalUpdateMessage):
     """GoalUpdateEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        indicator: Optional[LiveStreamGoalIndicator]
+        goal: Optional[LiveStreamGoal]
+        contributor_id: int
+        contributor_avatar: Optional[ImageModel]
+        contributor_display_id: str
+        contribute_subgoal: Optional[LiveStreamSubGoal]
+        contribute_count: int
+        contribute_score: int
+        gift_repeat_count: int
+        contributor_id_str: str
+        pin_info: Optional[GoalPinInfo]
+        update_source: GoalMessageSource
+        goal_extra: str
 
 
-class HourlyRankEvent(BaseEvent, WebcastHourlyRankMessage):
-    """HourlyRankEvent."""
+class GuideEvent(BaseEvent, WebcastGuideMessage):
+    """GuideEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        guide_type: int
+        gift_id: int
+        description: str
+        duration: int
+        display_style: int
+        scene: str
+
+
+class HourlyRankRewardEvent(BaseEvent, WebcastHourlyRankRewardMessage):
+    """HourlyRankRewardEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        winners: List[HourlyRankRewardInfo]
 
 
 class ImDeleteEvent(BaseEvent, WebcastImDeleteMessage):
     """ImDeleteEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        delete_msg_ids: List[int]
+        delete_user_ids: List[int]
 
 
 class InRoomBannerEvent(BaseEvent, WebcastInRoomBannerMessage):
     """InRoomBannerEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
 
 
 class JoinEvent(BaseEvent, WebcastMemberMessage):
     """JoinEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        member_count: int
+        is_set_to_admin: bool
+        is_top_user: bool
+        rank_score: int
+        top_user_no: int
+        enter_type: int
+        action: MemberMessageAction
+        action_description: str
+        user_id: int
+        effect_config: bytes
+        pop_str: str
+        enter_effect_config: Optional[EffectConfigBean]
+        background_image: Optional[ImageModel]
+        background_image_v2: Optional[ImageModel]
+        anchor_display_text: Optional[Text]
+        client_enter_source: str
+        client_enter_type: str
+        client_live_reason: str
+        action_duration: int
+        user_share_type: str
+        display_style: DisplayStyle
+        admin_permissions: Dict[int, int]
+        kick_source: int
+        allow_preview_time: int
+        last_subscription_action: int
+        public_area_message_common: Optional[PublicAreaMessageCommon]
+        live_sub_only_tier: int
+        live_sub_only_month: int
+        ec_streamer_key: str
+        show_wave: int
+        wave_algorithm_data: Optional[WaveAlgorithmData]
+        hit_ab_status: HitAbStatus
+    user: Optional[ExtendedUser]
+    operator: Optional[ExtendedUser]
 
 
 class LikeEvent(BaseEvent, WebcastLikeMessage):
     """LikeEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        count: int
+        total: int
+        color: int
+        icon: str
+        icons: List[ImageModel]
+        specified_display_text: List[SpecifiedDisplayText]
+        effect_cnt: int
+        like_effect: List[LikeEffect]
+        public_area_message_common: Optional[PublicAreaMessageCommon]
+        room_message_heat_level: int
+    user: Optional[ExtendedUser]
 
 
 class LinkEvent(BaseEvent, WebcastLinkMessage):
     """LinkEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        message_type: int
+        linker_id: int
+        scene: int
+        invite_content: Optional[LinkerInviteContent]
+        reply_content: Optional[LinkerReplyContent]
+        create_content: Optional[LinkerCreateContent]
+        close_content: Optional[LinkerCloseContent]
+        enter_content: Optional[LinkerEnterContent]
+        leave_content: Optional[LinkerLeaveContent]
+        cancel_content: Optional[LinkerCancelContent]
+        kick_out_content: Optional[LinkerKickOutContent]
+        linked_list_change_content: Optional[LinkedListChangeContent]
+        update_user_content: Optional[LinkerUpdateUserContent]
+        waiting_list_change_content: Optional[LinkerWaitingListChangeContent]
+        mute_content: Optional[LinkerMuteContent]
+        random_match_content: Optional[LinkerRandomMatchContent]
+        update_user_setting_content: Optional[MultiLiveUpdateUserSettingContent]
+        mic_idx_update_content: Optional[LinkerMicIdxUpdateContent]
+        list_change_content: Optional[LinkerListChangeContent]
+        cohost_list_change_content: Optional[CohostListChangeContent]
+        media_change_content: Optional[LinkerMediaChangeContent]
+        reply_accept_notice_content: Optional[LinkerAcceptNoticeContent]
+        sys_kick_out_content: Optional[LinkerSysKickOutContent]
+        user_toast_content: Optional[LinkmicUserToastContent]
+        extra: str
+        expire_timestamp: int
+        transfer_extra: str
+        version: int
 
 
 class LinkLayerEvent(BaseEvent, WebcastLinkLayerMessage):
     """LinkLayerEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        message_type: LinkLayerMessageType
+        channel_id: int
+        scene: Scene
+        source: str
+        centerized_idc: str
+        rtc_room_id: int
+        version: int
+        linker_mode: LinkerMode
+        wait_cross_data: bool
+        create_channel_content: Optional[CreateChannelContent]
+        list_change_content: Optional[LinkListChangeContent]
+        invite_content: Optional[InviteContent]
+        apply_content: Optional[ApplyContent]
+        permit_apply_content: Optional[PermitApplyContent]
+        reply_invite_content: Optional[ReplyInviteContent]
+        kick_out_content: Optional[KickOutContent]
+        cancel_apply_content: Optional[CancelApplyContent]
+        cancel_invite_content: Optional[CancelInviteContent]
+        leave_content: Optional[LeaveContent]
+        finish_content: Optional[FinishChannelContent]
+        join_direct_content: Optional[JoinDirectContent]
+        join_group_content: Optional[JoinGroupContent]
+        permit_group_content: Optional[PermitJoinGroupContent]
+        cancel_group_content: Optional[CancelJoinGroupContent]
+        leave_group_content: Optional[LeaveJoinGroupContent]
+        p2p_group_change_content: Optional[P2PGroupChangeContent]
+        group_change_content: Optional[GroupChangeContent]
+        join_group_direct_content: Optional[JoinGroupDirectContent]
+        join_room_direct_content: Optional[JoinRoomDirectContent]
+        business_content: Optional[BusinessContent]
 
 
 class LinkMicArmiesEvent(BaseEvent, WebcastLinkMicArmies):
     """LinkMicArmiesEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        battle_id: int
+        armies: Dict[int, BattleUserArmies]
+        channel_id: int
+        send_gift_success_time: int
+        update_battle_score_time: int
+        trigger_reason: LinkMicArmiesTriggerReason
+        from_user_id: int
+        gift_id: int
+        gift_count: int
+        gift_icon_image: Optional[ImageModel]
+        total_diamond_count: int
+        repeat_count: int
+        team_armies: List[BattleTeamUserArmies]
+        trigger_critical_strike: bool
+        has_team_match_mvp_sfx: bool
+        log_id: str
+        battle_settings: Optional[BattleSetting]
+        fuzzy_display_config_v2: Optional[HighScoreControlCfg]
+        effect_infos: Optional[BattleEffectInfos]
+        enigma_battle_extra_info: Optional[EnigmaBattleExtraInfo]
 
 
 class LinkMicBattleEvent(BaseEvent, WebcastLinkMicBattle):
     """LinkMicBattleEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        battle_id: int
+        battle_settings: Optional[BattleSetting]
+        action: LinkMicBattleBattleAction
+        battle_result: Dict[int, BattleResult]
+        fuzzy_display_config: Optional[BattleDisplayConfig]
+        invitee_gift_permission_type: GiftPermissionType
+        armies: List[UserArmiesWrapper]
+        anchors_info: List[BattleUserInfoWrapper]
+        bubble_text: str
+        supported_actions: List[SupportedActionsWrapper]
+        battle_combo_v2: Dict[int, BattleComboInfo]
+        team_member: List[TeamUsersInfo]
+        invitees_gift_permission_type: List[BattleInviteeGiftPermission]
+        action_by_user_id: int
+        team_battle_result: List[BattleTeamResult]
+        team_armies: List[BattleTeamUserArmies]
+        ab_test_setting: List[BattleAbTestSetting]
+        team_match_campaign: Optional[TeamMatchCampaign]
+        fuzzy_display_config_v2: Optional[HighScoreControlCfg]
+        league_info_map: Dict[int, GiftGalleryBadgeInfo]
+        league_score_info_map: Dict[int, LeagueScoreInfo]
+        match_punish_extra_info: Optional[MatchPunishExtraInfo]
+        enigma_battle_setting: Optional[EnigmaBattleSetting]
+        anchor_match_settings: Dict[int, AnchorMatchSettings]
+        battle_feature_flags: Optional[BattleFeatureFlags]
 
 
 class LinkMicBattlePunishFinishEvent(BaseEvent, WebcastLinkMicBattlePunishFinish):
     """LinkMicBattlePunishFinishEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        channel_id: int
+        op_uid: int
+        reason: LinkMicBattlePunishFinishReason
+        battle_id: int
+        battle_settings: Optional[BattleSetting]
+        match_punish_extra_info: Optional[MatchPunishExtraInfo]
 
 
 class LinkMicFanTicketMethodEvent(BaseEvent, WebcastLinkMicFanTicketMethod):
     """LinkMicFanTicketMethodEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        fan_ticket_room_notice: Optional[FanTicketRoomNoticeContent]
+
+
+class LinkMicLayoutStateEvent(BaseEvent, WebcastLinkMicLayoutStateMessage):
+    """LinkMicLayoutStateEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        channel_id: int
+        scene: int
+        version: int
+        biz_layout_state: Optional[BizLayoutState]
+        biz_spot_list: List[BizSpotInfo]
 
 
 class LinkMicMethodEvent(BaseEvent, WebcastLinkMicMethod):
     """LinkMicMethodEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        message_type: int
+        access_key: str
+        anchor_linkmic_id: int
+        user_id: int
+        fan_ticket: int
+        total_linkmic_fan_ticket: int
+        channel_id: int
+        layout: int
+        vendor: int
+        dimension: int
+        theme: str
+        invite_uid: int
+        answer: int
+        start_time: int
+        duration: int
+        user_scores: List[bytes]
+        match_type: int
+        win: bool
+        prompts: str
+        to_user_id: int
+        linkmic_layout: int
+        from_user_id: int
+        tips: str
+        start_time_ms: int
+        confluence_type: int
+        from_room_id: int
+        invite_type: int
+        sub_type: int
+        inviter_rival_extra: Optional[RivalExtraInfo]
+        rtc_ext_info: str
+        rtc_app_id: str
+        app_id: str
+        app_sign: str
+        rtc_app_sign: str
+        anchor_linkmic_id_str: str
+        rival_anchor_id: int
+        rival_linkmic_id: int
+        rival_linkmic_id_str: str
+        show_popup: bool
+        sec_invite_uid: int
+        scene: int
+        sec_apply_uid: int
+        linked_users: List[User]
+        sec_from_user_id: str
+        reply_type: LinkmicReplyType
+        reply_prompts: str
+        sec_to_user_id: str
+        invitor_info: bytes
+        rtc_join_channel: bool
+        fan_ticket_icon_type: int
+
+
+class LinkStateEvent(BaseEvent, WebcastLinkStateMessage):
+    """LinkStateEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        channel_id: int
+        scene: Scene
+        version: int
+        need_ack: int
+        layout: Optional[LayoutState]
+        user_states: List[LinkUserState]
+        client_send_time: int
+        state_type: StateType
+        background: Optional[BackGroundImageState]
+        wallpaper_url: str
+        ui_pos: List[PosIdentity]
+        spot_list: List[SpotInfo]
+        audio_muted_remote_channels: List[int]
+        linker_mode: int
 
 
 class LinkmicBattleTaskEvent(BaseEvent, WebcastLinkmicBattleTaskMessage):
     """LinkmicBattleTaskEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        task_message_type: BattleTaskMessageType
+        start: Optional[BattleTaskStart]
+        task_update: Optional[BattleTaskUpdate]
+        task_settle: Optional[BattleTaskSettle]
+        reward: Optional[BattleRewardSettle]
+        battle_id: int
+
+
+class LiveGameIntroEvent(BaseEvent, WebcastLiveGameIntroMessage):
+    """LiveGameIntroEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        content: Optional[Text]
+        has_rank_info: bool
 
 
 class LiveIntroEvent(BaseEvent, WebcastLiveIntroMessage):
     """LiveIntroEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        id: int
+        audit_status: int
+        content: str
+        intro_mode: int
+        badges: List[BadgeStruct]
+        content_language: str
+    user: Optional[ExtendedUser]
+
+
+class MarqueeAnnouncementEvent(BaseEvent, WebcastMarqueeAnnouncementMessage):
+    """MarqueeAnnouncementEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        message_scene: str
+        message_entity: List[MessageEntity]
 
 
 class MessageDetectEvent(BaseEvent, WebcastMsgDetectMessage):
     """MessageDetectEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        d_type: int
+        t_condition: Optional[TriggerCondition]
+        t_info: Optional[TimeInfo]
+        trigger_by: int
+        from_region: str
+
+
+class NoticeEvent(BaseEvent, WebcastNoticeMessage):
+    """NoticeEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        content: str
+        notice_type: int
+        style: str
+        title: Optional[Text]
+        violation_reason: Optional[Text]
+        display_text: Optional[Text]
+        tips_title: Optional[Text]
+        tips_url: str
+        notice_title: Optional[Text]
+        notice_content: Optional[Text]
+        scene: str
 
 
 class OecLiveShoppingEvent(BaseEvent, WebcastOecLiveShoppingMessage):
     """OecLiveShoppingEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        action_type: int
+        live_product_number: int
+        pop_product: Optional[PopProduct]
+        trace_info: Optional[TraceInfo]
+        hot_tags: List[HotTag]
+        atmosphere_tag_info: Optional[AtmosphereTagInfo]
+        live_permission_info: Optional[LivePermissionInfo]
+        product_snap_shot: Optional[ProductSnapShot]
+        pin_card_delay_time: int
+        flash_sale_atmosphere_info: List[FlashSaleAtmosphereInfo]
+        card_type: int
+        billboard_info: Optional[BillboardInfo]
+        billboard_display_result: Optional[BillboardDisplayResult]
+        dispersion_info: List[DispersionInfo]
+        promotion_info: Optional[PromotionInfo]
+        campaign_banner_display_result: Optional[CampaignBannerDisplayResult]
+        campaign_banner_display: Optional[CampaignBannerDisplay]
+        refresh_live_bag_info: Optional[RefreshLiveBagInfo]
+        anchor_pin_card_reset_type: int
+        voucher: Optional[Voucher]
+        oec_live_shopping_message_v2: Optional[OecLiveShoppingMessageV2]
+
+
+class PartnershipDropsUpdateEvent(BaseEvent, WebcastPartnershipDropsUpdateMessage):
+    """PartnershipDropsUpdateEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        change_mode: PartnershipDropsUpdateMessageChangeMode
+        drops_id: str
+        task_id: str
+        event_id: str
+        anchor_uid: int
+
+
+class PartnershipGameOfflineEvent(BaseEvent, WebcastPartnershipGameOfflineMessage):
+    """PartnershipGameOfflineEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        offline_game_list: List[OfflineGameInfo]
+
+
+class PartnershipPunishEvent(BaseEvent, WebcastPartnershipPunishMessage):
+    """PartnershipPunishEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        punish_info: Optional[PunishEventInfo]
+
+
+class PerceptionEvent(BaseEvent, WebcastPerceptionMessage):
+    """PerceptionEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        dialog: Optional[PerceptionDialogInfo]
+        punish_info: Optional[PunishEventInfo]
+        end_time: int
+        show_violation_warning: bool
+        toast: Optional[Text]
+        float_style: int
+        float_text: Optional[Text]
+        sheet: Optional[PerceptionSheetInfo]
+        float_icon_type: PerceptionDialogIconType
 
 
 class PollEvent(BaseEvent, WebcastPollMessage):
     """PollEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        message_type: int
+        poll_id: int
+        start_content: Optional[PollStartContent]
+        end_content: Optional[PollEndContent]
+        update_votes_content: Optional[PollUpdateVotesContent]
+        poll_kind: PollKind
+        poll_basic_info: Optional[PollBasicInfo]
+        template_content: Optional[TemplateContent]
 
 
 class QuestionNewEvent(BaseEvent, WebcastQuestionNewMessage):
     """QuestionNewEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        data: Optional[Question]
 
 
 class RankTextEvent(BaseEvent, WebcastRankTextMessage):
     """RankTextEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        scene: RankTextMessageRankTestMessageScene
+        owner_idx_before_update: int
+        owner_idx_after_update: int
+        self_get_badge_msg: Optional[Text]
+        other_get_badge_msg: Optional[Text]
+        cur_user_id: int
+        left_icon: Optional[ImageModel]
+        content: Optional[Text]
+        rank_type: ProfitRankType
+        user_enigma_info: Optional[RankUserEnigmaInfo]
 
 
 class RankUpdateEvent(BaseEvent, WebcastRankUpdateMessage):
     """RankUpdateEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        updates: List[RankUpdate]
+        group_type: EntranceGroupType
+        op_type: OpType
+        rank_priority: int
+        tabs: List[RankTabInfo]
+        is_animation_loop_play: bool
+        animation_loop_for_off: bool
+        union_animation: List[UnionAnimationInfo]
+        tab_info: List[RankListTabInfo]
+        valid_ranks: Optional[ValidRanks]
 
 
 class RoomEvent(BaseEvent, WebcastRoomMessage):
     """RoomEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        content: str
+        supprot_landscape: bool
+        source: int
+        icon: Optional[ImageModel]
+        scene: str
+        is_welcome: bool
+        public_area_common: Optional[PublicAreaMessageCommon]
+        show_duration_ms: int
+        sub_scene: str
+        schema: str
+        signature: str
+        signature_version: str
+
+
+class RoomNotifyEvent(BaseEvent, WebcastRoomNotifyMessage):
+    """RoomNotifyEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        schema: str
+        notify_type: int
+        content: str
+        extra: Optional[RoomNotifyMessageExtra]
+        notify_class: int
+        flex_setting: List[int]
+        source: str
+        from_user_id: int
+        privilege_log_extra: Optional[PrivilegeLogExtra]
+        to_anchor_id: int
+        event_tracking: Optional[RoomNotifyMessageEventTracking]
+    user: Optional[ExtendedUser]
 
 
 class RoomPinEvent(BaseEvent, WebcastRoomPinMessage):
     """RoomPinEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        chat_message: Optional[WebcastChatMessage]
+        social_message: Optional[WebcastSocialMessage]
+        gift_message: Optional[WebcastGiftMessage]
+        member_message: Optional[WebcastMemberMessage]
+        like_message: Optional[WebcastLikeMessage]
+        method: str
+        pin_time: int
+        action: PinMessageActionType
+        display_duration: int
+        pin_msg_id: int
+        ec_streamer_key: str
+    operator: Optional[ExtendedUser]
 
 
 class RoomUserSeqEvent(BaseEvent, WebcastRoomUserSeqMessage):
     """RoomUserSeqEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        ranks: List[Contributor]
+        total: int
+        pop_str: str
+        seats: List[Contributor]
+        popularity: int
+        total_user: int
+        anonymous: int
+
+
+class RoomVerifyEvent(BaseEvent, WebcastRoomVerifyMessage):
+    """RoomVerifyEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        action: int
+        content: str
+        notice_type: int
+        close_room: bool
 
 
 class SocialEvent(BaseEvent, WebcastSocialMessage):
     """SocialEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        share_type: int
+        action: int
+        share_target: str
+        follow_count: int
+        share_display_style: int
+        share_count: int
+        public_area_message_common: Optional[PublicAreaMessageCommon]
+        signature: str
+        signature_version: str
+        show_duration_ms: int
+        follow_type: int
+        target_user_id: int
+        scene: str
+    user: Optional[ExtendedUser]
+
+
+class SpeakerEvent(BaseEvent, WebcastSpeakerMessage):
+    """SpeakerEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+
+
+class SubNotifyEvent(BaseEvent, WebcastSubNotifyMessage):
+    """SubNotifyEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        exhibition_type: ExhibitionType
+        sub_month: int
+        subscribe_type: SubscribeType
+        old_subscribe_status: OldSubscribeStatus
+        message_type: MessageType
+        subscribing_status: SubscribingStatus
+        is_send: bool
+        is_custom: bool
+        gift_source: GiftSource
+        message_display_style: MessageDisplayStyle
+        public_area_message_common: Optional[PublicAreaMessageCommon]
+        package_id: str
+        event_tracking: Optional[RoomNotifyMessageEventTracking]
+    user: Optional[ExtendedUser]
+
+
+class SubPinEventEvent(BaseEvent, WebcastSubPinEventMessage):
+    """SubPinEventEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        action_type: SubPinEventMessageActionType
+        card: Optional[SubPinCard]
+        operator_user_id: int
 
 
 class SystemEvent(BaseEvent, WebcastSystemMessage):
     """SystemEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        message: str
+
+
+class ToastEvent(BaseEvent, WebcastToastMessage):
+    """ToastEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        display_duration_millisecond: int
+        delay_display_duration_millisecond: int
+        scene: str
 
 
 class UnauthorizedMemberEvent(BaseEvent, WebcastUnauthorizedMemberMessage):
     """UnauthorizedMemberEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        action: int
+        nick_name_prefix: Optional[Text]
+        nick_name: str
+        enter_text: Optional[Text]
+        public_area_common: Optional[PublicAreaMessageCommon]
+
+
+class ViewerPicksUpdateEvent(BaseEvent, WebcastViewerPicksUpdateMessage):
+    """ViewerPicksUpdateEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        update_type: int
+        info: Optional[ViewerPicksInfo]
 
 
 EVENT_MAPPINGS: Dict[str, Type[BaseEvent]] = {
+    "WebcastAccessControlMessage": AccessControlEvent,
+    "WebcastAccessRecallMessage": AccessRecallEvent,
     "WebcastBarrageMessage": BarrageEvent,
+    "WebcastBoostCardMessage": BoostCardEvent,
+    "WebcastBottomMessage": BottomEvent,
+    "WebcastCapsuleMessage": CapsuleEvent,
     "WebcastCaptionMessage": CaptionEvent,
     "WebcastChatMessage": CommentEvent,
     "WebcastControlMessage": ControlEvent,
     "WebcastEmoteChatMessage": EmoteChatEvent,
     "WebcastEnvelopeMessage": EnvelopeEvent,
+    "WebcastGameRankNotifyMessage": GameRankNotifyEvent,
+    "WebcastGiftBroadcastMessage": GiftBroadcastEvent,
+    "WebcastGiftDynamicRestrictionMessage": GiftDynamicRestrictionEvent,
     "WebcastGiftMessage": GiftEvent,
+    "WebcastGiftPanelUpdateMessage": GiftPanelUpdateEvent,
+    "WebcastGiftPromptMessage": GiftPromptEvent,
     "WebcastGoalUpdateMessage": GoalUpdateEvent,
-    "WebcastHourlyRankMessage": HourlyRankEvent,
+    "WebcastGuideMessage": GuideEvent,
+    "WebcastHourlyRankRewardMessage": HourlyRankRewardEvent,
     "WebcastImDeleteMessage": ImDeleteEvent,
     "WebcastInRoomBannerMessage": InRoomBannerEvent,
     "WebcastMemberMessage": JoinEvent,
@@ -228,34 +1439,61 @@ EVENT_MAPPINGS: Dict[str, Type[BaseEvent]] = {
     "WebcastLinkMicBattle": LinkMicBattleEvent,
     "WebcastLinkMicBattlePunishFinish": LinkMicBattlePunishFinishEvent,
     "WebcastLinkMicFanTicketMethod": LinkMicFanTicketMethodEvent,
+    "WebcastLinkMicLayoutStateMessage": LinkMicLayoutStateEvent,
     "WebcastLinkMicMethod": LinkMicMethodEvent,
+    "WebcastLinkStateMessage": LinkStateEvent,
     "WebcastLinkmicBattleTaskMessage": LinkmicBattleTaskEvent,
+    "WebcastLiveGameIntroMessage": LiveGameIntroEvent,
     "WebcastLiveIntroMessage": LiveIntroEvent,
+    "WebcastMarqueeAnnouncementMessage": MarqueeAnnouncementEvent,
     "WebcastMsgDetectMessage": MessageDetectEvent,
+    "WebcastNoticeMessage": NoticeEvent,
     "WebcastOecLiveShoppingMessage": OecLiveShoppingEvent,
+    "WebcastPartnershipDropsUpdateMessage": PartnershipDropsUpdateEvent,
+    "WebcastPartnershipGameOfflineMessage": PartnershipGameOfflineEvent,
+    "WebcastPartnershipPunishMessage": PartnershipPunishEvent,
+    "WebcastPerceptionMessage": PerceptionEvent,
     "WebcastPollMessage": PollEvent,
     "WebcastQuestionNewMessage": QuestionNewEvent,
     "WebcastRankTextMessage": RankTextEvent,
     "WebcastRankUpdateMessage": RankUpdateEvent,
     "WebcastRoomMessage": RoomEvent,
+    "WebcastRoomNotifyMessage": RoomNotifyEvent,
     "WebcastRoomPinMessage": RoomPinEvent,
     "WebcastRoomUserSeqMessage": RoomUserSeqEvent,
+    "WebcastRoomVerifyMessage": RoomVerifyEvent,
     "WebcastSocialMessage": SocialEvent,
+    "WebcastSpeakerMessage": SpeakerEvent,
+    "WebcastSubNotifyMessage": SubNotifyEvent,
+    "WebcastSubPinEventMessage": SubPinEventEvent,
     "WebcastSystemMessage": SystemEvent,
+    "WebcastToastMessage": ToastEvent,
     "WebcastUnauthorizedMemberMessage": UnauthorizedMemberEvent,
+    "WebcastViewerPicksUpdateMessage": ViewerPicksUpdateEvent,
 }
 
 
 ProtoEvent: TypeAlias = Union[
+    AccessControlEvent,
+    AccessRecallEvent,
     BarrageEvent,
+    BoostCardEvent,
+    BottomEvent,
+    CapsuleEvent,
     CaptionEvent,
     CommentEvent,
     ControlEvent,
     EmoteChatEvent,
     EnvelopeEvent,
+    GameRankNotifyEvent,
+    GiftBroadcastEvent,
+    GiftDynamicRestrictionEvent,
     GiftEvent,
+    GiftPanelUpdateEvent,
+    GiftPromptEvent,
     GoalUpdateEvent,
-    HourlyRankEvent,
+    GuideEvent,
+    HourlyRankRewardEvent,
     ImDeleteEvent,
     InRoomBannerEvent,
     JoinEvent,
@@ -266,34 +1504,61 @@ ProtoEvent: TypeAlias = Union[
     LinkMicBattleEvent,
     LinkMicBattlePunishFinishEvent,
     LinkMicFanTicketMethodEvent,
+    LinkMicLayoutStateEvent,
     LinkMicMethodEvent,
+    LinkStateEvent,
     LinkmicBattleTaskEvent,
+    LiveGameIntroEvent,
     LiveIntroEvent,
+    MarqueeAnnouncementEvent,
     MessageDetectEvent,
+    NoticeEvent,
     OecLiveShoppingEvent,
+    PartnershipDropsUpdateEvent,
+    PartnershipGameOfflineEvent,
+    PartnershipPunishEvent,
+    PerceptionEvent,
     PollEvent,
     QuestionNewEvent,
     RankTextEvent,
     RankUpdateEvent,
     RoomEvent,
+    RoomNotifyEvent,
     RoomPinEvent,
     RoomUserSeqEvent,
+    RoomVerifyEvent,
     SocialEvent,
+    SpeakerEvent,
+    SubNotifyEvent,
+    SubPinEventEvent,
     SystemEvent,
+    ToastEvent,
     UnauthorizedMemberEvent,
+    ViewerPicksUpdateEvent,
 ]
 
 
 __all__ = [
+    "AccessControlEvent",
+    "AccessRecallEvent",
     "BarrageEvent",
+    "BoostCardEvent",
+    "BottomEvent",
+    "CapsuleEvent",
     "CaptionEvent",
     "CommentEvent",
     "ControlEvent",
     "EmoteChatEvent",
     "EnvelopeEvent",
+    "GameRankNotifyEvent",
+    "GiftBroadcastEvent",
+    "GiftDynamicRestrictionEvent",
     "GiftEvent",
+    "GiftPanelUpdateEvent",
+    "GiftPromptEvent",
     "GoalUpdateEvent",
-    "HourlyRankEvent",
+    "GuideEvent",
+    "HourlyRankRewardEvent",
     "ImDeleteEvent",
     "InRoomBannerEvent",
     "JoinEvent",
@@ -304,21 +1569,37 @@ __all__ = [
     "LinkMicBattleEvent",
     "LinkMicBattlePunishFinishEvent",
     "LinkMicFanTicketMethodEvent",
+    "LinkMicLayoutStateEvent",
     "LinkMicMethodEvent",
+    "LinkStateEvent",
     "LinkmicBattleTaskEvent",
+    "LiveGameIntroEvent",
     "LiveIntroEvent",
+    "MarqueeAnnouncementEvent",
     "MessageDetectEvent",
+    "NoticeEvent",
     "OecLiveShoppingEvent",
+    "PartnershipDropsUpdateEvent",
+    "PartnershipGameOfflineEvent",
+    "PartnershipPunishEvent",
+    "PerceptionEvent",
     "PollEvent",
     "QuestionNewEvent",
     "RankTextEvent",
     "RankUpdateEvent",
     "RoomEvent",
+    "RoomNotifyEvent",
     "RoomPinEvent",
     "RoomUserSeqEvent",
+    "RoomVerifyEvent",
     "SocialEvent",
+    "SpeakerEvent",
+    "SubNotifyEvent",
+    "SubPinEventEvent",
     "SystemEvent",
+    "ToastEvent",
     "UnauthorizedMemberEvent",
+    "ViewerPicksUpdateEvent",
     "EVENT_MAPPINGS",
     "ProtoEvent",
 ]

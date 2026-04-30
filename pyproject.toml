@@ -14,16 +14,16 @@ authors = [
 ]
 keywords = ["tiktok", "tiktok live", "python3", "api", "unofficial"]
 dependencies = [
-    "httpx>=0.26.0",
-    "pyee>=9.0.4",
+    "httpx>=0.28.1",
+    "pyee==13.0.1",
     "ffmpy>=0.3.0",
     "websockets_proxy==0.1.3",
-    "betterproto2>=0.9.1",
+    "betterproto2==0.9.1",
     "async-timeout>=4.0.3",
     "mashumaro>=3.5",
     "protobuf3-to-dict>=0.1.5",
     "protobuf>=3.19.4",
-    "TikTokLiveProto==0.1.1"
+    "TikTokLiveProto==0.1.5"
 ]
 
 classifiers = [
@@ -80,14 +80,6 @@ exclude = [
     "build/",
     "dist/",
 ]
-
-# TikTokLiveProto exposes ``TikTokLiveProto.v2`` via a runtime ``sys.modules``
-# injection that mypy cannot follow. Internal code therefore imports from
-# ``TikTokLiveProto.generated.v2`` (the canonical, statically-resolvable path).
-# This rule keeps a friendly hint if anyone reverts to the runtime shortcut.
-[[tool.mypy.overrides]]
-module = "TikTokLiveProto.v2"
-ignore_missing_imports = true
 
 [project.urls]
 Homepage = "https://github.com/isaackogan/TikTokLive"

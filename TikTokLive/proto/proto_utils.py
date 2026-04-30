@@ -1,7 +1,19 @@
 import re
 from typing import List, Tuple, Optional
 
-from TikTokLive.proto import User, BadgeStruct
+from TikTokLive.proto import User, BadgeStruct, CommonMessageData
+
+
+def common_display_type(common: Optional[CommonMessageData]) -> str:
+    """Safely read ``common.display_text.key`` through the v3 nullable chain.
+
+    v2 exposed this as ``display_text.display_type``; v3 renamed Text field 1
+    (same wire number, same string type) to ``key``.
+    """
+
+    if common is None or common.display_text is None:
+        return ""
+    return common.display_text.key or ""
 
 
 _BADGE_ONEOF_FIELDS = ("str", "text", "image", "combine")
@@ -62,7 +74,7 @@ def badge_match(badge: BadgeStruct, p: re.Pattern) -> Optional[re.Match]:
 
     if kind == "image":
         assert badge.image is not None and badge.image.image is not None
-        for image_url in badge.image.image.url:
+        for image_url in badge.image.image.url_list:
             match = p.search(image_url)
             if match:
                 return match
@@ -75,7 +87,7 @@ def badge_match(badge: BadgeStruct, p: re.Pattern) -> Optional[re.Match]:
             if match:
                 return match
         if badge.combine.icon is not None:
-            for image_url in badge.combine.icon.url:
+            for image_url in badge.combine.icon.url_list:
                 match = p.search(image_url)
                 if match:
                     return match

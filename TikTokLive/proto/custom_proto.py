@@ -8,7 +8,8 @@ from typing import Optional, List, Type, TypeVar, Tuple
 # noinspection PyUnresolvedReferences
 import betterproto2
 
-from TikTokLiveProto.v2 import User, Gift
+from TikTokLiveProto.v3.webcast.model import Gift
+from TikTokLiveProto.v3.webcast.model.base.user import User
 
 # "MessageType" is a proto enum field.
 # This underscore is the difference between life & death, because if you shadow the proto field,
@@ -63,10 +64,10 @@ class ExtendedUser(User):
         return ExtendedUser.from_dict(user.to_dict(), ignore_unknown_fields=True)
 
     @property
-    def display_id(self) -> Optional[str]:
-        """Legacy alias for the @-handle. v2 exposes it as ``unique_id``."""
+    def unique_id(self) -> Optional[str]:
+        """Legacy alias for the @-handle. v3 exposes it as ``display_id``."""
 
-        return self.unique_id or self.nickname or None
+        return self.display_id or None
 
     @property
     def is_friend(self) -> bool:
@@ -213,13 +214,13 @@ class ExtendedGift(Gift):
 
     @property
     def streakable(self) -> bool:
-        """Whether a gift is capable of streaking. v2 renamed ``type`` to ``gift_type``."""
+        """Whether a gift is capable of streaking."""
 
-        return self.gift_type == 1
+        return self.type == 1
 
 
-# ``ControlAction`` is now part of the upstream v2 schema (renamed from the
+# ``ControlAction`` is part of the upstream v3 schema (renamed from the
 # legacy ``CONTROL_ACTION_*`` form to ``STREAM_*``) — re-export it from here
 # so existing ``from TikTokLive.proto.custom_proto import ControlAction``
 # imports keep resolving to the canonical enum.
-from TikTokLiveProto.v2 import ControlAction as ControlAction  # noqa: E402, F401
+from TikTokLiveProto.v3.webcast.im import ControlAction as ControlAction  # noqa: E402, F401

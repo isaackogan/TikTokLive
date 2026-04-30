@@ -6,7 +6,7 @@
 # ``setattr``-style mutation, which mypy can't model statically.
 # mypy: ignore-errors
 
-from TikTokLiveProto.v2 import BaseProtoMessage as ProtoMessageFetchResultBaseProtoMessage
+from TikTokLiveProto.v3.webcast.shared.message import BaseProtoMessage as ProtoMessageFetchResultBaseProtoMessage
 from TikTokLive.proto.custom_proto import ExtendedUser as _ExtendedUser
 from TikTokLive.proto.custom_proto import ExtendedGift as _ExtendedGift
 
@@ -23,12 +23,12 @@ def _legacy_alias(target_attr: str, doc: str | None = None) -> property:
     return p
 
 
-_ExtendedUser.username = _legacy_alias("unique_id", "Legacy alias; v2 renamed this field to ``unique_id``.")
-_ExtendedUser.nick_name = _legacy_alias("nickname", "Legacy alias; v2 renamed this field to ``nickname``.")
-_ExtendedUser.badge_list = _legacy_alias("badges", "Legacy alias; v2 renamed this field to ``badges``.")
-_ExtendedGift.name = _legacy_alias("gift_name", "Legacy alias; v2 renamed this field to ``gift_name``.")
-_ExtendedGift.type = _legacy_alias("gift_type", "Legacy alias; v2 renamed this field to ``gift_type``.")
-_ExtendedGift.image = _legacy_alias("gift_image", "Legacy alias; v2 renamed this field to ``gift_image``.")
+_ExtendedUser.username = _legacy_alias("display_id", "Legacy alias; v3 exposes this field as ``display_id``.")
+_ExtendedUser.nick_name = _legacy_alias("nickname", "Legacy alias; v3 exposes this field as ``nickname``.")
+_ExtendedUser.badges = _legacy_alias("badge_list", "v2 alias; v3 reverted this field to ``badge_list``.")
+_ExtendedGift.gift_type = _legacy_alias("type", "Legacy alias; v2 renamed ``type`` to ``gift_type``, v3 reverted.")
+_ExtendedGift.gift_name = _legacy_alias("name", "v2 alias; v3 reverted this field to ``name``.")
+_ExtendedGift.gift_image = _legacy_alias("image", "v2 alias; v3 reverted this field to ``image``.")
 
 
 __all__ = [

@@ -53,6 +53,7 @@ class FetchRoomIdAPIRoute(ClientRoute):
 
         response_json: dict = response.json()
 
+
         # Invalid user
         if response_json["message"] == "user_not_found":
             raise UserNotFoundError(

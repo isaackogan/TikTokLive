@@ -10,7 +10,7 @@ from websockets.legacy.client import WebSocketClientProtocol
 from TikTokLive.client.logger import TikTokLiveLogHandler
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.ws.ws_connect import WebcastProxyConnect, WebcastConnect, WebcastProxy, WebcastIterator
-from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame, HeartbeatMessage, WebcastImEnterRoomMessage
+from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame, HeartBeatMessage, WebcastImEnterRoomMessage
 
 
 class WebcastWSClient:
@@ -266,7 +266,7 @@ class WebcastWSClient:
             # Ack when necessary. The very first iteration yields the initial
             # response from the sign server with ``webcast_push_frame=None`` —
             # there's nothing to ack against in that case.
-            if webcast_response.needs_ack and webcast_push_frame is not None:
+            if webcast_response.need_ack and webcast_push_frame is not None:
                 await self.send_ack(webcast_response=webcast_response, webcast_push_frame=webcast_push_frame)
 
             # Yield the response
@@ -350,14 +350,14 @@ class WebcastWSClient:
             self._logger.debug(f"Starting ping loop with interval of {ping_interval} seconds.")
             while self.connected:
                 # Create the heartbeat message (it is always the same)
-                hb_message = HeartbeatMessage(room_id=room_id, send_packet_seq_id=self._seq_id)
+                hb_message = HeartBeatMessage(room_id=room_id, send_packet_seq_id=self._seq_id)
                 self._seq_id += 1
 
                 webcast_push_frame: WebcastPushFrame = WebcastPushFrame(
                     payload_encoding="pb",
                     payload_type="hb",
                     payload=bytes(hb_message),
-                    headers={}
+                    headers=[]
                 )
 
                 # Send the ping

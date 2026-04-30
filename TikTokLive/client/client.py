@@ -1,24 +1,15 @@
 import asyncio
 import inspect
 import logging
-import traceback
 from asyncio import AbstractEventLoop, Task, CancelledError
 from logging import Logger
-from typing import Optional, Type, Dict, Any, Union, Callable, List, Coroutine, AsyncIterator
+from typing import Optional, Type, Dict, Any, Union, Callable, List, Coroutine, AsyncIterator, overload
 
 import httpx
-from TikTokLiveProto.v2 import CommonMessageData, EnvelopeBusinessType
-
-
-def _common_display_type(common: Optional[CommonMessageData]) -> str:
-    """Safely read ``common.display_text.display_type`` through the v2 nullable chain."""
-    if common is None or common.display_text is None:
-        return ""
-    return common.display_text.display_type or ""
 from pyee.asyncio import AsyncIOEventEmitter
 from pyee.base import Handler
 
-from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError, UserNotFoundError
+from TikTokLive.client.errors import AlreadyConnectedError, UserOfflineError
 from TikTokLive.client.logger import TikTokLiveLogHandler, LogLevel
 from TikTokLive.client.web.routes.fetch_signed_websocket import WebcastPlatform
 from TikTokLive.client.web.routes.fetch_user_unique_id import FailedResolveUserId
@@ -33,18 +24,17 @@ from TikTokLive.events.custom_events import WebsocketResponseEvent, FollowEvent,
 from TikTokLive.events.proto_events import EVENT_MAPPINGS, ProtoEvent, BarrageEvent, EnvelopeEvent
 from TikTokLive.proto import ProtoMessageFetchResult, ProtoMessageFetchResultBaseProtoMessage
 from TikTokLive.proto.custom_proto import ControlAction
-
+from TikTokLive.proto.proto_utils import common_display_type
 
 # Default fingerprints of parse failures rooted in upstream proto schema
 # bugs. These are substring-matched against the exception's ``str(...)`` and
 # any matching parse error is logged at DEBUG instead of ERROR. Clients can
 # extend the list at runtime via ``client.parse_error_ignorelist``.
-DEFAULT_PARSE_ERROR_IGNORELIST: List[str] = [
-    # LinkLayerListUser.linkmic_id is declared int64 in v2 but TikTok wires
-    # it as bytes-of-an-ASCII-numeric-string. pydantic refuses; affects
-    # WebcastLinkLayerMessage and WebcastLinkMessage.
-    "LinkLayerListUser\nlinkmic_id",
-]
+#
+# v3 fixed the v2-era ``LinkLayerListUser.linkmic_id`` int64-vs-string bug,
+# so the list starts empty. Add new fingerprints here as upstream schema
+# regressions surface.
+DEFAULT_PARSE_ERROR_IGNORELIST: List[str] = []
 
 # Maximum number of bytes to include from the raw payload when logging a
 # parse failure. Anything over this gets truncated with a "(N more)" suffix
@@ -185,7 +175,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             self._room_id = int(room_id or await self._web.fetch_room_id_from_html(self._unique_id))
         except Exception as base_ex:
 
-            if isinstance(base_ex, UserOfflineError) or isinstance(base_ex, UserNotFoundError):
+            # Do not raise on UserNotFoundError as this can be a captcha issue
+            if isinstance(base_ex, UserOfflineError):
                 raise base_ex
 
             try:
@@ -232,18 +223,40 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                     Coroutine[None, None, None],
                 ]
             ] = None,
-            **kwargs
+            *,
+            process_connect_events: bool = True,
+            compress_ws_events: bool = True,
+            fetch_room_info: bool = False,
+            fetch_gift_info: bool = False,
+            fetch_live_check: bool = True,
+            room_id: Optional[int] = None,
     ) -> Task:
         """
-        Start a future-blocking connection to TikTokLive
+        Start a future-blocking connection to TikTokLive.
+
+        Kwargs are spelled out (not ``**kwargs``) so IDE autocomplete and
+        mypy can verify call sites. Every option is forwarded to
+        :meth:`start`.
 
         :param callback: A callback function to run when connected
-        :param kwargs: Kwargs to pass to start
+        :param process_connect_events: Whether to process initial events sent on room join
+        :param compress_ws_events: Whether to compress WebSocket events using gzip
+        :param fetch_room_info: Whether to fetch room info on join
+        :param fetch_gift_info: Whether to fetch gift info on join
+        :param fetch_live_check: Whether to check if the user is live
+        :param room_id: Optional override to skip room scraping
         :return: The task, once it's finished
 
         """
 
-        task: Task = await self.start(**kwargs)
+        task: Task = await self.start(
+            process_connect_events=process_connect_events,
+            compress_ws_events=compress_ws_events,
+            fetch_room_info=fetch_room_info,
+            fetch_gift_info=fetch_gift_info,
+            fetch_live_check=fetch_live_check,
+            room_id=room_id,
+        )
 
         try:
             if inspect.iscoroutinefunction(callback):
@@ -258,16 +271,40 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         return task
 
-    def run(self, **kwargs) -> Task:
+    def run(
+            self,
+            *,
+            process_connect_events: bool = True,
+            compress_ws_events: bool = True,
+            fetch_room_info: bool = False,
+            fetch_gift_info: bool = False,
+            fetch_live_check: bool = True,
+            room_id: Optional[int] = None,
+    ) -> Task:
         """
-        Start a thread-blocking connection to TikTokLive
+        Start a thread-blocking connection to TikTokLive.
 
-        :param kwargs: Kwargs to pass to start
+        Mirrors :meth:`connect` / :meth:`start`'s kwargs explicitly so IDEs
+        autocomplete and type-check the same options.
+
+        :param process_connect_events: Whether to process initial events sent on room join
+        :param compress_ws_events: Whether to compress WebSocket events using gzip
+        :param fetch_room_info: Whether to fetch room info on join
+        :param fetch_gift_info: Whether to fetch gift info on join
+        :param fetch_live_check: Whether to check if the user is live
+        :param room_id: Optional override to skip room scraping
         :return: The task, once it's finished
 
         """
 
-        return self._asyncio_loop.run_until_complete(self.connect(**kwargs))
+        return self._asyncio_loop.run_until_complete(self.connect(
+            process_connect_events=process_connect_events,
+            compress_ws_events=compress_ws_events,
+            fetch_room_info=fetch_room_info,
+            fetch_gift_info=fetch_gift_info,
+            fetch_live_check=fetch_live_check,
+            room_id=room_id,
+        ))
 
     async def disconnect(self, close_client: bool = False) -> None:
         """
@@ -315,13 +352,23 @@ class TikTokLiveClient(AsyncIOEventEmitter):
     # Liskov overrides of pyee.EventEmitter.on/add_listener: pyee keys events
     # by string; we accept an Event class and convert internally via
     # event.get_type(). The deviation is deliberate — class-based subscription
-    # is the documented public API. The cascading [type-var, misc, return-value]
-    # errors all stem from the same intentional contract change.
-    def on(  # type: ignore[override]
+    # is the documented public API. ``@overload``s keep the decorator branch
+    # (``@client.on(ConnectEvent)``) typed as ``Callable[[handler], handler]``
+    # so the inner async function checks against pyee's TypeVars cleanly.
+    # ``# noinspection PyMethodOverriding`` silences PyCharm's separate
+    # signature-mismatch inspector (mypy uses ``# type: ignore[override]``).
+    # noinspection PyMethodOverriding
+    @overload  # type: ignore[override]
+    def on(self, event: Type[Event], f: EventHandler) -> Handler: ...  # type: ignore[type-var,misc]
+    # noinspection PyMethodOverriding
+    @overload
+    def on(self, event: Type[Event]) -> Callable[[EventHandler], EventHandler]: ...
+    # noinspection PyMethodOverriding
+    def on(
         self,
         event: Type[Event],
         f: Optional[EventHandler] = None,
-    ) -> Union[Handler, Callable[[Handler], Handler]]:
+    ) -> Union[Handler, Callable[[EventHandler], EventHandler]]:
         """
         Decorator that can be used to register a Python function as an event listener
 
@@ -333,11 +380,12 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         return super(TikTokLiveClient, self).on(event.get_type(), f)  # type: ignore[type-var,return-value]
 
+    # noinspection PyMethodOverriding
     def add_listener(  # type: ignore[override]
         self,
         event: Type[Event],
         f: EventHandler,
-    ) -> Handler:  # type: ignore[type-var]
+    ) -> Handler:  # type: ignore[type-var,misc]
         """
         Method that can be used to register a Python function as an event listener
 
@@ -391,12 +439,12 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
             # Iterate over the events extracted
             async for event in self._parse_webcast_response(webcast_response):
-                self._logger.debug(f"Received Event '{event.type}' [{event.size} bytes]")
-                self.emit(event.type, event)
+                self._logger.debug(f"Received Event '{event.get_type()}' [{event.size} bytes]")
+                self.emit(event.get_type(), event)
 
         # Send the Disconnect event when we disconnect
         ev: DisconnectEvent = DisconnectEvent()
-        self.emit(ev.type, ev)
+        self.emit(ev.get_type(), ev)
 
     async def _parse_webcast_response(self, webcast_response: ProtoMessageFetchResult) -> AsyncIterator[Event]:
         """
@@ -443,7 +491,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # the codegen template's sake; every value is in fact a ProtoEvent
         # subclass, so the cast at use-time is honest.
         event_type: Optional[Type[ProtoEvent]] = (
-            EVENT_MAPPINGS.get(webcast_response_message.type)  # type: ignore[assignment]
+            EVENT_MAPPINGS.get(webcast_response_message.method)  # type: ignore[assignment]
         )
         # ``WebsocketResponseEvent`` carries the outer fetch result by
         # composition (``raw``); subscribers can inspect cursor, ws_params,
@@ -467,7 +515,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             if is_known_schema_bug:
                 self._logger.debug(
                     "Skipped %s payload (known upstream schema mismatch): %s",
-                    webcast_response_message.type,
+                    webcast_response_message.method,
                     ex.__class__.__name__,
                 )
             elif not self.ignore_broken_payload:
@@ -475,7 +523,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
                 # blow up the log; full traceback is in exc_info.
                 self._logger.error(
                     "Failed to parse %s payload (%d bytes); raw=%s",
-                    webcast_response_message.type,
+                    webcast_response_message.method,
                     len(webcast_response_message.payload or b""),
                     _truncate_payload(webcast_response_message.payload),
                     exc_info=True,
@@ -534,12 +582,14 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # SuperFanBoxEvent — envelope variant. Match either the displayType
         # marker or the explicit business_type enum, mirroring the JS connector.
+        # v3 dropped the named ``BusinessTypeSuperFanBox`` variant from the
+        # enum, but the wire value (19) is unchanged; compare numerically.
         if isinstance(event, EnvelopeEvent):
-            envelope_dt = _common_display_type(event.common).lower()
+            envelope_dt = common_display_type(event.common).lower()
             business_type = getattr(event.envelope_info, "business_type", None)
             if (
                 "ttlive_superfanbox" in envelope_dt
-                or business_type == EnvelopeBusinessType.BusinessTypeSuperFanBox
+                or (business_type is not None and int(business_type) == 19)
             ):
                 return SuperFanBoxEvent().parse(response.payload)
 
@@ -559,7 +609,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             return None
 
         # FollowEvent / ShareEvent — keyed off the common display-text marker.
-        common_dt = _common_display_type(event.common)
+        common_dt = common_display_type(event.common)
         if "follow" in common_dt:
             return FollowEvent().parse(response.payload)
         if "share" in common_dt:

@@ -3,7 +3,7 @@ from typing import Union
 from httpx import Response
 
 from TikTokLive.client.web.web_base import ClientRoute
-from TikTokLive.proto import Image, ImageModel
+from TikTokLive.proto import ImageModel
 
 
 class FetchImageDataRoute(ClientRoute):
@@ -12,20 +12,18 @@ class FetchImageDataRoute(ClientRoute):
 
     """
 
-    async def __call__(self, image: Union[str, Image, ImageModel]) -> bytes:
+    async def __call__(self, image: Union[str, ImageModel]) -> bytes:
         """
         Fetch the image from TikTok
 
-        :param image: A direct URL string, or any betterproto image-shaped
-            message (``Image`` uses ``url``; ``ImageModel`` uses ``m_urls``).
+        :param image: A direct URL string, or an ``ImageModel`` betterproto
+            message (uses ``url_list[0]``).
         :return: The fetched image bytes
 
         """
 
         if isinstance(image, ImageModel):
-            image_url = image.m_urls[0]
-        elif isinstance(image, Image):
-            image_url = image.url[0]
+            image_url = image.url_list[0]
         else:
             image_url = image
 

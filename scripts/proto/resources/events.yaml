@@ -1,6 +1,6 @@
 # Spec-driven generation of TikTokLive/events/proto_events.py.
 #
-# The generator (scripts/proto/gen_events.py) walks TikTokLiveProto.v2 for
+# The generator (scripts/proto/gen_events.py) walks TikTokLiveProto.v3 for
 # every Webcast*Message that carries a `common: CommonMessageData` field and
 # renders one BaseEvent subclass per match. Customizations below override or
 # extend the default class.
@@ -33,6 +33,11 @@ events:
           if self.user_identity is None:
               return False
           return self.user_identity.is_subscriber_of_anchor
+      - name: comment
+        return_type: str
+        doc: Legacy alias; v2 named this ``comment``, v3 renamed it to ``content``.
+        body: |
+          return self.content
 
   WebcastControlMessage:
     name: ControlEvent
@@ -51,22 +56,13 @@ events:
           if self.user_identity is None:
               return False
           return self.user_identity.is_subscriber_of_anchor
-      - name: gift
-        return_type: ExtendedGift
-        doc: |
-          Convenience accessor for the gift definition. v2 exposes it as
-          ``gift_details`` (Optional); we keep ``gift`` for ergonomics and
-          always return an ``ExtendedGift`` (wrapping the underlying Gift
-          so callers can use ``.streakable`` and other extensions).
-        body: |
-          return ExtendedGift(self.gift_details)
       - name: streaking
         return_type: bool
         doc: |
           Whether the user is currently engaged in a streak. False for
           non-streakable gifts; otherwise the inverse of ``repeat_end``.
         body: |
-          if not self.gift.streakable:
+          if self.gift is None or not ExtendedGift(self.gift).streakable:
               return False
           return not bool(self.repeat_end)
       - name: value
@@ -76,7 +72,7 @@ events:
           do not double-count; the final non-streaking event carries the
           full repeat_count.
         body: |
-          if self.streaking:
+          if self.streaking or self.gift is None:
               return None
           return self.repeat_count * self.gift.diamond_count * 0.005
 

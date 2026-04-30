@@ -130,9 +130,10 @@ class ShareEvent(SocialEvent):
         """
 
         try:
-            if self.common is None or self.common.display_text is None:
+            from TikTokLive.proto.proto_utils import common_display_type
+            display_text: str = common_display_type(self.common)
+            if not display_text:
                 return None
-            display_text: str = self.common.display_text.display_type or ""
             return int(display_text.split("pm_mt_guidance_viewer_")[1].split("_share")[0])
         except IndexError:
             return None
