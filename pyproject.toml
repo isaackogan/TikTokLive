@@ -24,6 +24,7 @@ dependencies = [
     "protobuf3-to-dict>=0.1.5",
     "protobuf>=3.19.4",
     "TikTokLiveProto==0.1.5"
+    "EulerApiSdk>=0.0.1,<0.2.0"
 ]
 
 classifiers = [

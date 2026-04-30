@@ -6,6 +6,14 @@ from typing import Optional, TypedDict, Literal
 import httpx
 from httpx import URL
 
+from EulerApiSdk import AuthenticatedClient, Client
+from EulerApiSdk.api.tik_tok_live import sign_webcast_url
+from EulerApiSdk.models.sign_tik_tok_url_body import SignTikTokUrlBody
+from EulerApiSdk.models.sign_tik_tok_url_body_method import SignTikTokUrlBodyMethod
+from EulerApiSdk.models.sign_tik_tok_url_body_type import SignTikTokUrlBodyType
+from EulerApiSdk.models.sign_tik_tok_url_response import SignTikTokUrlResponse
+from EulerApiSdk.types import UNSET
+
 from TikTokLive.__version__ import PACKAGE_VERSION
 from TikTokLive.client.errors import UnexpectedSignatureError, SignatureMissingTokensError, PremiumEndpointError
 from TikTokLive.client.web.web_settings import WebDefaults
@@ -50,28 +58,37 @@ class TikTokSigner:
         Initialize the signing class
 
         :param sign_api_key: API key for signing requests
+        :param sign_api_base: Base URL for the signing API
 
         """
 
-        self._sign_api_key: Optional[str] = sign_api_key or os.environ.get("SIGN_API_KEY") or WebDefaults.tiktok_sign_api_key
-        self._sign_api_base: str = sign_api_base or os.environ.get("SIGN_API_URL") or WebDefaults.tiktok_sign_url
+        api_key = sign_api_key or os.environ.get("SIGN_API_KEY") or WebDefaults.tiktok_sign_api_key
+        self._base_url = sign_api_base or os.environ.get("SIGN_API_URL") or WebDefaults.tiktok_sign_url
 
-        initial_headers: dict[str, str] = {
-            "User-Agent": f"TikTokLive.py/{PACKAGE_VERSION}"
-        }
+        headers = {"User-Agent": f"TikTokLive.py/{PACKAGE_VERSION}"}
 
-        if self._sign_api_key:
-            initial_headers['X-Api-Key'] = self._sign_api_key
-
-        self._httpx: httpx.AsyncClient = httpx.AsyncClient(
-            headers=initial_headers,
-            verify=False
-        )
+        if api_key:
+            self._sdk_client: AuthenticatedClient | Client = AuthenticatedClient(
+                base_url=self._base_url,
+                token=api_key,
+                prefix="",
+                auth_header_name="X-Api-Key",
+                headers=headers,
+                verify_ssl=False,
+            )
+        else:
+            self._sdk_client = Client(
+                base_url=self._base_url,
+                headers=headers,
+                verify_ssl=False,
+            )
 
     @property
     def sign_api_key(self) -> Optional[str]:
         """API key for signing requests"""
-        return self._sign_api_key
+        if isinstance(self._sdk_client, AuthenticatedClient):
+            return self._sdk_client.token
+        return None
 
     async def webcast_sign(
             self,
@@ -109,24 +126,23 @@ class TikTokSigner:
             url = re.sub(rf"({param}=[^&]*&?)", "", url).rstrip('&').rstrip('?')
 
         try:
-
-            sign_payload: dict = {
-                "url": url,
-                "userAgent": user_agent,
-                "method": method,
-                "type": sign_url_type,
-                "payload": payload,
-            }
+            body = SignTikTokUrlBody(
+                url=url,
+                user_agent=user_agent,
+                method=SignTikTokUrlBodyMethod(method.upper()),
+                type_=SignTikTokUrlBodyType(sign_url_type),
+                payload=payload if payload else UNSET,
+            )
 
             # Authenticated signature
             if session_id:
                 check_authenticated_session(session_id, tt_target_idc, session_required=False)
-                sign_payload['sessionId'] = session_id
-                sign_payload['ttTargetIdc'] = tt_target_idc
+                body.session_id = session_id
+                body.tt_target_idc = tt_target_idc if tt_target_idc else UNSET
 
-            response: httpx.Response = await self._httpx.post(
-                url=f"{self._sign_api_base}/webcast/sign_url/",
-                data=sign_payload,
+            resp = await sign_webcast_url.asyncio_detailed(
+                client=self._sdk_client,
+                body=body,
             )
 
         except Exception as ex:
@@ -134,28 +150,75 @@ class TikTokSigner:
                 "Failed to sign a request due to an error."
             ) from ex
 
-        try:
-            sign_response = response.json()
-        except Exception as ex:
-            raise UnexpectedSignatureError(
-                "Failed to retrieve JSON from a signed request: " + str(response)
-            ) from ex
+        # Reconstruct httpx.Response for error handlers expecting response.request
+        err_response = httpx.Response(
+            status_code=resp.status_code.value,
+            content=resp.content,
+            headers=dict(resp.headers),
+            request=httpx.Request("POST", f"{self._base_url}/webcast/sign_url"),
+        )
 
-        if sign_response['code'] == 403:
+        if resp.parsed is None:
+            raise UnexpectedSignatureError(
+                "Failed to parse response from signing request.",
+                response=err_response
+            )
+
+        parsed = resp.parsed
+        code = int(parsed.code) if isinstance(parsed, SignTikTokUrlResponse) else parsed.code
+        message = "" if parsed.message is UNSET else parsed.message
+
+        # Check body code first (API returns 200 with code=403 for premium errors)
+        if code == 403:
             raise PremiumEndpointError(
                 "You do not have permission from the signature provider to sign this URL.",
-                api_message=sign_response['message'],
-                response=response
+                api_message=message or "",
+                response=err_response
             )
 
-        if "msToken" not in sign_response['response']['signedUrl']:
+        # Then check HTTP status
+        if resp.status_code.value == 403:
+            raise PremiumEndpointError(
+                "You do not have permission from the signature provider to sign this URL.",
+                api_message=message or "",
+                response=err_response
+            )
+
+        if resp.status_code.value != 200:
+            raise UnexpectedSignatureError(
+                f"Sign API returned status code {resp.status_code.value}: {resp.content.decode('utf-8', errors='replace')}",
+                response=err_response
+            )
+
+        result: SignResponse = {
+            "code": code,
+            "message": message or "",
+            "response": None
+        }
+
+        if isinstance(parsed, SignTikTokUrlResponse) and parsed.response is not UNSET:
+            r = parsed.response
+            result["response"] = {
+                "signedUrl": "" if r.signed_url is UNSET else r.signed_url,
+                "userAgent": "" if r.user_agent is UNSET else r.user_agent,
+                "browserName": "" if r.browser_name is UNSET else r.browser_name,
+                "browserVersion": "" if r.browser_version is UNSET else r.browser_version,
+            }
+
+        if result["response"] is None or "msToken" not in result["response"]["signedUrl"]:
             raise SignatureMissingTokensError(
-                "Failed to sign a request due to missing tokens in response!"
+                "Failed to sign a request due to missing tokens in response!",
+                response=err_response
             )
 
-        return sign_response
+        return result
 
     @property
-    def client(self) -> httpx.AsyncClient:
+    def sdk_client(self) -> AuthenticatedClient | Client:
+        """The SDK client used to sign requests"""
+        return self._sdk_client
+
+    @property
+    def client(self):
         """The httpx client used to sign requests"""
-        return self._httpx
+        return self._sdk_client.get_async_httpx_client()
