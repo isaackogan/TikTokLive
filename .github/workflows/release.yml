@@ -14,8 +14,9 @@ on:
         type: string
 
 permissions:
-  contents: write   # commit + tag back to master
-  id-token: write   # PyPI OIDC trusted publishing
+  contents: write         # push tag + push release branch for the PR
+  pull-requests: write    # open the version-bump PR
+  id-token: write         # PyPI OIDC trusted publishing
 
 jobs:
   check-branch:
@@ -59,18 +60,40 @@ jobs:
         # this repo + workflow filename. No PYPI_TOKEN secret needed.
         uses: pypa/gh-action-pypi-publish@release/v1
 
-      - name: Commit version bump
+      - name: Commit version bump (local) + push tag
+        # Master is a protected branch — direct pushes from
+        # ``github-actions[bot]`` are rejected (GH006). The version-bump
+        # commit is created locally so the tag can point at the exact
+        # released source, then the tag is pushed (tags aren't governed by
+        # the branch-protection rule). The bump itself lands via a PR in
+        # the next step.
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add pyproject.toml TikTokLive/__version__.py
           git commit -m "chore: release v${{ inputs.version }} [skip ci]"
-          git push
-
-      - name: Create git tag
-        run: |
           git tag "v${{ inputs.version }}"
           git push origin "v${{ inputs.version }}"
 
+      - name: Open PR for version bump
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: "release/v${{ inputs.version }}"
+          base: master
+          title: "chore: release v${{ inputs.version }}"
+          body: |
+            Automated version bump for `v${{ inputs.version }}`.
+
+            Released to PyPI: https://pypi.org/project/TikTokLive/${{ inputs.version }}/
+            Tag: `v${{ inputs.version }}`
+          commit-message: "chore: release v${{ inputs.version }} [skip ci]"
+          delete-branch: true
+
       - name: Summary
-        run: echo "### Published TikTokLive@${{ inputs.version }} to PyPI" >> $GITHUB_STEP_SUMMARY
+        run: |
+          {
+            echo "### Published TikTokLive@${{ inputs.version }} to PyPI"
+            echo ""
+            echo "- Tag: \`v${{ inputs.version }}\` pushed to origin"
+            echo "- Version bump opened as PR — merge to land on master"
+          } >> "$GITHUB_STEP_SUMMARY"
