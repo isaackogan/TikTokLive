@@ -23,7 +23,7 @@ dependencies = [
     "mashumaro>=3.5",
     "protobuf3-to-dict>=0.1.5",
     "protobuf>=3.19.4",
-    "TikTokLiveProto==0.0.6"
+    "TikTokLiveProto==0.1.1"
 ]
 
 classifiers = [
