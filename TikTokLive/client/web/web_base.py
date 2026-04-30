@@ -235,14 +235,17 @@ class TikTokHTTPClient:
         if sign_url:
             sign_result: ProxySignResult = typing.cast(
                 ProxySignResult,
-                await self._tiktok_signer.webcast_sign(
-                    url=request.url,
-                    method=sign_url_method or method,
-                    sign_url_type=sign_url_type if sign_url_type else "xhr",
-                    payload=sign_url_payload or "",
-                    user_agent=self.headers['User-Agent'],
-                    session_id=self.cookies.get('sessionid'),
-                    tt_target_idc=self.cookies.get('tt-target-idc'),
+                typing.cast(
+                    object,
+                    await self._tiktok_signer.webcast_sign(
+                        url=request.url,
+                        method=sign_url_method or method,
+                        sign_url_type=sign_url_type if sign_url_type else "xhr",
+                        payload=sign_url_payload or "",
+                        user_agent=self.headers['User-Agent'],
+                        session_id=self.cookies.get('sessionid'),
+                        tt_target_idc=self.cookies.get('tt-target-idc'),
+                    )
                 ),
             )
             request.headers['User-Agent'] = str(sign_result.user_agent)
