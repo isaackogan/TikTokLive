@@ -1,46 +1,24 @@
 """API Url for euler sign services"""
 import os
 import re
-from typing import Optional, TypedDict, Literal
+import typing
+from typing import Optional, Literal
 
 import httpx
-from httpx import URL
-
 from EulerApiSdk import AuthenticatedClient, Client
 from EulerApiSdk.api.tik_tok_live import sign_webcast_url
+from EulerApiSdk.models import JSONResponse
 from EulerApiSdk.models.sign_tik_tok_url_body import SignTikTokUrlBody
 from EulerApiSdk.models.sign_tik_tok_url_body_method import SignTikTokUrlBodyMethod
 from EulerApiSdk.models.sign_tik_tok_url_body_type import SignTikTokUrlBodyType
 from EulerApiSdk.models.sign_tik_tok_url_response import SignTikTokUrlResponse
-from EulerApiSdk.types import UNSET
+from EulerApiSdk.types import UNSET, Unset
+from httpx import URL
 
 from TikTokLive.__version__ import PACKAGE_VERSION
 from TikTokLive.client.errors import UnexpectedSignatureError, SignatureMissingTokensError, PremiumEndpointError
 from TikTokLive.client.web.web_settings import WebDefaults
 from TikTokLive.client.web.web_utils import check_authenticated_session
-
-
-class SignData(TypedDict):
-    """
-    Data for signed URLs
-
-    """
-
-    signedUrl: str
-    userAgent: str
-    browserName: str
-    browserVersion: str
-
-
-class SignResponse(TypedDict):
-    """
-    Response wrapper from signature server
-
-    """
-
-    code: int
-    message: str
-    response: Optional[SignData]
 
 
 class TikTokSigner:
@@ -99,7 +77,7 @@ class TikTokSigner:
             user_agent: str,
             session_id: Optional[str] = None,
             tt_target_idc: Optional[str] = None,
-    ) -> SignResponse:
+    ) -> SignTikTokUrlResponse:
         """
         Fetch a signed URL for any /webcast/* route using the Sign Server
 
@@ -140,8 +118,11 @@ class TikTokSigner:
                 body.session_id = session_id
                 body.tt_target_idc = tt_target_idc if tt_target_idc else UNSET
 
+            # ``asyncio_detailed`` is annotated as taking ``AuthenticatedClient``
+            # only, but at runtime ``Client`` works identically — it just omits
+            # the auth header. Anonymous (no API key) callers depend on this.
             resp = await sign_webcast_url.asyncio_detailed(
-                client=self._sdk_client,
+                client=self._sdk_client,  # type: ignore[arg-type]
                 body=body,
             )
 
@@ -164,9 +145,9 @@ class TikTokSigner:
                 response=err_response
             )
 
-        parsed = resp.parsed
-        code = int(parsed.code) if isinstance(parsed, SignTikTokUrlResponse) else parsed.code
-        message = "" if parsed.message is UNSET else parsed.message
+        response_data: JSONResponse | SignTikTokUrlResponse = resp.parsed
+        code = int(response_data.code)
+        message = "" if isinstance(response_data.message, Unset) else response_data.message
 
         # Check body code first (API returns 200 with code=403 for premium errors)
         if code == 403:
@@ -190,28 +171,26 @@ class TikTokSigner:
                 response=err_response
             )
 
-        result: SignResponse = {
-            "code": code,
-            "message": message or "",
-            "response": None
-        }
+        if not hasattr(response_data, "response"):
+            raise SignatureMissingTokensError(
+                "Missing response data object!",
+                response=err_response
+            )
 
-        if isinstance(parsed, SignTikTokUrlResponse) and parsed.response is not UNSET:
-            r = parsed.response
-            result["response"] = {
-                "signedUrl": "" if r.signed_url is UNSET else r.signed_url,
-                "userAgent": "" if r.user_agent is UNSET else r.user_agent,
-                "browserName": "" if r.browser_name is UNSET else r.browser_name,
-                "browserVersion": "" if r.browser_version is UNSET else r.browser_version,
-            }
+        if not hasattr(response_data.response, "signed_url") or not response_data.response.signed_url:
+            raise SignatureMissingTokensError(
+                "Missing signed_url in response data!",
+                response=err_response
+            )
 
-        if result["response"] is None or "msToken" not in result["response"]["signedUrl"]:
+        if "msToken" not in response_data.response.signed_url:
             raise SignatureMissingTokensError(
                 "Failed to sign a request due to missing tokens in response!",
                 response=err_response
             )
 
-        return result
+        # Return object
+        return typing.cast(SignTikTokUrlResponse, typing.cast(object, response_data.response))
 
     @property
     def sdk_client(self) -> AuthenticatedClient | Client:

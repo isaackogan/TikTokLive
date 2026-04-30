@@ -6,11 +6,13 @@ from json import JSONDecodeError
 from typing import Optional
 
 import httpx
-from httpx import Response
+from EulerApiSdk.api.tik_tok_live import fetch_webcast_url
+from EulerApiSdk.models.webcast_fetch_platform import WebcastFetchPlatform
+from EulerApiSdk.types import UNSET
 
 from TikTokLive.client.errors import SignAPIError, SignatureRateLimitError
 from TikTokLive.client.web.web_base import ClientRoute
-from TikTokLive.client.web.web_settings import WebDefaults, CLIENT_NAME
+from TikTokLive.client.web.web_settings import CLIENT_NAME
 from TikTokLive.client.web.web_utils import check_authenticated_session
 from TikTokLive.client.ws.ws_utils import extract_webcast_response_message
 from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame
@@ -24,6 +26,14 @@ class WebcastPlatform(enum.Enum):
 
     WEB = "web"
     MOBILE = "mobile"
+
+
+# Map our public-API enum onto the SDK's. Kept distinct so consumers don't
+# have to import from EulerApiSdk just to pick a platform.
+_PLATFORM_TO_SDK: dict[WebcastPlatform, WebcastFetchPlatform] = {
+    WebcastPlatform.WEB: WebcastFetchPlatform.WEB,
+    WebcastPlatform.MOBILE: WebcastFetchPlatform.MOBILE,
+}
 
 
 class FetchSignedWebSocketRoute(ClientRoute):
@@ -47,34 +57,34 @@ class FetchSignedWebSocketRoute(ClientRoute):
 
         """
 
-        signer_client: httpx.AsyncClient = self._web.signer.client
-
-        sign_params: dict = {
-            'client': CLIENT_NAME,
-            'room_id': room_id or self._web.params.get('room_id', None),
-            'user_agent': self._web.headers['User-Agent'],
-            'platform': platform.value,
-            'client_enter': True
-        }
-
         # The session ID we want to add to the request
         session_id = session_id or self._web.cookies.get('sessionid')
         tt_target_idc = tt_target_idc or self._web.cookies.get('tt-target-idc')
 
         if check_authenticated_session(session_id, tt_target_idc, session_required=False):
-            sign_params['session_id'] = session_id
-            sign_params['tt_target_idc'] = tt_target_idc
             self._logger.warning("Sending session ID to sign server for WebSocket connection. This is a risky operation.")
 
         if platform == WebcastPlatform.MOBILE and not session_id:
             raise ValueError("Mobile platform requires a 'sessionid' cookie to be set, via client.web.set_session().")
 
+        effective_room_id = room_id or self._web.params.get('room_id', None)
+
+        # Build the request via the SDK's ``_get_kwargs`` so query-param /
+        # header construction stays in lockstep with upstream — but bypass
+        # ``asyncio_detailed`` because its 200 handler unconditionally calls
+        # ``response.json()`` on what is in fact raw protobuf bytes.
+        kwargs = fetch_webcast_url._get_kwargs(
+            client_query=CLIENT_NAME,
+            room_id=str(effective_room_id) if effective_room_id is not None else UNSET,
+            user_agent=self._web.headers['User-Agent'],
+            platform=_PLATFORM_TO_SDK[platform],
+            client_enter=True,
+            session_id=session_id if session_id else UNSET,
+            tt_target_idc=tt_target_idc if tt_target_idc else UNSET,
+        )
+
         try:
-            response: httpx.Response = await signer_client.get(
-                url=WebDefaults.tiktok_sign_url + "/webcast/fetch/",
-                params=sign_params,
-                timeout=15
-            )
+            response: httpx.Response = await self._web.signer.sdk_client.get_async_httpx_client().request(**kwargs)
         except httpx.ConnectError as ex:
             raise SignAPIError(
                 SignAPIError.ErrorReason.CONNECT_ERROR,
@@ -82,19 +92,24 @@ class FetchSignedWebSocketRoute(ClientRoute):
                 response=None
             ) from ex
 
+        status_code = response.status_code
+
         self._logger.debug(
             f"Attempted to fetch WebSocket information fetch from the Sign Server API! <-> "
-            f"Status: {response.status_code} - "
+            f"Status: {status_code} - "
             f"Agent ID: \"{response.headers.get('X-Agent-Id', 'N/A')}\" - "
             f"Log ID: {response.headers.get('X-Request-Id')} - "
             f"Log Code: {response.headers.get('X-Log-Code')} "
             f"<->"
         )
 
-        data: bytes = await response.aread()
+        data: bytes = response.content
 
-        if response.status_code == 429:
-            data_json = response.json()
+        if status_code == 429:
+            try:
+                data_json = json.loads(data) if data else {}
+            except JSONDecodeError:
+                data_json = {}
             server_message: Optional[str] = None if os.environ.get('SIGN_SERVER_MESSAGE_DISABLED') else data_json.get("message")
             limit_label: str = f"({data_json['limit_label']}) " if data_json.get("limit_label") else ""
 
@@ -113,34 +128,33 @@ class FetchSignedWebSocketRoute(ClientRoute):
                 response=response
             )
 
-        elif not response.status_code == 200:
+        elif status_code != 200:
 
             try:
-                payload: str = json.dumps(response.json(), indent=2)
+                payload: str = json.dumps(json.loads(data), indent=2)
             except JSONDecodeError:
-                payload = f'"{response.text}"'
+                payload = f'"{data.decode("utf-8", errors="replace")}"'
 
             raise SignAPIError(
                 SignAPIError.ErrorReason.SIGN_NOT_200,
-                f"Failed request to Sign API with status code {response.status_code} and the following payload:\n{payload}",
+                f"Failed request to Sign API with status code {status_code} and the following payload:\n{payload}",
                 response=response
             )
 
         # Update web params & cookies
         self._update_client_cookies(response)
-        response_data: bytes = response.read()
 
         # Package it in a push frame & parse it to maintain parity with the WebcastWebSocket
         return extract_webcast_response_message(
             logger=self._logger,
             push_frame=WebcastPushFrame(
                 log_id=-1,
-                payload=response_data,
+                payload=data,
                 payload_type="msg"
             ),
         )
 
-    def _update_client_cookies(self, response: Response) -> None:
+    def _update_client_cookies(self, response: httpx.Response) -> None:
         """
         Update the cookies in the cookie jar from the sign server response
 

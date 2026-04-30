@@ -1,15 +1,16 @@
 import logging
 import random
+import typing
 from abc import ABC
 from typing import Any, Dict, Literal, Optional
 
 import httpx
+from EulerApiSdk.models.proxy_sign_result import ProxySignResult
 from httpx import Cookies, AsyncClient, Proxy, URL
 
-from TikTokLive.client.errors import UnexpectedSignatureError
 from TikTokLive.client.logger import TikTokLiveLogHandler
 from TikTokLive.client.web.web_settings import WebDefaults
-from TikTokLive.client.web.web_signer import TikTokSigner, SignData
+from TikTokLive.client.web.web_signer import TikTokSigner
 
 
 class TikTokHTTPClient:
@@ -227,25 +228,25 @@ class TikTokHTTPClient:
             **kwargs
         )
 
-        # Sign the URL & update the request accordingly
+        # Sign the URL & update the request accordingly. ``webcast_sign`` now
+        # returns the inner ``ProxySignResult`` directly (it raises before
+        # returning if the response is missing or malformed), so there's no
+        # None-check needed here.
         if sign_url:
-            sign_response = await self._tiktok_signer.webcast_sign(
-                url=request.url,
-                method=sign_url_method or method,
-                sign_url_type=sign_url_type if sign_url_type else "xhr",
-                payload=sign_url_payload or "",
-                user_agent=self.headers['User-Agent'],
-                session_id=self.cookies.get('sessionid'),
-                tt_target_idc=self.cookies.get('tt-target-idc'),
+            sign_result: ProxySignResult = typing.cast(
+                ProxySignResult,
+                await self._tiktok_signer.webcast_sign(
+                    url=request.url,
+                    method=sign_url_method or method,
+                    sign_url_type=sign_url_type if sign_url_type else "xhr",
+                    payload=sign_url_payload or "",
+                    user_agent=self.headers['User-Agent'],
+                    session_id=self.cookies.get('sessionid'),
+                    tt_target_idc=self.cookies.get('tt-target-idc'),
+                ),
             )
-            sign_data: Optional[SignData] = sign_response['response']
-            if sign_data is None:
-                raise UnexpectedSignatureError(
-                    f"Sign server returned no signature payload (code={sign_response.get('code')}, "
-                    f"message={sign_response.get('message')!r})."
-                )
-            request.headers['User-Agent'] = sign_data['userAgent']
-            request.url = httpx.URL(url=sign_data['signedUrl'])
+            request.headers['User-Agent'] = str(sign_result.user_agent)
+            request.url = httpx.URL(url=str(sign_result.signed_url))
 
         return request
 
