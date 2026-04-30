@@ -266,10 +266,32 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             elif inspect.isfunction(callback):
                 callback()
             await task
-        except CancelledError:
-            self._logger.debug("The client has been manually stopped with 'client.stop()'.")
+        except (CancelledError, KeyboardInterrupt) as ex:
+
+            if isinstance(ex, CancelledError):
+                self._logger.debug("The client has been manually stopped with 'client.stop()'.")
+
+            if isinstance(ex, KeyboardInterrupt):
+                self._logger.info("KeyboardInterrupt: shutting down cleanly.")
+
+            self._clean_tasks()
 
         return task
+
+    def _clean_tasks(self) -> None:
+        """
+        Clean up on aisle task
+
+        """
+
+        self._asyncio_loop.run_until_complete(self.disconnect())
+
+        pending = [t for t in asyncio.all_tasks(self._asyncio_loop) if not t.done()]
+        for task in pending:
+            task.cancel()
+
+        if pending:
+            self._asyncio_loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
 
     def run(
             self,
@@ -297,14 +319,28 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         """
 
-        return self._asyncio_loop.run_until_complete(self.connect(
+        connect_coro = self.connect(
             process_connect_events=process_connect_events,
             compress_ws_events=compress_ws_events,
             fetch_room_info=fetch_room_info,
             fetch_gift_info=fetch_gift_info,
             fetch_live_check=fetch_live_check,
             room_id=room_id,
-        ))
+        )
+
+        # KeyboardInterrupt has to be caught here, not inside ``connect()`` —
+        # when Ctrl+C fires while the loop is parked in ``selector.select``,
+        # only this synchronous frame is on the call stack. The suspended
+        # ``connect`` coroutine is owned by the loop and never sees the
+        # exception. ``_clean_tasks`` runs ``disconnect`` + cancels and
+        # drains pending tasks so websockets' close handshake and the ping
+        # loop don't die mid-await.
+        try:
+            return self._asyncio_loop.run_until_complete(connect_coro)
+        except KeyboardInterrupt:
+            self._logger.info("KeyboardInterrupt: shutting down cleanly.")
+            self._clean_tasks()
+            raise
 
     async def disconnect(self, close_client: bool = False) -> None:
         """
@@ -348,6 +384,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         """
 
         await self._web.close()
+        self._clean_tasks()
 
     # Liskov overrides of pyee.EventEmitter.on/add_listener: pyee keys events
     # by string; we accept an Event class and convert internally via
@@ -359,15 +396,19 @@ class TikTokLiveClient(AsyncIOEventEmitter):
     # signature-mismatch inspector (mypy uses ``# type: ignore[override]``).
     # noinspection PyMethodOverriding
     @overload  # type: ignore[override]
-    def on(self, event: Type[Event], f: EventHandler) -> Handler: ...  # type: ignore[type-var,misc]
+    def on(self, event: Type[Event], f: EventHandler) -> Handler:  # type: ignore[type-var,misc]
+        ...  # type: ignore[type-var,misc,unused-ignore]
+
     # noinspection PyMethodOverriding
     @overload
-    def on(self, event: Type[Event]) -> Callable[[EventHandler], EventHandler]: ...
+    def on(self, event: Type[Event]) -> Callable[[EventHandler], EventHandler]:
+        ...
+
     # noinspection PyMethodOverriding
     def on(
-        self,
-        event: Type[Event],
-        f: Optional[EventHandler] = None,
+            self,
+            event: Type[Event],
+            f: Optional[EventHandler] = None,
     ) -> Union[Handler, Callable[[EventHandler], EventHandler]]:
         """
         Decorator that can be used to register a Python function as an event listener
@@ -382,9 +423,9 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
     # noinspection PyMethodOverriding
     def add_listener(  # type: ignore[override]
-        self,
-        event: Type[Event],
-        f: EventHandler,
+            self,
+            event: Type[Event],
+            f: EventHandler,
     ) -> Handler:  # type: ignore[type-var,misc]
         """
         Method that can be used to register a Python function as an event listener
@@ -463,8 +504,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         # Yield events
         for message in webcast_response.messages:
             for event in await self._parse_webcast_response_message(
-                webcast_response=webcast_response,
-                webcast_response_message=message,
+                    webcast_response=webcast_response,
+                    webcast_response_message=message,
             ):
                 if event is not None:
                     yield event
@@ -588,8 +629,8 @@ class TikTokLiveClient(AsyncIOEventEmitter):
             envelope_dt = common_display_type(event.common).lower()
             business_type = getattr(event.envelope_info, "business_type", None)
             if (
-                "ttlive_superfanbox" in envelope_dt
-                or (business_type is not None and int(business_type) == 19)
+                    "ttlive_superfanbox" in envelope_dt
+                    or (business_type is not None and int(business_type) == 19)
             ):
                 return SuperFanBoxEvent().parse(response.payload)
 
