@@ -84,22 +84,6 @@ TikTokLive.client.web.routes.send\_room\_chat module
    :undoc-members:
    :show-inheritance:
 
-TikTokLive.client.web.routes.send\_room\_gift module
-----------------------------------------------------
-
-.. automodule:: TikTokLive.client.web.routes.send_room_gift
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-TikTokLive.client.web.routes.send\_room\_like module
-----------------------------------------------------
-
-.. automodule:: TikTokLive.client.web.routes.send_room_like
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

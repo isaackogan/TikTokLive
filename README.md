@@ -9,8 +9,7 @@ TikTokLive is an unofficial Python API wrapper for TikTok LIVE written in Python
 ![Forks](https://img.shields.io/github/forks/isaackogan/TikTokLive?style=flat&color=0274b5)
 ![Issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
 
-> [!NOTE]
-> This is <strong>not</strong> a production-ready API. It is a reverse engineering project. Use the [WebSocket API](https://www.eulerstream.com/websockets) for production.
+> **Note:** This is <strong>not</strong> a production-ready API. It is a reverse engineering project. Use the [WebSocket API](https://www.eulerstream.com/websockets) for production.
 
 <!--
 <a href="https://www.eulerstream.com/websockets" target="_blank">
@@ -225,8 +224,8 @@ Both belong to the TikTokLive `Event` type and can be listened to. The following
 ### Proto Events
 
 These events are auto-generated from the
-[TikTokLiveProto](https://pypi.org/project/TikTokLiveProto/) v2 schema. Only
-events whose proto messages are present in v2 are emitted; if you don't see
+[TikTokLiveProto](https://pypi.org/project/TikTokLiveProto/) v3 schema. Only
+events whose proto messages are present in v3 are emitted; if you don't see
 one you used to rely on, it's because TikTok removed it from the schema.
 
 If you know what an event does that's missing a description below,
@@ -241,7 +240,7 @@ If you know what an event does that's missing a description below,
 <li><code>EnvelopeEvent</code> - A treasure chest / envelope was sent</li>
 <li><code>GiftEvent</code> - A gift was sent (see <a href="#giftevent">Gift handling</a> below)</li>
 <li><code>GoalUpdateEvent</code> - Subscriber/follow goal updated</li>
-<li><code>HourlyRankEvent</code> - Hourly rank update</li>
+<li><code>HourlyRankRewardEvent</code> - Hourly rank reward delivered</li>
 <li><code>ImDeleteEvent</code> - A viewer's messages were deleted by a moderator</li>
 <li><code>InRoomBannerEvent</code> - In-room banner notice</li>
 <li><code>JoinEvent</code> - A viewer joined the livestream</li>
@@ -285,20 +284,23 @@ cached on `client.gift_info`.
 ```python
 @client.on(GiftEvent)
 async def on_gift(event: GiftEvent):
+    gift = event.gift
+    if gift is None:
+        return
+
     # Streakable gift & streak is over
-    if event.gift.streakable and not event.streaking:
-        print(f"{event.user.unique_id} sent {event.repeat_count}x \"{event.gift.gift_name}\"")
+    if not event.streaking and gift.type == 1:  # ``type == 1`` is streakable
+        print(f"{event.user.unique_id} sent {event.repeat_count}x \"{gift.name}\"")
 
     # Non-streakable gift
-    elif not event.gift.streakable:
-        print(f"{event.user.unique_id} sent \"{event.gift.gift_name}\"")
+    elif gift.type != 1:
+        print(f"{event.user.unique_id} sent \"{gift.name}\"")
 ```
 
-The `event.gift` accessor returns an `ExtendedGift` (the v2 `Gift` proto with
-`.streakable` added). The legacy attribute names (`gift.name`, `gift.type`,
-`gift.image`) remain available as read-only aliases for backwards
-compatibility with code written against earlier versions, and resolve to
-the v2 fields (`gift_name`, `gift_type`, `gift_image`) underneath.
+In v3 the canonical `Gift` field names are `name`, `type`, and `image`. The
+v2-era prefixed names (`gift_name`, `gift_type`, `gift_image`) remain
+available as read-only aliases on `ExtendedGift` for backwards compatibility.
+Wrap a `Gift` in `ExtendedGift(...)` if you want the `.streakable` helper.
 
 ## Checking If A User Is Live
 
