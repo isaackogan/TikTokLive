@@ -772,7 +772,15 @@ class TikTokLiveClient(AsyncIOEventEmitter):
     @property
     def _asyncio_loop(self) -> AbstractEventLoop:
         """
-        Property to return the existing or generate a new asyncio event loop
+        Return the loop owned by this client.
+
+        Caches a single loop on the instance so the synchronous
+        ``run`` / ``_clean_tasks`` shutdown path reuses the loop that
+        owns the websocket / ping tasks. Without this, each access in
+        a non-running context would mint a fresh loop, and tasks
+        created on the original would error with
+        ``RuntimeError: ... attached to a different loop`` during
+        Ctrl+C teardown.
 
         :return: An asyncio event loop
 
@@ -781,7 +789,13 @@ class TikTokLiveClient(AsyncIOEventEmitter):
         try:
             return asyncio.get_running_loop()
         except RuntimeError:
-            return asyncio.new_event_loop()
+            pass
+
+        cached = getattr(self, "_owned_asyncio_loop", None)
+        if cached is None or cached.is_closed():
+            cached = asyncio.new_event_loop()
+            self._owned_asyncio_loop = cached
+        return cached
 
     @property
     def connected(self) -> bool:
