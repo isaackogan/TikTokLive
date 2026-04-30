@@ -13,15 +13,14 @@ class TikTokLiveError(RuntimeError):
 
     """
 
-    def __init__(self, *args):
-        args = list(args)
-        args.insert(0, f"TikTokLive v{PACKAGE_VERSION} ->")
+    def __init__(self, *args: str) -> None:
+        parts: list[str] = [f"TikTokLive v{PACKAGE_VERSION} ->", *args]
 
-        # If it was empty
-        if len(args) == 1:
-            args.append(self.__class__.__name__)
+        # If no args were supplied, fall back to the class name
+        if len(parts) == 1:
+            parts.append(self.__class__.__name__)
 
-        super().__init__(" ".join(args))
+        super().__init__(" ".join(parts))
 
 
 class AlreadyConnectedError(TikTokLiveError):
@@ -113,9 +112,7 @@ class SignAPIError(TikTokLiveError):
 
         self._response = response
         self.reason = reason
-        args = list(args)
-        args.insert(0, f"[{reason.name}]")
-        super().__init__(" ".join(args))
+        super().__init__(f"[{reason.name}]", *args)
 
     @property
     def response(self) -> httpx.Response | None:
@@ -165,9 +162,9 @@ class SignAPIError(TikTokLiveError):
         # Center header text in header
         footer: str = "+" + "-" * (msg_len + 2) + "+"
         header: str = "+" + "-" * header_len + " " + header_text + " " + "-" * (header_len + padding_len) + "+"
-        message: str = "| " + message + " |"
+        framed_message: str = "| " + message + " |"
 
-        return f"\n\t|\n\t{header}\n\t{message}\n\t{footer}"
+        return f"\n\t|\n\t{header}\n\t{framed_message}\n\t{footer}"
 
 
 class SignatureRateLimitError(SignAPIError):
@@ -214,6 +211,10 @@ class SignatureRateLimitError(SignAPIError):
 
         """
 
+        # ``self.response`` comes from the SignAPIError base which types it
+        # as Optional. SignatureRateLimitError always constructs with a
+        # response (see __init__ signature), so the assertion is honest.
+        assert self.response is not None
         return self.calculate_retry_after(response=self.response)
 
     @cached_property
@@ -223,7 +224,8 @@ class SignatureRateLimitError(SignAPIError):
 
         """
 
-        return self.response.headers.get("RateLimit-Reset")
+        assert self.response is not None
+        return int(self.response.headers["RateLimit-Reset"])
 
 
 class UnexpectedSignatureError(SignAPIError):

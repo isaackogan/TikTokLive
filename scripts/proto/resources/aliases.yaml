@@ -1,0 +1,56 @@
+# Compatibility aliases driven by scripts/proto/gen_aliases.py. Two sections:
+#
+#   module_aliases:  Top-level name renames. Each entry maps a legacy symbol
+#                    to its current location, rendering
+#                       `from <module> import <name> as <legacy>`
+#                    in TikTokLive/proto/_aliases.py.
+#
+#   legacy_aliases:  Class-attribute renames. Each entry attaches an ``@property``
+#                    to the class that proxies to the new v3 field, so user code
+#                    reading legacy field names (e.g. ``user.username``) keeps
+#                    working under v3. Rendered as a class-mutation block in the
+#                    same _aliases.py file.
+#
+# Both sections are validated at generation time — if a target symbol or field
+# is missing, the build fails loudly rather than deferring to runtime.
+
+module_aliases:
+  ProtoMessageFetchResultBaseProtoMessage:
+    module: TikTokLiveProto.v3.webcast.shared.message
+    name: BaseProtoMessage
+
+legacy_aliases:
+
+  # Only fields whose v3 name *differs* from the legacy name need an alias —
+  # self-referencing aliases (``badge_list -> badge_list``) would build a
+  # ``property`` whose getter calls ``getattr(self, "badge_list")``, which
+  # re-enters the descriptor and infinite-loops.
+
+  ExtendedUser:
+    module: TikTokLive.proto.custom_proto
+    properties:
+      username:
+        target: display_id
+        doc: Legacy alias; v3 exposes this field as ``display_id``.
+      nick_name:
+        target: nickname
+        doc: Legacy alias; v3 exposes this field as ``nickname``.
+      # Reverse-reverse compat: v2 renamed ``badge_list`` → ``badges``; v3
+      # reverted to ``badge_list``. Keep the v2 name working.
+      badges:
+        target: badge_list
+        doc: v2 alias; v3 reverted this field to ``badge_list``.
+
+  ExtendedGift:
+    module: TikTokLive.proto.custom_proto
+    properties:
+      gift_type:
+        target: type
+        doc: Legacy alias; v2 renamed ``type`` to ``gift_type``, v3 reverted.
+      # Reverse-reverse compat: v2 added ``gift_`` prefixes; v3 reverted.
+      gift_name:
+        target: name
+        doc: v2 alias; v3 reverted this field to ``name``.
+      gift_image:
+        target: image
+        doc: v2 alias; v3 reverted this field to ``image``.

@@ -1,2 +1,9 @@
-from .tiktok_proto import *
-from .custom_proto import *
+from TikTokLiveProto.v3.webcast.model.message import *  # noqa: F401,F403
+from TikTokLiveProto.v3.webcast.im import *  # noqa: F401,F403
+from TikTokLiveProto.v3.webcast.shared.message import *  # noqa: F401,F403
+from TikTokLiveProto.v3.webcast.model import *  # noqa: F401,F403
+from TikTokLiveProto.v3.webcast.model.base import *  # noqa: F401,F403
+from TikTokLiveProto.v3.webcast.model.base.user import *  # noqa: F401,F403
+from TikTokLiveProto.v3.webcast.model.data import *  # noqa: F401,F403
+from ._aliases import *  # noqa: F401,F403
+from .custom_proto import *  # noqa: F401,F403

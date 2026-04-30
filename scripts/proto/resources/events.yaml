@@ -1,0 +1,83 @@
+# Spec-driven generation of TikTokLive/events/proto_events.py.
+#
+# The generator (scripts/proto/gen_events.py) walks TikTokLiveProto.v3 for
+# every Webcast*Message that carries a `common: CommonMessageData` field and
+# renders one BaseEvent subclass per match. Customizations below override or
+# extend the default class.
+#
+# Schema:
+#   field_type_overrides:    proto-type → replacement annotation, applied to
+#                            *every* generated event whose proto field has that
+#                            type. Used to swap the bare betterproto2 User/Gift
+#                            for the ExtendedUser/ExtendedGift wrappers.
+#   events.<ProtoMessage>.name             event class name (default: WebcastFooMessage → FooEvent)
+#   events.<ProtoMessage>.fields           extra dataclass fields. Each entry:
+#                                            type:  python annotation
+#                                            value: assignment expression
+#   events.<ProtoMessage>.properties       hand-written @property methods. Each entry:
+#                                            name, return_type, doc, body
+
+field_type_overrides:
+  User: ExtendedUser
+  Gift: ExtendedGift
+
+events:
+
+  WebcastChatMessage:
+    name: CommentEvent
+    properties:
+      - name: user_is_super_fan
+        return_type: bool
+        doc: Return whether the user is a TikTok super fan.
+        body: |
+          if self.user_identity is None:
+              return False
+          return self.user_identity.is_subscriber_of_anchor
+      - name: comment
+        return_type: str
+        doc: Legacy alias; v2 named this ``comment``, v3 renamed it to ``content``.
+        body: |
+          return self.content
+
+  WebcastControlMessage:
+    name: ControlEvent
+    fields:
+      action:
+        type: ControlAction
+        value: betterproto2.field(2, "enum")
+
+  WebcastGiftMessage:
+    name: GiftEvent
+    properties:
+      - name: user_is_super_fan
+        return_type: bool
+        doc: Return whether the user is a TikTok super fan.
+        body: |
+          if self.user_identity is None:
+              return False
+          return self.user_identity.is_subscriber_of_anchor
+      - name: streaking
+        return_type: bool
+        doc: |
+          Whether the user is currently engaged in a streak. False for
+          non-streakable gifts; otherwise the inverse of ``repeat_end``.
+        body: |
+          if self.gift is None or not ExtendedGift(self.gift).streakable:
+              return False
+          return not bool(self.repeat_end)
+      - name: value
+        return_type: Optional[float]
+        doc: |
+          USD value of this gift event. Returns None mid-streak so callers
+          do not double-count; the final non-streaking event carries the
+          full repeat_count.
+        body: |
+          if self.streaking or self.gift is None:
+              return None
+          return self.repeat_count * self.gift.diamond_count * 0.005
+
+  WebcastMemberMessage:
+    name: JoinEvent
+
+  WebcastMsgDetectMessage:
+    name: MessageDetectEvent

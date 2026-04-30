@@ -10,4 +10,8 @@ build
 badges.py
 proto-testing
 all-proto
-headers.py
+headers.py.orphaned/
+.orphaned
+__pycache__/
+*.pyc
+.DS_Store

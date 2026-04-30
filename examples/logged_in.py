@@ -16,8 +16,10 @@ if __name__ == '__main__':
     # Enable download info
     client.logger.setLevel(LogLevel.INFO.value)
 
-    # Set the login session ID token BEFORE connecting
-    client.web.set_session("session-id-here")
+    # Set the login session ID token BEFORE connecting. Both the
+    # `sessionid` cookie and the `tt-target-idc` cookie (data-center hint)
+    # are required — you can read both off your browser's TikTok cookies.
+    client.web.set_session("session-id-here", "tt-target-idc-here")
 
     # Connect
     client.run()

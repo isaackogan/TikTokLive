@@ -1,17 +1,14 @@
-from typing import Type, Union, TypeVar, Callable, Awaitable
+from typing import Awaitable, Callable, TypeAlias, TypeVar, Union
 
 from .custom_events import *
-from ..client.logger import TikTokLiveLogHandler
+from .proto_events import *
 
-try:
-    from .proto_events import *
+Event: TypeAlias = Union[CustomEvent, ProtoEvent]
 
-    Event: Type = Union[CustomEvent, ProtoEvent]
-except (ModuleNotFoundError, NameError):
-    Event: Type = Union[CustomEvent]
-    TikTokLiveLogHandler.get_logger().error(
-        "Failed to load the proto events class! "
-        "Ignore this if merging from an empty/nonexistent file."
-    )
-
-EventHandler = TypeVar("EventHandler", bound=Callable[[Event], Union[None, Awaitable[None]]])
+# ``Callable[..., ...]`` (rather than ``Callable[[Event], ...]``) so a handler
+# annotated with a specific subclass — e.g. ``async def on_connect(event:
+# ConnectEvent)`` — still satisfies the bound. ``Callable`` parameter types are
+# contravariant; ``Callable[[ConnectEvent], …]`` is *not* a subtype of
+# ``Callable[[Event], …]``, which would force every callsite to widen its
+# annotation back to the union.
+EventHandler = TypeVar("EventHandler", bound=Callable[..., Union[None, Awaitable[None]]])

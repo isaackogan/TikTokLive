@@ -13,8 +13,7 @@ from TikTokLive.client.web.web_base import ClientRoute
 from TikTokLive.client.web.web_settings import WebDefaults, CLIENT_NAME
 from TikTokLive.client.web.web_utils import check_authenticated_session
 from TikTokLive.client.ws.ws_utils import extract_webcast_response_message
-from TikTokLive.proto import ProtoMessageFetchResult
-from TikTokLive.proto.custom_extras import WebcastPushFrame
+from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame
 
 
 class WebcastPlatform(enum.Enum):
@@ -59,8 +58,8 @@ class FetchSignedWebSocketRoute(ClientRoute):
         }
 
         # The session ID we want to add to the request
-        session_id: str = session_id or self._web.cookies.get('sessionid')
-        tt_target_idc: str = tt_target_idc or self._web.cookies.get('tt-target-idc')
+        session_id = session_id or self._web.cookies.get('sessionid')
+        tt_target_idc = tt_target_idc or self._web.cookies.get('tt-target-idc')
 
         if check_authenticated_session(session_id, tt_target_idc, session_required=False):
             sign_params['session_id'] = session_id
@@ -119,7 +118,7 @@ class FetchSignedWebSocketRoute(ClientRoute):
             try:
                 payload: str = json.dumps(response.json(), indent=2)
             except JSONDecodeError:
-                payload: str = f'"{response.text}"'
+                payload = f'"{response.text}"'
 
             raise SignAPIError(
                 SignAPIError.ErrorReason.SIGN_NOT_200,

@@ -16,11 +16,16 @@ class FetchImageDataRoute(ClientRoute):
         """
         Fetch the image from TikTok
 
-        :param image: A betterproto Image message
-        :return:
+        :param image: A direct URL string, or an ``ImageModel`` betterproto
+            message (uses ``url_list[0]``).
+        :return: The fetched image bytes
 
         """
 
-        image_url: str = image.m_urls[0] if isinstance(image, ImageModel) else image
+        if isinstance(image, ImageModel):
+            image_url = image.url_list[0]
+        else:
+            image_url = image
+
         response: Response = await self._web.get(url=image_url)
         return response.read()

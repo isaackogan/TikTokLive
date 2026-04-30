@@ -42,15 +42,17 @@ class FetchRoomInfoRoute(ClientRoute):
         if room_id and unique_id:
             raise InvalidFetchRoomInfoPayload("Only one of room_id or unique_id may be specified")
 
+        url: str
+        extra_params: dict
         if unique_id:
-            url: str = WebDefaults.tiktok_webcast_url + "/room/info_by_user/"
-            extra_params: dict = {"unique_id": unique_id}
+            url = WebDefaults.tiktok_webcast_url + "/room/info_by_user/"
+            extra_params = {"unique_id": unique_id}
         else:
-            url: str = WebDefaults.tiktok_webcast_url + "/room/info/"
-            room_id: Optional[str] = str(room_id) if room_id else self._web.params["room_id"]
-            if room_id is None:
+            url = WebDefaults.tiktok_webcast_url + "/room/info/"
+            resolved_room_id = str(room_id) if room_id else self._web.params["room_id"]
+            if resolved_room_id is None:
                 raise InvalidFetchRoomInfoPayload("No room_id specified & the client has no room ID stored")
-            extra_params: dict = {"room_id": room_id}
+            extra_params = {"room_id": resolved_room_id}
 
         try:
 

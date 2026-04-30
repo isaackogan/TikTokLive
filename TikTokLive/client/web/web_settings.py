@@ -1,6 +1,4 @@
-import os
 import random
-import urllib.parse
 from dataclasses import dataclass, field
 from typing import Dict, Union, Optional
 
@@ -62,17 +60,18 @@ DEFAULT_WS_CLIENT_PARAMS: Dict[str, Union[int, str]] = {
     "cookie_enabled": "true",
     "tz_name": Location["tz_name"],
     "device_platform": "web",
-    "debug": "false",
-    "host": urllib.parse.quote_plus("https://webcast.tiktok.com"),
     "identity": "audience",
     "live_id": "12",
     "sup_ws_ds_opt": "1",
     "update_version_code": "2.0.0",
     "version_code": "180800",
+    "client_enter": "1",
+    "ws_direct": "1",
     "did_rule": "3",
+    "webcast_language": Location["lang"],
     "screen_height": Screen["screen_height"],
     "screen_width": Screen["screen_width"],
-    "heartbeat_duration": "0",
+    "heartbeat_duration": "10000",
     "resp_content_type": "protobuf",
     "history_comment_count": "6",
 
@@ -107,14 +106,6 @@ DEFAULT_COOKIES: Dict[str, str] = {
 """The unique identifier for ttlive-python"""
 CLIENT_NAME: str = "ttlive-python"
 
-"""Whether the curl cffi library is installed"""
-try:
-    import curl_cffi
-
-    SUPPORTS_CURL_CFFI: bool = True
-except ImportError:
-    SUPPORTS_CURL_CFFI: bool = False
-
 
 @dataclass()
 class _WebDefaults:
@@ -139,7 +130,6 @@ class _WebDefaults:
 
     # Other
     tiktok_sign_api_key: Optional[str] = None
-    ja3_impersonate: str = "chrome131"
 
 
 """The modifiable settings global for web defaults"""
@@ -148,5 +138,4 @@ WebDefaults: _WebDefaults = _WebDefaults()
 __all__ = [
     "WebDefaults",
     "CLIENT_NAME",
-    "SUPPORTS_CURL_CFFI"
 ]

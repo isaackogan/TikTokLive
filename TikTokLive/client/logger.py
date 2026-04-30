@@ -3,7 +3,7 @@ import logging
 import os
 import sys
 import traceback
-from typing import Optional, List, Any, cast, Dict
+from typing import Optional, List, Any, Dict
 
 
 class LogLevel(enum.Enum):
@@ -28,7 +28,7 @@ class LogLevel(enum.Enum):
 
         """
 
-        return cast(int, super().value)
+        return super().value
 
 
 class TikTokLiveLogHandler(logging.StreamHandler):
@@ -87,6 +87,11 @@ class TikTokLiveLogHandler(logging.StreamHandler):
             log_handler: TikTokLiveLogHandler = TikTokLiveLogHandler(stream)
             cls.LOGGER = logging.getLogger(cls.LOGGER_NAME)
             cls.LOGGER.addHandler(log_handler)
+            # Don't propagate to root; we have our own handler. Without this,
+            # callers that configure ``logging.basicConfig`` (very common) get
+            # every TikTokLive line twice — once from our handler and once
+            # from the inherited root handler.
+            cls.LOGGER.propagate = False
 
         cls.LOGGER.setLevel((level if level is not None else LogLevel.WARNING).value)
         return cls.LOGGER

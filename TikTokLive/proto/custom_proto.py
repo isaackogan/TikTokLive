@@ -6,18 +6,18 @@ import re
 from typing import Optional, List, Type, TypeVar, Tuple
 
 # noinspection PyUnresolvedReferences
-import betterproto
+import betterproto2
 
-from TikTokLive.proto import *
-from TikTokLive.proto import User, Gift
+from TikTokLiveProto.v3.webcast.model import Gift
+from TikTokLiveProto.v3.webcast.model.base.user import User
 
 # "MessageType" is a proto enum field.
 # This underscore is the difference between life & death, because if you shadow the proto field,
 # everything crashes & burns in a fiery hell.
-_MessageType: Type = TypeVar('_MessageType', bound=betterproto.Message)
+_MessageType = TypeVar('_MessageType', bound=betterproto2.Message)
 
 
-def proto_extension(cls: _MessageType):
+def proto_extension(cls: Type[_MessageType]) -> Type[_MessageType]:
     """
     Betterproto doesn't properly handle inheriting existing messages.
     This method takes the superclass proto metadata and assigns that to this one.
@@ -28,9 +28,12 @@ def proto_extension(cls: _MessageType):
     """
 
     for obj in cls.__mro__[1:]:
-        if issubclass(obj, betterproto.Message):
+        if issubclass(obj, betterproto2.Message):
+            # Intentional metaclass-level mutation: copy the parent's
+            # ``_betterproto`` metadata onto the subclass so betterproto2's
+            # serialiser uses the inherited proto schema.
             # noinspection PyProtectedMember
-            cls._betterproto = obj()._betterproto
+            cls._betterproto = obj()._betterproto  # type: ignore[method-assign,assignment,arg-type]
             return cls
 
     return cls
@@ -54,49 +57,17 @@ class ExtendedUser(User):
 
         if isinstance(user, ExtendedUser):
             return user
-        try:
-            return ExtendedUser(**user.to_pydict(casing=betterproto.Casing.SNAKE))
-        except AttributeError:
-            user_dict = {}
-            for field in user.__class__.__dataclass_fields__:
-                try:
-                    user_dict[field] = getattr(user, field)
-                except AttributeError as e:
-                    if "is set to None" in str(e):
-                        underlying_attr = f"_{field}"
-                        if hasattr(user, underlying_attr):
-                            user_dict[field] = getattr(user, underlying_attr)
-                        else:
-                            user_dict[field] = None
-                    else:
-                        raise
-            return ExtendedUser(**user_dict)
+        # betterproto2's from_dict is the canonical round-trip for
+        # restructuring nested message values (the constructor expects
+        # already-typed children, while from_dict reconstructs them from
+        # the dict shape).
+        return ExtendedUser.from_dict(user.to_dict(), ignore_unknown_fields=True)
 
     @property
-    def display_id(self):
-        """Backwards compatibility for username"""
+    def unique_id(self) -> Optional[str]:
+        """Legacy alias for the @-handle. v3 exposes it as ``display_id``."""
 
-        return getattr(self, "username", getattr(self, "nick_name", None))
-
-    @property
-    def unique_id(self) -> str:
-        """
-        Retrieve the user's @unique_id
-
-        :return: User's unique_id
-        """
-
-        return self.username
-
-    @property
-    def nickname(self) -> str:
-        """
-        Retrieve the user's @nickname
-
-        :return: User's nickname
-        """
-
-        return getattr(self, "nick_name", getattr(self, "username", None))
+        return self.display_id or None
 
     @property
     def is_friend(self) -> bool:
@@ -107,10 +78,12 @@ class ExtendedUser(User):
 
         """
 
-        if self.follow_info.follow_status is None:
+        # ``follow_info`` itself is Optional in v2 (proto3 implicit-optional);
+        # only ``follow_status`` inside it is non-Optional. Treat absence as
+        # "not friends".
+        if self.follow_info is None:
             return False
-
-        return (self.follow_info.follow_status or 0) >= 2
+        return self.follow_info.follow_status >= 2
 
     def _get_all_badge_info(self) -> List[Tuple[str, str]]:
         """
@@ -120,7 +93,7 @@ class ExtendedUser(User):
         """
 
         badge_dict = {}
-        for badge in getattr(self, "badge_list", []):
+        for badge in getattr(self, "badges", []) or []:
             scene = getattr(badge, "badge_scene", None)
             log_extra = getattr(badge, "log_extra", None)
             badge_level = getattr(log_extra, "level", None) if log_extra else None
@@ -200,11 +173,13 @@ class ExtendedUser(User):
         return self._get_badge_level("FANS")
 
     @property
-    def member_rank(self) -> Optional[str]:
+    def member_rank(self) -> Optional[int]:
         """
-        What is the user's "member rank" in the stream? These are roman numerals.
+        What is the user's "member rank" in the stream?
 
-        :return: The parsed member rank from the member level badge
+        Historically these were roman-numeral strings; in v2 the badge
+        carries the integer level directly, so this returns the parsed
+        level (an alias of ``member_level``).
 
         """
 
@@ -229,31 +204,23 @@ class ExtendedGift(Gift):
 
     """
 
-    def __init__(self, proto_gift: Gift = None, *args, **kwargs):
+    def __init__(self, proto_gift: Optional[Gift] = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.m_gift: Optional[Gift] = proto_gift
         if proto_gift is not None:
-            self.m_gift = proto_gift
             for attr, value in proto_gift.__dict__.items():
                 setattr(self, attr, value)
-        else:
-            self.m_gift = None
 
     @property
     def streakable(self) -> bool:
-        """
-        Whether a gift is capable of streaking
-
-        :return: The gift
-
-        """
+        """Whether a gift is capable of streaking."""
 
         return self.type == 1
 
 
-class ControlAction(betterproto.Enum):
-    CONTROL_ACTION_FALLBACK_UNKNOWN = 0
-    CONTROL_ACTION_STREAM_PAUSED = 1
-    CONTROL_ACTION_STREAM_UNPAUSED = 2
-    CONTROL_ACTION_STREAM_ENDED = 3
-    CONTROL_ACTION_STREAM_SUSPENDED = 4
+# ``ControlAction`` is part of the upstream v3 schema (renamed from the
+# legacy ``CONTROL_ACTION_*`` form to ``STREAM_*``) — re-export it from here
+# so existing ``from TikTokLive.proto.custom_proto import ControlAction``
+# imports keep resolving to the canonical enum.
+from TikTokLiveProto.v3.webcast.im import ControlAction as ControlAction  # noqa: E402, F401

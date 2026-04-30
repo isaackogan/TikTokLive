@@ -1,14 +1,12 @@
-import base64
 import logging
-import os
 from gzip import GzipFile
 from http.cookies import SimpleCookie
 from io import BytesIO
+from typing import Mapping
 
 from TikTokLive.client.errors import InitialCursorMissingError, WebsocketURLMissingError
 from TikTokLive.client.logger import TikTokLiveLogHandler
-from TikTokLive.proto import ProtoMessageFetchResult
-from TikTokLive.proto.custom_extras import WebcastPushFrame
+from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame
 
 
 def build_webcast_uri(
@@ -38,10 +36,8 @@ def build_webcast_uri(
 
     # Build the URI parameters dict
     uri_params: dict = {
-        **initial_webcast_response.route_params,
+        **{k: v for k, v in initial_webcast_response.route_params.items() if v},
         **base_uri_params,
-        "internal_ext": initial_webcast_response.internal_ext,
-        "cursor": initial_webcast_response.cursor,
     }
 
     # Build the URI
@@ -83,13 +79,17 @@ def extract_webcast_response_message(push_frame: WebcastPushFrame, logger: loggi
 
     """
 
+    # v3 ``WebcastPushFrame.headers`` is ``list[PushHeader]`` (each header is a
+    # ``{key, value}`` message), not a dict.
+    compress_type = next((h.value for h in push_frame.headers or [] if h.key == 'compress_type'), None)
+
     # If there is no compression header, return the payload parsed as-is
-    if not push_frame.headers or 'compress_type' not in push_frame.headers or push_frame.headers['compress_type'] == 'none':
+    if not compress_type or compress_type == 'none':
         return ProtoMessageFetchResult().parse(push_frame.payload)
 
     # If there is a compression type, but it's NOT gzip (should never happen, if it does, represents a TikTok update)
-    if push_frame.headers.get('compress_type', None) != 'gzip':
-        logger.error(f"Unknown compression type: {push_frame.headers.get('compress_type', None)}")
+    if compress_type != 'gzip':
+        logger.error(f"Unknown compression type: {compress_type}")
         return ProtoMessageFetchResult().parse(push_frame.payload)  # Just pray it works
 
     # If the compress type is gzip, we need to decompress the payload
@@ -105,9 +105,12 @@ def extract_webcast_response_message(push_frame: WebcastPushFrame, logger: loggi
     return ProtoMessageFetchResult().parse(decompressed_bytes)
 
 
-def extract_websocket_options(headers: dict) -> dict[str, str]:
+def extract_websocket_options(headers: Mapping[str, str]) -> dict[str, str]:
     """
-    Options are a cookie-style string, so we parse with SimpleCookie from the stdlib
+    Options are a cookie-style string, so we parse with SimpleCookie from the stdlib.
+
+    Accepts any string→string mapping so this works with raw dicts as well as
+    websockets' ``Headers`` / httpx ``Headers`` objects.
 
     """
 

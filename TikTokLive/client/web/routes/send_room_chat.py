@@ -17,15 +17,16 @@ class SendRoomChatRoute(ClientRoute):
             tt_target_idc: Optional[str] = None,
     ) -> dict:
         # Check sid
-        session_id: str = session_id or self._web.cookies.get('sessionid')
-        tt_target_idc: str = tt_target_idc or self._web.cookies.get('tt-target-idc')
+        session_id = session_id or self._web.cookies.get('sessionid')
+        tt_target_idc = tt_target_idc or self._web.cookies.get('tt-target-idc')
         check_authenticated_session(session_id, tt_target_idc, session_required=True)
 
         # Check room_id
-        room_id: int = room_id or self._web.params.get('room_id')
+        room_id = room_id or self._web.params.get('room_id')
 
         if not room_id:
-            raise ValueError("Room ID is required to send a chat message. Use client.web.send_room_chat if you want to use this function without connecting.")
+            raise ValueError(
+                "Room ID is required to send a chat message. Use client.web.send_room_chat if you want to use this function without connecting.")
 
         payload: dict = {
             "roomId": str(room_id),

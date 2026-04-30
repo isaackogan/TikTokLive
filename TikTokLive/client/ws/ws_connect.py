@@ -1,27 +1,26 @@
 import logging
-from typing import Optional, Tuple, Union, Type, AsyncIterator, Dict, Any
+from typing import Any, AsyncIterator, Dict, Optional, Tuple, Type, TypeAlias, Union
 
 import httpx
 from python_socks import ProxyType, parse_proxy_url
-from websockets import InvalidStatusCode
+from websockets.exceptions import InvalidStatusCode  # type: ignore[attr-defined]
 from websockets.legacy.client import Connect, WebSocketClientProtocol
 from websockets_proxy import websockets_proxy
 from websockets_proxy.websockets_proxy import ProxyConnect
 
 from TikTokLive.client.errors import WebcastBlocked200Error
 from TikTokLive.client.ws.ws_utils import extract_webcast_response_message, build_webcast_uri, extract_websocket_options
-from TikTokLive.proto import ProtoMessageFetchResult
-from TikTokLive.proto.custom_extras import WebcastPushFrame
+from TikTokLive.proto import ProtoMessageFetchResult, WebcastPushFrame
 
 """Type hint for a WebcastProxy, which can be either an HTTPX Proxy or a Websockets Proxy"""
-WebcastProxy: Type = Union[httpx.Proxy, websockets_proxy.Proxy]
+WebcastProxy: TypeAlias = Union[httpx.Proxy, websockets_proxy.Proxy]
 
 """
 Type hint for a WebcastIterator, which yields a tuple of WebcastPushFrame and ProtoMessageFetchResult.
 WebcastPushFrame is Optional because the first yielded item is from the initial response
 which is from /im/fetch (from the sign server), so it is not encapsulated by a WebcastPushFrame.
 """
-WebcastIterator: Type = AsyncIterator[Tuple[Optional[WebcastPushFrame], ProtoMessageFetchResult]]
+WebcastIterator: TypeAlias = AsyncIterator[Tuple[Optional[WebcastPushFrame], ProtoMessageFetchResult]]
 
 
 class WebcastConnect(Connect):
@@ -38,7 +37,7 @@ class WebcastConnect(Connect):
 
         # If uri is provided (it should normally never be), bypass the construction
         if uri is None:
-            uri: str = build_webcast_uri(
+            uri = build_webcast_uri(
                 initial_webcast_response=initial_webcast_response,
                 base_uri_params=base_uri_params,
                 base_uri_append_str=base_uri_append_str
@@ -63,7 +62,11 @@ class WebcastConnect(Connect):
 
         return self._ws_options
 
-    async def __aiter__(self) -> WebcastIterator:
+    # Liskov override: parent yields ``WebSocketClientProtocol`` instances; we
+    # wrap the websocket and yield parsed ``(WebcastPushFrame, ProtoMessageFetchResult)``
+    # tuples. The shape divergence is intentional — this iterator is the public
+    # event stream, not a passthrough of the underlying socket.
+    async def __aiter__(self) -> WebcastIterator:  # type: ignore[override]
         """
         Note as of Jul 6, 2025
 
@@ -90,13 +93,26 @@ class WebcastConnect(Connect):
                 # "async for" yields "WebcastPushFrame" payloads as unparsed bytes
                 async for payload_bytes in protocol:
 
+                    # websockets returns ``str | bytes``; betterproto's parse only
+                    # accepts bytes, so coerce strings up-front.
+                    if isinstance(payload_bytes, str):
+                        payload_bytes = payload_bytes.encode()
+
                     # Extract push frame
                     webcast_push_frame: WebcastPushFrame = WebcastPushFrame().parse(payload_bytes)
 
-                    # Only deal with messages
+                    # Only ``msg`` frames carry the event stream. Everything
+                    # else (``hb`` server heartbeat, ``ack`` receipt signal,
+                    # ``im_enter_room_resp`` room-switch ack, etc.) is
+                    # transport-level and intentionally discarded — matching
+                    # how the JS connector handles them. Log at DEBUG for
+                    # visibility, no parse attempt.
                     if webcast_push_frame.payload_type != "msg":
-                        webcast_push_frame.payload = extract_webcast_response_message(webcast_push_frame, logger=self._logger)
-                        self._logger.debug(f"Received payload of type '{webcast_push_frame.payload_type}', not 'msg': {webcast_push_frame}")
+                        self._logger.debug(
+                            "Discarded non-msg push frame (type=%r, len=%d)",
+                            webcast_push_frame.payload_type,
+                            len(webcast_push_frame.payload),
+                        )
                         continue
 
                     # If it is of type msg, we can extract the ProtoMessageFetchResult item within
@@ -137,11 +153,11 @@ class WebcastProxyConnect(WebcastConnect, ProxyConnect):
     @classmethod
     def _convert_proxy(cls, proxy: httpx.Proxy) -> websockets_proxy.Proxy:
         """Convert an HTTPX proxy to a websockets_proxy Proxy"""
-        parsed: Tuple[ProxyType, str, int, Optional[str], Optional[str]] = parse_proxy_url(str(proxy.url))
-        parsed: list = list(parsed)
+        parsed: list = list(parse_proxy_url(str(proxy.url)))
 
-        # Add auth back
-        parsed[3] = proxy.auth[0]
-        parsed[4] = proxy.auth[1]
+        # Add auth back if the source proxy carried any
+        if proxy.auth is not None:
+            parsed[3] = proxy.auth[0]
+            parsed[4] = proxy.auth[1]
 
         return websockets_proxy.Proxy(*parsed)

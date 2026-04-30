@@ -75,11 +75,16 @@ class FetchRoomIdLiveHTMLRoute(ClientRoute):
 
         # Method 1) Parse the room ID from liveRoomUserInfo/user#roomId
         room_data: dict = sigi_state["LiveRoom"]["liveRoomUserInfo"]["user"]
-        room_id: str = room_data.get('roomId')
+        room_id: Optional[str] = room_data.get('roomId')
         username_str: str = f" '@{room_data['uniqueId']}' " if room_data.get('uniqueId') else " "
 
         # User is offline
         if room_data.get('status') == 4:
             raise UserOfflineError(f"The requested TikTok LIVE user{username_str}is offline.")
+
+        if room_id is None:
+            raise FailedParseRoomIdError(
+                f"SIGI_STATE for user{username_str}did not include a roomId field."
+            )
 
         return room_id
