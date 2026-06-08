@@ -38,7 +38,7 @@ def check_authenticated_session(session_id: Optional[str], tt_target_idc: Option
             "connect to TikTok with the same IP address as other users. This could potentially lead to a ban of the account.\n\t"
             "With that said, there has never been a case of a ban due to this feature.\n\t"
             "You are only recommended to use this setting if you are aware of the risks and are willing to take them.\n\t"
-            "If you are sure you want to enable this setting, set the environment variable 'WHITELIST_AUTHENTICATED_SESSION_ID_HOST' to the HOST you want to authorize (e.g. 'tiktok.eulerstream.com').\n\t"
+            "If you are sure you want to enable this setting, set the environment variable 'WHITELIST_AUTHENTICATED_SESSION_ID_HOST' to the HOST you want to authorize (e.g. 'api.eulerstream.com').\n\t"
             "By doing so, you acknowledge the risks and agree to take responsibility for any consequences."
         )
 

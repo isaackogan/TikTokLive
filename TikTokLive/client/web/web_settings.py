@@ -116,7 +116,7 @@ class _WebDefaults:
 
     # Base URLs
     tiktok_app_url: str = "https://www.tiktok.com"
-    tiktok_sign_url: str = "https://tiktok.eulerstream.com"
+    tiktok_sign_url: str = "https://api.eulerstream.com"
     tiktok_webcast_url: str = 'https://webcast.tiktok.com/webcast'
 
     # TikTokLiveWebClient defaults
