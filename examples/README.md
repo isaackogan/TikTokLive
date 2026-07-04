@@ -11,6 +11,7 @@ If you have an example project, please [create a pull request](https://github.co
 - [Recording Livestreams - recording.py](recording.py)
 - [Editing HTTP Defaults - web_defaults.py](web_defaults.py)
 - [Checking If User Is Live - check_live.py](check_live.py)
+- [Web UI (Flask + SSE) - web-ui/service.py](web-ui/service.py)
 
 
 ## Documentation
