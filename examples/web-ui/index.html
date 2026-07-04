@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>TikTokLive Web UI Example</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f0f12;
+      color: #f2f2f2;
+    }
+    header {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 1rem;
+      background: #17171c;
+      border-bottom: 1px solid #2a2a32;
+    }
+    header input {
+      flex: 1;
+      max-width: 320px;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid #33333c;
+      background: #0f0f12;
+      color: #f2f2f2;
+    }
+    header button {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    #connect-btn { background: #fe2c55; color: white; }
+    #disconnect-btn { background: #33333c; color: #f2f2f2; }
+    #status {
+      margin-left: auto;
+      font-size: 0.85rem;
+      color: #9a9aa5;
+    }
+    #feed {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .row {
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .row .ts { color: #6a6a75; font-size: 0.8rem; margin-right: 0.4rem; }
+    .row .user { font-weight: 600; }
+    .row.comment { background: #1c1c22; }
+    .row.gift { background: #3a2a12; }
+    .row.like { background: #2a1420; }
+    .row.system { background: transparent; color: #9a9aa5; font-style: italic; }
+    .row.error { background: #3a1414; color: #ff8080; }
+  </style>
+</head>
+<body>
+  <header>
+    <input id="username" type="text" placeholder="@username" />
+    <button id="connect-btn">Connect</button>
+    <button id="disconnect-btn">Disconnect</button>
+    <span id="status">Idle</span>
+  </header>
+  <div id="feed"></div>
+
+  <script>
+    const usernameInput = document.getElementById("username");
+    const connectBtn = document.getElementById("connect-btn");
+    const disconnectBtn = document.getElementById("disconnect-btn");
+    const statusEl = document.getElementById("status");
+    const feedEl = document.getElementById("feed");
+
+    let eventSource = null;
+
+    function setStatus(text) {
+      statusEl.textContent = text;
+    }
+
+    function addRow(className, ts, html) {
+      const row = document.createElement("div");
+      row.className = `row ${className}`;
+      row.innerHTML = `<span class="ts">${formatTs(ts)}</span>${html}`;
+      feedEl.prepend(row);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text ?? "";
+      return div.innerHTML;
+    }
+
+    function formatTs(ts) {
+      const date = ts ? new Date(ts * 1000) : new Date();
+      return date.toLocaleTimeString([], { hour12: false });
+    }
+
+    function ensureStream() {
+      if (eventSource) return;
+
+      eventSource = new EventSource("/api/stream");
+      eventSource.onmessage = (message) => {
+        const event = JSON.parse(message.data);
+
+        switch (event.type) {
+          case "connect":
+            setStatus(`Connected to @${event.username}`);
+            addRow("system", event.ts, `Connected to @${escapeHtml(event.username)}`);
+            break;
+          case "disconnect":
+            setStatus("Disconnected");
+            addRow("system", event.ts, "Disconnected");
+            break;
+          case "comment":
+            addRow("comment", event.ts, `<span class="user">${escapeHtml(event.user)}</span>: ${escapeHtml(event.comment)}`);
+            break;
+          case "gift":
+            addRow("gift", event.ts, `<span class="user">${escapeHtml(event.user)}</span> sent ${event.count}x "${escapeHtml(event.gift)}"`);
+            break;
+          case "like":
+            addRow("like", event.ts, `<span class="user">${escapeHtml(event.user)}</span> sent ${event.count} likes (${event.total} total)`);
+            break;
+          case "error":
+            setStatus("Error");
+            addRow("error", event.ts, escapeHtml(event.message));
+            break;
+        }
+      };
+      eventSource.onerror = () => setStatus("Stream error - retrying...");
+    }
+
+    async function connect() {
+      const username = usernameInput.value.trim();
+      if (!username) return;
+
+      feedEl.innerHTML = "";
+      setStatus("Connecting...");
+      ensureStream();
+
+      const response = await fetch("/api/connect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        setStatus("Error");
+        addRow("error", data.error || "Failed to connect");
+      }
+    }
+
+    async function disconnect() {
+      await fetch("/api/disconnect", { method: "POST" });
+    }
+
+    connectBtn.addEventListener("click", connect);
+    disconnectBtn.addEventListener("click", disconnect);
+    usernameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") connect();
+    });
+
+    ensureStream();
+  </script>
+</body>
+</html>
