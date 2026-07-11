@@ -1,6 +1,6 @@
-TikTokLive Python API (Unofficial)
+TikTokLive Python API for TikTok LIVE (Unofficial)
 ==================
-TikTokLive is an unofficial Python API wrapper for TikTok LIVE written in Python. With this library you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`.
+TikTok LIVE API Client for Python - Connect to any TikTok LIVE stream and receive real-time chats, gifts, likes, follows & more! With this library you can connect to any TikTok livestream and fetch all data available to users in a stream using just a creator's `@unique_id`.
 
 [![Discord](https://img.shields.io/discord/977648006063091742?logo=discord&label=TikTokLive%20Discord&labelColor=%23171717&color=%231877af)](https://discord.gg/N3KSxzvDX8)
 ![Connections](https://api.eulerstream.com/analytics/pips)
