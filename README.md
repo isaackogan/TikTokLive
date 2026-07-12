@@ -349,7 +349,7 @@ There is a [complete example](https://github.com/isaackogan/TikTokLive/blob/mast
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under a modified AGPL license - see the [LICENSE](LICENSE) file for details.
 
 ## Contributors
 
