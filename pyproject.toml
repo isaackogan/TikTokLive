@@ -24,7 +24,7 @@ dependencies = [
     "protobuf3-to-dict>=0.1.5",
     "protobuf>=3.19.4",
     "TikTokLiveProto==0.2.0",
-    "EulerApiSdk>=0.1.0"
+    "EulerApiSdk==0.1.0"
 ]
 
 classifiers = [
@@ -36,6 +36,12 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
 ]
 
 [dependency-groups]
@@ -81,6 +87,10 @@ exclude = [
     "build/",
     "dist/",
 ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
 
 [project.urls]
 Homepage = "https://github.com/isaackogan/TikTokLive"
