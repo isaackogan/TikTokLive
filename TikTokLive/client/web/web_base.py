@@ -125,10 +125,10 @@ class TikTokHTTPClient:
         # ``set_session(None, None)`` clears the cookies; httpx's Cookies.set
         # only accepts ``str``, so coerce to empty string when None. Empty
         # string clears the cookie value just like None would.
-        self.cookies.set("tt-target-idc", tt_target_idc or "")
-        self.cookies.set("sessionid", session_id or "")
-        self.cookies.set("sessionid_ss", session_id or "")
-        self.cookies.set("sid_tt", session_id or "")
+        self.cookies.set("tt-target-idc", tt_target_idc or "", ".tiktok.com")
+        self.cookies.set("sessionid", session_id or "", ".tiktok.com")
+        self.cookies.set("sessionid_ss", session_id or "", ".tiktok.com")
+        self.cookies.set("sid_tt", session_id or "", ".tiktok.com")
 
         # Set logged in status
         self.params['user_is_login'] = "true" if session_id else "false"
