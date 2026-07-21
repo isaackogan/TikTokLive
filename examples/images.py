@@ -16,9 +16,9 @@ async def on_connect(event: ConnectEvent):
 async def on_comment(event: CommentEvent):
     client.logger.info("Received a comment!")
 
-    # Download the user's avatar (v2 schema: profile_picture is an Image)
+    # Download the user's avatar (only avatar_thumb is populated on comment events)
     image_bytes: bytes = await client.web.fetch_image_data(
-        image=event.user.profile_picture
+        image=event.user.avatar_thumb
     )
 
     # Write to bytes
