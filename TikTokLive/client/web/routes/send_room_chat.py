@@ -34,17 +34,12 @@ class SendRoomChatRoute(ClientRoute):
             target_room_id=str(room_id),
         )
 
-        # Session credentials ride in ``X-Cookie-Header`` so the sign server
-        # can replay them as the authenticated user. v2 sent them as JSON
-        # body fields (``sessionId`` / ``ttTargetIdc``); the SDK moved them
-        # to the cookie header for consistency with TikTok's own auth model.
         cookie_parts = [f"sessionid={session_id}"]
         if tt_target_idc:
             cookie_parts.append(f"tt-target-idc={tt_target_idc}")
         cookie_header = "; ".join(cookie_parts)
 
-        # ``send_room_chat`` is annotated as taking ``AuthenticatedClient`` only
-        # but at runtime ``Client`` works identically.
+
         sdk_response = await send_room_chat.asyncio_detailed(
             client=self._web.signer.sdk_client,  # type: ignore[arg-type]
             body=body,
