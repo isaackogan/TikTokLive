@@ -55,6 +55,7 @@ from TikTokLiveProto.v3.webcast.model.message import (
     WebcastLinkMessage,
     WebcastLinkMicArmies,
     WebcastLinkMicBattle,
+    WebcastLinkMicBattleItemCard,
     WebcastLinkMicBattlePunishFinish,
     WebcastLinkMicFanTicketMethod,
     WebcastLinkMicMethod,
@@ -113,6 +114,7 @@ if TYPE_CHECKING:
         BarrageMessageIconDisplayType,
         BarrageMessageRenderType,
         BarrageMessageShowType,
+        BattleCardMsgType,
         BattleTaskMessageType,
         BizLayoutState,
         BizSpotInfo,
@@ -131,6 +133,7 @@ if TYPE_CHECKING:
         JoinGroupDirectContent,
         JoinRoomDirectContent,
         LeaveJoinGroupContent,
+        LinkEnvelopeContent,
         LinkLayerMessageType,
         LinkMicArmiesTriggerReason,
         LinkMicBattleBattleAction,
@@ -153,6 +156,7 @@ if TYPE_CHECKING:
     )
     from TikTokLiveProto.v3.webcast.linkmic.common import (
         BackGroundImageState,
+        LayoutData,
         LayoutState,
         LinkUserState,
         LinkerMode,
@@ -207,11 +211,13 @@ if TYPE_CHECKING:
         AssetBundle,
         DynamicRestriction,
         FlyingMicResources,
+        GiftEffect,
         LiveStreamGoal,
         LiveStreamGoalIndicator,
         LiveStreamSubGoal,
         LynxGiftExtra,
         MatchInfo,
+        SecondaryEffectInfo,
     )
     from TikTokLiveProto.v3.webcast.model.goal import (
         GoalPinInfo,
@@ -232,12 +238,14 @@ if TYPE_CHECKING:
         HighScoreControlCfg,
         LeagueScoreInfo,
         MatchPunishExtraInfo,
+        MatchThemeDisplayResource,
         TeamMatchCampaign,
     )
     from TikTokLiveProto.v3.webcast.model.message import (
         AccessControlCaptcha,
         AnimationData,
         AtmosphereTagInfo,
+        AwardCardNotice,
         BarrageEvent as _proto_BarrageEvent_,
         BarrageTypeEcomLiveParam,
         BarrageTypeFansLevelParam,
@@ -252,6 +260,7 @@ if TYPE_CHECKING:
         CampaignBannerDisplayResult,
         CapsuleBizParams,
         CaptionContent,
+        CardObtainGuide,
         CohostListChangeContent,
         CommentLabelScore,
         CommentQualityScore,
@@ -265,6 +274,7 @@ if TYPE_CHECKING:
         GiftImPriority,
         GiftMonitorInfo,
         GoalData,
+        GuideMessageFrequencyRule,
         HourlyRankRewardInfo,
         InteractiveGiftInfo,
         LinkerCloseContent,
@@ -295,6 +305,7 @@ if TYPE_CHECKING:
         RoomBasedGiftData,
         RoomNotifyMessageEventTracking,
         RoomNotifyMessageExtra,
+        SpecialEffectNotice,
         SpecifiedDisplayText,
         SponsorshipInfo,
         TeamUsersInfo,
@@ -303,6 +314,15 @@ if TYPE_CHECKING:
         TimeInfo,
         TriggerCondition,
         UnionAnimationInfo,
+        UseCriticalStrikeCard,
+        UseExtraTimeCard,
+        UsePotionCard,
+        UseSmokeCard,
+        UseSpecialEffectCard,
+        UseTop2Card,
+        UseTop3Card,
+        UseVaultGloveCard,
+        UseWaveCard,
         ValidRanks,
         Voucher,
         WaveAlgorithmData,
@@ -571,6 +591,7 @@ class EnvelopeEvent(BaseEvent, WebcastEnvelopeMessage):
         common: Optional[CommonMessageData]
         envelope_info: Optional[MessageRedEnvelopInfo]
         display: EnvelopeDisplay
+        public_area_msg_common: Optional[PublicAreaMessageCommon]
 
 
 class GameRankNotifyEvent(BaseEvent, WebcastGameRankNotifyMessage):
@@ -650,6 +671,10 @@ class GiftEvent(BaseEvent, WebcastGiftMessage):
         is_asset_bundle_gift: bool
         asset_bundle: Optional[AssetBundle]
         effect_extra: str
+        secondary_effect_info: Optional[SecondaryEffectInfo]
+        gift_variant_id: int
+        shiny_card_unlock_token: str
+        gift_effect: Optional[GiftEffect]
     user: Optional[ExtendedUser]
     to_user: Optional[ExtendedUser]
     gift: Optional[ExtendedGift]
@@ -739,6 +764,7 @@ class GuideEvent(BaseEvent, WebcastGuideMessage):
         duration: int
         display_style: int
         scene: str
+        frequency_rule: Optional[GuideMessageFrequencyRule]
 
 
 class HourlyRankRewardEvent(BaseEvent, WebcastHourlyRankRewardMessage):
@@ -886,6 +912,7 @@ class LinkLayerEvent(BaseEvent, WebcastLinkLayerMessage):
         group_change_content: Optional[GroupChangeContent]
         join_group_direct_content: Optional[JoinGroupDirectContent]
         join_room_direct_content: Optional[JoinRoomDirectContent]
+        link_envelope_content: Optional[LinkEnvelopeContent]
         business_content: Optional[BusinessContent]
 
 
@@ -944,6 +971,30 @@ class LinkMicBattleEvent(BaseEvent, WebcastLinkMicBattle):
         enigma_battle_setting: Optional[EnigmaBattleSetting]
         anchor_match_settings: Dict[int, AnchorMatchSettings]
         battle_feature_flags: Optional[BattleFeatureFlags]
+        cross_room_layout: Optional[LayoutData]
+        tracking_extra: Dict[str, str]
+        match_theme_display_resource: Optional[MatchThemeDisplayResource]
+
+
+class LinkMicBattleItemCardEvent(BaseEvent, WebcastLinkMicBattleItemCard):
+    """LinkMicBattleItemCardEvent."""
+    if TYPE_CHECKING:
+        common: Optional[CommonMessageData]
+        battle_id: int
+        msg_type: BattleCardMsgType
+        card_obtain_guide: Optional[CardObtainGuide]
+        use_critical_strike_card: Optional[UseCriticalStrikeCard]
+        use_smoke_card: Optional[UseSmokeCard]
+        award_card_notice: Optional[AwardCardNotice]
+        use_extra_time_card: Optional[UseExtraTimeCard]
+        use_special_effect_card: Optional[UseSpecialEffectCard]
+        use_potion_card: Optional[UsePotionCard]
+        use_wave_card: Optional[UseWaveCard]
+        special_effect_notice: Optional[SpecialEffectNotice]
+        use_top2_card: Optional[UseTop2Card]
+        use_top3_card: Optional[UseTop3Card]
+        use_vault_glove_card: Optional[UseVaultGloveCard]
+        award_reason: int
 
 
 class LinkMicBattlePunishFinishEvent(BaseEvent, WebcastLinkMicBattlePunishFinish):
@@ -1223,6 +1274,7 @@ class RankTextEvent(BaseEvent, WebcastRankTextMessage):
         content: Optional[Text]
         rank_type: ProfitRankType
         user_enigma_info: Optional[RankUserEnigmaInfo]
+        public_area_msg_common: Optional[PublicAreaMessageCommon]
 
 
 class RankUpdateEvent(BaseEvent, WebcastRankUpdateMessage):
@@ -1437,6 +1489,7 @@ EVENT_MAPPINGS: Dict[str, Type[BaseEvent]] = {
     "WebcastLinkLayerMessage": LinkLayerEvent,
     "WebcastLinkMicArmies": LinkMicArmiesEvent,
     "WebcastLinkMicBattle": LinkMicBattleEvent,
+    "WebcastLinkMicBattleItemCard": LinkMicBattleItemCardEvent,
     "WebcastLinkMicBattlePunishFinish": LinkMicBattlePunishFinishEvent,
     "WebcastLinkMicFanTicketMethod": LinkMicFanTicketMethodEvent,
     "WebcastLinkMicLayoutStateMessage": LinkMicLayoutStateEvent,
@@ -1502,6 +1555,7 @@ ProtoEvent: TypeAlias = Union[
     LinkLayerEvent,
     LinkMicArmiesEvent,
     LinkMicBattleEvent,
+    LinkMicBattleItemCardEvent,
     LinkMicBattlePunishFinishEvent,
     LinkMicFanTicketMethodEvent,
     LinkMicLayoutStateEvent,
@@ -1567,6 +1621,7 @@ __all__ = [
     "LinkLayerEvent",
     "LinkMicArmiesEvent",
     "LinkMicBattleEvent",
+    "LinkMicBattleItemCardEvent",
     "LinkMicBattlePunishFinishEvent",
     "LinkMicFanTicketMethodEvent",
     "LinkMicLayoutStateEvent",
