@@ -78,11 +78,19 @@ class TikTokHTTPClient:
 
         """
 
-        # Create the cookie jar
-        self.cookies = Cookies({
+        # Create the cookie jar. Cookies must be set on ".tiktok.com" explicitly:
+        # the jar keys cookies by (domain, path, name), so a domain of "" would
+        # coexist with (rather than be overwritten by) later writes from
+        # set_session & server Set-Cookie headers, sending duplicate cookies.
+        self.cookies = Cookies()
+
+        merged_cookies: Dict[str, str] = {
             **WebDefaults.web_client_cookies,
             **httpx_kwargs.pop("cookies", {})
-        })
+        }
+
+        for cookie_name, cookie_value in merged_cookies.items():
+            self.cookies.set(cookie_name, cookie_value, ".tiktok.com")
 
         # Create the headers
         self.headers = {
