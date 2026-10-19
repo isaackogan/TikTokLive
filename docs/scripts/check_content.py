@@ -16,8 +16,8 @@ Nine sections are reported in a fixed order, each ``PASS <section>`` or
 - ``discord``: no page links to Discord; the header button is the one Discord link.
 - ``readme``: README event descriptions equal the catalog's, so the PyPI landing page
   and the site do not drift.
-- ``examples``: every ``python`` fence parses and type-checks with mypy against the
-  installed package.
+- ``examples``: every ``python`` fence, indented or not, parses and type-checks with mypy
+  against the installed package; a known-bad canary in the same run proves mypy sees it.
 """
 
 from __future__ import annotations
@@ -29,6 +29,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import textwrap
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
@@ -50,6 +51,11 @@ README = "README.md"
 
 MYPY_ARGS = ("--python-version", "3.10", "--ignore-missing-imports", "--follow-imports=silent")
 
+# A known type error. If mypy does not flag it, the interpreter it inspects lacks TikTokLive's
+# dependencies, every proto-derived base is Any, and the examples are not really checked.
+CANARY_FILE = "canary.py"
+CANARY = "from TikTokLive.events import GiftEvent\n\ndef f(e: GiftEvent) -> str:\n    return e.comment\n"
+
 # os.environ.get("X"), os.environ["X"], os.getenv("X"), environ.get("X"): the quoted
 # upper-case name within 40 characters after the access word, on the same line.
 ENV_READ = re.compile(r"\b(?:environ|getenv)\b.{0,40}?(['\"])([A-Z][A-Z0-9_]+)\1")
@@ -63,7 +69,9 @@ README_ITEM = re.compile(
     r"<li>\s*(?:<a\b[^>]*>)?\s*<code>(\w+)</code>\s*(?:</a>)?(?:\s*-\s*(.*?))?\s*</li>", re.DOTALL
 )
 
-PYTHON_FENCE = re.compile(r"^```(?:python|py)\b[^\n]*\n(.*?)^```[ \t]*$", re.MULTILINE | re.DOTALL)
+# ```python … ``` at any indentation (list items, <Steps>); the closer must share the opener's indent.
+PYTHON_FENCE = re.compile(r"^([ \t]*)```(?:python|py)\b[^\n]*\n(.*?)^\1```[ \t]*$", re.MULTILINE | re.DOTALL)
+PYTHON_FENCE_OPENER = re.compile(r"^[ \t]*```(?:python|py)\b", re.MULTILINE)
 DISCORD_LINK = re.compile(r"discord\.(?:gg|com)", re.IGNORECASE)
 MYPY_ERROR = re.compile(r"^(?P<path>.+?\.py):(?P<line>\d+):(?:\d+:)? error: (?P<message>.*)$")
 
@@ -252,16 +260,27 @@ def check_readme_catalog(readme_text: str, catalog_text: str) -> list[str]:
 
 
 def python_examples(pages: list[Page]) -> list[tuple[str, str]]:
-    """``(label, code)`` for every ``python`` fence, labelled ``<page>, example <n>`` per page."""
+    """``(label, code)`` for every ``python`` fence, dedented, labelled ``<page>, example <n>`` per page."""
     examples = []
     for page in pages:
-        for number, code in enumerate(PYTHON_FENCE.findall(page.text), start=1):
-            examples.append((f"{page.path}, example {number}", code))
+        for number, (_, body) in enumerate(PYTHON_FENCE.findall(page.text), start=1):
+            examples.append((f"{page.path}, example {number}", textwrap.dedent(body)))
     return examples
 
 
+def check_fences(pages: list[Page]) -> list[str]:
+    """Every ``python`` fence opener was extracted; a closer at another indentation would hide one."""
+    failures = []
+    for page in pages:
+        openers = len(PYTHON_FENCE_OPENER.findall(page.text))
+        extracted = len(PYTHON_FENCE.findall(page.text))
+        if openers != extracted:
+            failures.append(f"{page.path}: {openers} python fences but {extracted} extracted")
+    return failures
+
+
 def compile_examples(examples: list[tuple[str, str]], repo: Path) -> list[str]:
-    """Failures from ``ast.parse`` on each example and one mypy run over all that parse."""
+    """Failures from ``ast.parse`` on each example and one mypy run over all that parse, plus the canary."""
     failures = []
     with tempfile.TemporaryDirectory(prefix="docs-examples-") as tmp:
         directory = Path(tmp)
@@ -275,26 +294,34 @@ def compile_examples(examples: list[tuple[str, str]], repo: Path) -> list[str]:
             file_name = f"example_{number}.py"
             (directory / file_name).write_text(code, encoding="utf-8")
             labels[file_name] = label
-        if labels:
-            failures.extend(_run_mypy(repo, directory, labels))
+        failures.extend(_run_mypy(repo, directory, labels))
     return failures
 
 
 def _run_mypy(repo: Path, directory: Path, labels: dict[str, str]) -> list[str]:
-    """Run mypy once over the example files and map each error back to its example label."""
-    command = [sys.executable, "-m", "mypy", *MYPY_ARGS, *(str(directory / name) for name in labels)]
+    """Run mypy once over the example files plus the canary and map each error back to its label.
+
+    The canary's own error is expected and never reported; its absence is.
+    """
+    (directory / CANARY_FILE).write_text(CANARY, encoding="utf-8")
+    files = [*labels, CANARY_FILE]
+    command = [sys.executable, "-m", "mypy", *MYPY_ARGS, *(str(directory / name) for name in files)]
     result = subprocess.run(command, cwd=repo, capture_output=True, text=True)
+    errors = [match for match in map(MYPY_ERROR.match, result.stdout.splitlines()) if match]
     failures = []
-    for line in result.stdout.splitlines():
-        match = MYPY_ERROR.match(line)
-        if match is None:
+    canary_flagged = False
+    for match in errors:
+        name = Path(match["path"]).name
+        if name == CANARY_FILE:
+            canary_flagged = True
             continue
-        label = labels.get(Path(match["path"]).name, "mypy")
-        failures.append(f"{label}: line {match['line']}: {match['message']}")
-    if result.returncode not in (0, 1) or (result.returncode == 1 and not failures):
+        failures.append(f"{labels.get(name, 'mypy')}: line {match['line']}: {match['message']}")
+    if result.returncode not in (0, 1) or (result.returncode == 1 and not errors):
         output = (result.stderr or result.stdout).strip().splitlines()
         detail = output[-1] if output else "no output"
         failures.append(f"mypy exited with status {result.returncode}: {detail}")
+    elif not canary_flagged:
+        failures.append("mypy canary not flagged: examples are not type-checked against TikTokLive")
     return failures
 
 
@@ -331,7 +358,7 @@ def main(argv: list[str] | None = None) -> int:
         ("env", check_env(pages, names)),
         ("discord", check_discord(pages)),
         ("readme", check_readme_catalog(readme_text, catalog_text)),
-        ("examples", compile_examples(examples, repo)),
+        ("examples", check_fences(pages) + compile_examples(examples, repo)),
     ]
 
     failed = False

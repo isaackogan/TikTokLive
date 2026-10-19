@@ -1,3 +1,4 @@
+import subprocess
 from pathlib import Path
 
 import check_content
@@ -60,3 +61,33 @@ def test_compile_examples_reports_type_error(tmp_path):
     good = ("page.md, example 2", "from TikTokLive.events import CommentEvent\n\ndef f(e: CommentEvent) -> str:\n    return e.comment\n")
     failures = check_content.compile_examples([bad, good], REPO)
     assert len(failures) == 1 and failures[0].startswith("page.md, example 1")
+
+
+def test_indented_fence_is_extracted_and_type_checked():
+    page = check_content.Page(
+        Path("steps.md"),
+        "1. Listen:\n\n   ```python\n   from TikTokLive.events import GiftEvent\n\n   def f(e: GiftEvent) -> str:\n       return e.comment\n   ```\n",
+    )
+    examples = check_content.python_examples([page])
+    assert examples == [("steps.md, example 1", "from TikTokLive.events import GiftEvent\n\ndef f(e: GiftEvent) -> str:\n    return e.comment\n")]
+    failures = check_content.compile_examples(examples, REPO)
+    assert len(failures) == 1 and failures[0].startswith("steps.md, example 1: line 4:")
+
+
+def test_check_fences_reports_fence_not_extracted():
+    unclosed = check_content.Page(Path("list.md"), "- item\n  ```python\n  x = 1\n```\n")
+    assert check_content.check_fences([unclosed]) == ["list.md: 1 python fences but 0 extracted"]
+    assert check_content.check_fences([check_content.Page(Path("ok.md"), "```python\nx = 1\n```\n")]) == []
+
+
+def test_compile_examples_reports_unflagged_canary(monkeypatch):
+    commands = []
+
+    def fake_run(command, **kwargs):
+        commands.append(command)
+        return subprocess.CompletedProcess(command, 0, stdout="Success: no issues found in 2 source files\n", stderr="")
+
+    monkeypatch.setattr(check_content.subprocess, "run", fake_run)
+    failures = check_content.compile_examples([("page.md, example 1", "x = 1\n")], REPO)
+    assert failures == ["mypy canary not flagged: examples are not type-checked against TikTokLive"]
+    assert any(arg.endswith(check_content.CANARY_FILE) for arg in commands[0])
