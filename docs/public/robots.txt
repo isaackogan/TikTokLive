@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ttl.docs.isaackogan.com/sitemap-index.xml

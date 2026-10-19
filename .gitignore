@@ -15,3 +15,8 @@ headers.py.orphaned/
 __pycache__/
 *.pyc
 .DS_Store
+docs/node_modules/
+docs/.astro/
+docs/src/content/docs/api/
+docs/src/content/docs/schema/
+docs/redirects/
