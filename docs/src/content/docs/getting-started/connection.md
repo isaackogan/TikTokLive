@@ -54,7 +54,7 @@ Three custom events mark the lifecycle. Register them like any other event.
 
 - `ConnectEvent` is emitted when the first signed response is parsed. It carries `unique_id` and `room_id`; `client.room_id` and `client.connected` are set by then.
 - `LiveEndEvent` is emitted when TikTok's `ControlEvent` reports `STREAM_ENDED` or `STREAM_SUSPENDED`. The client then disconnects itself. `LivePauseEvent` and `LiveUnpauseEvent` report pauses the same way.
-- `DisconnectEvent` is emitted once when the WebSocket loop exits, whatever the cause: the stream ended, you called `disconnect()`, or the socket dropped. It carries no payload and does not by itself say why.
+- `DisconnectEvent` is emitted once when the WebSocket loop exits normally: the stream ended, you called `disconnect()`, or TikTok closed the socket with close code 1000 or 1001. A close with any other code, such as a dropped network connection, raises `ConnectionClosedError` from `connect()` or from the task `start()` returned instead, and no `DisconnectEvent` is emitted. The event carries no payload and does not by itself say why.
 
 ```python
 from TikTokLive import TikTokLiveClient
@@ -86,10 +86,12 @@ if __name__ == "__main__":
 
 ## Reconnect
 
-The client does not reconnect on its own. When the stream ends or the socket drops, `connect()` returns and `DisconnectEvent` fires; trying again is up to your program. Use one loop with a delay, and register listeners once rather than on every attempt. Different causes need different handling: a creator who ended the stream stays offline for a while, an [Euler Stream](https://www.eulerstream.com/) rate limit raises `SignatureRateLimitError` whose `retry_after` says how long to wait, and a network drop can be retried sooner. See [troubleshooting](/troubleshooting/).
+The client does not reconnect on its own. When the stream ends, `connect()` returns and `DisconnectEvent` fires; when the socket drops abnormally, `connect()` raises `websockets.exceptions.ConnectionClosedError`. Either way, trying again is up to your program. Use one loop with a delay, and register listeners once rather than on every attempt. Different causes need different handling: a creator who ended the stream stays offline for a while, an [Euler Stream](https://www.eulerstream.com/) rate limit raises `SignatureRateLimitError` whose `retry_after` says how long to wait, and a network drop can be retried sooner. See [troubleshooting](/troubleshooting/).
 
 ```python
 import asyncio
+
+from websockets.exceptions import ConnectionClosedError
 
 from TikTokLive import TikTokLiveClient
 from TikTokLive.client.errors import UserOfflineError
@@ -110,7 +112,7 @@ async def main() -> None:
             continue
         try:
             await client.connect()
-        except UserOfflineError:
+        except (UserOfflineError, ConnectionClosedError):
             pass
         await asyncio.sleep(60)
 
@@ -121,7 +123,7 @@ if __name__ == "__main__":
 
 ## Check live status before connecting
 
-`is_live` asks TikTok's HTTP API whether the creator is live without signing or opening a WebSocket. It is the right way to poll: connecting just to find out is slower and spends a signing request. Pass a `unique_id` to check a different creator with the same client. `connect()` performs the same check itself when `fetch_live_check` is on and raises `UserOfflineError` when the creator went offline in between. The loop above polls every 60 seconds, as the repository's `check_live.py` example does.
+`is_live` asks TikTok's HTTP API whether the creator is live without signing or opening a WebSocket. It is the right way to poll: connecting just to find out is slower and spends a signing request. Passing a `unique_id` checks that creator and re-targets the client: a later `connect()` connects to it, not to the creator given to the constructor. `connect()` performs the same check itself when `fetch_live_check` is on and raises `UserOfflineError` when the creator went offline in between. The loop above polls every 60 seconds, as the repository's `check_live.py` example does.
 
 ## Close the client
 

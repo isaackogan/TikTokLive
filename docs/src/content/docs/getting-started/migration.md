@@ -3,7 +3,7 @@ title: Migration
 description: Update code written for TikTokLive 6.x to 7, which moves to the TikTokLiveProto v3 schema and renames some event fields.
 ---
 
-TikTokLive 7 replaces the bundled protobuf definitions with the [TikTokLiveProto](https://pypi.org/project/TikTokLiveProto/) v3 package on betterproto2, regenerates every proto event from it, and ships type hints that pass mypy. Most 6.x programs need only the field changes below. Python 3.10 or newer is required.
+TikTokLive 7 replaces the bundled protobuf definitions with the [TikTokLiveProto](https://pypi.org/project/TikTokLiveProto/) v3 package on betterproto2, regenerates every proto event from it, and its source is annotated and type-checked in the project's CI. Most 6.x programs need only the field changes below. Python 3.10 or newer is required.
 
 ```sh
 pip install -U TikTokLive
@@ -68,4 +68,4 @@ The default signing server moved from `tiktok.eulerstream.com` to `api.eulerstre
 
 ## Typing
 
-The package is annotated and checked with mypy. Annotate handlers with the event they receive, as in the examples, and consult the generated [API reference](/api/) and [schema reference](/schema/) for the installed version's signatures and fields.
+The source is annotated and type-checked in the project's CI. Annotate handlers with the event they receive, as in the examples, and consult the generated [API reference](/api/) and [schema reference](/schema/) for the installed version's signatures and fields.
