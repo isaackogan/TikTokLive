@@ -132,12 +132,16 @@ def public_methods(cls: griffe.Class) -> list[griffe.Function]:
     return [m for m in public_members(cls) if m.is_function]
 
 
+def submodules(module: griffe.Module) -> list[griffe.Module]:
+    """Public submodules by name; griffe stores them in filesystem order, which varies by platform."""
+    return sorted((m for m in public_members(module) if m.is_module), key=lambda m: m.name)
+
+
 def iter_modules(module: griffe.Module) -> Iterator[griffe.Module]:
-    """``module`` and every public submodule, depth first."""
+    """``module`` and every public submodule, depth first, siblings by name."""
     yield module
-    for member in public_members(module):
-        if member.is_module:
-            yield from iter_modules(member)
+    for member in submodules(module):
+        yield from iter_modules(member)
 
 
 def reexported_members(module: griffe.Module) -> list[griffe.Object]:
@@ -572,7 +576,7 @@ def _module_page(module: griffe.Module, import_path: str, source_url: str | None
     lines = [frontmatter(module.name, description(module), label=module.name, order=0)]
     if text := docstring_text(module):
         lines += [text, ""]
-    lines += listing("## Submodules", [m for m in members if m.is_module and in_api_scope(m.path)])
+    lines += listing("## Submodules", [m for m in submodules(module) if in_api_scope(m.path)])
     lines += listing("## Classes", [m for m in members if m.is_class])
     lines += listing("## Functions", [m for m in members if m.is_function])
     if module.is_init_module:

@@ -1,3 +1,5 @@
+import griffe
+
 import gen_api
 
 
@@ -42,3 +44,27 @@ def test_render_api_excludes_private_and_proto(tmp_path, tiktoklive_module):
     assert "tiktoklive/proto/custom_proto/extendedgift.md" in names
     assert not any(n.startswith("tiktoklive/proto/") and not n.startswith("tiktoklive/proto/custom_proto/") for n in names)
     assert not any("/_" in n for n in names)
+
+
+def submodules_listed(page):
+    """Names in the ``## Submodules`` list of a generated module page."""
+    section = page.read_text().split("## Submodules\n\n", 1)[1].split("\n\n", 1)[0]
+    return [line.split("`")[1] for line in section.splitlines()]
+
+
+def test_iter_modules_sorts_submodules_regardless_of_insertion_order():
+    pkg = griffe.Module("pkg")
+    for name in ("zeta", "alpha", "_private", "mid"):
+        pkg.set_member(name, griffe.Module(name))
+    pkg["mid"].set_member("b", griffe.Module("b"))
+    pkg["mid"].set_member("a", griffe.Module("a"))
+    assert [m.name for m in gen_api.iter_modules(pkg)] == ["pkg", "alpha", "mid", "a", "b", "zeta"]
+
+
+def test_render_api_output_is_ordered_alphabetically(tmp_path, tiktoklive_module):
+    paths = gen_api.render_api(tiktoklive_module, tmp_path)
+    for page in ("tiktoklive/index.md", "tiktoklive/client/index.md"):
+        listed = submodules_listed(tmp_path / page)
+        assert len(listed) > 1 and listed == sorted(listed)
+    module_dirs = [p.relative_to(tmp_path).parent.as_posix() for p in paths if p.name == "index.md"]
+    assert module_dirs == sorted(module_dirs)
