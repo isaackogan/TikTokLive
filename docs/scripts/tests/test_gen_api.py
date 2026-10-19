@@ -27,10 +27,10 @@ def test_page_for_object_without_docstring(tiktoklive_module):
 
 def test_schema_covers_non_reexported_message(tmp_path, proto_module):
     paths = gen_api.render_schema(proto_module, gen_api.reexported_modules(), tmp_path)
-    page = tmp_path / "webcast/model/gift/model/webcastgoalupdatemessage/index.md"
+    page = tmp_path / "webcast/model/gift/model/webcastgoalupdatemessage.md"
     assert page.exists()
     assert "from TikTokLiveProto.v3.webcast.model.gift.model import WebcastGoalUpdateMessage" in page.read_text()
-    chat = (tmp_path / "webcast/model/message/webcastchatmessage/index.md").read_text()
+    chat = (tmp_path / "webcast/model/message/webcastchatmessage.md").read_text()
     assert "from TikTokLive.proto import WebcastChatMessage" in chat
     assert len(paths) > 300
 
@@ -38,7 +38,7 @@ def test_schema_covers_non_reexported_message(tmp_path, proto_module):
 def test_render_api_excludes_private_and_proto(tmp_path, tiktoklive_module):
     paths = gen_api.render_api(tiktoklive_module, tmp_path)
     names = {p.relative_to(tmp_path).as_posix() for p in paths}
-    assert "tiktoklive/client/client/tiktokliveclient/index.md" in names
-    assert "tiktoklive/proto/custom_proto/extendedgift/index.md" in names
+    assert "tiktoklive/client/client/tiktokliveclient.md" in names
+    assert "tiktoklive/proto/custom_proto/extendedgift.md" in names
     assert not any(n.startswith("tiktoklive/proto/") and not n.startswith("tiktoklive/proto/custom_proto/") for n in names)
     assert not any("/_" in n for n in names)
