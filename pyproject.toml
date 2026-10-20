@@ -105,7 +105,7 @@ testpaths = ["tests"]
 
 [project.urls]
 Homepage = "https://github.com/isaackogan/TikTokLive"
-Documentation = "https://isaackogan.github.io/TikTokLive/"
+Documentation = "https://ttl.docs.isaackogan.com/"
 Source = "https://github.com/isaackogan/TikTokLive"
 Issues = "https://github.com/isaackogan/TikTokLive/issues"
 Changelog = "https://github.com/isaackogan/TikTokLive/releases"

@@ -36,7 +36,8 @@ python -m mypy --follow-imports=silent TikTokLive scripts/proto
   headers to source files, tests, issues, or pull request descriptions.
 - Explain any behavior that depends on an observed TikTok protocol change and
   include a minimal, sanitized fixture when possible.
-- Update the README or Sphinx documentation when a public API changes.
+- Update the README and the documentation site (see Documentation below)
+  when a public API changes.
 
 ## Reporting protocol changes
 
@@ -51,3 +52,22 @@ cookie, and personally identifiable data has been removed.
 generated from the scripts under `scripts/proto/`. If a change affects their
 inputs, regenerate both files and include the generated diff in the same pull
 request.
+
+## Documentation
+
+The documentation site under `docs/` is a Starlight project whose reference
+pages are generated from the library and whose content check fails the build
+when a page drifts from the code. Build it from a checkout with the library
+installed in the repository's virtual environment:
+
+```shell
+pip install -e . -r docs/requirements.txt
+npx -y pnpm@10.34.2 --dir docs install --frozen-lockfile
+npx -y pnpm@10.34.2 --dir docs build
+```
+
+`pnpm --dir docs check` runs only the content check, `generate` only the
+reference generator, and `dev` the local server. See `docs/README.md` and the
+site's contributing page for the authoring rules: Python examples are complete
+modules that type-check, pages carry no Discord links, and the generated
+`api/` and `schema/` directories are never committed.

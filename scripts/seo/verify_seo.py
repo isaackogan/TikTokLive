@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Assert the SEO invariants of the built documentation.
 
-Run against a built Sphinx HTML tree::
+Run against a built Starlight site::
 
-    python scripts/seo/verify_seo.py docs/dist/html
+    python scripts/seo/verify_seo.py docs/dist
 
 Exits non-zero if any invariant is violated. Wired into docs.yml so an SEO
 regression fails the build instead of silently degrading rankings.
@@ -15,8 +15,21 @@ import re
 import sys
 from pathlib import Path
 
-BASE_URL = "https://isaackogan.github.io/TikTokLive/"
+BASE_URL = "https://ttl.docs.isaackogan.com/"
 EULER_HOST = "eulerstream.com"
+SITEMAP_INDEX = "sitemap-index.xml"
+SITEMAP_PAGES = "sitemap-0.xml"
+VERIFICATION_FILE = "google93ecefd594fb7167.html"
+
+# The lucode theme renders the sidebar as <ul class="sidebar-entries ...">.
+# A theme or Starlight upgrade that restructures the sidebar would silently
+# delete site navigation while every other check still passed, so every page
+# must carry this marker.
+NAV_MARKER = 'class="sidebar-entries'
+
+# One sitewide footer link is the floor; the homepage must also vary its
+# anchor text so the link profile does not read as a single repeated anchor.
+MIN_HOMEPAGE_ANCHORS = 3
 
 failures: list[str] = []
 passes: list[str] = []
@@ -27,50 +40,50 @@ def check(name: str, ok: bool, detail: str = "") -> None:
     print(f"{'PASS' if ok else 'FAIL'}  {name}{f' :: {detail}' if detail and not ok else ''}")
 
 
-def main(build_dir: str = "docs/dist/html") -> int:
+def _read(path: Path) -> str:
+    return path.read_text(encoding="utf-8", errors="replace")
+
+
+def main(build_dir: str = "docs/dist") -> int:
+    passes.clear()
+    failures.clear()
+
     root = Path(build_dir)
     if not root.is_dir():
         print(f"FAIL  build directory missing: {root}")
         return 1
 
-    # html_extra_path passes files through to the site root verbatim, and
-    # search-engine verification tokens are plain text that merely carry an
-    # .html extension. They are not documentation pages, so holding them to
-    # the page invariants below would fail the build on a correct file.
-    # Require a real HTML document rather than special-casing one vendor.
-    pages = [
-        p
-        for p in sorted(root.rglob("*.html"))
-        if "<html" in p.read_text(encoding="utf-8", errors="replace").lower()
-    ]
     index = root / "index.html"
-
     check("index.html exists", index.is_file())
     if not index.is_file():
         return 1
 
-    index_html = index.read_text(encoding="utf-8", errors="replace")
+    # Astro emits one index.html per route plus a root 404.html. Any other
+    # .html file at the root (the Search Console verification token) is not
+    # a page and is not held to the page invariants.
+    page_paths = sorted(root.rglob("index.html"))
+    not_found = root / "404.html"
+    if not_found.is_file():
+        page_paths.append(not_found)
+    pages = {p.relative_to(root).as_posix(): _read(p) for p in page_paths}
+    index_html = pages["index.html"]
 
     # -- Title -------------------------------------------------------------
     title = re.search(r"<title>(.*?)</title>", index_html, re.S)
     title_text = title.group(1).strip() if title else ""
     check("homepage title contains 'TikTok LIVE API'",
           "tiktok live api" in title_text.lower(), title_text)
-    check("homepage title has no stale version",
-          "6.6.5" not in title_text, title_text)
 
     # -- Canonical ---------------------------------------------------------
+    canonical_re = re.compile(r"<link\b[^>]*\brel=\"canonical\"[^>]*>", re.I)
     missing_canonical = [
-        p.relative_to(root).as_posix()
-        for p in pages
-        if 'rel="canonical"' not in p.read_text(encoding="utf-8", errors="replace")
+        name
+        for name, html in pages.items()
+        if not any(f'href="{BASE_URL}' in tag for tag in canonical_re.findall(html))
     ]
-    check("every page has rel=canonical", not missing_canonical,
+    check("every page has rel=canonical pointing at the base URL",
+          not missing_canonical,
           f"{len(missing_canonical)} missing, e.g. {missing_canonical[:3]}")
-
-    check("canonical points at the correct base URL",
-          f'rel="canonical" href="{BASE_URL}' in index_html
-          or f'href="{BASE_URL}" rel="canonical"' in index_html)
 
     # -- Open Graph + meta description ------------------------------------
     check("homepage has og:title", 'property="og:title"' in index_html)
@@ -79,51 +92,45 @@ def main(build_dir: str = "docs/dist/html") -> int:
     check("homepage has meta description", 'name="description"' in index_html)
 
     # -- Sitemap -----------------------------------------------------------
-    sitemap = root / "sitemap.xml"
-    check("sitemap.xml exists", sitemap.is_file())
-    if sitemap.is_file():
-        sitemap_xml = sitemap.read_text(encoding="utf-8")
-        check("sitemap uses the canonical base URL", BASE_URL in sitemap_xml)
-        check("sitemap has no unresolved {lang}/{version} placeholders",
-              "{lang}" not in sitemap_xml and "{version}" not in sitemap_xml)
-        check("sitemap lists more than one URL", sitemap_xml.count("<loc>") > 1,
+    sitemap_index = root / SITEMAP_INDEX
+    check(f"{SITEMAP_INDEX} exists", sitemap_index.is_file())
+    if sitemap_index.is_file():
+        check(f"{SITEMAP_INDEX} references {SITEMAP_PAGES}",
+              f"<loc>{BASE_URL}{SITEMAP_PAGES}</loc>" in _read(sitemap_index))
+
+    sitemap_pages = root / SITEMAP_PAGES
+    check(f"{SITEMAP_PAGES} exists", sitemap_pages.is_file())
+    if sitemap_pages.is_file():
+        sitemap_xml = _read(sitemap_pages)
+        check(f"{SITEMAP_PAGES} uses the canonical base URL", BASE_URL in sitemap_xml)
+        check(f"{SITEMAP_PAGES} lists more than one URL", sitemap_xml.count("<loc>") > 1,
               f"{sitemap_xml.count('<loc>')} <loc> entries")
+
+    # -- robots.txt --------------------------------------------------------
+    robots = root / "robots.txt"
+    sitemap_line = f"Sitemap: {BASE_URL}{SITEMAP_INDEX}"
+    check("robots.txt points at the sitemap index",
+          robots.is_file() and sitemap_line in _read(robots),
+          "robots.txt missing" if not robots.is_file() else f"no '{sitemap_line}' line")
+
+    # -- Search Console verification --------------------------------------
+    check("search console verification file exists",
+          (root / VERIFICATION_FILE).is_file(), VERIFICATION_FILE)
 
     # -- Dofollow link profile --------------------------------------------
     anchor_re = re.compile(r"<a\b[^>]*>", re.I)
     nofollowed: list[str] = []
-    pages_with_euler = 0
-    per_page_counts: list[tuple[str, int]] = []
-    for p in pages:
-        html = p.read_text(encoding="utf-8", errors="replace")
+    without_euler: list[str] = []
+    for name, html in pages.items():
         euler_anchors = [a for a in anchor_re.findall(html) if EULER_HOST in a]
-        if euler_anchors:
-            pages_with_euler += 1
-        per_page_counts.append((p.relative_to(root).as_posix(), len(euler_anchors)))
-        nofollowed += [
-            f"{p.relative_to(root).as_posix()}: {a[:90]}"
-            for a in euler_anchors
-            if "nofollow" in a.lower()
-        ]
+        if not euler_anchors:
+            without_euler.append(name)
+        nofollowed += [f"{name}: {a[:90]}" for a in euler_anchors if "nofollow" in a.lower()]
 
     check("no eulerstream.com link is nofollowed", not nofollowed,
           f"{len(nofollowed)} nofollowed, e.g. {nofollowed[:2]}")
-    check("eulerstream.com linked from every page",
-          pages_with_euler == len(pages),
-          f"{pages_with_euler}/{len(pages)} pages")
-
-    # Presence alone is too weak. Both the sidebar block and the footer block
-    # contribute sitewide links; if a future Furo release restructures
-    # {% block footer %}, Jinja silently discards our orphaned override and the
-    # footer links vanish while a presence-only check still passes. Every page
-    # must carry all three sitewide links.
-    MIN_LINKS_PER_PAGE = 3
-    under_linked = [
-        f"{name}:{count}" for name, count in per_page_counts if count < MIN_LINKS_PER_PAGE
-    ]
-    check(f"every page carries >= {MIN_LINKS_PER_PAGE} eulerstream links",
-          not under_linked,
-          f"{len(under_linked)} under-linked, e.g. {under_linked[:3]}")
+    check("eulerstream.com linked from every page", not without_euler,
+          f"{len(without_euler)}/{len(pages)} pages missing, e.g. {without_euler[:3]}")
 
     # -- Anchor diversity --------------------------------------------------
     anchor_text_re = re.compile(
@@ -135,22 +142,14 @@ def main(build_dir: str = "docs/dist/html") -> int:
         for m in anchor_text_re.findall(index_html)
         if re.sub(r"<[^>]+>", "", m).strip()
     }
-    check("homepage uses varied anchor text", len(anchors) >= 3,
+    check(f"homepage uses >= {MIN_HOMEPAGE_ANCHORS} distinct eulerstream anchor texts",
+          len(anchors) >= MIN_HOMEPAGE_ANCHORS,
           f"{len(anchors)} distinct: {sorted(anchors)[:5]}")
 
     # -- Navigation integrity ---------------------------------------------
-    # conf.py overrides html_sidebars to inject the attribution block, and
-    # overriding replaces Furo's entire default list. A dropped entry, or a
-    # future Furo release renaming a template, would silently delete site
-    # navigation while every SEO check above still passed. Furo is unpinned,
-    # so fail loudly rather than ship a site nobody can navigate.
-    missing_nav = [
-        p.relative_to(root).as_posix()
-        for p in pages
-        if "sidebar-tree" not in p.read_text(encoding="utf-8", errors="replace")
-    ]
+    missing_nav = [name for name, html in pages.items() if NAV_MARKER not in html]
     check("every page retains sidebar navigation", not missing_nav,
-          f"{len(missing_nav)} missing, e.g. {missing_nav[:3]}")
+          f"{len(missing_nav)} missing {NAV_MARKER!r}, e.g. {missing_nav[:3]}")
 
     print(f"\n{len(passes)} passed, {len(failures)} failed")
     return 1 if failures else 0
