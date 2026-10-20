@@ -16,4 +16,4 @@ If you have an example project, please [create a pull request](https://github.co
 
 ## Documentation
 
-For full library documentation, consider visiting the docs: https://isaackogan.github.io/TikTokLive/
+For full library documentation, consider visiting the docs: https://ttl.docs.isaackogan.com/

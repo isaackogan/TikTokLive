@@ -4,6 +4,8 @@ TikTok LIVE API (TikTokLive) is the #1 TikTok LIVE client for **Python**. Connec
 
 TikTokLive is the definitive third-party Python library for reading the TikTok LIVE websocket, building TikTok chat bots, gift trackers, live stream overlays, alerts, and analytics tools.
 
+Full documentation, guides, and the complete event reference are at [ttl.docs.isaackogan.com](https://ttl.docs.isaackogan.com/).
+
 [![Discord](https://img.shields.io/discord/977648006063091742?logo=discord&label=TikTokLive%20Discord&labelColor=%23171717&color=%231877af)](https://discord.gg/N3KSxzvDX8)
 ![Live TikTok LIVE API connections](https://api.eulerstream.com/analytics/pips)
 ![TikTokLive PyPI downloads](https://pepy.tech/badge/tiktoklive)
@@ -43,7 +45,7 @@ TikTokLive is the definitive third-party Python library for reading the TikTok L
     - [Properties](#properties)
     - [WebDefaults](#webdefaults)
 - [Events](#events)
-- [Documentation](https://isaackogan.github.io/TikTokLive/)
+- [Documentation](https://ttl.docs.isaackogan.com/)
 - [Other Languages](#tiktok-live-api-in-other-languages-nodejs-java-c-go-rust)
 - [Community](#community)
 - [Examples](https://github.com/isaackogan/TikTokLive/tree/master/examples)
@@ -157,8 +159,7 @@ the [web_defaults.py](https://github.com/isaackogan/TikTokLive/blob/master/examp
 | web_client_headers          | `dict` | The headers added on to TikTok requests from the HTTP client.                                                                                                                 |
 | web_client_cookies          | `dict` | Custom cookies to initialize the http client with.                                                                                                                            |
 | ws_client_params            | `dict` | The URL parameters added to the URI when connecting to TikTok's Webcast WebSocket server.                                                                                     |
-| ws_client_params_append_str | `dict` | Extra string data to append to the TikTokLive WebSocket connection URI.                                                                                                       |
-| ws_client_headers           | `dict` | Extra headers to append to the TikTokLive WebSocket client.                                                                                                                   |
+| ws_client_params_append_str | `str`  | Extra string data to append to the TikTokLive WebSocket connection URI.                                                                                                       |
 
 ## Events
 
@@ -183,18 +184,18 @@ Both belong to the TikTokLive `Event` type and can be listened to. The following
 
 ### Custom Events
 
-- `ConnectEvent` - Triggered when the Webcast connection is initiated
-- `DisconnectEvent` - Triggered when the Webcast connection closes (including the livestream ending)
-- `LiveEndEvent` - Triggered when the livestream ends
-- `LivePauseEvent` - Triggered when the livestream is paused
-- `LiveUnpauseEvent` - Triggered when the livestream is unpaused
-- `FollowEvent` - Triggered when a user in the livestream follows the streamer
-- `ShareEvent` - Triggered when a user shares the livestream
-- `SuperFanEvent` - Triggered when a viewer becomes a super fan of the streamer
-- `SuperFanJoinEvent` - Triggered when an existing super fan joins the live (distinct from `SuperFanEvent`)
-- `SuperFanBoxEvent` - Triggered when a super-fan envelope (gift box) is delivered
-- `WebsocketResponseEvent` - Triggered when any event is received (contains the event)
-- `UnknownEvent` - An instance of `WebsocketResponseEvent` thrown whenever an event does not have an existing definition, useful for debugging
+- [`ConnectEvent`](https://ttl.docs.isaackogan.com/events/control/#connectevent) - Triggered when the Webcast connection is initiated
+- [`DisconnectEvent`](https://ttl.docs.isaackogan.com/events/control/#disconnectevent) - Triggered when the Webcast connection closes (including the livestream ending)
+- [`LiveEndEvent`](https://ttl.docs.isaackogan.com/events/stream-control/#liveendevent) - Triggered when the livestream ends
+- [`LivePauseEvent`](https://ttl.docs.isaackogan.com/events/stream-control/#livepauseevent) - Triggered when the livestream is paused
+- [`LiveUnpauseEvent`](https://ttl.docs.isaackogan.com/events/stream-control/#liveunpauseevent) - Triggered when the livestream is unpaused
+- [`FollowEvent`](https://ttl.docs.isaackogan.com/events/chat-and-audience/#followevent) - Triggered when a user in the livestream follows the streamer
+- [`ShareEvent`](https://ttl.docs.isaackogan.com/events/chat-and-audience/#shareevent) - Triggered when a user shares the livestream
+- [`SuperFanEvent`](https://ttl.docs.isaackogan.com/events/subscriptions-and-fans/#superfanevent) - Triggered when a viewer becomes a super fan of the streamer
+- [`SuperFanJoinEvent`](https://ttl.docs.isaackogan.com/events/subscriptions-and-fans/#superfanjoinevent) - Triggered when an existing super fan joins the live (distinct from `SuperFanEvent`)
+- [`SuperFanBoxEvent`](https://ttl.docs.isaackogan.com/events/subscriptions-and-fans/#superfanboxevent) - Triggered when a super-fan envelope (gift box) is delivered
+- [`WebsocketResponseEvent`](https://ttl.docs.isaackogan.com/events/control/#websocketresponseevent) - Triggered when any event is received (contains the event)
+- [`UnknownEvent`](https://ttl.docs.isaackogan.com/events/control/#unknownevent) - An instance of `WebsocketResponseEvent` thrown whenever an event does not have an existing definition, useful for debugging
 
 ### Proto Events
 
@@ -207,72 +208,73 @@ If you know what an event does that's missing a description below,
 [make a pull request](https://github.com/isaackogan/TikTokLive/pulls) and add it.
 
 <ul>
-<li><code>BarrageEvent</code> - A "VIP" viewer (based on gifting level) joins the chat room</li>
-<li><code>CaptionEvent</code> - Auto-caption update from the host's audio</li>
-<li><code>CommentEvent</code> - A viewer sent a chat comment</li>
-<li><code>ControlEvent</code> - Stream action (e.g. start, end, pause, unpause)</li>
-<li><code>EmoteChatEvent</code> - A custom emote was sent in chat</li>
-<li><code>EnvelopeEvent</code> - A treasure chest / envelope was sent</li>
-<li><code>GiftEvent</code> - A gift was sent (see <a href="#giftevent">Gift handling</a> below)</li>
-<li><code>GoalUpdateEvent</code> - Subscriber/follow goal updated</li>
-<li><code>HourlyRankRewardEvent</code> - Hourly rank reward delivered</li>
-<li><code>ImDeleteEvent</code> - A viewer's messages were deleted by a moderator</li>
-<li><code>InRoomBannerEvent</code> - In-room banner notice</li>
-<li><code>JoinEvent</code> - A viewer joined the livestream</li>
-<li><code>LikeEvent</code> - The stream received likes</li>
-<li><code>LinkEvent</code> - Generic link-mic event</li>
-<li><code>LinkLayerEvent</code> - Link-mic layer/visibility change</li>
-<li><code>LinkMicArmiesEvent</code> - A battle user received points</li>
-<li><code>LinkMicBattleEvent</code> - A battle was started</li>
-<li><code>LinkMicBattlePunishFinishEvent</code> - A battle's punishment phase ended</li>
-<li><code>LinkMicFanTicketMethodEvent</code></li>
-<li><code>LinkMicMethodEvent</code></li>
-<li><code>LinkmicBattleTaskEvent</code></li>
-<li><code>LiveIntroEvent</code> - Live-intro message appears</li>
-<li><code>MessageDetectEvent</code></li>
-<li><code>OecLiveShoppingEvent</code> - Live-shopping signal</li>
-<li><code>PollEvent</code> - The creator launched / updated a poll</li>
-<li><code>QuestionNewEvent</code> - Someone asked a new question via the question feature</li>
-<li><code>RankTextEvent</code> - Gift count made a viewer enter the top three</li>
-<li><code>RankUpdateEvent</code></li>
-<li><code>RoomEvent</code> - Broadcast message to all room users (e.g. "Welcome to TikTok LIVE!")</li>
-<li><code>RoomPinEvent</code> - A message was pinned</li>
-<li><code>RoomUserSeqEvent</code> - Current viewer count information</li>
-<li><code>SocialEvent</code> - A viewer shared or followed the host (also surfaced as <code>FollowEvent</code> / <code>ShareEvent</code> custom events)</li>
-<li><code>SystemEvent</code></li>
-<li><code>UnauthorizedMemberEvent</code></li>
+<li><a href="https://ttl.docs.isaackogan.com/events/subscriptions-and-fans/#barrageevent"><code>BarrageEvent</code></a> - A "VIP" viewer (based on gifting level) joins the chat room</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#captionevent"><code>CaptionEvent</code></a> - Auto-caption update from the host's audio</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/chat-and-audience/#commentevent"><code>CommentEvent</code></a> - A viewer sent a chat comment</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/stream-control/#controlevent"><code>ControlEvent</code></a> - Stream action (e.g. start, end, pause, unpause)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/chat-and-audience/#emotechatevent"><code>EmoteChatEvent</code></a> - A custom emote was sent in chat</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/subscriptions-and-fans/#envelopeevent"><code>EnvelopeEvent</code></a> - A treasure chest / envelope was sent</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/gifts-and-goals/#giftevent"><code>GiftEvent</code></a> - A gift was sent (see <a href="#giftevent">Gift handling</a> below)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/gifts-and-goals/#goalupdateevent"><code>GoalUpdateEvent</code></a> - Subscriber/follow goal updated</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/rankings/#hourlyrankrewardevent"><code>HourlyRankRewardEvent</code></a> - Hourly rank reward delivered</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/moderation-and-access/#imdeleteevent"><code>ImDeleteEvent</code></a> - A viewer's messages were deleted by a moderator</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#inroombannerevent"><code>InRoomBannerEvent</code></a> - In-room banner notice</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/chat-and-audience/#joinevent"><code>JoinEvent</code></a> - A viewer joined the livestream</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/chat-and-audience/#likeevent"><code>LikeEvent</code></a> - The stream received likes</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linkevent"><code>LinkEvent</code></a> - Generic link-mic event</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linklayerevent"><code>LinkLayerEvent</code></a> - Link-mic layer/visibility change</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linkmicarmiesevent"><code>LinkMicArmiesEvent</code></a> - A battle user received points</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linkmicbattleevent"><code>LinkMicBattleEvent</code></a> - A battle was started</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linkmicbattleitemcardevent"><code>LinkMicBattleItemCardEvent</code></a> - A battle Power-Up card was obtained, used, or awarded</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linkmicbattlepunishfinishevent"><code>LinkMicBattlePunishFinishEvent</code></a> - A battle's punishment phase ended</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linkmicfanticketmethodevent"><code>LinkMicFanTicketMethodEvent</code></a> - Fan-ticket totals for a link-mic session were announced</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linkmicmethodevent"><code>LinkMicMethodEvent</code></a> - Link-mic signalling between cohosts (invite, reply, channel setup, and RTC details)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linkmicbattletaskevent"><code>LinkmicBattleTaskEvent</code></a> - A battle task started, progressed, settled, or paid out its reward</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#liveintroevent"><code>LiveIntroEvent</code></a> - Live-intro message appears</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/moderation-and-access/#messagedetectevent"><code>MessageDetectEvent</code></a> - Message-delivery probe carrying detection flags and timing information</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/games-and-commerce/#oecliveshoppingevent"><code>OecLiveShoppingEvent</code></a> - Live-shopping signal</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#pollevent"><code>PollEvent</code></a> - The creator launched / updated a poll</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/chat-and-audience/#questionnewevent"><code>QuestionNewEvent</code></a> - Someone asked a new question via the question feature</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/rankings/#ranktextevent"><code>RankTextEvent</code></a> - Gift count made a viewer enter the top three</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/rankings/#rankupdateevent"><code>RankUpdateEvent</code></a> - Room ranking entrance updated (rank types, current rank, and tabs)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#roomevent"><code>RoomEvent</code></a> - Broadcast message to all room users (e.g. "Welcome to TikTok LIVE!")</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#roompinevent"><code>RoomPinEvent</code></a> - A message was pinned</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/chat-and-audience/#roomuserseqevent"><code>RoomUserSeqEvent</code></a> - Current viewer count information</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/chat-and-audience/#socialevent"><code>SocialEvent</code></a> - A viewer shared or followed the host (also surfaced as <code>FollowEvent</code> / <code>ShareEvent</code> custom events)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#systemevent"><code>SystemEvent</code></a> - A plain-text system message from TikTok</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/moderation-and-access/#unauthorizedmemberevent"><code>UnauthorizedMemberEvent</code></a> - An unauthorized viewer entered the room (nickname and entry text only, no user object)</li>
 </ul>
 
-#### New in 7.X.X
+#### More proto events
 
 <ul>
-<li><code>AccessControlEvent</code> - Access-control update for the room (e.g. CAPTCHA challenge issued to a viewer)</li>
-<li><code>AccessRecallEvent</code> - Access restriction lifted / recalled for a viewer</li>
-<li><code>BoostCardEvent</code> - Boost cards delivered to the room</li>
-<li><code>BottomEvent</code> - Bottom-of-screen notice (often a punishment or violation banner)</li>
-<li><code>CapsuleEvent</code> - In-room capsule / promotional pill notice</li>
-<li><code>GameRankNotifyEvent</code> - Game-rank notification</li>
-<li><code>GiftBroadcastEvent</code> - Big gift broadcast notice across rooms</li>
-<li><code>GiftDynamicRestrictionEvent</code> - Dynamic gift restriction update</li>
-<li><code>GiftPanelUpdateEvent</code> - Gift panel content update</li>
-<li><code>GiftPromptEvent</code> - Anti-addiction / spending-limit prompt before gifting</li>
-<li><code>GuideEvent</code> - In-room guide / tooltip prompt</li>
-<li><code>LinkMicLayoutStateEvent</code> - Link-mic layout state update</li>
-<li><code>LinkStateEvent</code> - Link-mic channel state update</li>
-<li><code>LiveGameIntroEvent</code> - Live-game intro message</li>
-<li><code>MarqueeAnnouncementEvent</code> - Marquee announcement scrolling across the room</li>
-<li><code>NoticeEvent</code> - Generic notice / system tip in the room</li>
-<li><code>PartnershipDropsUpdateEvent</code> - Partnership drops campaign update</li>
-<li><code>PartnershipGameOfflineEvent</code> - Partnership game taken offline</li>
-<li><code>PartnershipPunishEvent</code> - Partnership punishment notice</li>
-<li><code>PerceptionEvent</code> - Perception dialog (warning / violation surfaced to a viewer)</li>
-<li><code>RoomNotifyEvent</code> - Room-wide notification banner</li>
-<li><code>RoomVerifyEvent</code> - Room verification action (e.g. forced verify / close)</li>
-<li><code>SpeakerEvent</code> - Active speaker update (link-mic audio)</li>
-<li><code>SubNotifyEvent</code> - Subscription notification (subscribe / renew / gift sub)</li>
-<li><code>SubPinEventEvent</code> - Subscription pin card action</li>
-<li><code>ToastEvent</code> - Transient toast notification</li>
-<li><code>ViewerPicksUpdateEvent</code> - Viewer-picks (audience-driven prompt) update</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/moderation-and-access/#accesscontrolevent"><code>AccessControlEvent</code></a> - Access-control update for the room (e.g. CAPTCHA challenge issued to a viewer)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/moderation-and-access/#accessrecallevent"><code>AccessRecallEvent</code></a> - Access restriction lifted / recalled for a viewer</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/gifts-and-goals/#boostcardevent"><code>BoostCardEvent</code></a> - Boost cards delivered to the room</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#bottomevent"><code>BottomEvent</code></a> - Bottom-of-screen notice (often a punishment or violation banner)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#capsuleevent"><code>CapsuleEvent</code></a> - In-room capsule / promotional pill notice</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/rankings/#gameranknotifyevent"><code>GameRankNotifyEvent</code></a> - Game-rank notification</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/gifts-and-goals/#giftbroadcastevent"><code>GiftBroadcastEvent</code></a> - Big gift broadcast notice across rooms</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/gifts-and-goals/#giftdynamicrestrictionevent"><code>GiftDynamicRestrictionEvent</code></a> - Dynamic gift restriction update</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/gifts-and-goals/#giftpanelupdateevent"><code>GiftPanelUpdateEvent</code></a> - Gift panel content update</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/gifts-and-goals/#giftpromptevent"><code>GiftPromptEvent</code></a> - Anti-addiction / spending-limit prompt before gifting</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#guideevent"><code>GuideEvent</code></a> - In-room guide / tooltip prompt</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linkmiclayoutstateevent"><code>LinkMicLayoutStateEvent</code></a> - Link-mic layout state update</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#linkstateevent"><code>LinkStateEvent</code></a> - Link-mic channel state update</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/games-and-commerce/#livegameintroevent"><code>LiveGameIntroEvent</code></a> - Live-game intro message</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#marqueeannouncementevent"><code>MarqueeAnnouncementEvent</code></a> - Marquee announcement scrolling across the room</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#noticeevent"><code>NoticeEvent</code></a> - Generic notice / system tip in the room</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/games-and-commerce/#partnershipdropsupdateevent"><code>PartnershipDropsUpdateEvent</code></a> - Partnership drops campaign update</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/games-and-commerce/#partnershipgameofflineevent"><code>PartnershipGameOfflineEvent</code></a> - Partnership game taken offline</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/games-and-commerce/#partnershippunishevent"><code>PartnershipPunishEvent</code></a> - Partnership punishment notice</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/moderation-and-access/#perceptionevent"><code>PerceptionEvent</code></a> - Perception dialog (warning / violation surfaced to a viewer)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#roomnotifyevent"><code>RoomNotifyEvent</code></a> - Room-wide notification banner</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/moderation-and-access/#roomverifyevent"><code>RoomVerifyEvent</code></a> - Room verification action (e.g. forced verify / close)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/battles-and-cohosting/#speakerevent"><code>SpeakerEvent</code></a> - Active speaker update (link-mic audio)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/subscriptions-and-fans/#subnotifyevent"><code>SubNotifyEvent</code></a> - Subscription notification (subscribe / renew / gift sub)</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/subscriptions-and-fans/#subpineventevent"><code>SubPinEventEvent</code></a> - Subscription pin card action</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#toastevent"><code>ToastEvent</code></a> - Transient toast notification</li>
+<li><a href="https://ttl.docs.isaackogan.com/events/room-and-display/#viewerpicksupdateevent"><code>ViewerPicksUpdateEvent</code></a> - Viewer-picks (audience-driven prompt) update</li>
 </ul>
 
 ### `GiftEvent`
@@ -345,7 +347,7 @@ Yes, sister libraries exist for each. See [Other Languages](#tiktok-live-api-in-
 
 ## License
 
-This project is licensed under a modified AGPL license - see the [LICENSE](LICENSE) file for details.
+This project is licensed under a modified AGPL license - see the [LICENSE](https://github.com/isaackogan/TikTokLive/blob/master/LICENSE) file for details.
 
 ## Contributors
 
