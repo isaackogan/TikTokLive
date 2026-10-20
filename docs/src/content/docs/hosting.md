@@ -9,6 +9,7 @@ The site is deployed to Cloudflare Workers as static assets and served at `https
 
 ```jsonc
 {
+  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "tiktoklive-docs",
   "compatibility_date": "2026-10-19",
   "assets": {
@@ -58,14 +59,14 @@ The first deploy creates the Worker and attaches the custom domain; wrangler rep
 
 `.github/workflows/docs.yml` runs on pull requests and on pushes to `master` that touch `docs/`, `TikTokLive/`, `pyproject.toml`, `README.md`, `scripts/seo/`, or the workflow itself, and can be started by hand with `workflow_dispatch`. One run at a time per ref: the concurrency group is `docs-${{ github.ref }}`.
 
-The `build` job sets up Python 3.12 with `pip install -e . -r docs/requirements.txt`, Node.js 24 with `npm install --global pnpm@10.34.2`, and `pnpm --dir docs install --frozen-lockfile`; then it runs `python -m pytest docs/scripts/tests`, `pnpm --dir docs build`, the SEO gate `python scripts/seo/verify_seo.py docs/dist`, and `python docs/scripts/gen_redirects.py docs/redirects`; uploads `docs/dist` as the `documentation` artifact for review and `docs/redirects` as the Pages artifact; and, on a push to `master`, deploys with `cloudflare/wrangler-action@v4` (`workingDirectory: docs`, `packageManager: pnpm`, `command: deploy`). The deploy step runs only when the repository has two Actions secrets:
+The `build` job sets up Python 3.12 with `pip install -e ".[test]" -r docs/requirements.txt` (the `test` extra provides `pytest`), Node.js 24 with `npm install --global pnpm@10.34.2`, and `pnpm --dir docs install --frozen-lockfile`; then it runs `python -m pytest docs/scripts/tests`, `pnpm --dir docs build`, the SEO gate `python scripts/seo/verify_seo.py docs/dist`, and `python docs/scripts/gen_redirects.py docs/redirects`; uploads `docs/dist` as the `documentation` artifact for review and `docs/redirects` as the Pages artifact; and, on a push to `master`, deploys with `cloudflare/wrangler-action@v4` (`workingDirectory: docs`, `packageManager: pnpm`, `command: deploy`). The deploy step runs only when the repository has the `CLOUDFLARE_API_TOKEN` Actions secret, and the deploy needs both of these secrets:
 
 | Secret | Value |
 | --- | --- |
 | `CLOUDFLARE_API_TOKEN` | An account-owned token scoped to Editor on the `tiktoklive-docs` Worker only. |
 | `CLOUDFLARE_ACCOUNT_ID` | The hosting account's ID, shown by `wrangler whoami`. |
 
-Without the secrets the deploy step is skipped and the workflow still validates the build, so forks and pull requests are unaffected. The maintainer sets them with `gh secret set CLOUDFLARE_API_TOKEN -R isaackogan/TikTokLive` and `gh secret set CLOUDFLARE_ACCOUNT_ID -R isaackogan/TikTokLive`; a token is verified by running `pnpm --dir docs run deploy:cloudflare` with `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in the environment.
+Without `CLOUDFLARE_API_TOKEN` the deploy step is skipped and the workflow still validates the build, so forks and pull requests are unaffected. The gate checks only the token; `CLOUDFLARE_ACCOUNT_ID` is passed to wrangler and is required for the deploy to succeed, so set both. The maintainer sets them with `gh secret set CLOUDFLARE_API_TOKEN -R isaackogan/TikTokLive` and `gh secret set CLOUDFLARE_ACCOUNT_ID -R isaackogan/TikTokLive`; a token is verified by running `pnpm --dir docs run deploy:cloudflare` with `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` in the environment.
 
 The `pages` job, after `build` and under the same push-to-`master` condition, publishes the Pages artifact with `actions/deploy-pages@v4` to the `github-pages` environment; that is the redirect shell described below, not the site.
 

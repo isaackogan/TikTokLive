@@ -9,7 +9,7 @@ The documentation is a Starlight project under `docs/`, with its own `package.js
 
 Prerequisites:
 
-- Python 3.10 or newer, in the repository's virtual environment, with the library and the documentation tools installed: `griffe` generates the reference pages and `mypy` checks the examples.
+- Python 3.10 or newer, in the repository's virtual environment, with the library, its `test` extra, and the documentation tools installed: `griffe` generates the reference pages, `mypy` checks the examples, and `pytest` runs the scripts' tests.
 - Node.js 24 and pnpm 10.34.2. `npx -y pnpm@10.34.2` runs the pinned pnpm without a global install.
 
 From the repository root:
@@ -17,7 +17,7 @@ From the repository root:
 ```sh
 python -m venv .venv
 source .venv/bin/activate
-pip install -e . -r docs/requirements.txt
+pip install -e ".[test]" -r docs/requirements.txt
 npx -y pnpm@10.34.2 --dir docs install --frozen-lockfile
 ```
 
