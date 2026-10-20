@@ -68,7 +68,7 @@ See [connection lifecycle](/getting-started/connection/) for reconnecting.
 
 Any Webcast message was received (carries the raw fetch result it came from). Custom event, defined in `TikTokLive.events.custom_events`.
 
-The client emits one `WebsocketResponseEvent` per message in a batch, before the message's own event, whether or not the message has an event class and even when its payload fails to parse. The field `raw` is the whole `ProtoMessageFetchResult` the message arrived in, so every event from the same batch carries the same `raw`.
+The client emits one `WebsocketResponseEvent` per message in a batch, before the message's own proto event, whether or not the message has an event class and even when its payload fails to parse. When a message also produces a custom event, such as `FollowEvent` from a social message or `LiveEndEvent` from a control message, that custom event is emitted first, then the `WebsocketResponseEvent`, then the proto event. The field `raw` is the whole `ProtoMessageFetchResult` the message arrived in, so every event from the same batch carries the same `raw`.
 
 Fields on `raw`: `messages` (the batch, each with a `method` name and a `payload` of bytes), `cursor`, `fetch_interval`, `heartbeat_duration`, `now`, `is_first` (true for the signed response that produced `ConnectEvent`), `need_ack`, `push_server`, `route_params`, and `internal_ext`. In 6.x these fields were on the event itself; `event.cursor` is now `event.raw.cursor`, as the [migration guide](/getting-started/migration/) notes.
 
