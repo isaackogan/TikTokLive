@@ -1,11 +1,13 @@
-"""Make ``gen_api`` importable and load the packages once per session."""
+"""Make ``gen_api`` and ``verify_seo`` importable and load the packages once per session."""
 
 import sys
 from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+_TESTS_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(_TESTS_DIR.parents[0]))  # docs/scripts
+sys.path.insert(0, str(_TESTS_DIR.parents[2] / "scripts" / "seo"))  # scripts/seo
 
 import gen_api  # noqa: E402
 

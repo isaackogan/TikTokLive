@@ -1,6 +1,9 @@
 ---
 title: Getting Started
 description: Install TikTokLive and receive comments, gifts, and other events from a TikTok livestream with Python.
+head:
+  - tag: title
+    content: "TikTok LIVE API for Python: TikTokLive Documentation"
 ---
 
 TikTokLive receives comments, gifts, likes, follows, shares, viewer counts, battles, and other events from a TikTok livestream. Connect with a creator's `@unique_id` using `TikTokLiveClient`.
