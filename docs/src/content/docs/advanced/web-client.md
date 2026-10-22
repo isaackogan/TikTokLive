@@ -119,6 +119,6 @@ Requests to TikTok are rate-limited and blocked at TikTok's discretion; a route 
 
 ## Closing
 
-`client.web.close()` closes the HTTP session and is the right call for a client used without connecting. `client.disconnect()` leaves the session open so the client can connect again. `client.close()` also closes the session, and in this release its cleanup runs the event loop synchronously, so awaiting it inside a running coroutine raises `RuntimeError`; see [troubleshooting](/troubleshooting/).
+`client.web.close()` closes only the HTTP session and is suitable for a client used without connecting. `client.disconnect()` leaves the session open so the client can connect again. Use `await client.close()` to disconnect and discard the client; it closes the HTTP session even if WebSocket cleanup raises, and leaves the caller's event loop and unrelated tasks running.
 
 `client.web.fetch_video` and `client.web.fetch_image` are deprecated names for `fetch_video_data` and `fetch_image_data`; each use logs a warning unless `SEND_DEPRECATION_WARNINGS` is turned off. See [environment variables](/configuration/environment/).

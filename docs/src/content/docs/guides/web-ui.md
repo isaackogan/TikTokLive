@@ -133,7 +133,7 @@ if __name__ == "__main__":
     app.run(port=5000, threaded=True)
 ```
 
-The client's loop is created up front and handed to the thread, so the request handlers can reach it: `asyncio.run_coroutine_threadsafe(client.disconnect(), loop)` is the way to stop a connection from another thread. When `connect()` returns, the thread closes the HTTP session with `client.web.close()` and the loop; `client.close()` is not used here because its cleanup runs the loop synchronously and raises `RuntimeError` inside a running one. The service connects once; to reconnect when the stream ends, run the thread's body in a loop as [connection lifecycle](/getting-started/connection/) describes.
+The client's loop is created up front and handed to the thread, so the request handlers can reach it: `asyncio.run_coroutine_threadsafe(client.disconnect(), loop)` is the way to stop a connection from another thread. When `connect()` returns, the thread closes the HTTP session with `client.web.close()` and the loop. The service connects once; to reconnect when the stream ends, run the thread's body in a loop as [connection lifecycle](/getting-started/connection/) describes.
 
 Flask is not a dependency of TikTokLive; install it separately. `threaded=True` lets the SSE response stream while other requests are served.
 

@@ -97,7 +97,6 @@ if __name__ == "__main__":
 
 These describe the checked-in code; recheck them against a newer release.
 
-- `await client.close()` and `await client.disconnect(close_client=True)` raise `RuntimeError: This event loop is already running` when awaited inside a running coroutine, because `close()` runs its cleanup synchronously on the loop. Use `await client.web.close()` to close the HTTP session from async code; `run()` cleans up by itself.
 - `SuperFanEvent` and `SuperFanJoinEvent` are never emitted; see above.
 - The default `VideoFetchQuality.LD` raises `KeyError` for rooms that publish only other renditions; a room seen while writing these pages offered only `hd` and an audio-only variant.
 - After a `record_for` recording ends on its own, `is_recording` stays `True` and `disconnect()` raises `ProcessLookupError`.

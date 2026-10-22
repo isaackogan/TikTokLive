@@ -130,6 +130,7 @@ A `TikTokLiveClient` object contains the following methods worth mentioning:
 | connect      | `async` | Connects to the tiktok live chat while blocking the current future. When the connection ends (e.g. livestream is over), the future is released.                                     |
 | start        | `async` | Connects to the live chat without blocking the main thread. This returns an `asyncio.Task` object with the client loop.                                                             |
 | disconnect   | `async` | Disconnects the client from the websocket gracefully, processing remaining events before ending the client loop.                                                                    |
+| close        | `async` | Disconnects and closes the HTTP session when discarding the client, without stopping the application's event loop or cancelling unrelated tasks.                                      |
 
 ## Properties
 
