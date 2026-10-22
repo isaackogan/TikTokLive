@@ -371,7 +371,7 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
         # Close the client (if discarding)
         if close_client:
-            await self.close()
+            await self._web.close()
 
         # Reset state vars
         self._room_id = None
@@ -380,14 +380,16 @@ class TikTokLiveClient(AsyncIOEventEmitter):
 
     async def close(self) -> None:
         """
-        Discards the async sessions if you don't intend to use the client again
+        Disconnect and discard the HTTP session without stopping the caller's event loop.
 
         :return: None
 
         """
 
-        await self._web.close()
-        self._clean_tasks()
+        try:
+            await self.disconnect()
+        finally:
+            await self._web.close()
 
     # Liskov overrides of pyee.EventEmitter.on/add_listener: pyee keys events
     # by string; we accept an Event class and convert internally via

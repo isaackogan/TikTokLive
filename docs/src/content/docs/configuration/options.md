@@ -82,8 +82,8 @@ Every other key is forwarded to the `websockets` client constructor. `ping_timeo
 | `run` | No | Connect with `**options` and block the calling thread until the connection ends; the client runs its own event loop. On `Ctrl+C` it disconnects, cancels pending tasks, and re-raises `KeyboardInterrupt`. Returns the finished `asyncio.Task`. |
 | `connect` | Yes | Connect with `**options` and block the calling coroutine until the connection ends. An optional positional `callback`, a function or coroutine, runs once the connection is up. Returns the finished `asyncio.Task`. |
 | `start` | Yes | Connect with `**options` and return the running `asyncio.Task` without waiting for it. |
-| `disconnect` | Yes | Close the WebSocket, wait for the event loop task, stop a running video recording, and reset `room_id`, `room_info`, and `gift_info`. Safe to call when not connected. `disconnect(close_client=True)` also calls `close`. |
-| `close` | Yes | Close the HTTP session of a client you will not reuse. Its cleanup runs the event loop synchronously, so awaiting `close()` or `disconnect(close_client=True)` inside a running coroutine currently raises `RuntimeError: This event loop is already running`. |
+| `disconnect` | Yes | Close the WebSocket, wait for the event loop task, stop a running video recording, and reset `room_id`, `room_info`, and `gift_info`. Safe to call when not connected. `disconnect(close_client=True)` also closes the HTTP session. |
+| `close` | Yes | Disconnect and close the HTTP session of a client you will not reuse. Cleanup is asynchronous and leaves the caller's event loop and unrelated tasks running. The HTTP session is closed even if WebSocket cleanup raises an exception. |
 | `on` | No | Register `f` as a listener for an event class with `on(event, f)`, or use it as a decorator: `@client.on(CommentEvent)`. Returns the handler. |
 | `add_listener` | No | `add_listener(event, f)` registers `f` as a listener for an event class; the plain-call form of `on`. |
 | `has_listener` | No | Whether at least one listener is registered for the event class. |
