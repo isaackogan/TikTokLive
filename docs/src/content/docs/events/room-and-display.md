@@ -34,10 +34,10 @@ Auto-caption update from the host's audio. Message: [`WebcastCaptionMessage`](/s
 Key fields: `content`, a list of `CaptionContent` with `lang` and `content`, one per language; `timestamp_ms` and `duration_ms`; `sentence_id` and `sequence_id`; and `definite`, `True` once the sentence is final. Interim captions for the same `sentence_id` are replaced by later ones.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import CaptionEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import CaptionEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(CaptionEvent)
@@ -65,10 +65,10 @@ The creator launched / updated a poll. Message: [`WebcastPollMessage`](/schema/w
 Key fields: `message_type` and `poll_id`; `poll_kind`; `poll_basic_info`, with `title`, `poll_duration`, `time_remain`, `user_cnt`, and `gift_id`; `start_content`, with `start_time`, `end_time`, `option_list`, `title`, and `operator`; `update_votes_content`, with the current `option_list`; `end_content`; and `template_content`. The client keeps no poll state; read the option list from each update.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import PollEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import PollEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(PollEvent)
@@ -91,10 +91,10 @@ A message was pinned. Message: [`WebcastRoomPinMessage`](/schema/webcast/model/m
 Key fields: `action`, a `PinMessageActionType` of `PIN` or `PIN_CANCEL`; `operator`, the `ExtendedUser` who pinned it; `method`, the pinned message's method name; `pin_msg_id`, `pin_time`, and `display_duration`; and the pinned message itself in one of `chat_message`, `social_message`, `gift_message`, `member_message`, or `like_message`, which are plain v3 messages rather than events.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import RoomPinEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import RoomPinEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(RoomPinEvent)

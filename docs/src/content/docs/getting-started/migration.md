@@ -1,13 +1,25 @@
 ---
 title: Migration
-description: Update code written for TikTokLive 6.x to 7, which moves to the TikTokLiveProto v3 schema and renames some event fields.
+description: Update code written for TikTokLive 6.x to IgniteLiveAPI 7, which renames the package, moves to the TikTokLiveProto v3 schema and renames some event fields.
 ---
 
-TikTokLive 7 replaces the bundled protobuf definitions with the [TikTokLiveProto](https://pypi.org/project/TikTokLiveProto/) v3 package on betterproto2, regenerates every proto event from it, and its source is annotated and type-checked in the project's CI. Most 6.x programs need only the field changes below. Python 3.10 or newer is required.
+IgniteLiveAPI 7 replaces the bundled protobuf definitions with the [TikTokLiveProto](https://pypi.org/project/TikTokLiveProto/) v3 package on betterproto2, regenerates every proto event from it, and its source is annotated and type-checked in the project's CI. Most 6.x programs need only the field changes below. Python 3.10 or newer is required.
 
 ```sh
-pip install -U TikTokLive
+pip uninstall TikTokLive
+pip install -U IgniteLiveAPI
 ```
+
+## Package rename
+
+The package, which was published as `TikTokLive` through 6.x, is now `IgniteLiveAPI`. Update imports and class names; nothing else about the public API moved because of the rename.
+
+| 6.x | 7 |
+| --- | --- |
+| `from TikTokLive import TikTokLiveClient` | `from IgniteLiveAPI import IgniteLiveClient` |
+| `from TikTokLive.events import ...` | `from IgniteLiveAPI.events import ...` |
+| `TikTokLiveError` | `IgniteLiveError` |
+| `TikTokLiveLogHandler`, and the `"TikTokLive"` logger name | `IgniteLiveLogHandler`, and the `"IgniteLiveAPI"` logger name |
 
 ## Event classes
 
@@ -25,16 +37,16 @@ New since 6.6.5: `LinkMicLayoutStateEvent`, `OecLiveShoppingEvent`, `SubNotifyEv
 | `event.user_info` on `CommentEvent` | `event.user`. |
 | `event.comment` | Still works as an alias; the v3 field is `event.content`. |
 | `event.user.unique_id`, `event.user.nickname` | Still work. The v3 fields are `display_id` and `nickname`; the older `username`, `nick_name`, and `badges` names remain as read-only aliases for `display_id`, `nickname`, and `badge_list`. |
-| `ControlAction.CONTROL_ACTION_STREAM_ENDED` | `ControlAction.STREAM_ENDED`; the other members drop the prefix the same way. `from TikTokLive.proto.custom_proto import ControlAction` still resolves. |
+| `ControlAction.CONTROL_ACTION_STREAM_ENDED` | `ControlAction.STREAM_ENDED`; the other members drop the prefix the same way. `from IgniteLiveAPI.proto.custom_proto import ControlAction` still resolves. |
 | `event.cursor` on `WebsocketResponseEvent` | `event.raw.cursor`; the whole fetch result is `event.raw`. |
 
 Nested messages are typed `Optional`: `event.user`, `event.gift`, and similar can be `None`, and mypy reports an unguarded access. Check before reading.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import CommentEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import CommentEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(CommentEvent)

@@ -12,9 +12,9 @@ Connecting to find out whether a creator is live is the slow way: it resolves th
 ```python
 import asyncio
 
-from TikTokLive import TikTokLiveClient
+from IgniteLiveAPI import IgniteLiveClient
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 async def main() -> None:
@@ -38,12 +38,12 @@ A loop that checks every minute, connects when the creator goes live, and resume
 ```python
 import asyncio
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.errors import UserOfflineError
-from TikTokLive.client.logger import LogLevel
-from TikTokLive.events import CommentEvent, ConnectEvent, DisconnectEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.errors import UserOfflineError
+from IgniteLiveAPI.client.logger import LogLevel
+from IgniteLiveAPI.events import CommentEvent, ConnectEvent, DisconnectEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 POLL_SECONDS: int = 60
 
 
@@ -100,9 +100,9 @@ When the stream ends normally, `connect()` returns and `DisconnectEvent` fires. 
 import asyncio
 from typing import List
 
-from TikTokLive import TikTokLiveClient
+from IgniteLiveAPI import IgniteLiveClient
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 async def main() -> None:

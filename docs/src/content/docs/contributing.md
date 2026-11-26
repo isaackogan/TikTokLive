@@ -37,7 +37,7 @@ With `npx` in place of a global pnpm: `npx -y pnpm@10.34.2 --dir docs build`.
 ## Where to edit
 
 - Authored pages are Markdown under `docs/src/content/docs/`: the start-here pages, `configuration/`, `guides/`, `events/`, `advanced/`, and the top-level pages.
-- `api/` and `schema/` inside that directory are generated on every build from the installed `TikTokLive` and `TikTokLiveProto` packages and are ignored by Git. Never edit or commit them. To change a reference page, edit the docstring or signature at the source declaration.
+- `api/` and `schema/` inside that directory are generated on every build from the installed `IgniteLiveAPI` and `TikTokLiveProto` packages and are ignored by Git. Never edit or commit them. To change a reference page, edit the docstring or signature at the source declaration.
 - The event catalog on `events/index.md` and the grouped event pages are authored. A row's description is compared with the README's description of the same event, so change both together.
 - The sidebar, the site title and description, the header links, and the footer are in `docs/astro.config.mjs`.
 - The content check and the generator live in `docs/scripts/`, with tests in `docs/scripts/tests/`.
@@ -57,7 +57,7 @@ The build enforces these; a page that breaks one fails `pnpm --dir docs build`.
 
 Describe the library as it is in the checkout, not as the README or an older page says it was. In order:
 
-1. The library source: `TikTokLive/client/`, `TikTokLive/events/`, `TikTokLive/proto/`, and the route modules. A signature, a default, an error class, or an emitted event is what the code does.
+1. The library source: `IgniteLiveAPI/client/`, `IgniteLiveAPI/events/`, `IgniteLiveAPI/proto/`, and the route modules. A signature, a default, an error class, or an emitted event is what the code does.
 2. The README, for the event descriptions and the wording of the landing page.
 3. The retired Sphinx pages, kept in Git history: `git show 884489f:docs/src/index.rst` lists them, and `git show 884489f:docs/src/<file>` reads one.
 
@@ -71,10 +71,10 @@ The `examples/` directory shows the intended use but is not type-checked and has
 | --- | --- |
 | `events` | Every event class in `custom_events.py` and `proto_events.py` is named in backticks on some page. |
 | `catalog` | `events/index.md` has a row for every event whose second cell is its `Webcast*` message, or `custom`. |
-| `client` | Every `TikTokLiveClient` constructor parameter and public method or property is named in backticks on some page. |
+| `client` | Every `IgniteLiveClient` constructor parameter and public method or property is named in backticks on some page. |
 | `web-defaults` | Every `_WebDefaults` field is named in backticks on some page. |
-| `routes` | Every module under `TikTokLive/client/web/routes/` is named in backticks on some page. |
-| `env` | Every environment variable read under `TikTokLive/` is named in backticks on some page. |
+| `routes` | Every module under `IgniteLiveAPI/client/web/routes/` is named in backticks on some page. |
+| `env` | Every environment variable read under `IgniteLiveAPI/` is named in backticks on some page. |
 | `discord` | No page links to Discord; the check searches for the two Discord link domains. |
 | `readme` | Every README event with a description has a catalog row with the same wording. |
 | `examples` | Every Python fence parses and type-checks; a deliberately wrong canary proves mypy saw the package. |

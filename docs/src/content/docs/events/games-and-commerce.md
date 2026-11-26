@@ -16,10 +16,10 @@ Live-shopping signal. Message: [`WebcastOecLiveShoppingMessage`](/schema/webcast
 Key fields: `action_type`; `live_product_number`; `pop_product`, the pinned `PopProduct` with `title`, `price`, `image_url`, `open_url`, `product_id`, and `product_status`; `product_snap_shot`; `hot_tags`; `promotion_info` and `voucher`; `billboard_info`; `card_type` and `pin_card_delay_time`; `flash_sale_atmosphere_info`; and `oec_live_shopping_message_v2`.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import OecLiveShoppingEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import OecLiveShoppingEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(OecLiveShoppingEvent)

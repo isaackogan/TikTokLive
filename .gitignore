@@ -1,7 +1,7 @@
 .idea
 dist
 venv
-TikTokLive.egg-info
+IgniteLiveAPI.egg-info
 .pypirc
 dev
 test.py

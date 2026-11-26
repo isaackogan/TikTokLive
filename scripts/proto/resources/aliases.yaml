@@ -3,7 +3,7 @@
 #   module_aliases:  Top-level name renames. Each entry maps a legacy symbol
 #                    to its current location, rendering
 #                       `from <module> import <name> as <legacy>`
-#                    in TikTokLive/proto/_aliases.py.
+#                    in IgniteLiveAPI/proto/_aliases.py.
 #
 #   legacy_aliases:  Class-attribute renames. Each entry attaches an ``@property``
 #                    to the class that proxies to the new v3 field, so user code
@@ -27,7 +27,7 @@ legacy_aliases:
   # re-enters the descriptor and infinite-loops.
 
   ExtendedUser:
-    module: TikTokLive.proto.custom_proto
+    module: IgniteLiveAPI.proto.custom_proto
     properties:
       username:
         target: display_id
@@ -42,7 +42,7 @@ legacy_aliases:
         doc: v2 alias; v3 reverted this field to ``badge_list``.
 
   ExtendedGift:
-    module: TikTokLive.proto.custom_proto
+    module: IgniteLiveAPI.proto.custom_proto
     properties:
       gift_type:
         target: type

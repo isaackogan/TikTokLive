@@ -1,18 +1,18 @@
 ---
 title: WebSocket client
-description: The Webcast WebSocket layer under TikTokLiveClient, how the signed URL becomes a connection, the room-entry, heartbeat, and acknowledgement frames, compression, proxies, and how a connection ends.
+description: The Webcast WebSocket layer under IgniteLiveClient, how the signed URL becomes a connection, the room-entry, heartbeat, and acknowledgement frames, compression, proxies, and how a connection ends.
 sidebar:
   order: 3
 ---
 
-`WebcastWSClient`, from `TikTokLive.client.ws.ws_client`, holds the WebSocket connection to TikTok's Webcast server. `TikTokLiveClient` creates one when it is constructed, from `ws_kwargs` and `ws_proxy` (see [client options](/configuration/options/)), and drives it from the task that `start()` returns. The client does not expose it as a property: `client.connected` reports whether its socket is open, and the connection options on `run`, `connect`, and `start` configure it. This page describes what it does, for reading the traffic or using the layer on its own.
+`WebcastWSClient`, from `IgniteLiveAPI.client.ws.ws_client`, holds the WebSocket connection to TikTok's Webcast server. `IgniteLiveClient` creates one when it is constructed, from `ws_kwargs` and `ws_proxy` (see [client options](/configuration/options/)), and drives it from the task that `start()` returns. The client does not expose it as a property: `client.connected` reports whether its socket is open, and the connection options on `run`, `connect`, and `start` configure it. This page describes what it does, for reading the traffic or using the layer on its own.
 
 ## Connection sequence
 
 1. `start()` resolves the room ID, runs the live check, and calls the `fetch_signed_websocket` route, which returns the first `ProtoMessageFetchResult` from the signing provider, [Euler Stream](https://www.eulerstream.com/) by default. That result carries `push_server`, the WebSocket URL, `route_params`, `cursor`, and often the first `messages`.
 2. `WebcastWSClient.connect(room_id, cookies, user_agent, initial_webcast_response, process_connect_events=True, compress_ws_events=True)` builds the connection URL with `build_webcast_uri`: `push_server`, then `route_params` percent-encoded, then `WebDefaults.ws_client_params` with `ws_kwargs["base_uri_params"]` over them, then `room_id` and `compress` (`gzip`, or empty when `compress_ws_events` is off), then `WebDefaults.ws_client_params_append_str`. A result without `cursor` raises `InitialCursorMissingError`, one without `push_server` or `route_params` `WebsocketURLMissingError`. `ws_kwargs["uri"]` replaces the built URL. With `process_connect_events=False` the result's `messages` are cleared first.
 3. The handshake sends a `Cookie` header with the whole cookie jar and the client's `User-Agent`, with `ws_kwargs["extra_headers"]` over them, and offers the `echo-protocol` subprotocol. The cookie string is logged at `DEBUG`, or at `WARNING` with the session ID redacted when the jar holds one. `ping_interval` and `ping_timeout` are always `None`: TikTok does not answer protocol-level pings, and a timeout would close a healthy connection.
-4. The connection is a `WebcastConnect`, a subclass of the `websockets` legacy `Connect`, from `TikTokLive.client.ws.ws_connect`. Its iterator yields the initial result first, as `(None, initial_response)`, then one `(WebcastPushFrame, ProtoMessageFetchResult)` pair per `msg` frame received. It does not retry or reconnect: the signed URL expires (the source notes 30 seconds), so a new connection needs a new signing request.
+4. The connection is a `WebcastConnect`, a subclass of the `websockets` legacy `Connect`, from `IgniteLiveAPI.client.ws.ws_connect`. Its iterator yields the initial result first, as `(None, initial_response)`, then one `(WebcastPushFrame, ProtoMessageFetchResult)` pair per `msg` frame received. It does not retry or reconnect: the signed URL expires (the source notes 30 seconds), so a new connection needs a new signing request.
 
 The response's `Handshake-Options` header is parsed with `extract_websocket_options` into a dict, available as `ws_options` on the connection, and supplies the heartbeat interval below.
 
@@ -28,7 +28,7 @@ The client sends three kinds of frame, all with `payload_encoding` `pb`:
 | `hb` | `HeartBeatMessage` with `room_id` and an increasing `send_packet_seq_id` | Every heartbeat interval, from the ping loop that `switch_rooms` starts. |
 | `ack` | The result's `internal_ext`, or `-` when it has none | For each received result whose `need_ack` is set, with the frame's `log_id`. |
 
-`send(message)` sends bytes or any betterproto message and is a no-op with a warning when the socket is not open. `send_ack(webcast_response, webcast_push_frame)` builds the `ack` frame. `switch_rooms(room_id)` sends the room-entry frame and restarts the heartbeat loop; it does not change `TikTokLiveClient.room_id` or re-sign anything, so it is not a way to move a high-level client between rooms.
+`send(message)` sends bytes or any betterproto message and is a no-op with a warning when the socket is not open. `send_ack(webcast_response, webcast_push_frame)` builds the `ack` frame. `switch_rooms(room_id)` sends the room-entry frame and restarts the heartbeat loop; it does not change `IgniteLiveClient.room_id` or re-sign anything, so it is not a way to move a high-level client between rooms.
 
 ## Heartbeats
 
@@ -36,7 +36,9 @@ The client sends three kinds of frame, all with `payload_encoding` `pb`:
 
 ## How a connection ends
 
-`disconnect()` closes the socket and returns; it does nothing when the socket is not open. The iterator in `connect` exits normally when the connection closes with code 1000 or 1001 or with no close code, and `TikTokLiveClient` then emits `DisconnectEvent`. A close with any other code raises `websockets.exceptions.ConnectionClosedError` out of the iterator, which propagates from `client.connect()` or from the task `start()` returned, and no `DisconnectEvent` is emitted. See [control events](/events/control/) and [connection lifecycle](/getting-started/connection/).
+`disconnect()` closes the socket and returns; it does nothing when the socket is not open. The iterator in `connect` exits normally when the connection closes with code 1000 or 1001 or with no close code, and `IgniteLiveClient` then emits `DisconnectEvent`. A close with any other code raises `websockets.exceptions.ConnectionClosedError` out of the iterator, which propagates from `client.connect()` or from the task `start()` returned, and no `DisconnectEvent` is emitted. See [control events](/events/control/) and [connection lifecycle](/getting-started/connection/).
+
+With `idle_timeout` set, `WebcastWSClient.connect` also runs a watchdog task that records the arrival time of every inbound frame, including the transport-level frames it otherwise discards, and closes the socket when none has arrived for `idle_timeout` seconds. The iterator then raises `IdleTimeoutError` once the ping loop and the watchdog have been cancelled. Those tasks are also cleaned up when the connection fails, so a supervisor can open a new connection straight afterwards. See [automatic reconnect](/getting-started/connection/#automatic-reconnect).
 
 A handshake that TikTok rejects with status 400 or 200 raises `WebcastBlockedError` with the reason from the response's `Handshake-Msg` header; the source notes that a URL signed with a session, used without the matching `sessionid` cookie, is rejected this way. Any other status raises the `websockets` library's own error. See [troubleshooting](/troubleshooting/).
 
@@ -46,17 +48,17 @@ When `ws_proxy` or `ws_kwargs["proxy"]` is set, the connection is a `WebcastProx
 
 ## Use the layer directly
 
-The pieces are public, so a program can open the socket without `TikTokLiveClient` parsing the messages into events. This connects and prints the method names in each batch:
+The pieces are public, so a program can open the socket without `IgniteLiveClient` parsing the messages into events. This connects and prints the method names in each batch:
 
 ```python
 import asyncio
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.web.routes.fetch_signed_websocket import WebcastPlatform
-from TikTokLive.client.ws.ws_client import WebcastWSClient
-from TikTokLive.proto import ProtoMessageFetchResult
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.web.routes.fetch_signed_websocket import WebcastPlatform
+from IgniteLiveAPI.client.ws.ws_client import WebcastWSClient
+from IgniteLiveAPI.proto import ProtoMessageFetchResult
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 async def main() -> None:

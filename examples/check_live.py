@@ -1,11 +1,11 @@
 import asyncio
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.logger import LogLevel
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.logger import LogLevel
 
 
 # Replace with any username you want to monitor
-client: TikTokLiveClient = TikTokLiveClient(
+client: IgniteLiveClient = IgniteLiveClient(
     unique_id="@tv_asahi_news"
 )
 

@@ -25,15 +25,15 @@ export TIKTOK_TARGET_IDC="your-tt-target-idc-cookie"
 ```python
 import os
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import ConnectEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import ConnectEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(ConnectEvent)
 async def on_connect(event: ConnectEvent) -> None:
-    response = await client.send_room_chat("Hello from TikTokLive!")
+    response = await client.send_room_chat("Hello from IgniteLiveAPI!")
     print(response)
 
 
@@ -52,10 +52,10 @@ A message you send arrives back as a `CommentEvent` like any other, so a reply m
 import os
 import time
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import CommentEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import CommentEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 COOLDOWN_SECONDS: float = 10.0
 last_sent_at: float = 0.0
 
@@ -86,9 +86,9 @@ The route behind the method, `client.web.send_room_chat(content, room_id=None, s
 import asyncio
 import os
 
-from TikTokLive import TikTokLiveClient
+from IgniteLiveAPI import IgniteLiveClient
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 async def main() -> None:

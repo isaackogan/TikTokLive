@@ -18,10 +18,10 @@ TikTok identifies a logged-in session by the `sessionid` cookie together with `t
 ```python
 import os
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import ConnectEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import ConnectEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(ConnectEvent)
@@ -39,9 +39,9 @@ if __name__ == "__main__":
 The cookies can also be given at construction. This seeds the cookie jar but does not set `user_is_login`:
 
 ```python
-from TikTokLive import TikTokLiveClient
+from IgniteLiveAPI import IgniteLiveClient
 
-client: TikTokLiveClient = TikTokLiveClient(
+client: IgniteLiveClient = IgniteLiveClient(
     unique_id="@isaackogz",
     web_kwargs={
         "httpx_kwargs": {

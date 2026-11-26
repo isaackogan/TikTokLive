@@ -18,10 +18,10 @@ Key fields: `gift`, an `ExtendedGift` with the schema's `id`, `name`, `type`, `d
 Gift handling: a streakable gift (`gift.type == 1`) produces one `GiftEvent` per step as the viewer holds the button, with `repeat_count` climbing, and a final one with `repeat_end == 1`. The property `streaking` is `True` for the intermediate messages and `False` for the final one and for every non-streakable gift, so a handler that returns while `event.streaking` counts each gift once. The property `value` is `repeat_count * gift.diamond_count * 0.005`, an estimate in USD, and is `None` mid-streak for the same reason. `user_is_super_fan` reads `user_identity.is_subscriber_of_anchor`.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import GiftEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import GiftEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(GiftEvent)
@@ -51,10 +51,10 @@ Subscriber/follow goal updated. Message: [`WebcastGoalUpdateMessage`](/schema/we
 Key fields: `goal`, a `LiveStreamGoal` with `id`, `type`, `status`, `description`, `sub_goals`, `contributors`, `start_time`, and `expire_time`; `indicator`; `contribute_subgoal`, the `LiveStreamSubGoal` this update advanced, with `progress`, `target`, and the `gift` it counts; `contribute_count` and `contribute_score`; `contributor_id`, `contributor_display_id`, and `contributor_avatar`; `gift_repeat_count`; `pin_info`; and `update_source`. A goal update accompanies a gift or follow and is not a second gift.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import GoalUpdateEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import GoalUpdateEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(GoalUpdateEvent)

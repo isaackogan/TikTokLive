@@ -1,0 +1,126 @@
+import logging
+from gzip import GzipFile
+from http.cookies import SimpleCookie
+from io import BytesIO
+from typing import Mapping
+from urllib.parse import quote
+
+from IgniteLiveAPI.client.errors import InitialCursorMissingError, WebsocketURLMissingError
+from IgniteLiveAPI.client.logger import IgniteLiveLogHandler
+from IgniteLiveAPI.proto import ProtoMessageFetchResult, WebcastPushFrame
+
+
+def build_webcast_uri(
+        initial_webcast_response: ProtoMessageFetchResult,
+        base_uri_params: dict,
+        base_uri_append_str: str
+) -> str:
+    """
+    Build a webcast URI from a base URI and parameters. This method will format the base URI
+    with the parameters and return the formatted URI.
+
+    :param initial_webcast_response: The initial Webcast response
+    :param base_uri_params: Parameters to format the URI with
+    :param base_uri_append_str: String to append to the base URI
+    :return: str The formatted URI
+
+    """
+
+    if not initial_webcast_response.cursor:
+        raise InitialCursorMissingError("Missing cursor in initial fetch response.")
+
+    if not initial_webcast_response.push_server:
+        raise WebsocketURLMissingError("No websocket URL received from TikTok.")
+
+    if not initial_webcast_response.route_params:
+        raise WebsocketURLMissingError("Websocket parameters missing.")
+
+    # Build the URI parameters dict. Route params arrive verbatim from the
+    # sign server and must be percent-encoded: the Euler Stream fallback push
+    # server echoes the raw user agent back as a route param, and its spaces
+    # and parentheses are illegal in an HTTP request-target (the server answers
+    # 400). Base params are left as-is because the device presets already ship
+    # pre-encoded values (e.g. ``browser_version``), which would double-encode.
+    uri_params: dict = {
+        **{k: quote(str(v), safe="") for k, v in initial_webcast_response.route_params.items() if v},
+        **base_uri_params,
+    }
+
+    # Build the URI
+    connect_uri: str = (
+            initial_webcast_response.push_server
+            + "?"
+            + '&'.join(f"{key}={value}" for key, value in uri_params.items())
+            + base_uri_append_str
+    )
+
+    return connect_uri
+
+
+def extract_webcast_push_frame(data: bytes, logger: logging.Logger = IgniteLiveLogHandler.get_logger()) -> WebcastPushFrame:
+    """
+    Extract a WebcastPushFrame from a raw byte payload. This method will parse the payload
+    and return a WebcastPushFrame object. This method is useful for extracting push frames
+    from a WebSocket connection.
+
+    :param data: Raw byte payload to extract from
+    :param logger: Logger to use for logging
+    :return: WebcastPushFrame The extracted push frame
+
+    """
+
+    # Parse the push frame from the raw byte payload
+    return WebcastPushFrame().parse(data)
+
+
+def extract_webcast_response_message(push_frame: WebcastPushFrame, logger: logging.Logger = IgniteLiveLogHandler.get_logger()) -> ProtoMessageFetchResult:
+    """
+    Extract the ProtoMessageFetchResult from a push frame. If compression is enabled on the WebSocket,
+    then messages will come gzipped. This method will decompress the payload if necessary.
+    The gzip format allows for less bandwidth usage, at the cost of a slight CPU increase for message decompression.
+
+    :param push_frame: Push frame to extract from
+    :param logger: Logger to use for logging
+    :return: ProtoMessageFetchResult The extracted response
+
+    """
+
+    # v3 ``WebcastPushFrame.headers`` is ``list[PushHeader]`` (each header is a
+    # ``{key, value}`` message), not a dict.
+    compress_type = next((h.value for h in push_frame.headers or [] if h.key == 'compress_type'), None)
+
+    # If there is no compression header, return the payload parsed as-is
+    if not compress_type or compress_type == 'none':
+        return ProtoMessageFetchResult().parse(push_frame.payload)
+
+    # If there is a compression type, but it's NOT gzip (should never happen, if it does, represents a TikTok update)
+    if compress_type != 'gzip':
+        logger.error(f"Unknown compression type: {compress_type}")
+        return ProtoMessageFetchResult().parse(push_frame.payload)  # Just pray it works
+
+    # If the compress type is gzip, we need to decompress the payload
+    gzip_file = GzipFile(fileobj=BytesIO(push_frame.payload))
+
+    # Decompress it
+    try:
+        decompressed_bytes = gzip_file.read()
+    finally:
+        gzip_file.close()
+
+    # Parse the response from the decompressed data
+    return ProtoMessageFetchResult().parse(decompressed_bytes)
+
+
+def extract_websocket_options(headers: Mapping[str, str]) -> dict[str, str]:
+    """
+    Options are a cookie-style string, so we parse with SimpleCookie from the stdlib.
+
+    Accepts any string→string mapping so this works with raw dicts as well as
+    websockets' ``Headers`` / httpx ``Headers`` objects.
+
+    """
+
+    options = SimpleCookie()
+    options.load(headers.get('Handshake-Options', ''))
+
+    return {key: value.value for key, value in options.items()}

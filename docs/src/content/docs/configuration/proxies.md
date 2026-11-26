@@ -15,10 +15,10 @@ The client has two network paths that can be proxied independently: the HTTP req
 ```python
 from httpx import Proxy
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import ConnectEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import ConnectEvent
 
-client: TikTokLiveClient = TikTokLiveClient(
+client: IgniteLiveClient = IgniteLiveClient(
     unique_id="@isaackogz",
     web_proxy=Proxy("http://proxy.example.com:8080", auth=("username", "password")),
     ws_proxy=Proxy("socks5://proxy.example.com:1080", auth=("username", "password")),
@@ -42,16 +42,16 @@ Like any `httpx.AsyncClient`, the HTTP client honours the `HTTP_PROXY`, `HTTPS_P
 
 ## WebSocket proxy
 
-`ws_proxy` accepts an `httpx.Proxy` or a `websockets_proxy.Proxy`; `WebcastProxy`, in `TikTokLive.client.ws.ws_connect`, is the union of the two. An `httpx.Proxy` is converted when the connection opens: its URL must use the `http://`, `socks4://`, or `socks5://` scheme, and credentials come from `auth=` or from the URL's user information. Any other scheme, including `https://`, raises `ValueError` at connect time. A `websockets_proxy.Proxy` is used as is; `websockets_proxy.Proxy.from_url(...)` builds one from the same URL forms.
+`ws_proxy` accepts an `httpx.Proxy` or a `websockets_proxy.Proxy`; `WebcastProxy`, in `IgniteLiveAPI.client.ws.ws_connect`, is the union of the two. An `httpx.Proxy` is converted when the connection opens: its URL must use the `http://`, `socks4://`, or `socks5://` scheme, and credentials come from `auth=` or from the URL's user information. Any other scheme, including `https://`, raises `ValueError` at connect time. A `websockets_proxy.Proxy` is used as is; `websockets_proxy.Proxy.from_url(...)` builds one from the same URL forms.
 
 With a proxy set, the client waits `proxy_conn_timeout` seconds, `10.0` by default, for the proxy to connect; change it through `ws_kwargs`. `ws_kwargs={"proxy": ...}` is an alternative to the parameter.
 
 ```python
 from websockets_proxy import Proxy
 
-from TikTokLive import TikTokLiveClient
+from IgniteLiveAPI import IgniteLiveClient
 
-client: TikTokLiveClient = TikTokLiveClient(
+client: IgniteLiveClient = IgniteLiveClient(
     unique_id="@isaackogz",
     ws_proxy=Proxy.from_url("socks5://username:password@proxy.example.com:1080"),
     ws_kwargs={"proxy_conn_timeout": 20.0},

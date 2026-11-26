@@ -1,6 +1,6 @@
 ---
 title: Event catalog
-description: Every TikTokLive event, the Webcast message it carries, what it means, and the page that documents it.
+description: Every IgniteLiveAPI event, the Webcast message it carries, what it means, and the page that documents it.
 sidebar:
   order: 0
 ---
@@ -8,10 +8,10 @@ sidebar:
 Register a handler with the `@client.on(Event)` decorator or with `client.add_listener(Event, handler)`. Both take the event class, and the handler receives one instance of it. A handler can be a coroutine or a plain function.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import CommentEvent, LikeEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import CommentEvent, LikeEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(CommentEvent)
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     client.run()
 ```
 
-This checkout defines 74 events: 62 proto events and 12 custom events. A proto event subclasses its TikTokLiveProto v3 message, so its fields are the message's fields; the tables below name the message, and each name on the grouped pages links to the [schema reference](/schema/) for the full field list. A custom event is created by the client: `ConnectEvent` and `DisconnectEvent` from the connection, `WebsocketResponseEvent` and `UnknownEvent` from the raw traffic, and the other eight from a proto event whose payload matches a marker. Every class is importable from `TikTokLive.events`.
+This checkout defines 75 events: 62 proto events and 13 custom events. A proto event subclasses its TikTokLiveProto v3 message, so its fields are the message's fields; the tables below name the message, and each name on the grouped pages links to the [schema reference](/schema/) for the full field list. A custom event is created by the client: `ConnectEvent` and `DisconnectEvent` from the connection, `WebsocketResponseEvent` and `UnknownEvent` from the raw traffic, and the other eight from a proto event whose payload matches a marker. Every class is importable from `IgniteLiveAPI.events`.
 
 A derived event is emitted in addition to its source, so a follow arrives as `FollowEvent` and then as `SocialEvent`, and a stream end as `LiveEndEvent` and then as `ControlEvent`; listen to one or the other to avoid counting it twice. Every message is also emitted as `WebsocketResponseEvent` before its own event. Register listeners before connecting: the first signed response can carry messages, and they are emitted right after `ConnectEvent` unless `process_connect_events=False`. See [connection lifecycle](/getting-started/connection/).
 
@@ -47,8 +47,9 @@ The client's own lifecycle and the raw WebSocket traffic. Details: [Control even
 | --- | --- | --- |
 | `ConnectEvent` | `custom` | The client connected to the room and parsed the first signed response |
 | `DisconnectEvent` | `custom` | The WebSocket loop exited and the client disconnected from the room |
+| `ReconnectEvent` | `custom` | The connection dropped and the client, started with `reconnect=`, is about to retry |
 | `WebsocketResponseEvent` | `custom` | Any Webcast message was received (carries the raw fetch result it came from) |
-| `UnknownEvent` | `custom` | A Webcast message arrived that TikTokLive has no event class for yet, useful for debugging |
+| `UnknownEvent` | `custom` | A Webcast message arrived that IgniteLiveAPI has no event class for yet, useful for debugging |
 
 ### Chat and audience
 

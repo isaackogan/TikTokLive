@@ -1,4 +1,4 @@
-# Contributing to TikTokLive
+# Contributing to IgniteLiveAPI
 
 Thank you for taking the time to contribute. TikTok LIVE changes frequently,
 so focused fixes, reproducible reports, and regression tests are especially
@@ -6,7 +6,7 @@ valuable.
 
 ## Development setup
 
-TikTokLive supports Python 3.10 through 3.12. Create and activate a virtual
+IgniteLiveAPI supports Python 3.10 through 3.12. Create and activate a virtual
 environment, then install the package with the test dependencies:
 
 ```shell
@@ -24,7 +24,7 @@ The existing type-checking workflow can be run locally with:
 
 ```shell
 python -m pip install "mypy>=1.10" types-PyYAML jinja2 pyyaml
-python -m mypy --follow-imports=silent TikTokLive scripts/proto
+python -m mypy --follow-imports=silent IgniteLiveAPI scripts/proto
 ```
 
 ## Pull requests
@@ -48,7 +48,7 @@ cookie, and personally identifiable data has been removed.
 
 ## Generated files
 
-`TikTokLive/events/proto_events.py` and `TikTokLive/proto/_aliases.py` are
+`IgniteLiveAPI/events/proto_events.py` and `IgniteLiveAPI/proto/_aliases.py` are
 generated from the scripts under `scripts/proto/`. If a change affects their
 inputs, regenerate both files and include the generated diff in the same pull
 request.

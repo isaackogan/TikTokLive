@@ -1,4 +1,4 @@
-"""Render TikTokLive/events/proto_events.py from events.yaml + TikTokLiveProto.v3.
+"""Render IgniteLiveAPI/events/proto_events.py from events.yaml + TikTokLiveProto.v3.
 
 Pure spec-driven generator: input is (events.yaml, TikTokLiveProto.v3), output
 is proto_events.py. Does not read the existing proto_events.py — drift between
@@ -33,10 +33,10 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 EVENTS_YAML = SCRIPT_DIR / "resources" / "events.yaml"
 TEMPLATE_DIR = SCRIPT_DIR / "templates"
 TEMPLATE_NAME = "events.py.j2"
-OUTPUT_PATH = REPO_ROOT / "TikTokLive" / "events" / "proto_events.py"
+OUTPUT_PATH = REPO_ROOT / "IgniteLiveAPI" / "events" / "proto_events.py"
 
 # events.yaml validation imports from TikTokLiveProto, not the in-repo
-# TikTokLive package, so we don't need to put REPO_ROOT on sys.path here. We
+# IgniteLiveAPI package, so we don't need to put REPO_ROOT on sys.path here. We
 # do so only to keep parity with gen_aliases.py and tolerate future refs.
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))

@@ -10,20 +10,20 @@ def test_reexported_modules_lists_star_imports():
 
 
 def test_slugs():
-    assert gen_api.api_slug("TikTokLive.client.client.TikTokLiveClient") == "tiktoklive/client/client/tiktokliveclient"
+    assert gen_api.api_slug("IgniteLiveAPI.client.client.IgniteLiveClient") == "igniteliveapi/client/client/igniteliveclient"
     assert gen_api.schema_slug("TikTokLiveProto.v3.webcast.model.message.WebcastChatMessage") == "webcast/model/message/webcastchatmessage"
 
 
-def test_client_page_has_signature_and_params(tiktoklive_module):
-    client = tiktoklive_module["client"]["client"]["TikTokLiveClient"]
-    md = gen_api.page_for(client, import_path="TikTokLive", source_url=None)
-    assert md.startswith("---\ntitle: TikTokLiveClient\n")
+def test_client_page_has_signature_and_params(igniteliveapi_module):
+    client = igniteliveapi_module["client"]["client"]["IgniteLiveClient"]
+    md = gen_api.page_for(client, import_path="IgniteLiveAPI", source_url=None)
+    assert md.startswith("---\ntitle: IgniteLiveClient\n")
     assert "unique_id" in md and "## Parameters" in md and "## Methods" in md and "is_live" in md
 
 
-def test_page_for_object_without_docstring(tiktoklive_module):
-    obj = tiktoklive_module["client"]["web"]["routes"]  # package with no docstring
-    md = gen_api.page_for(obj, import_path="TikTokLive.client.web.routes", source_url=None)
+def test_page_for_object_without_docstring(igniteliveapi_module):
+    obj = igniteliveapi_module["client"]["web"]["routes"]  # package with no docstring
+    md = gen_api.page_for(obj, import_path="IgniteLiveAPI.client.web.routes", source_url=None)
     assert "title: routes" in md
 
 
@@ -33,16 +33,16 @@ def test_schema_covers_non_reexported_message(tmp_path, proto_module):
     assert page.exists()
     assert "from TikTokLiveProto.v3.webcast.model.gift.model import WebcastGoalUpdateMessage" in page.read_text()
     chat = (tmp_path / "webcast/model/message/webcastchatmessage.md").read_text()
-    assert "from TikTokLive.proto import WebcastChatMessage" in chat
+    assert "from IgniteLiveAPI.proto import WebcastChatMessage" in chat
     assert len(paths) > 300
 
 
-def test_render_api_excludes_private_and_proto(tmp_path, tiktoklive_module):
-    paths = gen_api.render_api(tiktoklive_module, tmp_path)
+def test_render_api_excludes_private_and_proto(tmp_path, igniteliveapi_module):
+    paths = gen_api.render_api(igniteliveapi_module, tmp_path)
     names = {p.relative_to(tmp_path).as_posix() for p in paths}
-    assert "tiktoklive/client/client/tiktokliveclient.md" in names
-    assert "tiktoklive/proto/custom_proto/extendedgift.md" in names
-    assert not any(n.startswith("tiktoklive/proto/") and not n.startswith("tiktoklive/proto/custom_proto/") for n in names)
+    assert "igniteliveapi/client/client/igniteliveclient.md" in names
+    assert "igniteliveapi/proto/custom_proto/extendedgift.md" in names
+    assert not any(n.startswith("igniteliveapi/proto/") and not n.startswith("igniteliveapi/proto/custom_proto/") for n in names)
     assert not any("/_" in n for n in names)
 
 
@@ -61,9 +61,9 @@ def test_iter_modules_sorts_submodules_regardless_of_insertion_order():
     assert [m.name for m in gen_api.iter_modules(pkg)] == ["pkg", "alpha", "mid", "a", "b", "zeta"]
 
 
-def test_render_api_output_is_ordered_alphabetically(tmp_path, tiktoklive_module):
-    paths = gen_api.render_api(tiktoklive_module, tmp_path)
-    for page in ("tiktoklive/index.md", "tiktoklive/client/index.md"):
+def test_render_api_output_is_ordered_alphabetically(tmp_path, igniteliveapi_module):
+    paths = gen_api.render_api(igniteliveapi_module, tmp_path)
+    for page in ("igniteliveapi/index.md", "igniteliveapi/client/index.md"):
         listed = submodules_listed(tmp_path / page)
         assert len(listed) > 1 and listed == sorted(listed)
     module_dirs = [p.relative_to(tmp_path).parent.as_posix() for p in paths if p.name == "index.md"]

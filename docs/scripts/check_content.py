@@ -10,9 +10,9 @@ Nine sections are reported in a fixed order, each ``PASS <section>`` or
 - ``events``: every event class is named in backticks on some page.
 - ``catalog``: ``events/index.md`` has a row per event carrying its proto message name,
   or ``custom`` for an event without one.
-- ``client``, ``web-defaults``, ``routes``, ``env``: every ``TikTokLiveClient``
+- ``client``, ``web-defaults``, ``routes``, ``env``: every ``IgniteLiveClient``
   parameter and public member, ``_WebDefaults`` field, route module, and environment
-  variable read under ``TikTokLive/`` is named in backticks on some page.
+  variable read under ``IgniteLiveAPI/`` is named in backticks on some page.
 - ``discord``: no page links to Discord; the header button is the one Discord link.
 - ``readme``: README event descriptions equal the catalog's, so the PyPI landing page
   and the site do not drift.
@@ -39,22 +39,22 @@ CONTENT_ROOT = REPO_ROOT / "docs" / "src" / "content" / "docs"
 GENERATED_DIRS = {"api", "schema"}  # written by gen_api.py on every build, never authored
 PAGE_SUFFIXES = {".md", ".mdx"}
 
-PACKAGE_DIR = "TikTokLive"
-EVENT_MODULES = ("TikTokLive/events/custom_events.py", "TikTokLive/events/proto_events.py")
-CLIENT_MODULE = "TikTokLive/client/client.py"
-CLIENT_CLASS = "TikTokLiveClient"
-WEB_SETTINGS_MODULE = "TikTokLive/client/web/web_settings.py"
+PACKAGE_DIR = "IgniteLiveAPI"
+EVENT_MODULES = ("IgniteLiveAPI/events/custom_events.py", "IgniteLiveAPI/events/proto_events.py")
+CLIENT_MODULE = "IgniteLiveAPI/client/client.py"
+CLIENT_CLASS = "IgniteLiveClient"
+WEB_SETTINGS_MODULE = "IgniteLiveAPI/client/web/web_settings.py"
 WEB_DEFAULTS_CLASS = "_WebDefaults"  # WebDefaults is a module-level instance of it
-ROUTES_DIR = "TikTokLive/client/web/routes"
+ROUTES_DIR = "IgniteLiveAPI/client/web/routes"
 CATALOG_PAGE = "events/index.md"
 README = "README.md"
 
 MYPY_ARGS = ("--python-version", "3.10", "--ignore-missing-imports", "--follow-imports=silent")
 
-# A known type error. If mypy does not flag it, the interpreter it inspects lacks TikTokLive's
+# A known type error. If mypy does not flag it, the interpreter it inspects lacks IgniteLiveAPI's
 # dependencies, every proto-derived base is Any, and the examples are not really checked.
 CANARY_FILE = "canary.py"
-CANARY = "from TikTokLive.events import GiftEvent\n\ndef f(e: GiftEvent) -> str:\n    return e.comment\n"
+CANARY = "from IgniteLiveAPI.events import GiftEvent\n\ndef f(e: GiftEvent) -> str:\n    return e.comment\n"
 
 # os.environ.get("X"), os.environ["X"], os.getenv("X"), environ.get("X"): the quoted
 # upper-case name within 40 characters after the access word, on the same line.
@@ -135,7 +135,7 @@ def event_classes(repo: Path) -> dict[str, str | None]:
 
 
 def client_surface(repo: Path) -> tuple[list[str], list[str]]:
-    """``TikTokLiveClient.__init__`` parameters without ``self``, and its public methods and properties.
+    """``IgniteLiveClient.__init__`` parameters without ``self``, and its public methods and properties.
 
     Members keep definition order and appear once each: ``@overload`` stubs repeat a name.
     """
@@ -165,12 +165,12 @@ def web_defaults_fields(repo: Path) -> list[str]:
 
 
 def route_modules(repo: Path) -> list[str]:
-    """Module stems under ``TikTokLive/client/web/routes/`` except ``__init__``."""
+    """Module stems under ``IgniteLiveAPI/client/web/routes/`` except ``__init__``."""
     return sorted(path.stem for path in (repo / ROUTES_DIR).glob("*.py") if path.stem != "__init__")
 
 
 def env_vars(repo: Path) -> set[str]:
-    """Environment variable names read anywhere under ``TikTokLive/``."""
+    """Environment variable names read anywhere under ``IgniteLiveAPI/``."""
     names: set[str] = set()
     for path in (repo / PACKAGE_DIR).rglob("*.py"):
         names.update(match.group(2) for match in ENV_READ.finditer(path.read_text(encoding="utf-8")))
@@ -321,7 +321,7 @@ def _run_mypy(repo: Path, directory: Path, labels: dict[str, str]) -> list[str]:
         detail = output[-1] if output else "no output"
         failures.append(f"mypy exited with status {result.returncode}: {detail}")
     elif not canary_flagged:
-        failures.append("mypy canary not flagged: examples are not type-checked against TikTokLive")
+        failures.append("mypy canary not flagged: examples are not type-checked against IgniteLiveAPI")
     return failures
 
 
@@ -334,7 +334,7 @@ def _read_optional(path: Path) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Check the authored docs pages against the TikTokLive code."
+        description="Check the authored docs pages against the IgniteLiveAPI code."
     )
     parser.parse_args(argv)
 

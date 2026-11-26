@@ -1,4 +1,4 @@
-"""Render TikTokLive/proto/_aliases.py from scripts/proto/aliases.yaml.
+"""Render IgniteLiveAPI/proto/_aliases.py from scripts/proto/aliases.yaml.
 
 Two kinds of aliases live in the same spec:
 
@@ -29,9 +29,9 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 ALIASES_YAML = SCRIPT_DIR / "resources" / "aliases.yaml"
 TEMPLATE_DIR = SCRIPT_DIR / "templates"
 TEMPLATE_NAME = "aliases.py.j2"
-OUTPUT_PATH = REPO_ROOT / "TikTokLive" / "proto" / "_aliases.py"
+OUTPUT_PATH = REPO_ROOT / "IgniteLiveAPI" / "proto" / "_aliases.py"
 
-# legacy_aliases targets refer to in-repo modules (e.g. TikTokLive.proto.custom_proto),
+# legacy_aliases targets refer to in-repo modules (e.g. IgniteLiveAPI.proto.custom_proto),
 # so make the project importable regardless of the caller's CWD or PYTHONPATH.
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))

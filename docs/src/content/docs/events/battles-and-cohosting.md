@@ -16,11 +16,11 @@ A battle was started. Message: [`WebcastLinkMicBattle`](/schema/webcast/model/me
 The same message reports every stage of a battle, so check `action` before treating it as a start. Key fields: `battle_id`; `action`, a `LinkMicBattleBattleAction` such as `INVITE`, `ACCEPT`, `REJECT`, `CANCEL`, `OPEN`, `FINISH`, `QUIT_APPLY`, or `LEAVE_LINKMIC`; `battle_settings`, a `BattleSetting` with the duration and rules; `anchors_info`, the participating hosts as `BattleUserInfoWrapper` objects keyed by user ID; `armies`; `battle_result`, a dict from host user ID to `BattleResult` with `result`, `score`, and `diamond_score`, filled on `FINISH`; `team_member`, `team_armies`, and `team_battle_result` for team battles; `action_by_user_id`; and `bubble_text`.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import LinkMicBattleEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import LinkMicBattleEvent
 from TikTokLiveProto.v3.webcast.im import LinkMicBattleBattleAction
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(LinkMicBattleEvent)
@@ -43,10 +43,10 @@ A battle user received points. Message: [`WebcastLinkMicArmies`](/schema/webcast
 Key fields: `battle_id` and `channel_id`; `armies`, a dict from host user ID to `BattleUserArmies` with `hostscore`, the host's current score, and `user_armies`, the top contributors; `team_armies`; `trigger_reason`, a `LinkMicArmiesTriggerReason` of `SCORE_UPDATE`, `BATTLE_END`, `OPT_OUT_UPDATE`, `KEEP_ALIVE`, or `EFFECT_UPDATE`; `from_user_id`, `gift_id`, `gift_count`, `gift_icon_image`, `repeat_count`, and `total_diamond_count` for the gift that triggered the update; `trigger_critical_strike`; and `battle_settings`. A `KEEP_ALIVE` update carries scores without a gift.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import LinkMicArmiesEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import LinkMicArmiesEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(LinkMicArmiesEvent)

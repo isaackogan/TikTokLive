@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "TikTokLive"
+name = "IgniteLiveAPI"
 version = "7.0.1"
 description = "Unofficial TikTok LIVE API for Python: real-time chat, gift, like, follow and viewer events from any TikTok livestream."
 readme = "README.md"  # Corrected format
@@ -18,7 +18,7 @@ license = { text = "Modified AGPL-3.0" }
 authors = [
     { name = "Isaac Kogan", email = "info@isaackogan.com" }
 ]
-keywords = ["tiktok live api", "tiktok api", "tiktoklive", "euler stream", "tiktool", "tiktok live", "python3", "api", "unofficial"]
+keywords = ["tiktok live api", "tiktok api", "tiktoklive", "igniteliveapi", "euler stream", "tiktool", "tiktok live", "python3", "api", "unofficial"]
 dependencies = [
     "httpx>=0.28.1",
     "pyee==13.0.1",
@@ -94,7 +94,7 @@ show_error_codes = true
 # ``_aliases.py`` which intentionally attaches @property hooks to existing
 # classes via ``setattr``-style mutation that mypy can't model.
 exclude = [
-    "TikTokLive/proto/_aliases\\.py",
+    "IgniteLiveAPI/proto/_aliases\\.py",
     "build/",
     "dist/",
 ]
@@ -117,7 +117,7 @@ license-files = ['LICENSE']
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["TikTokLive*"]
+include = ["IgniteLiveAPI*"]
 
 [tool.setuptools.package-data]
 "*" = ["*.txt", "*.rst", "*.md"]  # Proper wildcard for including package data

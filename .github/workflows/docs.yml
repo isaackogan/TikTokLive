@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'docs/**'
-      - 'TikTokLive/**'
+      - 'IgniteLiveAPI/**'
       - 'pyproject.toml'
       - 'README.md'
       - 'scripts/seo/**'
@@ -13,7 +13,7 @@ on:
     branches: [master]
     paths:
       - 'docs/**'
-      - 'TikTokLive/**'
+      - 'IgniteLiveAPI/**'
       - 'pyproject.toml'
       - 'README.md'
       - 'scripts/seo/**'

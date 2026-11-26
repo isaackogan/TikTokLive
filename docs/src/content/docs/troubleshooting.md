@@ -3,9 +3,9 @@ title: Troubleshooting
 description: Diagnose connection failures, signing errors, blocked WebSockets, missing events, recording problems, and the known limitations of this release.
 ---
 
-Start with the smallest [Getting Started](/) example, the exact installed versions from `pip show TikTokLive TikTokLiveProto`, the operation that failed, and the original exception with its cause chain. A connection has four stages that fail differently: the HTTP requests to TikTok that resolve the room and check that it is live, the signing request to the provider, the WebSocket handshake with TikTok, and the decoding of messages once connected. Succeeding at one does not establish that the next works, and a proxy or a session can affect each stage separately.
+Start with the smallest [Getting Started](/) example, the exact installed versions from `pip show IgniteLiveAPI TikTokLiveProto`, the operation that failed, and the original exception with its cause chain. A connection has four stages that fail differently: the HTTP requests to TikTok that resolve the room and check that it is live, the signing request to the provider, the WebSocket handshake with TikTok, and the decoding of messages once connected. Succeeding at one does not establish that the next works, and a proxy or a session can affect each stage separately.
 
-Every error the library raises subclasses `TikTokLiveError`, in `TikTokLive.client.errors`, except where a standard exception is named below. Each message starts with the package version.
+Every error the library raises subclasses `IgniteLiveError`, in `IgniteLiveAPI.client.errors`, except where a standard exception is named below. Each message starts with the package version.
 
 ## Connection errors
 
@@ -20,7 +20,9 @@ Every error the library raises subclasses `TikTokLiveError`, in `TikTokLive.clie
 | `TypeError` from the constructor | `web_kwargs` holds a key other than `httpx_kwargs`, `signer_kwargs`, and `web_proxy`; cookies go in `web_kwargs["httpx_kwargs"]["cookies"]`. See [client options](/configuration/options/). |
 | `InitialCursorMissingError`, `WebsocketURLMissingError` | The signed response had no cursor, no WebSocket URL, or no route parameters, so no connection URL could be built. The provider answered without the data TikTok normally returns; retry, and report it with the provider's `log_id` if it persists. |
 | `WebcastBlockedError` | TikTok rejected the WebSocket handshake with status 400 or 200; see below. |
-| `websockets.exceptions.ConnectionClosedError` | The socket closed with a code other than 1000 or 1001 after connecting; see below. |
+| `websockets.exceptions.ConnectionClosedError` | The socket closed with a code other than 1000 or 1001 after connecting; see below. Start the client with `reconnect=True` to recover automatically. |
+| `IdleTimeoutError` | `idle_timeout` seconds passed without any frame from TikTok. The connection was dropped. With `reconnect=True` it is retried. |
+| `ReconnectFailedError` | `reconnect=` used up its `max_attempts` consecutive attempts. The last failure is the error's cause. |
 
 ## Signing errors
 
@@ -53,10 +55,10 @@ import asyncio
 
 from websockets.exceptions import ConnectionClosedError
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.errors import SignatureRateLimitError, UserOfflineError, WebcastBlockedError
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.errors import SignatureRateLimitError, UserOfflineError, WebcastBlockedError
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 async def main() -> None:
@@ -106,4 +108,4 @@ These describe the checked-in code; recheck them against a newer release.
 
 ## Report a reproducible issue
 
-File reports on the [TikTokLive GitHub issues](https://github.com/isaackogan/TikTokLive/issues) page. Include the output of `pip show TikTokLive TikTokLiveProto`, the Python version and operating system, the client options with secrets removed, a minimal example, the exact exception with its cause chain, and which stage failed: room ID, live check, signing, WebSocket handshake, or message decoding. For an event that does not arrive or does not parse, add the message `method` and a base64 payload from the [debugging guide](/guides/debugging-events/), reviewed for personal data. Never include session cookies, API keys, or signed URLs.
+File reports on the [TikTokLive GitHub issues](https://github.com/isaackogan/TikTokLive/issues) page. Include the output of `pip show IgniteLiveAPI TikTokLiveProto`, the Python version and operating system, the client options with secrets removed, a minimal example, the exact exception with its cause chain, and which stage failed: room ID, live check, signing, WebSocket handshake, or message decoding. For an event that does not arrive or does not parse, add the message `method` and a base64 payload from the [debugging guide](/guides/debugging-events/), reviewed for personal data. Never include session cookies, API keys, or signed URLs.

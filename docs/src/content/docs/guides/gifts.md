@@ -14,10 +14,10 @@ A viewer can hold the gift button to send the same gift repeatedly. TikTok repor
 The property `streaking` is `True` for the intermediate messages and `False` for the final one, and always `False` for a gift that cannot streak. A handler that returns while `event.streaking` counts each gift once, at the end of its streak, without checking the gift's type:
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import ConnectEvent, GiftEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import ConnectEvent, GiftEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(ConnectEvent)
@@ -50,10 +50,10 @@ To show a streak while it runs, replace the displayed count with the latest `rep
 Whether a gift can streak is a property of the gift, not of the message: `gift.type == 1` means streakable. `event.gift` is an `ExtendedGift`, which exposes that test as the `streakable` property. A non-streakable gift arrives as a single `GiftEvent` with `streaking` equal to `False`, so the handler above needs no special case; branch on `streakable` only when the two kinds should be reported differently:
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import GiftEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import GiftEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(GiftEvent)
@@ -85,10 +85,10 @@ Index the catalog by ID to describe a gift from `gift_id` alone, or to list what
 ```python
 from typing import Any, Dict
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import ConnectEvent, GiftEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import ConnectEvent, GiftEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 catalog: Dict[int, Dict[str, Any]] = {}
 
 

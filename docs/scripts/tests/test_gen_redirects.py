@@ -6,8 +6,8 @@ def test_every_old_page_is_written(tmp_path):
     for old in gen_redirects.REDIRECT_MAP:
         assert (tmp_path / old).exists()
     html = (tmp_path / "TikTokLive.client.html").read_text()
-    assert 'url=https://ttl.docs.isaackogan.com/api/tiktoklive/client/' in html
-    assert 'rel="canonical" href="https://ttl.docs.isaackogan.com/api/tiktoklive/client/"' in html
+    assert 'url=https://ttl.docs.isaackogan.com/api/igniteliveapi/client/' in html
+    assert 'rel="canonical" href="https://ttl.docs.isaackogan.com/api/igniteliveapi/client/"' in html
 
 
 def test_unknown_old_path_falls_back_to_root(tmp_path):

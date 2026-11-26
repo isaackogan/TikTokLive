@@ -1,17 +1,17 @@
 ---
 title: Client options
-description: Every TikTokLiveClient constructor parameter, method, property, and attribute, and the keys accepted by web_kwargs and ws_kwargs.
+description: Every IgniteLiveClient constructor parameter, method, property, and attribute, and the keys accepted by web_kwargs and ws_kwargs.
 sidebar:
   order: 1
 ---
 
-Construct a client with `TikTokLiveClient(unique_id, ...)`. Everything after `unique_id` is optional. The constructor builds the HTTP client and the WebSocket client at once, so parameters are applied at construction; changing a dict you passed in afterwards does not reconfigure the client. Options that apply to one connection, such as `fetch_room_info`, belong to `run`, `connect`, and `start`; see [connection lifecycle](/getting-started/connection/).
+Construct a client with `IgniteLiveClient(unique_id, ...)`. Everything after `unique_id` is optional. The constructor builds the HTTP client and the WebSocket client at once, so parameters are applied at construction; changing a dict you passed in afterwards does not reconfigure the client. Options that apply to one connection, such as `fetch_room_info`, belong to `run`, `connect`, and `start`; see [connection lifecycle](/getting-started/connection/).
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.web.routes.fetch_signed_websocket import WebcastPlatform
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.web.routes.fetch_signed_websocket import WebcastPlatform
 
-client: TikTokLiveClient = TikTokLiveClient(
+client: IgniteLiveClient = IgniteLiveClient(
     unique_id="@isaackogz",
     platform=WebcastPlatform.WEB,
     web_proxy=None,
@@ -27,7 +27,7 @@ client: TikTokLiveClient = TikTokLiveClient(
 | Parameter | Type | Default | Behavior |
 | --- | --- | --- | --- |
 | `unique_id` | `str` or `int` | Required | The creator to connect to: `@username`, the bare username, or a profile or live URL. `parse_unique_id` strips `https://www.tiktok.com/`, `/live`, the first `@`, and surrounding whitespace. An `int` is kept as a numeric string; see `is_user_id`. |
-| `platform` | `WebcastPlatform` | `WebcastPlatform.WEB` | Which WebSocket endpoint the signing provider returns. `WebcastPlatform.MOBILE` requires a `sessionid` cookie and raises `ValueError` at connect time without one; see [authentication](/configuration/authentication/). Import the enum from `TikTokLive.client.web.routes.fetch_signed_websocket`. |
+| `platform` | `WebcastPlatform` | `WebcastPlatform.WEB` | Which WebSocket endpoint the signing provider returns. `WebcastPlatform.MOBILE` requires a `sessionid` cookie and raises `ValueError` at connect time without one; see [authentication](/configuration/authentication/). Import the enum from `IgniteLiveAPI.client.web.routes.fetch_signed_websocket`. |
 | `web_proxy` | `httpx.Proxy` | `None` | Proxy for the HTTP client's requests to TikTok. See [proxies](/configuration/proxies/). |
 | `ws_proxy` | `WebcastProxy` | `None` | Proxy for the WebSocket connection: an `httpx.Proxy` or a `websockets_proxy.Proxy`. See [proxies](/configuration/proxies/). |
 | `web_kwargs` | `dict` | `None` | Keyword arguments for the HTTP client. Only the three keys below are accepted. |
@@ -40,14 +40,14 @@ The HTTP client is `TikTokWebClient`, available as `client.web`. `web_kwargs` is
 
 | Key | Behavior |
 | --- | --- |
-| `httpx_kwargs` | A `dict`. Its `cookies`, `headers`, and `params` entries are taken out and merged over `WebDefaults.web_client_cookies`, `web_client_headers`, and `web_client_params`; cookies are stored for the `.tiktok.com` domain. Every remaining entry, such as `timeout` or `verify`, is passed to `httpx.AsyncClient`. |
+| `httpx_kwargs` | A `dict`. Its `cookies`, `headers`, and `params` entries are taken out and merged over `WebDefaults.web_client_cookies`, `web_client_headers`, and `web_client_params`; cookies are stored for the `.tiktok.com` domain. Every remaining entry, such as `timeout` or `verify`, is passed to `httpx.AsyncClient`. Unless you pass them, `limits` defaults to `httpx.Limits(max_connections=100, max_keepalive_connections=20, keepalive_expiry=30.0)` and `timeout` to `httpx.Timeout(15.0, connect=10.0)`. |
 | `signer_kwargs` | A `dict` passed to the signer: `sign_api_key` and `sign_api_base`. See [signing](/configuration/signing/). |
 | `web_proxy` | Used only when the `web_proxy` parameter is `None`. |
 
 ```python
-from TikTokLive import TikTokLiveClient
+from IgniteLiveAPI import IgniteLiveClient
 
-client: TikTokLiveClient = TikTokLiveClient(
+client: IgniteLiveClient = IgniteLiveClient(
     unique_id="@isaackogz",
     web_kwargs={
         "httpx_kwargs": {
@@ -103,7 +103,7 @@ Every other key is forwarded to the `websockets` client constructor. `ping_timeo
 | `room_id` | `int` or `None` | The room the client is connected to. `None` before connecting and after `disconnect`. |
 | `web` | `TikTokWebClient` | The HTTP client: its routes, cookie jar, headers, params, and signer. `client.web.set_session(...)` sets a login session. |
 | `connected` | `bool` | Whether the WebSocket is open. |
-| `logger` | `logging.Logger` | The `TikTokLive` logger. Its level starts at `ERROR`; `client.logger.setLevel(LogLevel.INFO.value)` shows connection messages. |
+| `logger` | `logging.Logger` | The `IgniteLiveAPI` logger. Its level starts at `ERROR`; `client.logger.setLevel(LogLevel.INFO.value)` shows connection messages. |
 | `gift_info` | `dict` or `None` | The room's gift catalog when connected with `fetch_gift_info=True`. |
 | `room_info` | `dict` or `None` | The room's metadata when connected with `fetch_room_info=True`. |
 
@@ -115,11 +115,11 @@ Two plain attributes can be set after construction:
 | `parse_error_ignorelist` | `[]` | Substrings of parse error messages to log at `DEBUG` instead of `ERROR`, for known upstream schema bugs. |
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.logger import LogLevel
-from TikTokLive.events import CommentEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.logger import LogLevel
+from IgniteLiveAPI.events import CommentEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 client.logger.setLevel(LogLevel.INFO.value)
 client.ignore_broken_payload = True
 

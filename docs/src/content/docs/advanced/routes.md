@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-A route is a callable object on `client.web`, one per module under `TikTokLive.client.web.routes`. Each is created when the client is constructed and called like a function; all are `async` except `fetch_video_data`, which starts a thread. The high-level client calls them in a fixed order when it connects, and you can call any of them yourself, before, during, or instead of a connection. See the [web client page](/advanced/web-client/) for the request helpers they share and for writing a route of your own.
+A route is a callable object on `client.web`, one per module under `IgniteLiveAPI.client.web.routes`. Each is created when the client is constructed and called like a function; all are `async` except `fetch_video_data`, which starts a thread. The high-level client calls them in a fixed order when it connects, and you can call any of them yourself, before, during, or instead of a connection. See the [web client page](/advanced/web-client/) for the request helpers they share and for writing a route of your own.
 
 ## Route registry
 
@@ -30,9 +30,9 @@ Requests to TikTok go to `WebDefaults.tiktok_app_url` or `WebDefaults.tiktok_web
 import asyncio
 from typing import Any, Dict
 
-from TikTokLive import TikTokLiveClient
+from IgniteLiveAPI import IgniteLiveClient
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 async def main() -> None:
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
 `fetch_room_id_from_api(unique_id) -> int` requests `/api-live/user/room/` with `uniqueId` and `sourceType=54` and returns `data.user.roomId` as an `int`. It raises `FailedParseRoomIdError` when the response is not JSON, which the error text attributes to rate limiting or a temporary block, and `UserNotFoundError` when TikTok answers `user_not_found`. Its class method `fetch_user_room_data(web, unique_id)` returns the whole response, which `fetch_is_live` reuses.
 
-When a connection starts, the client tries the HTML route and, on any error other than `UserOfflineError`, the API route; if that fails too, the API route's exception is raised with the HTML route's as its cause. Passing `room_id` to `run`, `connect`, or `start` skips both. `FailedParseRoomIdError` is defined in the `fetch_room_id_live_html` module; `UserOfflineError` and `UserNotFoundError` in `TikTokLive.client.errors`.
+When a connection starts, the client tries the HTML route and, on any error other than `UserOfflineError`, the API route; if that fails too, the API route's exception is raised with the HTML route's as its cause. Passing `room_id` to `run`, `connect`, or `start` skips both. `FailedParseRoomIdError` is defined in the `fetch_room_id_live_html` module; `UserOfflineError` and `UserNotFoundError` in `IgniteLiveAPI.client.errors`.
 
 ## Live status
 
@@ -94,4 +94,4 @@ The response body is the first fetch result, parsed into a `ProtoMessageFetchRes
 
 ## Error classes
 
-Errors shared across routes are in `TikTokLive.client.errors`: `TikTokLiveError` is the base class, and `UserOfflineError`, `UserNotFoundError`, `AgeRestrictedError`, `WebcastBlockedError`, and the `SignAPIError` family are the ones routes raise. Route-specific errors are defined next to the route: `FailedParseRoomIdError` in `fetch_room_id_live_html`; `InvalidFetchIsLiveRequest` and `MissingRoomIdInResponse` in `fetch_is_live`; `FailedFetchRoomInfoError` and `InvalidFetchRoomInfoPayload` in `fetch_room_info`; `FailedFetchGiftListError` in `fetch_gift_list`; `DuplicateDownloadError` in `fetch_video_data`; `FailedParseAppInfo` and `FailedResolveUserId` in `fetch_user_unique_id`. All subclass `TikTokLiveError`, which subclasses `RuntimeError`, and every message starts with the package version. See [troubleshooting](/troubleshooting/).
+Errors shared across routes are in `IgniteLiveAPI.client.errors`: `IgniteLiveError` is the base class, and `UserOfflineError`, `UserNotFoundError`, `AgeRestrictedError`, `WebcastBlockedError`, and the `SignAPIError` family are the ones routes raise. Route-specific errors are defined next to the route: `FailedParseRoomIdError` in `fetch_room_id_live_html`; `InvalidFetchIsLiveRequest` and `MissingRoomIdInResponse` in `fetch_is_live`; `FailedFetchRoomInfoError` and `InvalidFetchRoomInfoPayload` in `fetch_room_info`; `FailedFetchGiftListError` in `fetch_gift_list`; `DuplicateDownloadError` in `fetch_video_data`; `FailedParseAppInfo` and `FailedResolveUserId` in `fetch_user_unique_id`. All subclass `IgniteLiveError`, which subclasses `RuntimeError`, and every message starts with the package version. See [troubleshooting](/troubleshooting/).

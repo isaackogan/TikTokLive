@@ -13,8 +13,8 @@ import gen_api  # noqa: E402
 
 
 @pytest.fixture(scope="session")
-def tiktoklive_module():
-    return gen_api.load_module("TikTokLive")
+def igniteliveapi_module():
+    return gen_api.load_module("IgniteLiveAPI")
 
 
 @pytest.fixture(scope="session")

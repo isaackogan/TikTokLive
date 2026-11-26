@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the API reference and protobuf schema reference as Starlight Markdown.
 
-``TikTokLive`` and ``TikTokLiveProto`` are loaded statically with griffe (nothing is
+``IgniteLiveAPI`` and ``TikTokLiveProto`` are loaded statically with griffe (nothing is
 imported), then one page is written per public module, class, and function under
 ``docs/src/content/docs/api/`` and one per protobuf message and enum under
 ``.../schema/``. Both directories are build outputs: they are wiped on every run.
@@ -30,7 +30,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 CONTENT_ROOT = REPO_ROOT / "docs" / "src" / "content" / "docs"
 SITE_PACKAGES = Path(sysconfig.get_paths()["purelib"])
 
-API_PACKAGE = "TikTokLive"
+API_PACKAGE = "IgniteLiveAPI"
 PROTO_PACKAGE = "TikTokLiveProto"
 SCHEMA_SUBPACKAGE = "v3"
 SCHEMA_ROOT = f"{PROTO_PACKAGE}.{SCHEMA_SUBPACKAGE}"
@@ -41,7 +41,7 @@ INLINE_METHOD_LIMIT = 5  # classes with more public methods get one page per met
 SIGNATURE_WIDTH = 88  # longer signatures are wrapped one parameter per line
 VALUE_WIDTH = 60  # longer attribute values are omitted
 
-# One collection for every load so aliases from TikTokLive into TikTokLiveProto resolve.
+# One collection for every load so aliases from IgniteLiveAPI into TikTokLiveProto resolve.
 _collection = griffe.ModulesCollection()
 
 
@@ -49,11 +49,11 @@ _collection = griffe.ModulesCollection()
 
 
 def package_version() -> str:
-    """Version stamped in ``TikTokLive/__version__.py``."""
+    """Version stamped in ``IgniteLiveAPI/__version__.py``."""
     text = (REPO_ROOT / API_PACKAGE / "__version__.py").read_text()
     match = re.search(r'^PACKAGE_VERSION(?:\s*:\s*str)?\s*=\s*"([^"]+)"', text, re.MULTILINE)
     if match is None:
-        raise RuntimeError("PACKAGE_VERSION not found in TikTokLive/__version__.py")
+        raise RuntimeError("PACKAGE_VERSION not found in IgniteLiveAPI/__version__.py")
     return match.group(1)
 
 
@@ -74,7 +74,7 @@ def load_module(name: str) -> griffe.Module:
 
 
 def reexported_modules() -> set[str]:
-    """Absolute modules star-imported by ``TikTokLive/proto/__init__.py``."""
+    """Absolute modules star-imported by ``IgniteLiveAPI/proto/__init__.py``."""
     text = (REPO_ROOT / API_PACKAGE / "proto" / "__init__.py").read_text()
     return set(re.findall(r"^from\s+([A-Za-z]\S*)\s+import\s+\*", text, re.MULTILINE))
 
@@ -83,7 +83,7 @@ def reexported_modules() -> set[str]:
 
 
 def api_slug(path: str) -> str:
-    """``TikTokLive.client.client.TikTokLiveClient`` -> ``tiktoklive/client/client/tiktokliveclient``."""
+    """``IgniteLiveAPI.client.client.IgniteLiveClient`` -> ``igniteliveapi/client/client/igniteliveclient``."""
     return path.lower().replace(".", "/")
 
 
@@ -102,7 +102,7 @@ def page_url(path: str) -> str:
 def in_api_scope(path: str) -> bool:
     """Whether a dotted path belongs to the rendered API reference.
 
-    Private names are out. Of the ``TikTokLive.proto`` subtree only ``custom_proto``
+    Private names are out. Of the ``IgniteLiveAPI.proto`` subtree only ``custom_proto``
     is in: the rest re-exports the proto package, which the schema reference covers.
     """
     parts = path.split(".")
@@ -707,7 +707,7 @@ def render_api(root: griffe.Module, out_dir: Path) -> list[Path]:
 
 
 def schema_import_path(cls: griffe.Class, reexported: set[str]) -> str:
-    """``TikTokLive.proto`` when it star-imports the class, else the class's own module."""
+    """``IgniteLiveAPI.proto`` when it star-imports the class, else the class's own module."""
     module = cls.module
     exported = module.exports is None or any(str(name) == cls.name for name in module.exports)
     return PROTO_REEXPORT_MODULE if module.path in reexported and exported else module.path
@@ -728,7 +728,7 @@ def render_schema(proto_root: griffe.Module, reexported: set[str], out_dir: Path
     version = proto_version()
     index = index_page(
         f"TikTok Webcast v3 schema ({version})",
-        f"Every protobuf message and enum in TikTokLiveProto {version}, the schema TikTokLive decodes events from.",
+        f"Every protobuf message and enum in TikTokLiveProto {version}, the schema IgniteLiveAPI decodes events from.",
         [("## Messages", messages), ("## Enums", enums)],
     )
     return [_write(out_dir, "index.md", index), *written]
@@ -739,7 +739,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, default=CONTENT_ROOT, help="content directory holding api/ and schema/")
     args = parser.parse_args(argv)
 
-    proto_root = load_module(PROTO_PACKAGE)  # first, so TikTokLive.proto's star re-exports resolve
+    proto_root = load_module(PROTO_PACKAGE)  # first, so IgniteLiveAPI.proto's star re-exports resolve
     api_root = load_module(API_PACKAGE)
     api_dir, schema_dir = args.out / "api", args.out / "schema"
     for directory in (api_dir, schema_dir):

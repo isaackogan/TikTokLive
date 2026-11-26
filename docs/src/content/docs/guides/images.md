@@ -15,10 +15,10 @@ Images appear on `user` as `avatar_thumb`, `avatar_medium`, and `avatar_large`, 
 from pathlib import PurePosixPath
 from urllib.parse import urlparse
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import CommentEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import CommentEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(CommentEvent)
@@ -53,10 +53,10 @@ from pathlib import PurePosixPath
 from typing import Set
 from urllib.parse import urlparse
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import GiftEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import GiftEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 saved: Set[int] = set()
 
 
@@ -84,9 +84,9 @@ if __name__ == "__main__":
 ```python
 import asyncio
 
-from TikTokLive import TikTokLiveClient
+from IgniteLiveAPI import IgniteLiveClient
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 async def main() -> None:

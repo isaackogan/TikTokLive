@@ -1,11 +1,11 @@
 from httpx import Proxy
 
-from TikTokLive.client.client import TikTokLiveClient
-from TikTokLive.client.logger import LogLevel
-from TikTokLive.events import ConnectEvent
+from IgniteLiveAPI.client.client import IgniteLiveClient
+from IgniteLiveAPI.client.logger import LogLevel
+from IgniteLiveAPI.events import ConnectEvent
 
 # Create the client
-client: TikTokLiveClient = TikTokLiveClient(
+client: IgniteLiveClient = IgniteLiveClient(
     unique_id="@tv_asahi_news",
 
     # You can configure a proxy for web requests

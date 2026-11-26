@@ -16,10 +16,10 @@ A "VIP" viewer (based on gifting level) joins the chat room. Message: [`WebcastB
 A barrage is a highlighted banner in the chat: a high-level gifter or fan-club member entering, a subscription, a fan-level upgrade, a gift-gallery milestone. Key fields: `msg_type`, a `BarrageMessageBarrageType` such as `SUBSCRIBE`, `SUBSCRIBE_GIFT`, `USER_UPGRADE`, `GRADE_USER_ENTRANCE_NOTIFICATION`, `FANS_LEVEL_UPGRADE`, `FANS_LEVEL_ENTRANCE`, `GIFT_GALLERY`, or `COMMON_BARRAGE`; `content` and `common_barrage_content`, `Text` messages whose `default_pattern` is the rendered text and whose `key` identifies the template; `user`; `icon`, `right_icon`, and `background`; `duration`; `user_grade_param`, `fans_level_param`, `subscribe_gift_param`, and `gift_gallery_params`, one of which is set per `msg_type`; and `show_type` and `render_type`.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import BarrageEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import BarrageEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(BarrageEvent)
@@ -64,11 +64,11 @@ Subscription notification (subscribe / renew / gift sub). Message: [`WebcastSubN
 Key fields: `user`; `message_type`, a `MessageType` that distinguishes `SUB_SUCCESS` from reminders, goal notices, and the `SUB_GIFT_*` gifted-subscription notices; `subscribe_type` (`ONCE` or `AUTO`); `old_subscribe_status`, `FIRST` for a new subscriber and `RESUB` for a renewal; `subscribing_status`; `sub_month`, the subscriber's month count; `is_send` and `gift_source` for gifted subscriptions; `is_custom`; `exhibition_type`; `message_display_style`; and `package_id`. Check `message_type` before treating the event as a purchase.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import SubNotifyEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import SubNotifyEvent
 from TikTokLiveProto.v3.webcast.im import MessageType
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(SubNotifyEvent)

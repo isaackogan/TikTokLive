@@ -1,17 +1,12 @@
-# TikTok LIVE API for Python: Real-Time Livestream Events (Unofficial)
+# IgniteLiveAPI: TikTok LIVE API for Python (Unofficial)
 
-TikTok LIVE API (TikTokLive) is the #1 TikTok LIVE client for **Python**. Connect to any [TikTok LIVE](https://www.tiktok.com/live) stream and receive **real-time chat messages, gifts, likes, follows, shares, viewer counts, battles, and more** using just a creator's `@unique_id`. No login, no credentials or app are required.
+IgniteLiveAPI is a TikTok LIVE client for **Python**, derived from [TikTokLive](https://github.com/isaackogan/TikTokLive) by Isaac Kogan (modified AGPL-3.0, see [LICENSE](LICENSE)). Connect to any [TikTok LIVE](https://www.tiktok.com/live) stream and receive **real-time chat messages, gifts, likes, follows, shares, viewer counts, battles, and more** using just a creator's `@unique_id`. No login, no credentials or app are required.
 
-TikTokLive is the definitive third-party Python library for reading the TikTok LIVE websocket, building TikTok chat bots, gift trackers, live stream overlays, alerts, and analytics tools.
+IgniteLiveAPI is a third-party Python library for reading the TikTok LIVE websocket, building TikTok chat bots, gift trackers, live stream overlays, alerts, and analytics tools.
 
 Full documentation, guides, and the complete event reference are at [ttl.docs.isaackogan.com](https://ttl.docs.isaackogan.com/).
 
-[![Discord](https://img.shields.io/discord/977648006063091742?logo=discord&label=TikTokLive%20Discord&labelColor=%23171717&color=%231877af)](https://discord.gg/N3KSxzvDX8)
 ![Live TikTok LIVE API connections](https://api.eulerstream.com/analytics/pips)
-![TikTokLive PyPI downloads](https://pepy.tech/badge/tiktoklive)
-![TikTokLive GitHub stars](https://img.shields.io/github/stars/isaackogan/TikTokLive?style=flat&color=0274b5)
-![TikTokLive GitHub forks](https://img.shields.io/github/forks/isaackogan/TikTokLive?style=flat&color=0274b5)
-![TikTokLive open issues](https://img.shields.io/github/issues/isaackogan/TikTokLive)
 
 > **Note:** This is <strong>not</strong> a production-ready API. It is a reverse engineering project. Use the [WebSocket API](https://www.eulerstream.com/websockets) for production by [Euler Stream](https://www.eulerstream.com/).
 
@@ -56,26 +51,26 @@ Full documentation, guides, and the complete event reference are at [ttl.docs.is
 
 ## Community
 
-Join the [TikTokLive discord](https://discord.gg/e2XwPNTBBr) and visit
+Join the [IgniteLiveAPI discord](https://discord.gg/e2XwPNTBBr) and visit
 the [`#py-support`](https://discord.gg/uja6SajDxd)
 channel for questions, contributions and ideas.
 
 ## Getting Started
 
-Install the TikTok LIVE API client for Python via pip from the [PyPi](https://pypi.org/project/TikTokLive/) repository:
+Install the TikTok LIVE API client for Python via pip from the [PyPi](https://pypi.org/project/IgniteLiveAPI/) repository:
 
 ```shell script
-pip install TikTokLive
+pip install IgniteLiveAPI
 ```
 
 Then create your first real-time TikTok LIVE chat connection:
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import ConnectEvent, CommentEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import ConnectEvent, CommentEvent
 
 # Create the client
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 # Listen to an event with a decorator!
@@ -101,7 +96,7 @@ For more quickstart examples, including a TikTok live chat reader, gift tracker,
 
 ## TikTok LIVE API in Other Languages: Node.js, Java, C#, Go, Rust
 
-The TikTokLive TikTok LIVE API is available in several alternate programming languages:
+The IgniteLiveAPI TikTok LIVE API is available in several alternate programming languages:
 
 - **Node.JS / JavaScript / TypeScript:** [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector)
 - **Java:** [TikTok-Live-Java](https://github.com/jwdeveloper/TikTok-Live-Java)
@@ -114,14 +109,14 @@ The TikTokLive TikTok LIVE API is available in several alternate programming lan
 | Param Name | Required | Default | Description                                                                                                                                                                                                               |
 |------------|----------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | unique_id  | Yes      | N/A     | The unique username of the broadcaster. You can find this name in the URL of the user. For example, the `unique_id` for [`https://www.tiktok.com/@isaackogz`](https://www.tiktok.com/@isaackogz) would be `isaackogz`.    |
-| web_proxy  | No       | `None`  | TikTokLive supports proxying HTTP requests. This parameter accepts an `httpx.Proxy`. Note that if you do use a proxy you may be subject to reduced connection limits at times of high load.                               |
-| ws_proxy   | No       | `None`  | TikTokLive supports proxying the websocket connection. This parameter accepts an `httpx.Proxy`. Using this proxy will never be subject to reduced connection limits.                                                      |
-| web_kwargs | No       | `{}`    | Under the scenes, the TikTokLive HTTP client uses the [`httpx`](https://github.com/encode/httpx) library. Arguments passed to `web_kwargs` will be forward the the underlying HTTP client.                                |
-| ws_kwargs  | No       | `{}`    | Under the scenes, TikTokLive uses the [`websockets`](https://github.com/python-websockets/websockets) library to connect to TikTok. Arguments passed to `ws_kwargs` will be forwarded to the underlying WebSocket client. |
+| web_proxy  | No       | `None`  | IgniteLiveAPI supports proxying HTTP requests. This parameter accepts an `httpx.Proxy`. Note that if you do use a proxy you may be subject to reduced connection limits at times of high load.                               |
+| ws_proxy   | No       | `None`  | IgniteLiveAPI supports proxying the websocket connection. This parameter accepts an `httpx.Proxy`. Using this proxy will never be subject to reduced connection limits.                                                      |
+| web_kwargs | No       | `{}`    | Under the scenes, the IgniteLiveAPI HTTP client uses the [`httpx`](https://github.com/encode/httpx) library. Arguments passed to `web_kwargs` will be forward the the underlying HTTP client.                                |
+| ws_kwargs  | No       | `{}`    | Under the scenes, IgniteLiveAPI uses the [`websockets`](https://github.com/python-websockets/websockets) library to connect to TikTok. Arguments passed to `ws_kwargs` will be forwarded to the underlying WebSocket client. |
 
 ## Methods
 
-A `TikTokLiveClient` object contains the following methods worth mentioning:
+A `IgniteLiveClient` object contains the following methods worth mentioning:
 
 | Method Name  | Notes   | Description                                                                                                                                                                         |
 |--------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -133,33 +128,33 @@ A `TikTokLiveClient` object contains the following methods worth mentioning:
 
 ## Properties
 
-A `TikTokLiveClient` object contains the following important properties:
+A `IgniteLiveClient` object contains the following important properties:
 
 | Attribute Name | Description                                                                                                                                                 |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | room_id        | The Room ID of the livestream room the client is currently connected to.                                                                                    |
 | web            | The TikTok HTTP client. This client has a lot of useful routes you should explore!                                                                          |
 | connected      | Whether you are currently connected to the livestream.                                                                                                      |
-| logger         | The internal logger used by TikTokLive. You can use `client.logger.setLevel(...)` method to enable client debug.                                            |
+| logger         | The internal logger used by IgniteLiveAPI. You can use `client.logger.setLevel(...)` method to enable client debug.                                            |
 | room_info      | Room information that is retrieved from TikTok when you use a connection method (e.g. `client.connect`) with the keyword argument `fetch_room_info=True` .  |
 | gift_info      | Extra gift information that is retrieved from TikTok when you use a connection method (e.g. `client.run`) with the keyword argument `fetch_gift_info=True`. |
 
 ## WebDefaults
 
-TikTokLive has a series of global defaults used to create the HTTP client which you can customize. For info on how to set these parameters, see
+IgniteLiveAPI has a series of global defaults used to create the HTTP client which you can customize. For info on how to set these parameters, see
 the [web_defaults.py](https://github.com/isaackogan/TikTokLive/blob/master/examples/web_defaults.py) example.
 
 | Parameter                   | Type   | Description                                                                                                                                                                   |
 |-----------------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | tiktok_sign_api_key         | `str`  | A [Euler Stream](https://www.eulerstream.com/) API key used to increase rate limits.                                                                                          |
 | tiktok_app_url              | `str`  | The TikTok app URL (`https://www.tiktok.com`) used to scrape the room.                                                                                                        |
-| tiktok_sign_url             | `str`  | The [signature server](https://www.eulerstream.com/) used to generate tokens to connect to TikTokLive. By default, this is Euler Stream, but you can swap your own with ease. |
+| tiktok_sign_url             | `str`  | The [signature server](https://www.eulerstream.com/) used to generate tokens to connect to IgniteLiveAPI. By default, this is Euler Stream, but you can swap your own with ease. |
 | tiktok_webcast_url          | `str`  | The TikTok livestream URL (`https://webcast.tiktok.com`) where livestreams can be accessed from.                                                                              |
 | web_client_params           | `dict` | The URL parameters added on to TikTok requests from the HTTP client.                                                                                                          |
 | web_client_headers          | `dict` | The headers added on to TikTok requests from the HTTP client.                                                                                                                 |
 | web_client_cookies          | `dict` | Custom cookies to initialize the http client with.                                                                                                                            |
 | ws_client_params            | `dict` | The URL parameters added to the URI when connecting to TikTok's Webcast WebSocket server.                                                                                     |
-| ws_client_params_append_str | `str`  | Extra string data to append to the TikTokLive WebSocket connection URI.                                                                                                       |
+| ws_client_params_append_str | `str`  | Extra string data to append to the IgniteLiveAPI WebSocket connection URI.                                                                                                       |
 
 ## Events
 
@@ -178,9 +173,9 @@ async def on_comment(event: CommentEvent) -> None:
 client.add_listener(CommentEvent, on_comment)
 ```
 
-There are two types of events, [`CustomEvent`](https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/custom_events.py)
-events and [`ProtoEvent`](https://github.com/isaackogan/TikTokLive/blob/master/TikTokLive/events/proto_events.py) events.
-Both belong to the TikTokLive `Event` type and can be listened to. The following events are available:
+There are two types of events, [`CustomEvent`](https://github.com/isaackogan/TikTokLive/blob/master/IgniteLiveAPI/events/custom_events.py)
+events and [`ProtoEvent`](https://github.com/isaackogan/TikTokLive/blob/master/IgniteLiveAPI/events/proto_events.py) events.
+Both belong to the IgniteLiveAPI `Event` type and can be listened to. The following events are available:
 
 ### Custom Events
 
@@ -321,15 +316,15 @@ There is a [complete example](https://github.com/isaackogan/TikTokLive/blob/mast
 
 ### Is there an official TikTok LIVE API?
 
-TikTok does not offer a public official API for reading livestream events. TikTokLive is an unofficial, open-source TikTok LIVE API client that reads the same Webcast websocket data available to any viewer of a stream.
+TikTok does not offer a public official API for reading livestream events. IgniteLiveAPI is an unofficial, open-source TikTok LIVE API client that reads the same Webcast websocket data available to any viewer of a stream.
 
 ### How do I get TikTok LIVE chat messages in Python?
 
-Install with `pip install TikTokLive`, create a `TikTokLiveClient` with the streamer's `@unique_id`, and listen for `CommentEvent`. See the [Getting Started](#getting-started) example above; it takes about ten lines of code.
+Install with `pip install IgniteLiveAPI`, create a `IgniteLiveClient` with the streamer's `@unique_id`, and listen for `CommentEvent`. See the [Getting Started](#getting-started) example above; it takes about ten lines of code.
 
 ### Is the TikTok LIVE API free?
 
-Yes. TikTokLive is free and open source under a modified AGPL license. Signing is handled by a third-party signature server ([Euler Stream](https://www.eulerstream.com/)) with free community rate limits; an API key raises those limits.
+Yes. IgniteLiveAPI is free and open source under a modified AGPL license. Signing is handled by a third-party signature server ([Euler Stream](https://www.eulerstream.com/)) with free community rate limits; an API key raises those limits.
 
 ### Can I track TikTok gifts, likes, and viewer counts in real time?
 
@@ -342,7 +337,7 @@ Yes, sister libraries exist for each. See [Other Languages](#tiktok-live-api-in-
 ## Star History
 
 <p align="center">
-    <img alt="TikTokLive GitHub star history chart: growth of the TikTok LIVE API for Python" src="https://star-history.dera.page/svg?repos=isaackogan/TikTokLive&type=Date&theme=dark" onerror="this.src='https://star-history.dera.page/svg?repos=isaackogan/TikTokLive&type=Date'" />
+    <img alt="IgniteLiveAPI GitHub star history chart: growth of the TikTok LIVE API for Python" src="https://star-history.dera.page/svg?repos=isaackogan/TikTokLive&type=Date&theme=dark" onerror="this.src='https://star-history.dera.page/svg?repos=isaackogan/TikTokLive&type=Date'" />
 </p>
 
 ## License

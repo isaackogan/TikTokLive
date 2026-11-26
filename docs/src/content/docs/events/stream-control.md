@@ -18,11 +18,11 @@ Key fields: `action`, a `ControlAction` with the values `STREAM_PAUSED`, `STREAM
 When `action` is `STREAM_ENDED` or `STREAM_SUSPENDED` the client schedules its own `disconnect()`, so `DisconnectEvent` follows. The derived event is emitted first, then `WebsocketResponseEvent`, then `ControlEvent`.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import ControlEvent
-from TikTokLive.proto.custom_proto import ControlAction
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import ControlEvent
+from IgniteLiveAPI.proto.custom_proto import ControlAction
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(ControlEvent)
@@ -44,10 +44,10 @@ The livestream ended or was suspended. Custom event, a subclass of `ControlEvent
 The client disconnects itself after emitting it, so a program that uses `client.run()` returns shortly after this handler. Read `event.action` to tell an ordinary end from a suspension.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import LiveEndEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import LiveEndEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(LiveEndEvent)

@@ -57,7 +57,7 @@ The first deploy creates the Worker and attaches the custom domain; wrangler rep
 
 ## Continuous deployment
 
-`.github/workflows/docs.yml` runs on pull requests and on pushes to `master` that touch `docs/`, `TikTokLive/`, `pyproject.toml`, `README.md`, `scripts/seo/`, or the workflow itself, and can be started by hand with `workflow_dispatch`. One run at a time per ref: the concurrency group is `docs-${{ github.ref }}`.
+`.github/workflows/docs.yml` runs on pull requests and on pushes to `master` that touch `docs/`, `IgniteLiveAPI/`, `pyproject.toml`, `README.md`, `scripts/seo/`, or the workflow itself, and can be started by hand with `workflow_dispatch`. One run at a time per ref: the concurrency group is `docs-${{ github.ref }}`.
 
 The `build` job sets up Python 3.12 with `pip install -e ".[test]" -r docs/requirements.txt` (the `test` extra provides `pytest`), Node.js 24 with `npm install --global pnpm@10.34.2`, and `pnpm --dir docs install --frozen-lockfile`; then it runs `python -m pytest docs/scripts/tests`, `pnpm --dir docs build`, the SEO gate `python scripts/seo/verify_seo.py docs/dist`, and `python docs/scripts/gen_redirects.py docs/redirects`; uploads `docs/dist` as the `documentation` artifact for review and `docs/redirects` as the Pages artifact; and, on a push to `master`, deploys with `cloudflare/wrangler-action@v4` (`workingDirectory: docs`, `packageManager: pnpm`, `command: deploy`). The deploy step runs only when the repository has the `CLOUDFLARE_API_TOKEN` Actions secret, and the deploy needs both of these secrets:
 
@@ -84,10 +84,10 @@ The previous documentation was a Sphinx site on GitHub Pages at `https://isaacko
 | --- | --- |
 | `index.html`, `search.html` | `/` |
 | `TikTokLive.html`, `modules.html`, `genindex.html`, `py-modindex.html` | `/api/` |
-| `TikTokLive.client.html` | `/api/tiktoklive/client/` |
-| `TikTokLive.client.web.html` | `/api/tiktoklive/client/web/` |
-| `TikTokLive.client.web.routes.html` | `/api/tiktoklive/client/web/routes/` |
-| `TikTokLive.client.ws.html` | `/api/tiktoklive/client/ws/` |
+| `TikTokLive.client.html` | `/api/igniteliveapi/client/` |
+| `TikTokLive.client.web.html` | `/api/igniteliveapi/client/web/` |
+| `TikTokLive.client.web.routes.html` | `/api/igniteliveapi/client/web/routes/` |
+| `TikTokLive.client.ws.html` | `/api/igniteliveapi/client/ws/` |
 | `TikTokLive.events.html` | `/events/` |
 | `TikTokLive.proto.html` | `/schema/` |
 

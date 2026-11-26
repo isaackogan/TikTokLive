@@ -1,7 +1,7 @@
 from urllib.parse import parse_qs, urlsplit
 
-from TikTokLive.client.ws.ws_utils import build_webcast_uri
-from TikTokLive.proto import ProtoMessageFetchResult
+from IgniteLiveAPI.client.ws.ws_utils import build_webcast_uri
+from IgniteLiveAPI.proto import ProtoMessageFetchResult
 
 # The Euler Stream fallback push server echoes the user agent back as a route
 # param. It contains spaces and parentheses, which are illegal in an HTTP

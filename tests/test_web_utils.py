@@ -1,8 +1,8 @@
 import pytest
 
-from TikTokLive.client.errors import AuthenticatedWebSocketConnectionError
-from TikTokLive.client.web.web_settings import WebDefaults
-from TikTokLive.client.web.web_utils import check_authenticated_session
+from IgniteLiveAPI.client.errors import AuthenticatedWebSocketConnectionError
+from IgniteLiveAPI.client.web.web_settings import WebDefaults
+from IgniteLiveAPI.client.web.web_utils import check_authenticated_session
 
 
 def test_anonymous_session_is_allowed_when_not_required(monkeypatch: pytest.MonkeyPatch) -> None:

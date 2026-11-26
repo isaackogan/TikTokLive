@@ -1,4 +1,4 @@
-# Spec-driven generation of TikTokLive/events/proto_events.py.
+# Spec-driven generation of IgniteLiveAPI/events/proto_events.py.
 #
 # The generator (scripts/proto/gen_events.py) walks TikTokLiveProto.v3 for
 # every Webcast*Message that carries a `common: CommonMessageData` field and

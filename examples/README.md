@@ -1,6 +1,6 @@
-# TikTokLive Examples
+# IgniteLiveAPI Examples
 
-The following examples have been curated to cover both the basics and some of the less obvious features of TikTokLive. 
+The following examples have been curated to cover both the basics and some of the less obvious features of IgniteLiveAPI. 
 If you have an example project, please [create a pull request](https://github.com/isaackogan/TikTokLive/pulls) so others can learn!
 
 ## Current Examples

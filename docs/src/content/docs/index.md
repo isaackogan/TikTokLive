@@ -1,12 +1,12 @@
 ---
 title: Getting Started
-description: Install TikTokLive and receive comments, gifts, and other events from a TikTok livestream with Python.
+description: Install IgniteLiveAPI and receive comments, gifts, and other events from a TikTok livestream with Python.
 head:
   - tag: title
-    content: "TikTok LIVE API for Python: TikTokLive Documentation"
+    content: "TikTok LIVE API for Python: IgniteLiveAPI Documentation"
 ---
 
-TikTokLive receives comments, gifts, likes, follows, shares, viewer counts, battles, and other events from a TikTok livestream. Connect with a creator's `@unique_id` using `TikTokLiveClient`.
+IgniteLiveAPI receives comments, gifts, likes, follows, shares, viewer counts, battles, and other events from a TikTok livestream. Connect with a creator's `@unique_id` using `IgniteLiveClient`.
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ This is an unofficial reverse-engineering project, not a supported vendor API. T
 ## Install
 
 ```sh
-pip install TikTokLive
+pip install IgniteLiveAPI
 ```
 
 ## Listen to a livestream
@@ -26,11 +26,11 @@ pip install TikTokLive
 Save this as `chat.py`, replace `@isaackogz` with a creator who is live, and run `python chat.py`.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import ConnectEvent, CommentEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import ConnectEvent, CommentEvent
 
 # Create the client
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 # Listen to an event with a decorator
@@ -76,6 +76,6 @@ The default signing provider is Euler Stream, a hosted [TikTok LIVE signing API]
 - [Configuration](/configuration/options/): client parameters, `WebDefaults`, and environment variables.
 - [API reference](/api/): generated from the Python source in this checkout.
 
-These docs describe the library on `master`. Use the [migration guide](/getting-started/migration/) when updating code written for 6.x. The guides and the generated API belong to the same checkout, so compare `pip show TikTokLive` with the version on the [API reference](/api/) index when something differs from your installed release.
+These docs describe the library on `master`. Use the [migration guide](/getting-started/migration/) when updating code written for 6.x. The guides and the generated API belong to the same checkout, so compare `pip show IgniteLiveAPI` with the version on the [API reference](/api/) index when something differs from your installed release.
 
 For the Node.js implementation, see [TikTok LIVE Connector](https://ttlc.docs.isaackogan.com/). For the managed Euler Stream service, see [Euler Stream's documentation](https://www.eulerstream.com/docs). Their names and payload shapes can differ from this Python package.

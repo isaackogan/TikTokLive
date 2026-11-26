@@ -2,9 +2,9 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.client import _truncate_payload
-from TikTokLive.client.errors import AlreadyConnectedError
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.client import _truncate_payload
+from IgniteLiveAPI.client.errors import AlreadyConnectedError
 
 
 @pytest.mark.parametrize(
@@ -17,11 +17,11 @@ from TikTokLive.client.errors import AlreadyConnectedError
     ],
 )
 def test_parse_unique_id(value: str | int, expected: str) -> None:
-    assert TikTokLiveClient.parse_unique_id(value) == expected
+    assert IgniteLiveClient.parse_unique_id(value) == expected
 
 
 async def test_is_live_resolves_the_requested_user_id() -> None:
-    client = TikTokLiveClient(unique_id="@original")
+    client = IgniteLiveClient(unique_id="@original")
     client._resolve_user_id = AsyncMock(return_value="resolved_creator")
     client.web.fetch_is_live = AsyncMock(return_value=True)
 
@@ -32,7 +32,7 @@ async def test_is_live_resolves_the_requested_user_id() -> None:
 
 
 async def test_start_rejects_a_second_connection(monkeypatch: pytest.MonkeyPatch) -> None:
-    client = TikTokLiveClient(unique_id="@creator")
+    client = IgniteLiveClient(unique_id="@creator")
     monkeypatch.setattr(type(client._ws), "connected", property(lambda _: True))
 
     with pytest.raises(AlreadyConnectedError, match="one connection"):

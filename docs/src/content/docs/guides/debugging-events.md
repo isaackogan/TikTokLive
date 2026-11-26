@@ -9,15 +9,15 @@ Four tools cover most event debugging: the client's logger, `WebsocketResponseEv
 
 ## Debug logging
 
-`client.logger` is the `logging.Logger` named `TikTokLive`. It starts at `ERROR`. At `INFO` the library itself reports recordings and a `Ctrl+C` shutdown; the connection messages in this site's examples come from their own `client.logger.info` calls. At `DEBUG` it logs every event it emits, by type, the room-ID fallback, and other internal steps. Set the level with the standard constants or with the library's `LogLevel` enum:
+`client.logger` is the `logging.Logger` named `IgniteLiveAPI`. It starts at `ERROR`. At `INFO` the library itself reports recordings and a `Ctrl+C` shutdown; the connection messages in this site's examples come from their own `client.logger.info` calls. At `DEBUG` it logs every event it emits, by type, the room-ID fallback, and other internal steps. Set the level with the standard constants or with the library's `LogLevel` enum:
 
 ```python
 import logging
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import CommentEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import CommentEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 client.logger.setLevel(logging.DEBUG)
 
 
@@ -41,11 +41,11 @@ The event does not say which message of the batch it was emitted for, and every 
 ```python
 from typing import Optional
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import WebsocketResponseEvent
-from TikTokLive.proto import ProtoMessageFetchResult
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import WebsocketResponseEvent
+from IgniteLiveAPI.proto import ProtoMessageFetchResult
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 last_batch: Optional[ProtoMessageFetchResult] = None
 
 
@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
 ## Messages without an event class: UnknownEvent
 
-`UnknownEvent` subclasses `WebsocketResponseEvent` and is emitted after it when a message's `method` has no entry in `EVENT_MAPPINGS`, the `dict` in `TikTokLive.events.proto_events` that maps method names to event classes. That happens when TikTok adds a message type, or when the installed TikTokLiveProto schema predates one. The batch can hold tracked messages too, so test each method against `EVENT_MAPPINGS` rather than assuming the first one is the stranger. See the [control events page](/events/control/#unknownevent).
+`UnknownEvent` subclasses `WebsocketResponseEvent` and is emitted after it when a message's `method` has no entry in `EVENT_MAPPINGS`, the `dict` in `IgniteLiveAPI.events.proto_events` that maps method names to event classes. That happens when TikTok adds a message type, or when the installed TikTokLiveProto schema predates one. The batch can hold tracked messages too, so test each method against `EVENT_MAPPINGS` rather than assuming the first one is the stranger. See the [control events page](/events/control/#unknownevent).
 
 This handler prints each untracked method once, with its payload encoded as base64, which is the form a bug report needs:
 
@@ -74,11 +74,11 @@ This handler prints each untracked method once, with its payload encoded as base
 import base64
 from typing import Set
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import UnknownEvent
-from TikTokLive.events.proto_events import EVENT_MAPPINGS
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import UnknownEvent
+from IgniteLiveAPI.events.proto_events import EVENT_MAPPINGS
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 reported: Set[str] = set()
 
 
@@ -103,7 +103,7 @@ A message with an event class whose payload does not parse is logged at `ERROR` 
 
 ## Deprecation warnings
 
-`client.web.fetch_video` and `client.web.fetch_image` are the 6.x names of `fetch_video_data` and `fetch_image_data`. Each use logs a `WARNING` unless the environment variable `SEND_DEPRECATION_WARNINGS` is set to anything other than `true`, case-insensitive. It is read once when `TikTokLive` is imported, so set it before starting Python. See [environment variables](/configuration/environment/).
+`client.web.fetch_video` and `client.web.fetch_image` are the 6.x names of `fetch_video_data` and `fetch_image_data`. Each use logs a `WARNING` unless the environment variable `SEND_DEPRECATION_WARNINGS` is set to anything other than `true`, case-insensitive. It is read once when `IgniteLiveAPI` is imported, so set it before starting Python. See [environment variables](/configuration/environment/).
 
 ```sh
 export SEND_DEPRECATION_WARNINGS=false
@@ -114,8 +114,8 @@ export SEND_DEPRECATION_WARNINGS=false
 The library's events are generated from the TikTokLiveProto schema, so a new message type needs the schema first. Before reporting, upgrade and check whether the type is already known:
 
 ```sh
-pip install --upgrade TikTokLive
-pip show TikTokLive TikTokLiveProto
+pip install --upgrade IgniteLiveAPI
+pip show IgniteLiveAPI TikTokLiveProto
 ```
 
 If `UnknownEvent` still fires for it, open an issue on the [TikTokLive GitHub repository](https://github.com/isaackogan/TikTokLive/issues) with the method name, one or more base64 payloads from the handler above, the two version numbers, and what was happening in the stream when the message arrived, such as a gift, a battle, or a poll. The payload is what lets the message be decoded and a field list written; a method name alone is not enough.

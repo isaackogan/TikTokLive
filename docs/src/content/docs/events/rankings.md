@@ -28,10 +28,10 @@ Gift count made a viewer enter the top three. Message: [`WebcastRankTextMessage`
 Key fields: `scene`, a `RankTextMessageRankTestMessageScene` such as `ONLINE_AUDIENCE_TOP_N_UPDATE_PUBLIC_SCREEN`; `owner_idx_before_update` and `owner_idx_after_update`, the viewer's position before and after; `cur_user_id`; `content`, `self_get_badge_msg`, and `other_get_badge_msg`, `Text` messages for the viewer and for everyone else; `left_icon`; `rank_type`; and `user_enigma_info`.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import RankTextEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import RankTextEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(RankTextEvent)

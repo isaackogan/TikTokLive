@@ -2,7 +2,7 @@ name: "Release: Build & Publish to PyPI"
 
 # Manual release flow modelled on TikTokLiveProto's release-python.yml.
 # The maintainer types the explicit version (e.g. ``6.6.6``); the workflow
-# stamps it into pyproject.toml + TikTokLive/__version__.py, builds, publishes
+# stamps it into pyproject.toml + IgniteLiveAPI/__version__.py, builds, publishes
 # to PyPI via OIDC trusted publishing, then commits and tags.
 
 on:
@@ -44,10 +44,10 @@ jobs:
       - name: Stamp version into source
         run: |
           VERSION="${{ inputs.version }}"
-          printf 'PACKAGE_VERSION: str = "%s"\n' "$VERSION" > TikTokLive/__version__.py
+          printf 'PACKAGE_VERSION: str = "%s"\n' "$VERSION" > IgniteLiveAPI/__version__.py
           sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
-          echo "--- TikTokLive/__version__.py ---"
-          cat TikTokLive/__version__.py
+          echo "--- IgniteLiveAPI/__version__.py ---"
+          cat IgniteLiveAPI/__version__.py
           echo "--- pyproject.toml (version line) ---"
           grep '^version = ' pyproject.toml
 
@@ -70,7 +70,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add pyproject.toml TikTokLive/__version__.py
+          git add pyproject.toml IgniteLiveAPI/__version__.py
           git commit -m "chore: release v${{ inputs.version }} [skip ci]"
           git tag "v${{ inputs.version }}"
           git push origin "v${{ inputs.version }}"
@@ -84,7 +84,7 @@ jobs:
           body: |
             Automated version bump for `v${{ inputs.version }}`.
 
-            Released to PyPI: https://pypi.org/project/TikTokLive/${{ inputs.version }}/
+            Released to PyPI: https://pypi.org/project/IgniteLiveAPI/${{ inputs.version }}/
             Tag: `v${{ inputs.version }}`
           commit-message: "chore: release v${{ inputs.version }} [skip ci]"
           delete-branch: true
@@ -92,7 +92,7 @@ jobs:
       - name: Summary
         run: |
           {
-            echo "### Published TikTokLive@${{ inputs.version }} to PyPI"
+            echo "### Published IgniteLiveAPI@${{ inputs.version }} to PyPI"
             echo ""
             echo "- Tag: \`v${{ inputs.version }}\` pushed to origin"
             echo "- Version bump opened as PR — merge to land on master"

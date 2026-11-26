@@ -24,7 +24,7 @@ pnpm --dir docs preview
 python -m pytest docs/scripts/tests
 ```
 
-Authored pages live in `src/content/docs/`. The `api/` and `schema/` directories there are generated from the installed `TikTokLive` and `TikTokLiveProto` packages on every build; they are ignored by Git. Do not edit the generated Markdown; change the docstring at the source declaration instead.
+Authored pages live in `src/content/docs/`. The `api/` and `schema/` directories there are generated from the installed `IgniteLiveAPI` and `TikTokLiveProto` packages on every build; they are ignored by Git. Do not edit the generated Markdown; change the docstring at the source declaration instead.
 
 `check` runs `scripts/check_content.py`, which compares the pages with the code in nine sections (events, catalog, client, web-defaults, routes, env, discord, readme, examples) and type-checks every Python example with mypy. `generate` runs `scripts/gen_api.py`. `build` runs both, then `astro build`, which validates links and builds the search index.
 

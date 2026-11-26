@@ -5,7 +5,7 @@ repos:
     hooks:
       - id: mypy
         name: mypy (warn-only)
-        entry: bash -c 'mypy TikTokLive || true'
+        entry: bash -c 'mypy IgniteLiveAPI || true'
         language: system
         types: [python]
         pass_filenames: false

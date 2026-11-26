@@ -22,7 +22,7 @@ assignees: 'isaackogan'
 
 ### Package Version
 
-My version of TikTokLive is `...`.
+My version of IgniteLiveAPI is `...`.
 
 ### Operating System
 

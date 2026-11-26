@@ -1,19 +1,20 @@
 ---
 title: Environment variables
-description: Every environment variable TikTokLive reads, its default, what it changes, and when it is read.
+description: Every environment variable IgniteLiveAPI reads, its default, what it changes, and when it is read.
 sidebar:
   order: 3
 ---
 
-Set these in the process environment before creating a client. TikTokLive does not load a `.env` file; use your shell, your process manager, or a library such as `python-dotenv` before the client is constructed.
+Set these in the process environment before creating a client. IgniteLiveAPI does not load a `.env` file; use your shell, your process manager, or a library such as `python-dotenv` before the client is constructed.
 
 | Variable | Default | Effect |
 | --- | --- | --- |
 | `SIGN_API_KEY` | Unset | API key for the signing provider. A `sign_api_key` in `web_kwargs["signer_kwargs"]` takes precedence over it, and it takes precedence over `WebDefaults.tiktok_sign_api_key`. Read when a client is constructed. See [signing](/configuration/signing/). |
 | `SIGN_API_URL` | Unset; `WebDefaults.tiktok_sign_url` applies, `https://api.eulerstream.com` | Base URL of the signing provider, with the same precedence as the key: a `sign_api_base` in `signer_kwargs`, then this variable, then the `WebDefaults` field. Read when a client is constructed. |
+| `SIGN_API_VERIFY_SSL` | `true` | Whether the client verifies the signing provider's TLS certificate. Set it to `false`, `0`, `no`, or `off` (case-insensitive) only for a self-hosted provider with a self-signed certificate; the connection carries your API key and, if you use one, your session ID. Read when a client is constructed. |
 | `SIGN_SERVER_MESSAGE_DISABLED` | Unset | Any non-empty value drops the provider's own message from `SignatureRateLimitError`; the retry delay stays. Read when a rate-limited response arrives. |
 | `WHITELIST_AUTHENTICATED_SESSION_ID_HOST` | Unset | The signing host allowed to receive your TikTok session cookies. It must equal the part of `WebDefaults.tiktok_sign_url` after `://`, which is `api.eulerstream.com` by default; a request that would send a session otherwise raises `AuthenticatedWebSocketConnectionError`. Read on each such request. See [authentication](/configuration/authentication/). |
-| `SEND_DEPRECATION_WARNINGS` | `true` | Set it to anything other than `true` (case-insensitive) to silence the warning logged when the deprecated `client.web.fetch_video` and `client.web.fetch_image` attributes are used in place of `fetch_video_data` and `fetch_image_data`. Read once when `TikTokLive` is imported. |
+| `SEND_DEPRECATION_WARNINGS` | `true` | Set it to anything other than `true` (case-insensitive) to silence the warning logged when the deprecated `client.web.fetch_video` and `client.web.fetch_image` attributes are used in place of `fetch_video_data` and `fetch_image_data`. Read once when `IgniteLiveAPI` is imported. |
 
 ```sh
 export SIGN_API_KEY="your-api-key"

@@ -16,10 +16,10 @@ A viewer's messages were deleted by a moderator. Message: [`WebcastImDeleteMessa
 Key fields: `delete_msg_ids`, the message IDs to remove, and `delete_user_ids`, users whose messages were removed. A comment's ID is `event.common.msg_id` on the `CommentEvent` that delivered it.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import CommentEvent, ImDeleteEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import CommentEvent, ImDeleteEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 comments: dict[int, str] = {}
 
 

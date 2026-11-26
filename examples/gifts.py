@@ -1,8 +1,8 @@
-from TikTokLive.client.client import TikTokLiveClient
-from TikTokLive.client.logger import LogLevel
-from TikTokLive.events import ConnectEvent, GiftEvent
+from IgniteLiveAPI.client.client import IgniteLiveClient
+from IgniteLiveAPI.client.logger import LogLevel
+from IgniteLiveAPI.events import ConnectEvent, GiftEvent
 
-client: TikTokLiveClient = TikTokLiveClient(
+client: IgniteLiveClient = IgniteLiveClient(
     unique_id="@tv_asahi_news"
 )
 

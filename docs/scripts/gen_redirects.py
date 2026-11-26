@@ -30,10 +30,10 @@ REDIRECT_MAP: dict[str, str] = {
     "index.html": "",
     "TikTokLive.html": "api/",
     "modules.html": "api/",
-    "TikTokLive.client.html": "api/tiktoklive/client/",
-    "TikTokLive.client.web.html": "api/tiktoklive/client/web/",
-    "TikTokLive.client.web.routes.html": "api/tiktoklive/client/web/routes/",
-    "TikTokLive.client.ws.html": "api/tiktoklive/client/ws/",
+    "TikTokLive.client.html": "api/igniteliveapi/client/",
+    "TikTokLive.client.web.html": "api/igniteliveapi/client/web/",
+    "TikTokLive.client.web.routes.html": "api/igniteliveapi/client/web/routes/",
+    "TikTokLive.client.ws.html": "api/igniteliveapi/client/ws/",
     "TikTokLive.events.html": "events/",
     "TikTokLive.proto.html": "schema/",
     "genindex.html": "api/",
@@ -56,10 +56,10 @@ def redirect_page(target: str) -> str:
         f'<meta http-equiv="refresh" content="0; url={href}">\n'
         f'<link rel="canonical" href="{href}">\n'
         '<meta name="robots" content="noindex">\n'
-        "<title>TikTokLive documentation has moved</title>\n"
+        "<title>IgniteLiveAPI documentation has moved</title>\n"
         "</head>\n"
         "<body>\n"
-        f'<p>The TikTokLive documentation has moved to <a href="{href}">{href}</a>.</p>\n'
+        f'<p>The IgniteLiveAPI documentation has moved to <a href="{href}">{href}</a>.</p>\n'
         "</body>\n"
         "</html>\n"
     )

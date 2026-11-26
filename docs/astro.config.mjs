@@ -23,12 +23,12 @@ export default defineConfig({
   markdown: { processor: unified({ remarkPlugins: [prefixLinks] }) },
   integrations: [
     starlight({
-      title: 'TikTokLive',
+      title: 'IgniteLiveAPI',
       description: 'Unofficial TikTok LIVE API for Python. Guides, events, and generated API reference.',
       favicon: '/favicon.png',
       head: [
         { tag: 'meta', attrs: { property: 'og:image', content: 'https://raw.githubusercontent.com/isaackogan/TikTokLive/master/.github/SquareLogo.png' } },
-        { tag: 'meta', attrs: { property: 'og:image:alt', content: 'TikTokLive, TikTok LIVE API for Python' } },
+        { tag: 'meta', attrs: { property: 'og:image:alt', content: 'IgniteLiveAPI, TikTok LIVE API for Python' } },
         { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
       ],
       social: [

@@ -1,7 +1,7 @@
 """
 Minimal web UI example.
 
-A Flask backend that connects a TikTokLiveClient to a livestream and
+A Flask backend that connects an IgniteLiveClient to a livestream and
 streams Comment/Gift/Like events to the browser over Server-Sent Events
 (SSE), paired with a static index.html that renders them as a live feed.
 
@@ -21,14 +21,14 @@ from typing import Optional
 
 from flask import Flask, Response, jsonify, request, send_from_directory
 
-from TikTokLive.client.client import TikTokLiveClient
-from TikTokLive.client.errors import UserOfflineError
-from TikTokLive.events import CommentEvent, ConnectEvent, DisconnectEvent, GiftEvent, LikeEvent
+from IgniteLiveAPI.client.client import IgniteLiveClient
+from IgniteLiveAPI.client.errors import UserOfflineError
+from IgniteLiveAPI.events import CommentEvent, ConnectEvent, DisconnectEvent, GiftEvent, LikeEvent
 
 app = Flask(__name__, static_folder=None)
 
 _events: "queue.Queue[dict]" = queue.Queue()
-_client: Optional[TikTokLiveClient] = None
+_client: Optional[IgniteLiveClient] = None
 _thread: Optional[threading.Thread] = None
 _lock = threading.Lock()
 
@@ -37,8 +37,8 @@ def _emit(event_type: str, **payload) -> None:
     _events.put({"type": event_type, "ts": time.time(), **payload})
 
 
-def _build_client(username: str) -> TikTokLiveClient:
-    client = TikTokLiveClient(unique_id=username)
+def _build_client(username: str) -> IgniteLiveClient:
+    client = IgniteLiveClient(unique_id=username)
 
     @client.on(ConnectEvent)
     async def on_connect(event: ConnectEvent):
@@ -68,7 +68,7 @@ def _build_client(username: str) -> TikTokLiveClient:
     return client
 
 
-def _run_client(client: TikTokLiveClient) -> None:
+def _run_client(client: IgniteLiveClient) -> None:
     try:
         client.run()
     except UserOfflineError:

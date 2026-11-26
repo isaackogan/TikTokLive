@@ -5,17 +5,17 @@ sidebar:
   order: 2
 ---
 
-`WebDefaults` is a module-level instance of the `_WebDefaults` dataclass in `TikTokLive.client.web.web_settings`. Every client reads it, so set fields before creating a client; the change applies to every client created afterwards in the process.
+`WebDefaults` is a module-level instance of the `_WebDefaults` dataclass in `IgniteLiveAPI.client.web.web_settings`. Every client reads it, so set fields before creating a client; the change applies to every client created afterwards in the process.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.web.web_settings import WebDefaults
-from TikTokLive.events import ConnectEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.web.web_settings import WebDefaults
+from IgniteLiveAPI.events import ConnectEvent
 
 WebDefaults.tiktok_sign_api_key = "your-api-key"
 WebDefaults.web_client_headers["Accept-Language"] = "en-GB,en;q=0.9"
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(ConnectEvent)
@@ -41,7 +41,7 @@ if __name__ == "__main__":
 | `ws_client_params_append_str` | `str` | `&version_code=270000` | Raw string appended to the WebSocket URL after its query. |
 | `tiktok_sign_api_key` | `str` or `None` | `None` | Signing provider API key, used when neither `sign_api_key` nor `SIGN_API_KEY` is set. |
 
-The three generated dicts are filled when the module is imported from one randomly chosen location, device, and screen preset (`Locations`, `Devices`, and `Screens` in `TikTokLive.client.web.web_presets`): language, region, time zone, browser name, version, and platform, screen size, and the matching `User-Agent`. The choice is made once per process, so every client in it presents the same browser.
+The three generated dicts are filled when the module is imported from one randomly chosen location, device, and screen preset (`Locations`, `Devices`, and `Screens` in `IgniteLiveAPI.client.web.web_presets`): language, region, time zone, browser name, version, and platform, screen size, and the matching `User-Agent`. The choice is made once per process, so every client in it presents the same browser.
 
 ## When each field is read
 
@@ -52,13 +52,13 @@ The three generated dicts are filled when the module is imported from one random
 Use `WebDefaults` for values every client should share and `web_kwargs` or `ws_kwargs` for one client. The two compose: a header set on `WebDefaults.web_client_headers` reaches every client, and a header in one client's `httpx_kwargs["headers"]` replaces it for that client only.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.web.web_settings import WebDefaults
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.web.web_settings import WebDefaults
 
 WebDefaults.web_client_headers["Accept-Language"] = "en-GB,en;q=0.9"
 
-shared: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
-german: TikTokLiveClient = TikTokLiveClient(
+shared: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
+german: IgniteLiveClient = IgniteLiveClient(
     unique_id="@tv_asahi_news",
     web_kwargs={"httpx_kwargs": {"headers": {"Accept-Language": "de-DE,de;q=0.9"}}},
 )

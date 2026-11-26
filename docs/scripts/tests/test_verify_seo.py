@@ -33,7 +33,7 @@ def write_fixture_site(
     robots: str = DEFAULT_ROBOTS,
 ) -> Path:
     homepage_head = (
-        '<meta property="og:title" content="TikTokLive"/>'
+        '<meta property="og:title" content="IgniteLiveAPI"/>'
         '<meta property="og:description" content="TikTok LIVE API for Python"/>'
         '<meta property="og:image" content="https://example.com/logo.png"/>'
         '<meta name="description" content="TikTok LIVE API for Python"/>'
@@ -45,7 +45,7 @@ def write_fixture_site(
         + EULER_LINK
     )
     (tmp_path / "index.html").write_text(
-        _page("", "TikTok LIVE API for Python: TikTokLive Documentation", homepage_links,
+        _page("", "TikTok LIVE API for Python: IgniteLiveAPI Documentation", homepage_links,
               head_extra=homepage_head),
         encoding="utf-8",
     )
@@ -53,12 +53,12 @@ def write_fixture_site(
     nested = tmp_path / "guides" / "x"
     nested.mkdir(parents=True)
     (nested / "index.html").write_text(
-        _page("guides/x/", "Guide X | TikTokLive", EULER_LINK * nested_euler_links),
+        _page("guides/x/", "Guide X | IgniteLiveAPI", EULER_LINK * nested_euler_links),
         encoding="utf-8",
     )
 
     (tmp_path / "404.html").write_text(
-        _page("404/", "Page not found | TikTokLive", EULER_LINK), encoding="utf-8"
+        _page("404/", "Page not found | IgniteLiveAPI", EULER_LINK), encoding="utf-8"
     )
 
     (tmp_path / "sitemap-index.xml").write_text(

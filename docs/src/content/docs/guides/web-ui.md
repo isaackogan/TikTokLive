@@ -26,15 +26,15 @@ from typing import Any, Dict, Iterator, Set
 
 from flask import Flask, Response
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.errors import UserOfflineError
-from TikTokLive.events import CommentEvent, ConnectEvent, DisconnectEvent, GiftEvent, LikeEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.errors import UserOfflineError
+from IgniteLiveAPI.events import CommentEvent, ConnectEvent, DisconnectEvent, GiftEvent, LikeEvent
 
 UNIQUE_ID: str = "@isaackogz"
 QUEUE_SIZE: int = 500
 
 app = Flask(__name__)
-client: TikTokLiveClient = TikTokLiveClient(unique_id=UNIQUE_ID)
+client: IgniteLiveClient = IgniteLiveClient(unique_id=UNIQUE_ID)
 loop: asyncio.AbstractEventLoop = asyncio.new_event_loop()
 
 subscribers: Set["queue.Queue[Dict[str, Any]]"] = set()
@@ -135,7 +135,7 @@ if __name__ == "__main__":
 
 The client's loop is created up front and handed to the thread, so the request handlers can reach it: `asyncio.run_coroutine_threadsafe(client.disconnect(), loop)` is the way to stop a connection from another thread. When `connect()` returns, the thread closes the HTTP session with `client.web.close()` and the loop; `client.close()` is not used here because its cleanup runs the loop synchronously and raises `RuntimeError` inside a running one. The service connects once; to reconnect when the stream ends, run the thread's body in a loop as [connection lifecycle](/getting-started/connection/) describes.
 
-Flask is not a dependency of TikTokLive; install it separately. `threaded=True` lets the SSE response stream while other requests are served.
+Flask is not a dependency of IgniteLiveAPI; install it separately. `threaded=True` lets the SSE response stream while other requests are served.
 
 ## The browser
 
@@ -167,6 +167,6 @@ Give each browser its own bounded queue, as above, so a tab that stops reading d
 
 ## Several rooms and shutdown
 
-Use one `TikTokLiveClient` per room, each on its own loop and thread. Clients have separate cookie jars and state, but `WebDefaults` is process-wide: the signing URL, API key, default headers, and cookies set there apply to every client in the process. See [web defaults](/configuration/web-defaults/).
+Use one `IgniteLiveClient` per room, each on its own loop and thread. Clients have separate cookie jars and state, but `WebDefaults` is process-wide: the signing URL, API key, default headers, and cookies set there apply to every client in the process. See [web defaults](/configuration/web-defaults/).
 
 On shutdown, schedule `client.disconnect()` on each client's loop and join the threads, then stop the web server. Keep the signing API key and any TikTok session in this process; the [authentication](/configuration/authentication/) page describes where a session is sent and why it must not reach a browser.

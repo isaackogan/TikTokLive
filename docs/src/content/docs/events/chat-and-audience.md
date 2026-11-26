@@ -16,10 +16,10 @@ A viewer sent a chat comment. Message: [`WebcastChatMessage`](/schema/webcast/mo
 Key fields: `content`, the text (`comment` is a read-only alias from 6.x); `user`; `at_user`, the `ExtendedUser` a reply is addressed to, and `mention_users`, the plain `User` objects mentioned in the text; `emotes`, a list of `EmoteWithIndex` whose `index` is the position in `content` and whose `emote` has an `emote_id` and `image`; `content_language`; `comment_tag`; `user_identity`; and `visible_to_sender`, set when the comment was shown only to its sender. The property `user_is_super_fan` reads `user_identity.is_subscriber_of_anchor`.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import CommentEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import CommentEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(CommentEvent)
@@ -48,10 +48,10 @@ Current viewer count information. Message: [`WebcastRoomUserSeqMessage`](/schema
 Key fields: `total`, the viewer count TikTok shows in the room; `ranks`, the top contributors as `Contributor` objects with a plain `user`, a `score`, a `rank`, and a `delta`; `seats`, more `Contributor` objects; and the counters `total_user`, `popularity`, `anonymous`, and `pop_str`. The message arrives periodically, not on every join or leave.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import RoomUserSeqEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import RoomUserSeqEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(RoomUserSeqEvent)
@@ -74,10 +74,10 @@ The stream received likes. Message: [`WebcastLikeMessage`](/schema/webcast/model
 Key fields: `count`, the likes in this update; `total`, the room's running total; `user`, the viewer the update is attributed to; `icon` and `icons`; `like_effect`; `specified_display_text`; and `room_message_heat_level`. TikTok batches likes, and busy rooms drop individual updates, so count with `count` and reconcile with `total` rather than assuming one event per tap.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import LikeEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import LikeEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(LikeEvent)
@@ -101,10 +101,10 @@ Key fields: `user`; `action`; `share_type`, `share_target`, `share_count`, and `
 A viewer followed the streamer. Custom event, a subclass of `SocialEvent` with the same fields; see above.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import FollowEvent, ShareEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import FollowEvent, ShareEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(FollowEvent)
@@ -136,10 +136,10 @@ Someone asked a new question via the question feature. Message: [`WebcastQuestio
 Key fields: `data`, a `Question` with `question_id`, `content`, `user` (a plain `User`), `create_time`, `answer_status`, `create_from`, and `answer_from`. Questions are separate from chat and do not also arrive as `CommentEvent`.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.events import QuestionNewEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.events import QuestionNewEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(QuestionNewEvent)

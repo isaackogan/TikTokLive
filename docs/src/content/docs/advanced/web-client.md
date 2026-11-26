@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-`client.web` is a `TikTokWebClient`, from `TikTokLive.client.web.web_client`. It extends `TikTokHTTPClient` in `TikTokLive.client.web.web_base` with the routes listed on the [routes page](/advanced/routes/). It owns one `httpx.AsyncClient`, built when the client is constructed from `web_proxy` and `web_kwargs` (see [client options](/configuration/options/)), the cookie jar, the headers and query parameters sent to TikTok, and the signer that talks to the signing provider. The high-level `TikTokLiveClient` uses it for every HTTP request it makes; you can use it directly for requests of your own, with or without connecting to a room.
+`client.web` is a `TikTokWebClient`, from `IgniteLiveAPI.client.web.web_client`. It extends `TikTokHTTPClient` in `IgniteLiveAPI.client.web.web_base` with the routes listed on the [routes page](/advanced/routes/). It owns one `httpx.AsyncClient` with pooled keep-alive connections (idle connections are kept for 30 seconds, `max_connections=100`, `max_keepalive_connections=20`) and a 15 second timeout with 10 seconds to connect, built when the client is constructed from `web_proxy` and `web_kwargs` (see [client options](/configuration/options/)), the cookie jar, the headers and query parameters sent to TikTok, and the signer that talks to the signing provider. The high-level `IgniteLiveClient` uses it for every HTTP request it makes; you can use it directly for requests of your own, with or without connecting to a room.
 
 ## Request helpers
 
@@ -37,10 +37,10 @@ A request is built in this order. `build_request` first overwrites `params["devi
 ```python
 import asyncio
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.web.web_settings import WebDefaults
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.web.web_settings import WebDefaults
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 async def main() -> None:
@@ -71,7 +71,7 @@ The base URLs come from `WebDefaults`: `tiktok_app_url` for `www.tiktok.com` pag
 
 ## Signing
 
-`client.web.signer` is a `TikTokSigner`, from `TikTokLive.client.web.web_signer`. It is configured from `web_kwargs["signer_kwargs"]` (`sign_api_key`, `sign_api_base`), then the `SIGN_API_KEY` and `SIGN_API_URL` environment variables, then `WebDefaults.tiktok_sign_api_key` and `WebDefaults.tiktok_sign_url`; see [signing](/configuration/signing/). It wraps a client from the [Euler Stream](https://www.eulerstream.com/) SDK: an `AuthenticatedClient` that sends the key in an `X-Api-Key` header when one is set, otherwise a plain `Client`, both with a `User-Agent` of `TikTokLive.py/<version>`. In this release the SDK client is created with `verify_ssl=False`. Three properties expose it: `sign_api_key` (the key in use, or `None`), `sdk_client`, and `client`, the SDK's own `httpx.AsyncClient`, which is separate from `client.web.httpx_client` and is not affected by `web_proxy`.
+`client.web.signer` is a `TikTokSigner`, from `IgniteLiveAPI.client.web.web_signer`. It is configured from `web_kwargs["signer_kwargs"]` (`sign_api_key`, `sign_api_base`), then the `SIGN_API_KEY` and `SIGN_API_URL` environment variables, then `WebDefaults.tiktok_sign_api_key` and `WebDefaults.tiktok_sign_url`; see [signing](/configuration/signing/). It wraps a client from the [Euler Stream](https://www.eulerstream.com/) SDK: an `AuthenticatedClient` that sends the key in an `X-Api-Key` header when one is set, otherwise a plain `Client`, both with a `User-Agent` of `IgniteLiveAPI.py/<version>`. The SDK client verifies the provider's TLS certificate unless the `SIGN_API_VERIFY_SSL` environment variable is `false`, `0`, `no`, or `off`; see [environment variables](/configuration/environment/). Like the TikTok client, it keeps idle connections open for 30 seconds and uses a 15 second timeout, with 10 seconds to connect. Three properties expose it: `sign_api_key` (the key in use, or `None`), `sdk_client`, and `client`, the SDK's own `httpx.AsyncClient`, which is separate from `client.web.httpx_client` and is not affected by `web_proxy`.
 
 `webcast_sign(url, method, sign_url_type, payload, user_agent, session_id=None, tt_target_idc=None)` asks the provider to sign any `/webcast/` URL. It removes `X-Bogus`, `X-Gnarly`, and `msToken` from the query, posts the URL, method, type, payload, and user agent, and returns the provider's response; `build_request` then replaces the request's URL with `signed_url` and its `User-Agent` with the agent the provider chose. When a session is set, the host allowlist is checked first and the session is included. Failures raise `UnexpectedSignatureError` for a transport error or a non-200 status, `PremiumEndpointError` when the provider answers 403, and `SignatureMissingTokensError` when the response has no `signed_url` or it carries no `msToken`.
 
@@ -79,15 +79,15 @@ The base URLs come from `WebDefaults`: `tiktok_app_url` for `www.tiktok.com` pag
 
 ## Write a route
 
-A route is a subclass of `ClientRoute`, from `TikTokLive.client.web.web_base`. Its constructor takes the web client and stores it as `self._web`, with a logger as `self._logger`; the subclass defines `__call__` with whatever parameters and return type it needs. The built-in routes are instance attributes of `TikTokWebClient`, created in its constructor, and the client calls them by attribute name, so replacing one on `client.web` with an instance of your own subclass changes what that client does at that step.
+A route is a subclass of `ClientRoute`, from `IgniteLiveAPI.client.web.web_base`. Its constructor takes the web client and stores it as `self._web`, with a logger as `self._logger`; the subclass defines `__call__` with whatever parameters and return type it needs. The built-in routes are instance attributes of `TikTokWebClient`, created in its constructor, and the client calls them by attribute name, so replacing one on `client.web` with an instance of your own subclass changes what that client does at that step.
 
 ```python
 import asyncio
 from typing import Any, Dict
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.web.web_base import ClientRoute
-from TikTokLive.client.web.web_settings import WebDefaults
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.web.web_base import ClientRoute
+from IgniteLiveAPI.client.web.web_settings import WebDefaults
 
 
 class FetchCheckAliveRoute(ClientRoute):
@@ -101,7 +101,7 @@ class FetchCheckAliveRoute(ClientRoute):
         return response.json()
 
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 check_alive: FetchCheckAliveRoute = FetchCheckAliveRoute(client.web)
 
 

@@ -20,12 +20,12 @@ If that fails, install FFmpeg first: `brew install ffmpeg` on macOS, `sudo apt i
 `disconnect()` stops a running recording itself, so a recording started on `ConnectEvent` ends with the stream. The handler below still checks `is_recording` for a socket that closed on its own.
 
 ```python
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.logger import LogLevel
-from TikTokLive.client.web.routes.fetch_video_data import VideoFetchQuality
-from TikTokLive.events import ConnectEvent, DisconnectEvent
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.logger import LogLevel
+from IgniteLiveAPI.client.web.routes.fetch_video_data import VideoFetchQuality
+from IgniteLiveAPI.events import ConnectEvent, DisconnectEvent
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 @client.on(ConnectEvent)
@@ -63,10 +63,10 @@ The route logs the start and the stop, with the duration, at `INFO`. Starting a 
 ```python
 import asyncio
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.web.routes.fetch_video_data import VideoFetchFormat, VideoFetchQuality
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.web.routes.fetch_video_data import VideoFetchFormat, VideoFetchQuality
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 async def main() -> None:
@@ -110,10 +110,10 @@ import asyncio
 import json
 from typing import Any, Dict, List
 
-from TikTokLive import TikTokLiveClient
-from TikTokLive.client.web.routes.fetch_video_data import VideoFetchQuality
+from IgniteLiveAPI import IgniteLiveClient
+from IgniteLiveAPI.client.web.routes.fetch_video_data import VideoFetchQuality
 
-client: TikTokLiveClient = TikTokLiveClient(unique_id="@isaackogz")
+client: IgniteLiveClient = IgniteLiveClient(unique_id="@isaackogz")
 
 
 async def main() -> None:

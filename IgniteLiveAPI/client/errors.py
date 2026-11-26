@@ -1,0 +1,285 @@
+import enum
+from functools import cached_property
+from typing import Optional
+
+import httpx
+
+from IgniteLiveAPI.__version__ import PACKAGE_VERSION
+
+
+class IgniteLiveError(RuntimeError):
+    """
+    Base error class for IgniteLiveAPI errors
+
+    """
+
+    def __init__(self, *args: str) -> None:
+        parts: list[str] = [f"IgniteLiveAPI v{PACKAGE_VERSION} ->", *args]
+
+        # If no args were supplied, fall back to the class name
+        if len(parts) == 1:
+            parts.append(self.__class__.__name__)
+
+        super().__init__(" ".join(parts))
+
+
+class AlreadyConnectedError(IgniteLiveError):
+    """
+    Thrown when attempting to connect to a user that is already connected to
+
+    """
+
+
+class UserOfflineError(IgniteLiveError):
+    """
+    Thrown when the requested streamer to watch is offline
+
+    """
+
+
+class UserNotFoundError(IgniteLiveError):
+    """
+    Thrown when the request to check if a user is live fails because a user has no
+    livestream account (e.g. <1000 followers)
+
+    """
+
+    def __init__(self, unique_id: str, *args):
+        self.unique_id: str = unique_id
+        super().__init__(*args)
+
+
+class AgeRestrictedError(IgniteLiveError):
+    """
+    Thrown when a LIVE is age restricted. Pass sessionid to bypass.
+    """
+
+
+class InitialCursorMissingError(IgniteLiveError):
+    """
+    Thrown when the cursor for connecting to TikTok is missing (blocked)
+
+    """
+
+
+class WebsocketURLMissingError(IgniteLiveError):
+    """
+    Thrown when the websocket URL to connect to TikTok is missing (blocked)
+
+    """
+
+
+class WebcastBlockedError(IgniteLiveError):
+    """
+    Thrown when the webcast is blocked by TikTok with a 200 or 400 status code (detected)
+
+    """
+
+
+# Backwards-compatible alias: ``WebcastBlocked200Error`` was the public name
+# before the 400 case was folded into the same error.
+WebcastBlocked200Error = WebcastBlockedError
+
+
+class SignAPIError(IgniteLiveError):
+    """
+    Thrown when a fetch to the Sign API fails for one reason or another
+
+    """
+
+    class ErrorReason(enum.Enum):
+        """
+        Possible failure reasons
+
+        """
+
+        RATE_LIMIT = 1
+        CONNECT_ERROR = 2
+        EMPTY_PAYLOAD = 3
+        SIGN_NOT_200 = 4
+        EMPTY_COOKIES = 5
+        PREMIUM_ENDPOINT = 6
+        AUTHENTICATED_WS = 7
+
+    def __init__(
+            self,
+            reason: ErrorReason,
+            *args: str,
+            response: Optional[httpx.Response] = None,
+    ):
+        """
+        Initialize a sign API Error class
+
+        :param reason: The reason for the error
+        :param args: Additional error arguments passed to the super-class
+
+        """
+
+        self._response = response
+        self.reason = reason
+        super().__init__(f"[{reason.name}]", *args)
+
+    @property
+    def response(self) -> httpx.Response | None:
+        """
+        The response object from the Sign API
+
+        """
+
+        return self._response
+
+    @cached_property
+    def log_id(self) -> str | None:
+        """
+        The log ID from the response
+
+        """
+
+        if not self.response:
+            return None
+
+        return self.response.headers.get("X-Request-Id", None)
+
+    @cached_property
+    def agent_id(self) -> str | None:
+        """
+        The agent ID from the response
+
+        """
+
+        if not self.response:
+            return None
+
+        return self.response.headers.get("X-Agent-Id", None)
+
+    @classmethod
+    def format_sign_server_message(cls, message: str) -> str:
+        """
+        Format the sign server message
+        """
+
+        message = message.strip()
+        msg_len: int = len(message)
+        header_text: str = "SIGN SERVER MESSAGE"
+        header_len: int = (msg_len - len(header_text)) // 2
+        padding_len: int = int(bool((msg_len - len(header_text)) % 2))
+
+        # Center header text in header
+        footer: str = "+" + "-" * (msg_len + 2) + "+"
+        header: str = "+" + "-" * header_len + " " + header_text + " " + "-" * (header_len + padding_len) + "+"
+        framed_message: str = "| " + message + " |"
+
+        return f"\n\t|\n\t{header}\n\t{framed_message}\n\t{footer}"
+
+
+class SignatureRateLimitError(SignAPIError):
+    """
+    Thrown when a user hits the Sign API limit
+
+    """
+
+    def __init__(self, api_message: Optional[str], *args, response: httpx.Response):
+        """
+        Constructor for signature rate limit
+        :param api_message: The message provided by the API
+        :param args: Default RuntimeException *args
+        :param kwargs: Default RuntimeException **kwargs
+
+        """
+
+        # Message provided by the API
+        euler_msg: Optional[str] = self.format_sign_server_message(api_message) if api_message else None
+        _args = list(args)
+
+        if euler_msg:
+            _args.append(euler_msg)
+
+        _args[0] = str(args[0]) % self.calculate_retry_after(response=response)
+        super().__init__(SignAPIError.ErrorReason.RATE_LIMIT, *_args, response=response)
+
+    @classmethod
+    def calculate_retry_after(cls, response: httpx.Response) -> int:
+        """
+        Calculate the retry after time from the response headers
+
+        :param response: The response object
+        :return: The retry after time in seconds
+
+        """
+
+        return int(response.headers.get("RateLimit-Remaining"))
+
+    @cached_property
+    def retry_after(self) -> int:
+        """
+        How long to wait until the next attempt
+
+        """
+
+        # ``self.response`` comes from the SignAPIError base which types it
+        # as Optional. SignatureRateLimitError always constructs with a
+        # response (see __init__ signature), so the assertion is honest.
+        assert self.response is not None
+        return self.calculate_retry_after(response=self.response)
+
+    @cached_property
+    def reset_time(self) -> int:
+        """
+        The unix timestamp for when the client can request again
+
+        """
+
+        assert self.response is not None
+        return int(self.response.headers["RateLimit-Reset"])
+
+
+class UnexpectedSignatureError(SignAPIError):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(SignAPIError.ErrorReason.SIGN_NOT_200, *args, **kwargs)
+
+
+class SignatureMissingTokensError(SignAPIError):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(SignAPIError.ErrorReason.EMPTY_PAYLOAD, *args, **kwargs)
+
+
+class PremiumEndpointError(SignAPIError):
+
+    def __init__(self, *args, api_message: str, **kwargs):
+        _args = list(args)
+        _args.append(self.format_sign_server_message(api_message))
+
+        super().__init__(SignAPIError.ErrorReason.PREMIUM_ENDPOINT, *_args, **kwargs)
+
+
+class AuthenticatedWebSocketConnectionError(SignAPIError):
+    """
+    Thrown when sending the session ID to the sign server as this is deemed a risky operation that could lead to an account being banned.
+
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(SignAPIError.ErrorReason.AUTHENTICATED_WS, *args, **kwargs)
+
+
+if __name__ == '__main__':
+    """Error testing"""
+    raise AlreadyConnectedError("User is already connected")
+
+
+class IdleTimeoutError(IgniteLiveError):
+    """
+    Thrown when the WebSocket receives no frames at all for longer than ``idle_timeout`` seconds. TikTok does not answer
+    protocol-level pings, so a silently dead (half-open) connection is otherwise indistinguishable from a quiet room.
+
+    """
+
+
+class ReconnectFailedError(IgniteLiveError):
+    """
+    Thrown when the client gives up reconnecting after exhausting ``ReconnectPolicy.max_attempts`` consecutive attempts.
+    The last underlying failure is attached as ``__cause__``.
+
+    """

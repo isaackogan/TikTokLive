@@ -57,8 +57,8 @@ def test_check_readme_catalog_accepts_linked_event_name():
 
 
 def test_compile_examples_reports_type_error(tmp_path):
-    bad = ("page.md, example 1", "from TikTokLive.events import GiftEvent\n\ndef f(e: GiftEvent) -> str:\n    return e.comment\n")
-    good = ("page.md, example 2", "from TikTokLive.events import CommentEvent\n\ndef f(e: CommentEvent) -> str:\n    return e.comment\n")
+    bad = ("page.md, example 1", "from IgniteLiveAPI.events import GiftEvent\n\ndef f(e: GiftEvent) -> str:\n    return e.comment\n")
+    good = ("page.md, example 2", "from IgniteLiveAPI.events import CommentEvent\n\ndef f(e: CommentEvent) -> str:\n    return e.comment\n")
     failures = check_content.compile_examples([bad, good], REPO)
     assert len(failures) == 1 and failures[0].startswith("page.md, example 1")
 
@@ -66,10 +66,10 @@ def test_compile_examples_reports_type_error(tmp_path):
 def test_indented_fence_is_extracted_and_type_checked():
     page = check_content.Page(
         Path("steps.md"),
-        "1. Listen:\n\n   ```python\n   from TikTokLive.events import GiftEvent\n\n   def f(e: GiftEvent) -> str:\n       return e.comment\n   ```\n",
+        "1. Listen:\n\n   ```python\n   from IgniteLiveAPI.events import GiftEvent\n\n   def f(e: GiftEvent) -> str:\n       return e.comment\n   ```\n",
     )
     examples = check_content.python_examples([page])
-    assert examples == [("steps.md, example 1", "from TikTokLive.events import GiftEvent\n\ndef f(e: GiftEvent) -> str:\n    return e.comment\n")]
+    assert examples == [("steps.md, example 1", "from IgniteLiveAPI.events import GiftEvent\n\ndef f(e: GiftEvent) -> str:\n    return e.comment\n")]
     failures = check_content.compile_examples(examples, REPO)
     assert len(failures) == 1 and failures[0].startswith("steps.md, example 1: line 4:")
 
@@ -89,5 +89,5 @@ def test_compile_examples_reports_unflagged_canary(monkeypatch):
 
     monkeypatch.setattr(check_content.subprocess, "run", fake_run)
     failures = check_content.compile_examples([("page.md, example 1", "x = 1\n")], REPO)
-    assert failures == ["mypy canary not flagged: examples are not type-checked against TikTokLive"]
+    assert failures == ["mypy canary not flagged: examples are not type-checked against IgniteLiveAPI"]
     assert any(arg.endswith(check_content.CANARY_FILE) for arg in commands[0])
